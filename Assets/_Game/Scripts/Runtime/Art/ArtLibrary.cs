@@ -1,0 +1,72 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Abyss.Runtime.Art
+{
+    /// <summary>
+    /// Loads and instantiates Blender-exported art from Resources/Art using the paths fixed in Blender/README.md.
+    /// Missing production assets are errors; incomplete content must not silently become stand-in geometry.
+    /// </summary>
+    public static class ArtLibrary
+    {
+        static readonly Dictionary<string, GameObject> PrefabCache = new Dictionary<string, GameObject>();
+        static readonly Dictionary<string, AnimationClip[]> ClipCache = new Dictionary<string, AnimationClip[]>();
+
+        public static string HeroPath(string id) => $"Art/Characters/{id}/{id}";
+        public static string NpcPath(string id) => $"Art/NPCs/{id}/{id}";
+        public static string EnemyPath(string id) => $"Art/Enemies/{id}/{id}";
+        public static string WeaponPath(string id) => $"Art/Weapons/{id}";
+        public static string PropPath(string category, string id) => $"Art/Props/{category}/{id}";
+        public static string EnvPath(string tileset, string piece) => $"Art/Environment/{tileset}/{piece}";
+        public const string TownPath = "Art/Town/town";
+
+        public static GameObject LoadPrefab(string path)
+        {
+            if (PrefabCache.TryGetValue(path, out var p)) return p;
+            p = Resources.Load<GameObject>(path);
+            if (p != null) PrefabCache[path] = p;
+            return p;
+        }
+
+        public static bool Exists(string path) => LoadPrefab(path) != null;
+
+        static AnimationClip[] LoadClips(string path)
+        {
+            if (!ClipCache.TryGetValue(path, out var c))
+            {
+                c = Resources.LoadAll<AnimationClip>(path);
+                ClipCache[path] = c;
+            }
+            return c;
+        }
+
+        public static CharacterModel SpawnHero(string heroId, Transform parent = null) => SpawnCharacter(HeroPath(heroId), heroId, parent);
+        public static CharacterModel SpawnNpc(string npcId, Transform parent = null) => SpawnCharacter(NpcPath(npcId), npcId, parent);
+        public static CharacterModel SpawnEnemy(string enemyId, Transform parent = null) => SpawnCharacter(EnemyPath(enemyId), enemyId, parent);
+
+        /// <summary>Instantiate an animated character. The returned root faces +Z, feet at y=0.</summary>
+        public static CharacterModel SpawnCharacter(string path, string id, Transform parent = null)
+        {
+            var prefab = LoadPrefab(path);
+            if (prefab == null) throw new System.InvalidOperationException("Missing character art: " + path);
+            var root = new GameObject(id);
+            if (parent != null) root.transform.SetParent(parent, false);
+            var visual = Object.Instantiate(prefab, root.transform, false).transform;
+            visual.name = "Model";
+            var model = root.AddComponent<CharacterModel>();
+            model.Setup(id, visual, LoadClips(path));
+            return model;
+        }
+
+        /// <summary>Instantiate a required static model (environment piece, prop, weapon).</summary>
+        public static GameObject SpawnStatic(string path, Transform parent = null)
+        {
+            var prefab = LoadPrefab(path);
+            if (prefab == null) throw new System.InvalidOperationException("Missing static art: " + path);
+            var go = Object.Instantiate(prefab, parent, false);
+            go.name = prefab.name;
+            return go;
+        }
+
+    }
+}

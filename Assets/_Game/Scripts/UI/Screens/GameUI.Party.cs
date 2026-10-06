@@ -1,0 +1,200 @@
+using System;
+using System.Collections.Generic;
+using Abyss.Logic;
+using Abyss.Logic.Game;
+using Abyss.Runtime;
+using Abyss.Logic.Battle;
+
+namespace Abyss.UI
+{
+    public sealed partial class GameUI
+    {
+        public void ShowParty() => Menu(T("party"), "동료를 선택해 장비, 기술과 능력치를 확인하세요.", m =>
+        {
+            foreach (var member in app.State.Party)
+            {
+                var hero = member;
+                m.Add(HeroName(hero.Id), () => ShowHero(hero), HeroSummary(hero), $"Lv.{hero.Level}", icon: UIArtwork.Hero(hero.Id));
+            }
+        });
+        void ShowHero(HeroState hero) => Menu(HeroName(hero.Id), HeroSummary(hero), m =>
+        {
+            var stats = PartyStats.EffectiveStats(app.DB, hero);
+            m.Subtitle = $"Lv.{hero.Level} · {HeroVitals(hero)}";
+            if (m.TabIndex == 0)
+            {
+                foreach (string value in GameState.EquipSlots)
+                {
+                    string slot = value;
+                    string current = hero.Equipped(slot);
+                    string description = app.DB.Equipment.TryGetValue(current, out var piece) ? EquipmentDescription(piece) : T("slot_empty");
+                    m.Add(T("slot_" + slot) + " · " + EquipmentName(current), () => ShowGear(hero, slot), description, T("change"), icon: piece == null ? null : UIArtwork.Gear(current));
+                }
+            }
+            else if (m.TabIndex == 1)
+            {
+                foreach (string id in PartyStats.SkillsForLevel(app.DB.Heroes[hero.Id], hero.Level))
+                    if (app.DB.Skills.TryGetValue(id, out var skill)) AddSkill(m, skill, 0);
+                foreach (var learn in PartyStats.UpcomingSkills(app.DB, hero))
+                    if (app.DB.Skills.TryGetValue(learn.Skill, out var skill)) AddSkill(m, skill, learn.Level);
+            }
+            else
+            {
+                var baseline = PartyStats.LevelStats(app.DB.Heroes[hero.Id], hero.Level);
+                AddStat(m, T("stat_hp"), stats.MaxHp, baseline.MaxHp);
+                AddStat(m, T("stat_mp"), stats.MaxMp, baseline.MaxMp);
+                AddStat(m, T("stat_atk"), stats.Stats.Attack, baseline.Attack);
+                AddStat(m, T("stat_mag"), stats.Stats.Magic, baseline.Magic);
+                AddStat(m, T("stat_def"), stats.Stats.Defense, baseline.Defense);
+                AddStat(m, T("stat_res"), stats.Stats.Resistance, baseline.Resistance);
+                AddStat(m, T("stat_spd"), stats.Stats.Speed, baseline.Speed);
+                AddInformation(m, T("stat_hit"), $"{stats.Hit:P0}");
+                AddInformation(m, T("stat_evade"), $"{stats.Evade:P0}");
+                AddInformation(m, T("stat_crit"), $"{stats.Crit:P0}");
+                AddInformation(m, T("resist_label"), Elements(stats.ElementResists));
+                AddInformation(m, T("immune_label"), StatusNames(stats.StatusImmunities));
+                AddInformation(m, "성장", hero.Level >= GameState.LevelCap ? "최대 레벨에 도달했습니다." : $"EXP {hero.Xp}/{PartyStats.XpToNext(hero.Level)}\n다음 레벨까지 EXP {Math.Max(0, PartyStats.XpToNext(hero.Level) - hero.Xp)}");
+                AddInformation(m, "현재 상태", HeroStatuses(hero));
+            }
+        }, new[] { T("tab_equip"), T("tab_skills"), T("tab_stats") });
+        void AddStat(GameMenuScreen menu, string name, int effective, int basic) =>
+            AddInformation(menu, name, $"기본 {basic}\n장비 보정 {effective - basic:+0;-0;0}\n합계 {effective}", effective.ToString());
+        void AddInformation(GameMenuScreen menu, string title, string description, string value = null) =>
+            menu.Add(title, () => UIModal.Alert(root.Modals, title, description), description, value);
+        void AddSkill(GameMenuScreen menu, SkillDef skill, int learnLevel)
+        {
+            string target = skill.TargetType == TargetType.Self ? T("target_self") : skill.TargetType == TargetType.Ally ? T(skill.Scope == Scope.All ? "target_allies" : "target_ally") : T(skill.Scope == Scope.All ? "target_enemies" : "target_enemy");
+            if (skill.Scope == Scope.Random) target = $"무작위 {skill.HitCount}회";
+            string description = $"{skill.Description}\n\n{T("element_" + (int)skill.Element)} · {T("scope_" + (int)skill.Scope)}\n대상 · {target}\nMP {skill.MpCost} · TP {skill.TpCost}";
+            if (learnLevel > 0) description += $"\nLv.{learnLevel} 습득 예정";
+            string cost = learnLevel > 0 ? $"Lv.{learnLevel} 습득" : skill.TpCost > 0 ? $"TP {skill.TpCost}" : skill.MpCost > 0 ? $"MP {skill.MpCost}" : T("basic");
+            menu.Add(skill.DisplayName, () => UIModal.Alert(root.Modals, skill.DisplayName, description), description, cost, icon: UIArtwork.Element(skill.Element));
+        }
+        void ShowGear(HeroState hero, string slot) => Menu(HeroName(hero.Id) + " · " + T("slot_" + slot), T("candidates"), m =>
+        {
+            bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
+            string currentId = hero.Equipped(slot);
+            app.DB.Equipment.TryGetValue(currentId, out var current);
+            m.Subtitle = T("equipped_now") + " · " + EquipmentName(currentId) + (mutable ? "" : " · 전투 중 변경 불가");
+            m.Add(T("remove"), () => ExecuteEquipment(PartyStats.Unequip(app.DB, app.State, hero.Id, slot), m), current == null ? T("slot_empty") : EquipmentDescription(current), enabled: mutable && current != null, reason: !mutable ? T("battle_unavailable") : T("reason_slot_empty"));
+            var ids = new List<string>(app.State.EquipmentBag.Keys); ids.Sort(StringComparer.Ordinal);
+            int candidates = 0;
+            foreach (string id in ids)
+            {
+                if (app.State.BagCount(id) <= 0 || !app.DB.Equipment.TryGetValue(id, out var piece) || piece.Slot != slot) continue;
+                candidates++;
+                var equipment = piece;
+                bool allowed = PartyStats.CanEquip(app.DB, hero.Id, id);
+                string details = EquipmentDescription(piece) + "\n\n" + T("candidates") + "\n" + EquipmentDelta(piece, current);
+                m.Add(piece.DisplayName, () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m), details, $"×{app.State.BagCount(id)}", mutable && allowed, !mutable ? T("battle_unavailable") : T("cannot_equip_class"), UIArtwork.Gear(id));
+            }
+            if (candidates == 0) AddInformation(m, T("no_candidates"), T("no_candidates"));
+        });
+        void ExecuteEquipment(ServiceResult result, GameMenuScreen screen)
+        {
+            Execute(result, screen);
+            if (result.Success) app.RefreshEquipmentVisuals();
+        }
+        BattleUnit LiveHero(HeroState hero)
+        {
+            if (app.Screen == GameScreen.Battle && app.Battle?.Engine != null)
+                foreach (var unit in app.Battle.Engine.Party) if (unit.DefId == hero.Id) return unit;
+            return null;
+        }
+        string HeroVitals(HeroState hero)
+        {
+            var live = LiveHero(hero);
+            if (live != null) return $"HP {live.Hp}/{live.MaxHp} · MP {live.Mp}/{live.MaxMp} · TP {live.Tp}";
+            var stats = PartyStats.EffectiveStats(app.DB, hero);
+            return $"HP {hero.Hp}/{stats.MaxHp} · MP {hero.Mp}/{stats.MaxMp}";
+        }
+        string HeroSummary(HeroState hero)
+        {
+            var lines = new List<string> { $"{HeroName(hero.Id)} · Lv.{hero.Level}", T("role_" + hero.Id, "모험가"), HeroVitals(hero), "상태 · " + HeroStatuses(hero) };
+            foreach (string slot in GameState.EquipSlots) lines.Add(T("slot_" + slot) + " · " + EquipmentName(hero.Equipped(slot)));
+            lines.Add(hero.Level >= GameState.LevelCap ? "최대 레벨" : $"다음 레벨까지 EXP {Math.Max(0, PartyStats.XpToNext(hero.Level) - hero.Xp)}");
+            return string.Join("\n", lines);
+        }
+        string HeroStatuses(HeroState hero)
+        {
+            var names = new List<string>();
+            var live = LiveHero(hero);
+            if ((live?.Hp ?? hero.Hp) <= 0) names.Add(T("knocked_out"));
+            if (live != null)
+            {
+                foreach (var status in live.Statuses) names.Add($"{status.DisplayName} · {status.TurnsRemaining}턴");
+            }
+            else foreach (var status in hero.Statuses)
+                if (app.DB.Statuses.TryGetValue(status.Key, out var def)) names.Add($"{def.DisplayName} · {status.Value}턴");
+            return names.Count == 0 ? "정상" : string.Join(" · ", names);
+        }
+        string Elements(IEnumerable<int> elements)
+        {
+            var names = new List<string>(); foreach (int e in elements) names.Add(T("element_" + e));
+            return names.Count == 0 ? T("none") : string.Join(" · ", names);
+        }
+        string StatusNames(IEnumerable<string> statuses)
+        {
+            var names = new List<string>();
+            foreach (string id in statuses) if (app.DB.Statuses.TryGetValue(id, out var status)) names.Add(status.DisplayName);
+            return names.Count == 0 ? T("none") : string.Join(" · ", names);
+        }
+        string ContentDescription(string id) => app.DB.Items.TryGetValue(id, out var item) ? item.Description : app.DB.Equipment.TryGetValue(id, out var equipment) ? EquipmentDescription(equipment) : "물품 정보를 확인할 수 없습니다.";
+        string EquipmentDescription(EquipmentDef piece)
+        {
+            var names = new List<string>(); foreach (string id in piece.Classes) names.Add(HeroName(id));
+            return $"{piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}\n" + EquipmentDelta(piece, null)
+                + $"\n\n{T("resist_label")} · {Elements(piece.ElementResists)}\n{T("immune_label")} · {StatusNames(piece.StatusImmunities)}";
+        }
+        string EquipmentDelta(EquipmentDef piece, EquipmentDef current)
+        {
+            var lines = new List<string>();
+            AddDelta(lines, T("stat_hp"), piece.Hp - (current?.Hp ?? 0));
+            AddDelta(lines, T("stat_mp"), piece.Mp - (current?.Mp ?? 0));
+            AddDelta(lines, T("stat_atk"), piece.Atk - (current?.Atk ?? 0));
+            AddDelta(lines, T("stat_mag"), piece.Mag - (current?.Mag ?? 0));
+            AddDelta(lines, T("stat_def"), piece.Def - (current?.Def ?? 0));
+            AddDelta(lines, T("stat_res"), piece.Res - (current?.Res ?? 0));
+            AddDelta(lines, T("stat_spd"), piece.Spd - (current?.Spd ?? 0));
+            AddPercentDelta(lines, T("stat_hit"), piece.Hit - (current?.Hit ?? 0));
+            AddPercentDelta(lines, T("stat_evade"), piece.Evade - (current?.Evade ?? 0));
+            AddPercentDelta(lines, T("stat_crit"), piece.Crit - (current?.Crit ?? 0));
+            return lines.Count == 0 ? T("no_change") : string.Join("\n", lines);
+        }
+        static void AddDelta(List<string> lines, string name, int delta) { if (delta != 0) lines.Add($"{name} {delta:+0;-0;0}"); }
+        static void AddPercentDelta(List<string> lines, string name, float delta) { if (Math.Abs(delta) > 0.0001f) lines.Add($"{name} {delta * 100:+0.#;-0.#;0}%"); }
+        public void ShowFieldItems() => Menu(T("cmd_item"), T("camp_hint"), m =>
+        {
+            var ids = new List<string>(app.State.Inventory.Keys); ids.Sort(StringComparer.Ordinal);
+            foreach (string key in ids)
+            {
+                string id = key;
+                if (app.State.ItemCount(id) <= 0 || !app.DB.Items.TryGetValue(id, out var item)) continue;
+                bool usable = item.ItemType == ItemType.Healing || item.ItemType == ItemType.MpRestore || item.ItemType == ItemType.Revive || item.ItemType == ItemType.Cure || (item.ItemType == ItemType.EscapeDungeon && app.Screen == GameScreen.Dungeon);
+                bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
+                m.Add(item.DisplayName, () =>
+                {
+                    if (item.ItemType == ItemType.EscapeDungeon) Confirm(T("return_stone"), "귀환의 돌을 사용하고 마을로 돌아갈까요?", () => UseFieldItem(id, null, m));
+                    else if (item.Target == "all_allies") UseFieldItem(id, null, m);
+                    else ShowItemTargets(id, m);
+                }, item.Description + "\n\n" + (item.ItemType == ItemType.Material ? T("materials") : item.Target == "all_allies" ? T("target_allies") : T("target_ally")), $"×{app.State.ItemCount(id)}", usable && mutable, !mutable ? T("battle_unavailable") : T("item_unavailable"), UIArtwork.Item(id));
+            }
+        });
+        void ShowItemTargets(string itemId, GameMenuScreen inventory) => Menu(ItemName(itemId), "아이템을 사용할 동료를 선택하세요.", m =>
+        {
+            foreach (var member in app.State.Party)
+            {
+                var hero = member;
+                m.Add(HeroName(hero.Id), () => UseFieldItem(itemId, hero.Id, inventory, m), HeroSummary(hero), $"HP {hero.Hp}", app.State.ItemCount(itemId) > 0, T("item_missing"), UIArtwork.Hero(hero.Id));
+            }
+        });
+        void UseFieldItem(string itemId, string heroId, GameMenuScreen inventory, GameMenuScreen targets = null)
+        {
+            var result = GameFlow.UseFieldItem(app.DB, app.State, itemId, heroId, app.Screen == GameScreen.Dungeon);
+            if (!result.Success) { UIModal.Alert(root.Modals, ItemName(itemId), T(result.TextKey)); return; }
+            Notify(app.DB.T(result.TextKey, ItemName(itemId)));
+            if (result.ReturnToTown) { app.ReturnToTown(); return; }
+            targets?.Close(); inventory.Refresh(); RefreshVitals();
+        }
+    }
+}

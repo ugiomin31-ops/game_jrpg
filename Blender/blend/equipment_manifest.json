@@ -1,0 +1,660 @@
+[
+  {
+    "id": "sword_bronze",
+    "category": "Weapons",
+    "triangles": 2390,
+    "dimensions": [
+      0.05600002408027649,
+      0.1979999989271164,
+      0.7994000315666199
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_iron",
+    "category": "Weapons",
+    "triangles": 2122,
+    "dimensions": [
+      0.053130142390728,
+      0.19691993296146393,
+      0.8976640701293945
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "sword_knight",
+    "category": "Weapons",
+    "triangles": 4062,
+    "dimensions": [
+      0.05663999915122986,
+      0.24519014358520508,
+      0.9620000123977661
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_flamberge",
+    "category": "Weapons",
+    "triangles": 6194,
+    "dimensions": [
+      0.05299999937415123,
+      0.2696503698825836,
+      1.0666799545288086
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_dawn",
+    "category": "Weapons",
+    "triangles": 3486,
+    "dimensions": [
+      0.05183999985456467,
+      0.30000001192092896,
+      1.0709999799728394
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_oak",
+    "category": "Weapons",
+    "triangles": 3578,
+    "dimensions": [
+      0.20762793719768524,
+      0.05945894122123718,
+      1.261735200881958
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_crystal",
+    "category": "Weapons",
+    "triangles": 3538,
+    "dimensions": [
+      0.2617442011833191,
+      0.1724051833152771,
+      1.3600000143051147
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_ruby",
+    "category": "Weapons",
+    "triangles": 4678,
+    "dimensions": [
+      0.32454878091812134,
+      0.18000000715255737,
+      1.3789594173431396
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_sage",
+    "category": "Weapons",
+    "triangles": 3374,
+    "dimensions": [
+      0.27000001072883606,
+      0.1300000548362732,
+      1.3619999885559082
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_starlight",
+    "category": "Weapons",
+    "triangles": 4666,
+    "dimensions": [
+      0.3780030906200409,
+      0.11811999976634979,
+      1.4501075744628906
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_wood",
+    "category": "Weapons",
+    "triangles": 2446,
+    "dimensions": [
+      0.164000004529953,
+      0.164000004529953,
+      0.7400000095367432
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "mace_silver",
+    "category": "Weapons",
+    "triangles": 3210,
+    "dimensions": [
+      0.20878787338733673,
+      0.18785615265369415,
+      0.8049999475479126
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_blessed",
+    "category": "Weapons",
+    "triangles": 3242,
+    "dimensions": [
+      0.20880413055419922,
+      0.20880413055419922,
+      0.8299999833106995
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_saint",
+    "category": "Weapons",
+    "triangles": 3786,
+    "dimensions": [
+      0.3541674315929413,
+      0.11258330196142197,
+      0.8579999208450317
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_dawn",
+    "category": "Weapons",
+    "triangles": 4402,
+    "dimensions": [
+      0.4025706946849823,
+      0.12372780591249466,
+      0.9236400127410889
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_short",
+    "category": "Weapons",
+    "triangles": 3180,
+    "dimensions": [
+      0.06599999964237213,
+      0.17342473566532135,
+      0.809999942779541
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "bow_hunter",
+    "category": "Weapons",
+    "triangles": 6100,
+    "dimensions": [
+      0.0716141015291214,
+      0.2137880176305771,
+      0.9790536165237427
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "bow_composite",
+    "category": "Weapons",
+    "triangles": 6428,
+    "dimensions": [
+      0.06599999964237213,
+      0.2547879219055176,
+      1.0699999332427979
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_gale",
+    "category": "Weapons",
+    "triangles": 6012,
+    "dimensions": [
+      0.07367999851703644,
+      0.30922386050224304,
+      1.1699999570846558
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_star",
+    "category": "Weapons",
+    "triangles": 6820,
+    "dimensions": [
+      0.09000000357627869,
+      0.3148815929889679,
+      1.2899999618530273
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "armor_chain",
+    "category": "Props/Equipment",
+    "triangles": 13220,
+    "dimensions": [
+      0.5600000023841858,
+      0.33550000190734863,
+      0.7108550667762756
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "armor_scale",
+    "category": "Props/Equipment",
+    "triangles": 6108,
+    "dimensions": [
+      0.8556249141693115,
+      0.37950000166893005,
+      0.6978906393051147
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "armor_plate",
+    "category": "Props/Equipment",
+    "triangles": 3640,
+    "dimensions": [
+      0.9649999141693115,
+      0.3688456118106842,
+      0.787890613079071
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "armor_dragon",
+    "category": "Props/Equipment",
+    "triangles": 7016,
+    "dimensions": [
+      0.9806249141693115,
+      0.40724003314971924,
+      0.8278906345367432
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "armor_dawn",
+    "category": "Props/Equipment",
+    "triangles": 3668,
+    "dimensions": [
+      0.9972860217094421,
+      0.3806000053882599,
+      0.9178906083106995
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "garb_leather",
+    "category": "Props/Equipment",
+    "triangles": 1624,
+    "dimensions": [
+      0.5600000023841858,
+      0.3205000162124634,
+      0.6399999856948853
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "garb_ranger",
+    "category": "Props/Equipment",
+    "triangles": 2608,
+    "dimensions": [
+      0.6200000047683716,
+      0.34844884276390076,
+      0.8884713649749756
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "garb_shadow",
+    "category": "Props/Equipment",
+    "triangles": 3496,
+    "dimensions": [
+      0.8243749737739563,
+      0.33428001403808594,
+      1.118471384048462
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "garb_wind",
+    "category": "Props/Equipment",
+    "triangles": 2196,
+    "dimensions": [
+      0.8978747129440308,
+      0.33799999952316284,
+      0.7599999904632568
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "garb_dawn",
+    "category": "Props/Equipment",
+    "triangles": 3040,
+    "dimensions": [
+      0.8868749141693115,
+      0.36559998989105225,
+      0.9799999594688416
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "robe_cloth",
+    "category": "Props/Equipment",
+    "triangles": 3228,
+    "dimensions": [
+      0.6297198534011841,
+      0.38699132204055786,
+      1.1134713888168335
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "robe_silk",
+    "category": "Props/Equipment",
+    "triangles": 2624,
+    "dimensions": [
+      0.7279999852180481,
+      0.4014551639556885,
+      0.9449999928474426
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "robe_mystic",
+    "category": "Props/Equipment",
+    "triangles": 3592,
+    "dimensions": [
+      0.7279999852180481,
+      0.38600000739097595,
+      1.1134713888168335
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "robe_sage",
+    "category": "Props/Equipment",
+    "triangles": 3856,
+    "dimensions": [
+      0.7279999852180481,
+      0.38600000739097595,
+      1.0149999856948853
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "robe_dawn",
+    "category": "Props/Equipment",
+    "triangles": 3524,
+    "dimensions": [
+      0.7775236964225769,
+      0.40860000252723694,
+      1.024999976158142
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_antidote_ring",
+    "category": "Props/Equipment",
+    "triangles": 1376,
+    "dimensions": [
+      0.3500000238418579,
+      0.08994442224502563,
+      0.41700005531311035
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_awake_bell",
+    "category": "Props/Equipment",
+    "triangles": 1928,
+    "dimensions": [
+      0.27799999713897705,
+      0.27799999713897705,
+      0.38999998569488525
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "acc_clarity_earring",
+    "category": "Props/Equipment",
+    "triangles": 1376,
+    "dimensions": [
+      0.2819826304912567,
+      0.06754998117685318,
+      0.26668331027030945
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_eagle_eye",
+    "category": "Props/Equipment",
+    "triangles": 4380,
+    "dimensions": [
+      0.41999998688697815,
+      0.09717300534248352,
+      0.5085456371307373
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_flame_amulet",
+    "category": "Props/Equipment",
+    "triangles": 3908,
+    "dimensions": [
+      0.37047550082206726,
+      0.12062855064868927,
+      0.5582016110420227
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_frost_amulet",
+    "category": "Props/Equipment",
+    "triangles": 4712,
+    "dimensions": [
+      0.37047550082206726,
+      0.09467300027608871,
+      0.5541192889213562
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_guardian_ring",
+    "category": "Props/Equipment",
+    "triangles": 1416,
+    "dimensions": [
+      0.39000001549720764,
+      0.0857764184474945,
+      0.4350000023841858
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_hero_emblem",
+    "category": "Props/Equipment",
+    "triangles": 4576,
+    "dimensions": [
+      0.37047550082206726,
+      0.10459999740123749,
+      0.59354567527771
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_lucky_charm",
+    "category": "Props/Equipment",
+    "triangles": 5128,
+    "dimensions": [
+      0.37047550082206726,
+      0.07867300510406494,
+      0.5485455989837646
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "acc_power_band",
+    "category": "Props/Equipment",
+    "triangles": 1632,
+    "dimensions": [
+      0.3199999928474426,
+      0.29426997900009155,
+      0.25999999046325684
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_sage_pendant",
+    "category": "Props/Equipment",
+    "triangles": 3928,
+    "dimensions": [
+      0.37047550082206726,
+      0.1222326010465622,
+      0.606712281703949
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_shadow_amulet",
+    "category": "Props/Equipment",
+    "triangles": 4340,
+    "dimensions": [
+      0.37047550082206726,
+      0.0893930047750473,
+      0.6057997941970825
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "acc_wind_boots",
+    "category": "Props/Equipment",
+    "triangles": 2152,
+    "dimensions": [
+      0.5981279015541077,
+      0.29420000314712524,
+      0.3605000078678131
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  }
+]

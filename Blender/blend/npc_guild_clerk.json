@@ -1,0 +1,240 @@
+{
+  "id": "guild_clerk",
+  "category": "NPCs",
+  "triangles": 13440,
+  "bounds": {
+    "min": [
+      -0.28896,
+      -0.24505,
+      -0.0
+    ],
+    "max": [
+      0.28942,
+      0.24514,
+      1.23449
+    ],
+    "size": [
+      0.57838,
+      0.49019,
+      1.23449
+    ]
+  },
+  "bones": [
+    "root",
+    "hips",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "shoulder.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "weapon.L",
+    "shoulder.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "weapon.R",
+    "thigh.L",
+    "shin.L",
+    "foot.L",
+    "thigh.R",
+    "shin.R",
+    "foot.R"
+  ],
+  "clips": {
+    "Idle": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30
+    },
+    "Walk": {
+      "frames": [
+        0.0,
+        32.0
+      ],
+      "fps": 30
+    },
+    "Run": {
+      "frames": [
+        0.0,
+        20.0
+      ],
+      "fps": 30
+    },
+    "Attack": {
+      "frames": [
+        0.0,
+        25.0
+      ],
+      "fps": 30
+    },
+    "Cast": {
+      "frames": [
+        0.0,
+        35.0
+      ],
+      "fps": 30
+    },
+    "Hit": {
+      "frames": [
+        0.0,
+        12.0
+      ],
+      "fps": 30
+    },
+    "Die": {
+      "frames": [
+        0.0,
+        30.0
+      ],
+      "fps": 30
+    },
+    "Victory": {
+      "frames": [
+        0.0,
+        42.0
+      ],
+      "fps": 30
+    },
+    "Talk": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30
+    }
+  },
+  "contact": {
+    "Attack": 0.4,
+    "Cast": 0.6
+  },
+  "sockets": {
+    "weapon.R": {
+      "head": [
+        -0.17165511846542358,
+        -0.005415859632194042,
+        0.3717392086982727
+      ],
+      "tail": [
+        -0.17165511846542358,
+        -0.14699460566043854,
+        0.4212917685508728
+      ],
+      "parent": "hand.R"
+    },
+    "weapon.L": {
+      "head": [
+        0.17165511846542358,
+        -0.005415859632194042,
+        0.3717392086982727
+      ],
+      "tail": [
+        0.17165511846542358,
+        -0.14699460566043854,
+        0.4212917685508728
+      ],
+      "parent": "hand.L"
+    }
+  },
+  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\NPCs/guild_clerk/guild_clerk.fbx",
+  "previews": [
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_guild_clerk.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_guild_clerk_front.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_guild_clerk_attack.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_guild_clerk_cast.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_guild_clerk_die.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_guild_clerk_victory.png"
+  ],
+  "pose_bounds": {
+    "Idle": {
+      "min": [
+        -0.28896,
+        -0.24505,
+        -0.0
+      ],
+      "max": [
+        0.28942,
+        0.24514,
+        1.23449
+      ],
+      "size": [
+        0.57838,
+        0.49019,
+        1.23449
+      ]
+    },
+    "Attack": {
+      "min": [
+        -0.29599,
+        -0.32512,
+        0.008
+      ],
+      "max": [
+        0.27989,
+        0.29114,
+        1.24065
+      ],
+      "size": [
+        0.57588,
+        0.61626,
+        1.23265
+      ]
+    },
+    "Cast": {
+      "min": [
+        -0.28896,
+        -0.29154,
+        0.012
+      ],
+      "max": [
+        0.28942,
+        0.3503,
+        1.24415
+      ],
+      "size": [
+        0.57838,
+        0.64184,
+        1.23215
+      ]
+    },
+    "Die": {
+      "min": [
+        -0.40323,
+        -1.22739,
+        -0.10722
+      ],
+      "max": [
+        0.25148,
+        0.01136,
+        0.38022
+      ],
+      "size": [
+        0.65471,
+        1.23875,
+        0.48744
+      ]
+    },
+    "Victory": {
+      "min": [
+        -0.28896,
+        -0.3007,
+        0.01
+      ],
+      "max": [
+        0.28942,
+        0.30477,
+        1.23842
+      ],
+      "size": [
+        0.57838,
+        0.60548,
+        1.22842
+      ]
+    }
+  },
+  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\npc_guild_clerk.blend"
+}

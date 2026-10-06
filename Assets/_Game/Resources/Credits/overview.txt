@@ -1,0 +1,36 @@
+심연의 미궁
+제작 · 프로젝트
+
+원본 프로젝트의 한국어 캠페인과 데이터가 이어지는 Unity 프로젝트입니다.
+
+개발 과정
+AI 보조 코드 작성 · Unity 프로젝트 통합
+
+3D 아트 제작 과정
+AI 보조 Python 생성기 · Blender 모델링, 리깅, 렌더링 및 FBX 내보내기
+원본 생성기: Blender/
+
+음악 · 효과음 제작 과정
+Python 기반 음표 편성 · 합성 악기 · 절차적 소리 생성
+원본 생성기: Tools/audio/
+
+UI 그래픽 제작 과정
+Python 기반 도형·이미지 생성 및 Blender 렌더링
+관련 원본: Tools/ui/, Blender/
+
+엔진 · UI
+Unity 6000.3.25f1 · Universal Render Pipeline · uGUI · TextMesh Pro
+
+글꼴
+Pretendard — Kil Hyung-jin
+Black Han Sans — The Black Han Sans Project Authors
+Liberation Sans — Google Corporation · Red Hat, Inc.
+각 저작권자의 정확한 고지와 SIL Open Font License 전문은 별도 글꼴 항목에 있습니다.
+
+데이터 직렬화
+Newtonsoft.Json — 해당 패키지의 MIT 고지 전문을 별도 항목에 보존했습니다.
+
+이 화면은 실명 제작진·등록된 퍼블리셔·상표 소유자를 추정하지 않습니다.
+도구 이름은 제작 과정과 라이브러리의 식별을 위한 표기이며, 후원이나 보증을 뜻하지 않습니다.
+
+플레이해 주셔서 감사합니다.

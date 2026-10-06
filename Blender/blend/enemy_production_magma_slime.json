@@ -1,0 +1,127 @@
+{
+  "id": "magma_slime",
+  "is_boss": false,
+  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\magma_slime.py",
+  "blender_version": "5.2.1 LTS",
+  "produced_at_utc": "2026-10-06T04:21:25Z",
+  "files": {
+    "fbx": {
+      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\magma_slime\\magma_slime.fbx",
+      "bytes": 748204
+    },
+    "blend": {
+      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_magma_slime.blend",
+      "bytes": 354478
+    },
+    "previews": [
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime.png",
+        "bytes": 156547
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_side.png",
+        "bytes": 145931
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_attack.png",
+        "bytes": 154458
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_cast.png",
+        "bytes": 171488
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_die.png",
+        "bytes": 139360
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 12508,
+    "vertices": 6310,
+    "bones": 8,
+    "materials": [
+      "M_Emit",
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        24.0
+      ],
+      "Cast": [
+        0.0,
+        36.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        40.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 12508,
+    "vertices": 6310,
+    "bones": 8,
+    "materials": [
+      "M_Emit",
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        25.0
+      ],
+      "Cast": [
+        1.0,
+        37.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        41.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

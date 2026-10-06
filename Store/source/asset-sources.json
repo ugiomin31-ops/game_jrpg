@@ -1,0 +1,57 @@
+[
+  {
+    "id": "abyss_sorcerer",
+    "source": "Assets/_Game/Resources/Art/Enemies/boss/boss.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "haunted_crypt_arena",
+    "source": "Assets/_Game/Resources/Art/Environment/haunted_crypt/arena.fbx",
+    "mesh_objects": 4
+  },
+  {
+    "id": "haunted_crypt_gate",
+    "source": "Assets/_Game/Resources/Art/Environment/haunted_crypt/boss_gate.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "mage",
+    "source": "Assets/_Game/Resources/Art/Characters/mage/mage.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "staff_crystal",
+    "source": "Assets/_Game/Resources/Art/Weapons/staff_crystal.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "archer",
+    "source": "Assets/_Game/Resources/Art/Characters/archer/archer.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "bow_hunter",
+    "source": "Assets/_Game/Resources/Art/Weapons/bow_hunter.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "cleric",
+    "source": "Assets/_Game/Resources/Art/Characters/cleric/cleric.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "mace_silver",
+    "source": "Assets/_Game/Resources/Art/Weapons/mace_silver.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "warrior",
+    "source": "Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
+    "mesh_objects": 1
+  },
+  {
+    "id": "sword_bronze",
+    "source": "Assets/_Game/Resources/Art/Weapons/sword_bronze.fbx",
+    "mesh_objects": 1
+  }
+]

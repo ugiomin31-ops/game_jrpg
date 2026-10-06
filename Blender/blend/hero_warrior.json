@@ -1,0 +1,777 @@
+{
+  "id": "warrior",
+  "category": "Characters",
+  "triangles": 19910,
+  "bounds": {
+    "min": [
+      -0.28896,
+      -0.24505,
+      -0.0
+    ],
+    "max": [
+      0.38389,
+      0.32254,
+      1.23449
+    ],
+    "size": [
+      0.67285,
+      0.56759,
+      1.23449
+    ]
+  },
+  "bones": [
+    "root",
+    "hips",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "shoulder.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "weapon.L",
+    "shoulder.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "weapon.R",
+    "cape",
+    "thigh.L",
+    "shin.L",
+    "foot.L",
+    "thigh.R",
+    "shin.R",
+    "foot.R"
+  ],
+  "clips": {
+    "Idle": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30,
+      "take": "Rig|Idle",
+      "seconds": 1.6,
+      "loop": true,
+      "authored_keyframes": [
+        0,
+        12,
+        24,
+        36,
+        48
+      ]
+    },
+    "Walk": {
+      "frames": [
+        0.0,
+        32.0
+      ],
+      "fps": 30,
+      "take": "Rig|Walk",
+      "seconds": 1.0666666666666667,
+      "loop": true,
+      "authored_keyframes": [
+        0.0,
+        4.0,
+        8.0,
+        12.0,
+        16.0,
+        20.0,
+        24.0,
+        28.0,
+        32.0
+      ]
+    },
+    "Run": {
+      "frames": [
+        0.0,
+        20.0
+      ],
+      "fps": 30,
+      "take": "Rig|Run",
+      "seconds": 0.6666666666666666,
+      "loop": true,
+      "authored_keyframes": [
+        0.0,
+        2.5,
+        5.0,
+        7.5,
+        10.0,
+        12.5,
+        15.0,
+        17.5,
+        20.0
+      ]
+    },
+    "Attack": {
+      "frames": [
+        0.0,
+        25.0
+      ],
+      "fps": 30,
+      "take": "Rig|Attack",
+      "seconds": 0.8333333333333334,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        5,
+        10,
+        14,
+        20,
+        25
+      ]
+    },
+    "Cast": {
+      "frames": [
+        0.0,
+        35.0
+      ],
+      "fps": 30,
+      "take": "Rig|Cast",
+      "seconds": 1.1666666666666667,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        8,
+        16,
+        21,
+        26,
+        35
+      ]
+    },
+    "Hit": {
+      "frames": [
+        0.0,
+        12.0
+      ],
+      "fps": 30,
+      "take": "Rig|Hit",
+      "seconds": 0.4,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        3,
+        7,
+        12
+      ]
+    },
+    "Die": {
+      "frames": [
+        0.0,
+        30.0
+      ],
+      "fps": 30,
+      "take": "Rig|Die",
+      "seconds": 1.0,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    "Guard": {
+      "frames": [
+        0.0,
+        36.0
+      ],
+      "fps": 30,
+      "take": "Rig|Guard",
+      "seconds": 1.2,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "hold_normalized": [
+        0.3333333333333333,
+        0.6666666666666666
+      ],
+      "recovery_normalized": 0.6666666666666666
+    },
+    "Revive": {
+      "frames": [
+        0.0,
+        60.0
+      ],
+      "fps": 30,
+      "take": "Rig|Revive",
+      "seconds": 2.0,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60
+      ],
+      "recovery_normalized": 0.9166666666666666,
+      "start_pose": "Die:30",
+      "end_pose": "Idle:0"
+    },
+    "Victory": {
+      "frames": [
+        0.0,
+        42.0
+      ],
+      "fps": 30,
+      "take": "Rig|Victory",
+      "seconds": 1.4,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        7,
+        13,
+        21,
+        29,
+        36,
+        42
+      ]
+    }
+  },
+  "contact": {
+    "Attack": 0.4,
+    "Cast": 0.6
+  },
+  "sockets": {
+    "weapon.R": {
+      "head": [
+        -0.18989159166812897,
+        -0.0054386574774980545,
+        0.3698541224002838
+      ],
+      "tail": [
+        -0.18989159166812897,
+        -0.14701740443706512,
+        0.4194066822528839
+      ],
+      "parent": "hand.R"
+    },
+    "weapon.L": {
+      "head": [
+        0.18989159166812897,
+        -0.0054386574774980545,
+        0.3698541224002838
+      ],
+      "tail": [
+        0.18989159166812897,
+        -0.14701740443706512,
+        0.4194066822528839
+      ],
+      "parent": "hand.L"
+    }
+  },
+  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Characters/warrior/warrior.fbx",
+  "previews": [
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_front.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_attack.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_cast.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_die.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_victory.png"
+  ],
+  "pose_bounds": {
+    "Idle": {
+      "min": [
+        -0.28896,
+        -0.24505,
+        -0.0
+      ],
+      "max": [
+        0.39456,
+        0.32254,
+        1.23449
+      ],
+      "size": [
+        0.68352,
+        0.56759,
+        1.23449
+      ]
+    },
+    "Attack": {
+      "min": [
+        -0.33897,
+        -0.26314,
+        0.00924
+      ],
+      "max": [
+        0.45561,
+        0.41061,
+        1.22116
+      ],
+      "size": [
+        0.79459,
+        0.67375,
+        1.21192
+      ]
+    },
+    "Cast": {
+      "min": [
+        -0.28896,
+        -0.32978,
+        0.012
+      ],
+      "max": [
+        0.3006,
+        0.3503,
+        1.24415
+      ],
+      "size": [
+        0.58956,
+        0.68008,
+        1.23215
+      ]
+    },
+    "Die": {
+      "min": [
+        -0.40323,
+        -1.22739,
+        0.0
+      ],
+      "max": [
+        0.39932,
+        0.01165,
+        0.61102
+      ],
+      "size": [
+        0.80254,
+        1.23904,
+        0.61102
+      ]
+    },
+    "Victory": {
+      "min": [
+        -0.28896,
+        -0.34643,
+        0.01
+      ],
+      "max": [
+        0.37182,
+        0.32913,
+        1.23842
+      ],
+      "size": [
+        0.66078,
+        0.67557,
+        1.22842
+      ]
+    }
+  },
+  "motion_proof": {
+    "transitions_max_local_component_delta": {
+      "Die_to_Revive": 0.0,
+      "Revive_to_Idle": 0.0,
+      "Idle_to_Guard": 0.0,
+      "Guard_to_Idle": 0.0
+    },
+    "die_final_root_location": [
+      0.0,
+      0.2572188973426819,
+      0.0
+    ],
+    "clips": {
+      "Die": {
+        "sampled_frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "minimum_mesh_z": -0.0,
+        "maximum_mesh_min_z": -0.0
+      },
+      "Guard": {
+        "sampled_frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36
+        ],
+        "minimum_mesh_z": -0.0,
+        "maximum_mesh_min_z": -0.0
+      },
+      "Revive": {
+        "sampled_frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "minimum_mesh_z": 0.0,
+        "maximum_mesh_min_z": 0.0
+      }
+    },
+    "sheets": [
+      {
+        "clip": "Guard",
+        "view": "threequarter",
+        "frames": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          28,
+          32,
+          36
+        ],
+        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_sheet.png",
+        "renders": [
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f00.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f03.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f06.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f09.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f12.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f15.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f18.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f21.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f24.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f28.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f32.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_threequarter_f36.png"
+        ]
+      },
+      {
+        "clip": "Guard",
+        "view": "side",
+        "frames": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          28,
+          32,
+          36
+        ],
+        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_sheet.png",
+        "renders": [
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f00.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f03.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f06.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f09.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f12.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f15.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f18.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f21.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f24.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f28.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f32.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_guard_side_f36.png"
+        ]
+      },
+      {
+        "clip": "Revive",
+        "view": "threequarter",
+        "frames": [
+          0,
+          4,
+          10,
+          15,
+          19,
+          24,
+          29,
+          34,
+          39,
+          49,
+          55,
+          60
+        ],
+        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_sheet.png",
+        "renders": [
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f00.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f04.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f10.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f15.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f19.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f24.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f29.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f34.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f39.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f49.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f55.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_threequarter_f60.png"
+        ]
+      },
+      {
+        "clip": "Revive",
+        "view": "side",
+        "frames": [
+          0,
+          4,
+          10,
+          15,
+          19,
+          24,
+          29,
+          34,
+          39,
+          49,
+          55,
+          60
+        ],
+        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_sheet.png",
+        "renders": [
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f00.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f04.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f10.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f15.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f19.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f24.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f29.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f34.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f39.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f49.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f55.png",
+          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_warrior_revive_side_f60.png"
+        ]
+      }
+    ]
+  },
+  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\hero_warrior.blend"
+}

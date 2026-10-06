@@ -1,0 +1,18 @@
+제작 과정 · 출처
+PROJECT AND GENERATED-ASSET PROVENANCE
+
+직접 확인한 프로젝트 자료 / Inspected project sources
+
+원본 캠페인: Assets/_Game/Resources/Data/의 한국어 텍스트와 게임 데이터가 이 프로젝트에 보존되어 있습니다. 원본 credits_body에는 Claude, ChatGPT image generation, Python audio generator, Godot 4.7 표기가 있습니다. 그 문자열은 원본 프로젝트의 기록이며, 현재 Unity 제작진의 실명이나 현재 배포본의 도구 목록을 증명하지 않습니다. 현재 크레딧은 그 기록의 확인되지 않은 저자·감독 표기를 제작진으로 재사용하지 않습니다.
+
+3D 모델과 렌더링: Blender/README.md는 생성기 스크립트를 원본으로 설명하며 .blend, 미리보기 PNG와 Unity용 FBX 출력 경로를 명시합니다. Blender/ 아래 Python 생성기와 AI 보조 작업 과정은 이 프로젝트의 모델·리깅·렌더링 파이프라인의 출처입니다. Blender 실행 파일 자체나 Python 환경을 게임 배포물에 넣는다는 뜻이 아닙니다.
+
+음악과 효과음: Tools/audio/export.py는 Tools/audio/의 악곡·징글·효과음 생성기와 합성/마스터링 모듈을 호출하여 Assets/_Game/Resources/Audio/ 아래 WAV를 작성합니다. 이는 프로젝트 내부의 음표 편성과 합성 소리 생성 과정에 대한 출처 설명입니다. 외부 녹음의 권리나 타인의 음원 소유권을 보증하는 문장이 아닙니다.
+
+UI 그래픽: Tools/ui/gen_ui_sprites.py는 NumPy와 Pillow를 사용하여 도형과 이미지 기반 UI 스프라이트를 생성합니다. 제작 도구의 사용은 그 실행 파일·라이브러리 자체가 Unity 플레이어에 포함된다는 뜻이 아닙니다.
+
+글꼴 원본과 라이선스: Assets/_Game/Fonts/의 Pretendard와 Black Han Sans, Assets/TextMesh Pro/Fonts/의 Liberation Sans 원본 고지문을 그대로 별도 항목에 보존합니다. Unity용 폰트 아틀라스의 원본 경로는 Assets/_Game/Resources/Fonts/입니다.
+
+확인 범위 / Limits of this record
+
+이 기록은 소스와 제작 과정에 대한 기술적 출처 기록입니다. 법률 자문, 전체 지식재산권 실사, AI 서비스 계약상의 권리 확인, 상표 등록 확인 또는 퍼블리셔의 법적 신원 확인이 아닙니다. 저장소만으로 확인되지 않는 실명·권리 양도·계약·등록 사실은 기재하지 않습니다. 각 라이브러리와 글꼴의 별도 라이선스는 그대로 적용됩니다.

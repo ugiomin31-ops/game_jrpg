@@ -1,0 +1,240 @@
+{
+  "id": "smith",
+  "category": "NPCs",
+  "triangles": 12742,
+  "bounds": {
+    "min": [
+      -0.28896,
+      -0.24505,
+      0.0
+    ],
+    "max": [
+      0.28942,
+      0.247,
+      1.1671
+    ],
+    "size": [
+      0.57838,
+      0.49205,
+      1.1671
+    ]
+  },
+  "bones": [
+    "root",
+    "hips",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "shoulder.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "weapon.L",
+    "shoulder.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "weapon.R",
+    "thigh.L",
+    "shin.L",
+    "foot.L",
+    "thigh.R",
+    "shin.R",
+    "foot.R"
+  ],
+  "clips": {
+    "Idle": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30
+    },
+    "Walk": {
+      "frames": [
+        0.0,
+        32.0
+      ],
+      "fps": 30
+    },
+    "Run": {
+      "frames": [
+        0.0,
+        20.0
+      ],
+      "fps": 30
+    },
+    "Attack": {
+      "frames": [
+        0.0,
+        25.0
+      ],
+      "fps": 30
+    },
+    "Cast": {
+      "frames": [
+        0.0,
+        35.0
+      ],
+      "fps": 30
+    },
+    "Hit": {
+      "frames": [
+        0.0,
+        12.0
+      ],
+      "fps": 30
+    },
+    "Die": {
+      "frames": [
+        0.0,
+        30.0
+      ],
+      "fps": 30
+    },
+    "Victory": {
+      "frames": [
+        0.0,
+        42.0
+      ],
+      "fps": 30
+    },
+    "Talk": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30
+    }
+  },
+  "contact": {
+    "Attack": 0.4,
+    "Cast": 0.6
+  },
+  "sockets": {
+    "weapon.R": {
+      "head": [
+        -0.2123645395040512,
+        -0.005484254099428654,
+        0.33375057578086853
+      ],
+      "tail": [
+        -0.2123645395040512,
+        -0.1470630019903183,
+        0.38330313563346863
+      ],
+      "parent": "hand.R"
+    },
+    "weapon.L": {
+      "head": [
+        0.2123645395040512,
+        -0.005484254099428654,
+        0.33375057578086853
+      ],
+      "tail": [
+        0.2123645395040512,
+        -0.1470630019903183,
+        0.38330313563346863
+      ],
+      "parent": "hand.L"
+    }
+  },
+  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\NPCs/smith/smith.fbx",
+  "previews": [
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_smith.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_smith_front.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_smith_attack.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_smith_cast.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_smith_die.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_smith_victory.png"
+  ],
+  "pose_bounds": {
+    "Idle": {
+      "min": [
+        -0.28896,
+        -0.24505,
+        0.0
+      ],
+      "max": [
+        0.28942,
+        0.247,
+        1.1671
+      ],
+      "size": [
+        0.57838,
+        0.49205,
+        1.1671
+      ]
+    },
+    "Attack": {
+      "min": [
+        -0.2962,
+        -0.34106,
+        0.008
+      ],
+      "max": [
+        0.31853,
+        0.30279,
+        1.18009
+      ],
+      "size": [
+        0.61473,
+        0.64385,
+        1.17209
+      ]
+    },
+    "Cast": {
+      "min": [
+        -0.28896,
+        -0.30064,
+        0.012
+      ],
+      "max": [
+        0.28942,
+        0.35857,
+        1.19106
+      ],
+      "size": [
+        0.57838,
+        0.65921,
+        1.17906
+      ]
+    },
+    "Die": {
+      "min": [
+        -0.40422,
+        -1.17047,
+        -0.1119
+      ],
+      "max": [
+        0.30225,
+        0.01213,
+        0.38314
+      ],
+      "size": [
+        0.70647,
+        1.18259,
+        0.49505
+      ]
+    },
+    "Victory": {
+      "min": [
+        -0.28896,
+        -0.31066,
+        0.01
+      ],
+      "max": [
+        0.28942,
+        0.32203,
+        1.19017
+      ],
+      "size": [
+        0.57838,
+        0.63269,
+        1.18017
+      ]
+    }
+  },
+  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\npc_smith.blend"
+}

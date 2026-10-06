@@ -1,0 +1,127 @@
+{
+  "id": "mushroom",
+  "is_boss": false,
+  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
+  "blender_version": "5.2.1 LTS",
+  "produced_at_utc": "2026-10-06T04:23:26Z",
+  "files": {
+    "fbx": {
+      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\mushroom\\mushroom.fbx",
+      "bytes": 749916
+    },
+    "blend": {
+      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_mushroom.blend",
+      "bytes": 253335
+    },
+    "previews": [
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom.png",
+        "bytes": 179469
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_side.png",
+        "bytes": 168063
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_attack.png",
+        "bytes": 175542
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_cast.png",
+        "bytes": 170105
+      },
+      {
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_die.png",
+        "bytes": 169556
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 9840,
+    "vertices": 5352,
+    "bones": 9,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 9840,
+    "vertices": 5352,
+    "bones": 9,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

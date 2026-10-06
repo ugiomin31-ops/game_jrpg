@@ -1,0 +1,171 @@
+[
+ {
+  "id": "q_bone_collector",
+  "title": "뼈 수집가",
+  "description": "묘소 기사들의 오래된 뼈 6개를 모아 주세요. 정중히 안치하겠습니다.",
+  "kind": "collect",
+  "target_id": "old_bone",
+  "count": 6,
+  "reward_gold": 3000,
+  "reward_items": {
+   "elixir": 1
+  },
+  "unlock_floor": 9,
+  "_file": "q_bone_collector"
+ },
+ {
+  "id": "q_crab_king",
+  "title": "거대 집게 토벌",
+  "description": "수로를 막고 있는 거대 산호 집게를 치워 주세요.",
+  "kind": "foe",
+  "target_id": "elite_coral_crab",
+  "count": 1,
+  "reward_gold": 1500,
+  "reward_items": {
+   "phoenix_feather": 2
+  },
+  "unlock_floor": 4,
+  "_file": "q_crab_king"
+ },
+ {
+  "id": "q_drake_scales",
+  "title": "드레이크 비늘 납품",
+  "description": "내열 갑옷 연구에 드레이크 비늘 5장이 필요합니다.",
+  "kind": "collect",
+  "target_id": "drake_scale",
+  "count": 5,
+  "reward_gold": 2500,
+  "reward_items": {
+   "mega_potion": 2
+  },
+  "unlock_floor": 6,
+  "_file": "q_drake_scales"
+ },
+ {
+  "id": "q_forest_fiber",
+  "title": "덩굴 섬유 납품",
+  "description": "대장간에서 질긴 덩굴 섬유 4개가 필요하대요.",
+  "kind": "collect",
+  "target_id": "forest_fiber",
+  "count": 4,
+  "reward_gold": 250,
+  "reward_items": {
+   "remedy": 2
+  },
+  "unlock_floor": 0,
+  "_file": "q_forest_fiber"
+ },
+ {
+  "id": "q_frost_survey",
+  "title": "빙결 수로 조사",
+  "description": "B5F 빙결의 수로까지 내려가 길을 확인해 주세요.",
+  "kind": "explore",
+  "target_id": "frost_grotto_b5",
+  "count": 1,
+  "reward_gold": 400,
+  "reward_items": {
+   "ether": 3
+  },
+  "unlock_floor": 3,
+  "_file": "q_frost_survey"
+ },
+ {
+  "id": "q_general",
+  "title": "해골 장군 토벌",
+  "description": "묘소를 순찰하는 해골 장군을 쉬게 해 주세요.",
+  "kind": "foe",
+  "target_id": "elite_skeleton",
+  "count": 1,
+  "reward_gold": 4000,
+  "reward_items": {
+   "abyss_crystal": 1
+  },
+  "unlock_floor": 9,
+  "_file": "q_general"
+ },
+ {
+  "id": "q_golem_breaker",
+  "title": "사막의 거상 토벌",
+  "description": "협곡의 다리를 지키는 거상을 무너뜨려 주세요.",
+  "kind": "foe",
+  "target_id": "elite_sand_golem",
+  "count": 1,
+  "reward_gold": 4000,
+  "reward_items": {
+   "ember_crystal": 1
+  },
+  "unlock_floor": 7,
+  "_file": "q_golem_breaker"
+ },
+ {
+  "id": "q_lament",
+  "title": "통곡의 납골당 정화",
+  "description": "도깨비불 8개를 잠재워 납골당의 통곡을 멈춰 주세요.",
+  "kind": "kill",
+  "target_id": "wisp",
+  "count": 8,
+  "reward_gold": 4000,
+  "reward_items": {
+   "abyss_crystal": 1,
+   "elixir": 1
+  },
+  "unlock_floor": 10,
+  "_file": "q_lament"
+ },
+ {
+  "id": "q_slime_cull",
+  "title": "슬라임 소탕",
+  "description": "유적 입구의 슬라임이 늘고 있어요. 8마리만 정리해 주세요.",
+  "kind": "kill",
+  "target_id": "slime",
+  "count": 8,
+  "reward_gold": 150,
+  "reward_items": {
+   "healing_potion": 3
+  },
+  "unlock_floor": 0,
+  "_file": "q_slime_cull"
+ },
+ {
+  "id": "q_sphinx",
+  "title": "태양의 수수께끼",
+  "description": "태양의 제단의 스핑크스를 진정시켜 주세요.",
+  "kind": "boss",
+  "target_id": "flame_sphinx",
+  "count": 1,
+  "reward_gold": 3000,
+  "reward_items": {
+   "hi_ether": 3
+  },
+  "unlock_floor": 8,
+  "_file": "q_sphinx"
+ },
+ {
+  "id": "q_toxic_king",
+  "title": "독왕 버섯 토벌",
+  "description": "회랑을 떠도는 거대한 독버섯을 쓰러뜨려 주세요.",
+  "kind": "foe",
+  "target_id": "elite_mushroom",
+  "count": 1,
+  "reward_gold": 600,
+  "reward_items": {
+   "acc_antidote_ring": 1
+  },
+  "unlock_floor": 1,
+  "_file": "q_toxic_king"
+ },
+ {
+  "id": "q_wolf_hunt",
+  "title": "서리 늑대 사냥",
+  "description": "서리 늑대 10마리를 사냥해 주세요. 털가죽은 가지셔도 돼요.",
+  "kind": "kill",
+  "target_id": "ice_wolf",
+  "count": 10,
+  "reward_gold": 900,
+  "reward_items": {
+   "hi_potion": 3
+  },
+  "unlock_floor": 4,
+  "_file": "q_wolf_hunt"
+ }
+]

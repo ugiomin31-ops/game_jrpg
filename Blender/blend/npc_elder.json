@@ -1,0 +1,241 @@
+{
+  "id": "elder",
+  "category": "NPCs",
+  "triangles": 13850,
+  "bounds": {
+    "min": [
+      -0.29643,
+      -0.24505,
+      0.0
+    ],
+    "max": [
+      0.29643,
+      0.30434,
+      1.15995
+    ],
+    "size": [
+      0.59286,
+      0.54939,
+      1.15995
+    ]
+  },
+  "bones": [
+    "root",
+    "hips",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "shoulder.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "weapon.L",
+    "shoulder.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "weapon.R",
+    "cape",
+    "thigh.L",
+    "shin.L",
+    "foot.L",
+    "thigh.R",
+    "shin.R",
+    "foot.R"
+  ],
+  "clips": {
+    "Idle": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30
+    },
+    "Walk": {
+      "frames": [
+        0.0,
+        32.0
+      ],
+      "fps": 30
+    },
+    "Run": {
+      "frames": [
+        0.0,
+        20.0
+      ],
+      "fps": 30
+    },
+    "Attack": {
+      "frames": [
+        0.0,
+        25.0
+      ],
+      "fps": 30
+    },
+    "Cast": {
+      "frames": [
+        0.0,
+        35.0
+      ],
+      "fps": 30
+    },
+    "Hit": {
+      "frames": [
+        0.0,
+        12.0
+      ],
+      "fps": 30
+    },
+    "Die": {
+      "frames": [
+        0.0,
+        30.0
+      ],
+      "fps": 30
+    },
+    "Victory": {
+      "frames": [
+        0.0,
+        42.0
+      ],
+      "fps": 30
+    },
+    "Talk": {
+      "frames": [
+        0.0,
+        48.0
+      ],
+      "fps": 30
+    }
+  },
+  "contact": {
+    "Attack": 0.4,
+    "Cast": 0.6
+  },
+  "sockets": {
+    "weapon.R": {
+      "head": [
+        -0.17165511846542358,
+        -0.005415859632194042,
+        0.32290586829185486
+      ],
+      "tail": [
+        -0.17165511846542358,
+        -0.14699460566043854,
+        0.37245842814445496
+      ],
+      "parent": "hand.R"
+    },
+    "weapon.L": {
+      "head": [
+        0.17165511846542358,
+        -0.005415859632194042,
+        0.32290586829185486
+      ],
+      "tail": [
+        0.17165511846542358,
+        -0.14699460566043854,
+        0.37245842814445496
+      ],
+      "parent": "hand.L"
+    }
+  },
+  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\NPCs/elder/elder.fbx",
+  "previews": [
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_elder.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_elder_front.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_elder_attack.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_elder_cast.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_elder_die.png",
+    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_elder_victory.png"
+  ],
+  "pose_bounds": {
+    "Idle": {
+      "min": [
+        -0.29643,
+        -0.24505,
+        0.0
+      ],
+      "max": [
+        0.29643,
+        0.30434,
+        1.15995
+      ],
+      "size": [
+        0.59286,
+        0.54939,
+        1.15995
+      ]
+    },
+    "Attack": {
+      "min": [
+        -0.30454,
+        -0.32562,
+        0.008
+      ],
+      "max": [
+        0.2883,
+        0.34163,
+        1.16199
+      ],
+      "size": [
+        0.59284,
+        0.66724,
+        1.15399
+      ]
+    },
+    "Cast": {
+      "min": [
+        -0.29643,
+        -0.29198,
+        0.012
+      ],
+      "max": [
+        0.29643,
+        0.3838,
+        1.17975
+      ],
+      "size": [
+        0.59286,
+        0.67578,
+        1.16775
+      ]
+    },
+    "Die": {
+      "min": [
+        -0.40274,
+        -1.15143,
+        -0.10778
+      ],
+      "max": [
+        0.25743,
+        0.01136,
+        0.48725
+      ],
+      "size": [
+        0.66017,
+        1.16279,
+        0.59504
+      ]
+    },
+    "Victory": {
+      "min": [
+        -0.29643,
+        -0.30102,
+        0.01
+      ],
+      "max": [
+        0.29643,
+        0.35576,
+        1.16871
+      ],
+      "size": [
+        0.59286,
+        0.65678,
+        1.15871
+      ]
+    }
+  },
+  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\npc_elder.blend"
+}

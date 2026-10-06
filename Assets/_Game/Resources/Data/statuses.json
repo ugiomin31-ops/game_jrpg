@@ -1,0 +1,354 @@
+[
+ {
+  "id": "attack_down",
+  "display_name": "공격력 저하",
+  "description": "공격력과 마력이 25% 낮아집니다.",
+  "effect_type": 9,
+  "duration_turns": 3,
+  "magnitude": 0.25,
+  "tint": [
+   0.6,
+   0.45,
+   0.7,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "attack_down"
+ },
+ {
+  "id": "attack_up",
+  "display_name": "공격력 상승",
+  "description": "공격력이 25% 오릅니다.",
+  "effect_type": 2,
+  "duration_turns": 3,
+  "magnitude": 0.25,
+  "tint": [
+   1.0,
+   0.6,
+   0.4,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "attack_up"
+ },
+ {
+  "id": "attack_up_berserk",
+  "display_name": "광폭화",
+  "description": "공격력이 50% 오릅니다.",
+  "effect_type": 2,
+  "duration_turns": 5,
+  "magnitude": 0.5,
+  "tint": [
+   1.0,
+   0.3,
+   0.2,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "attack_up_berserk"
+ },
+ {
+  "id": "barrier",
+  "display_name": "보호막",
+  "description": "최대 HP의 20%만큼 피해를 흡수합니다.",
+  "effect_type": 12,
+  "duration_turns": 3,
+  "magnitude": 0.2,
+  "tint": [
+   0.85,
+   0.95,
+   1.0,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "barrier"
+ },
+ {
+  "id": "barrier_abyss",
+  "display_name": "심연의 장벽",
+  "description": "최대 HP의 8%만큼 피해를 흡수하는 어둠의 장벽입니다.",
+  "effect_type": 12,
+  "duration_turns": 3,
+  "magnitude": 0.08,
+  "tint": [
+   0.45,
+   0.2,
+   0.6,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "barrier_abyss"
+ },
+ {
+  "id": "bleed",
+  "display_name": "출혈",
+  "description": "행동할 때마다 최대 HP의 4%를 잃습니다.",
+  "effect_type": 5,
+  "duration_turns": 3,
+  "magnitude": 0.04,
+  "tint": [
+   0.85,
+   0.2,
+   0.25,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "bleed"
+ },
+ {
+  "id": "blind",
+  "display_name": "실명",
+  "description": "물리 공격의 명중률이 40% 낮아집니다.",
+  "effect_type": 15,
+  "duration_turns": 3,
+  "magnitude": 0.4,
+  "tint": [
+   0.4,
+   0.4,
+   0.45,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "blind"
+ },
+ {
+  "id": "burn",
+  "display_name": "화상",
+  "description": "턴이 끝날 때마다 최대 HP의 5%를 잃고, 받는 회복량이 절반이 됩니다.",
+  "effect_type": 4,
+  "duration_turns": 3,
+  "magnitude": 0.05,
+  "tint": [
+   1.0,
+   0.5,
+   0.25,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "burn"
+ },
+ {
+  "id": "defense_down",
+  "display_name": "방어력 저하",
+  "description": "방어력과 마법 방어가 30% 낮아집니다.",
+  "effect_type": 10,
+  "duration_turns": 3,
+  "magnitude": 0.3,
+  "tint": [
+   0.7,
+   0.5,
+   0.4,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "defense_down"
+ },
+ {
+  "id": "defense_up",
+  "display_name": "방어력 상승",
+  "description": "방어력과 마법 방어가 25% 오릅니다.",
+  "effect_type": 3,
+  "duration_turns": 3,
+  "magnitude": 0.25,
+  "tint": [
+   0.5,
+   0.7,
+   1.0,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "defense_up"
+ },
+ {
+  "id": "defense_up_l",
+  "display_name": "철벽",
+  "description": "방어력과 마법 방어가 50% 오릅니다.",
+  "effect_type": 3,
+  "duration_turns": 2,
+  "magnitude": 0.5,
+  "tint": [
+   0.4,
+   0.6,
+   1.0,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "defense_up_l"
+ },
+ {
+  "id": "freeze",
+  "display_name": "빙결",
+  "description": "다음 턴에 행동할 수 없으며, 다음 물리 피해가 30% 증가한 뒤 해제됩니다.",
+  "effect_type": 7,
+  "duration_turns": 1,
+  "magnitude": 0.3,
+  "tint": [
+   0.6,
+   0.9,
+   1.0,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "freeze"
+ },
+ {
+  "id": "magic_up",
+  "display_name": "마력 상승",
+  "description": "마력이 25% 오릅니다.",
+  "effect_type": 16,
+  "duration_turns": 3,
+  "magnitude": 0.25,
+  "tint": [
+   0.8,
+   0.5,
+   1.0,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "magic_up"
+ },
+ {
+  "id": "poison",
+  "display_name": "중독",
+  "description": "턴이 끝날 때마다 최대 HP의 6%를 잃습니다.",
+  "effect_type": 0,
+  "duration_turns": 3,
+  "magnitude": 0.06,
+  "tint": [
+   0.55,
+   0.85,
+   0.3,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "poison"
+ },
+ {
+  "id": "poison_strong",
+  "display_name": "맹독",
+  "description": "턴이 끝날 때마다 최대 HP의 10%를 잃습니다.",
+  "effect_type": 0,
+  "duration_turns": 4,
+  "magnitude": 0.1,
+  "tint": [
+   0.45,
+   0.7,
+   0.2,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "poison_strong"
+ },
+ {
+  "id": "provoke",
+  "display_name": "도발",
+  "description": "적의 단일 대상 공격을 자신에게 끌어들입니다.",
+  "effect_type": 13,
+  "duration_turns": 3,
+  "magnitude": 1.0,
+  "tint": [
+   1.0,
+   0.35,
+   0.3,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "provoke"
+ },
+ {
+  "id": "regen",
+  "display_name": "재생",
+  "description": "턴이 끝날 때마다 최대 HP의 6%를 회복합니다.",
+  "effect_type": 11,
+  "duration_turns": 3,
+  "magnitude": 0.06,
+  "tint": [
+   0.5,
+   1.0,
+   0.6,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "regen"
+ },
+ {
+  "id": "silence",
+  "display_name": "침묵",
+  "description": "MP를 소모하는 스킬을 사용할 수 없습니다.",
+  "effect_type": 8,
+  "duration_turns": 2,
+  "magnitude": 1.0,
+  "tint": [
+   0.7,
+   0.7,
+   0.75,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "silence"
+ },
+ {
+  "id": "sleep",
+  "display_name": "수면",
+  "description": "행동할 수 없으며, 피해를 받으면 깨어납니다.",
+  "effect_type": 14,
+  "duration_turns": 3,
+  "magnitude": 1.0,
+  "tint": [
+   0.55,
+   0.55,
+   0.9,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "sleep"
+ },
+ {
+  "id": "slow",
+  "display_name": "둔화",
+  "description": "속도가 25% 낮아집니다.",
+  "effect_type": 6,
+  "duration_turns": 3,
+  "magnitude": 0.25,
+  "tint": [
+   0.6,
+   0.6,
+   0.8,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "slow"
+ },
+ {
+  "id": "speed_up",
+  "display_name": "신속",
+  "description": "속도가 30% 오릅니다.",
+  "effect_type": 17,
+  "duration_turns": 3,
+  "magnitude": 0.3,
+  "tint": [
+   0.6,
+   1.0,
+   0.9,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "speed_up"
+ },
+ {
+  "id": "stun",
+  "display_name": "기절",
+  "description": "다음 턴에 행동할 수 없습니다.",
+  "effect_type": 1,
+  "duration_turns": 1,
+  "magnitude": 1.0,
+  "tint": [
+   1.0,
+   0.95,
+   0.5,
+   1.0
+  ],
+  "absorb_amount": 0,
+  "_file": "stun"
+ }
+]

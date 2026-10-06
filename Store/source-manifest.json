@@ -1,0 +1,146 @@
+{
+  "title": "ABYSS",
+  "generator": "Tools/store/generate.py",
+  "renderer": "Tools/store/render_art.py",
+  "reproduce": "python Tools/store/generate.py",
+  "blender_source": "Store/source/abyss-key-art.blend",
+  "title_source": "Store/source/abyss-title.svg",
+  "outputs": [
+    {
+      "file": "Store/capsules/abyss-main-1232x706.png",
+      "dimensions": [
+        1232,
+        706
+      ],
+      "native_layers": "Store/source/abyss-main-1232x706.ora",
+      "kind": "original promotional illustration; not gameplay"
+    },
+    {
+      "file": "Store/capsules/abyss-header-920x430.png",
+      "dimensions": [
+        920,
+        430
+      ],
+      "native_layers": "Store/source/abyss-header-920x430.ora",
+      "kind": "original promotional illustration; not gameplay"
+    },
+    {
+      "file": "Store/capsules/abyss-small-462x174.png",
+      "dimensions": [
+        462,
+        174
+      ],
+      "native_layers": "Store/source/abyss-small-462x174.ora",
+      "kind": "original promotional illustration; not gameplay"
+    },
+    {
+      "file": "Store/capsules/abyss-vertical-748x896.png",
+      "dimensions": [
+        748,
+        896
+      ],
+      "native_layers": "Store/source/abyss-vertical-748x896.ora",
+      "kind": "original promotional illustration; not gameplay"
+    },
+    {
+      "file": "Store/capsules/abyss-library-600x900.png",
+      "dimensions": [
+        600,
+        900
+      ],
+      "native_layers": "Store/source/abyss-library-600x900.ora",
+      "kind": "original promotional illustration; not gameplay"
+    },
+    {
+      "file": "Store/key-art/abyss-key-art-3840x2160.png",
+      "dimensions": [
+        3840,
+        2160
+      ],
+      "native_layers": "Store/source/abyss-key-art-3840x2160.ora",
+      "kind": "original promotional illustration; not gameplay"
+    }
+  ],
+  "original_asset_sources": [
+    {
+      "id": "abyss_sorcerer",
+      "source": "Assets/_Game/Resources/Art/Enemies/boss/boss.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "haunted_crypt_arena",
+      "source": "Assets/_Game/Resources/Art/Environment/haunted_crypt/arena.fbx",
+      "mesh_objects": 4
+    },
+    {
+      "id": "haunted_crypt_gate",
+      "source": "Assets/_Game/Resources/Art/Environment/haunted_crypt/boss_gate.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "mage",
+      "source": "Assets/_Game/Resources/Art/Characters/mage/mage.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "staff_crystal",
+      "source": "Assets/_Game/Resources/Art/Weapons/staff_crystal.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "archer",
+      "source": "Assets/_Game/Resources/Art/Characters/archer/archer.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "bow_hunter",
+      "source": "Assets/_Game/Resources/Art/Weapons/bow_hunter.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "cleric",
+      "source": "Assets/_Game/Resources/Art/Characters/cleric/cleric.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "mace_silver",
+      "source": "Assets/_Game/Resources/Art/Weapons/mace_silver.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "warrior",
+      "source": "Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
+      "mesh_objects": 1
+    },
+    {
+      "id": "sword_bronze",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_bronze.fbx",
+      "mesh_objects": 1
+    }
+  ],
+  "source_generators": [
+    "Blender/heroes/generate.py",
+    "Blender/lib_humanoid/",
+    "Blender/bosses/boss.py",
+    "Blender/weapons/generate_all.py",
+    "Blender/environment/haunted_crypt/kit.py",
+    "Blender/environment/_arenas_a.py"
+  ],
+  "visual_language_reference": [
+    "Assets/_Game/Scripts/UI/Kit/UITheme.cs",
+    "Assets/_Game/Scripts/UI/Screens/GameTitleScreen.cs"
+  ],
+  "palette": {
+    "ink": "#030d13",
+    "teal": "#12727a",
+    "gold": "#e6c477",
+    "bright_gold": "#fbe7b0"
+  },
+  "disclosures": [
+    "Original authored game geometry, custom original vector title, procedural editorial ornament.",
+    "Illustrations are not screenshots and do not represent a captured gameplay scene.",
+    "No stock imagery, image-generation service, badges, feature claims, or gameplay labels.",
+    "Working requested dimensions only: Steam/platform acceptance has not been asserted or researched.",
+    "Original asset authorship does not establish commercial or third-party IP clearance."
+  ]
+}

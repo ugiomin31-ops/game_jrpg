@@ -1,0 +1,11 @@
+ABYSS ORIGINAL PROCEDURAL SCORE AND SOUND DESIGN
+All 66 stereo 44.1kHz PCM16 WAVs are synthesised from original note arrangements, additive/subtractive/physical-model instruments and seeded noise.
+No commercial samples, audio recordings or transcribed commercial melodies are included.
+Source: Tools/audio; production command: python Tools/audio/export.py
+10 BGM cues use 32-bar A/A'/B/A'' arrangements with contrasting instrumentation and counterpoint.
+6 non-looping harmonised notification jingles; 50 separately layered interface, foley, spell and combat sound designs.
+BGM ring-outs and reverb are folded into the loop head; RIFF smpl specifies inclusive last sample. catalogue.json uses an exclusive loop end.
+Music target -16 LUFS; jingles -15 LUFS; effects peak-window RMS -15 dBFS (UI -20), peak ceiling -1 dBFS.
+Actual export duration, loudness, peak and clip counts are in catalogue.json.
+Unity AudioManager loops complete music clips, crossfades on unscaled time, ducks music during jingles, pools effects and persists mixer volumes/mute.
+Gameplay pause freezes music/non-UI voices and fade timers; UI voices remain audible. Application suspension pauses every voice.

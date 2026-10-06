@@ -1,0 +1,1345 @@
+{
+  "effects": [
+    {
+      "key": "impact",
+      "description": "Short radial blunt impact with a sharp contact star",
+      "duration": 0.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFE8AF",
+          "life": 0.25,
+          "size": 0.3,
+          "endSize": 1.4
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "FFD789",
+          "count": 20,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "slash",
+      "description": "Swept blade crescent and trailing steel sparks",
+      "duration": 0.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "D7F5FF",
+          "life": 0.28,
+          "size": 0.9,
+          "endSize": 1.7,
+          "rotation": 35
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "A1E0FF",
+          "count": 12,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "critical",
+      "description": "Overlapping red/gold impact star and large expansion ring",
+      "duration": 1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFAC45",
+          "life": 0.4,
+          "size": 0.3,
+          "endSize": 2.4
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FF5364",
+          "life": 0.6,
+          "size": 0.2,
+          "endSize": 2.8
+        },
+        {
+          "kind": "burst",
+          "texture": "star4",
+          "color": "FFF2BD",
+          "count": 28,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "spark",
+      "description": "Electrical projectile core, flickering bolt sheet and ribbon trail",
+      "duration": 0.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "lightning_sheet",
+          "color": "AADFFF",
+          "life": 0.6,
+          "size": 0.85,
+          "tiles": 4
+        },
+        {
+          "kind": "trail",
+          "texture": "trail",
+          "color": "71BFFF",
+          "life": 0.25,
+          "size": 0.3
+        },
+        {
+          "kind": "burst",
+          "texture": "star4",
+          "color": "D3F4FF",
+          "count": 10,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "fire",
+      "description": "Layered fire bloom and embers around a hot projectile core",
+      "duration": 1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "flame_sheet",
+          "color": "FFA846",
+          "life": 0.7,
+          "size": 1,
+          "endSize": 1.8,
+          "tiles": 4
+        },
+        {
+          "kind": "sphere",
+          "texture": "glow",
+          "color": "FFCF6A",
+          "life": 0.45,
+          "size": 0.4,
+          "endSize": 0.9
+        },
+        {
+          "kind": "trail",
+          "texture": "trail",
+          "color": "FF6E31",
+          "life": 0.22,
+          "size": 0.45
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "FFBC56",
+          "count": 28,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12,
+          "gravity": 0.15
+        }
+      ]
+    },
+    {
+      "key": "flame",
+      "description": "Tall sustained flame column and drifting cinders",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "flame_sheet",
+          "color": "FF963E",
+          "life": 1,
+          "size": 1.1,
+          "height": 2.5,
+          "y": 0.8,
+          "tiles": 4
+        },
+        {
+          "kind": "emitter",
+          "texture": "spark",
+          "color": "FFC568",
+          "life": 0.5,
+          "size": 0.12,
+          "rate": 35,
+          "speed": 1.8,
+          "radius": 0.35
+        }
+      ]
+    },
+    {
+      "key": "ice",
+      "description": "Crystalline ice shards and a cold radiating snowflake seal",
+      "duration": 1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "snowflake",
+          "color": "D6FAFF",
+          "life": 0.65,
+          "size": 0.2,
+          "endSize": 1.8,
+          "spin": 45
+        },
+        {
+          "kind": "burst",
+          "texture": "ice_shard",
+          "color": "71D9FF",
+          "count": 24,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12,
+          "gravity": 0.3
+        }
+      ]
+    },
+    {
+      "key": "ring",
+      "description": "Holy seal expands with orbiting four-point motes",
+      "duration": 1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFF0BB",
+          "life": 0.7,
+          "size": 0.3,
+          "endSize": 2.3
+        },
+        {
+          "kind": "orbit",
+          "texture": "star4",
+          "color": "FFE89B",
+          "life": 0.8,
+          "size": 0.22,
+          "radius": 0.85,
+          "spin": 180,
+          "count": 6
+        }
+      ]
+    },
+    {
+      "key": "magic_circle",
+      "description": "Counter-rotating runic invocation rings beneath caster",
+      "duration": 1.4,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_a",
+          "color": "AACFFF",
+          "life": 1.1,
+          "size": 1.5,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "F2DFAA",
+          "life": 1.1,
+          "size": 1.9,
+          "spin": 60,
+          "horizontal": true,
+          "rotation": 30
+        },
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "BBE9FF",
+          "life": 0.7,
+          "size": 0.08,
+          "rate": 20,
+          "speed": 0.8,
+          "radius": 0.6
+        }
+      ]
+    },
+    {
+      "key": "heal",
+      "description": "Emerald healing column with ascending plus glyphs",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "86FFC0",
+          "life": 1.1,
+          "size": 1.3,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "plus",
+          "color": "A5FFD2",
+          "life": 0.8,
+          "size": 0.2,
+          "rate": 20,
+          "speed": 1.4,
+          "radius": 0.45
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "74ECA7",
+          "life": 0.9,
+          "size": 0.6,
+          "height": 2.5,
+          "y": 0.7
+        }
+      ]
+    },
+    {
+      "key": "revive",
+      "description": "Winged golden resurrection seal and rising feather burst",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "FFE8AB",
+          "life": 1.1,
+          "size": 2.2,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "quad",
+          "texture": "wings",
+          "color": "FFF2C5",
+          "life": 1.2,
+          "size": 2,
+          "endSize": 2.8,
+          "y": 0.8
+        },
+        {
+          "kind": "burst",
+          "texture": "feather",
+          "color": "FFF4D5",
+          "count": 26,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "smoke",
+      "description": "Soft translucent purple spore cloud with suspended poison motes",
+      "duration": 1.4,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "8BB970",
+          "life": 1,
+          "size": 0.7,
+          "speed": 0.7,
+          "count": 14,
+          "radius": 0.4,
+          "alpha": true,
+          "tiles": 4
+        },
+        {
+          "kind": "emitter",
+          "texture": "bubble",
+          "color": "C4ED83",
+          "life": 0.6,
+          "size": 0.15,
+          "rate": 15,
+          "speed": 0.6,
+          "radius": 0.6
+        }
+      ]
+    },
+    {
+      "key": "buff",
+      "description": "Ascending amber enhancement chevrons and expanding circle",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "FFC86E",
+          "life": 0.8,
+          "size": 0.4,
+          "radius": 0.7,
+          "spin": 100,
+          "count": 4
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "FFE7AC",
+          "life": 1.1,
+          "size": 1.2,
+          "spin": 60,
+          "horizontal": true
+        }
+      ]
+    },
+    {
+      "key": "debuff",
+      "description": "Descending violet weakening glyphs and dark broken seal",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_down",
+          "color": "CFA2FF",
+          "life": 0.8,
+          "size": 0.4,
+          "radius": 0.7,
+          "spin": -80,
+          "count": 4
+        },
+        {
+          "kind": "quad",
+          "texture": "skull_wisp",
+          "color": "A280C6",
+          "life": 0.75,
+          "size": 1,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "key": "guard",
+      "description": "Blue hexagonal protective ward catches incoming blows",
+      "duration": 1.1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "sphere",
+          "texture": "hex",
+          "color": "8FCEFF",
+          "life": 0.8,
+          "size": 1.6
+        },
+        {
+          "kind": "quad",
+          "texture": "ring",
+          "color": "D2EBFF",
+          "life": 0.5,
+          "size": 1.2
+        }
+      ]
+    },
+    {
+      "key": "shield",
+      "description": "Sustained translucent hexagonal shield shell",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "sphere",
+          "texture": "hex",
+          "color": "91D8FF",
+          "life": 1.5,
+          "size": 1.6,
+          "spin": 15
+        }
+      ]
+    },
+    {
+      "key": "break",
+      "description": "Shattering blue shield fragments and red interruption marker",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "burst",
+          "texture": "square",
+          "color": "92D4FF",
+          "count": 32,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12,
+          "gravity": 0.5
+        },
+        {
+          "kind": "quad",
+          "texture": "anger",
+          "color": "FF6784",
+          "life": 0.75,
+          "size": 1.3,
+          "endSize": 1.7
+        }
+      ]
+    },
+    {
+      "key": "summon",
+      "description": "Abyssal rune portal with coiling spectral skulls",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "C086FF",
+          "life": 1.1,
+          "size": 2.4,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "orbit",
+          "texture": "skull_wisp",
+          "color": "DDB5FF",
+          "life": 1.1,
+          "size": 0.5,
+          "radius": 0.8,
+          "spin": 140,
+          "count": 5
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "AC67F2",
+          "life": 1,
+          "size": 1.1,
+          "height": 3.5,
+          "y": 1
+        }
+      ]
+    },
+    {
+      "key": "dark",
+      "description": "Dark vortex and outward spectral skulls",
+      "duration": 1.1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "swirl",
+          "color": "9764E3",
+          "life": 0.7,
+          "size": 0.4,
+          "endSize": 2,
+          "spin": -160
+        },
+        {
+          "kind": "burst",
+          "texture": "skull_wisp",
+          "color": "BD9DE4",
+          "count": 15,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "holy",
+      "description": "Holy rays and descending radiant feather fan",
+      "duration": 1.3,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFF3C2",
+          "life": 0.8,
+          "size": 0.3,
+          "endSize": 2.8
+        },
+        {
+          "kind": "burst",
+          "texture": "feather",
+          "color": "FFEAB5",
+          "count": 22,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "pierce",
+      "description": "Narrow arrow streak and focused blue hit sparks",
+      "duration": 0.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "arrow_streak",
+          "color": "BCE8FF",
+          "life": 0.35,
+          "size": 0.8,
+          "height": 1.8,
+          "rotation": 70
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "D6F1FF",
+          "count": 12,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "blunt",
+      "description": "Broad earth shockwave and heavy contact dust",
+      "duration": 1.1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "D8BE8D",
+          "life": 0.5,
+          "size": 0.2,
+          "endSize": 2.4
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "B5A58A",
+          "life": 0.7,
+          "size": 0.6,
+          "speed": 1.8,
+          "count": 15,
+          "radius": 0.2,
+          "alpha": true,
+          "tiles": 4
+        }
+      ]
+    },
+    {
+      "key": "thunder",
+      "description": "Four branching animated lightning strikes",
+      "duration": 1.1,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "lightning_sheet",
+          "color": "D7F1FF",
+          "life": 0.7,
+          "size": 1.5,
+          "height": 3,
+          "tiles": 4
+        },
+        {
+          "kind": "burst",
+          "texture": "star4",
+          "color": "8ABFFF",
+          "count": 26,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "ultimate_warrior",
+      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "duration": 2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "sword",
+          "color": "FFE6A0",
+          "life": 1.5,
+          "size": 2.8,
+          "height": 4,
+          "y": 1.3,
+          "tiles": 1
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "FFE6A0",
+          "life": 1.1,
+          "size": 4,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "burst",
+          "texture": "star8",
+          "color": "FFE6A0",
+          "count": 64,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "ultimate_mage",
+      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "duration": 2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "flame_sheet",
+          "color": "FFA7DA",
+          "life": 1.5,
+          "size": 2.8,
+          "height": 4,
+          "y": 1.3,
+          "tiles": 4
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "FFA7DA",
+          "life": 1.1,
+          "size": 4,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "burst",
+          "texture": "star8",
+          "color": "FFA7DA",
+          "count": 64,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "ultimate_archer",
+      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "duration": 2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "arrow_streak",
+          "color": "B5E9FF",
+          "life": 1.5,
+          "size": 2.8,
+          "height": 4,
+          "y": 1.3,
+          "tiles": 1
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "B5E9FF",
+          "life": 1.1,
+          "size": 4,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "burst",
+          "texture": "star8",
+          "color": "B5E9FF",
+          "count": 64,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "ultimate_cleric",
+      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "duration": 2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "wings",
+          "color": "FFFFDA",
+          "life": 1.5,
+          "size": 2.8,
+          "height": 4,
+          "y": 1.3,
+          "tiles": 1
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "FFFFDA",
+          "life": 1.1,
+          "size": 4,
+          "spin": 60,
+          "horizontal": true
+        },
+        {
+          "kind": "burst",
+          "texture": "star8",
+          "color": "FFFFDA",
+          "count": 64,
+          "life": 0.65,
+          "size": 0.22,
+          "speed": 2.2,
+          "radius": 0.12
+        }
+      ]
+    },
+    {
+      "key": "status_attack_down",
+      "description": "공격력 저하 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_down",
+          "color": "C3A2E4",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_attack_up",
+      "description": "공격력 상승 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "F7D299",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_attack_up_berserk",
+      "description": "광폭화 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "F7D299",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_barrier",
+      "description": "보호막 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "hex",
+          "color": "9AD8FE",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_barrier_abyss",
+      "description": "심연의 장벽 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "hex",
+          "color": "9AD8FE",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_bleed",
+      "description": "출혈 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "droplet",
+          "color": "F0788D",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_blind",
+      "description": "실명 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "blind",
+          "color": "CEB6DE",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_burn",
+      "description": "화상 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "flame_sheet",
+          "color": "FFA35D",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 4
+        }
+      ]
+    },
+    {
+      "key": "status_defense_down",
+      "description": "방어력 저하 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_down",
+          "color": "C3A2E4",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_defense_up",
+      "description": "방어력 상승 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "F7D299",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_defense_up_l",
+      "description": "철벽 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "F7D299",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_freeze",
+      "description": "빙결 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "ice_shard",
+          "color": "B9F2FF",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_magic_up",
+      "description": "마력 상승 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "F7D299",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_poison",
+      "description": "중독 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "bubble",
+          "color": "B6E86F",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_poison_strong",
+      "description": "맹독 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "bubble",
+          "color": "B6E86F",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_provoke",
+      "description": "도발 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "anger",
+          "color": "FF987E",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_regen",
+      "description": "재생 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "plus",
+          "color": "A2FFD1",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_silence",
+      "description": "침묵 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "silence",
+          "color": "D4B8EE",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_sleep",
+      "description": "수면 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "zzz",
+          "color": "ABBAED",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_slow",
+      "description": "둔화 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "snowflake",
+          "color": "99BEF4",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_speed_up",
+      "description": "신속 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "arrow_down",
+          "color": "C3A2E4",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "status_stun",
+      "description": "기절 persistent orbiting status glyph",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "orbit",
+          "texture": "star5",
+          "color": "FFE281",
+          "life": 1.2,
+          "size": 0.25,
+          "radius": 0.4,
+          "spin": 55,
+          "count": 3,
+          "y": 1.2,
+          "tiles": 1
+        }
+      ]
+    },
+    {
+      "key": "environment_verdant_ruins",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "leaf",
+          "color": "A7CE88",
+          "life": 4,
+          "size": 0.16,
+          "rate": 6,
+          "radius": 6,
+          "speed": 0.1,
+          "gravity": 0.015,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "environment_frost_grotto",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "snowflake",
+          "color": "DCF4FF",
+          "life": 4,
+          "size": 0.16,
+          "rate": 6,
+          "radius": 6,
+          "speed": 0.1,
+          "gravity": 0.01,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "environment_ember_caverns",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "spark",
+          "color": "FFD09A",
+          "life": 4,
+          "size": 0.16,
+          "rate": 6,
+          "radius": 6,
+          "speed": 0.1,
+          "gravity": -0.01,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "environment_haunted_crypt",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "skull_wisp",
+          "color": "B8ABDD",
+          "life": 4,
+          "size": 0.16,
+          "rate": 6,
+          "radius": 6,
+          "speed": 0.1,
+          "gravity": 0,
+          "alpha": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+# PRODUCT TRUTH — 심연의 미궁 / Abyss Labyrinth
+
+Evidence class: directly inspected project code, production outputs and local execution. This file does not establish third-party licensing interpretations, publisher identity, store approval or IP clearance. Dates below are last checked against this checkout. External feature copy may use only Implemented entries, respecting each stated verification scope.
+
+## Implemented
+
+### Campaign content and turn-based rules — verified (local C# execution) — 2026-10-06
+
+- Four playable classes: 검사, 마법사, 궁수, 성직자. Twelve fixed dungeon floors, four biome sets, three difficulty choices, 28 enemy definitions including four bosses, 69 skills, 48 equipment definitions, 30 items and 12 quests.
+- Evidence: `Assets/_Game/Resources/Data/{heroes,dungeon,enemies,skills,equipment,items,quests}.json`; `Scripts/Logic/` under `Assets/_Game/`; actual `python Tools/logic_test.py` output: 11/11 passed, including encounter completion across all 12 floors, four battle regressions and six campaign regressions.
+- A natural Lv.1 Normal campaign entered B1F, saved/restored its unresolved encounter, executed nine real engine commands with 15 damage events, won and returned to town in a throwaway C# executable. This is not proof of a complete Unity/Windows playthrough.
+- Checked: 2026-10-06.
+
+### Authored 3D asset production — verified (Blender production and Unity import) — 2026-10-06
+
+- Four heroes, eight NPCs, 28 enemies/bosses, 48 gear, 30 items, 22 status emblems, eight element emblems, 12 UI emblems, six common props, town and four modular dungeon/arena sets have real generated geometry. Original generators and editable Blender outputs are retained.
+- Evidence: `Blender/`, `Blender/blend/enemy_production_all.json`, `Assets/_Game/Resources/Art/`; successful Unity `Abyss/Validate Production Content` menu invocation. Creature report records actual saved/reimported rig, Col vertex colors, weighted vertices and required clips for all 28 IDs.
+- Geometry exceeds the original aspirational polygon budgets for several heroes/enemies/environment parts; no low-end performance claim is supported by this import check.
+- Checked: 2026-10-06.
+
+### UI artwork — verified (production and local dungeon HUD rendering) — 2026-10-06
+
+- 160 transparent 512px, 3D-derived portraits/icons cover Heroes4, NPCs8, Enemies28, Gear48, Items30, Status22, Elements8 and UI12.
+- Evidence: `Blender/ui/render_icons.py`; `Assets/_Game/Resources/Icons/manifest.json`; production output `ARTWORK_COMPLETE 160`; `Scripts/UI/Kit/UIArtwork.cs` and actual rendered hero portraits in the resumed B1F HUD.
+- Menu/battle consumers are wired; their complete runtime scenario coverage remains to be exercised.
+- Checked: 2026-10-06.
+
+### Title, town, prologue and first-person exploration — verified (local Unity editor execution) — 2026-10-06
+
+- Actual rendered title and town use the authored town/NPC/hero/gear geometry. Prologue has eight real pages followed by the first-town elder tutorial. B1F renders in first person and real movement advanced (1,1)→(2,1)→(3,1)→(4,1).
+- Saved B1F resumed through `GameApp.Continue(-1)`. Discovered-map rendering was repaired by requiring CanvasRenderer; fresh instantiated minimap had a renderer, 18 vertices and visible discovered tiles/player direction.
+- Evidence: `Scripts/Runtime/GameApp.cs`, `Runtime/World/{TownWorld,DungeonWorld}.cs`, `UI/Screens/{GameStoryScreen,DungeonMapGraphic,DungeonMapSymbol}.cs`; actual Unity command execution and inspected game-view captures. These are local editor observations, not standalone build proof.
+- Checked: 2026-10-06.
+
+### Natural battle and town transactions — verified (local Unity editor execution) — 2026-10-06
+
+- Real B1F movement triggered a natural encounter. Automatic combat completed three rounds with a victory; return to exploration settled rewards once, yielding 214G and the observed damage/MP costs.
+- The shop's actual menu bought one `armor_chain`: gold 214→144. Party menu unequipped chain armor: bag 1→2, empty armor slot; re-equipped it: bag 2→1, `armor_chain` restored.
+- Field-item target menu healed the warrior from HP142→165 and consumed exactly one healing potion (4→3), without changing gold.
+- Final battle camera/help-panel composition was compiled without errors or warnings and visually inspected: four hero models remain visible, enemy plates are separate, and skill descriptions use a masked scroll view.
+- Evidence: live Unity menu callbacks, observed campaign state transitions and `Store/screenshots/battle-normal-editor.png`. Not evidence of a complete campaign or native keyboard/gamepad verification.
+
+### Original synthesized audio — verified (production; title/town playback) — 2026-10-06
+
+- Ten BGM tracks, six jingles and 50 sound effects were actually synthesized/exported. BGM durations are 48–113 seconds with loop metadata; catalogue records zero clipped samples for the generated files.
+- Evidence: `Tools/audio/`, `Assets/_Game/Resources/Audio/catalogue.json`, successful complete `python Tools/audio/export.py` output. Live Unity AudioSource observations showed `bgm_title` and `bgm_town` playing.
+- All remaining in-game audio routes are wired; not every track/effect has been listened to or exercised in game.
+- Checked: 2026-10-06.
+
+### Save and preference implementation — verified (campaign tests; editor resume) — 2026-10-06
+
+- Automatic save plus three manual slots; JSON state preserves floor/location, doors, keys and unresolved encounter. File writes use flushed temporary files and atomic replacement. Preferences cover sound, mute, resolution/fullscreen, dialogue speed and reduced motion.
+- Evidence: `Scripts/Runtime/Persistence/`, `Logic/Game/SaveCodec.cs`, named `GameCampaignTests` in `Tools/LogicTests/`, actual editor B1F resume. Fullscreen/native Windows and complete menu/save scenarios still require runtime verification.
+- Actual volume menu changed master volume to 0.5; reading the saved preference file returned 0.5 with mute disabled. Other settings/native-window paths remain unverified.
+- Checked: 2026-10-06.
+
+## Not implemented / not yet verified
+
+- Standalone Windows build and native input/play verification have not yet completed. Do not call the deliverable release-ready or publish minimum specifications/FPS.
+- Natural Unity battle and the listed transactions/settings are verified above; full VFX/boss/ending and remaining service/settings scenarios are not yet verified. Code/source assets alone are not full scenario proof.
+- Store submission, approved publisher identity, price, release date and storefront app ID are not established by the project. Do not imply a published storefront.
+- English localization is not provided by the Korean text table. Do not list English as a supported UI/story language.
+- Multiplayer/cloud saves and platform achievements are not established features.
+- Third-party notices are collected separately; copyright ownership/IP clearance of the original campaign and compliance with the user's Unity subscription cannot be established from this checkout.
+- Checked: 2026-10-06.
+
+## Permanently excluded
+
+No permanent product exclusions have been confirmed in this conversation.

@@ -1,0 +1,1572 @@
+심연의 미궁 / ABYSS — THIRD-PARTY NOTICES AND SOURCE PROVENANCE
+See SCOPE AND SOURCE RECORD for inclusion boundaries. Original license text follows; the collection does not replace any license or establish ownership/clearance.
+
+========================================================================
+OVERVIEW
+========================================================================
+
+심연의 미궁
+제작 · 프로젝트
+
+원본 프로젝트의 한국어 캠페인과 데이터가 이어지는 Unity 프로젝트입니다.
+
+개발 과정
+AI 보조 코드 작성 · Unity 프로젝트 통합
+
+3D 아트 제작 과정
+AI 보조 Python 생성기 · Blender 모델링, 리깅, 렌더링 및 FBX 내보내기
+원본 생성기: Blender/
+
+음악 · 효과음 제작 과정
+Python 기반 음표 편성 · 합성 악기 · 절차적 소리 생성
+원본 생성기: Tools/audio/
+
+UI 그래픽 제작 과정
+Python 기반 도형·이미지 생성 및 Blender 렌더링
+관련 원본: Tools/ui/, Blender/
+
+엔진 · UI
+Unity 6000.3.25f1 · Universal Render Pipeline · uGUI · TextMesh Pro
+
+글꼴
+Pretendard — Kil Hyung-jin
+Black Han Sans — The Black Han Sans Project Authors
+Liberation Sans — Google Corporation · Red Hat, Inc.
+각 저작권자의 정확한 고지와 SIL Open Font License 전문은 별도 글꼴 항목에 있습니다.
+
+데이터 직렬화
+Newtonsoft.Json — 해당 패키지의 MIT 고지 전문을 별도 항목에 보존했습니다.
+
+이 화면은 실명 제작진·등록된 퍼블리셔·상표 소유자를 추정하지 않습니다.
+도구 이름은 제작 과정과 라이브러리의 식별을 위한 표기이며, 후원이나 보증을 뜻하지 않습니다.
+
+플레이해 주셔서 감사합니다.
+
+
+========================================================================
+PROVENANCE
+========================================================================
+
+제작 과정 · 출처
+PROJECT AND GENERATED-ASSET PROVENANCE
+
+직접 확인한 프로젝트 자료 / Inspected project sources
+
+원본 캠페인: Assets/_Game/Resources/Data/의 한국어 텍스트와 게임 데이터가 이 프로젝트에 보존되어 있습니다. 원본 credits_body에는 Claude, ChatGPT image generation, Python audio generator, Godot 4.7 표기가 있습니다. 그 문자열은 원본 프로젝트의 기록이며, 현재 Unity 제작진의 실명이나 현재 배포본의 도구 목록을 증명하지 않습니다. 현재 크레딧은 그 기록의 확인되지 않은 저자·감독 표기를 제작진으로 재사용하지 않습니다.
+
+3D 모델과 렌더링: Blender/README.md는 생성기 스크립트를 원본으로 설명하며 .blend, 미리보기 PNG와 Unity용 FBX 출력 경로를 명시합니다. Blender/ 아래 Python 생성기와 AI 보조 작업 과정은 이 프로젝트의 모델·리깅·렌더링 파이프라인의 출처입니다. Blender 실행 파일 자체나 Python 환경을 게임 배포물에 넣는다는 뜻이 아닙니다.
+
+음악과 효과음: Tools/audio/export.py는 Tools/audio/의 악곡·징글·효과음 생성기와 합성/마스터링 모듈을 호출하여 Assets/_Game/Resources/Audio/ 아래 WAV를 작성합니다. 이는 프로젝트 내부의 음표 편성과 합성 소리 생성 과정에 대한 출처 설명입니다. 외부 녹음의 권리나 타인의 음원 소유권을 보증하는 문장이 아닙니다.
+
+UI 그래픽: Tools/ui/gen_ui_sprites.py는 NumPy와 Pillow를 사용하여 도형과 이미지 기반 UI 스프라이트를 생성합니다. 제작 도구의 사용은 그 실행 파일·라이브러리 자체가 Unity 플레이어에 포함된다는 뜻이 아닙니다.
+
+글꼴 원본과 라이선스: Assets/_Game/Fonts/의 Pretendard와 Black Han Sans, Assets/TextMesh Pro/Fonts/의 Liberation Sans 원본 고지문을 그대로 별도 항목에 보존합니다. Unity용 폰트 아틀라스의 원본 경로는 Assets/_Game/Resources/Fonts/입니다.
+
+확인 범위 / Limits of this record
+
+이 기록은 소스와 제작 과정에 대한 기술적 출처 기록입니다. 법률 자문, 전체 지식재산권 실사, AI 서비스 계약상의 권리 확인, 상표 등록 확인 또는 퍼블리셔의 법적 신원 확인이 아닙니다. 저장소만으로 확인되지 않는 실명·권리 양도·계약·등록 사실은 기재하지 않습니다. 각 라이브러리와 글꼴의 별도 라이선스는 그대로 적용됩니다.
+
+
+========================================================================
+PRETENDARD
+========================================================================
+
+Source: Assets/_Game/Fonts/Pretendard-LICENSE.txt
+
+Copyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard),
+with Reserved Font Name Pretendard.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+========================================================================
+BLACK_HAN_SANS
+========================================================================
+
+Source: Assets/_Game/Fonts/BlackHanSans-OFL.txt
+
+Copyright 2015 The Black Han Sans Project Authors (https://github.com/zesstype/Black-Han-Sans)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://openfontlicense.org
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+========================================================================
+LIBERATION_SANS
+========================================================================
+
+Source: Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
+
+Digitized data copyright (c) 2010 Google Corporation
+	with Reserved Font Arimo, Tinos and Cousine.
+Copyright (c) 2012 Red Hat, Inc.
+	with Reserved Font Name Liberation.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves. The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works. The fonts and derivatives, however, cannot be released under any other type of license. The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright Holder(s) under this license and clearly marked as such. This may include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting, or substituting -- in part or in whole -- any of the components of the Original Version, by changing formats or by porting the Font Software to a new environment.
+
+"Author" refers to any designer, engineer, programmer, technical writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining a copy of the Font Software, to use, study, copy, merge, embed, modify, redistribute, and sell modified and unmodified copies of the Font Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components, in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled, redistributed and/or sold with any software, provided that each copy contains the above copyright notice and this license. These can be included either as stand-alone text files, human-readable headers or in the appropriate machine-readable metadata fields within text or binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font Name(s) unless explicit written permission is granted by the corresponding Copyright Holder. This restriction only applies to the primary font name as presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font Software shall not be used to promote, endorse or advertise any Modified Version, except to acknowledge the contribution(s) of the Copyright Holder(s) and the Author(s) or with their explicit written permission.
+
+5) The Font Software, modified or unmodified, in part or in whole, must be distributed entirely under this license, and must not be distributed under any other license. The requirement for fonts to remain under this license does not apply to any document created using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
+
+
+========================================================================
+NEWTONSOFT
+========================================================================
+
+Source: Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/Third Party Notices.md
+
+This package contains third-party software components governed by the license(s) indicated below:
+---------
+
+Component Name: Newtonsoft.Json
+
+License Type: MIT
+
+The MIT License (MIT)
+
+Copyright (c) 2007 James Newton-King
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---------
+
+Component Name: Json.Net.Unity3D
+
+License Type: MIT
+
+The MIT License (MIT)
+
+Copyright (c) Copyright (c) 2016 SaladLab
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---------
+
+Component Name: Newtonsoft.Json-for-Unity
+
+License Type: MIT
+
+The MIT License (MIT)
+
+Copyright (c) Copyright (c) 2019 Kalle Jillheden (jilleJr)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+---------
+Component Name: com.newtonsoft.json
+
+License Type: MIT
+
+MIT License
+
+Copyright (c) 2019 Mike Wuetherick
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+========================================================================
+RENDERING
+========================================================================
+
+RENDERING AND MATHEMATICS — INSTALLED PACKAGE NOTICES
+
+Source: Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/Third Party Notices.md
+
+This package contains third-party software components governed by the license(s) indicated below:
+---------
+
+Component Name: FXAA3_11.h (renamed to FXAA3_11.hlsl)
+
+License Type: FXAA3_11.h License
+
+Copyright (c) 2014-2015, NVIDIA CORPORATION. All rights reserved.
+
+https://github.com/hghdev/NVIDIAGameWorks-GraphicsSamples/blob/master/samples/es3-kepler/FXAA/FXAA3_11.h
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+ * Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+ * Neither the name of NVIDIA CORPORATION nor the names of its
+   contributors may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/ShaderLibrary/ACES.hlsl (lines 8-59; license comment verbatim)
+
+/**
+ * https://github.com/ampas/aces-dev
+ *
+ * Academy Color Encoding System (ACES) software and tools are provided by the
+ * Academy under the following terms and conditions: A worldwide, royalty-free,
+ * non-exclusive right to copy, modify, create derivatives, and use, in source and
+ * binary forms, is hereby granted, subject to acceptance of this license.
+ *
+ * Copyright 2015 Academy of Motion Picture Arts and Sciences (A.M.P.A.S.).
+ * Portions contributed by others as indicated. All rights reserved.
+ *
+ * Performance of any of the aforementioned acts indicates acceptance to be bound
+ * by the following terms and conditions:
+ *
+ * * Copies of source code, in whole or in part, must retain the above copyright
+ * notice, this list of conditions and the Disclaimer of Warranty.
+ *
+ * * Use in binary form must retain the above copyright notice, this list of
+ * conditions and the Disclaimer of Warranty in the documentation and/or other
+ * materials provided with the distribution.
+ *
+ * * Nothing in this license shall be deemed to grant any rights to trademarks,
+ * copyrights, patents, trade secrets or any other intellectual property of
+ * A.M.P.A.S. or any contributors, except as expressly stated herein.
+ *
+ * * Neither the name "A.M.P.A.S." nor the name of any other contributors to this
+ * software may be used to endorse or promote products derivative of or based on
+ * this software without express prior written permission of A.M.P.A.S. or the
+ * contributors, as appropriate.
+ *
+ * This license shall be construed pursuant to the laws of the State of
+ * California, and any disputes related thereto shall be subject to the
+ * jurisdiction of the courts therein.
+ *
+ * Disclaimer of Warranty: THIS SOFTWARE IS PROVIDED BY A.M.P.A.S. AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+ * NON-INFRINGEMENT ARE DISCLAIMED. IN NO EVENT SHALL A.M.P.A.S., OR ANY
+ * CONTRIBUTORS OR DISTRIBUTORS, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, RESITUTIONARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE ACADEMY SPECIFICALLY
+ * DISCLAIMS ANY REPRESENTATIONS OR WARRANTIES WHATSOEVER RELATED TO PATENT OR
+ * OTHER INTELLECTUAL PROPERTY RIGHTS IN THE ACADEMY COLOR ENCODING SYSTEM, OR
+ * APPLICATIONS THEREOF, HELD BY PARTIES OTHER THAN A.M.P.A.S.,WHETHER DISCLOSED OR
+ * UNDISCLOSED.
+ */
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/ShaderLibrary/Coverage.hlsl (lines 1-23; license comment verbatim)
+
+/*
+MIT License
+
+Copyright (c) 2022 Kleber Garcia
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/Shaders/PostProcessing/SubpixelMorphologicalAntialiasing.hlsl (lines 1-27; license comment verbatim)
+
+/**
+ * Copyright (C) 2013 Jorge Jimenez (jorge@iryoku.com)
+ * Copyright (C) 2013 Jose I. Echevarria (joseignacioechevarria@gmail.com)
+ * Copyright (C) 2013 Belen Masia (bmasia@unizar.es)
+ * Copyright (C) 2013 Fernando Navarro (fernandn@microsoft.com)
+ * Copyright (C) 2013 Diego Gutierrez (diegog@unizar.es)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to
+ * do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software. As clarification, there
+ * is no requirement that the copyright notice and permission be included in
+ * binary distributions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+
+Source: Library/PackageCache/com.unity.mathematics@19a9377c4ffa/Unity.Mathematics/Noise/LICENSE
+
+Copyright (C) 2011 by Ashima Arts (Simplex noise)
+Copyright (C) 2011-2016 by Stefan Gustavson (Classic noise and others)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+========================================================================
+BURST
+========================================================================
+
+Source: Library/PackageCache/com.unity.burst@2f3d916873ea/Third Party Notices.md
+
+This package contains third-party software components governed by the license(s) indicated below:
+
+
+---------
+
+Component Name: LLVM
+
+License Type: Apache 2.0 with LLVM Exceptions
+
+Copyright: The LLVM project does not collect copyright assignments, which means that the copyright for the code in the project is held by the respective contributors. Because you (or your company) retain ownership of the code you contribute, you know it may only be used under the terms of the open source license you contributed it under: the license for your contributions cannot be changed in the future without your approval.
+
+https://github.com/llvm/llvm-project/tree/main/llvm
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+--- LLVM Exceptions to the Apache 2.0 License ---  
+As an exception, if, as a result of your compiling your source code, portions of this Software are embedded into an Object form of such source code, you may redistribute such embedded portions in such Object form without complying with the conditions of Sections 4(a), 4(b) and 4(d) of the License.
+In addition, if you combine or link compiled forms of this Software with software that is licensed under the GPLv2 ("Combined Software") and if a court of competent jurisdiction determines that the patent provision (Section 3), the indemnity provision (Section 9) or other Section of the License conflicts with the conditions of the GPLv2, you may retroactively and prospectively choose to deem waived or otherwise exclude such Section(s) of the License, but only in their entirety and only with respect to the Combined Software.
+
+
+---------
+Component Name: Legacy LLVM License
+
+License Type: The University of Illinois/NCSA Open Source License (NCSA)
+
+Copyright (c) 2007-2019 University of Illinois at Urbana-Champaign. All rights reserved.
+
+https://llvm.org/docs/DeveloperPolicy.html#legacy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal with the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimers in the documentation and/or other materials provided with the distribution.
+LLVM Team, University of Illinois at Urbana-Champaign, nor the names of its contributors may be used to endorse or promote products derived from this Software without specific prior written permission.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
+
+
+---------
+Component Name: Mono.Cecil
+
+License Type: MIT
+
+Copyright (c) 2008 - 2015 Jb Evain All rights reserved.
+Copyright (c) 2008 - 2011 Novell, Inc. All rights reserved.
+
+[https://github.com/jbevain/cecil](https://github.com/jbevain/cecil)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---------
+Component Name: Smash
+
+License Type: BSD 2-Clause
+
+Copyright (c) 2021, Alexandre Mutel All rights reserved.
+
+[https://github.com/xoofx/smash](https://github.com/xoofx/smash)
+
+Redistribution and use in source and binary forms, with or without modification
+, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this 
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+   this list of conditions and the following disclaimer in the documentation 
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---------
+Component Name: xxHash Library
+
+
+License Type: BSD 2-Clause
+
+Copyright (c) 2012-2021, Yann Collet All rights reserved.
+
+[https://github.com/Cyan4973/xxHash](https://github.com/Cyan4973/xxHash)
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimer in the documentation and/or
+  other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---------
+Component Name: musl
+
+musl as a whole is licensed under the following standard MIT license:
+
+Copyright © 2005-2019 Rich Felker, et al.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Authors/contributors include:
+
+A. Wilcox Alex Dowad Alex Suykov Alexander Monakov Andre McCurdy Andrew Kelley Anthony G. Basile Aric Belsito Arvid Picciani Bartosz Brachaczek Benjamin Peterson Bobby Bingham Boris Brezillon Brent Cook Chris Spiegel Clément Vasseur Daniel Micay Daniel Sabogal Daurnimator David Carlier David Edelsohn Denys Vlasenko Dmitry Ivanov Dmitry V. Levin Drew DeVault Emil Renner Berthing Fangrui Song Felix Fietkau Felix Janda Gianluca Anzolin Hauke Mehrtens He X Hiltjo Posthuma Isaac Dunham Jaydeep Patil Jens Gustedt Jeremy Huntwork Jo-Philipp Wich Joakim Sindholt John Spencer Josiah Worcester Julien Ramseier Justin Cormack Kaarle Ritvanen Khem Raj Kylie McClain Leah Neukirchen Luca Barbato Luka Perkov M Farkas-Dyck (Strake) Mahesh Bodapati Markus Wichmann Masanori Ogino Michael Clark Michael Forney Mikhail Kremnyov Natanael Copa Nicholas J. Kain orc Pascal Cuoq Patrick Oppenlander Petr Hosek Petr Skocik Pierre Carrier Reini Urban Rich Felker Richard Pennington Ryan Fairfax Samuel Holland Segev Finer Shiz sin Solar Designer Stefan Kristiansson Stefan O'Rear Szabolcs Nagy Timo Teräs Trutz Behn Valentin Ochs Will Dietz William Haddon William Pitcock
+
+Portions of this software are derived from third-party works licensed under terms compatible with the above MIT license:
+
+The TRE regular expression implementation (src/regex/reg* and src/regex/tre*) is Copyright © 2001-2008 Ville Laurikari and licensed under a 2-clause BSD license (license text in the source files). The included version has been heavily modified by Rich Felker in 2012, in the interests of size, simplicity, and namespace cleanliness.
+
+Much of the math library code (src/math/* and src/complex/*) is Copyright © 1993,2004 Sun Microsystems or Copyright © 2003-2011 David Schultz or Copyright © 2003-2009 Steven G. Kargl or Copyright © 2003-2009 Bruce D. Evans or Copyright © 2008 Stephen L. Moshier and labelled as such in comments in the individual source files. All have been licensed under extremely permissive terms.
+
+The ARM memcpy code (src/string/arm/memcpy_el.S) is Copyright © 2008 The Android Open Source Project and is licensed under a two-clause BSD license. It was taken from Bionic libc, used on Android.
+
+The implementation of DES for crypt (src/crypt/crypt_des.c) is Copyright © 1994 David Burren. It is licensed under a BSD license.
+
+The implementation of blowfish crypt (src/crypt/crypt_blowfish.c) was originally written by Solar Designer and placed into the public domain. The code also comes with a fallback permissive license for use in jurisdictions that may not recognize the public domain.
+
+The smoothsort implementation (src/stdlib/qsort.c) is Copyright © 2011 Valentin Ochs and is licensed under an MIT-style license.
+
+The x86_64 port was written by Nicholas J. Kain and is licensed under the standard MIT terms.
+
+The mips and microblaze ports were originally written by Richard Pennington for use in the ellcc project. The original code was adapted by Rich Felker for build system and code conventions during upstream integration. It is licensed under the standard MIT terms.
+
+The mips64 port was contributed by Imagination Technologies and is licensed under the standard MIT terms.
+
+The powerpc port was also originally written by Richard Pennington, and later supplemented and integrated by John Spencer. It is licensed under the standard MIT terms.
+
+All other files which have no copyright comments are original works produced specifically for use as part of this library, written either by Rich Felker, the main author of the library, or by one or more contibutors listed above. Details on authorship of individual files can be found in the git version control history of the project. The omission of copyright and license comments in each file is in the interest of source tree size.
+
+In addition, permission is hereby granted for all public header files (include/* and arch//bits/) and crt files intended to be linked into applications (crt/, ldso/dlstart.c, and arch//crt_arch.h) to omit the copyright notice and permission notice otherwise required by the license, and to use these files without any requirement of attribution. These files include substantial contributions from:
+
+Bobby Bingham John Spencer Nicholas J. Kain Rich Felker Richard Pennington Stefan Kristiansson Szabolcs Nagy
+
+all of whom have explicitly granted such permission.
+
+This file previously contained text expressing a belief that most of the files covered by the above exception were sufficiently trivial not to be subject to copyright, resulting in confusion over whether it negated the permissions granted in the license. In the spirit of permissive licensing, and of not having licensing issues being an obstacle to adoption, that text has been removed.
+
+---------
+Component Name: SLEEF
+
+Boost Software License - Version 1.0 - August 17th, 2003
+
+Permission is hereby granted, free of charge, to any person or organization
+obtaining a copy of the software and accompanying documentation covered by
+this license (the "Software") to use, reproduce, display, distribute,
+execute, and transmit the Software, and to prepare derivative works of the
+Software, and to permit third-parties to whom the Software is furnished to
+do so, all subject to the following:
+
+The copyright notices in the Software and this entire statement, including
+the above license grant, this restriction and the following disclaimer,
+must be included in all copies of the Software, in whole or in part, and
+all derivative works of the Software, unless such copies or derivative
+works are solely in the form of machine-executable object code generated by
+a source language processor.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+---------
+Component Name: gRPC for .NET
+
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+---------
+Component Name: Google.Protobuf
+
+Copyright 2008 Google Inc.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+    * Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the
+distribution.
+    * Neither the name of Google Inc. nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Code generated by the Protocol Buffer compiler is owned by the owner
+of the input file used when generating it.  This code is not
+standalone and requires a support library to be linked with it.  This
+support library is itself covered by the above license.
+
+---------
+Component Name: mimalloc
+
+MIT License
+
+Copyright (c) 2018-2021 Microsoft Corporation, Daan Leijen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+========================================================================
+PIPELINE
+========================================================================
+
+Source: Library/PackageCache/com.unity.pipeline@62c08c808737/Third Party Notices.md
+
+This package contains third-party software components governed by the license(s) indicated below:
+---------
+
+The components below are shipped in Runtime/Plugins/CodeAnalysis as modified copies: the assembly
+names, module names and namespaces carry a "UnityPipeline." prefix so they do not collide with the
+copies the Unity editor loads. The code is otherwise unchanged. See bundled-roslyn-original/ in the
+package repository for how the copies are produced.
+
+---------
+
+Component Name: Microsoft.CodeAnalysis (Roslyn), NuGet package Microsoft.CodeAnalysis.Common 3.11.0
+
+License Type: MIT
+
+https://github.com/dotnet/roslyn
+
+The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------
+
+Component Name: Microsoft.CodeAnalysis.CSharp (Roslyn), NuGet package Microsoft.CodeAnalysis.CSharp 3.11.0
+
+License Type: MIT
+
+https://github.com/dotnet/roslyn
+
+The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------
+
+Component Name: System.Collections.Immutable, NuGet package System.Collections.Immutable 10.0.1
+
+License Type: MIT
+
+https://github.com/dotnet/runtime
+
+The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------
+
+Component Name: System.Reflection.Metadata, NuGet package System.Reflection.Metadata 10.0.1
+
+License Type: MIT
+
+https://github.com/dotnet/runtime
+
+The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------
+
+Component Name: System.Runtime.CompilerServices.Unsafe, NuGet package System.Runtime.CompilerServices.Unsafe 6.1.2
+
+License Type: MIT
+
+https://github.com/dotnet/runtime
+
+The MIT License (MIT)
+
+Copyright (c) .NET Foundation and Contributors
+
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------
+
+
+========================================================================
+UNITY_PACKAGES
+========================================================================
+
+UNITY PACKAGE COPYRIGHT AND LICENSE NOTICES
+
+Source: Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b/LICENSE.md
+
+com.unity.ai.navigation copyright © 2016 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.burst@2f3d916873ea/LICENSE.md
+
+Burst copyright © 2022 Unity Technologies
+Source code of the package is licensed under the Unity Companion License (see https://unity3d.com/legal/licenses/unity_companion_license); otherwise licensed under the Unity Package Distribution License (see https://unity3d.com/legal/licenses/Unity_Package_Distribution_License ).
+
+Unless expressly provided otherwise, the software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.collections@84e8eb3fc12e/LICENSE.md
+
+com.unity.collections copyright © 2024 Unity Technologies
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.inputsystem@7a4e1a2a8194/LICENSE.md
+
+com.unity.inputsystem copyright © 2024 Unity Technologies
+
+Licensed under the Unity Companion License for Unity-dependent projects (see [https://unity3d.com/legal/licenses/unity_companion_license](https://unity3d.com/legal/licenses/unity_companion_license)).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.mathematics@19a9377c4ffa/LICENSE.md
+
+com.unity.mathematics copyright © 2023 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/LICENSE.md
+
+Nuget.Newtonsoft.Json copyright © 2022 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.pipeline@62c08c808737/LICENSE.md
+
+com.unity.pipeline copyright © 2026 Unity Technologies.
+
+This software is subject to, and made available under, the Unity Terms of Service (see https://unity.com/legal/terms-of-service ). Your use of this software constitutes your acceptance of such terms.
+
+Unless expressly provided otherwise, the software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the Terms of Service for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/LICENSE.md
+
+com.unity.render-pipelines.core copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/LICENSE.md
+
+com.unity.render-pipelines.universal copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d/LICENSE.md
+
+com.unity.render-pipelines.universal-config copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.shadergraph@2fa139ee8b62/LICENSE.md
+
+com.unity.shadergraph copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.timeline@3a22918286f5/LICENSE.md
+
+Timeline copyright © 2023 Unity Technologies
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.ugui@f3ea87521141/LICENSE.md
+
+uGUI Copyright © 2015-2020 Unity Technologies ApS ("**_Unity_**")
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+
+_Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+========================================================================
+UNITY_COMPANION
+========================================================================
+
+Unity Companion License ("License")
+v1.4
+
+Source: https://unity.com/legal/licenses/unity-companion-license
+Retrieved: 2026-10-06. Local Unity package LICENSE.md files link to this license; they do not contain its full terms. The text below is the primary source page's license body, with link markup rendered as a URL.
+
+Unity Technologies SF (“Unity”) grants to you a worldwide, non-exclusive, no-charge, and royalty-free copyright license to reproduce, prepare derivative works of, publicly display, publicly perform, and distribute the work of authorship that accompanies this License (“Work”), subject to the following terms and conditions:
+
+1. Unity Companion Use. Exercise of the license granted herein is permitted as long as it is in connection with the authoring and/or distribution of applications, software, or other content under a valid Unity content authoring and rendering engine software license (“Engine License”). That means, for example, as long as you authored content using the Work under an Engine License, you may distribute the Work in connection with that content as you see fit under this License. No other exercise of the license granted herein is permitted, and in no event may the Work be used for competitive analysis or to develop a competing product or service.
+
+2. No Modification of Engine License. Neither this License nor any exercise of the license granted herein modifies the Engine License in any way.
+
+3. Ownership; Derivative Works.
+
+3.1 You own your content. In this License, “derivative works” means derivatives of the Work itself--works derived only from the Work by you under this License (for example, modifying the code of the Work itself to improve its efficacy); “derivative works” of the Work do not include, for example, games, apps, or content that you create with the Work. You keep all right, title, and interest in your own content.
+
+3.2 Unity owns its content. While you keep all right, title, and interest to your own content per the above, as between Unity and you, Unity will own all right, title, and interest to all intellectual property rights (including patent, trademark, and copyright) in the Work and derivative works of the Work, and you hereby assign and agree to assign all such rights in those derivative works to Unity. Should assignment be invalid for any reason, you grant to Unity an irrevocable, perpetual, worldwide, non-exclusive, no-charge, and royalty-free license (with the right to grant sublicenses) under those intellectual property rights to those derivative works. You also agree to waive or refrain from asserting any author’s right, moral rights, or like rights to the extent necessary to permit exploitation as contemplated under this License.
+
+3.3 Your right to use derivative works. You will always have the right to use derivative works of the Work you create, consonant with this License.
+
+4. Trademarks. You are not granted any right or license under this License to use any trademarks, service marks, trade names, products names, or branding of Unity or its affiliates (“Trademarks”). Descriptive uses of Trademarks are permitted; see, for example, Unity’s Trademark Guidelines at https://unity.com/legal/branding_trademarks.
+
+5. Notices & Third-Party Rights. This License, including the copyright notice associated with the Work, must be provided in all substantial portions of the Work and derivative works thereof (or, if that is impracticable, in any other location where such notices are customarily placed). Further, if the Work is accompanied by a Unity “third-party notices” or similar file, you acknowledge and agree that software or content identified in that file is governed by those separate license terms.
+
+6. DISCLAIMER, LIMITATION OF LIABILITY. THE Work AND ANY DERIVATIVE WORKS THEREOF IS PROVIDED ON AN "AS IS" BASIS, AND IS PROVIDED WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND/OR NON-INFRINGEMENT. IN NO EVENT SHALL ANY COPYRIGHT HOLDER OR AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES (WHETHER DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL, INCLUDING PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, LOSS OF USE, DATA, OR PROFITS, AND BUSINESS INTERRUPTION), OR OTHER LIABILITY WHATSOEVER, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM OR OUT OF, OR IN CONNECTION WITH, THE Work OR ANY DERIVATIVE WORKS THEREOF OR THE USE OF OR OTHER DEALINGS IN SAME, EVEN WHERE ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+7. USE IS ACCEPTANCE and License Versions. Your access to and use of the Work constitutes your acceptance of this License and its terms and conditions. This License may be modified or updated; upon any such modification or update, you will comply with the terms of the updated License for any use of any of the Work under the updated License.
+
+8. Use in Compliance with Law and Termination. Your exercise of the license granted herein will at all times be in compliance with applicable law and will not infringe any proprietary rights (including intellectual property rights); this License will terminate immediately (i) on any breach by you of this License; and (ii) if you commence any form of patent litigation, including a cross-claim or counterclaim, against anyone wherein you allege that the Work constitutes direct or secondary/indirect patent infringement.
+
+9. Severability. If any provision of this License is held to be unenforceable or invalid, that provision will be enforced to the maximum extent possible and the other provisions will remain in full force and effect.
+
+10. Governing Law and Venue. This License is governed by and construed in accordance with the laws of the United States and the state of California, except for its conflict of laws rules; the United Nations Convention on Contracts for the International Sale of Goods will not apply. You and Unity agree to submit to the personal and exclusive jurisdiction of and venue in the state and federal courts located in San Francisco County, California concerning any dispute arising out of this License.
+
+(10.29.2024)
+
+
+========================================================================
+UNITY_DISTRIBUTION
+========================================================================
+
+Unity Package Distribution License ("License")
+v2.1
+
+Source: https://unity.com/legal/licenses/unity-package-distribution-license
+Retrieved: 2026-10-06. The installed Burst package LICENSE.md links to these terms for non-source portions. The text below is the primary source page's license body.
+
+Unity Technologies SF (“Unity”) grants to you a worldwide, non-exclusive, non-sublicensable, and royalty-free license to test, to use, to run, to compile, to link, and to distribute works of authorship associated with this License (“Work”), subject to the following terms and conditions:
+
+(Certain Defined Terms in Section 9)
+
+1. Distribution for Project Content Only. Exercise of the distribution license granted under this License is limited to distribution of the Work as binaries integrated with your Project Content, solely to third parties to whom you license or sell your Project Content or who provide you with Third Party Services, as you are permitted to distribute the runtime portion of the Unity Engine and under those terms.
+
+2. Third-Party Software. If the Work is accompanied by a “third-party notices” or similar notice, you acknowledge and agree that software or content so identified is governed by those separate license terms.
+
+3. No Trademark License. You are not granted any right or license under this License to use any trademarks, service marks, trade names, products names, or branding of Unity or its affiliates (“Trademarks”); certain uses of Trademarks are permitted under Unity’s Trademark Guidelines at <https://unity.com/legal/branding_trademarks> or its successor site.
+
+4. DISCLAIMER, LIMITATION OF LIABILITY. THE WORK IS PROVIDED ON AN "AS IS" AND “AS AVAILABLE” BASIS, AND IS PROVIDED WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND/OR NONINFRINGEMENT. IN NO EVENT SHALL ANY COPYRIGHT HOLDER OR AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES (WHETHER DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL, INCLUDING PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, LOSS OF USE, DATA, OR PROFITS, AND BUSINESS INTERRUPTION), OR OTHER LIABILITY WHATSOEVER, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM OR OUT OF, OR IN CONNECTION WITH, THE WORK OR ANY DERIVATIVE WORKS THEREOF OR THE USE OF OR OTHER DEALINGS IN SAME, EVEN WHERE ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+5. USE IS ACCEPTANCE and License Versions. Your access to and use of the Work constitutes your acceptance of this License and its terms and conditions. This License may be modified or updated; upon any such modification or update, you will comply with the terms of the updated License for any use of any of the Work under the updated License.
+
+6. Use in Compliance with Law and Termination. Your exercise of the license granted under this License will at all times be in compliance with applicable law and will not infringe any proprietary rights (including intellectual property rights); this License will terminate immediately (i) on any breach by you of this License; and (ii) if you commence any form of patent litigation, including a cross-claim or counterclaim, against anyone wherein you allege that the Work or its use constitutes direct or secondary/indirect patent infringement.
+
+7. Severability. If any provision of this License is held to be unenforceable or invalid, that provision will be enforced to the maximum extent possible and the other provisions will remain in full force and effect.
+
+8. Governing Law and Venue. The governing law of this License will be the substantive laws of the State of California without regard to its conflicts of law principles. The United Nations Convention on Contracts for the International Sale of Goods will not apply. You and Unity irrevocably submit to the sole and exclusive jurisdiction of the Superior Court of the State of California, County of San Francisco or the United States District Court of the Northern District of California in San Francisco. You and Unity irrevocably consent to the exercise of personal jurisdiction over each other by such courts and waives any right to plead, claim or allege that California is an inconvenient forum. Notwithstanding the foregoing, Unity may seek temporary, preliminary or other expedited or provisional injunctive relief (but not money damages) from any court of competent jurisdiction under this License regardless of your place of residency or principal place of business.
+
+9. Definitions.
+
+“Project Content” means works of authorship that you develop with the Unity Engine under a valid license.
+
+“Third Party Service” means any service offered to Unity developers.
+
+“Unity Engine” means Unity’s content authoring and rendering engine software.
+
+(21.07.2023)
+
+
+========================================================================
+SCOPE
+========================================================================
+
+THIRD-PARTY NOTICES — SCOPE AND SOURCE RECORD
+
+Directly inspected facts
+The notices in this collection come from the local font sources and installed Unity runtime-capable packages listed below. Local license and notice texts are reproduced in full; shader license comments are reproduced verbatim with their source line ranges. Full Unity Companion and Unity Package Distribution terms are reproduced separately from Unity's primary-source pages, because the local packages contain links rather than the complete terms.
+
+Package inventory (not a claim that every package component ships in the player)
+com.unity.ai.navigation: local cache 2.0.14
+com.unity.burst: local cache 1.8.30
+com.unity.collections: local cache 2.6.8
+com.unity.inputsystem: local cache 1.20.0
+com.unity.mathematics: local cache 1.3.3
+com.unity.nuget.newtonsoft-json: local cache 3.2.2
+com.unity.pipeline: local cache 0.8.0-exp.1
+com.unity.render-pipelines.core: local cache 17.3.0
+com.unity.render-pipelines.universal: local cache 17.3.0
+com.unity.render-pipelines.universal-config: local cache 17.0.3
+com.unity.shadergraph: local cache 17.3.0
+com.unity.timeline: local cache 1.8.13
+com.unity.ugui: local cache 2.0.0
+
+Version resolution record
+com.unity.nuget.newtonsoft-json: manifest requests 3.2.1, lock/cache resolves 3.2.2
+
+Conservative notice inclusion / Legal interpretation boundary
+This collection retains the available notices for the listed installed packages without predicting linker stripping or shader inclusion. For example, the Burst notice includes compiler/development dependencies, and the renderer notices include source headers even when an individual shader may not be shipped. Their presence here does not claim that those components are present in the final binary, nor that copyright holders endorse the game. Editor IDE/test packages and authoring-tool executables are outside this player notice collection. No Blender, Python, NumPy or Pillow executable/library is copied into distribution by the notice-staging helper.
+
+Unity player engine boundary
+Unity runtime engine binaries and Unity built-in modules are governed separately by the applicable Unity engine terms. This collection is not a replacement for an engine license, and makes no claim of full engine/IP clearance or legal eligibility. The installed Editor/Data/PlaybackEngines/windowsstandalonesupport roots, its External and Variations/mono directories, and Editor/Data/MonoBleedingEdge roots inspected locally did not expose a distribution-wide Windows player/Mono notice bundle. Any engine-supplied notices included with the final player must remain with that player. Actual final binary contents and publisher engine-license eligibility require separate release review.
+
+Conditional missing source, not an asserted shipped dependency
+The installed URP Shaders/Terrain/WavingGrass.shader and WavingGrassBillboard.shader state: 'Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)'. The referenced license.txt is absent from the inspected package root and Terrain directory. This does not establish that these unused package shaders ship with the game; if a distribution later includes them, retrieve their actual referenced license from the applicable Unity source distribution. No missing license wording has been invented here.
+
+Publisher and asset-rights boundary
+A legal publisher identity, author identities, registrations, contracts, rights assignments and AI-service contractual rights cannot be established by the inspected repository. No such identities or clearance assertions are supplied. Project provenance is a source/process record, not a legal ownership guarantee.
+
+Source manifest
+Assets/_Game/Fonts/Pretendard-LICENSE.txt
+SHA-256 of complete source file: b04538c9abec39a3db75108cf0af0fd9c77032fe8aa2cf38345b4d250e98e38e
+
+Assets/_Game/Fonts/BlackHanSans-OFL.txt
+SHA-256 of complete source file: c324192c8b3a988bae45a9a7e4ac1258b684739003bda114e0523423440457c9
+
+Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
+SHA-256 of complete source file: 37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48
+
+Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/Third Party Notices.md
+SHA-256 of complete source file: f07d2ea4af53fd1c9800b345bb4fbfa3ab0181d8c87625d6c265cd65142df097
+
+Library/PackageCache/com.unity.burst@2f3d916873ea/Third Party Notices.md
+SHA-256 of complete source file: 01b366462da89d104fc7db01309b69de07cee05400ec429e2ea9e4c23fa5f085
+
+Library/PackageCache/com.unity.pipeline@62c08c808737/Third Party Notices.md
+SHA-256 of complete source file: edb1f62b93337299b1c1f94282026d36b7da976f3201588bd772e6b0e7f2b3dd
+
+Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/Third Party Notices.md
+SHA-256 of complete source file: 0652509dfc81a1a3d9e037e59bd047b305155fc5c4abeef69e2fc078488035fd
+
+Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/ShaderLibrary/ACES.hlsl (lines 8-59; license comment verbatim)
+SHA-256 of complete source file: 7e7978f40993e90c34c29ba3cbda505a64ed5d2e7920907b247e5ff335522c94
+
+Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/ShaderLibrary/Coverage.hlsl (lines 1-23; license comment verbatim)
+SHA-256 of complete source file: 8cc74314f6633887345979a3d3c3078dc9e5903b204ae0b87f87b03277728775
+
+Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/Shaders/PostProcessing/SubpixelMorphologicalAntialiasing.hlsl (lines 1-27; license comment verbatim)
+SHA-256 of complete source file: 588ff4924b4d57dfcb541a236557239464f34170b8c6a2c2f967e147674c3eb9
+
+Library/PackageCache/com.unity.mathematics@19a9377c4ffa/Unity.Mathematics/Noise/LICENSE
+SHA-256 of complete source file: bdafce1bb01517c9ae6c4f3620c01340790b5e9d039ae9e356347d1174250916
+
+Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b/LICENSE.md
+SHA-256 of complete source file: 2b2113e0522b3eaa9e701d70956f9affaccac7e79d99b6029903bcec7139590e
+
+Library/PackageCache/com.unity.burst@2f3d916873ea/LICENSE.md
+SHA-256 of complete source file: 9bd567d6de754ab7396a8e3022758c617b78d7115bf1585bdb29ae0de464d059
+
+Library/PackageCache/com.unity.collections@84e8eb3fc12e/LICENSE.md
+SHA-256 of complete source file: 4947f647c031b0fec440237f8136386a606dd998089bb1df67316ee693f568f5
+
+Library/PackageCache/com.unity.inputsystem@7a4e1a2a8194/LICENSE.md
+SHA-256 of complete source file: 419718e59cd6c1f9c3ed80bd004394504bed368c23ad8665cce1792a33c8a02c
+
+Library/PackageCache/com.unity.mathematics@19a9377c4ffa/LICENSE.md
+SHA-256 of complete source file: 5b1a26ff2ca6e6e7d9fd2b6df151e1a43c671fdf49c05dcee1227f20dcf25fde
+
+Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/LICENSE.md
+SHA-256 of complete source file: a5177bfecfea04d225e4a26a631db86721a03b4080350867847e71dc26b44f85
+
+Library/PackageCache/com.unity.pipeline@62c08c808737/LICENSE.md
+SHA-256 of complete source file: 35d72abfdaec2a1a80a565885ef9a92f10f78de3266ce769f9a76c17c9c45dbf
+
+Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/LICENSE.md
+SHA-256 of complete source file: 39691adc5fdaf614d951f53637e22501baf46fcc535a69ab8a21ebaa8b9e9cb4
+
+Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/LICENSE.md
+SHA-256 of complete source file: 4be520a425e06c8de56fa8aee1ce957cfe610406456278172a2d18b7c388c2cf
+
+Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d/LICENSE.md
+SHA-256 of complete source file: fa2dcbc8ff967f49342c6c61854909ba4bbcc70b27f07d25538b8eaf7be5be3c
+
+Library/PackageCache/com.unity.shadergraph@2fa139ee8b62/LICENSE.md
+SHA-256 of complete source file: 364b0c08b7fe15b70c4777dccb26fc21d02ae831c2f707dbe29879ac15ece353
+
+Library/PackageCache/com.unity.timeline@3a22918286f5/LICENSE.md
+SHA-256 of complete source file: 73111ef76bd8a502c29b167865620de787af612b5f0ba6b3a517ade3b9519853
+
+Library/PackageCache/com.unity.ugui@f3ea87521141/LICENSE.md
+SHA-256 of complete source file: a8e0cae87b2edb8c205ae6c308f20b89a09f32d62bd4a3ff0343bb4724a4201e
+
+Primary-source full terms
+https://unity.com/legal/licenses/unity-companion-license (body v1.4; retrieved 2026-10-06)
+https://unity.com/legal/licenses/unity-package-distribution-license (body v2.1; retrieved 2026-10-06)
+
+Reproduce local collection: python Tools/release/notices.py --collect
+Stage only after a completed Windows player build: python Tools/release/notices.py --stage Build/Windows
+The stage operation copies this collection only; it does not build, inspect or certify the player.
+
+

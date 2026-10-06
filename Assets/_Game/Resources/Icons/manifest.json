@@ -1,0 +1,4336 @@
+{
+  "generator": "Blender/ui/render_icons.py",
+  "command": "C:/Users/User/Tools/Blender/blender.exe -b --factory-startup -P Blender/ui/render_icons.py",
+  "coverage": {
+    "Heroes": 4,
+    "NPCs": 8,
+    "Enemies": 28,
+    "Gear": 48,
+    "Items": 30,
+    "Status": 22,
+    "Elements": 8,
+    "UI": 12
+  },
+  "assets": [
+    {
+      "id": "archer",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/archer/archer.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/archer.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.4175944328308105,
+          0.9153326749801636
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7159429788589478
+      }
+    },
+    {
+      "id": "cleric",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/cleric/cleric.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/cleric.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.001077026128768921,
+          -4.520486831665039,
+          0.9115551710128784
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7729353904724121
+      }
+    },
+    {
+      "id": "mage",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/mage/mage.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/mage.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -5.188208103179932,
+          1.0326594114303589
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.8579199910163879
+      }
+    },
+    {
+      "id": "warrior",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/warrior.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.021865099668502808,
+          -4.548552513122559,
+          0.9144768714904785
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7168380618095398
+      }
+    },
+    {
+      "id": "innkeeper",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/innkeeper.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.00023265182971954346,
+          -4.382118225097656,
+          0.9238311648368835
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7209861874580383
+      }
+    },
+    {
+      "id": "shopkeeper",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/shopkeeper.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0002267211675643921,
+          -4.249805927276611,
+          0.8906800150871277
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7000446915626526
+      }
+    },
+    {
+      "id": "smith",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/smith/smith.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/smith.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.00023265182971954346,
+          -4.176201820373535,
+          0.8695311546325684
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.6665541529655457
+      }
+    },
+    {
+      "id": "guild_clerk",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/guild_clerk/guild_clerk.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/guild_clerk.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.00023265182971954346,
+          -4.346105098724365,
+          0.9138733148574829
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7181899547576904
+      }
+    },
+    {
+      "id": "elder",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/elder/elder.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/elder.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.214061737060547,
+          0.8590872883796692
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.6739325523376465
+      }
+    },
+    {
+      "id": "villager_a",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/villager_a/villager_a.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/villager_a.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.557092666625977,
+          0.9459285736083984
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.7438400387763977
+      }
+    },
+    {
+      "id": "villager_b",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/villager_b/villager_b.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/villager_b.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.00023265182971954346,
+          -4.175161361694336,
+          0.8776301145553589
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.6484127640724182
+      }
+    },
+    {
+      "id": "villager_c",
+      "family": "NPCs",
+      "source": "Assets/_Game/Resources/Art/NPCs/villager_c/villager_c.fbx",
+      "output": "Assets/_Game/Resources/Icons/NPCs/villager_c.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.00021286308765411377,
+          -4.007499694824219,
+          0.7551456093788147
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 0.5926521420478821
+      }
+    },
+    {
+      "id": "bat",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/bat/bat.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/bat.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7584891319274902,
+          -5.486303329467773,
+          2.0234904289245605
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7429687976837158
+      }
+    },
+    {
+      "id": "boss",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/boss/boss.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/boss.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          4.86122465133667,
+          -15.461328506469727,
+          5.076726913452148
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 4.8008928298950195
+      }
+    },
+    {
+      "id": "coral_crab",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/coral_crab/coral_crab.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/coral_crab.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7012369632720947,
+          -5.2379608154296875,
+          1.5400906801223755
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3390237092971802
+      }
+    },
+    {
+      "id": "elite_bat",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_bat/elite_bat.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_bat.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7620348930358887,
+          -5.497384071350098,
+          2.028841733932495
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7429686784744263
+      }
+    },
+    {
+      "id": "elite_coral_crab",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_coral_crab/elite_coral_crab.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_coral_crab.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.999645471572876,
+          -6.170487880706787,
+          1.7980481386184692
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4210048913955688
+      }
+    },
+    {
+      "id": "elite_fire_drake",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_fire_drake/elite_fire_drake.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_fire_drake.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          2.282217025756836,
+          -7.012409210205078,
+          2.186546802520752
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.9180467128753662
+      }
+    },
+    {
+      "id": "elite_ice_wolf",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_ice_wolf/elite_ice_wolf.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_ice_wolf.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7706629037857056,
+          -5.424357891082764,
+          1.7264857292175293
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5799236297607422
+      }
+    },
+    {
+      "id": "elite_mushroom",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_mushroom/elite_mushroom.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_mushroom.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5388319492340088,
+          -4.808849811553955,
+          1.5395222902297974
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3826336860656738
+      }
+    },
+    {
+      "id": "elite_sand_golem",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_sand_golem/elite_sand_golem.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_sand_golem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.8099496364593506,
+          -5.756280422210693,
+          1.9053397178649902
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.8308981657028198
+      }
+    },
+    {
+      "id": "elite_scarecrow",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_scarecrow/elite_scarecrow.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_scarecrow.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.859419345855713,
+          -5.890004634857178,
+          2.0645432472229004
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 2.0507044792175293
+      }
+    },
+    {
+      "id": "elite_skeleton",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_skeleton/elite_skeleton.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_skeleton.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7149150371551514,
+          -5.2875471115112305,
+          1.858680009841919
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.8382576704025269
+      }
+    },
+    {
+      "id": "fire_drake",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/fire_drake/fire_drake.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/fire_drake.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7163100242614746,
+          -5.477521896362305,
+          1.830648422241211
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7601795196533203
+      }
+    },
+    {
+      "id": "flame_sphinx",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/flame_sphinx/flame_sphinx.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/flame_sphinx.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          7.774252891540527,
+          -23.376033782958984,
+          6.560499668121338
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 7.145228385925293
+      }
+    },
+    {
+      "id": "forest_guardian",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/forest_guardian/forest_guardian.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/forest_guardian.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          6.416273593902588,
+          -20.306303024291992,
+          6.310564041137695
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 5.713525772094727
+      }
+    },
+    {
+      "id": "frost_kraken",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/frost_kraken/frost_kraken.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/frost_kraken.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          8.38035774230957,
+          -26.188613891601562,
+          7.242684841156006
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 6.502416610717773
+      }
+    },
+    {
+      "id": "grave_bat",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/grave_bat/grave_bat.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/grave_bat.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7685469388961792,
+          -5.517734050750732,
+          2.0297768115997314
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7429686784744263
+      }
+    },
+    {
+      "id": "ice_wolf",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ice_wolf/ice_wolf.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/ice_wolf.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7686413526535034,
+          -5.4180402755737305,
+          1.6747243404388428
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4648377895355225
+      }
+    },
+    {
+      "id": "jellyfish",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/jellyfish/jellyfish.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/jellyfish.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5727864503860474,
+          -4.9149580001831055,
+          1.7807093858718872
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4874145984649658
+      }
+    },
+    {
+      "id": "magma_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/magma_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7678756713867188,
+          -5.368697643280029,
+          1.4495704174041748
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4225146770477295
+      }
+    },
+    {
+      "id": "mushroom",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/mushroom.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4116133451461792,
+          -4.411291599273682,
+          1.3439735174179077
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1181824207305908
+      }
+    },
+    {
+      "id": "penguin_mage",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/penguin_mage/penguin_mage.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/penguin_mage.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.590535044670105,
+          -5.093780040740967,
+          1.7554243803024292
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7356966733932495
+      }
+    },
+    {
+      "id": "phoenix",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/phoenix/phoenix.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/phoenix.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.723690152168274,
+          -5.356925964355469,
+          2.0819478034973145
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.527626395225525
+      }
+    },
+    {
+      "id": "sand_golem",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sand_golem/sand_golem.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/sand_golem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6906262636184692,
+          -5.413207054138184,
+          1.7747334241867065
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.6908797025680542
+      }
+    },
+    {
+      "id": "scarecrow",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/scarecrow.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7060006856918335,
+          -5.4105706214904785,
+          1.858585000038147
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7998485565185547
+      }
+    },
+    {
+      "id": "skeleton",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/skeleton.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5072481632232666,
+          -4.638587951660156,
+          1.5916111469268799
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.525399923324585
+      }
+    },
+    {
+      "id": "slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.3257945775985718,
+          -4.185985088348389,
+          1.1749210357666016
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0860881805419922
+      }
+    },
+    {
+      "id": "sprout",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/sprout.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.655415654182434,
+          -5.443658828735352,
+          1.6008739471435547
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.451163649559021
+      }
+    },
+    {
+      "id": "wisp",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/wisp/wisp.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/wisp.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.585904836654663,
+          -5.025679588317871,
+          2.0179145336151123
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.615959882736206
+      }
+    },
+    {
+      "id": "acc_antidote_ring",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_antidote_ring.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_antidote_ring.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2036749124526978,
+          -3.761484146118164,
+          0.9828033447265625
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.4683539867401123
+      }
+    },
+    {
+      "id": "acc_awake_bell",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_awake_bell.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_awake_bell.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.197462558746338,
+          -3.742070436477661,
+          0.9753316640853882
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.4494660198688507
+      }
+    },
+    {
+      "id": "acc_clarity_earring",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_clarity_earring.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_clarity_earring.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1975786685943604,
+          -3.7424333095550537,
+          1.0089892148971558
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.3161514103412628
+      }
+    },
+    {
+      "id": "acc_eagle_eye",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_eagle_eye.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_eagle_eye.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2020050287246704,
+          -3.756265640258789,
+          1.255927562713623
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.585577130317688
+      }
+    },
+    {
+      "id": "acc_flame_amulet",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_flame_amulet.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_flame_amulet.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2097499370574951,
+          -3.7654685974121094,
+          1.231331706047058
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6464614868164062
+      }
+    },
+    {
+      "id": "acc_frost_amulet",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_frost_amulet.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_frost_amulet.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.206121802330017,
+          -3.7541306018829346,
+          1.2309787273406982
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6420983076095581
+      }
+    },
+    {
+      "id": "acc_guardian_ring",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_guardian_ring.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_guardian_ring.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2028369903564453,
+          -3.7588658332824707,
+          0.9758152365684509
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.4992017447948456
+      }
+    },
+    {
+      "id": "acc_hero_emblem",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_hero_emblem.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_hero_emblem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2047638893127441,
+          -3.749886989593506,
+          1.2128387689590454
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6815053224563599
+      }
+    },
+    {
+      "id": "acc_lucky_charm",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_lucky_charm.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_lucky_charm.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2037605047225952,
+          -3.746751546859741,
+          1.234439492225647
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6308474540710449
+      }
+    },
+    {
+      "id": "acc_power_band",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_power_band.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_power_band.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.202172040939331,
+          -3.7567875385284424,
+          0.9333353042602539
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.3652839958667755
+      }
+    },
+    {
+      "id": "acc_sage_pendant",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_sage_pendant.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_sage_pendant.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2098664045333862,
+          -3.7658324241638184,
+          1.2090816497802734
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6973357796669006
+      }
+    },
+    {
+      "id": "acc_shadow_amulet",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_shadow_amulet.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_shadow_amulet.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2052644491195679,
+          -3.751451253890991,
+          1.2067071199417114
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6961925029754639
+      }
+    },
+    {
+      "id": "acc_wind_boots",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_wind_boots.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_wind_boots.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2163790464401245,
+          -3.8011844158172607,
+          0.9497455358505249
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6640007495880127
+      }
+    },
+    {
+      "id": "armor_chain",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/armor_chain.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/armor_chain.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1986172199249268,
+          -3.745678663253784,
+          1.329620599746704
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8580755591392517
+      }
+    },
+    {
+      "id": "armor_dawn",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/armor_dawn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/armor_dawn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2718510627746582,
+          -3.974534511566162,
+          1.3307604789733887
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1114827394485474
+      }
+    },
+    {
+      "id": "armor_dragon",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/armor_dragon.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/armor_dragon.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2205719947814941,
+          -3.8142874240875244,
+          1.2813901901245117
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0843786001205444
+      }
+    },
+    {
+      "id": "armor_plate",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/armor_plate.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/armor_plate.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2034318447113037,
+          -3.7607247829437256,
+          1.2906776666641235
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.068429946899414
+      }
+    },
+    {
+      "id": "armor_scale",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/armor_scale.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/armor_scale.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2049241065979004,
+          -3.765388011932373,
+          1.3366104364395142
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9567894339561462
+      }
+    },
+    {
+      "id": "bow_composite",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/bow_composite.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/bow_composite.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.924126625061035,
+          -0.6403541564941406,
+          0.307523250579834
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.9847095608711243
+      }
+    },
+    {
+      "id": "bow_gale",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/bow_gale.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/bow_gale.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.923102378845215,
+          -0.6225369572639465,
+          0.2991747558116913
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 1.076560378074646
+      }
+    },
+    {
+      "id": "bow_hunter",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/bow_hunter.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/bow_hunter.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.925823211669922,
+          -0.6660696268081665,
+          0.3096715807914734
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.904799222946167
+      }
+    },
+    {
+      "id": "bow_short",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/bow_short.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/bow_short.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.925222635269165,
+          -0.6728706955909729,
+          0.3121964633464813
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.7453031539916992
+      }
+    },
+    {
+      "id": "bow_star",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/bow_star.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/bow_star.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.9219837188720703,
+          -0.624039351940155,
+          0.3034136891365051
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 1.1842790842056274
+      }
+    },
+    {
+      "id": "garb_dawn",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/garb_dawn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/garb_dawn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.241267204284668,
+          -3.878960371017456,
+          1.2993518114089966
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.176466941833496
+      }
+    },
+    {
+      "id": "garb_leather",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/garb_leather.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/garb_leather.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1975879669189453,
+          -3.7531626224517822,
+          1.3659186363220215
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7783098220825195
+      }
+    },
+    {
+      "id": "garb_ranger",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/garb_ranger.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/garb_ranger.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1937229633331299,
+          -3.7578213214874268,
+          1.4424179792404175
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0423996448516846
+      }
+    },
+    {
+      "id": "garb_shadow",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/garb_shadow.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/garb_shadow.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2842092514038086,
+          -4.026435375213623,
+          1.3999589681625366
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2621994018554688
+      }
+    },
+    {
+      "id": "garb_wind",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/garb_wind.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/garb_wind.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.203627586364746,
+          -3.761336088180542,
+          1.299139380455017
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9958716034889221
+      }
+    },
+    {
+      "id": "mace_blessed",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/mace_blessed.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/mace_blessed.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1975445747375488,
+          -3.7423267364501953,
+          1.023918867111206
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9468278288841248
+      }
+    },
+    {
+      "id": "mace_dawn",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/mace_dawn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/mace_dawn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2081862688064575,
+          -3.739581823348999,
+          1.0556765794754028
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0549787282943726
+      }
+    },
+    {
+      "id": "mace_saint",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/mace_saint.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/mace_saint.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2044095993041992,
+          -3.7397797107696533,
+          1.0396695137023926
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9828686714172363
+      }
+    },
+    {
+      "id": "mace_silver",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/mace_silver.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/mace_silver.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1975699663162231,
+          -3.742406129837036,
+          1.0109812021255493
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9173062443733215
+      }
+    },
+    {
+      "id": "mace_wood",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/mace_wood.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/mace_wood.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.197387456893921,
+          -3.741835832595825,
+          0.9816246628761292
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.850662112236023
+      }
+    },
+    {
+      "id": "robe_cloth",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/robe_cloth.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/robe_cloth.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2016249895095825,
+          -3.755077838897705,
+          1.3229913711547852
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3144867420196533
+      }
+    },
+    {
+      "id": "robe_dawn",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/robe_dawn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/robe_dawn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2160784006118774,
+          -3.8002448081970215,
+          1.2986371517181396
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2425236701965332
+      }
+    },
+    {
+      "id": "robe_mystic",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/robe_mystic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/robe_mystic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2453194856643677,
+          -3.8916234970092773,
+          1.3493947982788086
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3165507316589355
+      }
+    },
+    {
+      "id": "robe_sage",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/robe_sage.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/robe_sage.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1980773210525513,
+          -3.7439916133880615,
+          1.2822414636611938
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2307977676391602
+      }
+    },
+    {
+      "id": "robe_silk",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/robe_silk.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/robe_silk.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2003804445266724,
+          -3.7511887550354004,
+          1.246208906173706
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.145398497581482
+      }
+    },
+    {
+      "id": "staff_crystal",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/staff_crystal.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/staff_crystal.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.253539800643921,
+          -3.917311668395996,
+          1.0534623861312866
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5497349500656128
+      }
+    },
+    {
+      "id": "staff_oak",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/staff_oak.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/staff_oak.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2043167352676392,
+          -3.7412798404693604,
+          0.9699315428733826
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4386619329452515
+      }
+    },
+    {
+      "id": "staff_ruby",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/staff_ruby.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/staff_ruby.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2824705839157104,
+          -4.007720470428467,
+          1.0837198495864868
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5774834156036377
+      }
+    },
+    {
+      "id": "staff_sage",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/staff_sage.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/staff_sage.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2525774240493774,
+          -3.914304256439209,
+          1.0538609027862549
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5520139932632446
+      }
+    },
+    {
+      "id": "staff_starlight",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/staff_starlight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/staff_starlight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.36008620262146,
+          -4.230269432067871,
+          1.1680879592895508
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.6674748659133911
+      }
+    },
+    {
+      "id": "sword_bronze",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_bronze.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/sword_bronze.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.925560712814331,
+          -0.7039183974266052,
+          0.5877450704574585
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.7366603016853333
+      }
+    },
+    {
+      "id": "sword_dawn",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_dawn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/sword_dawn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.925976514816284,
+          -0.7027066349983215,
+          0.6794745922088623
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.9868838787078857
+      }
+    },
+    {
+      "id": "sword_flamberge",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_flamberge.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/sword_flamberge.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.924670696258545,
+          -0.7078408598899841,
+          0.686406672000885
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.9741727113723755
+      }
+    },
+    {
+      "id": "sword_iron",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_iron.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/sword_iron.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.9257500171661377,
+          -0.7033064961433411,
+          0.6176233887672424
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.8271123170852661
+      }
+    },
+    {
+      "id": "sword_knight",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/sword_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.92536997795105,
+          -0.7044425010681152,
+          0.6576500535011292
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 0.8834084272384644
+      }
+    },
+    {
+      "id": "abyss_crystal",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/abyss_crystal.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/abyss_crystal.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.197906732559204,
+          -3.7434585094451904,
+          1.1426806449890137
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9253081679344177
+      }
+    },
+    {
+      "id": "bat_wing",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/bat_wing.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/bat_wing.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9885299205780029,
+          -3.7661750316619873,
+          1.1966792345046997
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8247020840644836
+      }
+    },
+    {
+      "id": "big_bomb",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/big_bomb.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/big_bomb.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2163432836532593,
+          -3.801072359085083,
+          1.2439409494400024
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0682377815246582
+      }
+    },
+    {
+      "id": "bomb",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/bomb.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/bomb.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1977813243865967,
+          -3.7430667877197266,
+          1.1523398160934448
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8859160542488098
+      }
+    },
+    {
+      "id": "coral_shard",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/coral_shard.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/coral_shard.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2425893545150757,
+          -3.742330312728882,
+          1.0697181224822998
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7763193249702454
+      }
+    },
+    {
+      "id": "cursed_straw",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/cursed_straw.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/cursed_straw.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1971856355667114,
+          -3.74448561668396,
+          1.137992262840271
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7920265793800354
+      }
+    },
+    {
+      "id": "drake_scale",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/drake_scale.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/drake_scale.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2077940702438354,
+          -3.7743563652038574,
+          1.1598713397979736
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8276587128639221
+      }
+    },
+    {
+      "id": "elixir",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/elixir.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/elixir.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2067607641220093,
+          -3.771127462387085,
+          1.2289959192276
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0995473861694336
+      }
+    },
+    {
+      "id": "ember_crystal",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/ember_crystal.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/ember_crystal.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2262636423110962,
+          -3.7450146675109863,
+          1.1446092128753662
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9253081679344177
+      }
+    },
+    {
+      "id": "ether",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/ether.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/ether.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2066341638565063,
+          -3.7707314491271973,
+          1.1538031101226807
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9060898423194885
+      }
+    },
+    {
+      "id": "forest_fiber",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/forest_fiber.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/forest_fiber.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1583706140518188,
+          -3.746370553970337,
+          1.118515968322754
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8092537522315979
+      }
+    },
+    {
+      "id": "frost_crystal",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/frost_crystal.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/frost_crystal.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.197906732559204,
+          -3.7434585094451904,
+          1.1426806449890137
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9253081679344177
+      }
+    },
+    {
+      "id": "frost_fur",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/frost_fur.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/frost_fur.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2077683210372925,
+          -3.7536509037017822,
+          1.0964398384094238
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7861841917037964
+      }
+    },
+    {
+      "id": "ghost_essence",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/ghost_essence.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/ghost_essence.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1975699663162231,
+          -3.742406129837036,
+          1.1534812450408936
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8546332120895386
+      }
+    },
+    {
+      "id": "golem_sandstone",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/golem_sandstone.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/golem_sandstone.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.209837555885315,
+          -3.7783844470977783,
+          1.0305399894714355
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7318843007087708
+      }
+    },
+    {
+      "id": "guard_tonic",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/guard_tonic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/guard_tonic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.207377552986145,
+          -3.773054838180542,
+          1.1659966707229614
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9540313482284546
+      }
+    },
+    {
+      "id": "healing_potion",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/healing_potion.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/healing_potion.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.20668625831604,
+          -3.7708945274353027,
+          1.152904987335205
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8854206800460815
+      }
+    },
+    {
+      "id": "hi_ether",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/hi_ether.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/hi_ether.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2066974639892578,
+          -3.7709295749664307,
+          1.1913995742797852
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0028185844421387
+      }
+    },
+    {
+      "id": "hi_potion",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/hi_potion.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/hi_potion.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.206758737564087,
+          -3.771121025085449,
+          1.1803442239761353
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9597304463386536
+      }
+    },
+    {
+      "id": "jelly_core",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/jelly_core.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/jelly_core.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2107912302017212,
+          -3.783722400665283,
+          1.0329657793045044
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6011235117912292
+      }
+    },
+    {
+      "id": "magma_core",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/magma_core.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/magma_core.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1992615461349487,
+          -3.736963987350464,
+          1.0529390573501587
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7098597288131714
+      }
+    },
+    {
+      "id": "mega_potion",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/mega_potion.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/mega_potion.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2068312168121338,
+          -3.7713472843170166,
+          1.2077834606170654
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0340402126312256
+      }
+    },
+    {
+      "id": "old_bone",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/old_bone.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/old_bone.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1992700099945068,
+          -3.742406129837036,
+          1.1134812831878662
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7487828731536865
+      }
+    },
+    {
+      "id": "phoenix_feather",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/phoenix_feather.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/phoenix_feather.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2101596593856812,
+          -3.7452189922332764,
+          1.196320652961731
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9262270331382751
+      }
+    },
+    {
+      "id": "power_tonic",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/power_tonic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/power_tonic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2074865102767944,
+          -3.773395299911499,
+          1.1628072261810303
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9614552855491638
+      }
+    },
+    {
+      "id": "remedy",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/remedy.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/remedy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2074865102767944,
+          -3.773395299911499,
+          1.1628072261810303
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9614552855491638
+      }
+    },
+    {
+      "id": "return_stone",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/return_stone.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/return_stone.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2065335512161255,
+          -3.7704174518585205,
+          1.0140835046768188
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6381260752677917
+      }
+    },
+    {
+      "id": "slime_gel",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/slime_gel.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/slime_gel.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1983864307403564,
+          -3.744957685470581,
+          0.958167314529419
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6800748705863953
+      }
+    },
+    {
+      "id": "smoke_bomb",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/smoke_bomb.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/smoke_bomb.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.198642611503601,
+          -3.7501332759857178,
+          1.1536718606948853
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8859160542488098
+      }
+    },
+    {
+      "id": "verdant_crystal",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/verdant_crystal.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/verdant_crystal.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1869893074035645,
+          -3.742884635925293,
+          1.1419427394866943
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9253081679344177
+      }
+    },
+    {
+      "id": "attack_down",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/attack_down.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/attack_down.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.294318199157715,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "attack_up",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/attack_up.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/attack_up.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.294318199157715,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "attack_up_berserk",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/attack_up_berserk.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/attack_up_berserk.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.281035900115967,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "barrier",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/barrier.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/barrier.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.328379154205322,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "barrier_abyss",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/barrier_abyss.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/barrier_abyss.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.328379154205322,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "bleed",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/bleed.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/bleed.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.105999946594238,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "blind",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/blind.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/blind.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.367955207824707,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "burn",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/burn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/burn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.205509662628174,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "defense_down",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/defense_down.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/defense_down.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.328379154205322,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "defense_up",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/defense_up.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/defense_up.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.328379154205322,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "defense_up_l",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/defense_up_l.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/defense_up_l.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.328379154205322,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "freeze",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/freeze.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/freeze.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.193626880645752,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "magic_up",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/magic_up.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/magic_up.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.294318199157715,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "poison",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/poison.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/poison.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.255459308624268,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "poison_strong",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/poison_strong.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/poison_strong.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.313243389129639,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "provoke",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/provoke.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/provoke.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.176187038421631,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "regen",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/regen.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/regen.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.154304504394531,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "silence",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/silence.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/silence.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.321469783782959,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "sleep",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/sleep.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/sleep.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.171613693237305,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "slow",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/slow.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/slow.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.286655426025391,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "speed_up",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/speed_up.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/speed_up.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.294318199157715,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "stun",
+      "family": "Status",
+      "source": "Assets/_Game/Resources/Art/Props/Status/stun.fbx",
+      "output": "Assets/_Game/Resources/Icons/Status/stun.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.151435375213623,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1136000156402588
+      }
+    },
+    {
+      "id": "slash",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/slash.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/slash.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.017387390136719,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "blunt",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/blunt.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/blunt.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.0718255043029785,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "pierce",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/pierce.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/pierce.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.005000114440918,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "fire",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/fire.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/fire.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.029572486877441,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "ice",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/ice.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/ice.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.004000186920166,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "thunder",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/thunder.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/thunder.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -3.9725000858306885,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "dark",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/dark.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/dark.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -3.9725000858306885,
+          -1.4901161193847656e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "holy",
+      "family": "Elements",
+      "source": "Assets/_Game/Resources/Art/Props/Elements/holy.fbx",
+      "output": "Assets/_Game/Resources/Icons/Elements/holy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.12529993057251,
+          2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1368000507354736
+      }
+    },
+    {
+      "id": "attack",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/attack.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/attack.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.257495403289795,
+          0.0
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "skill",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/skill.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/skill.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.219570636749268,
+          0.0
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "ultimate",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/ultimate.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/ultimate.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.173085689544678,
+          0.0
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "item",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/item.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/item.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.342011451721191,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "guard",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/guard.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/guard.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.387890815734863,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "flee",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/flee.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/flee.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.320590496063232,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "auto",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/auto.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/auto.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.2925190925598145,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "gold",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/gold.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/gold.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.339461803436279,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "key",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/key.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/key.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.249585151672363,
+          0.0
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "map",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/map.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/map.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.326831340789795,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "party",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/party.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/party.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.246225357055664,
+          0.0
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "camp",
+      "family": "UI",
+      "source": "Assets/_Game/Resources/Art/Props/UI/camp.fbx",
+      "output": "Assets/_Game/Resources/Icons/UI/camp.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          -4.26896858215332,
+          -2.9802322387695312e-08
+        ],
+        "rotation": [
+          1.5707964897155762,
+          -0.0,
+          0.0
+        ],
+        "ortho_scale": 1.1321600675582886
+      }
+    }
+  ]
+}

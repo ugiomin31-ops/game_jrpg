@@ -1,0 +1,18 @@
+00:00.063  color_management | Using OCIO=C:\Users\User\Tools\Blender\5.2\datafiles\colormanagement\config.ocio
+00:05.406  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_elite_scarecrow.png'
+00:05.516  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_elite_scarecrow_side.png'
+00:05.688  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_elite_scarecrow_attack.png'
+00:05.813  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_elite_scarecrow_cast.png'
+00:05.906  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_elite_scarecrow_die.png'
+
+FBX export starting... 'C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies/elite_scarecrow/elite_scarecrow.fbx'
+(bpy.data.armatures['Rig'], 'POSE')
+export finished in 0.3301 sec.
+Info: Saved as "enemy_elite_scarecrow.blend"
+ENEMY_EXPORT {"id": "elite_scarecrow", "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies/elite_scarecrow/elite_scarecrow.fbx", "triangles": 8886, "bones": ["root", "body", "head", "eyes", "crest", "arm.R", "leg.R", "arm.L", "leg.L", "weapon.R", "weapon.L"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "missing_clips": []}
+00:05.922  blend            | Read blend: "C:\Users\User\Desktop\game\Blender\blend\enemy_elite_scarecrow.blend"
+FBX version: 7400
+ENEMY_PRODUCTION {"id": "elite_scarecrow", "is_boss": false, "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py", "blender_version": "5.2.1 LTS", "produced_at_utc": "2026-10-06T04:25:42Z", "files": {"fbx": {"path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\elite_scarecrow\\elite_scarecrow.fbx", "bytes": 826716}, "blend": {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_elite_scarecrow.blend", "bytes": 242102}, "previews": [{"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow.png", "bytes": 179538}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_side.png", "bytes": 154906}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_attack.png", "bytes": 159009}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_cast.png", "bytes": 162814}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_die.png", "bytes": 163382}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 8886, "vertices": 5097, "bones": 11, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 8886, "vertices": 5097, "bones": 11, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

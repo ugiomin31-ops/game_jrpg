@@ -1,0 +1,115 @@
+UNITY PACKAGE COPYRIGHT AND LICENSE NOTICES
+
+Source: Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b/LICENSE.md
+
+com.unity.ai.navigation copyright © 2016 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.burst@2f3d916873ea/LICENSE.md
+
+Burst copyright © 2022 Unity Technologies
+Source code of the package is licensed under the Unity Companion License (see https://unity3d.com/legal/licenses/unity_companion_license); otherwise licensed under the Unity Package Distribution License (see https://unity3d.com/legal/licenses/Unity_Package_Distribution_License ).
+
+Unless expressly provided otherwise, the software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.collections@84e8eb3fc12e/LICENSE.md
+
+com.unity.collections copyright © 2024 Unity Technologies
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.inputsystem@7a4e1a2a8194/LICENSE.md
+
+com.unity.inputsystem copyright © 2024 Unity Technologies
+
+Licensed under the Unity Companion License for Unity-dependent projects (see [https://unity3d.com/legal/licenses/unity_companion_license](https://unity3d.com/legal/licenses/unity_companion_license)).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.mathematics@19a9377c4ffa/LICENSE.md
+
+com.unity.mathematics copyright © 2023 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64/LICENSE.md
+
+Nuget.Newtonsoft.Json copyright © 2022 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.pipeline@62c08c808737/LICENSE.md
+
+com.unity.pipeline copyright © 2026 Unity Technologies.
+
+This software is subject to, and made available under, the Unity Terms of Service (see https://unity.com/legal/terms-of-service ). Your use of this software constitutes your acceptance of such terms.
+
+Unless expressly provided otherwise, the software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the Terms of Service for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.core@3f80e92e91c2/LICENSE.md
+
+com.unity.render-pipelines.core copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.universal@a0dd9d2bd983/LICENSE.md
+
+com.unity.render-pipelines.universal copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.render-pipelines.universal-config@8dc1aab4af1d/LICENSE.md
+
+com.unity.render-pipelines.universal-config copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.shadergraph@2fa139ee8b62/LICENSE.md
+
+com.unity.shadergraph copyright © 2020 Unity Technologies ApS
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.timeline@3a22918286f5/LICENSE.md
+
+Timeline copyright © 2023 Unity Technologies
+
+Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](http://www.unity3d.com/legal/licenses/Unity_Companion_License).
+
+Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
+
+
+Source: Library/PackageCache/com.unity.ugui@f3ea87521141/LICENSE.md
+
+uGUI Copyright © 2015-2020 Unity Technologies ApS ("**_Unity_**")
+
+Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
+
+_Unless expressly provided otherwise, the Software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the license for details on these and other terms and conditions.
