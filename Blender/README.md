@@ -14,8 +14,8 @@ blender -b --factory-startup -P Blender/<group>/<script>.py
 |---|---|
 | `lib/abyss_bpy.py` | 공용 헬퍼: 프리미티브, 색, 리그, 애니메이션, FBX 내보내기, 미리보기 렌더 |
 | `heroes/`, `npcs/`, `weapons/`, `enemies_a/`, `enemies_b/`, `bosses/`, `environment/`, `town/`, `props/`, `icons/` | 그룹별 생성기 |
-| `blend/` | 생성 결과 `.blend` (편집·검수용) |
-| `preview/` | Workbench 미리보기 PNG (검수용, 게임에 포함되지 않음) |
+| `blend/` | 생성 결과 `.blend` (편집·검수용, 저장소에는 없음. 생성기를 실행하면 만들어짐)와 제작 리포트 JSON |
+| `preview/` | Workbench 미리보기 PNG (검수용, 게임에 포함되지 않음. 생성기를 실행하면 만들어지며 커밋하지 않음) |
 | `ui/render_icons.py` | 실제 FBX를 촬영해 `Resources/Icons/`에 투명 512px 초상화·아이콘 160개와 Sprite 메타데이터 생성 |
 
 출력 FBX는 `Assets/_Game/Resources/Art/<Category>/...` 에 바로 쓴다. Unity가 자동 임포트한다.
@@ -42,7 +42,7 @@ blender -b --factory-startup -P Blender/<group>/<script>.py
 8. **목표 폴리곤 예산**: 영웅 6–12k tris, 일반 몬스터 3–8k, 보스 10–25k, 환경 타일 조각 200–3k. 현재 제작물에는 이 목표를 넘는 모델이 있으므로 목표를 실측값으로 오인하지 않는다.
 9. 각 생성기는 끝에 `A.render_preview(...)`로 `preview/`에 검수 이미지를 남기고, `A.save_blend(...)`로 `.blend`를 남긴다.
 
-적 28종의 실제 삼각형 수·리그·웨이트·클립·FBX 재임포트 결과는 `blend/enemy_production_all.json`에 기록된다. 일반/엘리트는 1,696–12,812 tris, 보스는 23,724–28,504 tris이며, 원형을 임의 감축하지 않았다. 영웅도 약 16.5–19.9k tris다. 저사양 성능이나 60 FPS는 이 수치만으로 보장하지 않으며 실제 플레이어 빌드 측정으로 판단한다.
+적 28종의 실제 삼각형 수·리그·웨이트·클립·FBX 재임포트 결과는 `blend/enemy_production_all.json`에 기록된다. 리포트 안의 `.blend`·미리보기 경로는 마지막 제작 실행 당시의 기록이며, 해당 파일은 저장소에 보관하지 않는다(부분 재생성 전에는 전체 생성을 한 번 실행). 일반/엘리트는 1,696–12,812 tris, 보스는 23,724–28,504 tris이며, 원형을 임의 감축하지 않았다. 영웅도 약 16.5–19.9k tris다. 저사양 성능이나 60 FPS는 이 수치만으로 보장하지 않으며 실제 플레이어 빌드 측정으로 판단한다.
 
 전체 적 제작은 `Blender/enemies_a/generate_all.py`, 전체 무기·장비 제작은 `Blender/weapons/generate_all.py`, 네 바이옴 제작은 `Blender/environment/regenerate_all.py`로 실행한다. 초상화·아이콘은 FBX 제작 후 `Blender/ui/render_icons.py`를 실행한다. UI 패널·버튼 PNG와 9-slice Sprite 설정은 `python Tools/ui/gen_ui_sprites.py`가 함께 생성한다.
 
