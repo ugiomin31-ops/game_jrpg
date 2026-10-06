@@ -1,0 +1,127 @@
+{
+  "id": "rhino_beetle",
+  "is_boss": false,
+  "generator": "/home/claude/game_jrpg/Blender/enemies_c/verdant.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-06T23:08:33Z",
+  "files": {
+    "fbx": {
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+      "bytes": 860492
+    },
+    "blend": {
+      "path": "/home/claude/game_jrpg/Blender/blend/enemy_rhino_beetle.blend",
+      "bytes": 233870
+    },
+    "previews": [
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_rhino_beetle.png",
+        "bytes": 164673
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_rhino_beetle_side.png",
+        "bytes": 161809
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_rhino_beetle_attack.png",
+        "bytes": 158884
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_rhino_beetle_cast.png",
+        "bytes": 166700
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_rhino_beetle_die.png",
+        "bytes": 160495
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 7114,
+    "vertices": 4111,
+    "bones": 12,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 7114,
+    "vertices": 4111,
+    "bones": 12,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

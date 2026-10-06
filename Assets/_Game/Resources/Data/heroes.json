@@ -38,8 +38,16 @@
     "skill": "sk_poison_arrow"
    },
    {
+    "level": 4,
+    "skill": "sk_a_ice_arrow"
+   },
+   {
     "level": 6,
     "skill": "sk_hunter_mark"
+   },
+   {
+    "level": 7,
+    "skill": "sk_a_hawk_eye"
    },
    {
     "level": 8,
@@ -50,20 +58,64 @@
     "skill": "sk_weak_point"
    },
    {
+    "level": 11,
+    "skill": "sk_a_flash_arrow"
+   },
+   {
+    "level": 12,
+    "skill": "sk_a_thunder_arrow"
+   },
+   {
     "level": 14,
     "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 16,
+    "skill": "sk_a_triple_shot"
    },
    {
     "level": 18,
     "skill": "sk_arrow_rain"
    },
    {
+    "level": 20,
+    "skill": "sk_a_holy_arrow"
+   },
+   {
+    "level": 22,
+    "skill": "sk_a_gale"
+   },
+   {
     "level": 24,
     "skill": "sk_sleep_arrow"
    },
    {
+    "level": 26,
+    "skill": "sk_a_shadow_stitch"
+   },
+   {
+    "level": 28,
+    "skill": "sk_a_deadeye"
+   },
+   {
+    "level": 30,
+    "skill": "sk_a_blaze_rain"
+   },
+   {
     "level": 32,
     "skill": "sk_piercing_gale"
+   },
+   {
+    "level": 34,
+    "skill": "sk_a_phantom_raid"
+   },
+   {
+    "level": 36,
+    "skill": "sk_a_venom_storm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_a_heaven_arrow"
    }
   ],
   "_file": "archer"
@@ -108,8 +160,20 @@
     "skill": "holy_light"
    },
    {
+    "level": 2,
+    "skill": "sk_c_protect"
+   },
+   {
     "level": 3,
     "skill": "sk_cure"
+   },
+   {
+    "level": 4,
+    "skill": "sk_c_regen"
+   },
+   {
+    "level": 5,
+    "skill": "sk_c_blessing"
    },
    {
     "level": 6,
@@ -120,20 +184,68 @@
     "skill": "ult_seraph_hymn"
    },
    {
+    "level": 9,
+    "skill": "sk_c_banish"
+   },
+   {
     "level": 10,
     "skill": "sk_revive"
+   },
+   {
+    "level": 11,
+    "skill": "sk_c_barrier"
+   },
+   {
+    "level": 12,
+    "skill": "sk_c_haste"
+   },
+   {
+    "level": 13,
+    "skill": "sk_c_protect_all"
    },
    {
     "level": 14,
     "skill": "sk_greater_heal"
    },
    {
+    "level": 16,
+    "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 18,
+    "skill": "sk_c_purify_all"
+   },
+   {
     "level": 20,
     "skill": "sk_sanctuary"
    },
    {
+    "level": 23,
+    "skill": "sk_c_hymn_swift"
+   },
+   {
+    "level": 24,
+    "skill": "sk_c_exorcism"
+   },
+   {
     "level": 27,
     "skill": "sk_divine_judgment"
+   },
+   {
+    "level": 29,
+    "skill": "sk_c_judgment_cross"
+   },
+   {
+    "level": 31,
+    "skill": "sk_c_benediction"
+   },
+   {
+    "level": 35,
+    "skill": "sk_c_resurrection"
+   },
+   {
+    "level": 38,
+    "skill": "ult_c_miracle"
    }
   ],
   "class_color": [
@@ -184,8 +296,24 @@
     "skill": "heal"
    },
    {
+    "level": 2,
+    "skill": "sk_m_spark"
+   },
+   {
     "level": 4,
     "skill": "sk_ice_lance"
+   },
+   {
+    "level": 5,
+    "skill": "sk_m_sleep"
+   },
+   {
+    "level": 6,
+    "skill": "sk_m_shadow_bolt"
+   },
+   {
+    "level": 7,
+    "skill": "sk_m_focus"
    },
    {
     "level": 8,
@@ -196,20 +324,68 @@
     "skill": "sk_chain_spark"
    },
    {
+    "level": 11,
+    "skill": "sk_m_silence"
+   },
+   {
     "level": 12,
     "skill": "sk_flame_wave"
+   },
+   {
+    "level": 14,
+    "skill": "sk_m_blaze"
+   },
+   {
+    "level": 15,
+    "skill": "sk_m_lightning"
    },
    {
     "level": 17,
     "skill": "sk_frost_nova"
    },
    {
+    "level": 19,
+    "skill": "sk_m_glacier"
+   },
+   {
+    "level": 20,
+    "skill": "sk_m_drain"
+   },
+   {
     "level": 22,
     "skill": "sk_thunder_storm"
    },
    {
+    "level": 24,
+    "skill": "sk_m_prism"
+   },
+   {
+    "level": 25,
+    "skill": "sk_m_curse"
+   },
+   {
     "level": 28,
     "skill": "sk_void_lance"
+   },
+   {
+    "level": 30,
+    "skill": "sk_m_hellfire"
+   },
+   {
+    "level": 32,
+    "skill": "sk_m_absolute_zero"
+   },
+   {
+    "level": 33,
+    "skill": "sk_m_abyss_gate"
+   },
+   {
+    "level": 35,
+    "skill": "sk_m_indra"
+   },
+   {
+    "level": 38,
+    "skill": "ult_m_arcana_nova"
    }
   ],
   "_file": "mage"
@@ -249,12 +425,24 @@
     "skill": "strong_attack"
    },
    {
+    "level": 2,
+    "skill": "sk_w_twin_slash"
+   },
+   {
     "level": 3,
     "skill": "stunning_slam"
    },
    {
+    "level": 5,
+    "skill": "sk_w_rally"
+   },
+   {
     "level": 6,
     "skill": "sk_cleave"
+   },
+   {
+    "level": 7,
+    "skill": "sk_w_flame_blade"
    },
    {
     "level": 8,
@@ -265,20 +453,72 @@
     "skill": "sk_provoke"
    },
    {
+    "level": 11,
+    "skill": "sk_w_armor_break"
+   },
+   {
+    "level": 13,
+    "skill": "sk_w_frost_blade"
+   },
+   {
     "level": 15,
     "skill": "sk_bleed_edge"
+   },
+   {
+    "level": 16,
+    "skill": "sk_w_power_break"
+   },
+   {
+    "level": 17,
+    "skill": "sk_w_thunder_blade"
    },
    {
     "level": 20,
     "skill": "sk_iron_wall"
    },
    {
+    "level": 22,
+    "skill": "sk_w_berserk"
+   },
+   {
+    "level": 23,
+    "skill": "sk_w_whirlwind"
+   },
+   {
+    "level": 24,
+    "skill": "sk_w_holy_blade"
+   },
+   {
     "level": 26,
     "skill": "sk_war_cry"
    },
    {
+    "level": 28,
+    "skill": "sk_w_giga_slash"
+   },
+   {
+    "level": 29,
+    "skill": "sk_w_aegis"
+   },
+   {
+    "level": 30,
+    "skill": "sk_w_grand_cross"
+   },
+   {
+    "level": 32,
+    "skill": "sk_w_crimson_fury"
+   },
+   {
     "level": 34,
     "skill": "sk_titan_crash"
+   },
+   {
+    "level": 36,
+    "skill": "sk_w_cataclysm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_w_ragnarok"
    }
   ],
   "_file": "warrior"

@@ -49,6 +49,7 @@ namespace Abyss.Logic.Battle
 
         // Per-action bookkeeping (TP gains and once-per-target effectiveness popups).
         bool _actionDealtDamage;
+        int _actionHpDealt; // HP damage dealt to opponents by the current action (skill drain)
         readonly List<BattleUnit> _actionDamaged = new List<BattleUnit>();
         readonly HashSet<string> _actionEffectShown = new HashSet<string>();
         readonly Dictionary<string, int> _actionHitIndex = new Dictionary<string, int>();
@@ -653,6 +654,7 @@ namespace Abyss.Logic.Battle
             var actor = UnitById(action.ActorId);
             if (actor == null || !actor.IsAlive) return;
             _actionDealtDamage = false;
+            _actionHpDealt = 0;
             _actionDamaged.Clear();
             _actionEffectShown.Clear();
             _actionHitIndex.Clear();
@@ -825,7 +827,18 @@ namespace Abyss.Logic.Battle
                 }
                 if (landed && target.IsAlive && !statusTargets.Contains(target)) statusTargets.Add(target);
             }
+            ApplyDrain(actor, skill);
             ApplyPayloadStatuses(actor, statusTargets, skill, false);
+        }
+
+        /// <summary>Drain skills return a share of the HP damage dealt to the actor (no RNG; burn halves it).</summary>
+        void ApplyDrain(BattleUnit actor, SkillDef skill)
+        {
+            if (skill == null || skill.Drain <= 0f || _actionHpDealt <= 0 || !actor.IsAlive) return;
+            double ratio = Gd.Clamp(Gd.D(skill.Drain), 0.0, 1.0);
+            int applied = actor.Heal(Gd.RoundI(_actionHpDealt * ratio * actor.HealingReceivedScale));
+            if (applied > 0)
+                Emit(new HealEvent { TargetId = actor.Id, SourceId = actor.Id, Amount = applied, HpAfter = actor.Hp, MaxHp = actor.MaxHp });
         }
 
         int NextHitIndex(BattleUnit target)
@@ -868,7 +881,7 @@ namespace Abyss.Logic.Battle
             foreach (var id in r.Removed) Emit(new StatusRemovedEvent { UnitId = target.Id, StatusId = id, Reason = StatusRemoveReason.Damage });
             if (r.Hp > 0)
             {
-                if (actor.Side != target.Side) _actionDealtDamage = true;
+                if (actor.Side != target.Side) { _actionDealtDamage = true; _actionHpDealt += r.Hp; }
                 if (!_actionDamaged.Contains(target)) _actionDamaged.Add(target);
             }
             if (multiplier < 1.0 && target.Side == BattleSide.Enemy) _resistSeen.Add(WeaknessKey(target.DefId, element));

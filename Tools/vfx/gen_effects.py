@@ -1,9 +1,23 @@
-"""Author resource recipes for the pooled Unity particle, mesh and trail renderer."""
+"""Author resource recipes for the pooled Unity particle, mesh and trail renderer (VfxLibrary.cs).
+
+Every recipe is a stack of layers, timed with `delay` so effects read like anime cuts:
+  anticipation (converging ring / speed lines / seal)  ->  impact (hit flash, star glint, shock ring)
+  ->  linger (embers, smoke, drifting motes).
+Layer kinds: quad (billboard or `horizontal`), orbit, burst, emitter, ring (ground ribbon), arc (slash
+ribbon), sphere, trail (only while travelling). Sizes are metres at scale 1; `y` is relative to the
+effect origin, which BattleView puts at the unit's CenterPoint (about 0.9 m up), so y = -0.82 is the floor.
+BattleView multiplies every layer colour by the skill's light colour, so shared keys (impact, slash, ring,
+smoke, spark, magic_circle, ...) use near-white colours and let the element tint them, while element/job
+keys carry their own palette. `upright` particles keep the texture unrotated (falling arrows, rain).
+
+Preview offline: python Tools/vfx/preview_effects.py --keys fire,job_paladin
+"""
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 EFFECTS = {}
+FLOOR = -0.82
 
 
 def layer(kind, texture, color, **values):
@@ -14,115 +28,633 @@ def effect(key, description, *layers, duration=1.2, loop=False):
     EFFECTS[key] = dict(key=key, description=description, duration=duration, loop=loop, layers=list(layers))
 
 
-def burst(texture, color, count=22, **values):
-    return layer('burst', texture, color, count=count, life=.65, size=.22, speed=2.2, radius=.12, **values)
+# --- building blocks -------------------------------------------------------------------------------
+
+def quad(texture, color, life, size, end=0, **values):
+    if end:
+        values['endSize'] = end
+    return layer('quad', texture, color, life=life, size=size, **values)
 
 
-def circle(color, texture='magic_circle_a', size=1.6, **values):
-    return layer('quad', texture, color, life=1.1, size=size, spin=60, horizontal=True, **values)
+def burst(texture, color, count=22, life=.65, size=.22, speed=2.2, radius=.12, **values):
+    return layer('burst', texture, color, count=count, life=life, size=size, speed=speed, radius=radius, **values)
 
 
-def main():
-    effect('impact', 'Short radial blunt impact with a sharp contact star',
-           layer('quad', 'star8', 'FFE8AF', life=.25, size=.3, endSize=1.4), burst('spark', 'FFD789', 20), duration=.8)
-    effect('slash', 'Swept blade crescent and trailing steel sparks',
-           layer('arc', 'slash_strip', 'D7F5FF', life=.28, size=.9, endSize=1.7, rotation=35), burst('spark', 'A1E0FF', 12), duration=.8)
-    effect('critical', 'Overlapping red/gold impact star and large expansion ring',
-           layer('quad', 'sunburst', 'FFAC45', life=.4, size=.3, endSize=2.4),
-           layer('ring', 'trail', 'FF5364', life=.6, size=.2, endSize=2.8), burst('star4', 'FFF2BD', 28), duration=1)
-    effect('spark', 'Electrical projectile core, flickering bolt sheet and ribbon trail',
-           layer('quad', 'lightning_sheet', 'AADFFF', life=.6, size=.85, tiles=4),
-           layer('trail', 'trail', '71BFFF', life=.25, size=.3), burst('star4', 'D3F4FF', 10), duration=.8)
-    effect('fire', 'Layered fire bloom and embers around a hot projectile core',
-           layer('quad', 'flame_sheet', 'FFA846', life=.7, size=1, endSize=1.8, tiles=4),
-           layer('sphere', 'glow', 'FFCF6A', life=.45, size=.4, endSize=.9),
-           layer('trail', 'trail', 'FF6E31', life=.22, size=.45), burst('spark', 'FFBC56', 28, gravity=.15), duration=1)
-    effect('flame', 'Tall sustained flame column and drifting cinders',
-           layer('quad', 'flame_sheet', 'FF963E', life=1, size=1.1, height=2.5, y=.8, tiles=4),
-           layer('emitter', 'spark', 'FFC568', life=.5, size=.12, rate=35, speed=1.8, radius=.35), duration=1.5)
-    effect('ice', 'Crystalline ice shards and a cold radiating snowflake seal',
-           layer('quad', 'snowflake', 'D6FAFF', life=.65, size=.2, endSize=1.8, spin=45),
-           burst('ice_shard', '71D9FF', 24, gravity=.3), duration=1)
-    effect('ring', 'Holy seal expands with orbiting four-point motes',
-           layer('ring', 'trail', 'FFF0BB', life=.7, size=.3, endSize=2.3),
-           layer('orbit', 'star4', 'FFE89B', life=.8, size=.22, radius=.85, spin=180, count=6), duration=1)
-    effect('magic_circle', 'Counter-rotating runic invocation rings beneath caster',
-           circle('AACFFF', size=1.5), circle('F2DFAA', 'magic_circle_b', 1.9, rotation=30),
-           layer('emitter', 'dot', 'BBE9FF', life=.7, size=.08, rate=20, speed=.8, radius=.6), duration=1.4)
-    effect('heal', 'Emerald healing column with ascending plus glyphs',
-           circle('86FFC0', 'magic_circle_c', 1.3),
-           layer('emitter', 'plus', 'A5FFD2', life=.8, size=.2, rate=20, speed=1.4, radius=.45),
-           layer('quad', 'beam', '74ECA7', life=.9, size=.6, height=2.5, y=.7), duration=1.5)
-    effect('revive', 'Winged golden resurrection seal and rising feather burst',
-           circle('FFE8AB', 'magic_circle_d', 2.2), layer('quad', 'wings', 'FFF2C5', life=1.2, size=2, endSize=2.8, y=.8),
-           burst('feather', 'FFF4D5', 26), duration=1.6)
-    effect('smoke', 'Soft translucent purple spore cloud with suspended poison motes',
-           layer('burst', 'smoke_sheet', '8BB970', life=1, size=.7, speed=.7, count=14, radius=.4, alpha=True, tiles=4),
-           layer('emitter', 'bubble', 'C4ED83', life=.6, size=.15, rate=15, speed=.6, radius=.6), duration=1.4)
-    effect('buff', 'Ascending amber enhancement chevrons and expanding circle',
-           layer('orbit', 'arrow_up', 'FFC86E', life=.8, size=.4, radius=.7, spin=100, count=4), circle('FFE7AC', 'magic_circle_b', 1.2), duration=1.2)
-    effect('debuff', 'Descending violet weakening glyphs and dark broken seal',
-           layer('orbit', 'arrow_down', 'CFA2FF', life=.8, size=.4, radius=.7, spin=-80, count=4),
-           layer('quad', 'skull_wisp', 'A280C6', life=.75, size=1, y=.5), duration=1.2)
-    effect('guard', 'Blue hexagonal protective ward catches incoming blows',
-           layer('sphere', 'hex', '8FCEFF', life=.8, size=1.6), layer('quad', 'ring', 'D2EBFF', life=.5, size=1.2), duration=1.1)
-    effect('shield', 'Sustained translucent hexagonal shield shell',
-           layer('sphere', 'hex', '91D8FF', life=1.5, size=1.6, spin=15), loop=True)
-    effect('break', 'Shattering blue shield fragments and red interruption marker',
-           burst('square', '92D4FF', 32, gravity=.5), layer('quad', 'anger', 'FF6784', life=.75, size=1.3, endSize=1.7), duration=1.2)
-    effect('summon', 'Abyssal rune portal with coiling spectral skulls',
-           circle('C086FF', 'magic_circle_d', 2.4), layer('orbit', 'skull_wisp', 'DDB5FF', life=1.1, size=.5, radius=.8, spin=140, count=5),
-           layer('quad', 'beam', 'AC67F2', life=1, size=1.1, height=3.5, y=1), duration=1.5)
-    effect('dark', 'Dark vortex and outward spectral skulls',
-           layer('quad', 'swirl', '9764E3', life=.7, size=.4, endSize=2, spin=-160), burst('skull_wisp', 'BD9DE4', 15), duration=1.1)
-    effect('holy', 'Holy rays and descending radiant feather fan',
-           layer('quad', 'sunburst', 'FFF3C2', life=.8, size=.3, endSize=2.8), burst('feather', 'FFEAB5', 22), duration=1.3)
-    effect('pierce', 'Narrow arrow streak and focused blue hit sparks',
-           layer('quad', 'arrow_streak', 'BCE8FF', life=.35, size=.8, height=1.8, rotation=70), burst('spark', 'D6F1FF', 12), duration=.8)
-    effect('blunt', 'Broad earth shockwave and heavy contact dust',
-           layer('ring', 'trail', 'D8BE8D', life=.5, size=.2, endSize=2.4),
-           layer('burst', 'smoke_sheet', 'B5A58A', life=.7, size=.6, speed=1.8, count=15, radius=.2, alpha=True, tiles=4), duration=1.1)
-    effect('thunder', 'Four branching animated lightning strikes',
-           layer('quad', 'lightning_sheet', 'D7F1FF', life=.7, size=1.5, height=3, tiles=4), burst('star4', '8ABFFF', 26), duration=1.1)
-    for key, texture, color in [('ultimate_warrior', 'sword', 'FFE6A0'), ('ultimate_mage', 'flame_sheet', 'FFA7DA'),
-                                ('ultimate_archer', 'arrow_streak', 'B5E9FF'), ('ultimate_cleric', 'wings', 'FFFFDA')]:
-        effect(key, 'Hero ultimate focal emblem, runic seal and radiant particle storm',
-               layer('quad', texture, color, life=1.5, size=2.8, height=4, y=1.3, tiles=4 if texture=='flame_sheet' else 1),
-               circle(color, 'magic_circle_d', 4), burst('star8', color, 64), duration=2)
-    status_styles = {
-        'poison': ('bubble', 'B6E86F'), 'burn': ('flame_sheet', 'FFA35D'), 'bleed': ('droplet', 'F0788D'),
-        'slow': ('snowflake', '99BEF4'), 'freeze': ('ice_shard', 'B9F2FF'), 'silence': ('silence', 'D4B8EE'),
-        'sleep': ('zzz', 'ABBAED'), 'blind': ('blind', 'CEB6DE'), 'stun': ('star5', 'FFE281'),
-        'regen': ('plus', 'A2FFD1'), 'provoke': ('anger', 'FF987E'), 'barrier': ('hex', '9AD8FE'),
-        'mana_shield': ('magic_circle_b', 'B6B2FA'), 'invincible': ('star8', 'FFF4BD')
+def emitter(texture, color, rate, life=.8, size=.12, speed=1.5, radius=.5, **values):
+    return layer('emitter', texture, color, rate=rate, life=life, size=size, speed=speed, radius=radius, **values)
+
+
+def seal(texture, color, size, life=1.4, spin=40, y=FLOOR, end=0, **values):
+    """Horizontal magic circle lying on the floor (or in the sky with a large y)."""
+    return quad(texture, color, life, size, end, horizontal=True, spin=spin, y=y, **values)
+
+
+def ground_ring(color, size, end, life=.5, y=FLOOR + .04, **values):
+    return layer('ring', 'trail', color, life=life, size=size, endSize=end, y=y, **values)
+
+
+def flash(color='FFFFFF', size=.5, end=1.6, life=.16, delay=0, rotation=12, **values):
+    """Anime hit spark: jagged white star that pops and erodes in a few frames."""
+    return quad('hit_flash', color, life, size, end, delay=delay, rotation=rotation, **values)
+
+
+def glint(color='FFFFFF', size=.3, end=1.3, life=.22, delay=0, texture='star4', **values):
+    return quad(texture, color, life, size, end, delay=delay, **values)
+
+
+def shock(color, size=.4, end=2.2, life=.32, delay=0, **values):
+    return quad('shockwave', color, life, size, end, delay=delay, **values)
+
+
+def sparks(color, count=16, speed=4.0, life=.34, size=.26, delay=0, **values):
+    return burst('spark', color, count, life=life, size=size, speed=speed, delay=delay, **values)
+
+
+def embers(color, count=14, speed=1.4, life=.9, size=.11, delay=0, gravity=-.15, **values):
+    return burst('ember', color, count, life=life, size=size, speed=speed, delay=delay, gravity=gravity, **values)
+
+
+def smoke(color, count=8, speed=1.0, life=1.0, size=.8, delay=0, radius=.3, **values):
+    return burst('smoke_sheet', color, count, life=life, size=size, speed=speed, delay=delay, radius=radius,
+                 tiles=4, alpha=True, **values)
+
+
+# --- shared battle keys ----------------------------------------------------------------------------
+
+def battle_effects():
+    effect('impact', 'Blunt hit: jagged hit spark, star glint, shock ring, spray of sparks and settling embers',
+           flash('FFFFFF', .5, 1.5), glint('FFF6E0', .4, 1.4, delay=.02),
+           shock('FFE6B8', .3, 1.9, .3), ground_ring('FFE8C0', .4, 2.2, .35, y=-.25),
+           sparks('FFE2A8', 16, 4.2), embers('FFD08A', 10, 1.6, .6, gravity=.4, delay=.05), duration=.8)
+    effect('slash', 'Blade cut: white-edged crescent sweep, second echo crescent, contact spark and steel sparks',
+           layer('arc', 'slash_strip', 'FFFFFF', life=.22, size=1.15, endSize=1.9, rotation=200),
+           quad('slash_arc', 'E8F6FF', .28, 2.0, 2.5, height=1.0, rotation=-28, delay=.04),
+           flash('FFFFFF', .3, 1.0, .14, delay=.03), sparks('E8F7FF', 14, 3.6),
+           embers('D8F0FF', 8, .9, .6, delay=.06, gravity=0), duration=.8)
+    effect('critical', 'Critical: converging speed lines, X-slash, hit spark, radiant burst, double shock ring, star rain',
+           quad('speed_lines', 'FFFFFF', .35, 3.4, 2.5),
+           quad('slash_cross', 'FFFFFF', .3, 1.3, 2.5, delay=.02),
+           flash('FFF2C0', .6, 2.1, .2, delay=.04),
+           quad('sunburst', 'FFC860', .45, .4, 2.7, delay=.06, spin=30),
+           shock('FFE0A0', .5, 3.0, .4, delay=.08), ground_ring('FF7080', .3, 3.2, .5, delay=.06, y=-.3),
+           burst('star4', 'FFF4C8', 16, life=.55, size=.3, speed=3.5, delay=.04),
+           sparks('FFB060', 24, 6, .4, .34, delay=.04), embers('FFD080', 16, 1.2, 1.0, delay=.1, gravity=-.2),
+           duration=1.1)
+    effect('spark', 'Electric orb/impact: hot core, flickering bolts, star burst, crackling sparks, ribbon trail',
+           quad('lightning_sheet', 'F0F8FF', .5, 1.0, height=2.0, tiles=4),
+           quad('glow_hard', 'FFFFFF', .26, .5, .9), glint('FFFFFF', .3, 1.4, .2, delay=.02, texture='star8'),
+           layer('trail', 'trail', 'BFE6FF', life=.2, size=.35),
+           sparks('F0FAFF', 16, 4.5, .3, .25), embers('C8E8FF', 8, 1.0, .6, gravity=0), duration=.8)
+    effect('fire', 'Fireball: hit spark, cel explosion flipbook, flame lick, ember spray and dark smoke, hot trail',
+           quad('explosion_sheet', 'FFD9A0', .7, 1.2, 2.1, tiles=4),
+           flash('FFF0D0', .5, 1.5, .14), quad('flame_sheet', 'FFC890', .6, 1.1, 1.4, y=.25, tiles=4, delay=.06),
+           layer('trail', 'trail', 'FFB070', life=.22, size=.5),
+           embers('FFD090', 24, 3.0, .8, .14, gravity=-.15),
+           smoke('3A2A30', 6, .8, 1.0, .75, delay=.15, gravity=-.05), duration=1.1)
+    effect('flame', 'Fire column: glowing floor scorch, two staggered flame flipbooks, heat pillar, cinders and smoke',
+           seal('glow_hard', 'FFB060', 1.5, life=1.1, spin=0, end=2.1),
+           quad('flame_sheet', 'FFD8A8', 1.0, 1.5, height=2.6, y=.45, tiles=4),
+           quad('flame_sheet', 'FFC080', .9, 1.1, height=2.0, y=.3, tiles=4, delay=.15, rotation=4),
+           quad('beam', 'FFB070', .8, .9, height=3.0, y=.7, delay=.05),
+           emitter('ember', 'FFE0A0', 40, .8, .13, 2.2, .45, y=FLOOR),
+           emitter('smoke_sheet', '403038', 6, 1.2, .6, 1.0, .3, tiles=4, alpha=True, delay=.3, y=.4), duration=1.5)
+    effect('ice', 'Frost burst: crystal cluster erupts, snowflake seal spins out, ice shards, frost mist and glints',
+           quad('crystal', 'C8F2FF', .8, .6, 1.7, y=-.2), quad('snowflake', 'E8FCFF', .5, .3, 1.8, spin=90),
+           flash('DFF8FF', .4, 1.3, .14), ground_ring('A8E8FF', .3, 2.4, .5),
+           burst('ice_shard', '9EE4FF', 18, life=.7, size=.3, speed=3.5, gravity=.6),
+           smoke('D8F0FF', 5, .5, .9, .7, delay=.1), embers('E0FAFF', 12, .8, 1.0, delay=.1, gravity=-.05), duration=1.1)
+    effect('ring', 'Holy/frost seal at the target: rune ring on the floor, light pillar, star glint, orbiting motes',
+           ground_ring('FFFFFF', .3, 2.6, .6), seal('magic_circle_c', 'FFF6DA', 1.4, life=.8, end=2.0, spin=90),
+           quad('beam', 'FFF8E0', .6, .8, height=3.0, y=.6, delay=.05),
+           glint('FFFFFF', .3, 1.6, .3, delay=.05, texture='star8'),
+           layer('orbit', 'star4', 'FFF0B8', life=.9, size=.25, radius=.8, spin=220, count=6),
+           emitter('ember', 'FFF4D0', 25, .8, .1, 1.6, .6, y=FLOOR), duration=1.1)
+    effect('magic_circle', 'Casting seal under the caster: converging ring, counter-rotating rune circles, rising motes',
+           ground_ring('FFFFFF', 2.6, 1.2, .45),
+           seal('magic_circle_a', 'E8F0FF', 1.5, life=1.4, end=1.8, spin=50),
+           seal('magic_circle_c', 'FFFFFF', 1.9, life=1.4, end=2.1, spin=-70, y=FLOOR + .02),
+           quad('beam', 'DDE8FF', 1.2, .9, height=1.8, delay=.1),
+           layer('orbit', 'star4', 'F0F6FF', life=1.2, size=.16, radius=.9, spin=120, count=4, y=-.4),
+           emitter('dot', 'E0F0FF', 26, .8, .08, 1.2, .7, y=FLOOR), duration=1.4)
+    effect('heal', 'Healing: leaf-green seal, soft pillar, rising crosses and leaves, body bloom, sparkles',
+           seal('magic_circle_b', 'E0FFE8', 1.6, life=1.2, end=1.9, spin=40), ground_ring('E8FFF0', .4, 2.2, .5),
+           quad('beam', 'C8FFE0', 1.0, .8, height=2.6, y=.4, delay=.05),
+           emitter('plus', 'E8FFF0', 14, .9, .22, 1.3, .5, y=-.6),
+           emitter('leaf', 'D0FFD8', 10, 1.0, .18, 1.0, .6, y=-.6),
+           quad('glow', 'E0FFE8', .5, .6, 1.4, y=.2, delay=.15),
+           embers('F0FFF4', 16, 1.0, 1.0, delay=.1, gravity=-.2), duration=1.5)
+    effect('revive', 'Resurrection: sun seal, heaven pillar, unfolding wings, halo, feather fall and rising light',
+           seal('magic_circle_f', 'FFF2C8', 2.2, life=1.5, spin=30),
+           quad('beam', 'FFF6D8', 1.3, 1.1, height=4.0, y=1.0),
+           quad('wings', 'FFF4D2', 1.3, 2.2, 2.8, y=.5, delay=.2),
+           quad('halo', 'FFFFFF', 1.2, .7, horizontal=True, y=1.05, delay=.3, spin=60),
+           burst('feather', 'FFF8E8', 20, life=1.4, size=.25, speed=1.6, gravity=.1, delay=.25),
+           emitter('ember', 'FFF0C0', 25, 1.0, .12, 1.8, .6, y=FLOOR), duration=1.8)
+    effect('smoke', 'Toxic/dark cloud: small pop, two waves of cel smoke puffs, bubbles and specks',
+           smoke('E8E8E8', 12, .9, 1.1, .9, radius=.4), smoke('B8B8C0', 8, 1.6, .8, .6, delay=.05, radius=.2),
+           flash('FFFFFF', .3, 1.0, .14),
+           emitter('bubble', 'F0FFF0', 14, .7, .16, .7, .6),
+           embers('FFFFFF', 10, 1.2, .8, delay=.1, gravity=0), duration=1.4)
+    effect('buff', 'Enhancement: golden seal, rising chevrons orbit, upward motes, light column, finishing glint',
+           seal('magic_circle_b', 'FFF2D0', 1.2, life=1.1, end=1.6, spin=60), ground_ring('FFFFFF', .4, 2.0, .5),
+           layer('orbit', 'arrow_up', 'FFF0C0', life=1.0, size=.32, radius=.7, spin=120, count=4, y=-.1),
+           emitter('ember', 'FFF4D0', 22, .8, .12, 2.0, .5, y=FLOOR),
+           quad('beam', 'FFE8B0', .8, .9, height=2.2, y=.2, delay=.05),
+           glint('FFFFFF', .3, 1.0, .25, delay=.45, y=.6, texture='star8'), duration=1.2)
+    effect('debuff', 'Weakening: abyss sigil, sinking chevrons, spectral skull, dark smoke and falling motes',
+           seal('magic_circle_d', 'E8D0FF', 1.5, life=1.1, spin=-50),
+           layer('orbit', 'arrow_down', 'E0C8FF', life=.9, size=.32, radius=.7, spin=-90, count=4, y=.3),
+           quad('skull_wisp', 'D8B8FF', .8, .8, 1.1, y=.6, delay=.1),
+           smoke('403050', 8, .6, 1.1, .8, radius=.4, gravity=-.05),
+           emitter('ember', 'D0B0FF', 18, .8, .1, -1.2, .6, y=.8), duration=1.2)
+    effect('guard', 'Guard: hex barrier shell flashes, ring pulse, star glint and chips of light',
+           layer('sphere', 'hex', 'B8E0FF', life=.9, size=1.6, endSize=1.75),
+           quad('ring', 'E0F4FF', .35, .6, 1.8), glint('FFFFFF', .3, 1.0, .2, delay=.02),
+           burst('square', 'D0EEFF', 8, life=.4, size=.14, speed=2.0), duration=1.1)
+    effect('shield', 'Sustained hexagonal shield shell with a floor ring and slow drifting motes',
+           layer('sphere', 'hex', '91D8FF', life=1.5, size=1.6, spin=15),
+           seal('ring', 'C8ECFF', 1.6, life=1.5, spin=20),
+           emitter('dot', 'D8F2FF', 6, 1.2, .06, .5, .7, y=FLOOR), loop=True)
+    effect('break', 'Barrier break: hit spark, shell pops, shard spray, shock ring and an anger mark',
+           flash('FFFFFF', .5, 1.6, .15), layer('sphere', 'hex', 'C8ECFF', life=.25, size=1.6, endSize=2.0),
+           burst('square', 'B8E4FF', 30, life=.8, size=.2, speed=4.0, gravity=.9),
+           shock('D8F0FF', .4, 2.2, .35),
+           quad('anger', 'FF6784', .75, 1.0, 1.4, y=.7, delay=.1, alpha=True), duration=1.2)
+    effect('summon', 'Summoning: abyss sigil and rune band, opening void rift with glowing seam, circling skulls',
+           seal('magic_circle_d', 'D8A8FF', 2.4, life=1.5, spin=40),
+           seal('magic_circle_c', 'F0D8FF', 2.8, life=1.5, spin=-60, y=FLOOR + .02),
+           quad('rift', 'C890FF', 1.3, 1.0, height=2.0, y=.4, delay=.1, alpha=True),
+           quad('rift_glow', 'B070FF', 1.3, 1.15, height=2.2, y=.4, delay=.1),
+           layer('orbit', 'skull_wisp', 'E0C0FF', life=1.2, size=.45, radius=.9, spin=140, count=5, y=.2),
+           emitter('ember', 'C8A0FF', 25, 1.0, .1, 1.5, .9, y=FLOOR), duration=1.6)
+    effect('dark', 'Dark burst: imploding ring, abyss vortex, hit spark, shadow smoke, flung spirits and violet embers',
+           ground_ring('A060FF', 2.4, .3, .5, y=-.5),
+           quad('swirl', 'B080FF', .8, .4, 2.2, spin=-200), flash('E0C8FF', .4, 1.2, .15),
+           smoke('2A1838', 10, 1.2, 1.0, .8, radius=.3),
+           burst('skull_wisp', 'C8A8F0', 8, life=.8, size=.35, speed=2.0, delay=.05),
+           embers('D8B8FF', 14, 2.5, .8, .12, gravity=-.2), duration=1.2)
+    effect('holy', 'Holy strike: pillar from above, radiant wedge burst, sun seal, cross flash and feather fan',
+           quad('beam', 'FFF6D0', .7, 1.0, height=4.0, y=1.2),
+           quad('sunburst', 'FFF3C2', .6, .3, 2.6, delay=.05, spin=20),
+           seal('magic_circle_f', 'FFF0C0', 1.8, life=1.0, end=2.1, spin=30),
+           quad('cross', 'FFFFFF', .5, .6, height=1.2, y=.3, delay=.08),
+           burst('feather', 'FFF2D0', 18, life=1.2, size=.22, speed=1.8, gravity=.15, delay=.1),
+           emitter('ember', 'FFF8E0', 30, .8, .1, 2.0, .6, y=FLOOR), duration=1.3)
+    effect('pierce', 'Arrow hit: light-arrow streak, small hit spark, tight shock ring, focused sparks',
+           quad('arrow_streak', 'E0F4FF', .25, 2.2, height=.55),
+           flash('FFFFFF', .3, 1.0, .14, delay=.03), shock('D8F0FF', .2, 1.2, .25, delay=.03),
+           sparks('E8F8FF', 14, 4.0, .3, .25), duration=.8)
+    effect('blunt', 'Heavy blow: hit spark, shock ring, floor ring, dust cloud, flying rock chips and sparks',
+           flash('FFF0D8', .6, 1.8, .16), shock('FFE8C0', .4, 2.4, .35), ground_ring('E8D0A0', .3, 3.0, .5),
+           smoke('C8B898', 14, 1.8, .9, .7, radius=.3, y=-.6, gravity=.1),
+           burst('rock', 'A89878', 12, life=.8, size=.18, speed=3.5, gravity=1.2, y=-.4, alpha=True),
+           sparks('FFE0B0', 12, 4.0, .3, .25), duration=1.1)
+    effect('thunder', 'Lightning strike: two staggered bolts from above, white flash, floor ring, sparks and static',
+           quad('lightning_sheet', 'F0F8FF', .55, 1.5, height=3.6, y=1.2, tiles=4),
+           quad('lightning_sheet', 'C0DCFF', .5, 1.2, height=3.0, y=1.0, tiles=4, delay=.12, rotation=8),
+           flash('F0F8FF', .6, 1.8, .16, delay=.02), quad('glow_hard', 'D0E8FF', .3, .5, 1.1),
+           ground_ring('B0D8FF', .3, 2.6, .4),
+           sparks('E8F4FF', 24, 5.0, .3, .3), embers('A8D0FF', 14, 1.5, .8, .12, delay=.1, gravity=0), duration=1.1)
+
+
+def ultimates():
+    effect('ultimate_warrior', 'Warrior ultimate: speed-line focus, giant holy sword drops, X-slash, triple shock, star storm',
+           quad('speed_lines', 'FFFFFF', .5, 4.5, 3.2),
+           seal('magic_circle_a', 'FFE6A0', 3.2, life=1.6, spin=40),
+           quad('sword', 'FFF0C0', 1.2, 1.6, height=3.4, y=1.2, delay=.1),
+           quad('slash_cross', 'FFFFFF', .35, 1.5, 3.2, delay=.45),
+           flash('FFF8E0', .8, 2.6, .2, delay=.5), shock('FFE0A0', .5, 3.6, .45, delay=.5),
+           ground_ring('FFC060', .4, 4.0, .6, delay=.5),
+           burst('star8', 'FFF2C0', 24, life=.8, size=.35, speed=4.0, delay=.5),
+           embers('FFD080', 30, 2.0, 1.3, .14, delay=.55, gravity=-.3), duration=2)
+    effect('ultimate_mage', 'Mage ultimate: grand arcane seal, meteor streaks down, fireball explosion, flame columns, smoke',
+           seal('magic_circle_e', 'FFD8F0', 3.6, life=1.8, spin=30),
+           seal('magic_circle_c', 'FFFFFF', 4.2, life=1.8, spin=-50, y=FLOOR + .02),
+           quad('meteor', 'FFE0C0', .38, 1.3, height=2.8, y=1.8, delay=.05),
+           emitter('glow_hard', 'FFE0B0', .9, .35, 1.0, -8.0, .02, y=3.0, upright=True, delay=.05),
+           quad('explosion_sheet', 'FFD0A0', .8, 2.0, 3.4, tiles=4, delay=.4),
+           flash('FFF0D0', .8, 2.8, .2, delay=.4), seal('shockwave', 'FFB070', .5, life=.6, end=4.2, spin=0, delay=.4),
+           quad('flame_sheet', 'FFC080', .9, 1.8, height=2.6, y=.5, tiles=4, delay=.5),
+           embers('FFC080', 36, 3.0, 1.2, .14, delay=.45, gravity=-.25),
+           smoke('302028', 10, 1.4, 1.3, 1.0, delay=.55, radius=.5, gravity=-.05), duration=2.2)
+    effect('ultimate_archer', 'Archer ultimate: twin seals in the sky, rain of light arrows, ground sparkles and shock ring',
+           seal('magic_circle_b', 'D8F0FF', 3.0, life=1.6, spin=60, y=2.8),
+           seal('magic_circle_c', 'FFFFFF', 3.4, life=1.6, spin=-80, y=2.82),
+           emitter('arrow_rain', 'E8F8FF', 60, .55, 1.3, -8.5, 1.3, y=2.6, upright=True, delay=.2),
+           emitter('star4', 'F0FAFF', 30, .25, .45, .3, 1.3, y=FLOOR, delay=.55),
+           ground_ring('C8ECFF', .5, 3.4, .6, delay=.5), seal('shockwave', 'D8F0FF', .5, life=.5, end=3.4, spin=0, delay=.6),
+           emitter('ember', 'D8F0FF', 30, .9, .11, 1.0, 1.2, y=FLOOR, delay=.5), duration=2)
+    effect('ultimate_cleric', 'Cleric ultimate: sun seal, heaven pillar, great wings and halo, radiant burst, feather fall',
+           seal('magic_circle_f', 'FFF4D0', 3.6, life=2.0, spin=25),
+           quad('beam', 'FFF8E0', 1.6, 1.4, height=5.0, y=1.6, delay=.1),
+           quad('wings', 'FFFFF0', 1.6, 3.4, 3.8, y=.8, delay=.25),
+           quad('halo', 'FFFFFF', 1.5, 1.0, horizontal=True, y=1.3, delay=.35, spin=50),
+           quad('sunburst', 'FFF2C0', .7, .5, 3.4, y=.4, delay=.3, spin=15),
+           emitter('feather', 'FFF6E0', 18, 1.4, .25, -1.0, 1.4, y=2.6, gravity=.02),
+           emitter('ember', 'FFF6D0', 40, 1.0, .12, 2.0, 1.2, y=FLOOR), duration=2.2)
+
+
+def jobs():
+    """Signature effects for the advanced / top jobs of the job tree. Data only: nothing plays them yet
+    (a job-skill presentation entry or BattleView hook has to reference `job_<id>`)."""
+    # warrior -> knight -> paladin
+    effect('job_knight', 'Knight: azure guard seal and hex bulwark, then a sweeping shield-cleave and blue shock',
+           seal('magic_circle_b', '9CC8FF', 2.4, life=1.4, spin=40),
+           layer('sphere', 'hex', 'A8D4FF', life=1.0, size=1.8, endSize=2.0, delay=.05),
+           layer('arc', 'slash_strip', 'E0F0FF', life=.25, size=1.4, endSize=2.2, rotation=200, delay=.3),
+           quad('slash_arc', 'C8E4FF', .3, 2.2, 2.6, height=1.1, rotation=-25, delay=.35),
+           flash('FFFFFF', .5, 1.6, .16, delay=.38), shock('B8DCFF', .4, 2.6, .4, delay=.4),
+           sparks('D8ECFF', 18, 4.5, .35, .28, delay=.38), embers('A8D0FF', 12, 1.0, 1.0, delay=.45, gravity=-.2),
+           duration=1.6)
+    effect('job_paladin', 'Paladin: sun seal, heaven pillar with a descending holy sword, unfolding wings, radiant burst',
+           seal('magic_circle_f', 'FFE8A8', 3.0, life=1.9, spin=30),
+           quad('beam', 'FFF4C8', 1.4, 1.3, height=5.0, y=1.6, delay=.1),
+           quad('sword', 'FFF8E0', 1.2, 1.4, height=2.8, y=.9, delay=.2),
+           quad('wings', 'FFF0C8', 1.4, 3.2, 3.6, y=.7, delay=.35),
+           quad('sunburst', 'FFE8A0', .6, .5, 3.0, y=.3, delay=.55, spin=20),
+           flash('FFFFFF', .6, 2.0, .18, delay=.55),
+           burst('feather', 'FFF6E0', 22, life=1.4, size=.24, speed=2.2, gravity=.1, delay=.55),
+           emitter('ember', 'FFF0C0', 35, 1.0, .12, 2.4, .8, y=FLOOR), duration=2)
+    # warrior -> berserker -> warlord
+    effect('job_berserker', 'Berserker: red focus lines, two frenzied claw rakes, X-slash, blood spray and rage embers',
+           quad('speed_lines', 'FF6060', .4, 3.6, 2.6),
+           quad('claw', 'FFD0D0', .32, 1.8, 2.4, rotation=15, delay=.15),
+           quad('claw', 'FFB0B0', .32, 1.8, 2.4, rotation=-160, delay=.28),
+           quad('slash_cross', 'FF8080', .3, 1.2, 2.4, delay=.4), flash('FFE0E0', .6, 1.8, .18, delay=.42),
+           burst('droplet', 'FF4050', 16, life=.7, size=.16, speed=3.5, gravity=1.0, delay=.42, alpha=True),
+           sparks('FFA0A0', 20, 5.0, .35, .3, delay=.42),
+           emitter('ember', 'FF6050', 25, .8, .12, 1.5, .6, y=-.6), duration=1.6)
+    effect('job_warlord', 'Warlord: crimson war sigil, ground-shattering explosion, double crimson shockwave, rocks and embers',
+           seal('magic_circle_d', 'FF6040', 3.2, life=1.8, spin=-30),
+           quad('speed_lines', 'FFB080', .45, 4.0, 3.0),
+           quad('explosion_sheet', 'FF9060', .8, 1.8, 3.0, tiles=4, delay=.35),
+           flash('FFE0C0', .8, 2.6, .2, delay=.35),
+           seal('shockwave', 'FF7050', .5, life=.6, end=4.4, spin=0, delay=.35),
+           shock('FFB090', .5, 3.4, .45, delay=.4), ground_ring('FF4030', .5, 4.8, .7, delay=.4),
+           burst('rock', '806050', 16, life=.9, size=.22, speed=4.0, gravity=1.3, y=-.5, delay=.35, alpha=True),
+           smoke('503030', 10, 1.6, 1.2, 1.0, delay=.4, radius=.5, y=-.5),
+           embers('FF8040', 40, 3.0, 1.4, .14, delay=.4, gravity=-.25), duration=2.2)
+    # mage -> elementalist -> archmage
+    effect('job_elementalist', 'Elementalist: fire and ice spirits orbit a rune circle with sparks, then converge in a prismatic blast',
+           seal('magic_circle_a', 'C8E0FF', 2.6, life=1.6, spin=50),
+           layer('orbit', 'flame_sheet', 'FF9050', life=1.0, size=.55, radius=1.0, spin=160, count=2, y=.2, tiles=4),
+           layer('orbit', 'crystal', 'A0E0FF', life=1.0, size=.5, radius=1.0, spin=-160, count=2, y=.2),
+           layer('orbit', 'star8', 'FFF0A0', life=1.0, size=.35, radius=.7, spin=100, count=3, y=.6),
+           flash('FFFFFF', .6, 2.2, .2, delay=.9),
+           quad('explosion_sheet', 'D0C0FF', .7, 1.0, 2.4, tiles=4, delay=.9),
+           sparks('C0E0FF', 18, 5.0, .4, .3, delay=.9), embers('FFB080', 16, 2.4, 1.0, delay=.9),
+           burst('ice_shard', 'A0E0FF', 10, life=.7, size=.28, speed=3.0, gravity=.5, delay=.9), duration=2)
+    effect('job_archmage', 'Archmage: three stacked arcane seals (floor, air, sky), a meteor streaks down, grand explosion',
+           seal('magic_circle_e', 'D8C0FF', 3.4, life=2.2, spin=25),
+           seal('magic_circle_c', 'FFFFFF', 3.9, life=2.2, spin=-40, y=FLOOR + .02),
+           seal('magic_circle_a', 'E8D8FF', 2.0, life=1.8, spin=-60, y=1.4, delay=.1),
+           seal('magic_circle_b', 'F0E0FF', 1.4, life=1.6, spin=80, y=3.0, delay=.2),
+           quad('meteor', 'FFD0A0', .4, 1.4, height=3.0, y=1.9, delay=.6),
+           emitter('glow_hard', 'FFE0B0', .9, .35, 1.0, -8.0, .02, y=3.0, upright=True, delay=.6),
+           quad('explosion_sheet', 'FFB070', .8, 2.0, 3.4, tiles=4, delay=.95),
+           flash('FFF0D0', .8, 2.8, .2, delay=.95),
+           seal('shockwave', 'FFC090', .5, life=.6, end=4.2, spin=0, delay=.95),
+           ground_ring('FFB070', .5, 4.4, .7, delay=1.0),
+           embers('FFC080', 40, 3.0, 1.2, .14, delay=1.0, gravity=-.25),
+           smoke('2A1C30', 10, 1.4, 1.3, 1.0, delay=1.05, radius=.5), duration=2.4)
+    # mage -> warlock -> abyssal
+    effect('job_warlock', 'Warlock: violet curse sigil, tightening vortex, circling skull wisps, shadow smoke, curse pop',
+           seal('magic_circle_d', 'B070FF', 2.6, life=1.6, spin=-40),
+           quad('swirl', 'C080FF', 1.2, .6, 2.4, spin=-160, y=.2, delay=.1),
+           layer('orbit', 'skull_wisp', 'D0A8FF', life=1.3, size=.45, radius=.9, spin=-140, count=4, y=.3),
+           smoke('2A1640', 12, .9, 1.3, 1.0, delay=.2, radius=.5),
+           flash('E8D0FF', .5, 1.8, .2, delay=.7), embers('C890FF', 24, 2.6, 1.0, .12, delay=.7, gravity=-.2),
+           duration=1.8)
+    effect('job_abyssal', 'Abyssal: cyan-violet twin sigils, a void rift tears open with a glowing seam, vortex, abyss smoke',
+           seal('magic_circle_d', '60E0FF', 3.2, life=2.0, spin=30),
+           seal('magic_circle_c', 'B080FF', 3.7, life=2.0, spin=-50, y=FLOOR + .02),
+           quad('swirl', '9060FF', 1.4, 1.0, 3.0, spin=-120, y=.5, delay=.3),
+           quad('rift', 'B8F4FF', 1.6, 1.3, 1.5, height=2.8, y=.6, delay=.15, alpha=True),
+           quad('rift_glow', '60E8FF', 1.6, 1.5, 1.7, height=3.0, y=.6, delay=.15),
+           emitter('smoke_sheet', '180C28', 8, 1.2, .8, 1.0, .8, tiles=4, alpha=True, y=FLOOR, delay=.2),
+           ground_ring('8040FF', 4.0, .5, .6, delay=.5),
+           flash('D0F8FF', .6, 2.0, .2, delay=.6), embers('70F0FF', 30, 3.0, 1.2, .12, delay=.6, gravity=-.3),
+           duration=2.2)
+    # archer -> sniper -> divine_archer
+    effect('job_sniper', 'Sniper: lock-on reticle and ring converge, then a piercing light arrow, focus lines and sharp burst',
+           quad('magic_circle_c', 'D0F0FF', .6, 1.8, 1.0, spin=120),
+           quad('ring', 'FFFFFF', .5, 2.4, .6),
+           quad('arrow_streak', 'E8F8FF', .25, 3.6, height=.6, delay=.5),
+           quad('speed_lines', 'C0E8FF', .3, 3.0, 2.4, delay=.5),
+           flash('FFFFFF', .4, 1.6, .16, delay=.55), shock('C8ECFF', .3, 2.4, .35, delay=.55),
+           sparks('E0F6FF', 20, 6.0, .35, .3, delay=.55), duration=1.4)
+    effect('job_divine_archer', 'Divine Archer: golden sun seal opens in the sky and rains golden arrows; sparkling impacts',
+           seal('magic_circle_f', 'FFE8A0', 3.2, life=2.0, spin=40, y=2.9),
+           seal('sunburst', 'FFE8A0', 2.0, life=1.6, spin=60, y=2.92),
+           seal('magic_circle_b', 'FFE0A0', 3.0, life=1.8, spin=-30),
+           emitter('arrow_rain', 'FFE8B0', 65, .55, 1.4, -8.5, 1.4, y=2.7, upright=True, delay=.2),
+           emitter('star4', 'FFF4D0', 35, .25, .5, .2, 1.4, y=FLOOR, delay=.5),
+           ground_ring('FFD070', .5, 3.6, .7, delay=.55),
+           emitter('ember', 'FFE8B0', 30, 1.0, .12, 1.5, 1.2, y=FLOOR, delay=.5), duration=2.2)
+    # archer -> ranger -> shadow_stalker
+    effect('job_ranger', 'Ranger: leaf storm whirls around a green seal, two wind cuts and a burst of leaves',
+           seal('magic_circle_b', 'A8F0B0', 2.4, life=1.4, spin=60),
+           layer('orbit', 'leaf', 'C8FFC0', life=1.2, size=.3, radius=1.0, spin=260, count=8, y=-.2),
+           layer('orbit', 'leaf', 'B0F0A0', life=1.2, size=.26, radius=.7, spin=-300, count=6, y=.5),
+           layer('arc', 'slash_strip', 'D8FFD8', life=.3, size=1.6, endSize=2.2, rotation=30, delay=.5),
+           layer('arc', 'slash_strip', 'C0FFC8', life=.3, size=1.4, endSize=2.0, rotation=210, delay=.62),
+           flash('F0FFE8', .4, 1.4, .16, delay=.55),
+           burst('leaf', 'B8F8A8', 18, life=1.0, size=.22, speed=3.0, gravity=.2, delay=.55), duration=1.6)
+    effect('job_shadow_stalker', 'Shadow Stalker: vanishes in shadow smoke, three violet blade arcs, X-slash, dark burst',
+           smoke('201030', 10, .6, 1.0, .9, radius=.5),
+           layer('arc', 'slash_strip', 'C8A0FF', life=.22, size=1.9, endSize=2.6, rotation=20, delay=.15),
+           layer('arc', 'slash_strip', 'E0C8FF', life=.22, size=1.9, endSize=2.6, rotation=160, delay=.25),
+           layer('arc', 'slash_strip', 'B080FF', life=.22, size=2.1, endSize=2.8, rotation=280, delay=.35),
+           quad('slash_cross', 'D8B8FF', .3, 1.4, 2.6, delay=.45), flash('F0E0FF', .5, 1.6, .16, delay=.47),
+           sparks('C090FF', 20, 5.0, .3, .28, delay=.47), smoke('180828', 8, 1.6, .9, .7, delay=.5), duration=1.5)
+    # cleric -> priest -> saint
+    effect('job_priest', 'Priest: blessing seal, soft light pillar, rising crosses and petals, warm bloom and sparkles',
+           seal('magic_circle_f', 'D8FFE0', 2.4, life=1.6, spin=30),
+           quad('beam', 'E0FFE8', 1.2, 1.2, height=3.6, y=1.0, delay=.1),
+           emitter('plus', 'E8FFF0', 16, 1.0, .24, 1.4, .7, y=-.7),
+           emitter('petal', 'FFE0F0', 10, 1.4, .16, 1.0, .8, y=-.7),
+           quad('glow', 'E8FFF0', .6, .6, 1.4, y=.2, delay=.3),
+           burst('star4', 'FFFFFF', 10, life=.8, size=.25, speed=1.5, delay=.4), duration=1.8)
+    effect('job_saint', 'Saint: great halo above, heaven pillar, rain of healing light and crosses, radiant bloom',
+           quad('halo', 'FFF8D8', 2.0, 1.4, horizontal=True, y=2.3, spin=40),
+           seal('magic_circle_f', 'FFF2C8', 3.4, life=2.0, spin=-30),
+           quad('beam', 'FFF8E0', 1.6, 1.5, height=5.0, y=1.6, delay=.1),
+           emitter('light_streak', 'E8FFF0', 40, .55, 1.0, -7.5, 1.3, y=2.4, upright=True, delay=.15),
+           emitter('plus', 'D8FFE8', 20, .6, .25, -3.0, 1.3, y=2.2, upright=True, delay=.2),
+           quad('sunburst', 'FFF4D0', .8, .5, 3.2, y=.4, delay=.6, spin=15),
+           emitter('ember', 'F0FFF4', 30, 1.0, .12, 1.5, 1.2, y=FLOOR, delay=.4), duration=2.2)
+    # cleric -> exorcist -> inquisitor
+    effect('job_exorcist', 'Exorcist: upright holy seal spins open, cross flash, spirits flung out, holy shock and stars',
+           quad('magic_circle_f', 'FFF0C0', 1.2, .6, 2.2, spin=90, y=.3),
+           quad('cross', 'FFFFFF', .8, .6, height=1.2, y=.3, delay=.2),
+           burst('skull_wisp', 'E8E0FF', 6, life=.9, size=.4, speed=2.5, gravity=-.3, delay=.4),
+           flash('FFF8E0', .5, 1.8, .18, delay=.45), shock('FFE8B0', .4, 2.6, .4, delay=.45),
+           burst('star4', 'FFF4C0', 16, life=.6, size=.28, speed=3.0, delay=.45), duration=1.6)
+    effect('job_inquisitor', 'Inquisitor: crimson sigil, judgment pillar and giant crimson cross impale the target, red shock',
+           seal('magic_circle_d', 'FF5060', 3.2, life=2.0, spin=30),
+           quad('speed_lines', 'FF9090', .4, 4.0, 3.0),
+           quad('beam', 'FF4050', .9, 1.4, height=5.0, y=1.6, delay=.25),
+           quad('cross', 'FF6070', 1.2, 1.4, height=2.8, y=.9, delay=.3),
+           flash('FFE0E0', .8, 2.4, .2, delay=.35),
+           seal('shockwave', 'FF6060', .5, life=.6, end=4.0, spin=0, delay=.35),
+           embers('FF5050', 34, 3.0, 1.2, .13, delay=.35, gravity=-.3),
+           smoke('401018', 8, 1.2, 1.0, .9, delay=.4, y=-.4), duration=2)
+
+
+def skill_effects():
+    """Skill expansion v2. `enchant`/`aura`/`warcry` play on the caster; `blade_*` are element weapon-art impacts;
+    `area_*`, `aegis`, `drain`, `sleep_mist`, `flash_burst` and `ultimate_warrior2` are PresentationDef.area_vfx keys,
+    played ONCE at the centre of the whole target group (origin 0.9 m above the floor) and authored ~5.5 m wide so a
+    group spell reads as one big field event; per-hit impacts still play on every target. Near-white palettes so the
+    skill's light colour tints them (same convention as the shared battle keys)."""
+    # --- caster-side wind-ups ------------------------------------------------------------------------
+    effect('enchant', 'Weapon enchant on the caster: spinning seal, body glow, orbiting glints and rising element embers',
+           seal('magic_circle_a', 'FFFFFF', 1.3, life=1.0, spin=90), quad('glow', 'FFFFFF', .8, .6, 1.2, y=.1),
+           layer('orbit', 'star4', 'FFFFFF', life=.9, size=.2, radius=.6, spin=300, count=3, y=.1),
+           emitter('ember', 'FFFFFF', 30, .6, .1, 2.2, .4, y=-.6), duration=1.0)
+    effect('warcry', 'Battle shout: radial focus lines, double shockwave, anger mark, rising aura flames and embers',
+           quad('speed_lines', 'FFFFFF', .5, 2.0, 3.6), shock('FFFFFF', .4, 2.8, .4, delay=.05),
+           shock('FFFFFF', .3, 2.2, .35, delay=.2), ground_ring('FFFFFF', .4, 3.0, .5),
+           quad('anger', 'FF6784', .7, .8, 1.2, y=.9, delay=.1, alpha=True),
+           emitter('flame_sheet', 'FFFFFF', 14, .6, .6, 2.0, .4, y=FLOOR, tiles=4, upright=True),
+           emitter('ember', 'FFFFFF', 30, .8, .1, 2.6, .5, y=FLOOR), duration=1.2)
+    effect('aura', 'Power-up aura: spinning seal, aura column and flames, orbiting chevrons, rising motes, finishing glint',
+           seal('magic_circle_e', 'FFFFFF', 1.7, life=1.2, spin=80), quad('beam', 'FFFFFF', 1.0, 1.1, height=2.6, y=.4),
+           emitter('flame_sheet', 'FFFFFF', 12, .7, .7, 1.6, .35, y=FLOOR, tiles=4, upright=True),
+           layer('orbit', 'arrow_up', 'FFFFFF', life=1.0, size=.3, radius=.75, spin=160, count=3),
+           emitter('ember', 'FFFFFF', 26, .8, .1, 2.4, .5, y=FLOOR),
+           glint('FFFFFF', .35, 1.4, .25, delay=.5, y=.7, texture='star8'), duration=1.3)
+
+    # --- element weapon arts (per-hit impact) --------------------------------------------------------
+    def blade(key, description, *extra):
+        effect(key, description,
+               layer('arc', 'slash_strip', 'FFFFFF', life=.22, size=1.4, endSize=2.2, rotation=200),
+               quad('slash_arc', 'FFFFFF', .3, 2.4, 3.0, height=1.2, rotation=-28, delay=.03),
+               flash('FFFFFF', .5, 1.7, .15, delay=.03), *extra, duration=1.2)
+    blade('blade_fire', 'Flame blade: white crescent cut that bursts into a cel explosion, ember spray and smoke',
+          quad('explosion_sheet', 'FFD9A0', .6, 1.2, 2.2, tiles=4, delay=.05), embers('FFD090', 26, 3.0, .8, .14),
+          smoke('3A2A30', 5, .8, .9, .7, delay=.15))
+    blade('blade_ice', 'Frost blade: crescent cut, ice crystal erupts from the wound, shard spray and frost mist',
+          quad('crystal', 'E0F8FF', .7, .6, 1.8, y=-.2, delay=.04),
+          burst('ice_shard', 'C8F0FF', 16, life=.7, size=.3, speed=3.5, gravity=.6), smoke('E0F4FF', 4, .5, .9, .7, delay=.1))
+    blade('blade_thunder', 'Thunder blade: crescent cut with a bolt striking the blade, crackling sparks, floor ring',
+          quad('lightning_sheet', 'F0F8FF', .45, 1.4, height=3.2, y=1.0, tiles=4), sparks('F0FAFF', 24, 5.0, .3, .28),
+          ground_ring('FFFFFF', .3, 2.4, .4))
+    blade('blade_holy', 'Holy blade: crescent cut, radiant cross and sunburst, feather fan',
+          quad('cross', 'FFFFFF', .5, .7, height=1.4, y=.3, delay=.05), quad('sunburst', 'FFF6D8', .5, .3, 2.4, delay=.05, spin=20),
+          burst('feather', 'FFF8E8', 12, life=1.0, size=.22, speed=1.8, gravity=.15, delay=.08))
+
+    # --- group / field spells (area_vfx) ----------------------------------------------------------------
+    effect('area_fire', 'Hellfire field: wide rune seal and scorch, flame columns and explosions erupting across the group, '
+           'giant hit flash and shock ring, ember storm, rolling smoke',
+           seal('magic_circle_a', 'FFE0C0', 5.5, life=1.8, spin=25),
+           seal('glow_hard', 'FFB070', 4.0, life=1.4, spin=0, end=6.0, delay=.1),
+           emitter('flame_sheet', 'FFD0A0', 22, .9, 1.8, .8, 2.6, y=FLOOR + .6, tiles=4, upright=True, delay=.1),
+           emitter('explosion_sheet', 'FFE0B8', 6, .7, 2.0, .2, 2.4, y=-.2, tiles=4, upright=True, delay=.15),
+           flash('FFF0D0', 1.2, 4.0, .2, delay=.15), seal('shockwave', 'FFB070', .5, life=.6, end=6.5, spin=0, delay=.15),
+           emitter('ember', 'FFD090', 60, 1.0, .13, 3.0, 2.8, y=FLOOR, delay=.1),
+           smoke('302028', 12, 1.2, 1.4, 1.3, delay=.4, radius=1.6), duration=1.8)
+    effect('area_ice', 'Glacier field: snowflake seal, ice crystals erupting across the group, falling snow, frost flash, '
+           'shard spray and freezing mist',
+           seal('snowflake', 'E8FCFF', 4.5, life=1.8, spin=30, end=6.0),
+           seal('magic_circle_c', 'D8F4FF', 6.0, life=1.8, spin=-40, y=FLOOR + .02),
+           emitter('crystal', 'E0F8FF', 16, .9, 1.4, .4, 2.5, y=FLOOR + .4, upright=True, delay=.15),
+           emitter('snowflake', 'F0FCFF', 40, 1.2, .2, -2.5, 3.0, y=2.6),
+           flash('E8FCFF', 1.0, 3.6, .2, delay=.2), seal('shockwave', 'C8F0FF', .5, life=.6, end=6.0, spin=0, delay=.2),
+           burst('ice_shard', 'C8F0FF', 30, life=.9, size=.35, speed=4.5, gravity=.8, radius=1.0, delay=.2),
+           smoke('E0F4FF', 10, 1.0, 1.2, .8, radius=2.0, delay=.3), duration=1.8)
+    effect('area_thunder', 'Thunderstorm: storm cloud overhead, bolts raining down across the group, white flash, '
+           'wide floor ring, crackling sparks',
+           smoke('2A2A40', 10, .3, 1.6, 1.2, radius=2.2, y=2.8, gravity=0),
+           seal('magic_circle_d', 'E8F0FF', 5.0, life=1.6, spin=40),
+           quad('lightning_sheet', 'F0F8FF', .5, 2.0, height=4.4, y=1.3, tiles=4, delay=.15),
+           emitter('lightning_sheet', 'F0F8FF', 20, .4, 2.6, 0, 2.4, y=.9, tiles=4, upright=True, delay=.15),
+           flash('F0F8FF', 1.0, 3.6, .18, delay=.2), ground_ring('D0E8FF', .5, 6.0, .5, delay=.2),
+           emitter('spark', 'F0FAFF', 60, .3, .25, 3.0, 2.6, y=FLOOR, delay=.15), duration=1.7)
+    effect('area_holy', 'Divine judgment: floor and sky sun seals, light lances raining down, light pillars, '
+           'giant sunburst, feather storm',
+           seal('magic_circle_f', 'FFF4D0', 5.6, life=1.9, spin=20),
+           seal('magic_circle_c', 'FFFFFF', 6.2, life=1.9, spin=-35, y=FLOOR + .02),
+           seal('magic_circle_f', 'FFF0C0', 3.0, life=1.6, spin=-30, y=3.2, delay=.05),
+           emitter('light_streak', 'FFF8E0', 40, .45, 1.2, -8.0, 2.6, y=3.0, upright=True, delay=.15),
+           emitter('beam', 'FFF6D8', 6, .6, 2.4, 0, 2.3, y=.6, upright=True, delay=.2),
+           quad('sunburst', 'FFF3C2', .7, 1.0, 5.0, delay=.3, spin=15), flash('FFFFFF', 1.0, 3.4, .2, delay=.3),
+           burst('feather', 'FFF2D0', 30, life=1.4, size=.25, speed=2.5, gravity=.12, radius=1.5, delay=.3),
+           emitter('ember', 'FFF8E0', 50, .9, .11, 2.4, 2.8, y=FLOOR), duration=2.0)
+    effect('area_dark', 'Void field: abyss sigil, imploding ring, ground vortex and rising vortex, shadow smoke, '
+           'flung spirits, violet ember storm',
+           seal('magic_circle_d', 'E0C8FF', 5.6, life=1.8, spin=-30), ground_ring('C090FF', 6.0, .6, .6, y=FLOOR + .05),
+           quad('swirl', 'C8A0FF', 1.2, 1.0, 5.0, horizontal=True, y=FLOOR + .1, spin=-160),
+           quad('swirl', 'B080FF', .9, .6, 3.4, spin=-220, y=.4, delay=.2),
+           emitter('smoke_sheet', '2A1838', 14, 1.2, 1.2, 1.0, 2.6, y=FLOOR, tiles=4, alpha=True),
+           burst('skull_wisp', 'D8B8F0', 14, life=1.1, size=.45, speed=2.5, radius=1.6, delay=.25),
+           flash('E8D0FF', .9, 3.2, .2, delay=.35), embers('D8B8FF', 40, 3.0, 1.0, .12, delay=.35, radius=2.0), duration=1.8)
+    effect('area_quake', 'Earthquake: giant ground shockwave and floor ring, focus lines, flash, rock eruption and dust '
+           'across the group, spark spray',
+           seal('shockwave', 'FFE8C0', .6, life=.7, end=6.5, spin=0, delay=.05), ground_ring('E8D0A0', .5, 6.5, .6),
+           quad('speed_lines', 'FFFFFF', .4, 3.0, 5.0), flash('FFF0D8', 1.0, 3.0, .18),
+           quad('explosion_sheet', 'FFE8C8', .7, 1.8, 3.4, tiles=4, y=-.2),
+           emitter('rock', 'A89878', 50, .9, .42, 5.0, 2.6, y=FLOOR, gravity=1.4, alpha=True),
+           emitter('smoke_sheet', 'C8B898', 16, 1.0, 1.3, 1.6, 2.6, y=FLOOR + .2, tiles=4, alpha=True),
+           sparks('FFE0B0', 30, 6.0, .4, .3, radius=1.5), duration=1.6)
+    effect('area_slash', 'Sweeping cleave: three huge crescents sweep across the group, spark spray, wide floor ring',
+           layer('arc', 'slash_strip', 'FFFFFF', life=.25, size=4.0, endSize=5.5, rotation=190),
+           layer('arc', 'slash_strip', 'FFFFFF', life=.25, size=4.2, endSize=5.8, rotation=10, delay=.12),
+           quad('slash_arc', 'FFFFFF', .3, 4.8, 6.0, height=2.0, rotation=-18, delay=.06),
+           flash('FFFFFF', .8, 3.2, .16, delay=.05),
+           burst('spark', 'F0FFFF', 30, life=.4, size=.3, speed=6.0, radius=1.2, delay=.1),
+           seal('ring', 'FFFFFF', 1.0, life=.6, end=6.0, spin=0), duration=1.2)
+    effect('area_wind', 'Whirlwind: wind funnel spins up in the middle of the group, crossing gale crescents, '
+           'swirling leaves and wind glints, wide floor ring',
+           quad('tornado', 'F0FFF8', 1.2, 2.2, 2.6, height=4.0, y=.9),
+           quad('tornado', 'D8FFF0', 1.0, 1.6, 2.2, height=3.0, y=.6, delay=.15, rotation=6),
+           layer('arc', 'slash_strip', 'FFFFFF', life=.25, size=4.0, endSize=5.5, rotation=190, delay=.1),
+           layer('arc', 'slash_strip', 'FFFFFF', life=.25, size=3.4, endSize=5.0, rotation=20, delay=.25),
+           layer('orbit', 'leaf', 'E0FFE0', life=1.2, size=.3, radius=2.0, spin=320, count=8, y=.2),
+           burst('spark', 'F0FFFF', 26, life=.45, size=.3, speed=6.0, radius=1.2, delay=.1),
+           seal('ring', 'FFFFFF', 1.0, life=.6, end=6.0, spin=0), duration=1.5)
+    effect('area_arrows', 'Arrow storm: seal opens in the sky, a dense rain of light arrows over the whole group, '
+           'ground glints, wide ring and motes',
+           seal('magic_circle_b', 'E8F8FF', 3.2, life=1.4, spin=60, y=2.9),
+           emitter('arrow_rain', 'F0FAFF', 70, .5, 1.2, -9.0, 2.6, y=2.7, upright=True, delay=.1),
+           emitter('star4', 'FFFFFF', 30, .25, .4, .3, 2.6, y=FLOOR, delay=.4),
+           ground_ring('FFFFFF', .5, 5.6, .6, delay=.4), emitter('ember', 'F0F8FF', 30, .9, .1, 1.0, 2.6, y=FLOOR, delay=.4),
+           duration=1.5)
+    effect('area_poison', 'Toxic miasma: curse seal, rolling cel smoke over the group, rising bubbles and specks',
+           seal('magic_circle_d', 'E8FFE0', 5.0, life=1.6, spin=30),
+           emitter('smoke_sheet', 'E0FFD0', 14, 1.4, 1.4, .8, 2.6, y=FLOOR + .2, tiles=4, alpha=True),
+           smoke('C8E8B8', 10, 1.2, 1.2, 1.0, radius=1.8),
+           emitter('bubble', 'F0FFE8', 30, 1.0, .22, 1.2, 2.6, y=FLOOR), duration=1.8)
+    effect('area_heal', 'Healing rain: wide leaf seal and ring, rain of soft light, rising crosses and leaves, bloom, sparkles',
+           seal('magic_circle_b', 'E0FFE8', 5.2, life=1.8, spin=30), ground_ring('E8FFF0', .5, 5.6, .6),
+           emitter('light_streak', 'E8FFF0', 30, .5, 1.0, -6.0, 2.8, y=2.8, upright=True, delay=.1),
+           emitter('plus', 'E8FFF0', 24, 1.0, .3, 1.5, 2.6, y=FLOOR + .1),
+           emitter('leaf', 'D0FFD8', 14, 1.2, .22, 1.2, 2.6, y=FLOOR),
+           seal('glow', 'E0FFE8', 2.0, life=1.0, spin=0, end=5.0, delay=.25),
+           embers('F0FFF4', 40, 1.4, 1.1, radius=2.0, delay=.2), duration=1.9)
+    effect('area_buff', 'Party blessing: wide golden seal and ring, chevrons circling the party, light pillars, '
+           'ember fountain, finishing glint',
+           seal('magic_circle_e', 'FFF2D0', 5.0, life=1.6, spin=40), ground_ring('FFFFFF', .5, 5.6, .6),
+           layer('orbit', 'arrow_up', 'FFF0C0', life=1.2, size=.4, radius=2.4, spin=90, count=8, y=-.2),
+           emitter('ember', 'FFF4D0', 60, .9, .12, 2.8, 2.6, y=FLOOR),
+           emitter('beam', 'FFE8B0', 5, .7, 1.6, 0, 2.2, y=.4, upright=True),
+           glint('FFFFFF', .6, 2.4, .3, delay=.5, y=.8, texture='star8'), duration=1.5)
+    effect('area_debuff', 'Curse field: abyss seal, circling skull spirits and sinking chevrons over the group, '
+           'creeping smoke, falling motes',
+           seal('magic_circle_d', 'E8D0FF', 5.0, life=1.6, spin=-40),
+           layer('orbit', 'skull_wisp', 'E0C8FF', life=1.4, size=.5, radius=2.2, spin=-120, count=6, y=.4),
+           layer('orbit', 'arrow_down', 'E0C8FF', life=1.2, size=.4, radius=1.5, spin=90, count=5, y=.9),
+           emitter('smoke_sheet', '403050', 10, 1.2, 1.0, .6, 2.6, y=FLOOR, tiles=4, alpha=True),
+           emitter('ember', 'D0B0FF', 30, .9, .1, -1.5, 2.6, y=1.6), duration=1.6)
+    effect('area_revive', 'Mass resurrection: double sun seal, colossal heaven pillar, unfolding great wings and halo, '
+           'feather fall, rising light, white flash',
+           seal('magic_circle_f', 'FFF2C8', 5.6, life=2.2, spin=20),
+           seal('magic_circle_c', 'FFFFFF', 6.2, life=2.2, spin=-35, y=FLOOR + .02),
+           quad('beam', 'FFF6D8', 1.8, 4.0, height=6.0, y=1.8, delay=.1),
+           quad('wings', 'FFF4D2', 1.6, 3.6, 4.6, y=.8, delay=.3),
+           quad('halo', 'FFFFFF', 1.6, 1.6, horizontal=True, y=2.4, delay=.4, spin=50),
+           emitter('feather', 'FFF8E8', 20, 1.6, .28, -1.0, 2.8, y=3.0, gravity=.02),
+           emitter('ember', 'FFF0C0', 50, 1.1, .12, 2.4, 2.8, y=FLOOR), flash('FFFFFF', 1.2, 3.6, .22, delay=.5),
+           duration=2.4)
+    effect('aegis', 'Aegis: a huge hexagonal dome closes over the party, blue seal and ring, glint, chips of light, motes',
+           layer('sphere', 'hex', 'B8E0FF', life=1.6, size=5.6, endSize=6.0, delay=.2, spin=15),
+           seal('magic_circle_b', 'C8E8FF', 5.4, life=1.8, spin=30), ground_ring('E0F4FF', .5, 6.0, .6),
+           glint('FFFFFF', .8, 3.0, .3, delay=.25, texture='star8'),
+           burst('square', 'D0EEFF', 30, life=.8, size=.2, speed=3.0, radius=2.0, delay=.2),
+           emitter('dot', 'D8F2FF', 30, 1.2, .08, 1.0, 2.6, y=FLOOR), duration=1.9)
+    effect('drain', 'Life drain: closing ring and shrinking vortex, motes and spirits sucked into the target, pop, smoke',
+           ground_ring('FF80C0', 2.2, .3, .6, y=-.5), quad('swirl', 'FF90D0', 1.0, 1.6, .4, spin=-260),
+           burst('dot', 'FFB0E0', 30, life=.7, size=.14, speed=-3.0, radius=1.6, delay=.1),
+           burst('skull_wisp', 'F0C0E0', 6, life=.8, size=.35, speed=-1.8, radius=1.4, delay=.05),
+           flash('FFE0F0', .4, 1.4, .15, delay=.5), smoke('301828', 8, 1.0, 1.0, .7, delay=.4), duration=1.3)
+    effect('sleep_mist', 'Sleep mist: dreamy seal, drifting pastel mist over the group, circling Zzz, bubbles, soft stars',
+           seal('magic_circle_b', 'D8E0FF', 4.6, life=1.6, spin=20),
+           emitter('smoke_sheet', 'D8DCFF', 10, 1.4, 1.3, .4, 2.4, y=FLOOR + .3, tiles=4, alpha=True),
+           layer('orbit', 'zzz', 'C8D0FF', life=1.4, size=.5, radius=1.8, spin=40, count=5, y=.8, alpha=True),
+           emitter('bubble', 'E8ECFF', 20, 1.2, .2, .8, 2.4, y=FLOOR),
+           emitter('star4', 'E0E8FF', 14, .6, .25, .6, 2.4, y=.5), duration=1.7)
+    effect('flash_burst', 'Flash bang: blinding hit spark, spinning sunburst, focus lines, shock ring and star spray',
+           flash('FFFFFF', 1.2, 4.5, .22), quad('sunburst', 'FFFFFF', .5, 1.0, 5.0, spin=40),
+           quad('speed_lines', 'FFFFFF', .5, 3.0, 5.5), shock('FFFFFF', .6, 5.0, .45, delay=.05),
+           burst('star4', 'FFFFFF', 24, life=.6, size=.35, speed=5.0, radius=1.0), duration=1.0)
+    effect('ultimate_warrior2', 'Warrior ultimate II: sky and floor seals, colossal sword falls, two giant crescents and an '
+           'X-slash split the field, explosion, shock ring, rock and ember storm',
+           seal('magic_circle_a', 'FFE6A0', 5.0, life=2.0, spin=30),
+           seal('magic_circle_e', 'FFFFFF', 3.2, life=1.6, spin=-60, y=3.6, delay=.05),
+           quad('speed_lines', 'FFFFFF', .6, 6.0, 4.0),
+           quad('sword', 'FFF0C0', 1.0, 2.6, height=5.4, y=2.0, delay=.15),
+           layer('arc', 'slash_strip', 'FFFFFF', life=.3, size=5.0, endSize=6.5, rotation=20, delay=.5),
+           layer('arc', 'slash_strip', 'FFFFFF', life=.3, size=5.0, endSize=6.5, rotation=200, delay=.62),
+           quad('slash_cross', 'FFFFFF', .4, 2.4, 5.0, delay=.7), flash('FFF8E0', 1.4, 4.6, .22, delay=.7),
+           quad('explosion_sheet', 'FFD8A0', .9, 2.6, 4.6, tiles=4, delay=.7),
+           seal('shockwave', 'FFC060', .6, life=.7, end=7.0, spin=0, delay=.7),
+           burst('rock', '806050', 24, life=1.0, size=.25, speed=5.0, gravity=1.4, y=-.5, delay=.7, alpha=True, radius=1.5),
+           embers('FFD080', 60, 3.5, 1.4, .15, delay=.75, gravity=-.3, radius=1.5), duration=2.4)
+
+
+def statuses_and_environment():
+    status_styles = {   # orbit glyph, colour, companion particle
+        'poison': ('bubble', 'B6E86F', 'bubble'), 'burn': ('flame_sheet', 'FFA35D', 'ember'),
+        'bleed': ('droplet', 'F0788D', None), 'slow': ('snowflake', '99BEF4', None),
+        'freeze': ('ice_shard', 'B9F2FF', 'ember'), 'silence': ('silence', 'D4B8EE', None),
+        'sleep': ('zzz', 'ABBAED', None), 'blind': ('blind', 'CEB6DE', None), 'stun': ('star5', 'FFE281', None),
+        'regen': ('plus', 'A2FFD1', 'ember'), 'provoke': ('anger', 'FF987E', None), 'barrier': ('hex', '9AD8FE', None),
+        'mana_shield': ('magic_circle_b', 'B6B2FA', 'dot'), 'invincible': ('star8', 'FFF4BD', 'ember')
     }
+    icon_alpha = {'droplet', 'silence', 'zzz', 'blind', 'star5', 'anger'}
     status_families = {0: 'poison', 1: 'stun', 4: 'burn', 5: 'bleed', 6: 'slow', 7: 'freeze', 8: 'silence',
                        11: 'regen', 12: 'barrier', 13: 'provoke', 14: 'sleep', 15: 'blind', 18: 'mana_shield', 19: 'invincible'}
     statuses = json.loads((ROOT / 'Assets/_Game/Resources/Data/statuses.json').read_text(encoding='utf-8'))
     for status in statuses:
         key = status['id']
         family = status_families.get(status['effect_type'])
+        extra = None
         if family is not None:
-            texture, color = status_styles[family]
+            texture, color, extra = status_styles[family]
         elif status['effect_type'] in (9, 10, 17):
             texture, color = 'arrow_down', 'C3A2E4'
         else:
             texture, color = 'arrow_up', 'F7D299'
-        effect('status_' + key, status.get('display_name', key) + ' persistent orbiting status glyph',
-               layer('orbit', texture, color, life=1.2, size=.25, radius=.4, spin=55, count=3, y=1.2, tiles=4 if texture=='flame_sheet' else 1), loop=True)
-    for key, texture, color, gravity in [('verdant_ruins', 'leaf', 'A7CE88', .015), ('frost_grotto', 'snowflake', 'DCF4FF', .01),
-                                        ('ember_caverns', 'spark', 'FFD09A', -.01), ('haunted_crypt', 'skull_wisp', 'B8ABDD', 0)]:
-        effect('environment_' + key, 'Local biome atmosphere drifting particles',
-               layer('emitter', texture, color, life=4, size=.16, rate=6, radius=6, speed=.1, gravity=gravity, alpha=True), loop=True)
+        layers = [layer('orbit', texture, color, life=1.2, size=.25, radius=.4, spin=55, count=3, y=1.2,
+                        tiles=4 if texture == 'flame_sheet' else 1, alpha=texture in icon_alpha)]
+        if extra:
+            speed = -.6 if family == 'freeze' else .8
+            layers.append(emitter(extra, color, 4, 1.0, .08 if extra != 'bubble' else .12, speed, .35, y=.2 if speed > 0 else 1.2))
+        effect('status_' + key, status.get('display_name', key) + ' persistent orbiting status glyph', *layers, loop=True)
+    for key, layers in [
+        ('verdant_ruins', [emitter('leaf', 'A7CE88', 5, 4, .16, .1, 6, gravity=.015, alpha=True),
+                           emitter('petal', 'F4C8D8', 2, 4, .1, .1, 6, gravity=.01, alpha=True)]),
+        ('frost_grotto', [emitter('snowflake', 'DCF4FF', 6, 4, .16, .1, 6, gravity=.01, alpha=True),
+                          emitter('ember', 'CFEFFF', 3, 3, .08, .05, 6)]),
+        ('ember_caverns', [emitter('ember', 'FFC080', 6, 4, .12, .1, 6, gravity=-.01)]),
+        ('haunted_crypt', [emitter('skull_wisp', 'B8ABDD', 5, 4, .16, .1, 6, alpha=True),
+                           emitter('dot', 'A898E0', 3, 4, .05, .08, 6)])]:
+        effect('environment_' + key, 'Local biome atmosphere drifting particles', *layers, loop=True)
+
+
+def main():
+    battle_effects()
+    ultimates()
+    jobs()
+    skill_effects()
+    statuses_and_environment()
     required = {p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
-                for k in ('charge_vfx', 'travel_vfx', 'impact_vfx') if p.get(k)}
+                for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()
     if missing:
         raise ValueError('Missing authored recipes: ' + ', '.join(sorted(missing)))
+    allowed = {'kind', 'texture', 'color', 'life', 'size', 'endSize', 'height', 'speed', 'gravity', 'rate', 'radius',
+               'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright'}
+    kinds = {'quad', 'orbit', 'burst', 'emitter', 'ring', 'sphere', 'trail', 'arc'}
     for recipe in EFFECTS.values():
         for item in recipe['layers']:
-            if not (ROOT/'Assets/_Game/Resources/Vfx/Textures'/ (item['texture']+'.png')).is_file():
+            if not (ROOT/'Assets/_Game/Resources/Vfx/Textures' / (item['texture']+'.png')).is_file():
                 raise FileNotFoundError(item['texture'])
+            unknown = set(item) - allowed
+            if unknown or item['kind'] not in kinds:
+                raise ValueError(f"{recipe['key']}: unsupported layer field/kind {unknown or item['kind']}")
+            if not recipe['loop'] and item.get('delay', 0) >= recipe['duration']:
+                raise ValueError(f"{recipe['key']}: layer delay {item['delay']} never starts (duration {recipe['duration']})")
     dest = ROOT/'Assets/_Game/Resources/Vfx/effects.json'
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(dict(effects=list(EFFECTS.values())), ensure_ascii=False, indent=2), encoding='utf-8')

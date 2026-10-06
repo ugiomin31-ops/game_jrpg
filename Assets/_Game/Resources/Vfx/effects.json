@@ -2,466 +2,1060 @@
   "effects": [
     {
       "key": "impact",
-      "description": "Short radial blunt impact with a sharp contact star",
+      "description": "Blunt hit: jagged hit spark, star glint, shock ring, spray of sparks and settling embers",
       "duration": 0.8,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "star8",
-          "color": "FFE8AF",
-          "life": 0.25,
-          "size": 0.3,
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.16,
+          "size": 0.5,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.5
+        },
+        {
+          "kind": "quad",
+          "texture": "star4",
+          "color": "FFF6E0",
+          "life": 0.22,
+          "size": 0.4,
+          "delay": 0.02,
           "endSize": 1.4
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFE6B8",
+          "life": 0.3,
+          "size": 0.3,
+          "delay": 0,
+          "endSize": 1.9
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFE8C0",
+          "life": 0.35,
+          "size": 0.4,
+          "endSize": 2.2,
+          "y": -0.25
         },
         {
           "kind": "burst",
           "texture": "spark",
-          "color": "FFD789",
-          "count": 20,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "FFE2A8",
+          "count": 16,
+          "life": 0.34,
+          "size": 0.26,
+          "speed": 4.2,
+          "radius": 0.12,
+          "delay": 0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFD08A",
+          "count": 10,
+          "life": 0.6,
+          "size": 0.11,
+          "speed": 1.6,
+          "radius": 0.12,
+          "delay": 0.05,
+          "gravity": 0.4
         }
       ]
     },
     {
       "key": "slash",
-      "description": "Swept blade crescent and trailing steel sparks",
+      "description": "Blade cut: white-edged crescent sweep, second echo crescent, contact spark and steel sparks",
       "duration": 0.8,
       "loop": false,
       "layers": [
         {
           "kind": "arc",
           "texture": "slash_strip",
-          "color": "D7F5FF",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.15,
+          "endSize": 1.9,
+          "rotation": 200
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "E8F6FF",
           "life": 0.28,
-          "size": 0.9,
-          "endSize": 1.7,
-          "rotation": 35
+          "size": 2.0,
+          "height": 1.0,
+          "rotation": -28,
+          "delay": 0.04,
+          "endSize": 2.5
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.14,
+          "size": 0.3,
+          "delay": 0.03,
+          "rotation": 12,
+          "endSize": 1.0
         },
         {
           "kind": "burst",
           "texture": "spark",
-          "color": "A1E0FF",
-          "count": 12,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "E8F7FF",
+          "count": 14,
+          "life": 0.34,
+          "size": 0.26,
+          "speed": 3.6,
+          "radius": 0.12,
+          "delay": 0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "D8F0FF",
+          "count": 8,
+          "life": 0.6,
+          "size": 0.11,
+          "speed": 0.9,
+          "radius": 0.12,
+          "delay": 0.06,
+          "gravity": 0
         }
       ]
     },
     {
       "key": "critical",
-      "description": "Overlapping red/gold impact star and large expansion ring",
-      "duration": 1,
+      "description": "Critical: converging speed lines, X-slash, hit spark, radiant burst, double shock ring, star rain",
+      "duration": 1.1,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FFFFFF",
+          "life": 0.35,
+          "size": 3.4,
+          "endSize": 2.5
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_cross",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 1.3,
+          "delay": 0.02,
+          "endSize": 2.5
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF2C0",
+          "life": 0.2,
+          "size": 0.6,
+          "delay": 0.04,
+          "rotation": 12,
+          "endSize": 2.1
+        },
+        {
+          "kind": "quad",
           "texture": "sunburst",
-          "color": "FFAC45",
+          "color": "FFC860",
+          "life": 0.45,
+          "size": 0.4,
+          "delay": 0.06,
+          "spin": 30,
+          "endSize": 2.7
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFE0A0",
           "life": 0.4,
-          "size": 0.3,
-          "endSize": 2.4
+          "size": 0.5,
+          "delay": 0.08,
+          "endSize": 3.0
         },
         {
           "kind": "ring",
           "texture": "trail",
-          "color": "FF5364",
-          "life": 0.6,
-          "size": 0.2,
-          "endSize": 2.8
+          "color": "FF7080",
+          "life": 0.5,
+          "size": 0.3,
+          "endSize": 3.2,
+          "y": -0.3,
+          "delay": 0.06
         },
         {
           "kind": "burst",
           "texture": "star4",
-          "color": "FFF2BD",
-          "count": 28,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "FFF4C8",
+          "count": 16,
+          "life": 0.55,
+          "size": 0.3,
+          "speed": 3.5,
+          "radius": 0.12,
+          "delay": 0.04
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "FFB060",
+          "count": 24,
+          "life": 0.4,
+          "size": 0.34,
+          "speed": 6,
+          "radius": 0.12,
+          "delay": 0.04
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFD080",
+          "count": 16,
+          "life": 1.0,
+          "size": 0.11,
+          "speed": 1.2,
+          "radius": 0.12,
+          "delay": 0.1,
+          "gravity": -0.2
         }
       ]
     },
     {
       "key": "spark",
-      "description": "Electrical projectile core, flickering bolt sheet and ribbon trail",
+      "description": "Electric orb/impact: hot core, flickering bolts, star burst, crackling sparks, ribbon trail",
       "duration": 0.8,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
           "texture": "lightning_sheet",
-          "color": "AADFFF",
-          "life": 0.6,
-          "size": 0.85,
+          "color": "F0F8FF",
+          "life": 0.5,
+          "size": 1.0,
+          "height": 2.0,
           "tiles": 4
+        },
+        {
+          "kind": "quad",
+          "texture": "glow_hard",
+          "color": "FFFFFF",
+          "life": 0.26,
+          "size": 0.5,
+          "endSize": 0.9
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.2,
+          "size": 0.3,
+          "delay": 0.02,
+          "endSize": 1.4
         },
         {
           "kind": "trail",
           "texture": "trail",
-          "color": "71BFFF",
-          "life": 0.25,
-          "size": 0.3
+          "color": "BFE6FF",
+          "life": 0.2,
+          "size": 0.35
         },
         {
           "kind": "burst",
-          "texture": "star4",
-          "color": "D3F4FF",
-          "count": 10,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "texture": "spark",
+          "color": "F0FAFF",
+          "count": 16,
+          "life": 0.3,
+          "size": 0.25,
+          "speed": 4.5,
+          "radius": 0.12,
+          "delay": 0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "C8E8FF",
+          "count": 8,
+          "life": 0.6,
+          "size": 0.11,
+          "speed": 1.0,
+          "radius": 0.12,
+          "delay": 0,
+          "gravity": 0
         }
       ]
     },
     {
       "key": "fire",
-      "description": "Layered fire bloom and embers around a hot projectile core",
-      "duration": 1,
+      "description": "Fireball: hit spark, cel explosion flipbook, flame lick, ember spray and dark smoke, hot trail",
+      "duration": 1.1,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "flame_sheet",
-          "color": "FFA846",
+          "texture": "explosion_sheet",
+          "color": "FFD9A0",
           "life": 0.7,
-          "size": 1,
-          "endSize": 1.8,
-          "tiles": 4
+          "size": 1.2,
+          "tiles": 4,
+          "endSize": 2.1
         },
         {
-          "kind": "sphere",
-          "texture": "glow",
-          "color": "FFCF6A",
-          "life": 0.45,
-          "size": 0.4,
-          "endSize": 0.9
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF0D0",
+          "life": 0.14,
+          "size": 0.5,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.5
+        },
+        {
+          "kind": "quad",
+          "texture": "flame_sheet",
+          "color": "FFC890",
+          "life": 0.6,
+          "size": 1.1,
+          "y": 0.25,
+          "tiles": 4,
+          "delay": 0.06,
+          "endSize": 1.4
         },
         {
           "kind": "trail",
           "texture": "trail",
-          "color": "FF6E31",
+          "color": "FFB070",
           "life": 0.22,
-          "size": 0.45
+          "size": 0.5
         },
         {
           "kind": "burst",
-          "texture": "spark",
-          "color": "FFBC56",
-          "count": 28,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
+          "texture": "ember",
+          "color": "FFD090",
+          "count": 24,
+          "life": 0.8,
+          "size": 0.14,
+          "speed": 3.0,
           "radius": 0.12,
-          "gravity": 0.15
+          "delay": 0,
+          "gravity": -0.15
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "3A2A30",
+          "count": 6,
+          "life": 1.0,
+          "size": 0.75,
+          "speed": 0.8,
+          "radius": 0.3,
+          "delay": 0.15,
+          "tiles": 4,
+          "alpha": true,
+          "gravity": -0.05
         }
       ]
     },
     {
       "key": "flame",
-      "description": "Tall sustained flame column and drifting cinders",
+      "description": "Fire column: glowing floor scorch, two staggered flame flipbooks, heat pillar, cinders and smoke",
       "duration": 1.5,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
+          "texture": "glow_hard",
+          "color": "FFB060",
+          "life": 1.1,
+          "size": 1.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "endSize": 2.1
+        },
+        {
+          "kind": "quad",
           "texture": "flame_sheet",
-          "color": "FF963E",
-          "life": 1,
-          "size": 1.1,
-          "height": 2.5,
-          "y": 0.8,
+          "color": "FFD8A8",
+          "life": 1.0,
+          "size": 1.5,
+          "height": 2.6,
+          "y": 0.45,
           "tiles": 4
         },
         {
+          "kind": "quad",
+          "texture": "flame_sheet",
+          "color": "FFC080",
+          "life": 0.9,
+          "size": 1.1,
+          "height": 2.0,
+          "y": 0.3,
+          "tiles": 4,
+          "delay": 0.15,
+          "rotation": 4
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFB070",
+          "life": 0.8,
+          "size": 0.9,
+          "height": 3.0,
+          "y": 0.7,
+          "delay": 0.05
+        },
+        {
           "kind": "emitter",
-          "texture": "spark",
-          "color": "FFC568",
-          "life": 0.5,
-          "size": 0.12,
-          "rate": 35,
-          "speed": 1.8,
-          "radius": 0.35
+          "texture": "ember",
+          "color": "FFE0A0",
+          "rate": 40,
+          "life": 0.8,
+          "size": 0.13,
+          "speed": 2.2,
+          "radius": 0.45,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "403038",
+          "rate": 6,
+          "life": 1.2,
+          "size": 0.6,
+          "speed": 1.0,
+          "radius": 0.3,
+          "tiles": 4,
+          "alpha": true,
+          "delay": 0.3,
+          "y": 0.4
         }
       ]
     },
     {
       "key": "ice",
-      "description": "Crystalline ice shards and a cold radiating snowflake seal",
-      "duration": 1,
+      "description": "Frost burst: crystal cluster erupts, snowflake seal spins out, ice shards, frost mist and glints",
+      "duration": 1.1,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
+          "texture": "crystal",
+          "color": "C8F2FF",
+          "life": 0.8,
+          "size": 0.6,
+          "y": -0.2,
+          "endSize": 1.7
+        },
+        {
+          "kind": "quad",
           "texture": "snowflake",
-          "color": "D6FAFF",
-          "life": 0.65,
-          "size": 0.2,
-          "endSize": 1.8,
-          "spin": 45
+          "color": "E8FCFF",
+          "life": 0.5,
+          "size": 0.3,
+          "spin": 90,
+          "endSize": 1.8
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "DFF8FF",
+          "life": 0.14,
+          "size": 0.4,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.3
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "A8E8FF",
+          "life": 0.5,
+          "size": 0.3,
+          "endSize": 2.4,
+          "y": -0.7799999999999999
         },
         {
           "kind": "burst",
           "texture": "ice_shard",
-          "color": "71D9FF",
-          "count": 24,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
+          "color": "9EE4FF",
+          "count": 18,
+          "life": 0.7,
+          "size": 0.3,
+          "speed": 3.5,
           "radius": 0.12,
-          "gravity": 0.3
+          "gravity": 0.6
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "D8F0FF",
+          "count": 5,
+          "life": 0.9,
+          "size": 0.7,
+          "speed": 0.5,
+          "radius": 0.3,
+          "delay": 0.1,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "E0FAFF",
+          "count": 12,
+          "life": 1.0,
+          "size": 0.11,
+          "speed": 0.8,
+          "radius": 0.12,
+          "delay": 0.1,
+          "gravity": -0.05
         }
       ]
     },
     {
       "key": "ring",
-      "description": "Holy seal expands with orbiting four-point motes",
-      "duration": 1,
+      "description": "Holy/frost seal at the target: rune ring on the floor, light pillar, star glint, orbiting motes",
+      "duration": 1.1,
       "loop": false,
       "layers": [
         {
           "kind": "ring",
           "texture": "trail",
-          "color": "FFF0BB",
-          "life": 0.7,
+          "color": "FFFFFF",
+          "life": 0.6,
           "size": 0.3,
-          "endSize": 2.3
+          "endSize": 2.6,
+          "y": -0.7799999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "FFF6DA",
+          "life": 0.8,
+          "size": 1.4,
+          "horizontal": true,
+          "spin": 90,
+          "y": -0.82,
+          "endSize": 2.0
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFF8E0",
+          "life": 0.6,
+          "size": 0.8,
+          "height": 3.0,
+          "y": 0.6,
+          "delay": 0.05
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 0.3,
+          "delay": 0.05,
+          "endSize": 1.6
         },
         {
           "kind": "orbit",
           "texture": "star4",
-          "color": "FFE89B",
-          "life": 0.8,
-          "size": 0.22,
-          "radius": 0.85,
-          "spin": 180,
+          "color": "FFF0B8",
+          "life": 0.9,
+          "size": 0.25,
+          "radius": 0.8,
+          "spin": 220,
           "count": 6
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF4D0",
+          "rate": 25,
+          "life": 0.8,
+          "size": 0.1,
+          "speed": 1.6,
+          "radius": 0.6,
+          "y": -0.82
         }
       ]
     },
     {
       "key": "magic_circle",
-      "description": "Counter-rotating runic invocation rings beneath caster",
+      "description": "Casting seal under the caster: converging ring, counter-rotating rune circles, rising motes",
       "duration": 1.4,
       "loop": false,
       "layers": [
         {
-          "kind": "quad",
-          "texture": "magic_circle_a",
-          "color": "AACFFF",
-          "life": 1.1,
-          "size": 1.5,
-          "spin": 60,
-          "horizontal": true
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFFFFF",
+          "life": 0.45,
+          "size": 2.6,
+          "endSize": 1.2,
+          "y": -0.7799999999999999
         },
         {
           "kind": "quad",
-          "texture": "magic_circle_b",
-          "color": "F2DFAA",
-          "life": 1.1,
-          "size": 1.9,
-          "spin": 60,
+          "texture": "magic_circle_a",
+          "color": "E8F0FF",
+          "life": 1.4,
+          "size": 1.5,
           "horizontal": true,
-          "rotation": 30
+          "spin": 50,
+          "y": -0.82,
+          "endSize": 1.8
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "FFFFFF",
+          "life": 1.4,
+          "size": 1.9,
+          "horizontal": true,
+          "spin": -70,
+          "y": -0.7999999999999999,
+          "endSize": 2.1
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "DDE8FF",
+          "life": 1.2,
+          "size": 0.9,
+          "height": 1.8,
+          "delay": 0.1
+        },
+        {
+          "kind": "orbit",
+          "texture": "star4",
+          "color": "F0F6FF",
+          "life": 1.2,
+          "size": 0.16,
+          "radius": 0.9,
+          "spin": 120,
+          "count": 4,
+          "y": -0.4
         },
         {
           "kind": "emitter",
           "texture": "dot",
-          "color": "BBE9FF",
-          "life": 0.7,
+          "color": "E0F0FF",
+          "rate": 26,
+          "life": 0.8,
           "size": 0.08,
-          "rate": 20,
-          "speed": 0.8,
-          "radius": 0.6
+          "speed": 1.2,
+          "radius": 0.7,
+          "y": -0.82
         }
       ]
     },
     {
       "key": "heal",
-      "description": "Emerald healing column with ascending plus glyphs",
+      "description": "Healing: leaf-green seal, soft pillar, rising crosses and leaves, body bloom, sparkles",
       "duration": 1.5,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "magic_circle_c",
-          "color": "86FFC0",
-          "life": 1.1,
-          "size": 1.3,
-          "spin": 60,
-          "horizontal": true
+          "texture": "magic_circle_b",
+          "color": "E0FFE8",
+          "life": 1.2,
+          "size": 1.6,
+          "horizontal": true,
+          "spin": 40,
+          "y": -0.82,
+          "endSize": 1.9
         },
         {
-          "kind": "emitter",
-          "texture": "plus",
-          "color": "A5FFD2",
-          "life": 0.8,
-          "size": 0.2,
-          "rate": 20,
-          "speed": 1.4,
-          "radius": 0.45
+          "kind": "ring",
+          "texture": "trail",
+          "color": "E8FFF0",
+          "life": 0.5,
+          "size": 0.4,
+          "endSize": 2.2,
+          "y": -0.7799999999999999
         },
         {
           "kind": "quad",
           "texture": "beam",
-          "color": "74ECA7",
+          "color": "C8FFE0",
+          "life": 1.0,
+          "size": 0.8,
+          "height": 2.6,
+          "y": 0.4,
+          "delay": 0.05
+        },
+        {
+          "kind": "emitter",
+          "texture": "plus",
+          "color": "E8FFF0",
+          "rate": 14,
           "life": 0.9,
+          "size": 0.22,
+          "speed": 1.3,
+          "radius": 0.5,
+          "y": -0.6
+        },
+        {
+          "kind": "emitter",
+          "texture": "leaf",
+          "color": "D0FFD8",
+          "rate": 10,
+          "life": 1.0,
+          "size": 0.18,
+          "speed": 1.0,
+          "radius": 0.6,
+          "y": -0.6
+        },
+        {
+          "kind": "quad",
+          "texture": "glow",
+          "color": "E0FFE8",
+          "life": 0.5,
           "size": 0.6,
-          "height": 2.5,
-          "y": 0.7
+          "y": 0.2,
+          "delay": 0.15,
+          "endSize": 1.4
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "F0FFF4",
+          "count": 16,
+          "life": 1.0,
+          "size": 0.11,
+          "speed": 1.0,
+          "radius": 0.12,
+          "delay": 0.1,
+          "gravity": -0.2
         }
       ]
     },
     {
       "key": "revive",
-      "description": "Winged golden resurrection seal and rising feather burst",
-      "duration": 1.6,
+      "description": "Resurrection: sun seal, heaven pillar, unfolding wings, halo, feather fall and rising light",
+      "duration": 1.8,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "magic_circle_d",
-          "color": "FFE8AB",
-          "life": 1.1,
+          "texture": "magic_circle_f",
+          "color": "FFF2C8",
+          "life": 1.5,
           "size": 2.2,
-          "spin": 60,
-          "horizontal": true
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFF6D8",
+          "life": 1.3,
+          "size": 1.1,
+          "height": 4.0,
+          "y": 1.0
         },
         {
           "kind": "quad",
           "texture": "wings",
-          "color": "FFF2C5",
+          "color": "FFF4D2",
+          "life": 1.3,
+          "size": 2.2,
+          "y": 0.5,
+          "delay": 0.2,
+          "endSize": 2.8
+        },
+        {
+          "kind": "quad",
+          "texture": "halo",
+          "color": "FFFFFF",
           "life": 1.2,
-          "size": 2,
-          "endSize": 2.8,
-          "y": 0.8
+          "size": 0.7,
+          "horizontal": true,
+          "y": 1.05,
+          "delay": 0.3,
+          "spin": 60
         },
         {
           "kind": "burst",
           "texture": "feather",
-          "color": "FFF4D5",
-          "count": 26,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "FFF8E8",
+          "count": 20,
+          "life": 1.4,
+          "size": 0.25,
+          "speed": 1.6,
+          "radius": 0.12,
+          "gravity": 0.1,
+          "delay": 0.25
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF0C0",
+          "rate": 25,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 1.8,
+          "radius": 0.6,
+          "y": -0.82
         }
       ]
     },
     {
       "key": "smoke",
-      "description": "Soft translucent purple spore cloud with suspended poison motes",
+      "description": "Toxic/dark cloud: small pop, two waves of cel smoke puffs, bubbles and specks",
       "duration": 1.4,
       "loop": false,
       "layers": [
         {
           "kind": "burst",
           "texture": "smoke_sheet",
-          "color": "8BB970",
-          "life": 1,
-          "size": 0.7,
-          "speed": 0.7,
-          "count": 14,
+          "color": "E8E8E8",
+          "count": 12,
+          "life": 1.1,
+          "size": 0.9,
+          "speed": 0.9,
           "radius": 0.4,
-          "alpha": true,
-          "tiles": 4
+          "delay": 0,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "B8B8C0",
+          "count": 8,
+          "life": 0.8,
+          "size": 0.6,
+          "speed": 1.6,
+          "radius": 0.2,
+          "delay": 0.05,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.14,
+          "size": 0.3,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.0
         },
         {
           "kind": "emitter",
           "texture": "bubble",
-          "color": "C4ED83",
-          "life": 0.6,
-          "size": 0.15,
-          "rate": 15,
-          "speed": 0.6,
+          "color": "F0FFF0",
+          "rate": 14,
+          "life": 0.7,
+          "size": 0.16,
+          "speed": 0.7,
           "radius": 0.6
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFFFFF",
+          "count": 10,
+          "life": 0.8,
+          "size": 0.11,
+          "speed": 1.2,
+          "radius": 0.12,
+          "delay": 0.1,
+          "gravity": 0
         }
       ]
     },
     {
       "key": "buff",
-      "description": "Ascending amber enhancement chevrons and expanding circle",
+      "description": "Enhancement: golden seal, rising chevrons orbit, upward motes, light column, finishing glint",
       "duration": 1.2,
       "loop": false,
       "layers": [
         {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "FFF2D0",
+          "life": 1.1,
+          "size": 1.2,
+          "horizontal": true,
+          "spin": 60,
+          "y": -0.82,
+          "endSize": 1.6
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 0.4,
+          "endSize": 2.0,
+          "y": -0.7799999999999999
+        },
+        {
           "kind": "orbit",
           "texture": "arrow_up",
-          "color": "FFC86E",
-          "life": 0.8,
-          "size": 0.4,
+          "color": "FFF0C0",
+          "life": 1.0,
+          "size": 0.32,
           "radius": 0.7,
-          "spin": 100,
-          "count": 4
+          "spin": 120,
+          "count": 4,
+          "y": -0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF4D0",
+          "rate": 22,
+          "life": 0.8,
+          "size": 0.12,
+          "speed": 2.0,
+          "radius": 0.5,
+          "y": -0.82
         },
         {
           "kind": "quad",
-          "texture": "magic_circle_b",
-          "color": "FFE7AC",
-          "life": 1.1,
-          "size": 1.2,
-          "spin": 60,
-          "horizontal": true
+          "texture": "beam",
+          "color": "FFE8B0",
+          "life": 0.8,
+          "size": 0.9,
+          "height": 2.2,
+          "y": 0.2,
+          "delay": 0.05
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.25,
+          "size": 0.3,
+          "delay": 0.45,
+          "y": 0.6,
+          "endSize": 1.0
         }
       ]
     },
     {
       "key": "debuff",
-      "description": "Descending violet weakening glyphs and dark broken seal",
+      "description": "Weakening: abyss sigil, sinking chevrons, spectral skull, dark smoke and falling motes",
       "duration": 1.2,
       "loop": false,
       "layers": [
         {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "E8D0FF",
+          "life": 1.1,
+          "size": 1.5,
+          "horizontal": true,
+          "spin": -50,
+          "y": -0.82
+        },
+        {
           "kind": "orbit",
           "texture": "arrow_down",
-          "color": "CFA2FF",
-          "life": 0.8,
-          "size": 0.4,
+          "color": "E0C8FF",
+          "life": 0.9,
+          "size": 0.32,
           "radius": 0.7,
-          "spin": -80,
-          "count": 4
+          "spin": -90,
+          "count": 4,
+          "y": 0.3
         },
         {
           "kind": "quad",
           "texture": "skull_wisp",
-          "color": "A280C6",
-          "life": 0.75,
-          "size": 1,
-          "y": 0.5
+          "color": "D8B8FF",
+          "life": 0.8,
+          "size": 0.8,
+          "y": 0.6,
+          "delay": 0.1,
+          "endSize": 1.1
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "403050",
+          "count": 8,
+          "life": 1.1,
+          "size": 0.8,
+          "speed": 0.6,
+          "radius": 0.4,
+          "delay": 0,
+          "tiles": 4,
+          "alpha": true,
+          "gravity": -0.05
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "D0B0FF",
+          "rate": 18,
+          "life": 0.8,
+          "size": 0.1,
+          "speed": -1.2,
+          "radius": 0.6,
+          "y": 0.8
         }
       ]
     },
     {
       "key": "guard",
-      "description": "Blue hexagonal protective ward catches incoming blows",
+      "description": "Guard: hex barrier shell flashes, ring pulse, star glint and chips of light",
       "duration": 1.1,
       "loop": false,
       "layers": [
         {
           "kind": "sphere",
           "texture": "hex",
-          "color": "8FCEFF",
-          "life": 0.8,
-          "size": 1.6
+          "color": "B8E0FF",
+          "life": 0.9,
+          "size": 1.6,
+          "endSize": 1.75
         },
         {
           "kind": "quad",
           "texture": "ring",
-          "color": "D2EBFF",
-          "life": 0.5,
-          "size": 1.2
+          "color": "E0F4FF",
+          "life": 0.35,
+          "size": 0.6,
+          "endSize": 1.8
+        },
+        {
+          "kind": "quad",
+          "texture": "star4",
+          "color": "FFFFFF",
+          "life": 0.2,
+          "size": 0.3,
+          "delay": 0.02,
+          "endSize": 1.0
+        },
+        {
+          "kind": "burst",
+          "texture": "square",
+          "color": "D0EEFF",
+          "count": 8,
+          "life": 0.4,
+          "size": 0.14,
+          "speed": 2.0,
+          "radius": 0.12
         }
       ]
     },
     {
       "key": "shield",
-      "description": "Sustained translucent hexagonal shield shell",
+      "description": "Sustained hexagonal shield shell with a floor ring and slow drifting motes",
       "duration": 1.2,
       "loop": true,
       "layers": [
@@ -472,352 +1066,4412 @@
           "life": 1.5,
           "size": 1.6,
           "spin": 15
+        },
+        {
+          "kind": "quad",
+          "texture": "ring",
+          "color": "C8ECFF",
+          "life": 1.5,
+          "size": 1.6,
+          "horizontal": true,
+          "spin": 20,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "D8F2FF",
+          "rate": 6,
+          "life": 1.2,
+          "size": 0.06,
+          "speed": 0.5,
+          "radius": 0.7,
+          "y": -0.82
         }
       ]
     },
     {
       "key": "break",
-      "description": "Shattering blue shield fragments and red interruption marker",
+      "description": "Barrier break: hit spark, shell pops, shard spray, shock ring and an anger mark",
       "duration": 1.2,
       "loop": false,
       "layers": [
         {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.15,
+          "size": 0.5,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.6
+        },
+        {
+          "kind": "sphere",
+          "texture": "hex",
+          "color": "C8ECFF",
+          "life": 0.25,
+          "size": 1.6,
+          "endSize": 2.0
+        },
+        {
           "kind": "burst",
           "texture": "square",
-          "color": "92D4FF",
-          "count": 32,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
+          "color": "B8E4FF",
+          "count": 30,
+          "life": 0.8,
+          "size": 0.2,
+          "speed": 4.0,
           "radius": 0.12,
-          "gravity": 0.5
+          "gravity": 0.9
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "D8F0FF",
+          "life": 0.35,
+          "size": 0.4,
+          "delay": 0,
+          "endSize": 2.2
         },
         {
           "kind": "quad",
           "texture": "anger",
           "color": "FF6784",
           "life": 0.75,
-          "size": 1.3,
-          "endSize": 1.7
+          "size": 1.0,
+          "y": 0.7,
+          "delay": 0.1,
+          "alpha": true,
+          "endSize": 1.4
         }
       ]
     },
     {
       "key": "summon",
-      "description": "Abyssal rune portal with coiling spectral skulls",
-      "duration": 1.5,
+      "description": "Summoning: abyss sigil and rune band, opening void rift with glowing seam, circling skulls",
+      "duration": 1.6,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
           "texture": "magic_circle_d",
-          "color": "C086FF",
-          "life": 1.1,
+          "color": "D8A8FF",
+          "life": 1.5,
           "size": 2.4,
-          "spin": 60,
-          "horizontal": true
+          "horizontal": true,
+          "spin": 40,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "F0D8FF",
+          "life": 1.5,
+          "size": 2.8,
+          "horizontal": true,
+          "spin": -60,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "rift",
+          "color": "C890FF",
+          "life": 1.3,
+          "size": 1.0,
+          "height": 2.0,
+          "y": 0.4,
+          "delay": 0.1,
+          "alpha": true
+        },
+        {
+          "kind": "quad",
+          "texture": "rift_glow",
+          "color": "B070FF",
+          "life": 1.3,
+          "size": 1.15,
+          "height": 2.2,
+          "y": 0.4,
+          "delay": 0.1
         },
         {
           "kind": "orbit",
           "texture": "skull_wisp",
-          "color": "DDB5FF",
-          "life": 1.1,
-          "size": 0.5,
-          "radius": 0.8,
+          "color": "E0C0FF",
+          "life": 1.2,
+          "size": 0.45,
+          "radius": 0.9,
           "spin": 140,
-          "count": 5
+          "count": 5,
+          "y": 0.2
         },
         {
-          "kind": "quad",
-          "texture": "beam",
-          "color": "AC67F2",
-          "life": 1,
-          "size": 1.1,
-          "height": 3.5,
-          "y": 1
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "C8A0FF",
+          "rate": 25,
+          "life": 1.0,
+          "size": 0.1,
+          "speed": 1.5,
+          "radius": 0.9,
+          "y": -0.82
         }
       ]
     },
     {
       "key": "dark",
-      "description": "Dark vortex and outward spectral skulls",
-      "duration": 1.1,
+      "description": "Dark burst: imploding ring, abyss vortex, hit spark, shadow smoke, flung spirits and violet embers",
+      "duration": 1.2,
       "loop": false,
       "layers": [
         {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "A060FF",
+          "life": 0.5,
+          "size": 2.4,
+          "endSize": 0.3,
+          "y": -0.5
+        },
+        {
           "kind": "quad",
           "texture": "swirl",
-          "color": "9764E3",
-          "life": 0.7,
+          "color": "B080FF",
+          "life": 0.8,
           "size": 0.4,
-          "endSize": 2,
-          "spin": -160
+          "spin": -200,
+          "endSize": 2.2
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "E0C8FF",
+          "life": 0.15,
+          "size": 0.4,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.2
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "2A1838",
+          "count": 10,
+          "life": 1.0,
+          "size": 0.8,
+          "speed": 1.2,
+          "radius": 0.3,
+          "delay": 0,
+          "tiles": 4,
+          "alpha": true
         },
         {
           "kind": "burst",
           "texture": "skull_wisp",
-          "color": "BD9DE4",
-          "count": 15,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "C8A8F0",
+          "count": 8,
+          "life": 0.8,
+          "size": 0.35,
+          "speed": 2.0,
+          "radius": 0.12,
+          "delay": 0.05
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "D8B8FF",
+          "count": 14,
+          "life": 0.8,
+          "size": 0.12,
+          "speed": 2.5,
+          "radius": 0.12,
+          "delay": 0,
+          "gravity": -0.2
         }
       ]
     },
     {
       "key": "holy",
-      "description": "Holy rays and descending radiant feather fan",
+      "description": "Holy strike: pillar from above, radiant wedge burst, sun seal, cross flash and feather fan",
       "duration": 1.3,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
+          "texture": "beam",
+          "color": "FFF6D0",
+          "life": 0.7,
+          "size": 1.0,
+          "height": 4.0,
+          "y": 1.2
+        },
+        {
+          "kind": "quad",
           "texture": "sunburst",
           "color": "FFF3C2",
-          "life": 0.8,
+          "life": 0.6,
           "size": 0.3,
-          "endSize": 2.8
+          "delay": 0.05,
+          "spin": 20,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF0C0",
+          "life": 1.0,
+          "size": 1.8,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82,
+          "endSize": 2.1
+        },
+        {
+          "kind": "quad",
+          "texture": "cross",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 0.6,
+          "height": 1.2,
+          "y": 0.3,
+          "delay": 0.08
         },
         {
           "kind": "burst",
           "texture": "feather",
-          "color": "FFEAB5",
-          "count": 22,
-          "life": 0.65,
+          "color": "FFF2D0",
+          "count": 18,
+          "life": 1.2,
           "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "speed": 1.8,
+          "radius": 0.12,
+          "gravity": 0.15,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF8E0",
+          "rate": 30,
+          "life": 0.8,
+          "size": 0.1,
+          "speed": 2.0,
+          "radius": 0.6,
+          "y": -0.82
         }
       ]
     },
     {
       "key": "pierce",
-      "description": "Narrow arrow streak and focused blue hit sparks",
+      "description": "Arrow hit: light-arrow streak, small hit spark, tight shock ring, focused sparks",
       "duration": 0.8,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
           "texture": "arrow_streak",
-          "color": "BCE8FF",
-          "life": 0.35,
-          "size": 0.8,
-          "height": 1.8,
-          "rotation": 70
+          "color": "E0F4FF",
+          "life": 0.25,
+          "size": 2.2,
+          "height": 0.55
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.14,
+          "size": 0.3,
+          "delay": 0.03,
+          "rotation": 12,
+          "endSize": 1.0
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "D8F0FF",
+          "life": 0.25,
+          "size": 0.2,
+          "delay": 0.03,
+          "endSize": 1.2
         },
         {
           "kind": "burst",
           "texture": "spark",
-          "color": "D6F1FF",
-          "count": 12,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "E8F8FF",
+          "count": 14,
+          "life": 0.3,
+          "size": 0.25,
+          "speed": 4.0,
+          "radius": 0.12,
+          "delay": 0
         }
       ]
     },
     {
       "key": "blunt",
-      "description": "Broad earth shockwave and heavy contact dust",
+      "description": "Heavy blow: hit spark, shock ring, floor ring, dust cloud, flying rock chips and sparks",
       "duration": 1.1,
       "loop": false,
       "layers": [
         {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF0D8",
+          "life": 0.16,
+          "size": 0.6,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 1.8
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFE8C0",
+          "life": 0.35,
+          "size": 0.4,
+          "delay": 0,
+          "endSize": 2.4
+        },
+        {
           "kind": "ring",
           "texture": "trail",
-          "color": "D8BE8D",
+          "color": "E8D0A0",
           "life": 0.5,
-          "size": 0.2,
-          "endSize": 2.4
+          "size": 0.3,
+          "endSize": 3.0,
+          "y": -0.7799999999999999
         },
         {
           "kind": "burst",
           "texture": "smoke_sheet",
-          "color": "B5A58A",
-          "life": 0.7,
-          "size": 0.6,
+          "color": "C8B898",
+          "count": 14,
+          "life": 0.9,
+          "size": 0.7,
           "speed": 1.8,
-          "count": 15,
-          "radius": 0.2,
+          "radius": 0.3,
+          "delay": 0,
+          "tiles": 4,
           "alpha": true,
-          "tiles": 4
+          "y": -0.6,
+          "gravity": 0.1
+        },
+        {
+          "kind": "burst",
+          "texture": "rock",
+          "color": "A89878",
+          "count": 12,
+          "life": 0.8,
+          "size": 0.18,
+          "speed": 3.5,
+          "radius": 0.12,
+          "gravity": 1.2,
+          "y": -0.4,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "FFE0B0",
+          "count": 12,
+          "life": 0.3,
+          "size": 0.25,
+          "speed": 4.0,
+          "radius": 0.12,
+          "delay": 0
         }
       ]
     },
     {
       "key": "thunder",
-      "description": "Four branching animated lightning strikes",
+      "description": "Lightning strike: two staggered bolts from above, white flash, floor ring, sparks and static",
       "duration": 1.1,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
           "texture": "lightning_sheet",
-          "color": "D7F1FF",
-          "life": 0.7,
+          "color": "F0F8FF",
+          "life": 0.55,
           "size": 1.5,
-          "height": 3,
+          "height": 3.6,
+          "y": 1.2,
           "tiles": 4
         },
         {
+          "kind": "quad",
+          "texture": "lightning_sheet",
+          "color": "C0DCFF",
+          "life": 0.5,
+          "size": 1.2,
+          "height": 3.0,
+          "y": 1.0,
+          "tiles": 4,
+          "delay": 0.12,
+          "rotation": 8
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "F0F8FF",
+          "life": 0.16,
+          "size": 0.6,
+          "delay": 0.02,
+          "rotation": 12,
+          "endSize": 1.8
+        },
+        {
+          "kind": "quad",
+          "texture": "glow_hard",
+          "color": "D0E8FF",
+          "life": 0.3,
+          "size": 0.5,
+          "endSize": 1.1
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "B0D8FF",
+          "life": 0.4,
+          "size": 0.3,
+          "endSize": 2.6,
+          "y": -0.7799999999999999
+        },
+        {
           "kind": "burst",
-          "texture": "star4",
-          "color": "8ABFFF",
-          "count": 26,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "texture": "spark",
+          "color": "E8F4FF",
+          "count": 24,
+          "life": 0.3,
+          "size": 0.3,
+          "speed": 5.0,
+          "radius": 0.12,
+          "delay": 0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "A8D0FF",
+          "count": 14,
+          "life": 0.8,
+          "size": 0.12,
+          "speed": 1.5,
+          "radius": 0.12,
+          "delay": 0.1,
+          "gravity": 0
         }
       ]
     },
     {
       "key": "ultimate_warrior",
-      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "description": "Warrior ultimate: speed-line focus, giant holy sword drops, X-slash, triple shock, star storm",
       "duration": 2,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "sword",
-          "color": "FFE6A0",
-          "life": 1.5,
-          "size": 2.8,
-          "height": 4,
-          "y": 1.3,
-          "tiles": 1
+          "texture": "speed_lines",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 4.5,
+          "endSize": 3.2
         },
         {
           "kind": "quad",
-          "texture": "magic_circle_d",
+          "texture": "magic_circle_a",
           "color": "FFE6A0",
-          "life": 1.1,
-          "size": 4,
-          "spin": 60,
-          "horizontal": true
+          "life": 1.6,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": 40,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "sword",
+          "color": "FFF0C0",
+          "life": 1.2,
+          "size": 1.6,
+          "height": 3.4,
+          "y": 1.2,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_cross",
+          "color": "FFFFFF",
+          "life": 0.35,
+          "size": 1.5,
+          "delay": 0.45,
+          "endSize": 3.2
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF8E0",
+          "life": 0.2,
+          "size": 0.8,
+          "delay": 0.5,
+          "rotation": 12,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFE0A0",
+          "life": 0.45,
+          "size": 0.5,
+          "delay": 0.5,
+          "endSize": 3.6
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFC060",
+          "life": 0.6,
+          "size": 0.4,
+          "endSize": 4.0,
+          "y": -0.7799999999999999,
+          "delay": 0.5
         },
         {
           "kind": "burst",
           "texture": "star8",
-          "color": "FFE6A0",
-          "count": 64,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "color": "FFF2C0",
+          "count": 24,
+          "life": 0.8,
+          "size": 0.35,
+          "speed": 4.0,
+          "radius": 0.12,
+          "delay": 0.5
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFD080",
+          "count": 30,
+          "life": 1.3,
+          "size": 0.14,
+          "speed": 2.0,
+          "radius": 0.12,
+          "delay": 0.55,
+          "gravity": -0.3
         }
       ]
     },
     {
       "key": "ultimate_mage",
-      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
-      "duration": 2,
+      "description": "Mage ultimate: grand arcane seal, meteor streaks down, fireball explosion, flame columns, smoke",
+      "duration": 2.2,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "flame_sheet",
-          "color": "FFA7DA",
-          "life": 1.5,
-          "size": 2.8,
-          "height": 4,
-          "y": 1.3,
-          "tiles": 4
+          "texture": "magic_circle_e",
+          "color": "FFD8F0",
+          "life": 1.8,
+          "size": 3.6,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
         },
         {
           "kind": "quad",
-          "texture": "magic_circle_d",
-          "color": "FFA7DA",
-          "life": 1.1,
-          "size": 4,
-          "spin": 60,
-          "horizontal": true
+          "texture": "magic_circle_c",
+          "color": "FFFFFF",
+          "life": 1.8,
+          "size": 4.2,
+          "horizontal": true,
+          "spin": -50,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "meteor",
+          "color": "FFE0C0",
+          "life": 0.38,
+          "size": 1.3,
+          "height": 2.8,
+          "y": 1.8,
+          "delay": 0.05
+        },
+        {
+          "kind": "emitter",
+          "texture": "glow_hard",
+          "color": "FFE0B0",
+          "rate": 0.9,
+          "life": 0.35,
+          "size": 1.0,
+          "speed": -8.0,
+          "radius": 0.02,
+          "y": 3.0,
+          "upright": true,
+          "delay": 0.05
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "FFD0A0",
+          "life": 0.8,
+          "size": 2.0,
+          "tiles": 4,
+          "delay": 0.4,
+          "endSize": 3.4
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF0D0",
+          "life": 0.2,
+          "size": 0.8,
+          "delay": 0.4,
+          "rotation": 12,
+          "endSize": 2.8
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFB070",
+          "life": 0.6,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.4,
+          "endSize": 4.2
+        },
+        {
+          "kind": "quad",
+          "texture": "flame_sheet",
+          "color": "FFC080",
+          "life": 0.9,
+          "size": 1.8,
+          "height": 2.6,
+          "y": 0.5,
+          "tiles": 4,
+          "delay": 0.5
         },
         {
           "kind": "burst",
-          "texture": "star8",
-          "color": "FFA7DA",
-          "count": 64,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "texture": "ember",
+          "color": "FFC080",
+          "count": 36,
+          "life": 1.2,
+          "size": 0.14,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 0.45,
+          "gravity": -0.25
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "302028",
+          "count": 10,
+          "life": 1.3,
+          "size": 1.0,
+          "speed": 1.4,
+          "radius": 0.5,
+          "delay": 0.55,
+          "tiles": 4,
+          "alpha": true,
+          "gravity": -0.05
         }
       ]
     },
     {
       "key": "ultimate_archer",
-      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "description": "Archer ultimate: twin seals in the sky, rain of light arrows, ground sparkles and shock ring",
       "duration": 2,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
-          "texture": "arrow_streak",
-          "color": "B5E9FF",
-          "life": 1.5,
-          "size": 2.8,
-          "height": 4,
-          "y": 1.3,
-          "tiles": 1
+          "texture": "magic_circle_b",
+          "color": "D8F0FF",
+          "life": 1.6,
+          "size": 3.0,
+          "horizontal": true,
+          "spin": 60,
+          "y": 2.8
         },
         {
           "kind": "quad",
-          "texture": "magic_circle_d",
-          "color": "B5E9FF",
-          "life": 1.1,
-          "size": 4,
-          "spin": 60,
-          "horizontal": true
+          "texture": "magic_circle_c",
+          "color": "FFFFFF",
+          "life": 1.6,
+          "size": 3.4,
+          "horizontal": true,
+          "spin": -80,
+          "y": 2.82
         },
         {
-          "kind": "burst",
-          "texture": "star8",
-          "color": "B5E9FF",
-          "count": 64,
-          "life": 0.65,
-          "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "kind": "emitter",
+          "texture": "arrow_rain",
+          "color": "E8F8FF",
+          "rate": 60,
+          "life": 0.55,
+          "size": 1.3,
+          "speed": -8.5,
+          "radius": 1.3,
+          "y": 2.6,
+          "upright": true,
+          "delay": 0.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "star4",
+          "color": "F0FAFF",
+          "rate": 30,
+          "life": 0.25,
+          "size": 0.45,
+          "speed": 0.3,
+          "radius": 1.3,
+          "y": -0.82,
+          "delay": 0.55
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "C8ECFF",
+          "life": 0.6,
+          "size": 0.5,
+          "endSize": 3.4,
+          "y": -0.7799999999999999,
+          "delay": 0.5
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "D8F0FF",
+          "life": 0.5,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.6,
+          "endSize": 3.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "D8F0FF",
+          "rate": 30,
+          "life": 0.9,
+          "size": 0.11,
+          "speed": 1.0,
+          "radius": 1.2,
+          "y": -0.82,
+          "delay": 0.5
         }
       ]
     },
     {
       "key": "ultimate_cleric",
-      "description": "Hero ultimate focal emblem, runic seal and radiant particle storm",
+      "description": "Cleric ultimate: sun seal, heaven pillar, great wings and halo, radiant burst, feather fall",
+      "duration": 2.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF4D0",
+          "life": 2.0,
+          "size": 3.6,
+          "horizontal": true,
+          "spin": 25,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFF8E0",
+          "life": 1.6,
+          "size": 1.4,
+          "height": 5.0,
+          "y": 1.6,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "wings",
+          "color": "FFFFF0",
+          "life": 1.6,
+          "size": 3.4,
+          "y": 0.8,
+          "delay": 0.25,
+          "endSize": 3.8
+        },
+        {
+          "kind": "quad",
+          "texture": "halo",
+          "color": "FFFFFF",
+          "life": 1.5,
+          "size": 1.0,
+          "horizontal": true,
+          "y": 1.3,
+          "delay": 0.35,
+          "spin": 50
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFF2C0",
+          "life": 0.7,
+          "size": 0.5,
+          "y": 0.4,
+          "delay": 0.3,
+          "spin": 15,
+          "endSize": 3.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "feather",
+          "color": "FFF6E0",
+          "rate": 18,
+          "life": 1.4,
+          "size": 0.25,
+          "speed": -1.0,
+          "radius": 1.4,
+          "y": 2.6,
+          "gravity": 0.02
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF6D0",
+          "rate": 40,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 2.0,
+          "radius": 1.2,
+          "y": -0.82
+        }
+      ]
+    },
+    {
+      "key": "job_knight",
+      "description": "Knight: azure guard seal and hex bulwark, then a sweeping shield-cleave and blue shock",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "9CC8FF",
+          "life": 1.4,
+          "size": 2.4,
+          "horizontal": true,
+          "spin": 40,
+          "y": -0.82
+        },
+        {
+          "kind": "sphere",
+          "texture": "hex",
+          "color": "A8D4FF",
+          "life": 1.0,
+          "size": 1.8,
+          "endSize": 2.0,
+          "delay": 0.05
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "E0F0FF",
+          "life": 0.25,
+          "size": 1.4,
+          "endSize": 2.2,
+          "rotation": 200,
+          "delay": 0.3
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "C8E4FF",
+          "life": 0.3,
+          "size": 2.2,
+          "height": 1.1,
+          "rotation": -25,
+          "delay": 0.35,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.16,
+          "size": 0.5,
+          "delay": 0.38,
+          "rotation": 12,
+          "endSize": 1.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "B8DCFF",
+          "life": 0.4,
+          "size": 0.4,
+          "delay": 0.4,
+          "endSize": 2.6
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "D8ECFF",
+          "count": 18,
+          "life": 0.35,
+          "size": 0.28,
+          "speed": 4.5,
+          "radius": 0.12,
+          "delay": 0.38
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "A8D0FF",
+          "count": 12,
+          "life": 1.0,
+          "size": 0.11,
+          "speed": 1.0,
+          "radius": 0.12,
+          "delay": 0.45,
+          "gravity": -0.2
+        }
+      ]
+    },
+    {
+      "key": "job_paladin",
+      "description": "Paladin: sun seal, heaven pillar with a descending holy sword, unfolding wings, radiant burst",
       "duration": 2,
       "loop": false,
       "layers": [
         {
           "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFE8A8",
+          "life": 1.9,
+          "size": 3.0,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFF4C8",
+          "life": 1.4,
+          "size": 1.3,
+          "height": 5.0,
+          "y": 1.6,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "sword",
+          "color": "FFF8E0",
+          "life": 1.2,
+          "size": 1.4,
+          "height": 2.8,
+          "y": 0.9,
+          "delay": 0.2
+        },
+        {
+          "kind": "quad",
           "texture": "wings",
-          "color": "FFFFDA",
-          "life": 1.5,
-          "size": 2.8,
-          "height": 4,
-          "y": 1.3,
-          "tiles": 1
+          "color": "FFF0C8",
+          "life": 1.4,
+          "size": 3.2,
+          "y": 0.7,
+          "delay": 0.35,
+          "endSize": 3.6
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFE8A0",
+          "life": 0.6,
+          "size": 0.5,
+          "y": 0.3,
+          "delay": 0.55,
+          "spin": 20,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.18,
+          "size": 0.6,
+          "delay": 0.55,
+          "rotation": 12,
+          "endSize": 2.0
+        },
+        {
+          "kind": "burst",
+          "texture": "feather",
+          "color": "FFF6E0",
+          "count": 22,
+          "life": 1.4,
+          "size": 0.24,
+          "speed": 2.2,
+          "radius": 0.12,
+          "gravity": 0.1,
+          "delay": 0.55
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF0C0",
+          "rate": 35,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 2.4,
+          "radius": 0.8,
+          "y": -0.82
+        }
+      ]
+    },
+    {
+      "key": "job_berserker",
+      "description": "Berserker: red focus lines, two frenzied claw rakes, X-slash, blood spray and rage embers",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FF6060",
+          "life": 0.4,
+          "size": 3.6,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "claw",
+          "color": "FFD0D0",
+          "life": 0.32,
+          "size": 1.8,
+          "rotation": 15,
+          "delay": 0.15,
+          "endSize": 2.4
+        },
+        {
+          "kind": "quad",
+          "texture": "claw",
+          "color": "FFB0B0",
+          "life": 0.32,
+          "size": 1.8,
+          "rotation": -160,
+          "delay": 0.28,
+          "endSize": 2.4
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_cross",
+          "color": "FF8080",
+          "life": 0.3,
+          "size": 1.2,
+          "delay": 0.4,
+          "endSize": 2.4
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFE0E0",
+          "life": 0.18,
+          "size": 0.6,
+          "delay": 0.42,
+          "rotation": 12,
+          "endSize": 1.8
+        },
+        {
+          "kind": "burst",
+          "texture": "droplet",
+          "color": "FF4050",
+          "count": 16,
+          "life": 0.7,
+          "size": 0.16,
+          "speed": 3.5,
+          "radius": 0.12,
+          "gravity": 1.0,
+          "delay": 0.42,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "FFA0A0",
+          "count": 20,
+          "life": 0.35,
+          "size": 0.3,
+          "speed": 5.0,
+          "radius": 0.12,
+          "delay": 0.42
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FF6050",
+          "rate": 25,
+          "life": 0.8,
+          "size": 0.12,
+          "speed": 1.5,
+          "radius": 0.6,
+          "y": -0.6
+        }
+      ]
+    },
+    {
+      "key": "job_warlord",
+      "description": "Warlord: crimson war sigil, ground-shattering explosion, double crimson shockwave, rocks and embers",
+      "duration": 2.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "FF6040",
+          "life": 1.8,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": -30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FFB080",
+          "life": 0.45,
+          "size": 4.0,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "FF9060",
+          "life": 0.8,
+          "size": 1.8,
+          "tiles": 4,
+          "delay": 0.35,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFE0C0",
+          "life": 0.2,
+          "size": 0.8,
+          "delay": 0.35,
+          "rotation": 12,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FF7050",
+          "life": 0.6,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.35,
+          "endSize": 4.4
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFB090",
+          "life": 0.45,
+          "size": 0.5,
+          "delay": 0.4,
+          "endSize": 3.4
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FF4030",
+          "life": 0.7,
+          "size": 0.5,
+          "endSize": 4.8,
+          "y": -0.7799999999999999,
+          "delay": 0.4
+        },
+        {
+          "kind": "burst",
+          "texture": "rock",
+          "color": "806050",
+          "count": 16,
+          "life": 0.9,
+          "size": 0.22,
+          "speed": 4.0,
+          "radius": 0.12,
+          "gravity": 1.3,
+          "y": -0.5,
+          "delay": 0.35,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "503030",
+          "count": 10,
+          "life": 1.2,
+          "size": 1.0,
+          "speed": 1.6,
+          "radius": 0.5,
+          "delay": 0.4,
+          "tiles": 4,
+          "alpha": true,
+          "y": -0.5
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FF8040",
+          "count": 40,
+          "life": 1.4,
+          "size": 0.14,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 0.4,
+          "gravity": -0.25
+        }
+      ]
+    },
+    {
+      "key": "job_elementalist",
+      "description": "Elementalist: fire and ice spirits orbit a rune circle with sparks, then converge in a prismatic blast",
+      "duration": 2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_a",
+          "color": "C8E0FF",
+          "life": 1.6,
+          "size": 2.6,
+          "horizontal": true,
+          "spin": 50,
+          "y": -0.82
+        },
+        {
+          "kind": "orbit",
+          "texture": "flame_sheet",
+          "color": "FF9050",
+          "life": 1.0,
+          "size": 0.55,
+          "radius": 1.0,
+          "spin": 160,
+          "count": 2,
+          "y": 0.2,
+          "tiles": 4
+        },
+        {
+          "kind": "orbit",
+          "texture": "crystal",
+          "color": "A0E0FF",
+          "life": 1.0,
+          "size": 0.5,
+          "radius": 1.0,
+          "spin": -160,
+          "count": 2,
+          "y": 0.2
+        },
+        {
+          "kind": "orbit",
+          "texture": "star8",
+          "color": "FFF0A0",
+          "life": 1.0,
+          "size": 0.35,
+          "radius": 0.7,
+          "spin": 100,
+          "count": 3,
+          "y": 0.6
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.2,
+          "size": 0.6,
+          "delay": 0.9,
+          "rotation": 12,
+          "endSize": 2.2
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "D0C0FF",
+          "life": 0.7,
+          "size": 1.0,
+          "tiles": 4,
+          "delay": 0.9,
+          "endSize": 2.4
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "C0E0FF",
+          "count": 18,
+          "life": 0.4,
+          "size": 0.3,
+          "speed": 5.0,
+          "radius": 0.12,
+          "delay": 0.9
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFB080",
+          "count": 16,
+          "life": 1.0,
+          "size": 0.11,
+          "speed": 2.4,
+          "radius": 0.12,
+          "delay": 0.9,
+          "gravity": -0.15
+        },
+        {
+          "kind": "burst",
+          "texture": "ice_shard",
+          "color": "A0E0FF",
+          "count": 10,
+          "life": 0.7,
+          "size": 0.28,
+          "speed": 3.0,
+          "radius": 0.12,
+          "gravity": 0.5,
+          "delay": 0.9
+        }
+      ]
+    },
+    {
+      "key": "job_archmage",
+      "description": "Archmage: three stacked arcane seals (floor, air, sky), a meteor streaks down, grand explosion",
+      "duration": 2.4,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_e",
+          "color": "D8C0FF",
+          "life": 2.2,
+          "size": 3.4,
+          "horizontal": true,
+          "spin": 25,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "FFFFFF",
+          "life": 2.2,
+          "size": 3.9,
+          "horizontal": true,
+          "spin": -40,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_a",
+          "color": "E8D8FF",
+          "life": 1.8,
+          "size": 2.0,
+          "horizontal": true,
+          "spin": -60,
+          "y": 1.4,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "F0E0FF",
+          "life": 1.6,
+          "size": 1.4,
+          "horizontal": true,
+          "spin": 80,
+          "y": 3.0,
+          "delay": 0.2
+        },
+        {
+          "kind": "quad",
+          "texture": "meteor",
+          "color": "FFD0A0",
+          "life": 0.4,
+          "size": 1.4,
+          "height": 3.0,
+          "y": 1.9,
+          "delay": 0.6
+        },
+        {
+          "kind": "emitter",
+          "texture": "glow_hard",
+          "color": "FFE0B0",
+          "rate": 0.9,
+          "life": 0.35,
+          "size": 1.0,
+          "speed": -8.0,
+          "radius": 0.02,
+          "y": 3.0,
+          "upright": true,
+          "delay": 0.6
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "FFB070",
+          "life": 0.8,
+          "size": 2.0,
+          "tiles": 4,
+          "delay": 0.95,
+          "endSize": 3.4
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF0D0",
+          "life": 0.2,
+          "size": 0.8,
+          "delay": 0.95,
+          "rotation": 12,
+          "endSize": 2.8
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFC090",
+          "life": 0.6,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.95,
+          "endSize": 4.2
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFB070",
+          "life": 0.7,
+          "size": 0.5,
+          "endSize": 4.4,
+          "y": -0.7799999999999999,
+          "delay": 1.0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFC080",
+          "count": 40,
+          "life": 1.2,
+          "size": 0.14,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 1.0,
+          "gravity": -0.25
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "2A1C30",
+          "count": 10,
+          "life": 1.3,
+          "size": 1.0,
+          "speed": 1.4,
+          "radius": 0.5,
+          "delay": 1.05,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "job_warlock",
+      "description": "Warlock: violet curse sigil, tightening vortex, circling skull wisps, shadow smoke, curse pop",
+      "duration": 1.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "B070FF",
+          "life": 1.6,
+          "size": 2.6,
+          "horizontal": true,
+          "spin": -40,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "swirl",
+          "color": "C080FF",
+          "life": 1.2,
+          "size": 0.6,
+          "spin": -160,
+          "y": 0.2,
+          "delay": 0.1,
+          "endSize": 2.4
+        },
+        {
+          "kind": "orbit",
+          "texture": "skull_wisp",
+          "color": "D0A8FF",
+          "life": 1.3,
+          "size": 0.45,
+          "radius": 0.9,
+          "spin": -140,
+          "count": 4,
+          "y": 0.3
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "2A1640",
+          "count": 12,
+          "life": 1.3,
+          "size": 1.0,
+          "speed": 0.9,
+          "radius": 0.5,
+          "delay": 0.2,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "E8D0FF",
+          "life": 0.2,
+          "size": 0.5,
+          "delay": 0.7,
+          "rotation": 12,
+          "endSize": 1.8
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "C890FF",
+          "count": 24,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 2.6,
+          "radius": 0.12,
+          "delay": 0.7,
+          "gravity": -0.2
+        }
+      ]
+    },
+    {
+      "key": "job_abyssal",
+      "description": "Abyssal: cyan-violet twin sigils, a void rift tears open with a glowing seam, vortex, abyss smoke",
+      "duration": 2.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "60E0FF",
+          "life": 2.0,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "B080FF",
+          "life": 2.0,
+          "size": 3.7,
+          "horizontal": true,
+          "spin": -50,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "swirl",
+          "color": "9060FF",
+          "life": 1.4,
+          "size": 1.0,
+          "spin": -120,
+          "y": 0.5,
+          "delay": 0.3,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "rift",
+          "color": "B8F4FF",
+          "life": 1.6,
+          "size": 1.3,
+          "height": 2.8,
+          "y": 0.6,
+          "delay": 0.15,
+          "alpha": true,
+          "endSize": 1.5
+        },
+        {
+          "kind": "quad",
+          "texture": "rift_glow",
+          "color": "60E8FF",
+          "life": 1.6,
+          "size": 1.5,
+          "height": 3.0,
+          "y": 0.6,
+          "delay": 0.15,
+          "endSize": 1.7
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "180C28",
+          "rate": 8,
+          "life": 1.2,
+          "size": 0.8,
+          "speed": 1.0,
+          "radius": 0.8,
+          "tiles": 4,
+          "alpha": true,
+          "y": -0.82,
+          "delay": 0.2
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "8040FF",
+          "life": 0.6,
+          "size": 4.0,
+          "endSize": 0.5,
+          "y": -0.7799999999999999,
+          "delay": 0.5
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "D0F8FF",
+          "life": 0.2,
+          "size": 0.6,
+          "delay": 0.6,
+          "rotation": 12,
+          "endSize": 2.0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "70F0FF",
+          "count": 30,
+          "life": 1.2,
+          "size": 0.12,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 0.6,
+          "gravity": -0.3
+        }
+      ]
+    },
+    {
+      "key": "job_sniper",
+      "description": "Sniper: lock-on reticle and ring converge, then a piercing light arrow, focus lines and sharp burst",
+      "duration": 1.4,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "D0F0FF",
+          "life": 0.6,
+          "size": 1.8,
+          "spin": 120,
+          "endSize": 1.0
+        },
+        {
+          "kind": "quad",
+          "texture": "ring",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 2.4,
+          "endSize": 0.6
+        },
+        {
+          "kind": "quad",
+          "texture": "arrow_streak",
+          "color": "E8F8FF",
+          "life": 0.25,
+          "size": 3.6,
+          "height": 0.6,
+          "delay": 0.5
+        },
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "C0E8FF",
+          "life": 0.3,
+          "size": 3.0,
+          "delay": 0.5,
+          "endSize": 2.4
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.16,
+          "size": 0.4,
+          "delay": 0.55,
+          "rotation": 12,
+          "endSize": 1.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "C8ECFF",
+          "life": 0.35,
+          "size": 0.3,
+          "delay": 0.55,
+          "endSize": 2.4
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "E0F6FF",
+          "count": 20,
+          "life": 0.35,
+          "size": 0.3,
+          "speed": 6.0,
+          "radius": 0.12,
+          "delay": 0.55
+        }
+      ]
+    },
+    {
+      "key": "job_divine_archer",
+      "description": "Divine Archer: golden sun seal opens in the sky and rains golden arrows; sparkling impacts",
+      "duration": 2.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFE8A0",
+          "life": 2.0,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": 40,
+          "y": 2.9
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFE8A0",
+          "life": 1.6,
+          "size": 2.0,
+          "horizontal": true,
+          "spin": 60,
+          "y": 2.92
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "FFE0A0",
+          "life": 1.8,
+          "size": 3.0,
+          "horizontal": true,
+          "spin": -30,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "arrow_rain",
+          "color": "FFE8B0",
+          "rate": 65,
+          "life": 0.55,
+          "size": 1.4,
+          "speed": -8.5,
+          "radius": 1.4,
+          "y": 2.7,
+          "upright": true,
+          "delay": 0.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "star4",
+          "color": "FFF4D0",
+          "rate": 35,
+          "life": 0.25,
+          "size": 0.5,
+          "speed": 0.2,
+          "radius": 1.4,
+          "y": -0.82,
+          "delay": 0.5
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFD070",
+          "life": 0.7,
+          "size": 0.5,
+          "endSize": 3.6,
+          "y": -0.7799999999999999,
+          "delay": 0.55
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFE8B0",
+          "rate": 30,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 1.5,
+          "radius": 1.2,
+          "y": -0.82,
+          "delay": 0.5
+        }
+      ]
+    },
+    {
+      "key": "job_ranger",
+      "description": "Ranger: leaf storm whirls around a green seal, two wind cuts and a burst of leaves",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "A8F0B0",
+          "life": 1.4,
+          "size": 2.4,
+          "horizontal": true,
+          "spin": 60,
+          "y": -0.82
+        },
+        {
+          "kind": "orbit",
+          "texture": "leaf",
+          "color": "C8FFC0",
+          "life": 1.2,
+          "size": 0.3,
+          "radius": 1.0,
+          "spin": 260,
+          "count": 8,
+          "y": -0.2
+        },
+        {
+          "kind": "orbit",
+          "texture": "leaf",
+          "color": "B0F0A0",
+          "life": 1.2,
+          "size": 0.26,
+          "radius": 0.7,
+          "spin": -300,
+          "count": 6,
+          "y": 0.5
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "D8FFD8",
+          "life": 0.3,
+          "size": 1.6,
+          "endSize": 2.2,
+          "rotation": 30,
+          "delay": 0.5
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "C0FFC8",
+          "life": 0.3,
+          "size": 1.4,
+          "endSize": 2.0,
+          "rotation": 210,
+          "delay": 0.62
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "F0FFE8",
+          "life": 0.16,
+          "size": 0.4,
+          "delay": 0.55,
+          "rotation": 12,
+          "endSize": 1.4
+        },
+        {
+          "kind": "burst",
+          "texture": "leaf",
+          "color": "B8F8A8",
+          "count": 18,
+          "life": 1.0,
+          "size": 0.22,
+          "speed": 3.0,
+          "radius": 0.12,
+          "gravity": 0.2,
+          "delay": 0.55
+        }
+      ]
+    },
+    {
+      "key": "job_shadow_stalker",
+      "description": "Shadow Stalker: vanishes in shadow smoke, three violet blade arcs, X-slash, dark burst",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "201030",
+          "count": 10,
+          "life": 1.0,
+          "size": 0.9,
+          "speed": 0.6,
+          "radius": 0.5,
+          "delay": 0,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "C8A0FF",
+          "life": 0.22,
+          "size": 1.9,
+          "endSize": 2.6,
+          "rotation": 20,
+          "delay": 0.15
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "E0C8FF",
+          "life": 0.22,
+          "size": 1.9,
+          "endSize": 2.6,
+          "rotation": 160,
+          "delay": 0.25
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "B080FF",
+          "life": 0.22,
+          "size": 2.1,
+          "endSize": 2.8,
+          "rotation": 280,
+          "delay": 0.35
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_cross",
+          "color": "D8B8FF",
+          "life": 0.3,
+          "size": 1.4,
+          "delay": 0.45,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "F0E0FF",
+          "life": 0.16,
+          "size": 0.5,
+          "delay": 0.47,
+          "rotation": 12,
+          "endSize": 1.6
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "C090FF",
+          "count": 20,
+          "life": 0.3,
+          "size": 0.28,
+          "speed": 5.0,
+          "radius": 0.12,
+          "delay": 0.47
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "180828",
+          "count": 8,
+          "life": 0.9,
+          "size": 0.7,
+          "speed": 1.6,
+          "radius": 0.3,
+          "delay": 0.5,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "job_priest",
+      "description": "Priest: blessing seal, soft light pillar, rising crosses and petals, warm bloom and sparkles",
+      "duration": 1.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "D8FFE0",
+          "life": 1.6,
+          "size": 2.4,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "E0FFE8",
+          "life": 1.2,
+          "size": 1.2,
+          "height": 3.6,
+          "y": 1.0,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "plus",
+          "color": "E8FFF0",
+          "rate": 16,
+          "life": 1.0,
+          "size": 0.24,
+          "speed": 1.4,
+          "radius": 0.7,
+          "y": -0.7
+        },
+        {
+          "kind": "emitter",
+          "texture": "petal",
+          "color": "FFE0F0",
+          "rate": 10,
+          "life": 1.4,
+          "size": 0.16,
+          "speed": 1.0,
+          "radius": 0.8,
+          "y": -0.7
+        },
+        {
+          "kind": "quad",
+          "texture": "glow",
+          "color": "E8FFF0",
+          "life": 0.6,
+          "size": 0.6,
+          "y": 0.2,
+          "delay": 0.3,
+          "endSize": 1.4
+        },
+        {
+          "kind": "burst",
+          "texture": "star4",
+          "color": "FFFFFF",
+          "count": 10,
+          "life": 0.8,
+          "size": 0.25,
+          "speed": 1.5,
+          "radius": 0.12,
+          "delay": 0.4
+        }
+      ]
+    },
+    {
+      "key": "job_saint",
+      "description": "Saint: great halo above, heaven pillar, rain of healing light and crosses, radiant bloom",
+      "duration": 2.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "halo",
+          "color": "FFF8D8",
+          "life": 2.0,
+          "size": 1.4,
+          "horizontal": true,
+          "y": 2.3,
+          "spin": 40
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF2C8",
+          "life": 2.0,
+          "size": 3.4,
+          "horizontal": true,
+          "spin": -30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFF8E0",
+          "life": 1.6,
+          "size": 1.5,
+          "height": 5.0,
+          "y": 1.6,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "light_streak",
+          "color": "E8FFF0",
+          "rate": 40,
+          "life": 0.55,
+          "size": 1.0,
+          "speed": -7.5,
+          "radius": 1.3,
+          "y": 2.4,
+          "upright": true,
+          "delay": 0.15
+        },
+        {
+          "kind": "emitter",
+          "texture": "plus",
+          "color": "D8FFE8",
+          "rate": 20,
+          "life": 0.6,
+          "size": 0.25,
+          "speed": -3.0,
+          "radius": 1.3,
+          "y": 2.2,
+          "upright": true,
+          "delay": 0.2
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFF4D0",
+          "life": 0.8,
+          "size": 0.5,
+          "y": 0.4,
+          "delay": 0.6,
+          "spin": 15,
+          "endSize": 3.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "F0FFF4",
+          "rate": 30,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 1.5,
+          "radius": 1.2,
+          "y": -0.82,
+          "delay": 0.4
+        }
+      ]
+    },
+    {
+      "key": "job_exorcist",
+      "description": "Exorcist: upright holy seal spins open, cross flash, spirits flung out, holy shock and stars",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF0C0",
+          "life": 1.2,
+          "size": 0.6,
+          "spin": 90,
+          "y": 0.3,
+          "endSize": 2.2
+        },
+        {
+          "kind": "quad",
+          "texture": "cross",
+          "color": "FFFFFF",
+          "life": 0.8,
+          "size": 0.6,
+          "height": 1.2,
+          "y": 0.3,
+          "delay": 0.2
+        },
+        {
+          "kind": "burst",
+          "texture": "skull_wisp",
+          "color": "E8E0FF",
+          "count": 6,
+          "life": 0.9,
+          "size": 0.4,
+          "speed": 2.5,
+          "radius": 0.12,
+          "gravity": -0.3,
+          "delay": 0.4
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF8E0",
+          "life": 0.18,
+          "size": 0.5,
+          "delay": 0.45,
+          "rotation": 12,
+          "endSize": 1.8
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFE8B0",
+          "life": 0.4,
+          "size": 0.4,
+          "delay": 0.45,
+          "endSize": 2.6
+        },
+        {
+          "kind": "burst",
+          "texture": "star4",
+          "color": "FFF4C0",
+          "count": 16,
+          "life": 0.6,
+          "size": 0.28,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 0.45
+        }
+      ]
+    },
+    {
+      "key": "job_inquisitor",
+      "description": "Inquisitor: crimson sigil, judgment pillar and giant crimson cross impale the target, red shock",
+      "duration": 2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "FF5060",
+          "life": 2.0,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FF9090",
+          "life": 0.4,
+          "size": 4.0,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FF4050",
+          "life": 0.9,
+          "size": 1.4,
+          "height": 5.0,
+          "y": 1.6,
+          "delay": 0.25
+        },
+        {
+          "kind": "quad",
+          "texture": "cross",
+          "color": "FF6070",
+          "life": 1.2,
+          "size": 1.4,
+          "height": 2.8,
+          "y": 0.9,
+          "delay": 0.3
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFE0E0",
+          "life": 0.2,
+          "size": 0.8,
+          "delay": 0.35,
+          "rotation": 12,
+          "endSize": 2.4
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FF6060",
+          "life": 0.6,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.35,
+          "endSize": 4.0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FF5050",
+          "count": 34,
+          "life": 1.2,
+          "size": 0.13,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 0.35,
+          "gravity": -0.3
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "401018",
+          "count": 8,
+          "life": 1.0,
+          "size": 0.9,
+          "speed": 1.2,
+          "radius": 0.3,
+          "delay": 0.4,
+          "tiles": 4,
+          "alpha": true,
+          "y": -0.4
+        }
+      ]
+    },
+    {
+      "key": "enchant",
+      "description": "Weapon enchant on the caster: spinning seal, body glow, orbiting glints and rising element embers",
+      "duration": 1.0,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_a",
+          "color": "FFFFFF",
+          "life": 1.0,
+          "size": 1.3,
+          "horizontal": true,
+          "spin": 90,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "glow",
+          "color": "FFFFFF",
+          "life": 0.8,
+          "size": 0.6,
+          "y": 0.1,
+          "endSize": 1.2
+        },
+        {
+          "kind": "orbit",
+          "texture": "star4",
+          "color": "FFFFFF",
+          "life": 0.9,
+          "size": 0.2,
+          "radius": 0.6,
+          "spin": 300,
+          "count": 3,
+          "y": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFFFFF",
+          "rate": 30,
+          "life": 0.6,
+          "size": 0.1,
+          "speed": 2.2,
+          "radius": 0.4,
+          "y": -0.6
+        }
+      ]
+    },
+    {
+      "key": "warcry",
+      "description": "Battle shout: radial focus lines, double shockwave, anger mark, rising aura flames and embers",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 2.0,
+          "endSize": 3.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFFFFF",
+          "life": 0.4,
+          "size": 0.4,
+          "delay": 0.05,
+          "endSize": 2.8
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFFFFF",
+          "life": 0.35,
+          "size": 0.3,
+          "delay": 0.2,
+          "endSize": 2.2
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 0.4,
+          "endSize": 3.0,
+          "y": -0.7799999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "anger",
+          "color": "FF6784",
+          "life": 0.7,
+          "size": 0.8,
+          "y": 0.9,
+          "delay": 0.1,
+          "alpha": true,
+          "endSize": 1.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "flame_sheet",
+          "color": "FFFFFF",
+          "rate": 14,
+          "life": 0.6,
+          "size": 0.6,
+          "speed": 2.0,
+          "radius": 0.4,
+          "y": -0.82,
+          "tiles": 4,
+          "upright": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFFFFF",
+          "rate": 30,
+          "life": 0.8,
+          "size": 0.1,
+          "speed": 2.6,
+          "radius": 0.5,
+          "y": -0.82
+        }
+      ]
+    },
+    {
+      "key": "aura",
+      "description": "Power-up aura: spinning seal, aura column and flames, orbiting chevrons, rising motes, finishing glint",
+      "duration": 1.3,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_e",
+          "color": "FFFFFF",
+          "life": 1.2,
+          "size": 1.7,
+          "horizontal": true,
+          "spin": 80,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFFFFF",
+          "life": 1.0,
+          "size": 1.1,
+          "height": 2.6,
+          "y": 0.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "flame_sheet",
+          "color": "FFFFFF",
+          "rate": 12,
+          "life": 0.7,
+          "size": 0.7,
+          "speed": 1.6,
+          "radius": 0.35,
+          "y": -0.82,
+          "tiles": 4,
+          "upright": true
+        },
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "FFFFFF",
+          "life": 1.0,
+          "size": 0.3,
+          "radius": 0.75,
+          "spin": 160,
+          "count": 3
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFFFFF",
+          "rate": 26,
+          "life": 0.8,
+          "size": 0.1,
+          "speed": 2.4,
+          "radius": 0.5,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.25,
+          "size": 0.35,
+          "delay": 0.5,
+          "y": 0.7,
+          "endSize": 1.4
+        }
+      ]
+    },
+    {
+      "key": "blade_fire",
+      "description": "Flame blade: white crescent cut that bursts into a cel explosion, ember spray and smoke",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.4,
+          "endSize": 2.2,
+          "rotation": 200
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 2.4,
+          "height": 1.2,
+          "rotation": -28,
+          "delay": 0.03,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.15,
+          "size": 0.5,
+          "delay": 0.03,
+          "rotation": 12,
+          "endSize": 1.7
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "FFD9A0",
+          "life": 0.6,
+          "size": 1.2,
+          "tiles": 4,
+          "delay": 0.05,
+          "endSize": 2.2
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFD090",
+          "count": 26,
+          "life": 0.8,
+          "size": 0.14,
+          "speed": 3.0,
+          "radius": 0.12,
+          "delay": 0,
+          "gravity": -0.15
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "3A2A30",
+          "count": 5,
+          "life": 0.9,
+          "size": 0.7,
+          "speed": 0.8,
+          "radius": 0.3,
+          "delay": 0.15,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "blade_ice",
+      "description": "Frost blade: crescent cut, ice crystal erupts from the wound, shard spray and frost mist",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.4,
+          "endSize": 2.2,
+          "rotation": 200
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 2.4,
+          "height": 1.2,
+          "rotation": -28,
+          "delay": 0.03,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.15,
+          "size": 0.5,
+          "delay": 0.03,
+          "rotation": 12,
+          "endSize": 1.7
+        },
+        {
+          "kind": "quad",
+          "texture": "crystal",
+          "color": "E0F8FF",
+          "life": 0.7,
+          "size": 0.6,
+          "y": -0.2,
+          "delay": 0.04,
+          "endSize": 1.8
+        },
+        {
+          "kind": "burst",
+          "texture": "ice_shard",
+          "color": "C8F0FF",
+          "count": 16,
+          "life": 0.7,
+          "size": 0.3,
+          "speed": 3.5,
+          "radius": 0.12,
+          "gravity": 0.6
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "E0F4FF",
+          "count": 4,
+          "life": 0.9,
+          "size": 0.7,
+          "speed": 0.5,
+          "radius": 0.3,
+          "delay": 0.1,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "blade_thunder",
+      "description": "Thunder blade: crescent cut with a bolt striking the blade, crackling sparks, floor ring",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.4,
+          "endSize": 2.2,
+          "rotation": 200
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 2.4,
+          "height": 1.2,
+          "rotation": -28,
+          "delay": 0.03,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.15,
+          "size": 0.5,
+          "delay": 0.03,
+          "rotation": 12,
+          "endSize": 1.7
+        },
+        {
+          "kind": "quad",
+          "texture": "lightning_sheet",
+          "color": "F0F8FF",
+          "life": 0.45,
+          "size": 1.4,
+          "height": 3.2,
+          "y": 1.0,
+          "tiles": 4
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "F0FAFF",
+          "count": 24,
+          "life": 0.3,
+          "size": 0.28,
+          "speed": 5.0,
+          "radius": 0.12,
+          "delay": 0
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFFFFF",
+          "life": 0.4,
+          "size": 0.3,
+          "endSize": 2.4,
+          "y": -0.7799999999999999
+        }
+      ]
+    },
+    {
+      "key": "blade_holy",
+      "description": "Holy blade: crescent cut, radiant cross and sunburst, feather fan",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.4,
+          "endSize": 2.2,
+          "rotation": 200
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 2.4,
+          "height": 1.2,
+          "rotation": -28,
+          "delay": 0.03,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.15,
+          "size": 0.5,
+          "delay": 0.03,
+          "rotation": 12,
+          "endSize": 1.7
+        },
+        {
+          "kind": "quad",
+          "texture": "cross",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 0.7,
+          "height": 1.4,
+          "y": 0.3,
+          "delay": 0.05
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFF6D8",
+          "life": 0.5,
+          "size": 0.3,
+          "delay": 0.05,
+          "spin": 20,
+          "endSize": 2.4
+        },
+        {
+          "kind": "burst",
+          "texture": "feather",
+          "color": "FFF8E8",
+          "count": 12,
+          "life": 1.0,
+          "size": 0.22,
+          "speed": 1.8,
+          "radius": 0.12,
+          "gravity": 0.15,
+          "delay": 0.08
+        }
+      ]
+    },
+    {
+      "key": "area_fire",
+      "description": "Hellfire field: wide rune seal and scorch, flame columns and explosions erupting across the group, giant hit flash and shock ring, ember storm, rolling smoke",
+      "duration": 1.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_a",
+          "color": "FFE0C0",
+          "life": 1.8,
+          "size": 5.5,
+          "horizontal": true,
+          "spin": 25,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "glow_hard",
+          "color": "FFB070",
+          "life": 1.4,
+          "size": 4.0,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.1,
+          "endSize": 6.0
+        },
+        {
+          "kind": "emitter",
+          "texture": "flame_sheet",
+          "color": "FFD0A0",
+          "rate": 22,
+          "life": 0.9,
+          "size": 1.8,
+          "speed": 0.8,
+          "radius": 2.6,
+          "y": -0.21999999999999997,
+          "tiles": 4,
+          "upright": true,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "explosion_sheet",
+          "color": "FFE0B8",
+          "rate": 6,
+          "life": 0.7,
+          "size": 2.0,
+          "speed": 0.2,
+          "radius": 2.4,
+          "y": -0.2,
+          "tiles": 4,
+          "upright": true,
+          "delay": 0.15
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF0D0",
+          "life": 0.2,
+          "size": 1.2,
+          "delay": 0.15,
+          "rotation": 12,
+          "endSize": 4.0
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFB070",
+          "life": 0.6,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.15,
+          "endSize": 6.5
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFD090",
+          "rate": 60,
+          "life": 1.0,
+          "size": 0.13,
+          "speed": 3.0,
+          "radius": 2.8,
+          "y": -0.82,
+          "delay": 0.1
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "302028",
+          "count": 12,
+          "life": 1.4,
+          "size": 1.3,
+          "speed": 1.2,
+          "radius": 1.6,
+          "delay": 0.4,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "area_ice",
+      "description": "Glacier field: snowflake seal, ice crystals erupting across the group, falling snow, frost flash, shard spray and freezing mist",
+      "duration": 1.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "snowflake",
+          "color": "E8FCFF",
+          "life": 1.8,
+          "size": 4.5,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82,
+          "endSize": 6.0
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "D8F4FF",
+          "life": 1.8,
+          "size": 6.0,
+          "horizontal": true,
+          "spin": -40,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "emitter",
+          "texture": "crystal",
+          "color": "E0F8FF",
+          "rate": 16,
+          "life": 0.9,
+          "size": 1.4,
+          "speed": 0.4,
+          "radius": 2.5,
+          "y": -0.41999999999999993,
+          "upright": true,
+          "delay": 0.15
+        },
+        {
+          "kind": "emitter",
+          "texture": "snowflake",
+          "color": "F0FCFF",
+          "rate": 40,
+          "life": 1.2,
+          "size": 0.2,
+          "speed": -2.5,
+          "radius": 3.0,
+          "y": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "E8FCFF",
+          "life": 0.2,
+          "size": 1.0,
+          "delay": 0.2,
+          "rotation": 12,
+          "endSize": 3.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "C8F0FF",
+          "life": 0.6,
+          "size": 0.5,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.2,
+          "endSize": 6.0
+        },
+        {
+          "kind": "burst",
+          "texture": "ice_shard",
+          "color": "C8F0FF",
+          "count": 30,
+          "life": 0.9,
+          "size": 0.35,
+          "speed": 4.5,
+          "radius": 1.0,
+          "gravity": 0.8,
+          "delay": 0.2
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "E0F4FF",
+          "count": 10,
+          "life": 1.2,
+          "size": 0.8,
+          "speed": 1.0,
+          "radius": 2.0,
+          "delay": 0.3,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "area_thunder",
+      "description": "Thunderstorm: storm cloud overhead, bolts raining down across the group, white flash, wide floor ring, crackling sparks",
+      "duration": 1.7,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "2A2A40",
+          "count": 10,
+          "life": 1.6,
+          "size": 1.2,
+          "speed": 0.3,
+          "radius": 2.2,
+          "delay": 0,
+          "tiles": 4,
+          "alpha": true,
+          "y": 2.8,
+          "gravity": 0
         },
         {
           "kind": "quad",
           "texture": "magic_circle_d",
-          "color": "FFFFDA",
-          "life": 1.1,
-          "size": 4,
-          "spin": 60,
-          "horizontal": true
+          "color": "E8F0FF",
+          "life": 1.6,
+          "size": 5.0,
+          "horizontal": true,
+          "spin": 40,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "lightning_sheet",
+          "color": "F0F8FF",
+          "life": 0.5,
+          "size": 2.0,
+          "height": 4.4,
+          "y": 1.3,
+          "tiles": 4,
+          "delay": 0.15
+        },
+        {
+          "kind": "emitter",
+          "texture": "lightning_sheet",
+          "color": "F0F8FF",
+          "rate": 20,
+          "life": 0.4,
+          "size": 2.6,
+          "speed": 0,
+          "radius": 2.4,
+          "y": 0.9,
+          "tiles": 4,
+          "upright": true,
+          "delay": 0.15
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "F0F8FF",
+          "life": 0.18,
+          "size": 1.0,
+          "delay": 0.2,
+          "rotation": 12,
+          "endSize": 3.6
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "D0E8FF",
+          "life": 0.5,
+          "size": 0.5,
+          "endSize": 6.0,
+          "y": -0.7799999999999999,
+          "delay": 0.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "spark",
+          "color": "F0FAFF",
+          "rate": 60,
+          "life": 0.3,
+          "size": 0.25,
+          "speed": 3.0,
+          "radius": 2.6,
+          "y": -0.82,
+          "delay": 0.15
+        }
+      ]
+    },
+    {
+      "key": "area_holy",
+      "description": "Divine judgment: floor and sky sun seals, light lances raining down, light pillars, giant sunburst, feather storm",
+      "duration": 2.0,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF4D0",
+          "life": 1.9,
+          "size": 5.6,
+          "horizontal": true,
+          "spin": 20,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "FFFFFF",
+          "life": 1.9,
+          "size": 6.2,
+          "horizontal": true,
+          "spin": -35,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF0C0",
+          "life": 1.6,
+          "size": 3.0,
+          "horizontal": true,
+          "spin": -30,
+          "y": 3.2,
+          "delay": 0.05
+        },
+        {
+          "kind": "emitter",
+          "texture": "light_streak",
+          "color": "FFF8E0",
+          "rate": 40,
+          "life": 0.45,
+          "size": 1.2,
+          "speed": -8.0,
+          "radius": 2.6,
+          "y": 3.0,
+          "upright": true,
+          "delay": 0.15
+        },
+        {
+          "kind": "emitter",
+          "texture": "beam",
+          "color": "FFF6D8",
+          "rate": 6,
+          "life": 0.6,
+          "size": 2.4,
+          "speed": 0,
+          "radius": 2.3,
+          "y": 0.6,
+          "upright": true,
+          "delay": 0.2
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFF3C2",
+          "life": 0.7,
+          "size": 1.0,
+          "delay": 0.3,
+          "spin": 15,
+          "endSize": 5.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.2,
+          "size": 1.0,
+          "delay": 0.3,
+          "rotation": 12,
+          "endSize": 3.4
         },
         {
           "kind": "burst",
-          "texture": "star8",
-          "color": "FFFFDA",
-          "count": 64,
-          "life": 0.65,
+          "texture": "feather",
+          "color": "FFF2D0",
+          "count": 30,
+          "life": 1.4,
+          "size": 0.25,
+          "speed": 2.5,
+          "radius": 1.5,
+          "gravity": 0.12,
+          "delay": 0.3
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF8E0",
+          "rate": 50,
+          "life": 0.9,
+          "size": 0.11,
+          "speed": 2.4,
+          "radius": 2.8,
+          "y": -0.82
+        }
+      ]
+    },
+    {
+      "key": "area_dark",
+      "description": "Void field: abyss sigil, imploding ring, ground vortex and rising vortex, shadow smoke, flung spirits, violet ember storm",
+      "duration": 1.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "E0C8FF",
+          "life": 1.8,
+          "size": 5.6,
+          "horizontal": true,
+          "spin": -30,
+          "y": -0.82
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "C090FF",
+          "life": 0.6,
+          "size": 6.0,
+          "endSize": 0.6,
+          "y": -0.7699999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "swirl",
+          "color": "C8A0FF",
+          "life": 1.2,
+          "size": 1.0,
+          "horizontal": true,
+          "y": -0.72,
+          "spin": -160,
+          "endSize": 5.0
+        },
+        {
+          "kind": "quad",
+          "texture": "swirl",
+          "color": "B080FF",
+          "life": 0.9,
+          "size": 0.6,
+          "spin": -220,
+          "y": 0.4,
+          "delay": 0.2,
+          "endSize": 3.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "2A1838",
+          "rate": 14,
+          "life": 1.2,
+          "size": 1.2,
+          "speed": 1.0,
+          "radius": 2.6,
+          "y": -0.82,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "skull_wisp",
+          "color": "D8B8F0",
+          "count": 14,
+          "life": 1.1,
+          "size": 0.45,
+          "speed": 2.5,
+          "radius": 1.6,
+          "delay": 0.25
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "E8D0FF",
+          "life": 0.2,
+          "size": 0.9,
+          "delay": 0.35,
+          "rotation": 12,
+          "endSize": 3.2
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "D8B8FF",
+          "count": 40,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 3.0,
+          "radius": 2.0,
+          "delay": 0.35,
+          "gravity": -0.15
+        }
+      ]
+    },
+    {
+      "key": "area_quake",
+      "description": "Earthquake: giant ground shockwave and floor ring, focus lines, flash, rock eruption and dust across the group, spark spray",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFE8C0",
+          "life": 0.7,
+          "size": 0.6,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.05,
+          "endSize": 6.5
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "E8D0A0",
+          "life": 0.6,
+          "size": 0.5,
+          "endSize": 6.5,
+          "y": -0.7799999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FFFFFF",
+          "life": 0.4,
+          "size": 3.0,
+          "endSize": 5.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF0D8",
+          "life": 0.18,
+          "size": 1.0,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 3.0
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "FFE8C8",
+          "life": 0.7,
+          "size": 1.8,
+          "tiles": 4,
+          "y": -0.2,
+          "endSize": 3.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "rock",
+          "color": "A89878",
+          "rate": 50,
+          "life": 0.9,
+          "size": 0.42,
+          "speed": 5.0,
+          "radius": 2.6,
+          "y": -0.82,
+          "gravity": 1.4,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "C8B898",
+          "rate": 16,
+          "life": 1.0,
+          "size": 1.3,
+          "speed": 1.6,
+          "radius": 2.6,
+          "y": -0.6199999999999999,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "FFE0B0",
+          "count": 30,
+          "life": 0.4,
+          "size": 0.3,
+          "speed": 6.0,
+          "radius": 1.5,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "area_slash",
+      "description": "Sweeping cleave: three huge crescents sweep across the group, spark spray, wide floor ring",
+      "duration": 1.2,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.25,
+          "size": 4.0,
+          "endSize": 5.5,
+          "rotation": 190
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.25,
+          "size": 4.2,
+          "endSize": 5.8,
+          "rotation": 10,
+          "delay": 0.12
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_arc",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 4.8,
+          "height": 2.0,
+          "rotation": -18,
+          "delay": 0.06,
+          "endSize": 6.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.16,
+          "size": 0.8,
+          "delay": 0.05,
+          "rotation": 12,
+          "endSize": 3.2
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "F0FFFF",
+          "count": 30,
+          "life": 0.4,
+          "size": 0.3,
+          "speed": 6.0,
+          "radius": 1.2,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "ring",
+          "color": "FFFFFF",
+          "life": 0.6,
+          "size": 1.0,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "endSize": 6.0
+        }
+      ]
+    },
+    {
+      "key": "area_wind",
+      "description": "Whirlwind: wind funnel spins up in the middle of the group, crossing gale crescents, swirling leaves and wind glints, wide floor ring",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "tornado",
+          "color": "F0FFF8",
+          "life": 1.2,
+          "size": 2.2,
+          "height": 4.0,
+          "y": 0.9,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "tornado",
+          "color": "D8FFF0",
+          "life": 1.0,
+          "size": 1.6,
+          "height": 3.0,
+          "y": 0.6,
+          "delay": 0.15,
+          "rotation": 6,
+          "endSize": 2.2
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.25,
+          "size": 4.0,
+          "endSize": 5.5,
+          "rotation": 190,
+          "delay": 0.1
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.25,
+          "size": 3.4,
+          "endSize": 5.0,
+          "rotation": 20,
+          "delay": 0.25
+        },
+        {
+          "kind": "orbit",
+          "texture": "leaf",
+          "color": "E0FFE0",
+          "life": 1.2,
+          "size": 0.3,
+          "radius": 2.0,
+          "spin": 320,
+          "count": 8,
+          "y": 0.2
+        },
+        {
+          "kind": "burst",
+          "texture": "spark",
+          "color": "F0FFFF",
+          "count": 26,
+          "life": 0.45,
+          "size": 0.3,
+          "speed": 6.0,
+          "radius": 1.2,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "ring",
+          "color": "FFFFFF",
+          "life": 0.6,
+          "size": 1.0,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "endSize": 6.0
+        }
+      ]
+    },
+    {
+      "key": "area_arrows",
+      "description": "Arrow storm: seal opens in the sky, a dense rain of light arrows over the whole group, ground glints, wide ring and motes",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "E8F8FF",
+          "life": 1.4,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": 60,
+          "y": 2.9
+        },
+        {
+          "kind": "emitter",
+          "texture": "arrow_rain",
+          "color": "F0FAFF",
+          "rate": 70,
+          "life": 0.5,
+          "size": 1.2,
+          "speed": -9.0,
+          "radius": 2.6,
+          "y": 2.7,
+          "upright": true,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "star4",
+          "color": "FFFFFF",
+          "rate": 30,
+          "life": 0.25,
+          "size": 0.4,
+          "speed": 0.3,
+          "radius": 2.6,
+          "y": -0.82,
+          "delay": 0.4
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFFFFF",
+          "life": 0.6,
+          "size": 0.5,
+          "endSize": 5.6,
+          "y": -0.7799999999999999,
+          "delay": 0.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "F0F8FF",
+          "rate": 30,
+          "life": 0.9,
+          "size": 0.1,
+          "speed": 1.0,
+          "radius": 2.6,
+          "y": -0.82,
+          "delay": 0.4
+        }
+      ]
+    },
+    {
+      "key": "area_poison",
+      "description": "Toxic miasma: curse seal, rolling cel smoke over the group, rising bubbles and specks",
+      "duration": 1.8,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "E8FFE0",
+          "life": 1.6,
+          "size": 5.0,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "E0FFD0",
+          "rate": 14,
+          "life": 1.4,
+          "size": 1.4,
+          "speed": 0.8,
+          "radius": 2.6,
+          "y": -0.6199999999999999,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "C8E8B8",
+          "count": 10,
+          "life": 1.2,
+          "size": 1.0,
+          "speed": 1.2,
+          "radius": 1.8,
+          "delay": 0,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "bubble",
+          "color": "F0FFE8",
+          "rate": 30,
+          "life": 1.0,
           "size": 0.22,
-          "speed": 2.2,
-          "radius": 0.12
+          "speed": 1.2,
+          "radius": 2.6,
+          "y": -0.82
+        }
+      ]
+    },
+    {
+      "key": "area_heal",
+      "description": "Healing rain: wide leaf seal and ring, rain of soft light, rising crosses and leaves, bloom, sparkles",
+      "duration": 1.9,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "E0FFE8",
+          "life": 1.8,
+          "size": 5.2,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "E8FFF0",
+          "life": 0.6,
+          "size": 0.5,
+          "endSize": 5.6,
+          "y": -0.7799999999999999
+        },
+        {
+          "kind": "emitter",
+          "texture": "light_streak",
+          "color": "E8FFF0",
+          "rate": 30,
+          "life": 0.5,
+          "size": 1.0,
+          "speed": -6.0,
+          "radius": 2.8,
+          "y": 2.8,
+          "upright": true,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "plus",
+          "color": "E8FFF0",
+          "rate": 24,
+          "life": 1.0,
+          "size": 0.3,
+          "speed": 1.5,
+          "radius": 2.6,
+          "y": -0.72
+        },
+        {
+          "kind": "emitter",
+          "texture": "leaf",
+          "color": "D0FFD8",
+          "rate": 14,
+          "life": 1.2,
+          "size": 0.22,
+          "speed": 1.2,
+          "radius": 2.6,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "glow",
+          "color": "E0FFE8",
+          "life": 1.0,
+          "size": 2.0,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.25,
+          "endSize": 5.0
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "F0FFF4",
+          "count": 40,
+          "life": 1.1,
+          "size": 0.11,
+          "speed": 1.4,
+          "radius": 2.0,
+          "delay": 0.2,
+          "gravity": -0.15
+        }
+      ]
+    },
+    {
+      "key": "area_buff",
+      "description": "Party blessing: wide golden seal and ring, chevrons circling the party, light pillars, ember fountain, finishing glint",
+      "duration": 1.5,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_e",
+          "color": "FFF2D0",
+          "life": 1.6,
+          "size": 5.0,
+          "horizontal": true,
+          "spin": 40,
+          "y": -0.82
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FFFFFF",
+          "life": 0.6,
+          "size": 0.5,
+          "endSize": 5.6,
+          "y": -0.7799999999999999
+        },
+        {
+          "kind": "orbit",
+          "texture": "arrow_up",
+          "color": "FFF0C0",
+          "life": 1.2,
+          "size": 0.4,
+          "radius": 2.4,
+          "spin": 90,
+          "count": 8,
+          "y": -0.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF4D0",
+          "rate": 60,
+          "life": 0.9,
+          "size": 0.12,
+          "speed": 2.8,
+          "radius": 2.6,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "beam",
+          "color": "FFE8B0",
+          "rate": 5,
+          "life": 0.7,
+          "size": 1.6,
+          "speed": 0,
+          "radius": 2.2,
+          "y": 0.4,
+          "upright": true
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 0.6,
+          "delay": 0.5,
+          "y": 0.8,
+          "endSize": 2.4
+        }
+      ]
+    },
+    {
+      "key": "area_debuff",
+      "description": "Curse field: abyss seal, circling skull spirits and sinking chevrons over the group, creeping smoke, falling motes",
+      "duration": 1.6,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_d",
+          "color": "E8D0FF",
+          "life": 1.6,
+          "size": 5.0,
+          "horizontal": true,
+          "spin": -40,
+          "y": -0.82
+        },
+        {
+          "kind": "orbit",
+          "texture": "skull_wisp",
+          "color": "E0C8FF",
+          "life": 1.4,
+          "size": 0.5,
+          "radius": 2.2,
+          "spin": -120,
+          "count": 6,
+          "y": 0.4
+        },
+        {
+          "kind": "orbit",
+          "texture": "arrow_down",
+          "color": "E0C8FF",
+          "life": 1.2,
+          "size": 0.4,
+          "radius": 1.5,
+          "spin": 90,
+          "count": 5,
+          "y": 0.9
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "403050",
+          "rate": 10,
+          "life": 1.2,
+          "size": 1.0,
+          "speed": 0.6,
+          "radius": 2.6,
+          "y": -0.82,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "D0B0FF",
+          "rate": 30,
+          "life": 0.9,
+          "size": 0.1,
+          "speed": -1.5,
+          "radius": 2.6,
+          "y": 1.6
+        }
+      ]
+    },
+    {
+      "key": "area_revive",
+      "description": "Mass resurrection: double sun seal, colossal heaven pillar, unfolding great wings and halo, feather fall, rising light, white flash",
+      "duration": 2.4,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_f",
+          "color": "FFF2C8",
+          "life": 2.2,
+          "size": 5.6,
+          "horizontal": true,
+          "spin": 20,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_c",
+          "color": "FFFFFF",
+          "life": 2.2,
+          "size": 6.2,
+          "horizontal": true,
+          "spin": -35,
+          "y": -0.7999999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "beam",
+          "color": "FFF6D8",
+          "life": 1.8,
+          "size": 4.0,
+          "height": 6.0,
+          "y": 1.8,
+          "delay": 0.1
+        },
+        {
+          "kind": "quad",
+          "texture": "wings",
+          "color": "FFF4D2",
+          "life": 1.6,
+          "size": 3.6,
+          "y": 0.8,
+          "delay": 0.3,
+          "endSize": 4.6
+        },
+        {
+          "kind": "quad",
+          "texture": "halo",
+          "color": "FFFFFF",
+          "life": 1.6,
+          "size": 1.6,
+          "horizontal": true,
+          "y": 2.4,
+          "delay": 0.4,
+          "spin": 50
+        },
+        {
+          "kind": "emitter",
+          "texture": "feather",
+          "color": "FFF8E8",
+          "rate": 20,
+          "life": 1.6,
+          "size": 0.28,
+          "speed": -1.0,
+          "radius": 2.8,
+          "y": 3.0,
+          "gravity": 0.02
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFF0C0",
+          "rate": 50,
+          "life": 1.1,
+          "size": 0.12,
+          "speed": 2.4,
+          "radius": 2.8,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.2,
+          "delay": 0.5,
+          "rotation": 12,
+          "endSize": 3.6
+        }
+      ]
+    },
+    {
+      "key": "aegis",
+      "description": "Aegis: a huge hexagonal dome closes over the party, blue seal and ring, glint, chips of light, motes",
+      "duration": 1.9,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "sphere",
+          "texture": "hex",
+          "color": "B8E0FF",
+          "life": 1.6,
+          "size": 5.6,
+          "endSize": 6.0,
+          "delay": 0.2,
+          "spin": 15
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "C8E8FF",
+          "life": 1.8,
+          "size": 5.4,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "E0F4FF",
+          "life": 0.6,
+          "size": 0.5,
+          "endSize": 6.0,
+          "y": -0.7799999999999999
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 0.8,
+          "delay": 0.25,
+          "endSize": 3.0
+        },
+        {
+          "kind": "burst",
+          "texture": "square",
+          "color": "D0EEFF",
+          "count": 30,
+          "life": 0.8,
+          "size": 0.2,
+          "speed": 3.0,
+          "radius": 2.0,
+          "delay": 0.2
+        },
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "D8F2FF",
+          "rate": 30,
+          "life": 1.2,
+          "size": 0.08,
+          "speed": 1.0,
+          "radius": 2.6,
+          "y": -0.82
+        }
+      ]
+    },
+    {
+      "key": "drain",
+      "description": "Life drain: closing ring and shrinking vortex, motes and spirits sucked into the target, pop, smoke",
+      "duration": 1.3,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "ring",
+          "texture": "trail",
+          "color": "FF80C0",
+          "life": 0.6,
+          "size": 2.2,
+          "endSize": 0.3,
+          "y": -0.5
+        },
+        {
+          "kind": "quad",
+          "texture": "swirl",
+          "color": "FF90D0",
+          "life": 1.0,
+          "size": 1.6,
+          "spin": -260,
+          "endSize": 0.4
+        },
+        {
+          "kind": "burst",
+          "texture": "dot",
+          "color": "FFB0E0",
+          "count": 30,
+          "life": 0.7,
+          "size": 0.14,
+          "speed": -3.0,
+          "radius": 1.6,
+          "delay": 0.1
+        },
+        {
+          "kind": "burst",
+          "texture": "skull_wisp",
+          "color": "F0C0E0",
+          "count": 6,
+          "life": 0.8,
+          "size": 0.35,
+          "speed": -1.8,
+          "radius": 1.4,
+          "delay": 0.05
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFE0F0",
+          "life": 0.15,
+          "size": 0.4,
+          "delay": 0.5,
+          "rotation": 12,
+          "endSize": 1.4
+        },
+        {
+          "kind": "burst",
+          "texture": "smoke_sheet",
+          "color": "301828",
+          "count": 8,
+          "life": 1.0,
+          "size": 0.7,
+          "speed": 1.0,
+          "radius": 0.3,
+          "delay": 0.4,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "sleep_mist",
+      "description": "Sleep mist: dreamy seal, drifting pastel mist over the group, circling Zzz, bubbles, soft stars",
+      "duration": 1.7,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_b",
+          "color": "D8E0FF",
+          "life": 1.6,
+          "size": 4.6,
+          "horizontal": true,
+          "spin": 20,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "D8DCFF",
+          "rate": 10,
+          "life": 1.4,
+          "size": 1.3,
+          "speed": 0.4,
+          "radius": 2.4,
+          "y": -0.52,
+          "tiles": 4,
+          "alpha": true
+        },
+        {
+          "kind": "orbit",
+          "texture": "zzz",
+          "color": "C8D0FF",
+          "life": 1.4,
+          "size": 0.5,
+          "radius": 1.8,
+          "spin": 40,
+          "count": 5,
+          "y": 0.8,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "bubble",
+          "color": "E8ECFF",
+          "rate": 20,
+          "life": 1.2,
+          "size": 0.2,
+          "speed": 0.8,
+          "radius": 2.4,
+          "y": -0.82
+        },
+        {
+          "kind": "emitter",
+          "texture": "star4",
+          "color": "E0E8FF",
+          "rate": 14,
+          "life": 0.6,
+          "size": 0.25,
+          "speed": 0.6,
+          "radius": 2.4,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "key": "flash_burst",
+      "description": "Flash bang: blinding hit spark, spinning sunburst, focus lines, shock ring and star spray",
+      "duration": 1.0,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFFFFF",
+          "life": 0.22,
+          "size": 1.2,
+          "delay": 0,
+          "rotation": 12,
+          "endSize": 4.5
+        },
+        {
+          "kind": "quad",
+          "texture": "sunburst",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 1.0,
+          "spin": 40,
+          "endSize": 5.0
+        },
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FFFFFF",
+          "life": 0.5,
+          "size": 3.0,
+          "endSize": 5.5
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFFFFF",
+          "life": 0.45,
+          "size": 0.6,
+          "delay": 0.05,
+          "endSize": 5.0
+        },
+        {
+          "kind": "burst",
+          "texture": "star4",
+          "color": "FFFFFF",
+          "count": 24,
+          "life": 0.6,
+          "size": 0.35,
+          "speed": 5.0,
+          "radius": 1.0
+        }
+      ]
+    },
+    {
+      "key": "ultimate_warrior2",
+      "description": "Warrior ultimate II: sky and floor seals, colossal sword falls, two giant crescents and an X-slash split the field, explosion, shock ring, rock and ember storm",
+      "duration": 2.4,
+      "loop": false,
+      "layers": [
+        {
+          "kind": "quad",
+          "texture": "magic_circle_a",
+          "color": "FFE6A0",
+          "life": 2.0,
+          "size": 5.0,
+          "horizontal": true,
+          "spin": 30,
+          "y": -0.82
+        },
+        {
+          "kind": "quad",
+          "texture": "magic_circle_e",
+          "color": "FFFFFF",
+          "life": 1.6,
+          "size": 3.2,
+          "horizontal": true,
+          "spin": -60,
+          "y": 3.6,
+          "delay": 0.05
+        },
+        {
+          "kind": "quad",
+          "texture": "speed_lines",
+          "color": "FFFFFF",
+          "life": 0.6,
+          "size": 6.0,
+          "endSize": 4.0
+        },
+        {
+          "kind": "quad",
+          "texture": "sword",
+          "color": "FFF0C0",
+          "life": 1.0,
+          "size": 2.6,
+          "height": 5.4,
+          "y": 2.0,
+          "delay": 0.15
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 5.0,
+          "endSize": 6.5,
+          "rotation": 20,
+          "delay": 0.5
+        },
+        {
+          "kind": "arc",
+          "texture": "slash_strip",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 5.0,
+          "endSize": 6.5,
+          "rotation": 200,
+          "delay": 0.62
+        },
+        {
+          "kind": "quad",
+          "texture": "slash_cross",
+          "color": "FFFFFF",
+          "life": 0.4,
+          "size": 2.4,
+          "delay": 0.7,
+          "endSize": 5.0
+        },
+        {
+          "kind": "quad",
+          "texture": "hit_flash",
+          "color": "FFF8E0",
+          "life": 0.22,
+          "size": 1.4,
+          "delay": 0.7,
+          "rotation": 12,
+          "endSize": 4.6
+        },
+        {
+          "kind": "quad",
+          "texture": "explosion_sheet",
+          "color": "FFD8A0",
+          "life": 0.9,
+          "size": 2.6,
+          "tiles": 4,
+          "delay": 0.7,
+          "endSize": 4.6
+        },
+        {
+          "kind": "quad",
+          "texture": "shockwave",
+          "color": "FFC060",
+          "life": 0.7,
+          "size": 0.6,
+          "horizontal": true,
+          "spin": 0,
+          "y": -0.82,
+          "delay": 0.7,
+          "endSize": 7.0
+        },
+        {
+          "kind": "burst",
+          "texture": "rock",
+          "color": "806050",
+          "count": 24,
+          "life": 1.0,
+          "size": 0.25,
+          "speed": 5.0,
+          "radius": 1.5,
+          "gravity": 1.4,
+          "y": -0.5,
+          "delay": 0.7,
+          "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "ember",
+          "color": "FFD080",
+          "count": 60,
+          "life": 1.4,
+          "size": 0.15,
+          "speed": 3.5,
+          "radius": 1.5,
+          "delay": 0.75,
+          "gravity": -0.3
         }
       ]
     },
@@ -837,7 +5491,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -857,7 +5512,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -877,7 +5533,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -897,7 +5554,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -917,7 +5575,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -937,7 +5596,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": true
         }
       ]
     },
@@ -957,7 +5617,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": true
         }
       ]
     },
@@ -977,7 +5638,19 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 4
+          "tiles": 4,
+          "alpha": false
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFA35D",
+          "rate": 4,
+          "life": 1.0,
+          "size": 0.08,
+          "speed": 0.8,
+          "radius": 0.35,
+          "y": 0.2
         }
       ]
     },
@@ -997,7 +5670,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -1017,7 +5691,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -1037,7 +5712,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -1057,7 +5733,19 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "B9F2FF",
+          "rate": 4,
+          "life": 1.0,
+          "size": 0.08,
+          "speed": -0.6,
+          "radius": 0.35,
+          "y": 1.2
         }
       ]
     },
@@ -1077,7 +5765,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -1097,7 +5786,19 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
+        },
+        {
+          "kind": "emitter",
+          "texture": "bubble",
+          "color": "B6E86F",
+          "rate": 4,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 0.8,
+          "radius": 0.35,
+          "y": 0.2
         }
       ]
     },
@@ -1117,7 +5818,19 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
+        },
+        {
+          "kind": "emitter",
+          "texture": "bubble",
+          "color": "B6E86F",
+          "rate": 4,
+          "life": 1.0,
+          "size": 0.12,
+          "speed": 0.8,
+          "radius": 0.35,
+          "y": 0.2
         }
       ]
     },
@@ -1137,7 +5850,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": true
         }
       ]
     },
@@ -1157,7 +5871,19 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "A2FFD1",
+          "rate": 4,
+          "life": 1.0,
+          "size": 0.08,
+          "speed": 0.8,
+          "radius": 0.35,
+          "y": 0.2
         }
       ]
     },
@@ -1177,7 +5903,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": true
         }
       ]
     },
@@ -1197,7 +5924,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": true
         }
       ]
     },
@@ -1217,7 +5945,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -1237,7 +5966,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": false
         }
       ]
     },
@@ -1257,7 +5987,8 @@
           "spin": 55,
           "count": 3,
           "y": 1.2,
-          "tiles": 1
+          "tiles": 1,
+          "alpha": true
         }
       ]
     },
@@ -1271,12 +6002,24 @@
           "kind": "emitter",
           "texture": "leaf",
           "color": "A7CE88",
+          "rate": 5,
           "life": 4,
           "size": 0.16,
-          "rate": 6,
-          "radius": 6,
           "speed": 0.1,
+          "radius": 6,
           "gravity": 0.015,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "petal",
+          "color": "F4C8D8",
+          "rate": 2,
+          "life": 4,
+          "size": 0.1,
+          "speed": 0.1,
+          "radius": 6,
+          "gravity": 0.01,
           "alpha": true
         }
       ]
@@ -1291,13 +6034,23 @@
           "kind": "emitter",
           "texture": "snowflake",
           "color": "DCF4FF",
+          "rate": 6,
           "life": 4,
           "size": 0.16,
-          "rate": 6,
-          "radius": 6,
           "speed": 0.1,
+          "radius": 6,
           "gravity": 0.01,
           "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "CFEFFF",
+          "rate": 3,
+          "life": 3,
+          "size": 0.08,
+          "speed": 0.05,
+          "radius": 6
         }
       ]
     },
@@ -1309,15 +6062,14 @@
       "layers": [
         {
           "kind": "emitter",
-          "texture": "spark",
-          "color": "FFD09A",
-          "life": 4,
-          "size": 0.16,
+          "texture": "ember",
+          "color": "FFC080",
           "rate": 6,
-          "radius": 6,
+          "life": 4,
+          "size": 0.12,
           "speed": 0.1,
-          "gravity": -0.01,
-          "alpha": true
+          "radius": 6,
+          "gravity": -0.01
         }
       ]
     },
@@ -1331,13 +6083,22 @@
           "kind": "emitter",
           "texture": "skull_wisp",
           "color": "B8ABDD",
+          "rate": 5,
           "life": 4,
           "size": 0.16,
-          "rate": 6,
-          "radius": 6,
           "speed": 0.1,
-          "gravity": 0,
+          "radius": 6,
           "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "A898E0",
+          "rate": 3,
+          "life": 4,
+          "size": 0.05,
+          "speed": 0.08,
+          "radius": 6
         }
       ]
     }

@@ -23,6 +23,45 @@ namespace Abyss.Runtime.World
         public float Temperature = 0f;
         public Color TorchColor = new Color(1f, 0.7f, 0.4f);
 
+        /// <summary>
+        /// First-person dungeon mood per biome (ForTileset stays the battle-arena look): ember = close red haze and
+        /// warm lava bounce from below, frost = bright blue mist, crypt = near-black short fog with dim moonlight,
+        /// verdant = open sky with a long soft haze. Cave biomes have ceilings, so the background only shows down
+        /// long corridors and through the fog.
+        /// </summary>
+        public static AtmospherePreset ForDungeon(string tileset)
+        {
+            var p = ForTileset(tileset);
+            switch (tileset)
+            {
+                case "ember_caverns":
+                    p.SunIntensity = 1.0f; p.SunColor = new Color(1f, 0.6f, 0.38f);
+                    p.AmbientSky = new Color(0.55f, 0.32f, 0.24f); p.AmbientEquator = new Color(0.42f, 0.22f, 0.15f); p.AmbientGround = new Color(0.36f, 0.12f, 0.05f);
+                    p.FogColor = new Color(0.24f, 0.08f, 0.04f); p.FogStart = 6; p.FogEnd = 36; p.BackgroundColor = new Color(0.12f, 0.04f, 0.02f);
+                    p.Bloom = 1.45f; p.BloomThreshold = 0.9f; p.Saturation = 18; p.Temperature = 20;
+                    break;
+                case "frost_grotto":
+                    p.SunIntensity = 1.15f; p.SunColor = new Color(0.78f, 0.9f, 1f);
+                    p.AmbientSky = new Color(0.55f, 0.7f, 0.95f); p.AmbientEquator = new Color(0.36f, 0.5f, 0.7f); p.AmbientGround = new Color(0.45f, 0.55f, 0.7f);
+                    p.FogColor = new Color(0.42f, 0.58f, 0.75f); p.FogStart = 7; p.FogEnd = 40; p.BackgroundColor = new Color(0.3f, 0.45f, 0.62f);
+                    p.Bloom = 1.15f; p.Saturation = 6; p.Temperature = -16;
+                    break;
+                case "haunted_crypt":
+                    p.SunIntensity = 0.6f; p.SunColor = new Color(0.55f, 0.55f, 0.9f);
+                    p.AmbientSky = new Color(0.3f, 0.26f, 0.48f); p.AmbientEquator = new Color(0.18f, 0.16f, 0.28f); p.AmbientGround = new Color(0.08f, 0.06f, 0.12f);
+                    p.FogColor = new Color(0.05f, 0.04f, 0.09f); p.FogStart = 4; p.FogEnd = 26; p.BackgroundColor = new Color(0.02f, 0.02f, 0.05f);
+                    p.Bloom = 1.3f; p.Saturation = 0; p.Vignette = 0.38f; p.Temperature = -10;
+                    break;
+                case "verdant_ruins":
+                    p.SunIntensity = 1.4f; p.SunColor = new Color(1f, 0.94f, 0.8f);
+                    p.AmbientSky = new Color(0.62f, 0.75f, 0.8f); p.AmbientEquator = new Color(0.42f, 0.52f, 0.4f); p.AmbientGround = new Color(0.22f, 0.26f, 0.16f);
+                    p.FogColor = new Color(0.6f, 0.74f, 0.76f); p.FogStart = 14; p.FogEnd = 60; p.BackgroundColor = new Color(0.55f, 0.75f, 0.85f);
+                    p.Bloom = 0.7f; p.Saturation = 20; p.Temperature = 6; p.Vignette = 0.2f;
+                    break;
+            }
+            return p;
+        }
+
         public static AtmospherePreset ForTileset(string tileset)
         {
             switch (tileset)

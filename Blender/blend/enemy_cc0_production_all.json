@@ -1,0 +1,1095 @@
+{
+  "cc0_ids": [
+    "slime",
+    "sprout",
+    "mushroom",
+    "elite_mushroom",
+    "bat",
+    "elite_bat",
+    "penguin_mage",
+    "magma_slime",
+    "fire_drake",
+    "elite_fire_drake",
+    "phoenix",
+    "skeleton",
+    "elite_skeleton",
+    "grave_bat"
+  ],
+  "rebuilt_ids": [
+    "slime",
+    "sprout",
+    "mushroom",
+    "elite_mushroom",
+    "bat",
+    "elite_bat",
+    "penguin_mage",
+    "magma_slime",
+    "fire_drake",
+    "elite_fire_drake",
+    "phoenix",
+    "skeleton",
+    "elite_skeleton",
+    "grave_bat"
+  ],
+  "procedural_ids_kept": {
+    "coral_crab": "no crab / hermit-crab body in either pack",
+    "elite_coral_crab": "no crab / hermit-crab body in either pack",
+    "jellyfish": "no jellyfish; Squidle / Hywirl are winged imps, not bells with tentacles",
+    "ice_wolf": "no quadruped wolf (Blob/Dog is a dog head only)",
+    "elite_ice_wolf": "no quadruped wolf",
+    "sand_golem": "no golem body (Goleling is a winged head)",
+    "elite_sand_golem": "no golem body",
+    "scarecrow": "no pumpkin scarecrow",
+    "elite_scarecrow": "no pumpkin scarecrow",
+    "boss": "boss needs a 10-25k tri unique rig with a Roar clip; Skeleton_Mage is a 4.6k tri minion",
+    "forest_guardian": "no tree giant",
+    "frost_kraken": "no kraken",
+    "flame_sphinx": "no sphinx / lion body",
+    "wisp": "only Flying/Ghost (a winged imp) is close; recoloured it does not read as a flame wisp (see CANDIDATES)"
+  },
+  "failures": [],
+  "reports": [
+    {
+      "id": "slime",
+      "source": "quaternius_ultimate_monsters/Blob/GreenBlob.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:34Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "fbx_bytes": 334252,
+      "scale_from_source": 0.3971788213417349,
+      "built": {
+        "triangles": 1520,
+        "bones": 4,
+        "materials": [
+          "M_Toon",
+          "M_Clear"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 1520,
+        "vertices": 878,
+        "materials": [
+          "M_Toon",
+          "M_Clear"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 4,
+        "clips": {
+          "Idle": [
+            1.0,
+            61.0
+          ],
+          "Run": [
+            1.0,
+            17.0
+          ],
+          "Attack": [
+            1.0,
+            22.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            13.0
+          ],
+          "Die": [
+            1.0,
+            29.0
+          ],
+          "Victory": [
+            1.0,
+            41.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.416,
+            -0.451,
+            -0.0
+          ],
+          [
+            0.477,
+            0.421,
+            0.74
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "sprout",
+      "source": "quaternius_ultimate_monsters/Blob/Alien.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:34Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
+      "fbx_bytes": 364972,
+      "scale_from_source": 0.32259906325357457,
+      "built": {
+        "triangles": 2616,
+        "bones": 4,
+        "materials": [
+          "M_Toon"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 2616,
+        "vertices": 1485,
+        "materials": [
+          "M_Toon"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 4,
+        "clips": {
+          "Idle": [
+            1.0,
+            61.0
+          ],
+          "Run": [
+            1.0,
+            17.0
+          ],
+          "Attack": [
+            1.0,
+            22.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            13.0
+          ],
+          "Die": [
+            1.0,
+            29.0
+          ],
+          "Victory": [
+            1.0,
+            41.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.624,
+            -0.215,
+            -0.0
+          ],
+          [
+            0.624,
+            0.409,
+            1.05
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "mushroom",
+      "source": "quaternius_ultimate_monsters/Blob/Mushnub.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:36Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "fbx_bytes": 367836,
+      "scale_from_source": 0.2843015026212098,
+      "built": {
+        "triangles": 2784,
+        "bones": 4,
+        "materials": [
+          "M_Toon"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 2784,
+        "vertices": 1533,
+        "materials": [
+          "M_Toon"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 4,
+        "clips": {
+          "Idle": [
+            1.0,
+            61.0
+          ],
+          "Run": [
+            1.0,
+            17.0
+          ],
+          "Attack": [
+            1.0,
+            22.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            13.0
+          ],
+          "Die": [
+            1.0,
+            29.0
+          ],
+          "Victory": [
+            1.0,
+            41.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.391,
+            -0.391,
+            0.0
+          ],
+          [
+            0.391,
+            0.391,
+            0.94
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "elite_mushroom",
+      "source": "quaternius_ultimate_monsters/Blob/Mushnub_Evolved.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:36Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/elite_mushroom/elite_mushroom.fbx",
+      "fbx_bytes": 384924,
+      "scale_from_source": 0.26234196654666603,
+      "built": {
+        "triangles": 3072,
+        "bones": 4,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 3072,
+        "vertices": 2079,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 4,
+        "clips": {
+          "Idle": [
+            1.0,
+            61.0
+          ],
+          "Run": [
+            1.0,
+            17.0
+          ],
+          "Attack": [
+            1.0,
+            22.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            13.0
+          ],
+          "Die": [
+            1.0,
+            29.0
+          ],
+          "Victory": [
+            1.0,
+            41.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.446,
+            -0.478,
+            -0.0
+          ],
+          [
+            0.447,
+            0.446,
+            1.16
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "bat",
+      "source": "quaternius_ultimate_monsters/Flying/Goleling.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:40Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/bat/bat.fbx",
+      "fbx_bytes": 836364,
+      "scale_from_source": 0.4335882663803782,
+      "built": {
+        "triangles": 3696,
+        "bones": 13,
+        "materials": [
+          "M_Toon"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 3696,
+        "vertices": 2362,
+        "materials": [
+          "M_Toon"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 12,
+        "clips": {
+          "Idle": [
+            1.0,
+            43.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            28.0
+          ],
+          "Cast": [
+            1.0,
+            37.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            43.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.95,
+            -0.231,
+            0.646
+          ],
+          [
+            0.95,
+            0.62,
+            1.315
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "elite_bat",
+      "source": "quaternius_ultimate_monsters/Flying/Goleling_Evolved.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:40Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/elite_bat/elite_bat.fbx",
+      "fbx_bytes": 955244,
+      "scale_from_source": 0.4335882663803782,
+      "built": {
+        "triangles": 5864,
+        "bones": 13,
+        "materials": [
+          "M_Toon"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 5864,
+        "vertices": 3688,
+        "materials": [
+          "M_Toon"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 13,
+        "clips": {
+          "Idle": [
+            1.0,
+            43.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            28.0
+          ],
+          "Cast": [
+            1.0,
+            37.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            43.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.95,
+            -0.326,
+            0.538
+          ],
+          [
+            0.95,
+            0.62,
+            1.649
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "penguin_mage",
+      "source": "quaternius_ultimate_monsters/Big/Birb.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:44Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/penguin_mage/penguin_mage.fbx",
+      "fbx_bytes": 2444780,
+      "scale_from_source": 0.36805469664532914,
+      "built": {
+        "triangles": 6050,
+        "bones": 43,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 6050,
+        "vertices": 3577,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 41,
+        "clips": {
+          "Idle": [
+            1.0,
+            61.0
+          ],
+          "Run": [
+            1.0,
+            18.0
+          ],
+          "Attack": [
+            1.0,
+            25.0
+          ],
+          "Cast": [
+            1.0,
+            35.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            47.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.595,
+            -0.421,
+            -0.0
+          ],
+          [
+            0.595,
+            0.21,
+            1.456
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "magma_slime",
+      "source": "quaternius_ultimate_monsters/Blob/GreenSpikyBlob.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:45Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
+      "fbx_bytes": 540924,
+      "scale_from_source": 0.26655153321815184,
+      "built": {
+        "triangles": 7408,
+        "bones": 4,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 7408,
+        "vertices": 4166,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 4,
+        "clips": {
+          "Idle": [
+            1.0,
+            61.0
+          ],
+          "Run": [
+            1.0,
+            17.0
+          ],
+          "Attack": [
+            1.0,
+            22.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            13.0
+          ],
+          "Die": [
+            1.0,
+            29.0
+          ],
+          "Victory": [
+            1.0,
+            41.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.467,
+            -0.495,
+            -0.0
+          ],
+          [
+            0.466,
+            0.609,
+            1.107
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "fire_drake",
+      "source": "quaternius_ultimate_monsters/Flying/Dragon.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:48Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/fire_drake/fire_drake.fbx",
+      "fbx_bytes": 922764,
+      "scale_from_source": 0.5476904417436356,
+      "built": {
+        "triangles": 4562,
+        "bones": 13,
+        "materials": [
+          "M_Toon"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 4562,
+        "vertices": 2870,
+        "materials": [
+          "M_Toon"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 13,
+        "clips": {
+          "Idle": [
+            1.0,
+            43.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            28.0
+          ],
+          "Cast": [
+            1.0,
+            37.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            43.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -1.2,
+            -0.559,
+            0.881
+          ],
+          [
+            1.2,
+            0.783,
+            1.708
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "elite_fire_drake",
+      "source": "quaternius_ultimate_monsters/Flying/Dragon_Evolved.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:50Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/elite_fire_drake/elite_fire_drake.fbx",
+      "fbx_bytes": 2770428,
+      "scale_from_source": 0.5929669099247606,
+      "built": {
+        "triangles": 7440,
+        "bones": 46,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 7440,
+        "vertices": 4437,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 46,
+        "clips": {
+          "Idle": [
+            1.0,
+            43.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            28.0
+          ],
+          "Cast": [
+            1.0,
+            37.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            43.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -1.3,
+            -0.736,
+            0.178
+          ],
+          [
+            1.3,
+            0.849,
+            1.859
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "phoenix",
+      "source": "quaternius_ultimate_monsters/Flying/Pigeon.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:52Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/phoenix/phoenix.fbx",
+      "fbx_bytes": 822508,
+      "scale_from_source": 0.48371953128045375,
+      "built": {
+        "triangles": 3512,
+        "bones": 13,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 3512,
+        "vertices": 2139,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 12,
+        "clips": {
+          "Idle": [
+            1.0,
+            43.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            28.0
+          ],
+          "Cast": [
+            1.0,
+            37.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            43.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -1.0,
+            -0.446,
+            0.758
+          ],
+          [
+            1.0,
+            0.606,
+            1.418
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "skeleton",
+      "source": "kaykit_skeletons/Characters/Skeleton_Minion.glb",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:04:57Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx",
+      "fbx_bytes": 1523660,
+      "scale_from_source": 0.608493060115764,
+      "built": {
+        "triangles": 5745,
+        "bones": 41,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 5745,
+        "vertices": 5399,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 22,
+        "clips": {
+          "Idle": [
+            1.0,
+            49.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            27.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            15.0
+          ],
+          "Die": [
+            1.0,
+            37.0
+          ],
+          "Victory": [
+            1.0,
+            47.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.419,
+            -0.767,
+            0.0
+          ],
+          [
+            0.403,
+            0.279,
+            1.31
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "elite_skeleton",
+      "source": "kaykit_skeletons/Characters/Skeleton_Warrior.glb",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:05:00Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/elite_skeleton/elite_skeleton.fbx",
+      "fbx_bytes": 1662140,
+      "scale_from_source": 0.6129801766916497,
+      "built": {
+        "triangles": 7094,
+        "bones": 41,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 7094,
+        "vertices": 7732,
+        "materials": [
+          "M_Toon",
+          "M_Emit"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 23,
+        "clips": {
+          "Idle": [
+            1.0,
+            49.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            27.0
+          ],
+          "Cast": [
+            1.0,
+            34.0
+          ],
+          "Hit": [
+            1.0,
+            15.0
+          ],
+          "Die": [
+            1.0,
+            37.0
+          ],
+          "Victory": [
+            1.0,
+            47.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.465,
+            -0.672,
+            0.0
+          ],
+          [
+            0.468,
+            0.465,
+            1.58
+          ]
+        ],
+        "problems": []
+      }
+    },
+    {
+      "id": "grave_bat",
+      "source": "quaternius_ultimate_monsters/Flying/Goleling.gltf",
+      "generator": "Blender/enemies_cc0/cc0_monsters.py",
+      "blender_version": "5.2.2 LTS",
+      "produced_at_utc": "2026-10-06T17:05:00Z",
+      "fbx": "Assets/_Game/Resources/Art/Enemies/grave_bat/grave_bat.fbx",
+      "fbx_bytes": 839196,
+      "scale_from_source": 0.4335882663803782,
+      "built": {
+        "triangles": 3696,
+        "bones": 13,
+        "materials": [
+          "M_Toon",
+          "M_Emit",
+          "M_Clear"
+        ]
+      },
+      "reimported_fbx": {
+        "objects": [
+          "Body",
+          "Rig"
+        ],
+        "triangles": 3696,
+        "vertices": 2362,
+        "materials": [
+          "M_Toon",
+          "M_Emit",
+          "M_Clear"
+        ],
+        "unweighted_vertices": 0,
+        "bones": 12,
+        "clips": {
+          "Idle": [
+            1.0,
+            43.0
+          ],
+          "Run": [
+            1.0,
+            25.0
+          ],
+          "Attack": [
+            1.0,
+            28.0
+          ],
+          "Cast": [
+            1.0,
+            37.0
+          ],
+          "Hit": [
+            1.0,
+            14.0
+          ],
+          "Die": [
+            1.0,
+            31.0
+          ],
+          "Victory": [
+            1.0,
+            43.0
+          ]
+        },
+        "idle_bounds": [
+          [
+            -0.95,
+            -0.231,
+            0.646
+          ],
+          [
+            0.95,
+            0.62,
+            1.315
+          ]
+        ],
+        "problems": []
+      }
+    }
+  ]
+}

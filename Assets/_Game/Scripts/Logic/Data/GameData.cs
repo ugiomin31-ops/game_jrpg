@@ -109,6 +109,8 @@ namespace Abyss.Logic
         public List<string> ExtraStatuses = new List<string>();
         public string BonusVsStatus = "";
         public float BonusVsStatusMult = 1f;
+        /// <summary>DAMAGE only: the actor heals this ratio (0..1) of the HP damage the action dealt to opponents.</summary>
+        public float Drain;
         public string Presentation;            // presentation id or null
     }
 
@@ -249,6 +251,11 @@ namespace Abyss.Logic
         public float Shake = 0.2f;
         public bool ScreenFlash;
         public float[] LightColor = { 1, 1, 1, 1 };
+        /// <summary>Optional large effect played once per action at the centre of its targets (field / group spells).</summary>
+        public string AreaVfx = "";
+        /// <summary>Seconds the area effect leads the first hit (lets a meteor land before the numbers).</summary>
+        public float AreaWait;
+        public float AreaScale = 1f;
         public string SfxCast = "";
         public string SfxImpact = "";
     }

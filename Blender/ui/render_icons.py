@@ -137,7 +137,7 @@ def render(family, ident, source):
 def main():
     selection = set(sys.argv[sys.argv.index('--') + 1:]) if '--' in sys.argv else set()
     rows = catalog()
-    expected = {'Heroes': 4, 'NPCs': 8, 'Enemies': 28, 'Gear': 48, 'Items': 30, 'Status': 22, 'Elements': 8, 'UI': 12}
+    expected = {'Heroes': 4, 'NPCs': 8, 'Enemies': 51, 'Gear': 48, 'Items': 30, 'Status': 22, 'Elements': 8, 'UI': 12}
     actual = {family: sum(row[0] == family for row in rows) for family in expected}
     if actual != expected:
         raise ValueError(f'Production data coverage changed: {actual}')

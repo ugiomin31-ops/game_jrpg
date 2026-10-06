@@ -14,6 +14,8 @@ namespace Abyss.Runtime.World
     public sealed class DungeonWorld : MonoBehaviour
     {
         const float CellSize = 4f;
+        // Biome dressing density (percent per wall face beside a walkable cell); see Dress().
+        const int OverlayChance = 18, DecorChance = 26;
         static readonly int TintId = Shader.PropertyToID("_Tint");
         static readonly Color FoeThreatColor = new Color(1f, 0.55f, 0.12f);
         static readonly Color FoeChaseColor = new Color(1f, 0.26f, 0.05f);
@@ -54,7 +56,7 @@ namespace Abyss.Runtime.World
             this.app = app;
             this.run = run;
             tileset = run.Grid.Floor.Tileset;
-            app.Atmosphere.Apply(AtmospherePreset.ForTileset(tileset));
+            app.Atmosphere.Apply(AtmospherePreset.ForDungeon(tileset));
             app.Atmosphere.SetupCamera(app.MainCamera);
             app.MainCamera.fieldOfView = 65;
             var grid = run.Grid;
@@ -66,10 +68,12 @@ namespace Abyss.Runtime.World
                 int variant = (x * 17 + y * 31) % 3;
                 if (marker == '#')
                 {
-                    Spawn("wall_" + (char)('a' + variant), cell);
+                    // Walls buried among walls can never be seen: skip them (about a third of a floor's blocks).
+                    if (TouchesOpenCell(grid, cell)) Spawn("wall_" + (char)('a' + variant), cell);
                     continue;
                 }
-                Spawn("floor_" + (char)('a' + variant), cell);
+                // stairs_down carries its own opening into the floor; a floor tile would cap it.
+                if (marker != '>') Spawn("floor_" + (char)('a' + variant), cell);
                 switch (marker)
                 {
                     case 'T':
@@ -95,19 +99,21 @@ namespace Abyss.Runtime.World
                     case 'B': Spawn("boss_gate", cell); break;
                 }
                 // Sparse side dressing keeps the centre of every walkable cell clear.
+                int torchFacing = -1;
                 if ((x * 13 + y * 7) % 9 == 0)
                 {
-                    for (int facing = 0; facing < 4; facing++)
+                    for (int facing = 0; facing < 4 && torchFacing < 0; facing++)
                     {
                         var adjacent = cell.Step((Facing)facing);
                         if (grid.Cell(adjacent) != '#') continue;
+                        torchFacing = facing;
                         Vector3 direction = Position(adjacent) - Position(cell);
                         var torch = Spawn("torch", cell);
                         torch.transform.position += direction.normalized * 1.7f;
                         torch.transform.rotation = Quaternion.LookRotation(-direction);
-                        break;
                     }
                 }
+                Dress(grid, cell, marker, torchFacing);
             }
             foreach (var foe in grid.Foes)
             {
@@ -178,10 +184,65 @@ namespace Abyss.Runtime.World
             return go.transform;
         }
 
+        static bool TouchesOpenCell(DungeonGrid grid, GridPos cell)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            for (int dx = -1; dx <= 1; dx++)
+                if (grid.Cell(new GridPos(cell.X + dx, cell.Y + dy)) != '#') return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Biome dressing, purely visual (no colliders) and deterministic per cell so a floor always looks the same.
+        /// For each wall face beside this walkable cell (except the torch's): sometimes an overlay_1/2 hung on that
+        /// wall face, and on plain floor cells at most one decor_1..6 standing against the wall, 1.45 m toward it and
+        /// 1 m to one side, which keeps both walking lines through the cell centre clear. Door, stair and boss cells
+        /// stay bare so their frames never clip.
+        /// </summary>
+        void Dress(DungeonGrid grid, GridPos cell, char marker, int torchFacing)
+        {
+            if (marker == 'L' || marker == 'B' || marker == '<' || marker == '>') return;
+            bool decorAllowed = marker == '.' || marker == 'S' || marker == 'E';
+            for (int facing = 0; facing < 4; facing++)
+            {
+                var wall = cell.Step((Facing)facing);
+                if (facing == torchFacing || grid.Cell(wall) != '#') continue;
+                Vector3 toWall = (Position(wall) - Position(cell)) / CellSize;
+                int hash = CellHash(cell.X, cell.Y, facing);
+                if (hash % 100 < OverlayChance)
+                {
+                    // Overlays are authored on a wall block's -Y (Unity +Z) face: turn that face toward this cell.
+                    var overlay = Spawn(hash % 2 == 0 ? "overlay_1" : "overlay_2", wall);
+                    overlay.transform.rotation = Quaternion.LookRotation(-toWall);
+                }
+                if (decorAllowed && hash / 100 % 100 < DecorChance)
+                {
+                    var decor = Spawn("decor_" + (1 + hash / 10000 % 6), cell);
+                    Vector3 side = Vector3.Cross(Vector3.up, toWall) * (((hash >> 20) & 1) == 0 ? -1f : 1f);
+                    decor.transform.position += toWall * 1.45f + side * 1f;
+                    decor.transform.rotation = Quaternion.LookRotation(-toWall) * Quaternion.Euler(0f, ((hash >> 21) % 5 - 2) * 12f, 0f);
+                    decorAllowed = false;
+                }
+            }
+        }
+
+        static int CellHash(int x, int y, int salt)
+        {
+            unchecked
+            {
+                uint h = (uint)x * 374761393u + (uint)y * 668265263u + (uint)salt * 2246822519u;
+                h = (h ^ (h >> 13)) * 1274126177u;
+                return (int)((h ^ (h >> 16)) & 0x7fffffff);
+            }
+        }
+
         GameObject Spawn(string piece, GridPos cell)
         {
             var go = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(tileset, piece), transform);
             go.transform.position = Position(cell);
+            // Cave / vault ceilings ride on floor pieces; they must not shadow the corridor from the sun.
+            foreach (var r in go.GetComponentsInChildren<MeshRenderer>())
+                if (r.name.StartsWith("Ceiling")) r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             var processed = EnvironmentProcessor.Process(go, app.Atmosphere.Current.TorchColor, 1.5f, 5.5f);
             lights.AddRange(processed.Lights);
             return go;

@@ -40,6 +40,8 @@ namespace Abyss.Presentation.Vfx
             public float delay, y, spin, rotation;
             public int count = 20, tiles = 1;
             public bool alpha, horizontal;
+            /// <summary>Particles keep the texture upright (no random spin): falling arrows, rain streaks.</summary>
+            public bool upright;
             [NonSerialized] public Color tint;
         }
         sealed class Layer
@@ -203,7 +205,7 @@ namespace Abyss.Presentation.Vfx
                 main.startLifetime = new ParticleSystem.MinMaxCurve(recipe.life * .7f, recipe.life);
                 main.startSize = new ParticleSystem.MinMaxCurve(recipe.size * .6f, recipe.size);
                 main.startSpeed = recipe.kind == "burst" ? new ParticleSystem.MinMaxCurve(recipe.speed * .4f, recipe.speed) : 0;
-                main.startRotation = new ParticleSystem.MinMaxCurve(-Mathf.PI, Mathf.PI);
+                main.startRotation = recipe.upright ? new ParticleSystem.MinMaxCurve(0) : new ParticleSystem.MinMaxCurve(-Mathf.PI, Mathf.PI);
                 main.gravityModifier = recipe.gravity;
                 main.simulationSpace = ParticleSystemSimulationSpace.Local;
                 main.maxParticles = Mathf.Clamp(Mathf.CeilToInt(recipe.rate * recipe.life * 3) + recipe.count * 2, 32, 512);

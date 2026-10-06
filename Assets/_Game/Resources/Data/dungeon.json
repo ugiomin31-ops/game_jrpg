@@ -40,6 +40,15 @@
    [
     "sprout",
     "sprout"
+   ],
+   [
+    "horned_rabbit",
+    "horned_rabbit"
+   ],
+   [
+    "horned_rabbit",
+    "slime",
+    "sprout"
    ]
   ],
   "showcase_group": [
@@ -199,6 +208,21 @@
     "jellyfish",
     "jellyfish",
     "penguin_mage"
+   ],
+   [
+    "frost_spider",
+    "jellyfish",
+    "jellyfish"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "coral_crab"
+   ],
+   [
+    "frost_spider",
+    "frost_spider",
+    "snow_fairy"
    ]
   ],
   "showcase_group": [
@@ -421,6 +445,20 @@
     "phoenix",
     "magma_slime",
     "sand_golem"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "magma_slime"
+   ],
+   [
+    "flame_elemental",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "sand_scorpion",
+    "phoenix"
    ]
   ],
   "showcase_group": [
@@ -643,6 +681,19 @@
    [
     "scarecrow",
     "skeleton"
+   ],
+   [
+    "ghost",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "mimic"
+   ],
+   [
+    "ghost",
+    "ghost",
+    "grave_bat"
    ]
   ],
   "showcase_group": [
@@ -881,6 +932,25 @@
     "bat",
     "mushroom",
     "sprout"
+   ],
+   [
+    "killer_bee",
+    "killer_bee",
+    "horned_rabbit"
+   ],
+   [
+    "mandragora",
+    "mushroom",
+    "sprout"
+   ],
+   [
+    "rhino_beetle",
+    "bat"
+   ],
+   [
+    "horned_rabbit",
+    "horned_rabbit",
+    "killer_bee"
    ]
   ],
   "showcase_group": [
@@ -1106,6 +1176,27 @@
     "bat",
     "sprout",
     "sprout"
+   ],
+   [
+    "rhino_beetle",
+    "killer_bee",
+    "killer_bee"
+   ],
+   [
+    "pixie",
+    "mandragora",
+    "bat"
+   ],
+   [
+    "pixie",
+    "rhino_beetle",
+    "mushroom"
+   ],
+   [
+    "killer_bee",
+    "killer_bee",
+    "killer_bee",
+    "mandragora"
    ]
   ],
   "showcase_group": [
@@ -1260,6 +1351,29 @@
     ],
     "chase_range": 0,
     "power": 2.45
+   },
+   {
+    "id": "foe_b3_3",
+    "group": [
+     "elite_rhino_beetle",
+     "rhino_beetle"
+    ],
+    "spawn": [
+     1,
+     9
+    ],
+    "patrol": [
+     [
+      1,
+      9
+     ],
+     [
+      1,
+      10
+     ]
+    ],
+    "chase_range": 0,
+    "power": 2.4
    }
   ],
   "key_name": "고목 성소 열쇠",
@@ -1334,6 +1448,20 @@
     "ice_wolf",
     "ice_wolf",
     "ice_wolf"
+   ],
+   [
+    "yeti",
+    "frost_spider"
+   ],
+   [
+    "snow_fairy",
+    "ice_wolf",
+    "ice_wolf"
+   ],
+   [
+    "frost_spider",
+    "frost_spider",
+    "penguin_mage"
    ]
   ],
   "showcase_group": [
@@ -1594,6 +1722,21 @@
     "jellyfish",
     "penguin_mage",
     "penguin_mage"
+   ],
+   [
+    "ice_golem",
+    "snow_fairy",
+    "snow_fairy"
+   ],
+   [
+    "yeti",
+    "yeti",
+    "frost_spider"
+   ],
+   [
+    "ice_golem",
+    "ice_wolf",
+    "penguin_mage"
    ]
   ],
   "showcase_group": [
@@ -1772,6 +1915,29 @@
     ],
     "chase_range": 4,
     "power": 2.15
+   },
+   {
+    "id": "foe_b6_3",
+    "group": [
+     "elite_yeti",
+     "yeti"
+    ],
+    "spawn": [
+     10,
+     3
+    ],
+    "patrol": [
+     [
+      10,
+      3
+     ],
+     [
+      11,
+      3
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.45
    }
   ],
   "key_name": "산호 문 열쇠",
@@ -1852,6 +2018,21 @@
     "phoenix",
     "magma_slime",
     "magma_slime"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "flame_elemental"
+   ],
+   [
+    "lizardman",
+    "harpy",
+    "magma_slime"
+   ],
+   [
+    "harpy",
+    "harpy",
+    "sand_scorpion"
    ]
   ],
   "showcase_group": [
@@ -2037,6 +2218,29 @@
     ],
     "chase_range": 3,
     "power": 2.55
+   },
+   {
+    "id": "foe_b8_3",
+    "group": [
+     "elite_hellhound",
+     "hellhound"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ]
+    ],
+    "chase_range": 3,
+    "power": 2.2
    }
   ],
   "key_name": "협곡 문 열쇠",
@@ -2106,6 +2310,21 @@
     "sand_golem",
     "sand_golem",
     "phoenix"
+   ],
+   [
+    "lizardman",
+    "lizardman",
+    "phoenix"
+   ],
+   [
+    "harpy",
+    "fire_drake",
+    "flame_elemental"
+   ],
+   [
+    "sand_scorpion",
+    "lizardman",
+    "harpy"
    ]
   ],
   "showcase_group": [
@@ -2374,6 +2593,24 @@
     "skeleton",
     "scarecrow",
     "grave_bat"
+   ],
+   [
+    "dark_knight",
+    "ghost"
+   ],
+   [
+    "lich",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "mimic",
+    "wisp"
+   ],
+   [
+    "ghost",
+    "ghost",
+    "scarecrow"
    ]
   ],
   "showcase_group": [
@@ -2581,6 +2818,29 @@
     ],
     "chase_range": 2,
     "power": 2.55
+   },
+   {
+    "id": "foe_b11_3",
+    "group": [
+     "elite_dark_knight",
+     "ghost"
+    ],
+    "spawn": [
+     3,
+     5
+    ],
+    "patrol": [
+     [
+      3,
+      5
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.3
    }
   ],
   "key_name": "납골당 열쇠",
@@ -2664,6 +2924,21 @@
     "grave_bat",
     "wisp",
     "wisp"
+   ],
+   [
+    "dark_knight",
+    "dark_knight",
+    "lich"
+   ],
+   [
+    "lich",
+    "ghost",
+    "ghost",
+    "wisp"
+   ],
+   [
+    "mimic",
+    "dark_knight"
    ]
   ],
   "showcase_group": [
@@ -2862,6 +3137,24 @@
     ],
     "chase_range": 2,
     "power": 2.7
+   },
+   {
+    "id": "foe_b12_3",
+    "group": [
+     "elite_mimic"
+    ],
+    "spawn": [
+     4,
+     11
+    ],
+    "patrol": [
+     [
+      4,
+      11
+     ]
+    ],
+    "chase_range": 0,
+    "power": 2.2
    }
   ],
   "key_name": "옥좌의 열쇠",

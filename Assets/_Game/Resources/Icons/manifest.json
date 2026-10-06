@@ -4,7 +4,7 @@
   "coverage": {
     "Heroes": 4,
     "NPCs": 8,
-    "Enemies": 28,
+    "Enemies": 51,
     "Gear": 48,
     "Items": 30,
     "Status": 22,
@@ -4330,6 +4330,627 @@
           0.0
         ],
         "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "dark_knight",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/dark_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4230027198791504,
+          -4.4639387130737305,
+          1.539965033531189
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5413281917572021
+      }
+    },
+    {
+      "id": "elite_dark_knight",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_dark_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5560036897659302,
+          -4.832511901855469,
+          1.6698862314224243
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.6674319505691528
+      }
+    },
+    {
+      "id": "elite_hellhound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_hellhound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4667963981628418,
+          -4.78071928024292,
+          1.494141936302185
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3713093996047974
+      }
+    },
+    {
+      "id": "elite_mimic",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_mimic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2150816917419434,
+          -3.78816294670105,
+          1.139840006828308
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9924368262290955
+      }
+    },
+    {
+      "id": "elite_rhino_beetle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_rhino_beetle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4780261516571045,
+          -4.70241117477417,
+          1.3142633438110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.198266863822937
+      }
+    },
+    {
+      "id": "elite_yeti",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_yeti.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5144304037094116,
+          -4.882199764251709,
+          1.563370704650879
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4322948455810547
+      }
+    },
+    {
+      "id": "flame_elemental",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/flame_elemental.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.298435926437378,
+          -4.130455017089844,
+          1.6195889711380005
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3105782270431519
+      }
+    },
+    {
+      "id": "frost_spider",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/frost_spider.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4468324184417725,
+          -4.561351299285889,
+          1.2509772777557373
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.434709906578064
+      }
+    },
+    {
+      "id": "ghost",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/ghost.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1762479543685913,
+          -3.8475711345672607,
+          1.4402230978012085
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.041567087173462
+      }
+    },
+    {
+      "id": "harpy",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/harpy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.610158085823059,
+          -4.957955837249756,
+          1.7406980991363525
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4859455823898315
+      }
+    },
+    {
+      "id": "hellhound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/hellhound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5032554864883423,
+          -4.697273254394531,
+          1.4811195135116577
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3713093996047974
+      }
+    },
+    {
+      "id": "horned_rabbit",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/horned_rabbit.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2076619863510132,
+          -3.8439438343048096,
+          1.2854303121566772
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.234218716621399
+      }
+    },
+    {
+      "id": "ice_golem",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/ice_golem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7730402946472168,
+          -5.646645545959473,
+          1.775794267654419
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.564092993736267
+      }
+    },
+    {
+      "id": "killer_bee",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/killer_bee.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5741981267929077,
+          -4.789369106292725,
+          1.6495414972305298
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2416318655014038
+      }
+    },
+    {
+      "id": "lich",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/lich.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2674192190170288,
+          -3.9867677688598633,
+          1.4571261405944824
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2044674158096313
+      }
+    },
+    {
+      "id": "lizardman",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/lizardman.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4611114263534546,
+          -4.519473075866699,
+          1.4863187074661255
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.405799388885498
+      }
+    },
+    {
+      "id": "mandragora",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/mandragora.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2573883533477783,
+          -4.049778461456299,
+          1.3226218223571777
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2419960498809814
+      }
+    },
+    {
+      "id": "mimic",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/mimic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2125904560089111,
+          -3.7903449535369873,
+          1.0407047271728516
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8562735319137573
+      }
+    },
+    {
+      "id": "pixie",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/pixie.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2228362560272217,
+          -3.73136305809021,
+          1.4839015007019043
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.843192458152771
+      }
+    },
+    {
+      "id": "rhino_beetle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/rhino_beetle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.38910973072052,
+          -4.4245476722717285,
+          1.2123191356658936
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.198266863822937
+      }
+    },
+    {
+      "id": "sand_scorpion",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/sand_scorpion.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.54987633228302,
+          -4.887267112731934,
+          1.4130275249481201
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2365655899047852
+      }
+    },
+    {
+      "id": "snow_fairy",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/snow_fairy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2733209133148193,
+          -3.905128002166748,
+          1.4401147365570068
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2766648530960083
+      }
+    },
+    {
+      "id": "yeti",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/yeti.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4511759281158447,
+          -4.634924411773682,
+          1.4422237873077393
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.266807198524475
       }
     }
   ]

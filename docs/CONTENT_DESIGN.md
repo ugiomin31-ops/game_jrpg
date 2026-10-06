@@ -221,6 +221,13 @@ Notes:
 - CLEANSE removes every negative status: poison, poison_strong, stun, burn, bleed, slow, freeze, silence, attack_down, defense_down, sleep, blind.
 - Ultimate cut-ins use `CharacterData.cut_in`.
 
+### 3.1b Skill expansion v2 (60 more hero skills)
+- The tables in §2.3 and §3.1 are the v1 baseline. `skills.json`/`heroes.json` now hold 129 skills; heroes learn 25 (검사), 25 (마법사), 22 (궁수) and 24 (성직자) skills through Lv38, each with two ultimates (the second at Lv38). The full list is `art-upgrade/skill_list_v2.md` (generated from the JSON; the JSON is the source of truth).
+- New skill field `drain` (DAMAGE only, 0..1): after the hits the actor heals that share of the HP damage it dealt to opponents.
+- New presentation fields `area_vfx`, `area_wait`, `area_scale`: a field effect played once at the centre of the target group before the per-target impacts. All ALL-scope presets and ultimates use one.
+- AUTO tries the most recently learned usable ultimate first.
+- No new statuses: the HUD needs an icon per status, so v2 uses only the existing 22.
+
 ### 3.2 Enemy skills (33)
 Authoring defaults for columns omitted from this table: `tp_cost = 0`, `crit_bonus = 0.0`, `defense_ignore = 0.0`, `tier = 2`, `flat_power = 0.0` (if the field exists), `extra_statuses = []` unless explicitly listed. A `—` status means `status_effect = null` and `status_chance = 0.0`; a `—` bonus means `bonus_vs_status = &""` and `bonus_vs_status_mult = 1.0`. A scalar `pow` without `×hits` means `hit_count = 1`. Names and descriptions in both skill tables are literal resource strings, not examples. Reused hero skills reference the same resource; they do not create differently named or differently numbered enemy variants.
 | id | 이름 | 설명 | kind | sc | tgt | scope | elem | pow×hit | MP | status (chance) | bonus | pres | used by |

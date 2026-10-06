@@ -3,6 +3,10 @@
 애니풍 툰 방향(2026-10-06 결정)에 맞춰, 블렌더 생성 캐릭터 대신 Unity Humanoid 모델을 그대로 쓸 수 있다.
 기존 블렌더 캐릭터는 그대로 동작한다. 폴더에 휴머노이드 모델을 넣은 캐릭터만 새 방식으로 바뀐다.
 
+> Blender에서 만든 **텍스처 애니풍 영웅**(`Blender/heroes/generate_anime.py`, VRoid 기반)은 이 문서의 경로가 아니다.
+> 게임 자체 리그·클립을 쓰므로 `HUMANOID` 마커 없이 기존 Generic 경로로 임포트되고, `<id>_tex/*.png`로
+> Abyss/Toon 머티리얼이 자동 생성된다(피격 번쩍임·디졸브 유지). 자세한 내용은 `Blender/README.md`의 "텍스처 영웅".
+
 ## 1. 캐릭터 모델
 `Assets/_Game/Resources/Art/Characters/<id>/<id>` 경로에 모델을 둔다(NPC는 `NPCs/`). `<id>`는 `warrior`, `mage`, `archer`, `cleric` 등 기존 id.
 

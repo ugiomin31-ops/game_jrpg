@@ -2,7 +2,8 @@
 
 Contract (Unity side relies on all of this — see Blender/README.md):
 - 1 Blender unit = 1 m. Characters stand on z=0, face -Y (Blender front view).
-- Colour lives in the "Col" colour attribute (sRGB, per face corner). Textures are not used.
+- Colour lives in the "Col" colour attribute (sRGB, per face corner). Textures are not used, except by the
+  textured anime heroes (lib_humanoid/textured.py: <id>_tex/<material>.png next to the FBX).
 - Material slots are ONLY: M_Toon (opaque toon), M_Emit (glowing), M_Clear (translucent toon).
   Unity remaps them by name to shared materials.
 - Animated assets: one armature object named "Rig", one skinned mesh named "Body" (rigid weights,
@@ -450,8 +451,9 @@ def _fcurve(act, bone, path):
 
 # ---------------------------------------------------------------- output
 
-def export_fbx(rel_path, objects=None, animated=False):
-    """rel_path is relative to Assets/_Game/Art (e.g. 'Characters/warrior/warrior.fbx')."""
+def export_fbx(rel_path, objects=None, animated=False, path_mode="STRIP"):
+    """rel_path is relative to Assets/_Game/Art (e.g. 'Characters/warrior/warrior.fbx').
+    path_mode="RELATIVE" keeps texture references relative to the FBX (textured heroes)."""
     path = os.path.join(ASSETS, rel_path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     bpy.ops.object.select_all(action="DESELECT")
@@ -482,7 +484,7 @@ def export_fbx(rel_path, objects=None, animated=False):
         bake_anim_force_startend_keying=True,
         bake_anim_simplify_factor=0.0,
         use_custom_props=False,
-        path_mode="STRIP",
+        path_mode=path_mode,
     )
     bpy.ops.export_scene.fbx(**kw)
     return path
@@ -493,8 +495,10 @@ def save_blend(name):
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(BLEND_DIR, name + ".blend"), compress=True)
 
 
-def render_preview(name, objects=None, angle=(65, 0, 35), size=640, frame=None, action=None, dist=None):
-    """Workbench render (vertex colours, cavity, outline) to Blender/preview/<name>.png for visual QA."""
+def render_preview(name, objects=None, angle=(65, 0, 35), size=640, frame=None, action=None, dist=None,
+                   color_type="VERTEX"):
+    """Workbench render (vertex colours, cavity, outline) to Blender/preview/<name>.png for visual QA.
+    color_type="TEXTURE" shows image textures instead (textured heroes)."""
     sc = bpy.context.scene
     os.makedirs(PREVIEW_DIR, exist_ok=True)
     objs = objects or [o for o in sc.objects if o.type == "MESH" and not o.hide_render]
@@ -527,7 +531,7 @@ def render_preview(name, objects=None, angle=(65, 0, 35), size=640, frame=None, 
     sc.render.engine = "BLENDER_WORKBENCH"
     sh = sc.display.shading
     sh.light = "STUDIO"
-    sh.color_type = "VERTEX"
+    sh.color_type = color_type
     sh.show_cavity = True
     sh.show_object_outline = True
     sh.show_shadows = True

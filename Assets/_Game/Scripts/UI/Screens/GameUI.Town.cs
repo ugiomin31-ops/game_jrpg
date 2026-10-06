@@ -204,7 +204,8 @@ namespace Abyss.UI
                     if (entry.HiddenWeaknesses > 0) weak.Add("?");
                     var drops = new List<string>();
                     if (entry.DropsRevealed) foreach (var drop in enemy.Drops) drops.Add($"{ItemName(drop.Id)} · {drop.Chance:P0}");
-                    details = $"{enemy.DisplayName} · Lv.{enemy.Level}\n{(entry.IsBoss ? "봉인의 수호자" : entry.IsElite ? "배회 강적" : "미궁의 마물")}\nHP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";
+                    string lore = app.DB.Text.TryGetValue("enemy_desc_" + enemy.Id, out var loreText) ? loreText + "\n" : "";
+                    details = $"{enemy.DisplayName} · Lv.{enemy.Level}\n{(entry.IsBoss ? "봉인의 수호자" : entry.IsElite ? "배회 강적" : "미궁의 마물")}\n{lore}HP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";
                 }
                 string description = details;
                 m.Add(title, () => UIModal.Alert(root.Modals, title, description), description, entry.Seen ? $"{entry.Kills}회" : "미발견", icon: entry.Seen ? UIArtwork.Enemy(enemy.Id) : null);

@@ -36,8 +36,8 @@ namespace Abyss.UI.Battle
         readonly StringBuilder _text = new StringBuilder();
         readonly Dictionary<string, Sprite> _statusArt = new Dictionary<string, Sprite>(StringComparer.Ordinal);
         readonly StringBuilder _targetText = new StringBuilder();
-        RectTransform _root, _party, _world, _menu, _rows, _detail, _cutin, _reward;
-        TMP_Text _order, _log, _title, _description, _cutinTitle, _cutinText, _rewardText;
+        RectTransform _root, _party, _world, _menu, _rows, _detail, _cutin, _reward, _banner;
+        TMP_Text _order, _log, _title, _description, _cutinTitle, _cutinText, _rewardText, _bannerText;
         UIButton _autoButton;
         ScrollRect _detailScroll;
         ScrollRect _rewardScroll;
@@ -93,6 +93,12 @@ namespace Abyss.UI.Battle
             _cutinTitle.Rt().TopStrip(74, 26, 30, 30);
             _cutinText = UIFactory.Paragraph(cutin.transform, "", 29); _cutinText.Rt().Stretch(48, 108, 48, 22);
             _cutin.gameObject.SetActive(false);
+            var banner = UIFactory.Panel(_root, UIPanelStyle.Dark, false);
+            _banner = banner.Rect.Place(UIAnchor.Top, new Vector2(0, -182), new Vector2(760, 74));
+            _bannerText = UIFactory.Label(banner.transform, "", 36, align: TextAlignmentOptions.Center);
+            _bannerText.Rt().Stretch(16, 6, 16, 6);
+            _bannerText.overflowMode = TextOverflowModes.Ellipsis;
+            _banner.gameObject.SetActive(false);
             Lock();
         }
 
@@ -371,6 +377,14 @@ namespace Abyss.UI.Battle
         }
         public void CutIn(string title, string text) { _cutinTitle.text = title; _cutinText.text = text; _cutin.gameObject.SetActive(true); }
         public void HideCutIn() { _cutin.gameObject.SetActive(false); }
+        /// <summary>JRPG skill-name plate shown while a skill or item resolves (tinted by its element / light colour).</summary>
+        public void SkillBanner(string text, Color color)
+        {
+            if (_banner == null) return;
+            _bannerText.text = text; _bannerText.color = Color.Lerp(Color.white, color, .45f);
+            _banner.gameObject.SetActive(true);
+        }
+        public void HideSkillBanner() { if (_banner != null) _banner.gameObject.SetActive(false); }
         public void Rewards(BattleOutcome outcome, Abyss.Logic.Game.BattleReport report, Action confirmed)
         {
             Lock();

@@ -1,0 +1,127 @@
+{
+  "id": "lich",
+  "is_boss": false,
+  "generator": "/home/claude/game_jrpg/Blender/enemies_c/crypt.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-06T23:06:51Z",
+  "files": {
+    "fbx": {
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+      "bytes": 708364
+    },
+    "blend": {
+      "path": "/home/claude/game_jrpg/Blender/blend/enemy_lich.blend",
+      "bytes": 198199
+    },
+    "previews": [
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lich.png",
+        "bytes": 180606
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lich_side.png",
+        "bytes": 166822
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lich_attack.png",
+        "bytes": 175059
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lich_cast.png",
+        "bytes": 164337
+      },
+      {
+        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lich_die.png",
+        "bytes": 167445
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 5064,
+    "vertices": 2888,
+    "bones": 10,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 5064,
+    "vertices": 2888,
+    "bones": 10,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

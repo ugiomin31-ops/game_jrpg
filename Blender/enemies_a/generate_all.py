@@ -17,6 +17,8 @@ import time
 import bpy
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'Blender' / 'enemies_c'))
+from roster import SOURCES as V2_SOURCES  # noqa: E402  (v2 roster: enemies_c generators)
 BLENDER = ROOT / 'Blender'
 REPORTS = BLENDER / 'blend'
 REQUIRED = ('Idle', 'Run', 'Attack', 'Cast', 'Hit', 'Die', 'Victory')
@@ -34,6 +36,7 @@ SOURCES = {
         'fire_drake', 'elite_fire_drake', 'sand_golem', 'elite_sand_golem', 'phoenix',
         'skeleton', 'elite_skeleton', 'scarecrow', 'elite_scarecrow', 'wisp')},
     **{eid: f'bosses/{eid}.py' for eid in ('boss', 'forest_guardian', 'frost_kraken', 'flame_sphinx')},
+    **V2_SOURCES,
 }
 
 
@@ -41,12 +44,12 @@ def data_roster():
     with (ROOT / 'Assets/_Game/Resources/Data/enemies.json').open(encoding='utf-8') as stream:
         rows = json.load(stream)
     roster = {row['id']: row for row in rows}
-    if len(rows) != len(roster) or len(roster) != 28:
-        raise RuntimeError('Enemy data must contain exactly 28 distinct IDs')
+    if len(rows) != len(roster) or len(roster) != len(SOURCES):
+        raise RuntimeError(f'Enemy data must contain exactly {len(SOURCES)} distinct IDs')
     if set(roster) != set(SOURCES):
         raise RuntimeError(f'Generator/data mismatch: missing={set(roster)-set(SOURCES)}, extra={set(SOURCES)-set(roster)}')
     if sum(row['is_boss'] for row in rows) != 4:
-        raise RuntimeError('Enemy roster must contain four bosses and 24 normal/elite enemies')
+        raise RuntimeError('Enemy roster must contain exactly four bosses')
     return roster
 
 
@@ -85,6 +88,14 @@ def inspect_scene(required, imported=False):
             'triangles': sum(len(poly.vertices) - 2 for poly in body.data.polygons),
             'vertices': len(body.data.vertices), 'bones': len(rig.data.bones),
             'materials': mats, 'clips': clips, 'unweighted_vertices': unweighted}
+
+
+def asset_command(eid):
+    """Child process that produces one id: Blender binary, or the bpy-module Python when run as `python script.py`."""
+    script = str(Path(__file__).resolve())
+    if bpy.app.binary_path:
+        return [bpy.app.binary_path, '-b', '--factory-startup', '--python-exit-code', '1', '-P', script, '--', '--asset', eid]
+    return [sys.executable, script, '--', '--asset', eid]
 
 
 def produce_one(eid, roster):
@@ -133,8 +144,7 @@ def main():
     selected = [] if opts.report_only else (opts.only or list(roster))
     reports, failures = [], []
     for eid in selected:
-        cmd = [bpy.app.binary_path, '-b', '--factory-startup', '--python-exit-code', '1',
-               '-P', str(Path(__file__).resolve()), '--', '--asset', eid]
+        cmd = asset_command(eid)
         log_path = REPORTS / f'enemy_production_{eid}.log'
         print(f'PRODUCING {eid}: {" ".join(cmd)}', flush=True)
         with log_path.open('w', encoding='utf-8') as log:

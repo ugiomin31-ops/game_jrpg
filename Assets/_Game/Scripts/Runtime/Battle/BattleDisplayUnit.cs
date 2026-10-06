@@ -17,6 +17,8 @@ namespace Abyss.Runtime.Battle
         public CharacterModel Model;
         public Vector3 Home;
         public Quaternion Facing;
+        /// <summary>Hit recoil: seconds left and peak push (metres) away from the opponents' side.</summary>
+        public float KnockTime, KnockAmount;
         public readonly Dictionary<string, DisplayStatus> Statuses = new Dictionary<string, DisplayStatus>();
         public readonly List<int> Weaknesses = new List<int>();
 
