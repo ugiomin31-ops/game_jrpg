@@ -952,10 +952,10 @@ def preview():
 
 
 def main():
-    for fn in (glow, glow_hard, dot, square, spark, lambda: star(4, "star4"), lambda: star(8, "star8", long=1.0, short=0.5),
-               star5, ring, shockwave, sunburst, slash_arc, slash_strip, trail, beam, claw, bite, noise, cell_noise,
+    for fn in (glow, dot, square, spark, lambda: star(4, "star4"), lambda: star(8, "star8", long=1.0, short=0.5),
+               star5, ring, shockwave, sunburst, slash_strip, trail, beam, bite, cell_noise,
                smoke_sheet, flame_sheet, magic_circle_a, magic_circle_b, magic_circle_c, magic_circle_d, hex_grid, swirl,
-               leaf, snowflake, ice_shard, thorn, lightning_sheet, feather, wings, skull_wisp, arrow_streak,
+               leaf, snowflake, ice_shard, lightning_sheet, feather, wings, skull_wisp, arrow_streak,
                lambda: chevron("arrow_up", True), lambda: chevron("arrow_down", False), droplet, bubble,
                lambda: text_glyph("zzz", zzz), lambda: text_glyph("note", note), lambda: text_glyph("hymn", hymn, outline=False),
                lambda: text_glyph("silence", silence), lambda: text_glyph("anger", anger), lambda: text_glyph("blind", blind),
