@@ -19,6 +19,11 @@ namespace Abyss.Runtime.Art
         public static string PropPath(string category, string id) => $"Art/Props/{category}/{id}";
         public static string EnvPath(string tileset, string piece) => $"Art/Environment/{tileset}/{piece}";
         public const string TownPath = "Art/Town/town";
+        /// <summary>
+        /// Shared Unity-Humanoid takes (one clip per FBX, named by file: Idle, Run, Walk, Attack, Cast, Hit, Die,
+        /// Victory, Guard, Revive, Talk). Used by humanoid characters (VRoid/VRM, store or Mixamo models) that ship no takes of their own.
+        /// </summary>
+        public const string HumanoidAnimationsPath = "Art/HumanoidAnimations";
 
         public static GameObject LoadPrefab(string path)
         {
@@ -54,8 +59,17 @@ namespace Abyss.Runtime.Art
             var visual = Object.Instantiate(prefab, root.transform, false).transform;
             visual.name = "Model";
             var model = root.AddComponent<CharacterModel>();
-            model.Setup(id, visual, LoadClips(path));
+            var clips = LoadClips(path);
+            var animator = visual.GetComponent<Animator>();
+            if (animator != null && animator.isHuman && !HasIdle(clips)) clips = LoadClips(HumanoidAnimationsPath);
+            model.Setup(id, visual, clips);
             return model;
+        }
+
+        static bool HasIdle(AnimationClip[] clips)
+        {
+            foreach (var clip in clips) if (clip != null && clip.name == "Idle") return true;
+            return false;
         }
 
         /// <summary>Instantiate a required static model (environment piece, prop, weapon).</summary>

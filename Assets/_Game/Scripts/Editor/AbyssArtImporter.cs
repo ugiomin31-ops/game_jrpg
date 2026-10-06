@@ -10,12 +10,16 @@ namespace Abyss.EditorTools
     /// - Material slots M_Toon / M_Emit / M_Clear are remapped to shared Abyss/Toon materials
     ///   (character set or environment set depending on folder).
     /// - Animated folders (Characters, Enemies, NPCs) import as Generic rigs; takes "Rig|Idle" become clip "Idle".
+    /// - Humanoid art: FBXs under HumanoidAnimations/ (one take per file, clip named after the file) and character
+    ///   folders holding a "HUMANOID" marker file import as Unity Humanoid and keep their own materials
+    ///   (store/Mixamo/VRoid models bring their own anime shading). VRM files import through UniVRM, not here.
     /// </summary>
     public class AbyssArtImporter : AssetPostprocessor
     {
         const string ArtRoot = "Assets/_Game/Resources/Art/";
         public const string MaterialDir = "Assets/_Game/Materials";
         static readonly string[] AnimatedFolders = { "Characters/", "Enemies/", "NPCs/" };
+        const string HumanoidAnimations = "HumanoidAnimations/";
         static readonly string[] SlotNames = { "M_Toon", "M_Emit", "M_Clear" };
         static readonly HashSet<string> LoopClips = new HashSet<string> { "Idle", "Run", "Walk", "Fly", "Float", "BattleIdle", "Swim", "Hover" };
 
@@ -29,6 +33,12 @@ namespace Abyss.EditorTools
             return false;
         }
 
+        static bool IsHumanoidAnimation(string path) => path.Replace('\\', '/').Substring(ArtRoot.Length).StartsWith(HumanoidAnimations);
+
+        /// <summary>A character folder opts into Unity Humanoid with an empty "HUMANOID" marker file next to its model.</summary>
+        static bool IsHumanoid(string path) =>
+            IsHumanoidAnimation(path) || (IsAnimated(path) && File.Exists(Path.Combine(Path.GetDirectoryName(path), "HUMANOID")));
+
         public static bool IsEnvironment(string path)
         {
             string rel = path.Replace('\\', '/');
@@ -39,6 +49,17 @@ namespace Abyss.EditorTools
         {
             if (!IsArt(assetPath)) return;
             var mi = (ModelImporter)assetImporter;
+            if (IsHumanoid(assetPath))
+            {
+                mi.animationType = ModelImporterAnimationType.Human;
+                mi.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
+                mi.importAnimation = true;
+                mi.optimizeGameObjects = false;
+                mi.importCameras = false;
+                mi.importLights = false;
+                mi.materialImportMode = IsHumanoidAnimation(assetPath) ? ModelImporterMaterialImportMode.None : ModelImporterMaterialImportMode.ImportStandard;
+                return;
+            }
             mi.globalScale = 1f;
             mi.useFileScale = true;
             mi.importCameras = false;
@@ -78,8 +99,22 @@ namespace Abyss.EditorTools
 
         void OnPreprocessAnimation()
         {
-            if (!IsArt(assetPath) || !IsAnimated(assetPath)) return;
+            if (!IsArt(assetPath)) return;
             var mi = (ModelImporter)assetImporter;
+            if (IsHumanoidAnimation(assetPath))
+            {
+                // Mixamo-style files carry one take named "mixamo.com": the file name is the clip name.
+                var takes = mi.defaultClipAnimations;
+                if (takes.Length == 0) return;
+                var take = takes[0];
+                take.name = Path.GetFileNameWithoutExtension(assetPath);
+                take.loopTime = LoopClips.Contains(take.name) || take.name.EndsWith("Loop");
+                take.lockRootRotation = take.lockRootHeightY = take.lockRootPositionXZ = true;
+                take.keepOriginalOrientation = take.keepOriginalPositionY = take.keepOriginalPositionXZ = true;
+                mi.clipAnimations = new[] { take };
+                return;
+            }
+            if (!IsAnimated(assetPath)) return;
             var clips = mi.defaultClipAnimations;
             var outClips = new List<ModelImporterClipAnimation>();
             var seen = new HashSet<string>();
