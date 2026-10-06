@@ -34,7 +34,10 @@ namespace Abyss.UI
                 var button = UIFactory.Button(services.Rect, T(TownTitles[i]), () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
                 button.Rt().TopStrip(52, 78 + i * 60, 20, 20);
             }
-            UIFactory.Label(hud, "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start", 21, color: UITheme.TextDim)
+            string help = Application.isMobilePlatform
+                ? "이동 · 화면을 누른 채 끌기    대화 · 시설 근처에서 탭    수첩 · 오른쪽 아래 버튼"
+                : "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start";
+            UIFactory.Label(hud, help, 21, color: UITheme.TextDim)
                 .Rt().BottomStrip(38, 212, 30, 470);
         }
         void RefreshTown()

@@ -35,11 +35,15 @@ namespace Abyss.UI
             if (!HasSave) resume.SetLabel("모험 이어가기 · 저장 없음");
             group.AddButton("설정", () => Settings?.Invoke(), 420, 62);
             group.AddButton("제작진", () => Credits?.Invoke(), 420, 62);
-            group.AddButton("게임 종료", () => Quit?.Invoke(), 420, 62);
+            // iOS apps may not quit themselves; Android keeps the button for its back-to-home habit.
+            if (Application.platform != RuntimePlatform.IPhonePlayer) group.AddButton("게임 종료", () => Quit?.Invoke(), 420, 62);
             group.FocusIndex = HasSave ? 1 : 0;
-            UIFactory.KeyHint(Rect, UIAction.Confirm, "선택").Rt().Place(UIAnchor.BottomLeft, new Vector2(100, 75), new Vector2(250, 44));
-            UIFactory.Label(Rect, "↑↓ 이동 · Enter / Space / Z 선택", 21, color: UITheme.TextDim)
-                .Rt().Place(UIAnchor.BottomLeft, new Vector2(365, 75), new Vector2(650, 44));
+            if (!Application.isMobilePlatform)
+            {
+                UIFactory.KeyHint(Rect, UIAction.Confirm, "선택").Rt().Place(UIAnchor.BottomLeft, new Vector2(100, 75), new Vector2(250, 44));
+                UIFactory.Label(Rect, "↑↓ 이동 · Enter / Space / Z 선택", 21, color: UITheme.TextDim)
+                    .Rt().Place(UIAnchor.BottomLeft, new Vector2(365, 75), new Vector2(650, 44));
+            }
             var footer = UIFactory.Label(Rect, "네 명의 동료 · 열두 층의 미궁 · 여명의 종", 22, color: UITheme.TextDim);
             footer.Rt().Place(UIAnchor.BottomLeft, new Vector2(100, 30), new Vector2(850, 40));
         }

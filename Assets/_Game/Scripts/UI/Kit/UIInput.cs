@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace Abyss.UI
 {
     /// <summary>Device family that produced the latest input (drives key-hint glyphs).</summary>
-    public enum UIInputDevice { KeyboardMouse, Gamepad }
+    public enum UIInputDevice { KeyboardMouse, Gamepad, Touch }
 
     /// <summary>Logical UI actions (for key hints and custom bindings).</summary>
     public enum UIAction { Confirm, Cancel, TabPrev, TabNext, Menu, Info }
@@ -15,7 +15,8 @@ namespace Abyss.UI
     /// Static Input System polling for menus. All queries are per-frame and side-effect free except
     /// <see cref="Consume"/>; navigation pulses include hold-to-repeat.
     /// <para>Keyboard: arrows/WASD navigate, Enter/Space/Z confirm, Esc/X/Backspace cancel, Q/E tabs, Tab/C menu, Shift/I info.
-    /// Gamepad: d-pad/left stick, South confirm, East cancel, shoulders tabs, Start/North menu, West info. Mouse: right click cancels.</para>
+    /// Gamepad: d-pad/left stick, South confirm, East cancel, shoulders tabs, Start/North menu, West info. Mouse: right click cancels.
+    /// Touch: taps advance dialog; the Android back button arrives as Escape and cancels.</para>
     /// <para>Input layers: modal UI pushes its root with <see cref="PushLayer"/>; widgets only react when
     /// <see cref="CanReceive"/> is true (they live under the top layer).</para>
     /// </summary>
@@ -31,7 +32,7 @@ namespace Abyss.UI
         static int _consumedFrame = -1;
         static Vector2Int _heldDir, _pulse;
         static float _repeatAt;
-        static UIInputDevice _device = UIInputDevice.KeyboardMouse;
+        static UIInputDevice _device = Application.isMobilePlatform ? UIInputDevice.Touch : UIInputDevice.KeyboardMouse;
         static readonly List<Transform> Layers = new List<Transform>();
 
         /// <summary>Raised when the active device family changes.</summary>
@@ -60,14 +61,15 @@ namespace Abyss.UI
         /// <summary>Info / detail toggle (Shift/I, gamepad West).</summary>
         public static bool Info => Live && (Pressed(Kb?.leftShiftKey) || Pressed(Kb?.iKey) || Pressed(Pad?.buttonWest));
 
-        /// <summary>Confirm or left click — advancing dialog text.</summary>
-        public static bool Advance => Confirm || (Live && Pressed(Ms?.leftButton));
+        /// <summary>Confirm, left click or a tap — advancing dialog text.</summary>
+        public static bool Advance => Confirm || (Live && (Pressed(Ms?.leftButton) || Pressed(Ts?.primaryTouch.press)));
 
-        /// <summary>True while confirm is held (fast-forward dialog).</summary>
-        public static bool ConfirmHeld => (Kb != null && (Kb.enterKey.isPressed || Kb.spaceKey.isPressed || Kb.zKey.isPressed)) || (Pad != null && Pad.buttonSouth.isPressed);
+        /// <summary>True while confirm or a touch is held (fast-forward dialog).</summary>
+        public static bool ConfirmHeld => (Kb != null && (Kb.enterKey.isPressed || Kb.spaceKey.isPressed || Kb.zKey.isPressed)) || (Pad != null && Pad.buttonSouth.isPressed)
+            || (Ts != null && Ts.primaryTouch.press.isPressed);
 
         /// <summary>Any key / button / click this frame (title screens, skipping).</summary>
-        public static bool AnyPressed => Live && ((Kb != null && Kb.anyKey.wasPressedThisFrame) || Pressed(Ms?.leftButton) || PadAnyPressed());
+        public static bool AnyPressed => Live && ((Kb != null && Kb.anyKey.wasPressedThisFrame) || Pressed(Ms?.leftButton) || Pressed(Ts?.primaryTouch.press) || PadAnyPressed());
 
         /// <summary>True if the logical action was pressed this frame.</summary>
         public static bool Pressed(UIAction action)
@@ -142,6 +144,7 @@ namespace Abyss.UI
         static Keyboard Kb => Keyboard.current;
         static Gamepad Pad => Gamepad.current;
         static Mouse Ms => Mouse.current;
+        static Touchscreen Ts => Touchscreen.current;
         static bool Live { get { Refresh(); return _consumedFrame != Time.frameCount && Application.isFocused; } }
 
         static bool PadAnyPressed()
@@ -213,6 +216,8 @@ namespace Abyss.UI
             var pad = Pad;
             if (pad != null && pad.wasUpdatedThisFrame && (pad.leftStick.ReadValue().sqrMagnitude > 0.25f || PadAnyPressed()))
                 next = UIInputDevice.Gamepad;
+            else if (Ts != null && Ts.primaryTouch.press.wasPressedThisFrame)
+                next = UIInputDevice.Touch;
             else if ((Kb != null && Kb.anyKey.wasPressedThisFrame) || (Ms != null && (Ms.leftButton.wasPressedThisFrame || Ms.delta.ReadValue().sqrMagnitude > 4f)))
                 next = UIInputDevice.KeyboardMouse;
             if (next == _device) return;
@@ -220,9 +225,10 @@ namespace Abyss.UI
             DeviceChanged?.Invoke(next);
         }
 
-        /// <summary>Short glyph text for an action on the current device (rendered in a key cap).</summary>
+        /// <summary>Short glyph text for an action on the current device (rendered in a key cap); empty on touch, where hints show no key.</summary>
         public static string Glyph(UIAction action)
         {
+            if (Device == UIInputDevice.Touch) return "";
             bool pad = Device == UIInputDevice.Gamepad;
             switch (action)
             {

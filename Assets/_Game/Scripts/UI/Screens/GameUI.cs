@@ -261,6 +261,8 @@ namespace Abyss.UI
                 HudButton(controls.Rect, "대기", new Vector2(-135, -165), app.WaitDungeon);
                 HudButton(controls.Rect, "지도", new Vector2(135, -165), OpenMapFromHud);
                 HudButton(controls.Rect, "캠프", new Vector2(0, -245), ShowPause);
+                // Phones: the 1920x1080 layout makes this pad tiny under a thumb, so grow it from its bottom-right corner.
+                if (Application.isMobilePlatform) controls.Rect.localScale = Vector3.one * 1.35f;
             }
             else
             {

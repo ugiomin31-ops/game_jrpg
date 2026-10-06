@@ -126,6 +126,7 @@ namespace Abyss.UI
             if (_glyph == null) return;
             string g = UIInput.Glyph(_action);
             _glyph.text = g;
+            _capLayout.gameObject.SetActive(g.Length > 0);
             _capLayout.preferredWidth = Mathf.Max(36f, 18f + g.Length * 11f);
         }
     }

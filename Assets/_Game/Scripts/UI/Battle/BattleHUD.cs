@@ -183,7 +183,7 @@ namespace Abyss.UI.Battle
         }
 
         public void Log(string text) { _log.text = text; }
-        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? "자동: ON · Esc 취소" : "자동: OFF"); }
+        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? (Application.isMobilePlatform ? "자동: ON · 탭하여 해제" : "자동: ON · Esc 취소") : "자동: OFF"); }
         void ToggleAuto() { if (!Paused) _toggleAuto?.Invoke(); }
         public void Lock()
         {
@@ -519,7 +519,8 @@ namespace Abyss.UI.Battle
                 ToggleAuto(); UIInput.Consume(); return;
             }
             if (!_input) return;
-            _menuHint.text = UIInput.Device == UIInputDevice.Gamepad ? "↑↓ 선택 · LB/RB 페이지 · ←→ 상세" : "↑↓ 선택 · Q/E 페이지 · ←→ 상세";
+            _menuHint.text = UIInput.Device == UIInputDevice.Gamepad ? "↑↓ 선택 · LB/RB 페이지 · ←→ 상세"
+                : UIInput.Device == UIInputDevice.Touch ? "탭하여 선택" : "↑↓ 선택 · Q/E 페이지 · ←→ 상세";
             int movement = UIInput.NavigateRows;
             if (movement != 0) { Focus(_focus + movement); UIInput.Consume(); }
             else if (UIInput.Navigate.x != 0)

@@ -4,6 +4,7 @@ using Abyss.Logic;
 using Abyss.Logic.Dungeon;
 using Abyss.Runtime.Art;
 using Abyss.Presentation.Audio;
+using Abyss.UI;
 using Abyss.Presentation.Vfx;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -277,6 +278,15 @@ namespace Abyss.Runtime.World
             else if ((keyboard?.rKey.wasPressedThisFrame ?? false) || (gamepad?.rightShoulder.wasPressedThisFrame ?? false)) Move(RelativeMove.Right);
             else if ((keyboard?.eKey.wasPressedThisFrame ?? false) || (keyboard?.spaceKey.wasPressedThisFrame ?? false) || (gamepad?.buttonSouth.wasPressedThisFrame ?? false)) Interact();
             else if ((keyboard?.periodKey.wasPressedThisFrame ?? false) || (gamepad?.buttonWest.wasPressedThisFrame ?? false)) WaitTurn();
+            else
+            {
+                // Touch: flick up/down to step forward/back, left/right to turn. No tap-to-interact: an empty
+                // interaction spends a turn, so stray taps would let foes advance; the HUD pad's 조사 button does it.
+                var swipe = UITouch.Swipe;
+                if (swipe.y > 0) Move(RelativeMove.Forward);
+                else if (swipe.y < 0) Move(RelativeMove.Back);
+                else if (swipe.x != 0) Turn(swipe.x);
+            }
         }
         static string SoundFor(DungeonEffect effect, bool moved)
         {

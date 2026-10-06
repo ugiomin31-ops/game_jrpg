@@ -293,6 +293,11 @@ namespace Abyss.Runtime
         {
             if (State != null && Screen != GameScreen.Title && Screen != GameScreen.Battle) Save();
         }
+        // Phones rarely quit cleanly: the OS kills backgrounded apps, so autosave whenever the app is sent away.
+        void OnApplicationPause(bool paused)
+        {
+            if (paused && Application.isMobilePlatform) OnApplicationQuit();
+        }
         void OnDestroy()
         {
             if (Instance == this) { Instance = null; Time.timeScale = 1f; }

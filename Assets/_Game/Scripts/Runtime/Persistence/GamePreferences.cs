@@ -17,6 +17,8 @@ namespace Abyss.Runtime.Persistence
         public int ResolutionIndex = 2;
         public float TextSpeed = 42f;
         public bool ReducedMotion;
+        /// <summary>Mobile only: caps the frame rate at 30 to save battery and heat.</summary>
+        public bool BatterySaver;
         public static readonly Vector2Int[] Resolutions =
         {
             new Vector2Int(1280, 720), new Vector2Int(1600, 900),
@@ -54,6 +56,14 @@ namespace Abyss.Runtime.Persistence
             Normalize();
             AudioManager.Instance.SetVolumes(Master, Music, Effects);
             AudioManager.Instance.SetMuted(Muted);
+            if (Application.isMobilePlatform)
+            {
+                // Mobile ignores vSyncCount; the frame cap is the only pacing control, and the screen must not dim mid-battle.
+                QualitySettings.vSyncCount = 0;
+                Application.targetFrameRate = BatterySaver ? 30 : 60;
+                Screen.sleepTimeout = SleepTimeout.NeverSleep;
+                return;
+            }
             QualitySettings.vSyncCount = 1;
             Application.targetFrameRate = 60;
             if (!Application.isEditor)
