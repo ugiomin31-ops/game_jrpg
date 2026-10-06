@@ -293,6 +293,7 @@ namespace Abyss.Presentation.Vfx
             if (resource == null) throw new InvalidOperationException("Missing VFX texture: " + texture);
             material = new Material(_shader) { name = "VFX " + key, mainTexture = resource };
             material.SetFloat("_DstBlend", (float)(alpha ? BlendMode.OneMinusSrcAlpha : BlendMode.One));
+            material.SetFloat("_Additive", alpha ? 0f : 1f);
             _materials.Add(key, material);
             return material;
         }
