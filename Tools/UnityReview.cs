@@ -9,6 +9,8 @@ using System.Reflection;
 using Abyss.Logic;
 using Abyss.Runtime.Art;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Abyss.Presentation.Vfx;
 using UnityEditor;
 using UnityEngine;
 
@@ -56,6 +58,32 @@ public static class UnityReview
     static void Require(string path, List<string> problems)
     {
         if (!ArtLibrary.Exists(path)) problems.Add("Missing catalog asset: " + path);
+    }
+
+    public static object AuditEffects()
+    {
+        if (!Application.isPlaying) throw new InvalidOperationException("Enter Play mode before instantiating effects.");
+        Directory.CreateDirectory(Output);
+        var library = VfxLibrary.Create();
+        var problems = new List<string>();
+        var effects = (JArray)JObject.Parse(Resources.Load<TextAsset>("Vfx/effects").text)["effects"];
+        foreach (var effect in effects)
+        {
+            string key = (string)effect["key"];
+            try
+            {
+                foreach (var layer in effect["layers"])
+                    if (Resources.Load<Texture2D>("Vfx/Textures/" + (string)layer["texture"]) == null)
+                        problems.Add("Missing texture: " + key + "/" + layer["texture"]);
+                var handle = library.Play(key, new Vector3(500, 500, 500), duration: .05f);
+                if (!handle.IsPlaying) problems.Add("Effect did not start: " + key);
+                handle.Stop();
+            }
+            catch (Exception error) { problems.Add(key + ": " + error.Message); }
+        }
+        var report = new { unity = Application.unityVersion, effects = effects.Count, problems };
+        File.WriteAllText(Output + "/vfx-audit.json", JsonConvert.SerializeObject(report, Formatting.Indented));
+        return report;
     }
 
     public static object Gallery(string category)
