@@ -59,6 +59,9 @@ namespace Abyss.Runtime.Battle
         float FramingFov => UIRoot.TouchFirst && _camera != null
             ? Mathf.Atan(Mathf.Tan(CameraFov * Mathf.Deg2Rad * .5f) * Mathf.Max(1f, (20f / 9f) / _camera.aspect)) * 2f * Mathf.Rad2Deg
             : CameraFov;
+        // The full-height command panel starts farther left on a tablet than on
+        // a compact phone. Move the shot as well as widening it to reserve that space.
+        Vector3 FramingOffset => UIRoot.TouchFirst && !UIRoot.Compact ? Vector3.right * 1.5f : Vector3.zero;
         float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
@@ -867,8 +870,8 @@ namespace Abyss.Runtime.Battle
         }
         void Establishing(bool instant)
         {
-            _cameraPosition = transform.TransformPoint(CameraHome);
-            _cameraLook = transform.TransformPoint(CameraAim); _fov = FramingFov;
+            _cameraPosition = transform.TransformPoint(CameraHome + FramingOffset);
+            _cameraLook = transform.TransformPoint(CameraAim + FramingOffset); _fov = FramingFov;
             if (instant) SetCamera();
         }
         void ActiveShot(BattleDisplayUnit actor, BattleDisplayUnit target, bool ultimate)
@@ -879,8 +882,8 @@ namespace Abyss.Runtime.Battle
             // Keep the four-hero establishing composition; action emphasis is a small dolly, not a cut.
             Vector3 emphasis = new Vector3(Mathf.Clamp(local.x - CameraAim.x, -3f, 3f) * .16f, 0,
                 Mathf.Clamp(local.z, -3f, 3f) * .1f);
-            _cameraPosition = transform.TransformPoint(CameraHome + emphasis);
-            _cameraLook = transform.TransformPoint(CameraAim + emphasis);
+            _cameraPosition = transform.TransformPoint(CameraHome + FramingOffset + emphasis);
+            _cameraLook = transform.TransformPoint(CameraAim + FramingOffset + emphasis);
             _fov = ultimate ? FramingFov - 5f : FramingFov - 2f;
         }
         void SetCamera()
