@@ -75,3 +75,7 @@ Evidence class: directly inspected project code, production outputs and local ex
 ## Permanently excluded
 
 No permanent product exclusions have been confirmed in this conversation.
+
+### Phone-first UI, battle staging, VFX and balance pass — verified (headless phone-size web build) — 2026-10-07
+- Build e996880 (GitHub Actions) opened in headless Chromium emulating a 915x412 landscape phone: title (big bottom-left buttons, no quit), difficulty menu (back button top-left, card rows, no key hints), story, town (64-unit facility buttons), dungeon HUD (zoomed 9-cell minimap, chest/lore stone against the wall), battle (portrait turn order, closer camera, slim enemy plates, compact party cards), auto-battle (holy light pillar, warrior dash, enemy dash) and the result window (portraits, XP, gold) were observed.
+- Found and fixed afterwards (71bb863): hidden party-card names, story text taps ignored, duplicated action log line, clipped command description. Battle intro/victory camera and projectiles were not caught on screen (headless rendering is too slow to sample them); APK not installed on a device.
