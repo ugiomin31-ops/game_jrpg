@@ -21,7 +21,7 @@ namespace Abyss.UI
         [SerializeField] Image _icon;
         [SerializeField] bool _interactable = true;
         bool _hover, _pressed, _focused, _repeated;
-        float _repeatAt;
+        float _repeatAt, _nextClickAt;
         internal string DisabledReason { get; set; }
 
         /// <summary>Seconds between repeated clicks while a pointer or finger is held on the button (0 = off).
@@ -68,9 +68,9 @@ namespace Abyss.UI
             var hit = gameObject.AddComponent<Image>();
             hit.color = Color.clear;
             _visual = UIFactory.Rect(rt, "Visual").Stretch();
-            _glow = UIFactory.Image(_visual, UISprites.FocusGlow, new Color(1f, 1f, 1f, 0f), "Glow");
-            _glow.rectTransform.Outset(22f);
-            _background = UIFactory.Image(_visual, UISprites.ButtonNormal, Color.white, "Background");
+            _glow = UIFactory.Image(_visual, UISprites.PanelOutline, UITheme.Dawn.WithAlpha(0f), "Glow");
+            _glow.rectTransform.Outset(2f);
+            _background = UIFactory.Image(_visual, UISprites.PanelWhite, UITheme.SurfaceRaised, "Background");
             _background.rectTransform.Stretch();
             var row = UIFactory.HStack(_visual, 10f, null, TextAnchor.MiddleCenter, "Content");
             row.Rt().Stretch(18f, 4f, 18f, 4f);
@@ -97,6 +97,8 @@ namespace Abyss.UI
         /// <summary>Activates the button as if clicked (press bounce, sound, event). Plays a buzzer when not interactable.</summary>
         public void Click()
         {
+            if (HoldRepeat <= 0f && Time.unscaledTime < _nextClickAt) return;
+            _nextClickAt = Time.unscaledTime + 0.25f;
             UIInput.Consume();
             if (!_interactable)
             {
@@ -117,9 +119,9 @@ namespace Abyss.UI
         void ApplyState(bool instant)
         {
             if (_background == null) return;
-            _background.sprite = !_interactable ? UISprites.ButtonDisabled
-                : _pressed ? UISprites.ButtonPressed
-                : Highlighted ? UISprites.ButtonHover : UISprites.ButtonNormal;
+            _background.sprite = UISprites.PanelWhite;
+            _background.color = !_interactable ? UITheme.Surface.WithAlpha(0.7f)
+                : _pressed ? UITheme.SurfaceSelected : Highlighted ? UITheme.SurfaceSelected : UITheme.SurfaceRaised;
             _label.color = !_interactable ? UITheme.TextDisabled : Highlighted ? UITheme.DawnBright : UITheme.Text;
             if (_icon != null) _icon.color = _interactable ? Color.white : new Color(0.45f, 0.45f, 0.5f, 0.8f);
             float scale = ReducedMotion ? 1f : _pressed && _interactable ? 0.97f : Highlighted ? 1.015f : 1f;
@@ -129,7 +131,7 @@ namespace Abyss.UI
             if (instant || !Application.isPlaying)
             {
                 _visual.localScale = new Vector3(scale, scale, 1f);
-                _glow.color = new Color(1f, 1f, 1f, glow);
+                _glow.color = UITheme.Dawn.WithAlpha(glow * 0.75f);
                 return;
             }
             UITween.Scale(_visual, scale, ReducedMotion ? 0f : _pressed ? 0.06f : 0.14f, UIEase.OutCubic);

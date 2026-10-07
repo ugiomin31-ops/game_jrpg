@@ -28,7 +28,8 @@
    "slime_gel": 2
   },
   "craft_gold": 150,
-  "_file": "acc_antidote_ring"
+  "_file": "acc_antidote_ring",
+  "rarity": 1
  },
  {
   "id": "acc_awake_bell",
@@ -55,7 +56,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_awake_bell"
+  "_file": "acc_awake_bell",
+  "rarity": 1
  },
  {
   "id": "acc_clarity_earring",
@@ -83,7 +85,8 @@
   "shop_tier": 4,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_clarity_earring"
+  "_file": "acc_clarity_earring",
+  "rarity": 2
  },
  {
   "id": "acc_eagle_eye",
@@ -108,7 +111,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_eagle_eye"
+  "_file": "acc_eagle_eye",
+  "rarity": 2
  },
  {
   "id": "acc_flame_amulet",
@@ -138,7 +142,8 @@
    "magma_core": 2
   },
   "craft_gold": 900,
-  "_file": "acc_flame_amulet"
+  "_file": "acc_flame_amulet",
+  "rarity": 2
  },
  {
   "id": "acc_frost_amulet",
@@ -168,7 +173,8 @@
    "coral_shard": 2
   },
   "craft_gold": 400,
-  "_file": "acc_frost_amulet"
+  "_file": "acc_frost_amulet",
+  "rarity": 1
  },
  {
   "id": "acc_guardian_ring",
@@ -200,7 +206,8 @@
    "ember_crystal": 1
   },
   "craft_gold": 2500,
-  "_file": "acc_guardian_ring"
+  "_file": "acc_guardian_ring",
+  "rarity": 3
  },
  {
   "id": "acc_hero_emblem",
@@ -230,7 +237,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 5000,
-  "_file": "acc_hero_emblem"
+  "_file": "acc_hero_emblem",
+  "rarity": 3
  },
  {
   "id": "acc_lucky_charm",
@@ -255,7 +263,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_lucky_charm"
+  "_file": "acc_lucky_charm",
+  "rarity": 1
  },
  {
   "id": "acc_power_band",
@@ -280,7 +289,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_power_band"
+  "_file": "acc_power_band",
+  "rarity": 1
  },
  {
   "id": "acc_sage_pendant",
@@ -305,7 +315,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_sage_pendant"
+  "_file": "acc_sage_pendant",
+  "rarity": 1
  },
  {
   "id": "acc_shadow_amulet",
@@ -335,7 +346,8 @@
    "old_bone": 2
   },
   "craft_gold": 1500,
-  "_file": "acc_shadow_amulet"
+  "_file": "acc_shadow_amulet",
+  "rarity": 2
  },
  {
   "id": "acc_wind_boots",
@@ -360,7 +372,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_wind_boots"
+  "_file": "acc_wind_boots",
+  "rarity": 2
  },
  {
   "id": "armor_chain",
@@ -387,7 +400,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_chain"
+  "_file": "armor_chain",
+  "rarity": 0
  },
  {
   "id": "armor_dawn",
@@ -418,7 +432,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2200,
-  "_file": "armor_dawn"
+  "_file": "armor_dawn",
+  "rarity": 3
  },
  {
   "id": "armor_dragon",
@@ -445,7 +460,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_dragon"
+  "_file": "armor_dragon",
+  "rarity": 2
  },
  {
   "id": "armor_plate",
@@ -472,7 +488,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_plate"
+  "_file": "armor_plate",
+  "rarity": 1
  },
  {
   "id": "armor_scale",
@@ -499,7 +516,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_scale"
+  "_file": "armor_scale",
+  "rarity": 0
  },
  {
   "id": "bow_composite",
@@ -526,7 +544,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_composite"
+  "_file": "bow_composite",
+  "rarity": 1
  },
  {
   "id": "bow_gale",
@@ -553,7 +572,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_gale"
+  "_file": "bow_gale",
+  "rarity": 2
  },
  {
   "id": "bow_hunter",
@@ -580,7 +600,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_hunter"
+  "_file": "bow_hunter",
+  "rarity": 0
  },
  {
   "id": "bow_short",
@@ -607,7 +628,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_short"
+  "_file": "bow_short",
+  "rarity": 0
  },
  {
   "id": "bow_star",
@@ -638,7 +660,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2400,
-  "_file": "bow_star"
+  "_file": "bow_star",
+  "rarity": 3
  },
  {
   "id": "garb_dawn",
@@ -669,7 +692,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2100,
-  "_file": "garb_dawn"
+  "_file": "garb_dawn",
+  "rarity": 3
  },
  {
   "id": "garb_leather",
@@ -696,7 +720,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_leather"
+  "_file": "garb_leather",
+  "rarity": 0
  },
  {
   "id": "garb_ranger",
@@ -723,7 +748,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_ranger"
+  "_file": "garb_ranger",
+  "rarity": 0
  },
  {
   "id": "garb_shadow",
@@ -750,7 +776,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_shadow"
+  "_file": "garb_shadow",
+  "rarity": 1
  },
  {
   "id": "garb_wind",
@@ -777,7 +804,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_wind"
+  "_file": "garb_wind",
+  "rarity": 2
  },
  {
   "id": "mace_blessed",
@@ -804,7 +832,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_blessed"
+  "_file": "mace_blessed",
+  "rarity": 1
  },
  {
   "id": "mace_dawn",
@@ -835,7 +864,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2400,
-  "_file": "mace_dawn"
+  "_file": "mace_dawn",
+  "rarity": 3
  },
  {
   "id": "mace_saint",
@@ -862,7 +892,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_saint"
+  "_file": "mace_saint",
+  "rarity": 2
  },
  {
   "id": "mace_silver",
@@ -889,7 +920,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_silver"
+  "_file": "mace_silver",
+  "rarity": 0
  },
  {
   "id": "mace_wood",
@@ -916,7 +948,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_wood"
+  "_file": "mace_wood",
+  "rarity": 0
  },
  {
   "id": "robe_cloth",
@@ -944,7 +977,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_cloth"
+  "_file": "robe_cloth",
+  "rarity": 0
  },
  {
   "id": "robe_dawn",
@@ -976,7 +1010,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2000,
-  "_file": "robe_dawn"
+  "_file": "robe_dawn",
+  "rarity": 3
  },
  {
   "id": "robe_mystic",
@@ -1004,7 +1039,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_mystic"
+  "_file": "robe_mystic",
+  "rarity": 1
  },
  {
   "id": "robe_sage",
@@ -1032,7 +1068,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_sage"
+  "_file": "robe_sage",
+  "rarity": 2
  },
  {
   "id": "robe_silk",
@@ -1060,7 +1097,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_silk"
+  "_file": "robe_silk",
+  "rarity": 0
  },
  {
   "id": "staff_crystal",
@@ -1087,7 +1125,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_crystal"
+  "_file": "staff_crystal",
+  "rarity": 0
  },
  {
   "id": "staff_oak",
@@ -1114,7 +1153,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_oak"
+  "_file": "staff_oak",
+  "rarity": 0
  },
  {
   "id": "staff_ruby",
@@ -1141,7 +1181,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_ruby"
+  "_file": "staff_ruby",
+  "rarity": 2
  },
  {
   "id": "staff_sage",
@@ -1168,7 +1209,8 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_sage"
+  "_file": "staff_sage",
+  "rarity": 1
  },
  {
   "id": "staff_starlight",
@@ -1199,7 +1241,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2400,
-  "_file": "staff_starlight"
+  "_file": "staff_starlight",
+  "rarity": 3
  },
  {
   "id": "sword_bronze",
@@ -1226,7 +1269,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_bronze"
+  "_file": "sword_bronze",
+  "rarity": 0
  },
  {
   "id": "sword_dawn",
@@ -1257,7 +1301,8 @@
    "abyss_crystal": 1
   },
   "craft_gold": 2400,
-  "_file": "sword_dawn"
+  "_file": "sword_dawn",
+  "rarity": 3
  },
  {
   "id": "sword_flamberge",
@@ -1284,7 +1329,8 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_flamberge"
+  "_file": "sword_flamberge",
+  "rarity": 2
  },
  {
   "id": "sword_iron",
@@ -1311,7 +1357,8 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_iron"
+  "_file": "sword_iron",
+  "rarity": 0
  },
  {
   "id": "sword_knight",
@@ -1338,6 +1385,7 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_knight"
+  "_file": "sword_knight",
+  "rarity": 1
  }
 ]

@@ -140,6 +140,17 @@ namespace Abyss.Logic.Game
             return output;
         }
 
+        /// <summary>Pure equip/unequip preview. Uses the same clamps, resistances and immunities as battle stats.</summary>
+        public static HeroStats PreviewEquipment(GameDB db, HeroState hero, string slot, string equipmentId)
+        {
+            if (Array.IndexOf(GameState.EquipSlots, slot) < 0) throw new ArgumentException("Unknown equipment slot", nameof(slot));
+            if (!string.IsNullOrEmpty(equipmentId) && (!db.Equipment.TryGetValue(equipmentId, out var piece)
+                || piece.Slot != slot || !AllowsClass(piece, hero.Id))) throw new ArgumentException("Incompatible equipment", nameof(equipmentId));
+            var preview = new HeroState { Id = hero.Id, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment) };
+            preview.Equipment[slot] = equipmentId ?? "";
+            return EffectiveStats(db, preview);
+        }
+
         /// <summary>Effective stats by hero id.</summary>
         public static HeroStats EffectiveStats(GameDB db, GameState state, string heroId) => EffectiveStats(db, state.Hero(heroId));
 

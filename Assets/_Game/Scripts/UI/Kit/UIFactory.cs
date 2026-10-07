@@ -123,13 +123,13 @@ namespace Abyss.UI
             bg.color = Color.white;
             switch (style)
             {
-                case UIPanelStyle.Glass: bg.sprite = UISprites.PanelGlass; break;
-                case UIPanelStyle.Ornate: bg.sprite = UISprites.PanelOrnate; break;
-                case UIPanelStyle.Tooltip: bg.sprite = UISprites.Tooltip; break;
-                case UIPanelStyle.Slot: bg.sprite = UISprites.Slot; break;
+                case UIPanelStyle.Glass: bg.sprite = UISprites.PanelWhite; bg.color = UITheme.Surface.WithAlpha(0.96f); break;
+                case UIPanelStyle.Ornate: bg.sprite = UISprites.PanelWhite; bg.color = UITheme.Surface; break;
+                case UIPanelStyle.Tooltip: bg.sprite = UISprites.PanelWhite; bg.color = UITheme.SurfaceRaised; break;
+                case UIPanelStyle.Slot: bg.sprite = UISprites.PanelWhite; bg.color = UITheme.Ink; break;
                 case UIPanelStyle.Dark:
                     bg.sprite = UISprites.PanelWhite;
-                    bg.color = new Color(0.02f, 0.03f, 0.09f, 0.55f);
+                    bg.color = UITheme.Ink.WithAlpha(0.65f);
                     bg.pixelsPerUnitMultiplier = 1.6f;
                     break;
             }
@@ -172,7 +172,7 @@ namespace Abyss.UI
         /// <summary>Gold flourish separator line, centred, <paramref name="width"/> wide.</summary>
         public static Image Separator(Transform parent, float width = 420f, string name = "Separator")
         {
-            var img = Image(parent, UISprites.Separator, Color.white, name);
+            var img = Image(parent, UISprites.GlowLine, UITheme.Border.WithAlpha(0.6f), name);
             img.rectTransform.sizeDelta = new Vector2(width, 24f);
             return img;
         }

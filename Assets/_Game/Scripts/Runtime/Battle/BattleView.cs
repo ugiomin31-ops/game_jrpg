@@ -92,6 +92,7 @@ namespace Abyss.Runtime.Battle
             _hud.EnableSpeedToggle(SpeedLabel, ToggleSpeed);
             _flash = UIFactory.Fill(app.UI.Content, new Color(1, 1, 1, 0), "Battle flash");
             Engine = new BattleEngine(app.DB, setup);
+            Auto = app.Preferences.AutoBattle; _hud.SetAuto(Auto);
             string music = setup.Kind == BattleKind.Boss ? "bgm_boss" : "bgm_battle";
             if (floor.Index == 11 && setup.Kind == BattleKind.Boss) music = "bgm_finalboss";
             AudioManager.Instance.PlayBgm(music);
@@ -103,13 +104,29 @@ namespace Abyss.Runtime.Battle
         public void Submit(BattleCommand command)
         {
             if (_finished || Playing || _app.Paused || Engine.State != BattleEngineState.AwaitingCommand) return;
-            _hud.Lock(); Playing = true;
-            StartCoroutine(Replay(Engine.Submit(command), false));
+            var actor = Engine.ActiveHero;
+            var names = new List<string>();
+            foreach (var target in Engine.ValidTargets(actor, command))
+                if (command.TargetId == null || command.TargetId == target.Id) names.Add(target.DisplayName);
+            string label = command.Kind == CommandKind.Guard ? "방어" : command.Kind == CommandKind.Flee ? "도주 시도" : "공격";
+            string cost = "";
+            if (command.Kind == CommandKind.Skill && _app.DB.Skills.TryGetValue(command.SkillId, out var skill))
+            { label = skill.DisplayName; cost = $"MP {skill.MpCost} · TP {skill.TpCost}\n{skill.Description}\n"; }
+            if (command.Kind == CommandKind.Item && _app.DB.Items.TryGetValue(command.ItemId, out var item))
+            { label = item.DisplayName; cost = $"아이템 1개 소비\n{item.Description}\n"; }
+            UIModal.Confirm(_ui.Modals, "행동 확인", $"{actor.DisplayName} · {label}\n대상 · {string.Join(" · ", names)}\n{cost}\n이 행동을 실행할까요?", yes =>
+            {
+                if (_finished || Playing || Engine.State != BattleEngineState.AwaitingCommand) return;
+                if (!yes) { _hud.ShowCommands(Engine); return; }
+                _hud.Lock(); Playing = true;
+                StartCoroutine(Replay(Engine.Submit(command), false));
+            });
         }
         public void SetAuto(bool enabled)
         {
             if (_finished) return;
             Auto = enabled; _hud.SetAuto(enabled);
+            _app.Preferences.AutoBattle = enabled; _app.SavePreferences();
             if (enabled && !Playing && Engine.State == BattleEngineState.AwaitingCommand)
             {
                 _hud.Lock(); Playing = true; StartCoroutine(AutoInput());
@@ -320,7 +337,7 @@ namespace Abyss.Runtime.Battle
                 case MessageEvent e:
                     _hud.Log(e.Text); break;
                 case CommandRejectedEvent e:
-                    Auto = false; _hud.SetAuto(false); _hud.Log(e.Text); _ui.Toast.Show(e.Text);
+                    SetAuto(false); _hud.Log(e.Text); _ui.Toast.Show(e.Text);
                     yield return Wait(.3f); break;
                 case FleeEvent e:
                     _hud.Log(e.Success ? "도주 성공" : "도주 실패");
@@ -696,7 +713,7 @@ namespace Abyss.Runtime.Battle
 
         IEnumerator Finish(BattleOutcome outcome)
         {
-            _hud.Lock(); Auto = false; _hud.SetAuto(false); Establishing(false);
+            _hud.Lock(); Establishing(false);
             if (!Reduced) StageOutcome(outcome.Result);
             foreach (var unit in _units.Values)
                 if (unit.Side == BattleSide.Party && unit.Alive)

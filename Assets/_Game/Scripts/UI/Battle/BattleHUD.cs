@@ -386,7 +386,7 @@ namespace Abyss.UI.Battle
             _speedButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-266, -12) : new Vector2(-306, -26), Compact ? new Vector2(150, 64) : new Vector2(150, 62));
         }
         public void SetSpeedLabel(string label) { if (_speedButton != null) _speedButton.SetLabel(label); }
-        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? (TouchUI ? "자동: ON · 탭하여 해제" : "자동: ON · Esc 취소") : "자동: OFF"); }
+        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? "자동전투 ON" : "자동전투 OFF"); }
         void ToggleAuto() { if (!Paused) _toggleAuto?.Invoke(); }
         public void Lock()
         {
@@ -410,7 +410,7 @@ namespace Abyss.UI.Battle
             Add("아이템", "보유한 소비 아이템을 사용합니다.", true, null, Items, icon: UIArtwork.Command("item"));
             Add("방어", "다음 턴까지 받는 피해를 줄입니다.", options.CanGuard, null, () => Targets(BattleCommand.Guard()), icon: UIArtwork.Command("guard"));
             Add("도주", "전투에서 도주를 시도합니다.", options.CanFlee, options.FleeReasonKey, () => Targets(BattleCommand.Flee()), icon: UIArtwork.Command("flee"));
-            Add("자동 " + (_auto ? "OFF" : "ON"), "자동 전투를 켜거나 끕니다. 언제든 우측 상단 버튼으로 취소할 수 있습니다.", true, null, ToggleAuto, icon: UIArtwork.Command("auto"));
+            Add("자동 " + (_auto ? "OFF" : "ON"), "자동 전투 설정은 다음 전투에도 유지됩니다. 회복·해제·약점·버프를 판단하며, 소모 아이템은 직접 사용하세요. 상단 버튼으로 끌 수 있습니다.", true, null, ToggleAuto, icon: UIArtwork.Command("auto"));
             Render();
         }
         void Skills(bool ultimate, Action back = null)
@@ -616,127 +616,117 @@ namespace Abyss.UI.Battle
         public void HideSkillBanner() { if (_banner != null) _banner.gameObject.SetActive(false); }
         public void Rewards(BattleOutcome outcome, Abyss.Logic.Game.BattleReport report, Action confirmed)
         {
-            Lock();
-            HideSkillBanner();
+            Lock(); HideSkillBanner();
             if (_logPanel != null) _logPanel.gameObject.SetActive(false);
             _autoButton.gameObject.SetActive(false);
             if (_speedButton != null) _speedButton.gameObject.SetActive(false);
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
-            UIFactory.Fill(_reward, new Color(0, 0, 0, .72f), raycast: true);
-            var panel = UIFactory.Panel(_reward, UIPanelStyle.Ornate);
+            UIFactory.Fill(_reward, UITheme.Ink.WithAlpha(0.8f), raycast: true);
+            var panel = UIFactory.Panel(_reward, name: "Result dashboard");
             bool victory = outcome.Result == BattleResult.Victory;
-            var panelSize = Compact ? new Vector2(1180, 820) : new Vector2(1000, victory ? 800 : 640);
+            var panelSize = new Vector2(1240, 800);
             panel.Rect.Place(UIAnchor.Center, Vector2.zero, panelSize);
-            UITween.Kill(panel.Rect);
-            panel.Rect.localScale = Vector3.one * 0.86f;
-            UITween.Scale(panel.Rect, 1f, 0.25f, UIEase.OutBack);
-            string heading = victory ? "승리" : outcome.Result == BattleResult.Defeat ? "패배" : "도주 성공";
-            UIFactory.Label(panel.transform, heading, 56, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Glow).Rt().TopStrip(72, 24, 24, 24);
-            UIFactory.Separator(panel.transform, 600).Rt().Place(UIAnchor.Top, new Vector2(0, -104), new Vector2(600, 24));
-            float textTop = 135f;
-            if (victory) { BuildPartyResults(panel.transform, panelSize.x, report, outcome); textTop = 318f; }
-            if (victory && BuildDropIcons(panel.transform, report, textTop)) textTop += 104f;
-            _rewardScroll = UIFactory.ScrollView(panel.transform, out var rewardContent, name: "Battle rewards");
-            _rewardScroll.Rt().Stretch(50, textTop, 50, 160);
-            _rewardText = UIFactory.Paragraph(rewardContent, "", 27);
+            bool reduced = UIRoot.Instance != null && UIRoot.Instance.ReducedMotion;
+            panel.Rect.localScale = Vector3.one * (reduced ? 1f : 0.98f);
+            UITween.Scale(panel.Rect, 1f, reduced ? 0f : 0.2f, UIEase.OutCubic);
+            string heading = victory ? "전투 승리" : outcome.Result == BattleResult.Defeat ? "다시 준비할 시간" : "전투에서 벗어났습니다";
+            UIFactory.Label(panel.Rect, heading, 44, UIFont.Bold, victory ? UITheme.DawnBright : UITheme.Text,
+                fx: UITextFx.Plain).Rt().TopStrip(62, 22, 36, 36);
+            UIFactory.Label(panel.Rect, victory ? $"획득 골드  {report.Gold:N0} G   ·   생존 동료 EXP +{report.Experience:N0}" : "전투 결과와 탐험 기록을 확인하세요.",
+                25, color: UITheme.TextDim).Rt().TopStrip(38, 86, 36, 36);
+            if (victory) BuildPartyResults(panel.Rect, panelSize.x, report, outcome);
+            var growth = UIFactory.Panel(panel.Rect, UIPanelStyle.Dark, false, "Progression card");
+            growth.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -260), new Vector2(444, 426));
+            UIFactory.Label(growth.Rect, "성장과 탐험 기록", 27, color: UITheme.Text).Rt().TopStrip(46, 12, 22, 22);
+            _rewardScroll = UIFactory.ScrollView(growth.Rect, out var rewardContent, name: "Result progression");
+            _rewardScroll.Rt().Stretch(22, 70, 22, 20);
+            _text.Clear();
+            if (!victory) _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
+            AppendProgression(report);
+            if (_text.Length == 0) _text.Append("탐험 기록이 저장되었습니다.\n다음 모험을 이어가세요.");
+            _rewardText = UIFactory.Paragraph(rewardContent, _text.ToString(), 24);
             _rewardText.overflowMode = TextOverflowModes.Overflow;
-            _rewardCounter = UIFactory.Label(panel.transform, "", 21, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
-            _rewardCounter.Rt().BottomStrip(30, 127, 50, 50);
+
+            var loot = UIFactory.Panel(panel.Rect, UIPanelStyle.Dark, false, "Loot collection");
+            loot.Rect.Place(UIAnchor.TopRight, new Vector2(-32, -260), new Vector2(714, 426));
+            UIFactory.Label(loot.Rect, "획득한 전리품", 27, color: UITheme.Text).Rt().TopStrip(46, 12, 22, 22);
             var drops = new List<KeyValuePair<string, int>>(report.Drops);
+            drops.Sort((a, b) => { int rarity = DropRarity(b.Key).CompareTo(DropRarity(a.Key)); return rarity != 0 ? rarity : string.CompareOrdinal(a.Key, b.Key); });
+            var cards = UIFactory.Rect(loot.Rect, "Loot page").Stretch(18, 70, 18, 48);
+            _rewardCounter = UIFactory.Label(loot.Rect, "", 21, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
+            _rewardCounter.Rt().BottomStrip(32, 8, 130, 130);
             int page = 0;
             Action refresh = () =>
             {
-                _text.Clear();
-                // Victory XP and gold are shown with the portraits above the list; other outcomes get a line.
-                if (outcome.Result != BattleResult.Victory)
-                    _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
-                AppendProgression(report);
-                if (outcome.Result == BattleResult.Victory)
+                for (int i = cards.childCount - 1; i >= 0; i--) { var old = cards.GetChild(i).gameObject; old.SetActive(false); Destroy(old); }
+                int start = page * 6;
+                if (drops.Count == 0) UIFactory.Paragraph(cards, victory ? "획득한 물품이 없습니다." : "골드·EXP·아이템 보상은 없습니다.", 25).Rt().Stretch(18, 20, 18, 20);
+                for (int i = start; i < Math.Min(drops.Count, start + 6); i++)
                 {
-                    _text.Append("\n<b>전리품</b>\n");
-                    if (drops.Count == 0) _text.Append("없음\n");
+                    string id = drops[i].Key;
+                    int rarity = DropRarity(id), index = i - start;
+                    var accent = UITheme.RarityColor(rarity);
+                    var card = UIFactory.Panel(cards, UIPanelStyle.Glass, false, "Drop " + id);
+                    card.Rect.Place(UIAnchor.TopLeft, new Vector2((index % 2) * 342, -(index / 2) * 100), new Vector2(330, 90));
+                    var stripe = UIFactory.Image(card.Rect, UISprites.PanelWhite, accent, "Rarity stripe");
+                    stripe.Rt().Place(UIAnchor.Left, new Vector2(0, 0), new Vector2(4, 70));
+                    var icon = UIFactory.Icon(card.Rect, _db.Items.ContainsKey(id) ? UIArtwork.Item(id) : UIArtwork.Gear(id), 54);
+                    icon.Rt().Place(UIAnchor.Left, new Vector2(14, 0), new Vector2(54, 54));
+                    string name = _db.Items.TryGetValue(id, out var item) ? item.DisplayName : _db.Equipment[id].DisplayName;
+                    var label = UIFactory.Label(card.Rect, name, 23, color: UITheme.Text);
+                    label.Rt().TopStrip(36, 12, 82, 16); label.overflowMode = TextOverflowModes.Ellipsis;
+                    string category = item != null ? item.ItemType == ItemType.Material ? "재료" : "소모품" : "장비";
+                    UIFactory.Label(card.Rect, $"{UITheme.RarityName(rarity)} · {category}   ×{drops[i].Value}", 20, color: accent).Rt().BottomStrip(30, 12, 82, 16);
+                    // Every card can reveal its complete name and description, even if the grid title is truncated.
+                    var hit = card.gameObject.AddComponent<UnityEngine.UI.Button>();
+                    hit.transition = UnityEngine.UI.Selectable.Transition.None;
+                    hit.navigation = new Navigation { mode = Navigation.Mode.None };
+                    string description = item != null ? item.Description : _db.Equipment[id].Description;
+                    hit.onClick.AddListener(() => { if (!Paused) UIModal.Alert(UIRoot.Instance.Modals, name, $"{UITheme.RarityName(rarity)} · {category}\n\n{description}"); });
                 }
-                for (int i = page * 10; i < Math.Min(drops.Count, (page + 1) * 10); i++)
-                {
-                    string name = _db.Items.TryGetValue(drops[i].Key, out var item) ? item.DisplayName :
-                        _db.Equipment.TryGetValue(drops[i].Key, out var equipment) ? equipment.DisplayName :
-                        throw new InvalidOperationException("Reward content is missing from the game database.");
-                    _text.Append(name).Append(" ×").Append(drops[i].Value).Append('\n');
-                }
-                _rewardText.text = _text.ToString();
-                string scrollHint = TouchUI ? "위아래로 끌어 보기" : "↑↓ 상세 스크롤";
-                _rewardCounter.text = drops.Count > 10 ? $"전리품 {page + 1} / {(drops.Count + 9) / 10} · {scrollHint}" : scrollHint + " · 확인하면 모험을 계속합니다.";
-                LayoutRebuilder.ForceRebuildLayoutImmediate(_rewardScroll.content);
-                _rewardScroll.StopMovement();
-                _rewardScroll.verticalNormalizedPosition = 1f;
+                _rewardCounter.text = drops.Count == 0 ? "보상 없음" : $"{page + 1} / {Math.Max(1, (drops.Count + 5) / 6)}   ·   {drops.Count}종 획득";
             };
-            _rewardPage = delta =>
-            {
-                if (Paused) return;
-                page = Mathf.Clamp(page + delta, 0, Math.Max(0, (drops.Count - 1) / 10)); refresh();
-            };
-            if (drops.Count > 10)
-            {
-                UIFactory.Button(panel.transform, "이전 전리품 · Q / LB", () => _rewardPage(-1))
-                    .Rt().Place(UIAnchor.BottomLeft, new Vector2(40, 90), new Vector2(300, 50));
-                UIFactory.Button(panel.transform, "다음 전리품 · E / RB", () => _rewardPage(1))
-                    .Rt().Place(UIAnchor.BottomRight, new Vector2(-40, 90), new Vector2(300, 50));
-            }
+            _rewardPage = delta => { if (!Paused) { page = Mathf.Clamp(page + delta, 0, Math.Max(0, (drops.Count - 1) / 6)); refresh(); } };
+            var previous = UIFactory.Button(loot.Rect, "◀", () => _rewardPage(-1));
+            previous.Rt().Place(UIAnchor.BottomLeft, new Vector2(18, 6), new Vector2(94, 38));
+            var next = UIFactory.Button(loot.Rect, "▶", () => _rewardPage(1));
+            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-18, 6), new Vector2(94, 38));
+            previous.gameObject.SetActive(drops.Count > 6); next.gameObject.SetActive(drops.Count > 6);
             refresh();
-            var ok = UIFactory.Button(panel.transform, "확인 · 계속", () => { if (Paused) return; UIInput.Consume(); confirmed(); });
-            ok.Rt().Place(UIAnchor.Bottom, new Vector2(0, 26), new Vector2(350, 60));
+            UIFactory.Label(panel.Rect, TouchUI ? "전리품을 탭하면 상세 보기 · 기록은 끌어서 스크롤" : "↑↓ 기록 스크롤 · Q/E 또는 LB/RB 전리품 페이지",
+                21, color: UITheme.TextDim).Rt().BottomStrip(34, 82, 36, 36);
+            bool answered = false;
+            float acceptAfter = Time.unscaledTime + 0.4f;
+            var ok = UIFactory.Button(panel.Rect, "모험 계속", () =>
+            { if (Paused || answered || Time.unscaledTime < acceptAfter) return; answered = true; UIInput.Consume(); confirmed(); });
+            ok.Rt().Place(UIAnchor.BottomRight, new Vector2(-36, 18), new Vector2(312, 58));
             _buttons.Clear(); _buttons.Add(ok); _focus = 0; ok.Focused = true;
-            _openedFrame = Time.frameCount;
+            _openedFrame = Time.frameCount; UIInput.Consume();
         }
 
-        /// <summary>Spoils as a centred row of item icons with counts that pop in one by one; false when nothing dropped.</summary>
-        bool BuildDropIcons(Transform panel, Abyss.Logic.Game.BattleReport report, float top)
-        {
-            var drops = new List<KeyValuePair<string, int>>(report.Drops);
-            if (drops.Count == 0) return false;
-            const float size = 88f, gap = 18f;
-            int shown = Math.Min(drops.Count, 9);
-            float x0 = -(shown * size + (shown - 1) * gap) / 2f + size / 2f;
-            for (int i = 0; i < shown; i++)
-            {
-                string id = drops[i].Key;
-                var slot = UIFactory.IconSlot(panel, size, _db.Items.ContainsKey(id) ? UIArtwork.Item(id) : UIArtwork.Gear(id));
-                slot.Rt().Place(UIAnchor.Top, new Vector2(0.5f, 1f), new Vector2(x0 + i * (size + gap), -top), new Vector2(size, size));
-                slot.SetCount(drops[i].Value);
-                slot.transform.localScale = Vector3.zero;
-                UITween.Scale(slot.transform, 1f, 0.32f, UIEase.OutBack, 0.35f + i * 0.08f);
-            }
-            return true;
-        }
+        int DropRarity(string id) => _db.Items.TryGetValue(id, out var item) ? item.Rarity : _db.Equipment.TryGetValue(id, out var gear) ? gear.Rarity : 0;
 
-        /// <summary>Victory header: each hero's portrait with XP gained, LEVEL UP badges and the gold total.</summary>
         void BuildPartyResults(Transform panel, float width, Abyss.Logic.Game.BattleReport report, BattleOutcome outcome)
         {
             var heroes = new List<Card>();
             foreach (var card in _cards.Values) if (card.Unit.Side == BattleSide.Party) heroes.Add(card);
-            float column = (width - 100f) / Math.Max(1, heroes.Count);
+            heroes.Sort((a, b) => a.Unit.Slot.CompareTo(b.Unit.Slot));
+            float column = (width - 64) / Math.Max(1, heroes.Count);
             for (int i = 0; i < heroes.Count; i++)
             {
                 var card = heroes[i];
-                var slot = UIFactory.Rect(panel, "Result " + card.Unit.Name);
-                slot.Place(UIAnchor.TopLeft, new Vector2(50f + i * column, -130f), new Vector2(column, 150f));
-                var face = UIFactory.Portrait(slot, 84f);
-                face.Rt().Place(UIAnchor.Top, Vector2.zero, new Vector2(84f, 84f));
+                var slot = UIFactory.Panel(panel, UIPanelStyle.Glass, false, "Growth " + card.Unit.Name).Rect;
+                slot.Place(UIAnchor.TopLeft, new Vector2(32 + i * column, -142), new Vector2(column - 12, 98));
+                var face = UIFactory.Portrait(slot, 64);
+                face.Rt().Place(UIAnchor.Left, new Vector2(12, 0), new Vector2(64, 64));
                 face.SetSprite(UIArtwork.Hero(card.Unit.DefId));
+                UIFactory.Label(slot, card.Unit.Name, 24).Rt().TopStrip(32, 12, 88, 12);
                 int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
-                var xp = UIFactory.Label(slot, finalHp > 0 ? $"+{report.Experience} XP" : "전투불능", 24, UIFont.Heavy,
-                    finalHp > 0 ? UITheme.Text : UITheme.TextDisabled, TextAlignmentOptions.Center, UITextFx.Outline);
-                xp.Rt().BottomStrip(34, 26, 0, 0);
-                Abyss.Logic.Game.LevelUpReport level = null;
-                foreach (var l in report.LevelUps) if (l.HeroId == card.Unit.DefId) level = l;
-                if (level == null) continue;
-                var badge = UIFactory.Label(slot, $"LEVEL UP!  Lv.{level.NewLevel}", 22, UIFont.Title, UITheme.Dawn, TextAlignmentOptions.Center, UITextFx.Glow);
-                badge.Rt().BottomStrip(28, 0, 0, 0);
-                badge.transform.localScale = Vector3.one * 1.6f;
-                UITween.Scale(badge.transform, 1f, 0.35f, UIEase.OutBack, 0.25f + i * 0.08f);
+                string summary = finalHp > 0 ? $"EXP +{report.Experience:N0}" : "전투불능 · EXP 없음";
+                foreach (var level in report.LevelUps) if (level.HeroId == card.Unit.DefId) summary = $"Lv.{level.OldLevel} → {level.NewLevel}  성장!";
+                var label = UIFactory.Label(slot, summary, 20, color: finalHp > 0 ? UITheme.Positive : UITheme.TextDisabled);
+                label.Rt().BottomStrip(36, 12, 88, 12); label.overflowMode = TextOverflowModes.Ellipsis;
             }
-            var gold = UIFactory.Label(panel, $"획득 골드  {report.Gold:N0} G", 30, UIFont.Heavy, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Outline);
-            gold.Rt().TopStrip(40, 276, 40, 40);
         }
 
         void AppendProgression(Abyss.Logic.Game.BattleReport report)

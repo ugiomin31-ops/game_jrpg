@@ -46,7 +46,7 @@ namespace Abyss.UI
             back.Rt().Place(UIAnchor.TopLeft, new Vector2(22, -18), new Vector2(232, 84));
             back.gameObject.SetActive(AllowCancel);
             float titleLeft = AllowCancel ? 280f : 40f;
-            heading = UIFactory.Label(frame.Rect, Title, 44, UIFont.Title, UITheme.GoldBright, fx: UITextFx.Outline);
+            heading = UIFactory.Label(frame.Rect, Title, 44, UIFont.Bold, UITheme.Text, fx: UITextFx.Plain);
             heading.Rt().TopStrip(60, 14, titleLeft, 40);
             heading.overflowMode = TextOverflowModes.Ellipsis;
             subtitle = UIFactory.Label(frame.Rect, Subtitle ?? "", 25, UIFont.Bold, UITheme.TextDim);
@@ -84,7 +84,7 @@ namespace Abyss.UI
         {
             var frame = UIFactory.Panel(Rect, UIPanelStyle.Ornate);
             frame.Rect.Stretch(100, 70, 100, 70);
-            heading = UIFactory.Label(frame.Rect, Title, 44, color: UITheme.GoldBright);
+            heading = UIFactory.Label(frame.Rect, Title, 44, color: UITheme.Text);
             heading.Rt().TopStrip(65, 35, 48, 48);
             heading.overflowMode = TextOverflowModes.Ellipsis;
             subtitle = UIFactory.Paragraph(frame.Rect, Subtitle ?? "", 23, UITheme.TextDim);
@@ -138,7 +138,7 @@ namespace Abyss.UI
         {
             detailScroll = UIFactory.ScrollView(parent, out var detailContent, spacing: 16f, name: "Description");
             detailScroll.Rt().Stretch(26, 24, 26, 24);
-            detailHeading = UIFactory.Paragraph(detailContent, "", headingSize, UITheme.GoldBright);
+            detailHeading = UIFactory.Paragraph(detailContent, "", headingSize, UITheme.DawnBright);
             detailReason = UIFactory.Paragraph(detailContent, "", reasonSize, new Color(1f, 0.62f, 0.55f));
             details = UIFactory.Paragraph(detailContent, "", bodySize);
             details.overflowMode = TextOverflowModes.Overflow;

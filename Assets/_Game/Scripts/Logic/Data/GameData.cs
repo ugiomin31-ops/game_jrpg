@@ -128,6 +128,8 @@ namespace Abyss.Logic
 
     public sealed class ItemDef
     {
+        /// <summary>0 common, 1 rare, 2 epic, 3 legendary; omitted in old data means common.</summary>
+        public int Rarity;
         public string Id;
         public string DisplayName;
         public string Description = "";
@@ -144,6 +146,8 @@ namespace Abyss.Logic
 
     public sealed class EquipmentDef
     {
+        /// <summary>0 common, 1 rare, 2 epic, 3 legendary.</summary>
+        public int Rarity;
         public string Id;
         public string DisplayName;
         public string Description = "";

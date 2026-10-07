@@ -129,142 +129,188 @@ namespace Abyss.Logic.Battle
         // --- AUTO battle ------------------------------------------------------------------------------
 
         /// <summary>
-        /// AUTO policy for a hero: revive a fallen ally, heal when allies are low, fire a ready ultimate, cleanse
-        /// a disabling ailment, else the strongest affordable attack (known weaknesses / BREAK exploited,
-        /// healers keep MP for one heal). Never uses items. Always returns a command that Submit accepts.
+        /// Deterministic AUTO: emergency healing, revive, disabling-ailment removal, efficient healing,
+        /// then useful damage or a lasting setup skill. Queries never consume RNG or inventory items.
         /// </summary>
         public BattleCommand SuggestCommand(BattleUnit unit)
         {
             if (unit == null || !unit.IsAlive) return BattleCommand.Guard();
-            var opts = GetCommandOptions(unit);
             var usable = new List<SkillDef>();
-            foreach (var o in opts.Skills) if (o.Usable) usable.Add(o.Skill);
-            var living = EnemyAI.Living(unit.Side == BattleSide.Party ? _party : _enemies);
+            foreach (var option in GetCommandOptions(unit).Skills) if (option.Usable) usable.Add(option.Skill);
+            var allies = unit.Side == BattleSide.Party ? _party : _enemies;
+            var living = EnemyAI.Living(allies);
             var foes = EnemyAI.Living(unit.Side == BattleSide.Party ? _enemies : _party);
             if (foes.Count == 0) return BattleCommand.Guard();
 
-            // 1. Revive.
-            var fallen = EnemyAI.Fallen(unit.Side == BattleSide.Party ? _party : _enemies);
-            if (fallen.Count > 0)
-                foreach (var s in usable)
-                    if (SkillEffect(s) == ActionEffect.Revive && SkillRule(s) == TargetRule.SingleAlly)
-                        return BattleCommand.Skill(s.Id, fallen[0].Id);
-
-            // 2. Heal.
             var heal = SuggestHeal(unit, usable, living);
+            // Keep a dying ally alive before spending a turn reviving someone else.
+            if (LowestRatio(living) < 0.3 && heal != null) return heal;
+            var fallen = EnemyAI.Fallen(allies);
+            BattleCommand revive = null;
+            double reviveScore = -1;
+            foreach (var s in usable)
+            {
+                if (s.Kind != SkillKind.Revive) continue;
+                var targets = ValidTargets(unit, BattleCommand.Skill(s.Id));
+                BattleUnit revivalTarget = null;
+                foreach (var target in targets)
+                    if (revivalTarget == null || RevivalValue(target) > RevivalValue(revivalTarget)) revivalTarget = target;
+                if (revivalTarget == null) continue;
+                bool group = SkillRule(s) == TargetRule.AllAllies;
+                double score = (group ? fallen.Count : 1) * Math.Max(0.1, s.Power) / (1 + s.MpCost * 0.025);
+                if (score > reviveScore) { reviveScore = score; revive = BattleCommand.Skill(s.Id, group ? null : revivalTarget.Id); }
+            }
+            if (revive != null) return revive;
+
+            // Remove stun/freeze/silence before an offensive ultimate; minor ailments alone can wait.
+            BattleCommand cleanse = null;
+            double cleanseScore = 0;
+            foreach (var s in usable)
+            {
+                if (s.Kind != SkillKind.Cleanse) continue;
+                var targets = ValidTargets(unit, BattleCommand.Skill(s.Id));
+                BattleUnit worst = null;
+                double total = 0, worstScore = 0;
+                foreach (var a in targets)
+                {
+                    double score = 0;
+                    foreach (var st in a.Statuses)
+                    {
+                        if (st.IsBeneficial) continue;
+                        if (!st.CanAct) score += 5;
+                        else if (st.BlocksMpSkills && a.SkillList.Exists(x => x.MpCost > 0)) score += 4;
+                        else if (st.EffectType == StatusEffectType.Burn && (double)a.Hp / a.MaxHp < 0.65) score += 3;
+                        else score += 1;
+                    }
+                    total += score;
+                    if (score > worstScore) { worstScore = score; worst = a; }
+                }
+                double benefit = SkillRule(s) == TargetRule.AllAllies ? total : worstScore;
+                double value = benefit / (1 + s.MpCost * 0.03);
+                if (worst != null && benefit >= 3 && value > cleanseScore)
+                { cleanseScore = value; cleanse = BattleCommand.Skill(s.Id, SkillRule(s) == TargetRule.SingleAlly ? worst.Id : null); }
+            }
+            if (cleanse != null) return cleanse;
             if (heal != null) return heal;
 
-            // 3. Ultimate (newest learned first: a later ultimate is the stronger one).
-            for (int i = usable.Count - 1; i >= 0; i--)
-            {
-                var s = usable[i];
-                if (s.TpCost <= 0) continue;
-                var effect = SkillEffect(s);
-                if (effect == ActionEffect.Heal)
-                {
-                    if (LowestRatio(living) < 0.75) return BattleCommand.Skill(s.Id, SingleTargetFor(unit, s, living, foes));
-                    continue;
-                }
-                if (effect == ActionEffect.Damage) return BattleCommand.Skill(s.Id, SingleTargetFor(unit, s, living, foes));
-            }
-
-            // 4. Cleanse a disabled / silenced / poisoned ally.
-            foreach (var s in usable)
-            {
-                if (SkillEffect(s) != ActionEffect.Cleanse) continue;
-                BattleUnit worst = null;
-                int worstCount = 0;
-                foreach (var a in living)
-                {
-                    int n = 0;
-                    foreach (var st in a.Statuses) if (!st.IsBeneficial) n++;
-                    if (n > worstCount) { worst = a; worstCount = n; }
-                }
-                if (worst != null && (worstCount >= 2 || !worst.CanAct || worst.IsSilenced))
-                    return BattleCommand.Skill(s.Id, SkillRule(s) == TargetRule.SingleAlly ? worst.Id : null);
-            }
-
-            // 5. Strongest attack.
             int reserve = HealReserve(unit);
-            double bestScore = AttackScore(unit, null, foes, out var bestTarget);
+            double freeScore = AttackScore(unit, null, foes, out var bestTarget);
+            double bestScore = freeScore;
             SkillDef best = null;
+            // Later skills win close ultimate ties only when using TP actually improves this turn.
             foreach (var s in usable)
             {
-                if (SkillEffect(s) != ActionEffect.Damage || s.TpCost > 0) continue;
+                if (s.Kind != SkillKind.Damage) continue;
                 if (s.MpCost > 0 && unit.Mp - s.MpCost < reserve) continue;
                 double score = AttackScore(unit, s, foes, out var target);
-                // MP skills must clearly beat the free attack.
-                if (s.MpCost > 0) score /= 1.0 + 0.02 * s.MpCost;
-                if (score > bestScore * 1.1)
+                if (s.TpCost > 0 && score <= freeScore * 1.5) continue;
+                if (s.MpCost > 0) score /= 1 + 0.025 * s.MpCost;
+                bool tie = s.TpCost > 0 && best?.TpCost > 0 && score >= bestScore * 0.98;
+                if (score > bestScore * 1.08 || tie) { bestScore = score; best = s; bestTarget = target; }
+            }
+
+            // Setup pays off only if the fight has enough HP remaining for several party actions.
+            double foeHp = 0;
+            foreach (var f in foes) foeHp += f.Hp;
+            if (foeHp > Math.Max(1, freeScore) * Math.Max(1, living.Count) * 2.5)
+            {
+                foreach (var s in usable)
                 {
-                    bestScore = score;
-                    best = s;
-                    bestTarget = target;
+                    if (s.Kind != SkillKind.Buff && s.Kind != SkillKind.Debuff) continue;
+                    if (s.MpCost > 0 && unit.Mp - s.MpCost < reserve) continue;
+                    var targets = ValidTargets(unit, BattleCommand.Skill(s.Id));
+                    bool group = SkillRule(s) == TargetRule.AllAllies || SkillRule(s) == TargetRule.AllEnemies;
+                    BattleUnit target = null;
+                    double total = 0, oneBest = 0;
+                    foreach (var t in targets)
+                    {
+                        double value = SetupValue(unit, t, s, freeScore);
+                        total += value;
+                        if (value > oneBest) { oneBest = value; target = t; }
+                    }
+                    double score = (group ? total : oneBest) / (1 + s.MpCost * 0.04);
+                    if (target != null && score > bestScore * 1.2)
+                        return BattleCommand.Skill(s.Id, SkillRule(s) == TargetRule.SingleAlly || SkillRule(s) == TargetRule.SingleEnemy ? target.Id : null);
                 }
             }
-            if (best == null) return BattleCommand.Attack(bestTarget?.Id);
-            return BattleCommand.Skill(best.Id, SkillRule(best) == TargetRule.SingleEnemy ? bestTarget?.Id : null);
+            return best == null ? BattleCommand.Attack(bestTarget?.Id)
+                : BattleCommand.Skill(best.Id, SkillRule(best) == TargetRule.SingleEnemy ? bestTarget?.Id : null);
+        }
+
+        static double RevivalValue(BattleUnit target)
+        {
+            double value = target.MaxHp + target.MaxMp;
+            foreach (var s in target.SkillList) if (s.Kind == SkillKind.Heal || s.Kind == SkillKind.Revive) value += 500;
+            return value;
         }
 
         BattleCommand SuggestHeal(BattleUnit unit, List<SkillDef> usable, List<BattleUnit> living)
         {
-            int below60 = 0;
-            BattleUnit lowest = null;
-            foreach (var a in living)
-            {
-                double r = (double)a.Hp / a.MaxHp;
-                if (r < 0.6) below60++;
-                if (lowest == null || r < (double)lowest.Hp / lowest.MaxHp) lowest = a;
-            }
-            if (lowest == null || (double)lowest.Hp / lowest.MaxHp >= 0.5) return null;
-            SkillDef group = null, single = null, bigSingle = null;
+            int injured = 0;
+            foreach (var ally in living) if ((double)ally.Hp / ally.MaxHp < 0.75) injured++;
+            if (LowestRatio(living) >= 0.65 && injured < 2) return null;
+            BattleCommand best = null;
+            double bestScore = 0;
             foreach (var s in usable)
             {
-                if (SkillEffect(s) != ActionEffect.Heal || s.TpCost > 0) continue;
-                var rule = SkillRule(s);
-                if (rule == TargetRule.AllAllies) { if (group == null || s.Power > group.Power) group = s; }
-                else if (rule == TargetRule.SingleAlly)
+                if (s.Kind != SkillKind.Heal) continue;
+                bool group = SkillRule(s) == TargetRule.AllAllies;
+                var targets = ValidTargets(unit, BattleCommand.Skill(s.Id));
+                bool emergencyTarget = false;
+                foreach (var t in targets) emergencyTarget |= (double)t.Hp / t.MaxHp < 0.3;
+                BattleUnit chosen = null;
+                double total = 0, single = 0;
+                foreach (var target in targets)
                 {
-                    if (single == null || s.MpCost < single.MpCost) single = s;
-                    if (bigSingle == null || s.Power > bigSingle.Power) bigSingle = s;
+                    double amount = (s.ScalingStat == ScalingStat.Magic ? unit.EffectiveMagic : unit.EffectiveAttack) * s.Power * target.HealingReceivedScale;
+                    double ratio = (double)target.Hp / target.MaxHp;
+                    if (!group && emergencyTarget && ratio >= 0.3) continue;
+                    double score = Math.Min(target.MaxHp - target.Hp, amount) * (ratio < 0.3 ? 2 : ratio < 0.65 ? 1.4 : 1);
+                    total += score;
+                    if (score > single) { single = score; chosen = target; }
                 }
-                else if (rule == TargetRule.Self && lowest == unit) return BattleCommand.Skill(s.Id);
+                double utility = (group ? total : single) / (1 + s.MpCost * 0.055);
+                // Reserve TP for a meaningful rescue rather than a little missing HP.
+                if (s.TpCost > 0) { if (LowestRatio(living) >= 0.5 && injured < 3) continue; utility *= 0.85; }
+                if (chosen != null && utility > bestScore)
+                { bestScore = utility; best = BattleCommand.Skill(s.Id, SkillRule(s) == TargetRule.SingleAlly ? chosen.Id : null); }
             }
-            if (group != null && below60 >= 2) return BattleCommand.Skill(group.Id);
-            if (single != null)
+            return best;
+        }
+
+        double SetupValue(BattleUnit actor, BattleUnit target, SkillDef skill, double attackScore)
+        {
+            double value = 0;
+            var ids = new List<string>(skill.ExtraStatuses);
+            if (!string.IsNullOrEmpty(skill.StatusEffect)) ids.Add(skill.StatusEffect);
+            foreach (var id in ids)
             {
-                int deficit = lowest.MaxHp - lowest.Hp;
-                var pick = unit.EffectiveMagic * single.Power >= deficit * 0.8 ? single : bigSingle;
-                return BattleCommand.Skill(pick.Id, lowest.Id);
+                if (!_db.Statuses.TryGetValue(id, out var def) || target.HasStatus(id)) continue;
+                var status = BattleStatus.FromDef(def, actor.Id);
+                if (target.IsImmuneTo(status)) continue;
+                double ratio = (double)target.Hp / target.MaxHp;
+                switch (def.EffectType)
+                {
+                    case StatusEffectType.AttackUp: value += target.EffectiveAttack * def.Magnitude * 3; break;
+                    case StatusEffectType.MagicUp: value += target.SkillList.Exists(x => x.ScalingStat == ScalingStat.Magic && (x.Kind == SkillKind.Damage || x.Kind == SkillKind.Heal)) ? target.EffectiveMagic * def.Magnitude * 3 : 0; break;
+                    case StatusEffectType.DefenseUp: case StatusEffectType.Barrier: if (ratio < 0.7) value += attackScore * 1.6; break;
+                    case StatusEffectType.Regen: value += Math.Min(target.MaxHp - target.Hp, target.MaxHp * def.Magnitude * 2); break;
+                    case StatusEffectType.DefenseDown: value += attackScore * def.Magnitude * 4; break;
+                    case StatusEffectType.AttackDown: value += (target.EffectiveAttack + target.EffectiveMagic) * def.Magnitude * 2; break;
+                    case StatusEffectType.Silence: if (target.SkillList.Exists(x => x.MpCost > 0)) value += attackScore * 1.6; break;
+                    case StatusEffectType.Sleep: case StatusEffectType.Stun: case StatusEffectType.Freeze: if (target.CanAct) value += attackScore * 1.5; break;
+                }
             }
-            return group != null ? BattleCommand.Skill(group.Id) : null;
+            return value * (skill.Kind == SkillKind.Debuff ? Math.Max(0, Math.Min(1, skill.StatusChance)) : 1);
         }
 
         static double LowestRatio(List<BattleUnit> units)
         {
-            double r = 1.0;
-            foreach (var u in units) r = Math.Min(r, (double)u.Hp / u.MaxHp);
-            return r;
+            double ratio = 1;
+            foreach (var u in units) ratio = Math.Min(ratio, (double)u.Hp / u.MaxHp);
+            return ratio;
         }
 
-        string SingleTargetFor(BattleUnit unit, SkillDef s, List<BattleUnit> living, List<BattleUnit> foes)
-        {
-            var rule = SkillRule(s);
-            if (rule == TargetRule.SingleEnemy)
-            {
-                AttackScore(unit, s, foes, out var t);
-                return t?.Id;
-            }
-            if (rule == TargetRule.SingleAlly)
-            {
-                BattleUnit lowest = null;
-                foreach (var a in living) if (lowest == null || (double)a.Hp / a.MaxHp < (double)lowest.Hp / lowest.MaxHp) lowest = a;
-                return lowest?.Id;
-            }
-            return null;
-        }
-
-        /// <summary>MP a healer keeps for one cheapest single heal.</summary>
         static int HealReserve(BattleUnit unit)
         {
             int reserve = 0;
@@ -273,7 +319,7 @@ namespace Abyss.Logic.Battle
             return reserve;
         }
 
-        /// <summary>Expected useful damage of a plain attack (skill null) or skill; outputs the best single target.</summary>
+        /// <summary>Useful damage plus finish/break/control value, with random-hit overkill capped per foe.</summary>
         double AttackScore(BattleUnit unit, SkillDef skill, List<BattleUnit> foes, out BattleUnit bestTarget)
         {
             var rule = skill == null ? TargetRule.SingleEnemy : SkillRule(skill);
@@ -281,34 +327,38 @@ namespace Abyss.Logic.Battle
             int hits = Math.Max(1, skill?.HitCount ?? 1);
             bestTarget = null;
             double best = -1, total = 0;
-            foreach (var t in foes)
+            foreach (var target in foes)
             {
-                double one = ExpectedHit(unit, t, skill);
-                double perTarget = rule == TargetRule.RandomEnemies ? one : one * hits;
-                double useful = Math.Min(perTarget, t.Hp);
-                // Finishing a unit and breaking shields are worth extra.
-                if (perTarget >= t.Hp) useful *= 1.25;
+                double allocatedHits = rule == TargetRule.RandomEnemies ? (double)hits / foes.Count : hits;
+                double damage = ExpectedHit(unit, target, skill) * allocatedHits;
+                double useful = Math.Min(damage, target.Hp);
+                if (damage >= target.Hp) useful *= 1.3;
                 int element = DamageFormula.ElementOf(unit, skill);
-                if (t.MaxShield > 0 && !t.Broken && IsWeaknessKnown(t, element)) useful *= 1.15;
-                total += useful;
-                if (rule == TargetRule.SingleEnemy && choosable.Contains(t) && useful > best)
+                if (target.Shield > 0 && !target.Broken && IsWeaknessKnown(target, element))
                 {
-                    best = useful;
-                    bestTarget = t;
+                    useful += Math.Min(target.Shield, allocatedHits) * Math.Max(6, target.EffectiveAttack * 0.2);
+                    if (allocatedHits >= target.Shield) useful += target.EffectiveAttack * 0.5;
                 }
+                if (skill != null && damage < target.Hp && !string.IsNullOrEmpty(skill.StatusEffect)
+                    && _db.Statuses.TryGetValue(skill.StatusEffect, out var status) && !target.HasStatus(status.Id))
+                {
+                    var effect = BattleStatus.FromDef(status, unit.Id);
+                    if (!target.IsImmuneTo(effect) && !effect.IsBeneficial)
+                        useful += Math.Min(target.Hp - damage, !effect.CanAct ? target.EffectiveAttack * 0.5 : target.MaxHp * 0.025) * skill.StatusChance;
+                }
+                if (skill != null && skill.Drain > 0) useful += Math.Min(unit.MaxHp - unit.Hp, useful * skill.Drain);
+                total += useful;
+                if (rule == TargetRule.SingleEnemy && choosable.Contains(target) && useful > best)
+                { best = useful; bestTarget = target; }
             }
-            switch (rule)
-            {
-                case TargetRule.AllEnemies: return total;
-                case TargetRule.RandomEnemies: return foes.Count > 0 ? total / foes.Count * hits : 0;
-                default:
-                    if (bestTarget == null && choosable.Count > 0) bestTarget = choosable[0];
-                    return Math.Max(0, best);
-            }
+            if (rule == TargetRule.AllEnemies || rule == TargetRule.RandomEnemies) return total;
+            if (bestTarget == null && choosable.Count > 0) bestTarget = choosable[0];
+            return Math.Max(0, best);
         }
 
         double ExpectedHit(BattleUnit unit, BattleUnit target, SkillDef skill)
         {
+            if (target.HasStatus("invincible")) return 0;
             var type = DamageFormula.DamageTypeOf(skill);
             double power = skill == null ? 1.0 : Gd.D(skill.Power);
             double off = type == DamageType.Magical ? unit.EffectiveMagic : unit.EffectiveAttack;
@@ -320,8 +370,10 @@ namespace Abyss.Logic.Battle
             else if (element > 0 && _resistSeen.Contains(WeaknessKey(target.DefId, element))) dmg *= DamageFormula.ResistMultiplier;
             if (target.Broken) dmg *= DamageFormula.BrokenMultiplier;
             if (skill != null && !string.IsNullOrEmpty(skill.BonusVsStatus) && target.HasStatus(skill.BonusVsStatus)) dmg *= Gd.D(skill.BonusVsStatusMult);
+            if (target.Guarding) dmg *= DamageFormula.GuardMultiplier;
             if (type == DamageType.Physical)
             {
+                dmg *= target.PhysicalDamageTakenScale;
                 dmg *= DamageFormula.HitChance(unit, target, type);
                 dmg *= 1.0 + Gd.Clamp(unit.CritRate + (skill == null ? 0.0 : Gd.D(skill.CritBonus)), 0, 1) * (unit.CritMultiplier - 1.0);
             }

@@ -100,13 +100,28 @@ namespace Abyss.Logic.Battle
                 if (weight <= 0.0) continue;
                 switch (skill.Kind)
                 {
-                    case SkillKind.Heal: if (MostInjured(livingAllies, 0.999) == null) continue; break;
+                    case SkillKind.Heal: if (skill.TargetType == TargetType.Self ? actor.Hp >= actor.MaxHp : MostInjured(livingAllies, 0.999) == null) continue; break;
                     case SkillKind.Revive: if (fallenAllies.Count == 0) continue; break;
-                    case SkillKind.Cleanse: if (Afflicted(livingAllies) == null) continue; break;
+                    case SkillKind.Cleanse: if (skill.TargetType == TargetType.Self ? !HasAilment(actor) : Afflicted(livingAllies) == null) continue; break;
+                    case SkillKind.Buff:
+                        if (skill.TargetType == TargetType.Self ? !NeedsBuff(actor, skill) : !livingAllies.Exists(a => NeedsBuff(a, skill))) continue;
+                        break;
                 }
                 options.Add(new Option { Skill = skill, Weight = weight, Basic = skill.Id == "basic_attack" });
             }
             return options;
+        }
+
+        static bool NeedsBuff(BattleUnit unit, SkillDef skill)
+        {
+            if (!string.IsNullOrEmpty(skill.StatusEffect) && !unit.HasStatus(skill.StatusEffect)) return true;
+            foreach (var id in skill.ExtraStatuses) if (!unit.HasStatus(id)) return true;
+            return false;
+        }
+        static bool HasAilment(BattleUnit unit)
+        {
+            foreach (var status in unit.Statuses) if (!status.IsBeneficial) return true;
+            return false;
         }
 
         /// <summary>MP / TP affordable and not blocked by silence.</summary>
@@ -160,7 +175,8 @@ namespace Abyss.Logic.Battle
                 case SkillKind.Revive: target = fallenAllies.Count > 0 ? fallenAllies[0] : null; break;
                 case SkillKind.Cleanse: target = Afflicted(livingAllies); break;
                 default:
-                    if (skill.TargetType == TargetType.Ally || skill.Kind == SkillKind.Buff) target = PickTarget(livingAllies, false, rng);
+                    if (skill.Kind == SkillKind.Buff) target = PickTarget(livingAllies.FindAll(a => NeedsBuff(a, skill)), false, rng);
+                    else if (skill.TargetType == TargetType.Ally) target = PickTarget(livingAllies, false, rng);
                     else target = PickTarget(livingOpponents, lowestHp, rng);
                     break;
             }
