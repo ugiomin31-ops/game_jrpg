@@ -57,6 +57,8 @@ namespace Abyss.UI
             scroll = UIFactory.ScrollView(frame.Rect, out var storyContent, name: "Story text");
             if (compact) scroll.Rt().Stretch(90, 170, 90, 150);
             else scroll.Rt().Stretch(90, 190, 90, 160);
+            // The text viewport catches raycasts for scrolling; relay plain taps on it to Advance as well.
+            if (UIRoot.TouchFirst) scroll.viewport.gameObject.AddComponent<UITapArea>().Tapped += () => { if (IsTop) Advance(); };
             body = UIFactory.Paragraph(storyContent, "", ReadOnly ? (phone ? 28 : 24) : (phone ? 36 : 32));
             body.alignment = ReadOnly ? TextAlignmentOptions.TopLeft : TextAlignmentOptions.Midline;
             body.overflowMode = TextOverflowModes.Overflow;

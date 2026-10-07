@@ -113,7 +113,7 @@ namespace Abyss.UI.Battle
             _menuHint.gameObject.SetActive(!Compact);
             _rows = UIFactory.Rect(menu.transform, "Choices").Stretch(22, Compact ? 70 : 100, 22, NavHeight + 26);
             var detail = UIFactory.Panel(_root, UIPanelStyle.Glass);
-            _detail = Compact ? detail.Rect.Place(UIAnchor.TopLeft, new Vector2(22, -86), new Vector2(760, 96))
+            _detail = Compact ? detail.Rect.Place(UIAnchor.TopLeft, new Vector2(22, -86), new Vector2(760, 124))
                 : detail.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -178), new Vector2(1100, 100));
             _detailScroll = UIFactory.ScrollView(detail.transform, out var detailContent, name: "Command description");
             _detailScroll.Rt().Stretch(24, 12, 24, 12);
@@ -264,20 +264,21 @@ namespace Abyss.UI.Battle
                 card.Portrait = UIFactory.Portrait(panel.transform, 62);
                 card.Portrait.Rt().Place(UIAnchor.TopLeft, new Vector2(8, -8), new Vector2(62, 62));
                 card.Portrait.SetSprite(UIArtwork.Hero(unit.DefId));
-                card.Name.Rt().TopStrip(30, 8, 80, 12);
+                // TMP's ellipsis hides a line taller than its rect, so the name strip is a little taller than the type.
+                card.Name.Rt().TopStrip(38, 2, 80, 12);
                 card.Hp = UIFactory.Gauge(panel.transform, UIGaugeKind.Hp, w - 94, 14, UIGaugeText.Above);
-                card.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(80, -62), new Vector2(w - 94, 14));
+                card.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(80, -68), new Vector2(w - 94, 14));
                 float half = (w - 40) * 0.5f;
                 card.Mp = UIFactory.Gauge(panel.transform, UIGaugeKind.Mp, half, 9, UIGaugeText.Above);
-                card.Mp.Rt().Place(UIAnchor.TopLeft, new Vector2(14, -104), new Vector2(half, 9));
+                card.Mp.Rt().Place(UIAnchor.TopLeft, new Vector2(14, -110), new Vector2(half, 9));
                 card.Tp = UIFactory.Gauge(panel.transform, UIGaugeKind.Tp, half, 9, UIGaugeText.Above);
-                card.Tp.Rt().Place(UIAnchor.TopLeft, new Vector2(26 + half, -104), new Vector2(half, 9));
+                card.Tp.Rt().Place(UIAnchor.TopLeft, new Vector2(26 + half, -110), new Vector2(half, 9));
                 card.Status = UIFactory.Label(panel.transform, "", 18);
-                card.Status.Rt().BottomStrip(24, 4, 12, 12);
+                card.Status.Rt().BottomStrip(26, 2, 12, 12);
             }
             else
             {
-                card.Name.Rt().TopStrip(28, 6, 12, 12);
+                card.Name.Rt().TopStrip(30, 4, 12, 12);
                 card.Hp = UIFactory.Gauge(panel.transform, UIGaugeKind.Hp, w - 24, 11, UIGaugeText.None);
                 card.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(12, -40), new Vector2(w - 24, 11));
                 card.Shield = UIFactory.Pips(panel.transform, unit.MaxShield, 15);
@@ -399,6 +400,8 @@ namespace Abyss.UI.Battle
         {
             _engine = engine; _actor = engine.ActiveHero;
             if (_actor == null) { Lock(); return; }
+            // Choosing a command: the description panel takes the top-left; the last action line steps aside.
+            if (Compact && _logPanel != null) _logPanel.gameObject.SetActive(false);
             var options = engine.GetCommandOptions(_actor);
             BeginChoices(_actor.DisplayName + " · 행동", null);
             Add("공격", "장비 무기로 적 하나를 공격합니다.", options.CanAttack, null, () => Targets(BattleCommand.Attack(null)), icon: UIArtwork.Command("attack"));
@@ -606,12 +609,16 @@ namespace Abyss.UI.Battle
             if (_banner == null) return;
             _bannerText.text = text; _bannerText.color = Color.Lerp(Color.white, color, .45f);
             _banner.gameObject.SetActive(true);
+            // The banner names the skill; the log line above it would only repeat it.
+            if (_logPanel != null) _logPanel.gameObject.SetActive(false);
             SlideIn(_banner, 260f, 0.18f);
         }
         public void HideSkillBanner() { if (_banner != null) _banner.gameObject.SetActive(false); }
         public void Rewards(BattleOutcome outcome, Abyss.Logic.Game.BattleReport report, Action confirmed)
         {
             Lock();
+            HideSkillBanner();
+            if (_logPanel != null) _logPanel.gameObject.SetActive(false);
             _autoButton.gameObject.SetActive(false);
             if (_speedButton != null) _speedButton.gameObject.SetActive(false);
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
