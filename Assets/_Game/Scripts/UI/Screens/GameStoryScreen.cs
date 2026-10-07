@@ -19,11 +19,12 @@ namespace Abyss.UI
         UIButton next;
         ScrollRect scroll;
         int index;
-        float revealed;
+        float revealed, openedAt;
         bool finished;
         public override bool CloseOnCancel => ReadOnly;
         protected override void Build()
         {
+            openedAt = Time.unscaledTime;
             var backdrop = UIFactory.Fill(Rect, UITheme.Ink, raycast: true);
             UIFactory.Vignette(Rect, 0.7f);
             // Touch: a tap anywhere outside the buttons advances the text (finish typing, then next page).
@@ -32,7 +33,7 @@ namespace Abyss.UI
                 var tap = backdrop.gameObject.AddComponent<Button>();
                 tap.transition = Selectable.Transition.None;
                 tap.navigation = new Navigation { mode = Navigation.Mode.None };
-                tap.onClick.AddListener(() => { if (IsTop) Advance(); });
+                tap.onClick.AddListener(TapAdvance);
             }
             bool phone = UIRoot.Compact;
             // Stories whose pages are all short (tips, floor intros, elder lines, the line-by-line prologue)
@@ -44,7 +45,7 @@ namespace Abyss.UI
                 var tapFrame = frame.Background.gameObject.AddComponent<Button>();
                 tapFrame.transition = Selectable.Transition.None;
                 tapFrame.navigation = new Navigation { mode = Navigation.Mode.None };
-                tapFrame.onClick.AddListener(() => { if (IsTop) Advance(); });
+                tapFrame.onClick.AddListener(TapAdvance);
             }
             if (phone) frame.Rect.Stretch(compact ? 220 : 90, compact ? 170 : 40, compact ? 220 : 90, compact ? 170 : 40);
             else if (compact) frame.Rect.Stretch(240, 300, 240, 300);
@@ -58,7 +59,7 @@ namespace Abyss.UI
             if (compact) scroll.Rt().Stretch(90, 170, 90, 150);
             else scroll.Rt().Stretch(90, 190, 90, 160);
             // The text viewport catches raycasts for scrolling; relay plain taps on it to Advance as well.
-            if (UIRoot.TouchFirst) scroll.viewport.gameObject.AddComponent<UITapArea>().Tapped += () => { if (IsTop) Advance(); };
+            if (UIRoot.TouchFirst) scroll.viewport.gameObject.AddComponent<UITapArea>().Tapped += TapAdvance;
             body = UIFactory.Paragraph(storyContent, "", ReadOnly ? (phone ? 28 : 24) : (phone ? 36 : 32));
             body.alignment = ReadOnly ? TextAlignmentOptions.TopLeft : TextAlignmentOptions.Midline;
             body.overflowMode = TextOverflowModes.Overflow;
@@ -102,6 +103,14 @@ namespace Abyss.UI
             if (body.maxVisibleCharacters == int.MaxValue) return;
             revealed += Time.unscaledDeltaTime * CharactersPerSecond;
             body.maxVisibleCharacters = (int)revealed;
+        }
+        /// <summary>
+        /// Screen taps advance, but not during the first 0.4 s: the tap that opened this screen (e.g. picking the
+        /// difficulty) would otherwise also skip the first page.
+        /// </summary>
+        void TapAdvance()
+        {
+            if (IsTop && Time.unscaledTime - openedAt > 0.4f) Advance();
         }
         void Advance()
         {
