@@ -27,3 +27,4 @@
 - 사용자 지시 4: "바로 핸드폰으로 할 수 있게 url이나 apk 해서 만들어줘"
 - 결정: Unity 빌드에는 Unity 계정 라이선스가 필요하므로 클라우드 세션에서 직접 빌드하지 않고, GitHub Actions(GameCI `unity-builder`)로
   APK(Release `phone-latest`)와 WebGL(gh-pages → GitHub Pages)을 만든다. 라이선스는 사용자가 저장소 Secrets에 직접 넣으며 대화나 파일에 남기지 않는다.
+- 사용자 지시 5: "너가 해줘, 내가 지금 컴퓨터를 못 해. 핸드폰으로 이용해볼 수 있게 해줘." → PC의 .ulf가 필요 없는 `unity-builder@v6`(이메일·비밀번호만으로 Personal 활성화)로 바꿔, 사용자가 휴대폰에서 Secrets 2개만 넣으면 되게 했다.
