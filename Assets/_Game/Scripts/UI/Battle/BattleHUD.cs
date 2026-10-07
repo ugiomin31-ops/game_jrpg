@@ -27,6 +27,7 @@ namespace Abyss.UI.Battle
         {
             public string Label, Description, Reason;
             public bool Enabled = true;
+            public string TargetId;
             public Action Pick, Preview;
             public Sprite Icon;
         }
@@ -38,7 +39,8 @@ namespace Abyss.UI.Battle
         readonly StringBuilder _targetText = new StringBuilder();
         RectTransform _root, _party, _world, _menu, _rows, _detail, _cutin, _reward, _banner;
         TMP_Text _order, _log, _title, _description, _cutinTitle, _cutinText, _rewardText, _bannerText;
-        UIButton _autoButton;
+        UIButton _autoButton, _speedButton;
+        Action _toggleSpeed;
         ScrollRect _detailScroll;
         ScrollRect _rewardScroll;
         TMP_Text _menuHint, _rewardCounter;
@@ -53,6 +55,12 @@ namespace Abyss.UI.Battle
         int _page, _focus, _openedFrame;
         bool _input, _auto;
         public bool Paused { get; set; }
+        /// <summary>Phones/tablets: taller command rows and buttons sized for a thumb.</summary>
+        static bool TouchUI => Application.isMobilePlatform || UITouch.Supported;
+        const int PerPage = 6;
+        static float RowHeight => TouchUI ? 62f : 48f;
+        static float RowStep => TouchUI ? 70f : 56f;
+        static float NavHeight => TouchUI ? 62f : 46f;
         public bool CommandRootOpen => _input && _back == null && _reward == null;
 
         public void Initialize(Transform parent, Camera camera, GameDB db, Action<BattleCommand> submit,
@@ -65,7 +73,7 @@ namespace Abyss.UI.Battle
             _world = UIFactory.Rect(_root, "Enemy gauges").Stretch();
             _party = UIFactory.Rect(_root, "Party").BottomStrip(210, 16, 28, 28);
             var top = UIFactory.Panel(_root, UIPanelStyle.Glass, false);
-            top.Rect.TopStrip(84, 18, 32, 330);
+            top.Rect.TopStrip(84, 18, 32, 500);
             _order = UIFactory.Label(top.transform, "", 23); _order.Rt().Stretch(22, 14, 22, 14);
             _order.overflowMode = TextOverflowModes.Ellipsis;
             _autoButton = UIFactory.Button(_root, "자동: OFF", ToggleAuto);
@@ -76,11 +84,11 @@ namespace Abyss.UI.Battle
             _log.Rt().Stretch(10, 6, 10, 6);
             _log.overflowMode = TextOverflowModes.Ellipsis;
             var menu = UIFactory.Panel(_root, UIPanelStyle.Ornate);
-            _menu = menu.Rect.Place(UIAnchor.BottomRight, new Vector2(-32, 245), new Vector2(570, 510));
+            _menu = menu.Rect.Place(UIAnchor.BottomRight, new Vector2(-32, 245), new Vector2(570, TouchUI ? 100 + PerPage * RowStep + NavHeight + 40 : 510));
             _title = UIFactory.Label(menu.transform, "", 29); _title.Rt().TopStrip(54, 16, 24, 24);
             _menuHint = UIFactory.Label(menu.transform, "↑↓ 선택 · Q/E 페이지 · ←→ 상세", 18, color: UITheme.TextDim);
             _menuHint.Rt().TopStrip(25, 62, 24, 24);
-            _rows = UIFactory.Rect(menu.transform, "Choices").Stretch(22, 100, 22, 72);
+            _rows = UIFactory.Rect(menu.transform, "Choices").Stretch(22, 100, 22, NavHeight + 26);
             var detail = UIFactory.Panel(_root, UIPanelStyle.Glass);
             _detail = detail.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -178), new Vector2(1100, 100));
             _detailScroll = UIFactory.ScrollView(detail.transform, out var detailContent, name: "Command description");
@@ -109,6 +117,12 @@ namespace Abyss.UI.Battle
             if (unit.Side == BattleSide.Party)
                 panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(unit.Slot * 455, 0), new Vector2(435, 206));
             else panel.Rect.sizeDelta = new Vector2(unit.Boss ? 320 : 210, 134);
+            // Tapping/clicking a unit's card picks it while a single target is being chosen.
+            string unitId = unit.Id;
+            var tap = panel.gameObject.AddComponent<Button>();
+            tap.transition = Selectable.Transition.None;
+            tap.navigation = new Navigation { mode = Navigation.Mode.None };
+            tap.onClick.AddListener(() => TapUnit(unitId));
             card.Name = UIFactory.Label(panel.transform, unit.Name, unit.Side == BattleSide.Party ? 23 : 21);
             card.Name.Rt().TopStrip(34, 8, unit.Side == BattleSide.Party ? 90 : 16, 16);
             card.Name.overflowMode = TextOverflowModes.Ellipsis;
@@ -189,7 +203,15 @@ namespace Abyss.UI.Battle
         }
 
         public void Log(string text) { _log.text = text; }
-        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? (Application.isMobilePlatform ? "자동: ON · 탭하여 해제" : "자동: ON · Esc 취소") : "자동: OFF"); }
+        /// <summary>Adds the battle-speed button (left of 자동) that cycles 1x / 1.5x / 2x.</summary>
+        public void EnableSpeedToggle(string label, Action toggle)
+        {
+            _toggleSpeed = toggle;
+            _speedButton = UIFactory.Button(_root, label, () => { if (!Paused) _toggleSpeed?.Invoke(); });
+            _speedButton.Rt().Place(UIAnchor.TopRight, new Vector2(-306, -26), new Vector2(150, 62));
+        }
+        public void SetSpeedLabel(string label) { if (_speedButton != null) _speedButton.SetLabel(label); }
+        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? (TouchUI ? "자동: ON · 탭하여 해제" : "자동: ON · Esc 취소") : "자동: OFF"); }
         void ToggleAuto() { if (!Paused) _toggleAuto?.Invoke(); }
         public void Lock()
         {
@@ -258,6 +280,7 @@ namespace Abyss.UI.Battle
                     string id = target.Id;
                     Add(target.DisplayName, TargetDescription(id), true, null,
                         () => { command.TargetId = id; Commit(command); }, () => _preview?.Invoke(id), target.Side == BattleSide.Party ? UIArtwork.Hero(target.DefId) : UIArtwork.Enemy(target.DefId));
+                    _choices[_choices.Count - 1].TargetId = id;
                 }
             }
             else
@@ -268,6 +291,17 @@ namespace Abyss.UI.Battle
                     "reason_no_target", () => Commit(command), () => _preview?.Invoke(targets.Count == 1 ? targets[0].Id : null));
             }
             Render();
+        }
+        /// <summary>Card tap: first tap on an unfocused target focuses it (preview + details), the next tap confirms.</summary>
+        void TapUnit(string id)
+        {
+            if (!_input || Paused || _reward != null) return;
+            int index = _choices.FindIndex(c => c.TargetId == id);
+            if (index < 0) return;
+            int page = index / PerPage;
+            if (page != _page) { _page = page; Render(); }
+            if (_focus == index % PerPage) { UIInput.Consume(); Select(index); }
+            else { UISound.Play(UISoundId.Move); Focus(index % PerPage); }
         }
         string TargetDescription(string id)
         {
@@ -298,41 +332,41 @@ namespace Abyss.UI.Battle
         {
             foreach (var b in _buttons) { b.gameObject.SetActive(false); Destroy(b.gameObject); }
             _buttons.Clear();
-            int first = _page * 6;
-            for (int i = first; i < Math.Min(first + 6, _choices.Count); i++)
+            int first = _page * PerPage;
+            for (int i = first; i < Math.Min(first + PerPage, _choices.Count); i++)
             {
                 int index = i; var choice = _choices[i];
                 var button = UIFactory.Button(_rows, choice.Label, () => Select(index), choice.Icon);
                 button.Interactable = choice.Enabled;
                 button.DisabledReason = choice.Enabled ? null : Reason(choice.Reason);
-                button.Rt().Place(UIAnchor.TopLeft, new Vector2(0, -(i - first) * 56), new Vector2(526, 48));
+                button.Rt().Place(UIAnchor.TopLeft, new Vector2(0, -(i - first) * RowStep), new Vector2(526, RowHeight));
                 button.Hovered += () => Focus(index - first);
                 _buttons.Add(button);
             }
             var navigation = UIFactory.Button(_menu, "← 뒤로", () => _back?.Invoke());
-            navigation.Rt().Place(UIAnchor.BottomLeft, new Vector2(22, 14), new Vector2(160, 46));
+            navigation.Rt().Place(UIAnchor.BottomLeft, new Vector2(22, 14), new Vector2(160, NavHeight));
             navigation.Interactable = _back != null; _buttons.Add(navigation);
             var prev = UIFactory.Button(_menu, "◀", () => Page(-1));
-            prev.Rt().Place(UIAnchor.BottomLeft, new Vector2(200, 14), new Vector2(70, 46));
+            prev.Rt().Place(UIAnchor.BottomLeft, new Vector2(200, 14), new Vector2(TouchUI ? 110 : 70, NavHeight));
             prev.Interactable = _page > 0; _buttons.Add(prev);
-            var next = UIFactory.Button(_menu, (_page + 1) + "/" + Math.Max(1, (_choices.Count + 5) / 6) + " ▶", () => Page(1));
-            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-22, 14), new Vector2(180, 46));
-            next.Interactable = first + 6 < _choices.Count; _buttons.Add(next);
+            var next = UIFactory.Button(_menu, (_page + 1) + "/" + Math.Max(1, (_choices.Count + PerPage - 1) / PerPage) + " ▶", () => Page(1));
+            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-22, 14), new Vector2(180, NavHeight));
+            next.Interactable = first + PerPage < _choices.Count; _buttons.Add(next);
             Focus(0);
             if (_choices.Count == 0) _description.text = "사용 가능한 항목이 없습니다. 뒤로 돌아가세요.";
         }
         void Page(int delta)
         {
-            int next = Mathf.Clamp(_page + delta, 0, Math.Max(0, (_choices.Count - 1) / 6));
+            int next = Mathf.Clamp(_page + delta, 0, Math.Max(0, (_choices.Count - 1) / PerPage));
             if (next == _page) return; _page = next; Render();
         }
         void Focus(int index)
         {
-            int count = Math.Min(6, _choices.Count - _page * 6);
+            int count = Math.Min(PerPage, _choices.Count - _page * PerPage);
             if (count <= 0) return;
             _focus = (index % count + count) % count;
             for (int i = 0; i < _buttons.Count; i++) _buttons[i].Focused = i == _focus;
-            var choice = _choices[_page * 6 + _focus];
+            var choice = _choices[_page * PerPage + _focus];
             _description.text = choice.Label + (choice.Enabled ? "" : " · 사용 불가: " + Reason(choice.Reason)) + "\n" + choice.Description;
             LayoutRebuilder.ForceRebuildLayoutImmediate(_detailScroll.content);
             _detailScroll.StopMovement();
@@ -389,6 +423,7 @@ namespace Abyss.UI.Battle
         {
             Lock();
             _autoButton.gameObject.SetActive(false);
+            if (_speedButton != null) _speedButton.gameObject.SetActive(false);
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
             UIFactory.Fill(_reward, new Color(0, 0, 0, .72f), raycast: true);
             var panel = UIFactory.Panel(_reward, UIPanelStyle.Ornate);
@@ -534,7 +569,7 @@ namespace Abyss.UI.Battle
             }
             if (!_input) return;
             _menuHint.text = UIInput.Device == UIInputDevice.Gamepad ? "↑↓ 선택 · LB/RB 페이지 · ←→ 상세"
-                : UIInput.Device == UIInputDevice.Touch ? "탭하여 선택" : "↑↓ 선택 · Q/E 페이지 · ←→ 상세";
+                : UIInput.Device == UIInputDevice.Touch ? "탭하여 선택 · 적/아군 카드를 탭해도 대상 지정" : "↑↓ 선택 · Q/E 페이지 · ←→ 상세";
             int movement = UIInput.NavigateRows;
             if (movement != 0) { Focus(_focus + movement); UIInput.Consume(); }
             else if (UIInput.Navigate.x != 0)
@@ -546,7 +581,7 @@ namespace Abyss.UI.Battle
             else if (UIInput.TabNext || UIInput.TabPrev)
             { Page(UIInput.TabPrev ? -1 : 1); UIInput.Consume(); }
             else if (UIInput.Cancel && _back != null) { _back(); UIInput.Consume(); }
-            else if (UIInput.Confirm && _choices.Count > 0) { Select(_page * 6 + _focus); UIInput.Consume(); }
+            else if (UIInput.Confirm && _choices.Count > 0) { Select(_page * PerPage + _focus); UIInput.Consume(); }
         }
         void LateUpdate()
         {

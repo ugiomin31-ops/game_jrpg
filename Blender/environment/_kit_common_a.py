@@ -15,7 +15,7 @@ import os
 import sys
 import zlib
 
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\lib")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../lib'))
 import abyss_bpy as A  # noqa: E402
 
 import bmesh  # noqa: E402

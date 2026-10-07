@@ -4,9 +4,10 @@ Evidence class: directly inspected project code, production outputs and local ex
 
 ## Implemented
 
-### Campaign content and turn-based rules — verified (local C# execution) — 2026-10-06
+### Campaign content and turn-based rules — verified (local C# execution) — 2026-10-07
 
-- Four playable classes: 검사, 마법사, 궁수, 성직자. Twelve fixed dungeon floors, four biome sets, three difficulty choices, 28 enemy definitions including four bosses, 69 skills, 48 equipment definitions, 30 items and 12 quests.
+- Four playable classes: 검사, 마법사, 궁수, 성직자. Twelve fixed dungeon floors, four biome sets, three difficulty choices, 51 enemy definitions including four bosses, 129 skills, 48 equipment definitions, 30 items and 12 quests.
+- 2026-10-07: the same `Scripts/Logic/` + `Tools/LogicTests/` sources compiled with the .NET 8 SDK (Newtonsoft.Json 13.0.3, `ABYSS_LOGIC_TESTS`) on Linux: 15/15 passed, including every encounter group on B1F–B12F.
 - Evidence: `Assets/_Game/Resources/Data/{heroes,dungeon,enemies,skills,equipment,items,quests}.json`; `Scripts/Logic/` under `Assets/_Game/`; actual `python Tools/logic_test.py` output: 11/11 passed, including encounter completion across all 12 floors, four battle regressions and six campaign regressions.
 - A natural Lv.1 Normal campaign entered B1F, saved/restored its unresolved encounter, executed nine real engine commands with 15 damage events, won and returned to town in a throwaway C# executable. This is not proof of a complete Unity/Windows playthrough.
 - Checked: 2026-10-06.
@@ -17,6 +18,12 @@ Evidence class: directly inspected project code, production outputs and local ex
 - Evidence: `Blender/`, `Blender/blend/enemy_production_all.json`, `Assets/_Game/Resources/Art/`; successful Unity `Abyss/Validate Production Content` menu invocation. Creature report records actual saved/reimported rig, Col vertex colors, weighted vertices and required clips for all 28 IDs.
 - Geometry exceeds the original aspirational polygon budgets for several heroes/enemies/environment parts; no low-end performance claim is supported by this import check.
 - Checked: 2026-10-06.
+
+### Friendlier monster redesign — verified (Blender production; not yet Unity-imported) — 2026-10-07
+
+- Eleven enemies were rebuilt to read cute instead of creepy (stubby round legs, big eyes, smiles; no spindly legs, extra eyes, fang rows, dark eye-holes, claws or speckle/barnacle clusters): sprout, coral_crab, elite_coral_crab, frost_spider, rhino_beetle, elite_rhino_beetle, sand_scorpion, killer_bee, mandragora, mimic, elite_mimic. Their bestiary icons were re-rendered.
+- Evidence: Blender 5.2.2 (Linux) runs of `Blender/enemies_a/generate_all.py -- --asset ID`; per-ID `Blender/blend/enemy_production_<id>.json` record the saved and re-imported FBX (Rig + one skinned Body, Col, 0 unweighted vertices, 7 clips); `enemy_v2_production_all.json` lists 23/23 v2 IDs within budget; before/after previews in `Blender/preview/`.
+- Unity has not yet re-imported these FBX files in this checkout; run `Abyss/Validate Production Content` after opening the project.
 
 ### UI artwork — verified (production and local dungeon HUD rendering) — 2026-10-06
 
@@ -56,13 +63,14 @@ Evidence class: directly inspected project code, production outputs and local ex
 
 ## Not implemented / not yet verified
 
+- Mobile: Android APK/AAB and iOS Xcode build menus, landscape/IL2CPP/ASTC settings, touch-sized dungeon pad (hold-to-walk, strafe), tappable minimap, tap-to-target battle cards, drag-scrolling lists and a battle speed option (1x/1.5x/2x) exist in code (2026-10-07). They passed a C# syntax check only; no Unity compile, device build or on-device play has been observed.
 - Standalone Windows build and native input/play verification have not yet completed. Do not call the deliverable release-ready or publish minimum specifications/FPS.
 - Natural Unity battle and the listed transactions/settings are verified above; full VFX/boss/ending and remaining service/settings scenarios are not yet verified. Code/source assets alone are not full scenario proof.
 - Store submission, approved publisher identity, price, release date and storefront app ID are not established by the project. Do not imply a published storefront.
 - English localization is not provided by the Korean text table. Do not list English as a supported UI/story language.
 - Multiplayer/cloud saves and platform achievements are not established features.
 - Third-party notices are collected separately; copyright ownership/IP clearance of the original campaign and compliance with the user's Unity subscription cannot be established from this checkout.
-- Checked: 2026-10-06.
+- Checked: 2026-10-07.
 
 ## Permanently excluded
 

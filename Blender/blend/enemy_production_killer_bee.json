@@ -1,38 +1,38 @@
 {
   "id": "killer_bee",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/verdant.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/verdant.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:05:40Z",
+  "produced_at_utc": "2026-10-07T00:21:56Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
-      "bytes": 991324
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "bytes": 989868
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_killer_bee.blend",
-      "bytes": 229103
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_killer_bee.blend",
+      "bytes": 227893
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_killer_bee.png",
-        "bytes": 161256
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_killer_bee.png",
+        "bytes": 160835
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_killer_bee_side.png",
-        "bytes": 153680
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_killer_bee_side.png",
+        "bytes": 153543
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_killer_bee_attack.png",
-        "bytes": 167424
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_killer_bee_attack.png",
+        "bytes": 166833
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_killer_bee_cast.png",
-        "bytes": 158070
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_killer_bee_cast.png",
+        "bytes": 158495
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_killer_bee_die.png",
-        "bytes": 164504
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_killer_bee_die.png",
+        "bytes": 164958
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5534,
-    "vertices": 3057,
+    "triangles": 5474,
+    "vertices": 3037,
     "bones": 15,
     "materials": [
       "M_Toon",
@@ -86,8 +86,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5534,
-    "vertices": 3057,
+    "triangles": 5474,
+    "vertices": 3037,
     "bones": 15,
     "materials": [
       "M_Toon",

@@ -47,7 +47,7 @@ namespace Abyss.UI
     /// Input is polled only while <see cref="Focused"/> and under the top <see cref="UIInput"/> layer.
     /// Cancel is NOT handled here (screens own it). Create with <see cref="UIFactory.List"/>.
     /// </summary>
-    public sealed class UIList : MonoBehaviour, IScrollHandler
+    public sealed class UIList : MonoBehaviour, IScrollHandler, IBeginDragHandler, IDragHandler
     {
         sealed class Row
         {
@@ -349,6 +349,22 @@ namespace Abyss.UI
             if (idx >= _items.Count || !UIInput.CanReceive(this)) return;
             Select(idx, false);
             Submit();
+        }
+
+        float _dragRows;
+
+        /// <inheritdoc/>
+        public void OnBeginDrag(PointerEventData e) => _dragRows = 0f;
+
+        /// <summary>Touch/mouse drag scrolls row by row (finger up = later rows), like a phone list.</summary>
+        public void OnDrag(PointerEventData e)
+        {
+            if (!UIInput.CanReceive(this) || _rowHeight <= 0f) return;
+            var canvas = GetComponentInParent<Canvas>();
+            float scale = canvas != null && canvas.scaleFactor > 0f ? canvas.scaleFactor : 1f;
+            _dragRows += e.delta.y / scale / _rowHeight;
+            while (_dragRows >= 1f) { _dragRows -= 1f; ScrollBy(1); }
+            while (_dragRows <= -1f) { _dragRows += 1f; ScrollBy(-1); }
         }
 
         /// <inheritdoc/>

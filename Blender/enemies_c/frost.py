@@ -23,7 +23,8 @@ def snowflake(c, bone, name, center, r, color='#dffaff', mat='M_Emit', facing='Y
 
 
 def frost_spider(eid):
-    """서리 거미 — round ice-blue spider: big anime eyes, frost-fur collar, crystal-studded abdomen."""
+    """서리 거미 — round snowball spider: big friendly eyes, frost-fur collar, crystal-studded abdomen and
+three pairs of short chunky legs with snow-boot feet (no fangs, extra eyes or long spindly legs)."""
     c = Monster(eid)
     shell, navy, white = '#86cbf5', '#28467f', '#eefaff'
     c.bone('body', (0, .05, .3)); c.bone('head', (0, -.12, .36), 'body'); c.bone('eyes', (0, -.33, .42), 'head')
@@ -32,31 +33,22 @@ def frost_spider(eid):
     c.orb('head', 'cephalothorax', tuple(h.c), tuple(h.r), shell, seg=26, rings=14)
     for k in range(9):
         ang = math.tau * k / 9
-        c.cone_to('body', f'fur_tuft{k}', (.17 * math.cos(ang), -.02 + .05 * math.sin(ang), .4 + .15 * math.sin(ang)),
-                  (.25 * math.cos(ang), .02 + .07 * math.sin(ang), .42 + .22 * math.sin(ang)), .04, white)
-    c.eye_pair('eyes', h, .41, .085, .055, .066, '#22c8ff', '#c6fbff', angry=.35)
-    c.glow_eyes('eyes', h, .5, .05, .022, .022, '#7af6ff', tag='small')
-    c.blush('head', h, .35, .14, .035, '#a7c8ff')
-    for s in (-1, 1):
-        a, _ = h.point(s * .045, .3, .0)
-        c.cone_to('head', f'chelicera{s}', tuple(a), (s * .035, a.y - .06, .24), .03, white)
-        c.cone_to('head', f'palp{s}', (s * .12, a.y + .03, .3), (s * .16, a.y - .08, .22), .022, navy)
+        c.orb('body', f'fur_tuft{k}', (.2 * math.cos(ang), .0 + .06 * math.sin(ang), .41 + .18 * math.sin(ang)),
+              (.06, .05, .06), white)
+    c.eye_pair('eyes', h, .415, .088, .062, .074, '#22c8ff', '#c6fbff')
+    c.blush('head', h, .345, .14, .038, '#ffb3c8')
+    c.cat_mouth('head', h, .325, .03)
     c.orb('tail1', 'abdomen', (0, .27, .45), (.25, .27, .23), navy, seg=26, rings=14)
     c.orb('tail1', 'abdomen_frost', (0, .27, .55), (.2, .22, .13), '#3b6bb5')
     snowflake(c, 'tail1', 'back_flake', (0, .28, .68), .1, facing='Z')
     for k, (x, y, z, dx, dy) in enumerate(((-.14, .2, .58, -.6, -.2), (.14, .2, .58, .6, -.2), (-.12, .4, .55, -.5, .5), (.12, .4, .55, .5, .5), (0, .47, .5, 0, 1))):
-        c.gem('tail1', f'ice_spike{k}', (x, y, z), (dx, dy, 1), .045, .16, '#d8fbff', '#3fb2ea')
+        c.gem('tail1', f'ice_spike{k}', (x, y, z), (dx, dy, 1), .04, .11, '#d8fbff', '#3fb2ea')
     for s, side in ((-1, 'R'), (1, 'L')):
-        for k, y in enumerate((-.22, -.1, .02, .14)):
+        for k, y in enumerate((-.17, .0, .17)):
             b = f'leg{k + 1}.{side}'
-            spread = (k - 1.5) * .09
-            c.bone(b, (s * .14, y, .32), 'body')
-            knee = (s * .34, y + spread, .48)
-            foot = (s * .5, y + spread * 1.8, .02)
-            c.tube(b, f'leg_upper{k}{side}', [(s * .14, y, .32), knee], .036, navy)
-            c.orb(b, f'leg_knee{k}{side}', knee, (.042, .042, .042), white)
-            c.tube(b, f'leg_lower{k}{side}', [knee, foot], .03, navy, taper=.5)
-            c.cone_to(b, f'leg_tip{k}{side}', (foot[0] * .97, foot[1], .1), foot, .02, white)
+            spread = (k - 1) * .08
+            c.bone(b, (s * .14, y, .3), 'body')
+            c.stubby_leg(b, f'leg{k}{side}', (s * .14, y, .3), (s * .3, y + spread, .05), .05, navy, white)
 
     def extra(a, clip, f, t, i, names):
         if clip == 'Idle':

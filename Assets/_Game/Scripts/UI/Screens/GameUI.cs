@@ -20,7 +20,8 @@ namespace Abyss.UI
                 || (app.Screen == GameScreen.Battle && app.Battle != null && !app.Battle.Playing));
         GameApp app;
         UIRoot root;
-        RectTransform hud;
+        RectTransform hud, partyRow, padPanel;
+        float hudFitWidth = -1f;
         TextMeshProUGUI area, resources;
         DungeonMapGraphic minimap;
         readonly List<HeroHud> heroHud = new List<HeroHud>();
@@ -45,7 +46,7 @@ namespace Abyss.UI
         }
         void ClearHud()
         {
-            heroHud.Clear(); area = null; resources = null; minimap = null;
+            heroHud.Clear(); area = null; resources = null; minimap = null; partyRow = null; padPanel = null; hudFitWidth = -1f;
             if (hud != null) { hud.gameObject.SetActive(false); Destroy(hud.gameObject); }
             hud = null;
             // BattleView owns children under Content and releases them when its route closes.
@@ -217,8 +218,11 @@ namespace Abyss.UI
             minimap.SetMap(grid, app.State);
             RefreshVitals();
         }
+        /// <summary>Phones, tablets and touch laptops: bigger thumb-sized HUD controls.</summary>
+        static bool TouchFirst => Application.isMobilePlatform || UITouch.Supported;
         void BuildHud(bool dungeon)
         {
+            bool touch = TouchFirst;
             hud = UIFactory.Rect(Content, dungeon ? "Dungeon HUD" : "Town HUD").Stretch();
             var heading = UIFactory.Panel(hud);
             heading.Rect.TopStrip(128, 0, 30, dungeon ? 390 : 30);
@@ -226,11 +230,14 @@ namespace Abyss.UI
             area.Rt().TopStrip(54, 16, 25, 25);
             resources = UIFactory.Label(heading.Rect, "", 23, color: UITheme.TextDim);
             resources.Rt().BottomStrip(40, 12, 25, 25);
+            // Party cards live in one row that shrinks (FitHud) when the screen is too narrow for cards + pad.
+            partyRow = UIFactory.Rect(hud, "Party Row");
+            partyRow.Place(UIAnchor.BottomLeft, new Vector2(30, 28), new Vector2(app.State.Party.Count * 350 - 20, 176));
             for (int i = 0; i < app.State.Party.Count; i++)
             {
                 var hero = app.State.Party[i];
-                var panel = UIFactory.Panel(hud);
-                panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(30 + i * 350, 28), new Vector2(330, 176));
+                var panel = UIFactory.Panel(partyRow);
+                panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(i * 350, 0), new Vector2(330, 176));
                 var view = new HeroHud { Hero = hero };
                 view.Portrait = UIFactory.Portrait(panel.Rect, 58);
                 view.Portrait.Rt().Place(UIAnchor.TopLeft, new Vector2(12, -8), new Vector2(58, 58));
@@ -251,31 +258,59 @@ namespace Abyss.UI
                 mapPanel.Rect.Place(UIAnchor.TopRight, new Vector2(-30, -10), new Vector2(335, 290));
                 minimap = UIFactory.Add<DungeonMapGraphic>(mapPanel.Rect, "Explored minimap");
                 minimap.Rt().Stretch(14, 14, 14, 14);
-                var controls = UIFactory.Panel(hud);
-                controls.Rect.Place(UIAnchor.BottomRight, new Vector2(-30, 28), new Vector2(430, 355));
-                HudButton(controls.Rect, "전진", new Vector2(0, -25), () => app.MoveDungeon(RelativeMove.Forward));
-                HudButton(controls.Rect, "좌회전", new Vector2(-135, -95), () => app.TurnDungeon(-1));
-                HudButton(controls.Rect, "조사", new Vector2(0, -95), app.InteractDungeon);
-                HudButton(controls.Rect, "우회전", new Vector2(135, -95), () => app.TurnDungeon(1));
-                HudButton(controls.Rect, "후퇴", new Vector2(0, -165), () => app.MoveDungeon(RelativeMove.Back));
-                HudButton(controls.Rect, "대기", new Vector2(-135, -165), app.WaitDungeon);
-                HudButton(controls.Rect, "지도", new Vector2(135, -165), OpenMapFromHud);
-                HudButton(controls.Rect, "캠프", new Vector2(0, -245), ShowPause);
-                // Phones: the 1920x1080 layout makes this pad tiny under a thumb, so grow it from its bottom-right corner.
-                if (Application.isMobilePlatform) controls.Rect.localScale = Vector3.one * 1.35f;
+                // Tapping/clicking the minimap opens the full map.
+                var mapHit = mapPanel.gameObject.AddComponent<UnityEngine.UI.Button>();
+                mapHit.transition = UnityEngine.UI.Selectable.Transition.None;
+                mapHit.navigation = new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.None };
+                mapHit.onClick.AddListener(() => { if (!BlocksWorldInput) OpenMapFromHud(); });
+                var camp = UIFactory.Button(hud, "캠프", () => { if (!BlocksWorldInput) ShowPause(); }, UIArtwork.Command("camp"));
+                camp.Rt().Place(UIAnchor.TopRight, new Vector2(-30, -312), new Vector2(335, touch ? 84 : 64));
+                // 3x3 pad: strafe / forward / strafe, turn / search / turn, wait / back / map.
+                // Thumb-sized on touch screens (~7 mm tall on a phone); movement repeats while held.
+                Vector2 cell = touch ? new Vector2(170, 108) : new Vector2(124, 62);
+                const float gap = 12f, pad = 14f;
+                padPanel = UIFactory.Panel(hud).Rect;
+                padPanel.Place(UIAnchor.BottomRight, new Vector2(-30, 28), new Vector2(cell.x * 3 + gap * 2 + pad * 2, cell.y * 3 + gap * 2 + pad * 2));
+                Vector2 At(int col, int row) => new Vector2(pad + col * (cell.x + gap), -pad - row * (cell.y + gap));
+                HudButton(padPanel, "◀ 옆", At(0, 0), cell, () => app.MoveDungeon(RelativeMove.Left), true);
+                HudButton(padPanel, "▲ 전진", At(1, 0), cell, () => app.MoveDungeon(RelativeMove.Forward), true);
+                HudButton(padPanel, "옆 ▶", At(2, 0), cell, () => app.MoveDungeon(RelativeMove.Right), true);
+                HudButton(padPanel, "↺ 회전", At(0, 1), cell, () => app.TurnDungeon(-1), true);
+                HudButton(padPanel, "조사", At(1, 1), cell, app.InteractDungeon, false);
+                HudButton(padPanel, "회전 ↻", At(2, 1), cell, () => app.TurnDungeon(1), true);
+                HudButton(padPanel, "대기", At(0, 2), cell, app.WaitDungeon, false);
+                HudButton(padPanel, "▼ 후퇴", At(1, 2), cell, () => app.MoveDungeon(RelativeMove.Back), true);
+                HudButton(padPanel, "지도", At(2, 2), cell, OpenMapFromHud, false);
             }
             else
             {
                 var menu = UIFactory.Button(hud, "모험 수첩", ShowPause);
-                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, 76));
+                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, touch ? 96 : 76));
+                padPanel = menu.Rt();
             }
             RefreshVitals();
+            FitHud();
         }
-        void HudButton(RectTransform parent, string label, Vector2 position, Action action)
+        void HudButton(RectTransform parent, string label, Vector2 position, Vector2 size, Action action, bool movement)
         {
             var b = UIFactory.Button(parent, label, () => { if (!BlocksWorldInput) { UIInput.Consume(); action(); } });
-            b.Rt().Place(UIAnchor.Top, position, new Vector2(124, 62));
+            b.Rt().Place(UIAnchor.TopLeft, position, size);
+            // Same cadence as a held key (DungeonWorld: 0.28 s); a step animates for 0.24 s.
+            if (movement) { b.HoldRepeat = 0.28f; b.Quiet = true; }
         }
+        /// <summary>Shrinks the party row so it never runs under the movement pad on 16:9 phones and 4:3 tablets.</summary>
+        void FitHud()
+        {
+            if (hud == null || partyRow == null || padPanel == null) return;
+            float width = hud.rect.width;
+            if (width <= 0f || Mathf.Approximately(width, hudFitWidth)) return;
+            hudFitWidth = width;
+            float padWidth = padPanel.rect.width * padPanel.localScale.x;
+            float available = width - 30f - padWidth - 30f - 24f;
+            float scale = Mathf.Clamp(available / partyRow.sizeDelta.x, 0.55f, 1f);
+            partyRow.localScale = new Vector3(scale, scale, 1f);
+        }
+        void LateUpdate() => FitHud();
         void RefreshVitals()
         {
             foreach (var h in heroHud)

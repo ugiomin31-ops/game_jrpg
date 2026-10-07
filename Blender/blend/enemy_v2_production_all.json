@@ -111,7 +111,7 @@
       "floors": "B2-B3",
       "role": "swarm / poison",
       "generator": "enemies_c/verdant.py",
-      "triangles": 5534,
+      "triangles": 5474,
       "bones": 15,
       "materials": [
         "M_Toon",
@@ -149,8 +149,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
-        "bytes": 991324
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+        "bytes": 989868
       }
     },
     {
@@ -160,12 +160,11 @@
       "floors": "B2-B3",
       "role": "debuffer (sleep, slow)",
       "generator": "enemies_c/verdant.py",
-      "triangles": 6032,
+      "triangles": 5824,
       "bones": 8,
       "materials": [
         "M_Toon",
-        "M_Emit",
-        "M_Clear"
+        "M_Emit"
       ],
       "clips": {
         "Idle": [
@@ -198,8 +197,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
-        "bytes": 633420
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
+        "bytes": 619420
       }
     },
     {
@@ -209,7 +208,7 @@
       "floors": "B2-B3",
       "role": "tank",
       "generator": "enemies_c/verdant.py",
-      "triangles": 7114,
+      "triangles": 7462,
       "bones": 12,
       "materials": [
         "M_Toon",
@@ -246,8 +245,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
-        "bytes": 860492
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+        "bytes": 861612
       }
     },
     {
@@ -257,7 +256,7 @@
       "floors": "B3 FOE",
       "role": "elite tank",
       "generator": "enemies_c/verdant.py",
-      "triangles": 7810,
+      "triangles": 8050,
       "bones": 12,
       "materials": [
         "M_Toon",
@@ -294,8 +293,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
-        "bytes": 876620
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
+        "bytes": 875468
       }
     },
     {
@@ -354,8 +353,8 @@
       "floors": "B4-B5",
       "role": "debuffer (slow)",
       "generator": "enemies_c/frost.py",
-      "triangles": 5986,
-      "bones": 13,
+      "triangles": 6796,
+      "bones": 11,
       "materials": [
         "M_Toon",
         "M_Emit"
@@ -391,8 +390,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
-        "bytes": 890028
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+        "bytes": 794988
       }
     },
     {
@@ -741,8 +740,8 @@
       "floors": "B7-B9",
       "role": "poison tank",
       "generator": "enemies_c/ember.py",
-      "triangles": 7158,
-      "bones": 18,
+      "triangles": 8894,
+      "bones": 16,
       "materials": [
         "M_Toon",
         "M_Emit"
@@ -778,8 +777,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
-        "bytes": 1176540
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+        "bytes": 1103916
       }
     },
     {
@@ -934,7 +933,7 @@
       "floors": "B10-B12",
       "role": "rare treasure ambusher",
       "generator": "enemies_c/crypt.py",
-      "triangles": 3586,
+      "triangles": 3784,
       "bones": 6,
       "materials": [
         "M_Toon",
@@ -971,8 +970,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
-        "bytes": 455276
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+        "bytes": 458092
       }
     },
     {
@@ -982,7 +981,7 @@
       "floors": "B12 FOE",
       "role": "elite ambusher",
       "generator": "enemies_c/crypt.py",
-      "triangles": 4628,
+      "triangles": 4826,
       "bones": 6,
       "materials": [
         "M_Toon",
@@ -1019,8 +1018,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
-        "bytes": 479260
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
+        "bytes": 482188
       }
     },
     {

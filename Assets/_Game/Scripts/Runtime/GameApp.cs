@@ -70,6 +70,12 @@ namespace Abyss.Runtime
         public void ApplyPreferences()
         {
             Preferences.Apply();
+            SavePreferences();
+        }
+
+        /// <summary>Persists preferences that need no re-apply (e.g. battle speed changed mid-battle).</summary>
+        public void SavePreferences()
+        {
             try { Preferences.Save(saveDirectory); }
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException) { Notify("설정 저장 실패: " + e.Message); }
         }

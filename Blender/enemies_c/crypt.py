@@ -58,10 +58,10 @@ def mimic(eid):
     c.box('body', 'base_rim', (0, 0, .385), (.64, .44, .035), gold, bevel=.01)
     c.box('body', 'lock_plate', (0, -.215, .3), (.1, .02, .1), gold, bevel=.01)
     c.orb('body', 'keyhole', (0, -.228, .3), (.016, .008, .025), '#1c0f12', seg=8, rings=4)
-    for k in range(7):
-        x = (k - 3) * .08
-        c.cone_to('body', f'low_tooth{k}', (x, -.215, .38), (x, -.222, .44), .022, '#fff6e2', seg=8)
-    c.tube('body', 'tongue', [(0, .0, .4), (0, -.14, .43), (.02, -.26, .38), (.05, -.3, .26)], .045, '#d9547c', taper=.6)
+    for k in (-1, 1):  # two little rounded buck teeth instead of a row of fangs
+        c.orb('body', f'low_tooth{k}', (k * .06, -.215, .41), (.03, .015, .03), '#fff6e2')
+    c.tube('body', 'tongue', [(0, .0, .4), (0, -.14, .43), (.0, -.235, .41)], .04, '#ff8fa8', taper=.8)
+    c.orb('body', 'tongue_tip', (0, -.24, .405), (.042, .03, .025), '#ff8fa8')
     lid_z = .46
     c.box('lid', 'lid_slab', (0, 0, lid_z - .02), (.63, .43, .07), wood, bevel=.02)
     lid = A.cyl('lid_dome', r=.215, depth=.62, loc=(0, 0, lid_z), rot=(0, 90, 0), scale=(1, 1, 1), color=wood, seg=20)
@@ -72,18 +72,14 @@ def mimic(eid):
         band.scale = (.62, 1, 1)
         c.add('lid', band)
     c.box('lid', 'lid_rim', (0, -.002, .425), (.64, .44, .03), gold, bevel=.01)
-    for k in range(7):
-        x = (k - 3) * .08 + .04 * (k < 6)
-        if k == 6:
-            continue
-        c.cone_to('lid', f'up_tooth{k}', (x, -.215, .43), (x, -.222, .37), .024, '#fff6e2', seg=8)
+
     face = Head((0, .0, .5), (2.0, .226, 2.0))
-    c.eye_pair('eyes', face, .5, .13, .06, .055, '#ffcf2a' if not el else '#ff3df0', '#fff2a0' if not el else '#ffb3fa', angry=1.0)
+    c.eye_pair('eyes', face, .5, .13, .06, .055, '#ffcf2a' if not el else '#ff3df0', '#fff2a0' if not el else '#ffb3fa', angry=.35 if not el else .6)
     for s, side in ((-1, 'R'), (1, 'L')):
         c.bone('leg.' + side, (s * .22, -.1, .08), 'body')
         c.orb('leg.' + side, 'claw_foot' + side, (s * .24, -.15, .05), (.07, .08, .05), wood_dk)
-        for j in range(3):
-            c.cone_to('leg.' + side, f'foot_claw{side}{j}', (s * .24 + (j - 1) * .035, -.21, .05), (s * .24 + (j - 1) * .04, -.26, .01), .015, '#efe0c8')
+        for j in range(2):
+            c.orb('leg.' + side, f'foot_toe{side}{j}', (s * .24 + (j - .5) * .05, -.22, .035), (.026, .026, .022), wood)
         c.orb('body', 'back_foot' + side, (s * .24, .15, .04), (.06, .07, .04), wood_dk)
     if el:
         c.gem('lid', 'crown_gem', (0, -.05, .6), (0, -.3, 1), .06, .14, '#ff9cf5', '#a521c9')

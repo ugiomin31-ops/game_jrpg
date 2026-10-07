@@ -46,7 +46,9 @@ namespace Abyss.UI
                 tabs.Changed += i => { TabIndex = i; Refresh(); };
             }
             float bodyTop = tabs == null ? 195f : 250f;
-            list = UIFactory.List(frame.Rect, 8, 67, 180);
+            // Touch screens: fewer, taller rows so each one is a comfortable thumb target.
+            bool touch = Application.isMobilePlatform || UITouch.Supported;
+            list = touch ? UIFactory.List(frame.Rect, 6, 90, 180) : UIFactory.List(frame.Rect, 8, 67, 180);
             list.Rt().anchorMin = new Vector2(0, 0);
             list.Rt().anchorMax = new Vector2(0.56f, 1);
             list.Rt().offsetMin = new Vector2(48, 110);
@@ -67,10 +69,10 @@ namespace Abyss.UI
             details = UIFactory.Paragraph(detailContent, "", 24);
             details.overflowMode = TextOverflowModes.Overflow;
             var back = UIFactory.Button(frame.Rect, "돌아가기", Close);
-            back.Rt().Place(UIAnchor.BottomRight, new Vector2(-48, 30), new Vector2(240, 62));
+            back.Rt().Place(UIAnchor.BottomRight, new Vector2(-48, touch ? 18 : 30), new Vector2(240, touch ? 84 : 62));
             back.gameObject.SetActive(AllowCancel);
             UIFactory.KeyHint(frame.Rect, UIAction.Confirm, "결정 / 선택").Rt().Place(UIAnchor.BottomLeft, new Vector2(48, 46), new Vector2(280, 45));
-            UIFactory.Label(frame.Rect, "↑↓ 항목 · ←→ 상세 스크롤", 21, color: UITheme.TextDim).Rt().Place(UIAnchor.BottomLeft, new Vector2(660, 46), new Vector2(540, 45));
+            UIFactory.Label(frame.Rect, touch ? "탭: 선택 · 위아래로 끌어 목록 넘기기" : "↑↓ 항목 · ←→ 상세 스크롤", 21, color: UITheme.TextDim).Rt().Place(UIAnchor.BottomLeft, new Vector2(660, 46), new Vector2(540, 45));
             var cancelHint = UIFactory.KeyHint(frame.Rect, UIAction.Cancel, "돌아가기");
             cancelHint.Rt().Place(UIAnchor.BottomLeft, new Vector2(350, 46), new Vector2(280, 45));
             cancelHint.gameObject.SetActive(AllowCancel);

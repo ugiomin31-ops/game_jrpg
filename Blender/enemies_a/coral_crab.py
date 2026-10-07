@@ -1,5 +1,5 @@
 """산호 소라게 (coral_crab): hermit crab in a big barnacled cream shell with red branching coral on top,
-dark shell opening with two glowing eyes, big speckled red-orange claws and spindly spotted legs.
+a round red crab face with big friendly eyes peeking out of the shell, big red-orange claws and short stubby legs.
 Elite (elite_coral_crab, 거대 산호 집게): one huge serrated claw, armour plates/spikes on the shell,
 tall spiky orange coral spires, deeper orange-red palette, barnacle crust, glowing orange eyes.
 """
@@ -24,7 +24,7 @@ if ELITE:
     EYE = "#ff8a1a"
     PLATE_L, PLATE_D = "#a4553a", "#6e3222"
 else:
-    SHELL_L, SHELL_M, SHELL_D = "#f3e7c6", "#e0cfa2", "#b9a274"
+    SHELL_L, SHELL_M, SHELL_D = "#fff3e0", "#f8dcc0", "#e6b896"
     SPECK = "#c87a58"
     RED_L, RED_M, RED_D = "#f58358", "#e45c3c", "#b23c28"
     CREAM = "#f6e2b8"
@@ -71,12 +71,9 @@ A.deform(shell, shell_shape)
 def shell_col(co):
     rel = (co.z - 0.24) / 0.55
     base = mix(SHELL_D, SHELL_L, min(1.0, max(0.0, rel * 1.4)))
-    v = math.sin(co.x * 23 + 1.7) * math.sin(co.y * 21 + 0.3) * math.sin(co.z * 25 + 2.2)
-    if v > 0.72:
-        return mix(base, SPECK, 0.75)
-    if v < -0.8:
-        return mix(base, SHELL_D, 0.6)
-    return base
+    # smooth two-tone gradient with soft pastel bands (no speckles: they read as dirty/creepy up close)
+    band = 0.5 + 0.5 * math.sin(co.z * 18 + 0.8)
+    return mix(base, SHELL_L, 0.25 * band)
 
 
 paint_vert_fn(shell, shell_col)
@@ -98,18 +95,35 @@ body_parts.append(ridge)
 
 # ---------------------------------------------------------------- opening + eyes
 op, on = surf(shell, (0, 0.05, 0.38), dir_from(0, -8))
-hole = ellipsoid("hole", (0.2, 0.07, 0.15), color=HOLE, seg=20, rings=10)
+hole = ellipsoid("hole", (0.2, 0.07, 0.15), color="#7a3a2c", seg=20, rings=10)
 orient(hole, op - on * 0.025, on)
 lip = A.torus("lip", R=0.2, r=0.04, scale=(1.0, 0.78, 1.0), color=SHELL_L, seg=28, minor=8)
 A.apply_transform(lip)
 paint_vert_fn(lip, lambda co: SHELL_L if co.y > 0 else SHELL_M)
 aim(lip, op - on * 0.012, on)
 body_parts += [hole, lip]
+# round crab face filling the opening, with big anime eyes, blush and a small smile
+face = ellipsoid("face", (0.185, 0.1, 0.14), color=RED_L, seg=24, rings=14)
+paint_vert_fn(face, lambda co: RED_L if co.z > -0.03 else RED_M)
+orient(face, op + on * 0.035, on)
+body_parts.append(face)
+front = op + on * 0.13
 eyes = []
+tops = []
 for s in (-1, 1):
-    e = glow_eye(f"eye{s}", op + Vector((s * 0.065, 0, 0.0)) + on * 0.018, on, w=0.038, h=0.05, color=EYE)
-    eyes.append(e)
-EYE_POS = op + on * 0.01
+    # short eye stalks rising over the shell rim with big round eyeballs (classic cute crab)
+    base = op + Vector((s * 0.07, 0.03, 0.06))
+    top = op + Vector((s * 0.1, -0.05, 0.25))
+    tops.append(top)
+    body_parts.append(A.tube(f"stalk{s}", [tuple(base), tuple(base.lerp(top, 0.5) + Vector((s * 0.01, 0, 0))), tuple(top)],
+                             radius=0.026, color=RED_L, seg=10, taper_end=0.8))
+    eyes.append(ellipsoid(f"eyeball{s}", (0.062, 0.058, 0.066), loc=tuple(top), color="#fbf8f2", seg=18, rings=10))
+    eyes += cute_eye(f"eye{s}", top + Vector((s * 0.006, -0.052, 0.0)), (s * 0.15, -1, 0.05), w=0.042, h=0.052,
+                     iris="#2f7fd8" if not ELITE else "#e0791c", pupil="#1a1424", depth=0.016)
+    body_parts.append(orient(A.sphere(f"blush{s}", r=1.0, scale=(0.034, 0.008, 0.019), color="#ff9f9f", seg=10, rings=6),
+                             front + Vector((s * 0.1, 0.0, -0.01)), on, offset=-0.014))
+body_parts += smile_mouth("mouth", front + Vector((0, 0.004, -0.035)), on, w=0.036, h=0.026, inner="#6a1a1a", tongue="#ff8f8f")
+EYE_POS = (tops[0] + tops[1]) / 2
 
 # crab body peeking under the shell
 belly = ellipsoid("belly", (0.2, 0.17, 0.09), loc=(0, -0.02, 0.22), color=RED_M, seg=16, rings=10)
@@ -123,6 +137,7 @@ if ELITE:
     barn_dirs += [(-60, 30), (95, 55), (-105, 50), (60, 70), (-170, 25), (155, 35), (-15, 35), (110, 5),
                   (-115, 5), (30, 25)]
 barns = []
+barn_dirs = barn_dirs[:4] if not ELITE else barn_dirs[:7]  # a few smooth barnacles; dense clusters read as creepy
 for i, (yaw, pitch) in enumerate(barn_dirs):
     p, n = surf(shell, SC, dir_from(yaw, pitch))
     sz = 0.75 + 0.35 * ((i * 37) % 7) / 6
@@ -133,13 +148,8 @@ for i, (yaw, pitch) in enumerate(barn_dirs):
     c.location.z = 0.012 * sz
     A.apply_transform(c)
     aim(c, p - n * 0.006, n)
-    hl = A.cyl(f"barnh{i}", r=0.013 * sz, depth=0.008, color=BARN_IN, seg=8)
-    A.apply_transform(hl)
-    hl.location.z = 0.032 * sz
-    A.apply_transform(hl)
-    aim(hl, p - n * 0.006, n)
-    barns += [c, hl]
-    if i % 3 == 0:  # tiny ring barnacle next to it
+    barns.append(c)
+    if False:  # tiny ring barnacles removed
         side = n.cross(Vector((0, 0, 1)))
         if side.length < 1e-3:
             side = Vector((1, 0, 0))
@@ -311,21 +321,17 @@ def make_leg(s, i):
     hip = Vector((s * 0.17, y, 0.24))
     spread = (i - 0.6) * 0.32
     out = Vector((s * math.cos(spread), math.sin(spread), 0))
-    knee = hip + out * 0.2 + Vector((0, 0, 0.12))
-    ank = hip + out * 0.33 + Vector((0, 0, 0.03))
-    foot = hip + out * 0.37 + Vector((0, 0, -0.235))
+    # short, chunky two-part leg ending in a round foot (thin jointed legs read as spidery)
+    knee = hip + out * 0.15 + Vector((0, 0, 0.0))
+    foot = Vector((hip.x + out.x * 0.24, hip.y + out.y * 0.24, 0.04))
     parts = []
-    segs = [(hip, knee, 0.026), (knee, ank, 0.022), (ank, foot, 0.018)]
-    for j, (a, b, r) in enumerate(segs):
-        t = A.tube(f"leg{s}_{i}_{j}", [tuple(a), tuple(a.lerp(b, 0.5) + Vector((0, 0, 0.012))), tuple(b)], radius=r,
-                   color=RED_M, seg=8, taper_end=0.75 if j < 2 else 0.35)
-        paint_vert_fn(t, lambda co: CREAM if math.sin(co.x * 60 + co.z * 47) * math.sin(co.y * 53) > 0.75
-                      else (RED_L if co.z > 0.2 else RED_M))
+    for j, (a, b, r) in enumerate([(hip, knee, 0.05), (knee, foot, 0.045)]):
+        t = A.tube(f"leg{s}_{i}_{j}", [tuple(a), tuple(a.lerp(b, 0.5) + Vector((0, 0, 0.015))), tuple(b)], radius=r,
+                   color=RED_M, seg=12, taper_end=0.85)
+        paint_vert_fn(t, lambda co: RED_L if co.z > 0.16 else RED_M)
         parts.append(t)
-    for j, (pt, r) in enumerate([(knee, 0.026), (ank, 0.022)]):
-        parts.append(ellipsoid(f"joint{s}_{i}_{j}", (r, r, r), loc=tuple(pt), color=RED_D, seg=10, rings=6))
-    parts.append(A.cone(f"foottip{s}_{i}", r=0.012, depth=0.03, loc=tuple(foot - Vector((0, 0, 0.0))),
-                        color=CREAM, seg=6, rot=(180, 0, 0)))
+    parts.append(ellipsoid(f"joint{s}_{i}", (0.05, 0.05, 0.05), loc=tuple(knee), color=RED_L, seg=12, rings=8))
+    parts.append(ellipsoid(f"foot{s}_{i}", (0.05, 0.055, 0.04), loc=tuple(foot), color=CREAM, seg=12, rings=8))
     return parts, hip
 
 

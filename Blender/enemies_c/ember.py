@@ -136,8 +136,9 @@ def sand_scorpion(eid):
     h = Head((0, -.22, .31), (.18, .14, .13))
     c.orb('head', 'scorp_head', tuple(h.c), tuple(h.r), sand, seg=22, rings=12)
     c.orb('head', 'head_plate', (0, -.2, .4), (.15, .12, .05), plate)
-    c.eye_pair('eyes', h, .33, .08, .05, .06, '#18c9b0', '#a9fff0', angry=.55)
-    c.open_mouth('head', h, .255, .04, .022, fangs='#fff0d0')
+    c.eye_pair('eyes', h, .335, .085, .058, .07, '#18c9b0', '#a9fff0', angry=.15)
+    c.blush('head', h, .27, .13, .03)
+    c.cat_mouth('head', h, .25, .028)
     tail = [(0, .3, .3), (0, .4, .4), (0, .44, .55), (0, .41, .7), (0, .32, .8)]
     for k in range(4):
         b = f'tail{k + 1}'
@@ -147,19 +148,18 @@ def sand_scorpion(eid):
         c.tube(b, f'tail_link{k}', [tail[k], tail[k + 1]], r * .7, sand)
     c.orb('tail4', 'venom_bulb', (0, .3, .8), (.07, .07, .065), '#9b45d6')
     c.orb('tail4', 'venom_glow', (0, .26, .79), (.04, .03, .04), '#e08cff', 'M_Emit')
-    c.cone_to('tail4', 'stinger', (0, .26, .79), (0, .17, .7), .03, dark)
+    c.cone_to('tail4', 'stinger', (0, .26, .79), (0, .21, .74), .028, dark)
     for s, side in ((-1, 'R'), (1, 'L')):
         c.bone('arm.' + side, (s * .16, -.22, .28), 'body')
         c.tube('arm.' + side, 'pincer_arm' + side, [(s * .16, -.22, .28), (s * .27, -.32, .3), (s * .3, -.42, .3)], .045, plate)
         c.orb('arm.' + side, 'pincer_palm' + side, (s * .31, -.5, .31), (.09, .11, .075), sand)
-        c.cone_to('arm.' + side, 'pincer_outer' + side, (s * .35, -.56, .32), (s * .33, -.7, .33), .045, plate)
-        c.cone_to('arm.' + side, 'pincer_inner' + side, (s * .27, -.56, .31), (s * .29, -.66, .32), .033, dark)
-        for k, y in enumerate((-.08, .02, .12, .22)):
+        # rounded mitten pincers
+        c.orb('arm.' + side, 'pincer_outer' + side, (s * .345, -.6, .32), (.05, .08, .05), plate)
+        c.orb('arm.' + side, 'pincer_inner' + side, (s * .275, -.59, .31), (.04, .06, .04), sand)
+        for k, y in enumerate((-.06, .07, .2)):
             b = f'leg{k + 1}.{side}'
             c.bone(b, (s * .15, y, .24), 'body')
-            knee = (s * .32, y + (k - 1.5) * .05, .3)
-            foot = (s * .42, y + (k - 1.5) * .09, .02)
-            c.tube(b, f'leg{k}{side}', [(s * .15, y, .24), knee, foot], .025, plate, taper=.5)
+            c.stubby_leg(b, f'leg{k}{side}', (s * .15, y, .24), (s * .29, y + (k - 1) * .06, .04), .042, plate, cream)
 
     def extra(a, clip, f, t, i, names):
         hit = max(0.0, 1 - abs(t - .4) / .16)

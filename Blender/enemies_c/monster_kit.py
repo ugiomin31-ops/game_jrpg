@@ -105,6 +105,16 @@ class Monster(Creature):
         o.rotation_quaternion = (tip - base).to_track_quat('Z', 'Y')
         return self.add(bone, o)
 
+    def stubby_leg(self, bone, name, hip, foot, r, color, foot_color=None, lift=.04):
+        """Short chunky leg (two soft segments) ending in a round foot ball. Used instead of thin jointed
+        arthropod legs, which read as creepy at battle-camera distance."""
+        hip, foot = Vector(hip), Vector(foot)
+        knee = hip.lerp(foot, .5) + Vector((0, 0, lift))
+        self.tube(bone, name, [tuple(hip), tuple(knee), tuple(foot)], r, color, taper=.85)
+        self.orb(bone, name + '_knee', tuple(knee), (r * 1.08, r * 1.08, r * 1.08), color)
+        self.orb(bone, name + '_foot', (foot.x, foot.y - r * .25, max(foot.z, r * .8)), (r * 1.25, r * 1.4, r * .95),
+                 foot_color or color)
+
     def gem(self, bone, name, base, direction, r, h, light, dark, mat='M_Emit', sides=6):
         """Faceted bipyramid crystal from base along direction, two-tone facets, flat shaded."""
         prof = [(0.0, -h * 0.12), (r, h * 0.1), (r * 0.82, h * 0.7), (0.0, h)]

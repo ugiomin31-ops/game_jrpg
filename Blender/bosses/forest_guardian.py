@@ -6,8 +6,9 @@ huge canopy (green + autumn gold, pink blossoms, fireflies) on branches, log-end
 stone pauldrons/bracers/knee guards, green rune heart-stone (emissive), massive clawed hands,
 splayed root feet, mushrooms and hanging vines (secondary-motion chains).
 """
+import os
 import sys
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\bosses")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__))))
 from _common import *  # noqa: F401,F403
 
 ID = "forest_guardian"

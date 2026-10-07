@@ -1,38 +1,38 @@
 {
   "id": "elite_rhino_beetle",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/verdant.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/verdant.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:08:37Z",
+  "produced_at_utc": "2026-10-07T00:21:25Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
-      "bytes": 876620
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
+      "bytes": 875468
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_elite_rhino_beetle.blend",
-      "bytes": 243819
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_rhino_beetle.blend",
+      "bytes": 243952
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_rhino_beetle.png",
-        "bytes": 167312
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle.png",
+        "bytes": 169437
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_side.png",
-        "bytes": 166240
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_side.png",
+        "bytes": 169594
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_attack.png",
-        "bytes": 161980
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_attack.png",
+        "bytes": 162922
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_cast.png",
-        "bytes": 170287
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_cast.png",
+        "bytes": 173233
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_die.png",
-        "bytes": 163282
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_die.png",
+        "bytes": 166804
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7810,
-    "vertices": 4527,
+    "triangles": 8050,
+    "vertices": 4433,
     "bones": 12,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7810,
-    "vertices": 4527,
+    "triangles": 8050,
+    "vertices": 4433,
     "bones": 12,
     "materials": [
       "M_Toon",

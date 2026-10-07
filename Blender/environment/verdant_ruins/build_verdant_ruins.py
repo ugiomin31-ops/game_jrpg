@@ -9,8 +9,8 @@ import os
 import random
 import sys
 
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\lib")
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\environment")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../lib'))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 import abyss_bpy as A  # noqa: E402
 import _kit_common_a as K  # noqa: E402
 from _kit_common_a import MB, T, Vector, basis, mix, shade, vgrad  # noqa: E402

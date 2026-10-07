@@ -19,6 +19,9 @@ namespace Abyss.Runtime.Persistence
         public bool ReducedMotion;
         /// <summary>Mobile only: caps the frame rate at 30 to save battery and heat.</summary>
         public bool BatterySaver;
+        /// <summary>Battle pacing multiplier: 1, 1.5 or 2.</summary>
+        public float BattleSpeed = 1f;
+        public static readonly float[] BattleSpeeds = { 1f, 1.5f, 2f };
         public static readonly Vector2Int[] Resolutions =
         {
             new Vector2Int(1280, 720), new Vector2Int(1600, 900),
@@ -47,6 +50,7 @@ namespace Abyss.Runtime.Persistence
             Music = FiniteClamp(Music, 0f, 1f, 0.75f);
             Effects = FiniteClamp(Effects, 0f, 1f, 0.85f);
             TextSpeed = FiniteClamp(TextSpeed, 8f, 160f, 42f);
+            BattleSpeed = FiniteClamp(BattleSpeed, 1f, 2f, 1f);
             ResolutionIndex = Mathf.Clamp(ResolutionIndex, 0, Resolutions.Length - 1);
         }
         static float FiniteClamp(float value, float min, float max, float fallback) =>

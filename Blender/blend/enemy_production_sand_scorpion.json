@@ -1,38 +1,38 @@
 {
   "id": "sand_scorpion",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/ember.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/ember.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:24Z",
+  "produced_at_utc": "2026-10-07T00:21:28Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
-      "bytes": 1176540
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+      "bytes": 1103916
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_sand_scorpion.blend",
-      "bytes": 252308
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_sand_scorpion.blend",
+      "bytes": 268548
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_sand_scorpion.png",
-        "bytes": 168027
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion.png",
+        "bytes": 168623
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_sand_scorpion_side.png",
-        "bytes": 164321
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_side.png",
+        "bytes": 168271
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_sand_scorpion_attack.png",
-        "bytes": 169474
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_attack.png",
+        "bytes": 169029
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_sand_scorpion_cast.png",
-        "bytes": 175315
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_cast.png",
+        "bytes": 176990
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_sand_scorpion_die.png",
-        "bytes": 171786
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_die.png",
+        "bytes": 174380
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7158,
-    "vertices": 3973,
-    "bones": 18,
+    "triangles": 8894,
+    "vertices": 4843,
+    "bones": 16,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7158,
-    "vertices": 3973,
-    "bones": 18,
+    "triangles": 8894,
+    "vertices": 4843,
+    "bones": 16,
     "materials": [
       "M_Toon",
       "M_Emit"

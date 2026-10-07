@@ -134,6 +134,79 @@ namespace Abyss.EditorTools
             if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Windows build failed: " + report.summary.result);
             Debug.Log($"Windows build: {report.summary.totalSize} bytes at {output}");
         }
+
+        // ---- mobile ------------------------------------------------------------------------------------
+        // Requires the Android Build Support module (IL2CPP, OpenJDK, Android SDK & NDK) or iOS Build Support in Unity Hub.
+        // Batch: Unity -batchmode -quit -projectPath . -executeMethod Abyss.EditorTools.AbyssProjectSetup.BuildAndroid
+
+        /// <summary>Player settings shared by phones and tablets: landscape only, IL2CPP/ARM64, no forced desktop resolution.</summary>
+        static void ConfigureMobile()
+        {
+            PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
+            PlayerSettings.allowedAutorotateToLandscapeLeft = true;
+            PlayerSettings.allowedAutorotateToLandscapeRight = true;
+            PlayerSettings.allowedAutorotateToPortrait = false;
+            PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
+            PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+            PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS, ScriptingImplementation.IL2CPP);
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
+            PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
+            PlayerSettings.Android.preferredInstallLocation = AndroidPreferredInstallLocation.Auto;
+            PlayerSettings.Android.renderOutsideSafeArea = false;
+            PlayerSettings.iOS.targetOSVersionString = "15.0";
+            PlayerSettings.iOS.requiresFullScreen = true;
+            PlayerSettings.iOS.hideHomeButton = true;
+            EditorUserBuildSettings.androidBuildSubtarget = MobileTextureSubtarget.ASTC;
+        }
+
+        [MenuItem("Abyss/Build Android (APK)")]
+        public static void BuildAndroid() => BuildAndroidPlayer(false);
+
+        [MenuItem("Abyss/Build Android (Google Play AAB)")]
+        public static void BuildAndroidBundle() => BuildAndroidPlayer(true);
+
+        static void BuildAndroidPlayer(bool bundle)
+        {
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
+                throw new InvalidOperationException("Android Build Support (IL2CPP, OpenJDK, SDK & NDK) is not installed for this editor.");
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+            Prepare();
+            ValidateContent();
+            ConfigureMobile();
+            EditorUserBuildSettings.buildAppBundle = bundle;
+            string output = bundle ? "Build/Android/AbyssLabyrinth.aab" : "Build/Android/AbyssLabyrinth.apk";
+            Directory.CreateDirectory(Path.GetDirectoryName(output));
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { MainScenePath }, locationPathName = output,
+                target = BuildTarget.Android, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Android build failed: " + report.summary.result);
+            Debug.Log($"Android build: {report.summary.totalSize} bytes at {output}");
+        }
+
+        [MenuItem("Abyss/Build iOS (Xcode project)")]
+        public static void BuildIos()
+        {
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.iOS, BuildTarget.iOS))
+                throw new InvalidOperationException("iOS Build Support is not installed for this editor.");
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+            Prepare();
+            ValidateContent();
+            ConfigureMobile();
+            const string output = "Build/iOS";
+            Directory.CreateDirectory(output);
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { MainScenePath }, locationPathName = output,
+                target = BuildTarget.iOS, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("iOS build failed: " + report.summary.result);
+            Debug.Log($"iOS Xcode project: {output} (open in Xcode on a Mac to sign and run)");
+        }
     }
 
     public sealed class AbyssAudioImporter : AssetPostprocessor

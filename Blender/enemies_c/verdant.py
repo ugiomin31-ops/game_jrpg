@@ -73,11 +73,10 @@ def killer_bee(eid):
     c.orb('head', 'bee_head', tuple(h.c), tuple(h.r), yel, seg=26, rings=14)
     p, n = h.point(0, .99, .0)
     c.disc('head', 'brow_stripe', p, n, (.17, .03, .05), blk)
-    c.eye_pair('eyes', h, .875, .088, .058, .068, '#e3352b', '#ffb35c', angry=.75)
-    c.open_mouth('head', h, .785, .045, .03, fangs='#fff6dd')
+    c.eye_pair('eyes', h, .875, .088, .062, .072, '#8a4a12', '#ffc85c', angry=.3)
+    c.blush('head', h, .8, .13, .035)
+    c.cat_mouth('head', h, .78, .03)
     for s, side in ((-1, 'R'), (1, 'L')):
-        a, _ = h.point(s * .06, .79, .01)
-        c.cone_to('head', f'mandible{side}', tuple(a), (s * .03, a.y - .07, .74), .022, blk)
         c.bone('antenna.' + side, (s * .06, -.06, 1.02), 'head')
         c.tube('antenna.' + side, 'antenna' + side, [(s * .06, -.06, 1.0), (s * .1, -.1, 1.1), (s * .17, -.13, 1.16)], .012, blk)
         c.orb('antenna.' + side, 'antenna_tip' + side, (s * .18, -.135, 1.17), (.03, .03, .03), yel)
@@ -94,8 +93,8 @@ def killer_bee(eid):
     # striped abdomen hanging back, venom stinger
     for k, (y, z, r) in enumerate(((.15, .55, .14), (.24, .48, .15), (.32, .41, .13), (.38, .35, .1))):
         c.orb('tail1', f'abdomen{k}', (0, y, z), (r, r * .95, r * .85), yel if k % 2 == 0 else blk)
-    c.cone_to('tail1', 'stinger', (0, .41, .3), (0, .45, .16), .04, '#3a2340', seg=10)
-    c.orb('tail1', 'venom_drop', (0, .455, .145), (.025, .025, .035), '#c55bff', 'M_Emit')
+    c.cone_to('tail1', 'stinger', (0, .41, .3), (0, .43, .22), .035, '#3a2340', seg=10)
+    c.orb('tail1', 'venom_drop', (0, .432, .21), (.025, .025, .03), '#c55bff', 'M_Emit')
     c.ring('body', 'waist', (0, .1, .58), .07, .03, blk, rot=(60, 0, 0))
 
     def extra(a, clip, f, t, i, names):
@@ -118,12 +117,9 @@ def mandragora(eid):
     for k, z in enumerate((.3, .56)):
         rr = h.r.x * math.sqrt(max(0.0, 1 - ((z - h.c.z) / h.r.z) ** 2)) + .004
         c.ring('body', f'root_ring{k}', (0, 0, z), rr, .007, '#c79c70', scale=(1, h.r.y / h.r.x, 1))
-    c.eye_pair('eyes', h, .5, .1, .058, .064, '#8a3fd1', '#e3a8ff', angry=.9, lid_color='#e2b98d')
-    for s in (-1, 1):
-        p, n = h.point(s * .12, .43, .01)
-        c.disc('eyes', f'tear{s:+d}', p, n, (.022, .015, .04), '#9fe6ff', 'M_Clear', seg=10, rings=5)
-    c.blush('body', h, .43, .18, .04)
-    c.open_mouth('body', h, .37, .07, .075, fangs=None)
+    c.eye_pair('eyes', h, .5, .1, .064, .074, '#8a3fd1', '#e3a8ff')
+    c.blush('body', h, .43, .18, .045)
+    c.open_mouth('body', h, .375, .045, .04, fangs=None)
     for k in range(5):
         ang = math.tau * k / 5 + .3
         c.tube('body', f'root_hair{k}', [(.07 * math.cos(ang), .07 * math.sin(ang), .14), (.12 * math.cos(ang), .12 * math.sin(ang), .07), (.16 * math.cos(ang), .14 * math.sin(ang), .05)], .01, root, taper=.2)
@@ -138,12 +134,9 @@ def mandragora(eid):
     c.orb('crest', 'bloom_heart', (0, -.06, 1.0), (.035, .035, .03), '#ffe45c', 'M_Emit')
     for s, side in ((-1, 'R'), (1, 'L')):
         c.bone('arm.' + side, (s * .22, -.02, .45), 'body'); c.bone('leg.' + side, (s * .1, 0, .18), 'body')
-        c.tube('arm.' + side, 'root_arm' + side, [(s * .22, -.02, .45), (s * .32, -.06, .4), (s * .36, -.1, .3)], .03, root, taper=.6)
-        for j in range(3):
-            c.tube('arm.' + side, f'root_finger{side}{j}', [(s * .36, -.1, .31), (s * (.37 + (j - 1) * .03), -.13, .25), (s * (.39 + (j - 1) * .04), -.12, .21)], .011, root, taper=.3)
-        c.tube('leg.' + side, 'root_leg' + side, [(s * .09, 0, .2), (s * .13, -.03, .09), (s * .15, -.07, .02)], .038, root, taper=.7)
-        for j in range(3):
-            c.tube('leg.' + side, f'root_toe{side}{j}', [(s * .15, -.07, .03), (s * (.15 + (j - 1) * .045), -.14, .01)], .012, root, taper=.3)
+        c.tube('arm.' + side, 'root_arm' + side, [(s * .22, -.02, .45), (s * .3, -.06, .4), (s * .33, -.09, .33)], .036, root, taper=.85)
+        c.orb('arm.' + side, 'root_mitten' + side, (s * .335, -.1, .31), (.05, .048, .05), skin)
+        c.stubby_leg('leg.' + side, 'root_leg' + side, (s * .09, 0, .2), (s * .13, -.04, .04), .045, root, skin)
 
     def extra(a, clip, f, t, i, names):
         wav = math.sin(math.tau * t)
@@ -174,8 +167,9 @@ def rhino_beetle(eid):
     c.cone_to('body', 'thorax_horn', (0, -.2, .5), (0, -.3, .64), .05, dark, seg=10)
     h = Head((0, -.29, .31), (.19, .14, .15))
     c.orb('head', 'beetle_head', tuple(h.c), tuple(h.r), dark if not el else '#26354a', seg=24, rings=12)
-    c.eye_pair('eyes', h, .325, .095, .056, .066, '#ffcf2e', '#fff3a6', angry=.6)
-    c.open_mouth('head', h, .24, .045, .025, fangs='#f2e3c4')
+    c.eye_pair('eyes', h, .33, .095, .062, .074, '#ffcf2e', '#fff3a6', angry=.15 if not el else .45)
+    c.blush('head', h, .26, .14, .032)
+    c.cat_mouth('head', h, .235, .03)
     horn = [(0, -.3, .43), (0, -.41, .49), (0, -.5, .61), (0, -.49, .76)]
     if el:
         horn = [(0, -.3, .43), (0, -.43, .5), (0, -.55, .66), (0, -.53, .86)]
@@ -191,14 +185,7 @@ def rhino_beetle(eid):
             b = f'leg{k + 1}.{side}'
             c.bone(b, (s * .15, y, .25), 'body')
             splay = (k - 1) * .07
-            hip, knee, ankle, toe = (s * .15, y, .25), (s * .3, y + splay * .5, .3), (s * .38, y + splay, .1), (s * .42, y + splay * 1.6 - .04, .03)
-            c.tube(b, f'femur{k}{side}', [hip, knee], .05, dark, taper=.85)
-            c.orb(b, f'knee{k}{side}', knee, (.05, .05, .05), shell)
-            c.tube(b, f'tibia{k}{side}', [knee, ankle], .042, dark, taper=.75)
-            c.tube(b, f'tarsus{k}{side}', [ankle, toe], .028, dark, taper=.6)
-            c.cone_to(b, f'leg_claw{k}{side}', toe, (toe[0] + s * .03, toe[1] - .05, .0), .018, '#d8c7a8')
-            if el:
-                c.cone_to(b, f'leg_spike{k}{side}', (s * .33, y, .22), (s * .42, y, .3), .02, trim)
+            c.stubby_leg(b, f'leg{k}{side}', (s * .15, y, .25), (s * .3, y + splay, .05), .055, dark, shell)
     if el:
         for s in (-1, 1):
             c.tube('body', f'gold_edge{s}', [(s * .02, -.07, .5), (s * .2, .05, .42), (s * .24, .22, .32), (s * .14, .38, .3)], .014, trim)

@@ -1,38 +1,38 @@
 {
   "id": "frost_spider",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/frost.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/frost.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:05:55Z",
+  "produced_at_utc": "2026-10-07T00:21:54Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
-      "bytes": 890028
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+      "bytes": 794988
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_frost_spider.blend",
-      "bytes": 219460
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_frost_spider.blend",
+      "bytes": 222238
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_frost_spider.png",
-        "bytes": 187131
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_frost_spider.png",
+        "bytes": 190834
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_frost_spider_side.png",
-        "bytes": 171901
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_frost_spider_side.png",
+        "bytes": 179702
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_frost_spider_attack.png",
-        "bytes": 182373
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_frost_spider_attack.png",
+        "bytes": 183546
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_frost_spider_cast.png",
-        "bytes": 183207
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_frost_spider_cast.png",
+        "bytes": 192465
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_frost_spider_die.png",
-        "bytes": 182534
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_frost_spider_die.png",
+        "bytes": 183854
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5986,
-    "vertices": 3519,
-    "bones": 13,
+    "triangles": 6796,
+    "vertices": 3706,
+    "bones": 11,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5986,
-    "vertices": 3519,
-    "bones": 13,
+    "triangles": 6796,
+    "vertices": 3706,
+    "bones": 11,
     "materials": [
       "M_Toon",
       "M_Emit"

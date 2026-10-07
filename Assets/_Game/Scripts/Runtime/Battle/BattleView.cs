@@ -6,6 +6,7 @@ using Abyss.Logic.Battle;
 using Abyss.Presentation.Audio;
 using Abyss.Presentation.Vfx;
 using Abyss.Runtime.Art;
+using Abyss.Runtime.Persistence;
 using Abyss.Runtime.World;
 using Abyss.UI;
 using Abyss.UI.Battle;
@@ -55,6 +56,9 @@ namespace Abyss.Runtime.Battle
         bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced;
         AtmospherePreset _oldAtmosphere;
         bool Reduced => _app.Preferences != null && _app.Preferences.ReducedMotion;
+        /// <summary>Battle pacing multiplier from settings (1x, 1.5x, 2x): scales waits, unit animation and action timers.</summary>
+        float Speed => _app.Preferences != null ? _app.Preferences.BattleSpeed : 1f;
+        float Dt => Time.unscaledDeltaTime * Speed;
 
         public void Initialize(GameApp app, BattleSetup setup, Action<BattleOutcome> completed)
         {
@@ -78,6 +82,7 @@ namespace Abyss.Runtime.Battle
             _dim = UIFactory.Fill(app.UI.Content, new Color(0, 0, 0, 0), "Battle dim");
             _hud = gameObject.AddComponent<BattleHUD>();
             _hud.Initialize(app.UI.Content, _camera, app.DB, Submit, ToggleAuto, PreviewTarget);
+            _hud.EnableSpeedToggle(SpeedLabel, ToggleSpeed);
             _flash = UIFactory.Fill(app.UI.Content, new Color(1, 1, 1, 0), "Battle flash");
             Engine = new BattleEngine(app.DB, setup);
             string music = setup.Kind == BattleKind.Boss ? "bgm_boss" : "bgm_battle";
@@ -104,6 +109,18 @@ namespace Abyss.Runtime.Battle
             }
         }
         public void ToggleAuto() => SetAuto(!Auto);
+        string SpeedLabel => $"속도 {Speed:0.#}x";
+        void ToggleSpeed()
+        {
+            var p = _app.Preferences;
+            if (p == null) return;
+            var speeds = GamePreferences.BattleSpeeds;
+            int next = 0;
+            for (int i = 0; i < speeds.Length; i++) if (p.BattleSpeed < speeds[i] - 0.01f) { next = i; break; }
+            p.BattleSpeed = speeds[next];
+            _app.SavePreferences();
+            _hud.SetSpeedLabel(SpeedLabel);
+        }
         IEnumerator AutoInput()
         {
             yield return Wait(.4f);
@@ -553,10 +570,10 @@ namespace Abyss.Runtime.Battle
                 {
                     if (!_app.Paused)
                     {
-                        elapsed += Time.unscaledDeltaTime;
+                        elapsed += Dt;
                         foreach (var unit in _units.Values)
                             if (unit.Side == BattleSide.Party && unit.Alive)
-                                unit.Model.transform.position += transform.TransformDirection(Vector3.back) * (Time.unscaledDeltaTime * 4);
+                                unit.Model.transform.position += transform.TransformDirection(Vector3.back) * (Dt * 4);
                     }
                     yield return null;
                 }
@@ -654,9 +671,9 @@ namespace Abyss.Runtime.Battle
         {
             if (!_initialized || _restored || _camera == null) return;
             _hud.Paused = _app.Paused;
-            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : 1);
+            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed);
             if (_app.Paused) return;
-            if (!_hitstop && _actionLength > 0) _actionElapsed += Time.unscaledDeltaTime;
+            if (!_hitstop && _actionLength > 0) _actionElapsed += Dt;
             if (Reduced)
             {
                 if (!_wasReduced) Establishing(true);
@@ -667,7 +684,7 @@ namespace Abyss.Runtime.Battle
             {
                 if (unit.KnockTime <= 0) continue;
                 // Snap back on contact, ease home; frozen (held at full push) during hit-stop.
-                if (!_hitstop) unit.KnockTime = Mathf.Max(0, unit.KnockTime - Time.unscaledDeltaTime);
+                if (!_hitstop) unit.KnockTime = Mathf.Max(0, unit.KnockTime - Dt);
                 float k = unit.KnockTime / KnockLength;
                 Vector3 back = unit.Facing * Vector3.back;
                 unit.Model.transform.position = unit.Home + back * (unit.KnockAmount * k * k);
@@ -700,7 +717,7 @@ namespace Abyss.Runtime.Battle
         {
             float elapsed = 0;
             while (elapsed < seconds || _app.Paused)
-            { if (!_app.Paused) elapsed += Time.unscaledDeltaTime; yield return null; }
+            { if (!_app.Paused) elapsed += Dt; yield return null; }
         }
         IEnumerator HitStop(float seconds)
         {
@@ -709,7 +726,7 @@ namespace Abyss.Runtime.Battle
             foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(0);
             yield return Wait(seconds);
             _hitstop = false;
-            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused ? 0 : 1);
+            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused ? 0 : Speed);
         }
         IEnumerator Face(BattleDisplayUnit unit, Quaternion facing)
         {
@@ -722,7 +739,7 @@ namespace Abyss.Runtime.Battle
                 {
                     if (!_app.Paused)
                     {
-                        elapsed += Time.unscaledDeltaTime;
+                        elapsed += Dt;
                         model.rotation = Quaternion.Slerp(from, facing, Mathf.SmoothStep(0, 1, elapsed / .12f));
                     }
                     yield return null;
@@ -738,7 +755,7 @@ namespace Abyss.Runtime.Battle
             {
                 if (!_app.Paused)
                 {
-                    elapsed += Time.unscaledDeltaTime;
+                    elapsed += Dt;
                     unit.Model.transform.position = Vector3.Lerp(from, destination, Mathf.SmoothStep(0, 1, elapsed / seconds));
                 }
                 yield return null;

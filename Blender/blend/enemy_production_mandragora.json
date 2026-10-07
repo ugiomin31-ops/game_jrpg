@@ -1,38 +1,38 @@
 {
   "id": "mandragora",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/verdant.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/verdant.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:05:43Z",
+  "produced_at_utc": "2026-10-07T00:22:06Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
-      "bytes": 633420
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
+      "bytes": 619420
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_mandragora.blend",
-      "bytes": 212790
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_mandragora.blend",
+      "bytes": 205252
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_mandragora.png",
-        "bytes": 178918
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora.png",
+        "bytes": 180710
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_mandragora_side.png",
-        "bytes": 166254
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_side.png",
+        "bytes": 167618
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_mandragora_attack.png",
-        "bytes": 171832
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_attack.png",
+        "bytes": 172932
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_mandragora_cast.png",
-        "bytes": 173744
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_cast.png",
+        "bytes": 176957
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_mandragora_die.png",
-        "bytes": 173123
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_die.png",
+        "bytes": 169087
       }
     ]
   },
@@ -41,13 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6032,
-    "vertices": 3558,
+    "triangles": 5824,
+    "vertices": 3206,
     "bones": 8,
     "materials": [
       "M_Toon",
-      "M_Emit",
-      "M_Clear"
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -86,13 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6032,
-    "vertices": 3558,
+    "triangles": 5824,
+    "vertices": 3206,
     "bones": 8,
     "materials": [
       "M_Toon",
-      "M_Emit",
-      "M_Clear"
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
