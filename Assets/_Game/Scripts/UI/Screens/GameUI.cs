@@ -225,11 +225,11 @@ namespace Abyss.UI
             bool touch = TouchFirst;
             hud = UIFactory.Rect(Content, dungeon ? "Dungeon HUD" : "Town HUD").Stretch();
             var heading = UIFactory.Panel(hud);
-            heading.Rect.TopStrip(128, 0, 30, dungeon ? 390 : 30);
+            heading.Rect.TopStrip(UIRoot.Compact ? 104 : 128, 0, 30, dungeon || UIRoot.Compact ? 450 : 30);
             area = UIFactory.Label(heading.Rect, "", 36, color: UITheme.GoldBright);
-            area.Rt().TopStrip(54, 16, 25, 25);
-            resources = UIFactory.Label(heading.Rect, "", 23, color: UITheme.TextDim);
-            resources.Rt().BottomStrip(40, 12, 25, 25);
+            area.Rt().TopStrip(54, UIRoot.Compact ? 8 : 16, 25, 25);
+            resources = UIFactory.Label(heading.Rect, "", UIRoot.Compact ? 25 : 23, color: UITheme.TextDim);
+            resources.Rt().BottomStrip(40, UIRoot.Compact ? 6 : 12, 25, 25);
             // Party cards live in one row that shrinks (FitHud) when the screen is too narrow for cards + pad.
             partyRow = UIFactory.Rect(hud, "Party Row");
             partyRow.Place(UIAnchor.BottomLeft, new Vector2(30, 28), new Vector2(app.State.Party.Count * 350 - 20, 176));

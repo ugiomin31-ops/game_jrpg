@@ -16,7 +16,8 @@ namespace Abyss.UI
         {
             UIFactory.Fill(Rect, UITheme.Ink.WithAlpha(0.97f), raycast: true);
             var frame = UIFactory.Panel(Rect, UIPanelStyle.Ornate);
-            frame.Rect.Stretch(100, 55, 100, 55);
+            bool compact = UIRoot.Compact;
+            if (compact) frame.Rect.Stretch(26, 18, 26, 18); else frame.Rect.Stretch(100, 55, 100, 55);
             var grid = Run.Grid;
             var title = UIFactory.Paragraph(frame.Rect, "탐색 지도 · " + grid.Floor.FloorLabel + " · " + grid.Floor.AreaName, 36, UITheme.GoldBright);
             title.overflowMode = TMPro.TextOverflowModes.Ellipsis;
@@ -44,8 +45,9 @@ namespace Abyss.UI
             {
                 var sample = UIFactory.Add<DungeonMapSymbol>(legend.Rect, labels[i]);
                 sample.Marker = markers[i];
-                sample.Rt().Place(UIAnchor.TopLeft, new Vector2(22, -72 - i * 42), new Vector2(28, 28));
-                UIFactory.Label(legend.Rect, labels[i], 23).Rt().Place(UIAnchor.TopLeft, new Vector2(66, -68 - i * 42), new Vector2(275, 36));
+                float step = compact ? 37f : 42f;
+                sample.Rt().Place(UIAnchor.TopLeft, new Vector2(22, -70 - i * step), new Vector2(28, 28));
+                UIFactory.Label(legend.Rect, labels[i], compact ? 24 : 23).Rt().Place(UIAnchor.TopLeft, new Vector2(66, -66 - i * step), new Vector2(285, 36));
             }
             UIFactory.Paragraph(frame.Rect, "빛나는 화살표 · 현재 위치와 방향\n미탐색 구역과 밟지 않은 함정은 표시되지 않습니다.", 21, UITheme.TextDim)
                 .Rt().BottomStrip(68, 24, 45, 340);

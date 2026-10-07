@@ -26,15 +26,17 @@ namespace Abyss.UI
         {
             Clear(); BuildHud(false); RefreshTown();
             var services = UIFactory.Panel(hud);
-            services.Rect.Place(UIAnchor.Right, new Vector2(-30, 30), new Vector2(390, 580));
-            UIFactory.Label(services.Rect, "마을 시설", 28, color: UITheme.GoldBright).Rt().TopStrip(50, 15, 20, 20);
+            bool compact = UIRoot.Compact;
+            float row = compact ? 64f : 52f, step = compact ? 71f : 60f;
+            services.Rect.Place(UIAnchor.Right, new Vector2(compact ? -22 : -30, compact ? 40 : 30), new Vector2(compact ? 400 : 390, 82 + TownIds.Length * step));
+            UIFactory.Label(services.Rect, "마을 시설", compact ? 30 : 28, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(50, 15, 20, 20);
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
                 var button = UIFactory.Button(services.Rect, T(TownTitles[i]), () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
-                button.Rt().TopStrip(52, 78 + i * 60, 20, 20);
+                button.Rt().TopStrip(row, 74 + i * step, 18, 18);
             }
-            string help = Application.isMobilePlatform
+            string help = UIRoot.TouchFirst
                 ? "이동 · 화면을 누른 채 끌기    대화 · 시설 근처에서 탭    수첩 · 오른쪽 아래 버튼"
                 : "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start";
             UIFactory.Label(hud, help, 21, color: UITheme.TextDim)
