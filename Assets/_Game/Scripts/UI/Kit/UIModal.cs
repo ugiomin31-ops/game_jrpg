@@ -100,12 +100,13 @@ namespace Abyss.UI
             }
 
             Buttons = UIFactory.ButtonGroup(_panel.Rect, true, 26f);
-            UIFactory.Layout(Buttons, -1f, 72f);
+            float buttonHeight = UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 64f;
+            UIFactory.Layout(Buttons, -1f, buttonHeight + 8f);
             for (int i = 0; i < _choices.Count; i++)
             {
                 int idx = i;
                 float width = Mathf.Min(240f, (692f - 26f * (_choices.Count - 1)) / Mathf.Max(1, _choices.Count));
-                Buttons.AddButton(_choices[i], () => Answer(idx), width, 64f);
+                Buttons.AddButton(_choices[i], () => Answer(idx), width, buttonHeight);
             }
             Buttons.SetFocus(_defaultIndex, true);
         }

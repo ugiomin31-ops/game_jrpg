@@ -60,12 +60,12 @@ namespace Abyss.UI.Battle
         public bool Paused { get; set; }
         /// <summary>Phones/tablets: taller command rows and buttons sized for a thumb.</summary>
         static bool TouchUI => Application.isMobilePlatform || UITouch.Supported;
-        const int PerPage = 6;
+        static int PerPage => TouchUI ? 4 : 6;
         /// <summary>Landscape phone (900-unit canvas): slimmer bars and cards so the arena stays visible.</summary>
         static bool Compact => UIRoot.Compact;
-        static float RowHeight => Compact ? 62f : TouchUI ? 62f : 48f;
-        static float RowStep => Compact ? 68f : TouchUI ? 70f : 56f;
-        static float NavHeight => Compact ? 60f : TouchUI ? 62f : 46f;
+        static float RowHeight => TouchUI ? UIRoot.TouchTargetHeight : 48f;
+        static float RowStep => TouchUI ? RowHeight + 6f : 56f;
+        static float NavHeight => TouchUI ? UIRoot.TouchTargetHeight : 46f;
         static float MenuWidth => Compact ? 500f : 570f;
         RectTransform _logPanel, _orderRow;
         TMP_Text _roundLabel;
@@ -95,7 +95,7 @@ namespace Abyss.UI.Battle
                 _orderRow.Stretch(128, 0, 12, 0);
             }
             _autoButton = UIFactory.Button(_root, "자동: OFF", ToggleAuto);
-            _autoButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-22, -12) : new Vector2(-32, -26), Compact ? new Vector2(230, 64) : new Vector2(260, 62));
+            _autoButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-22, -12) : new Vector2(-32, -26), Compact ? new Vector2(230, TouchUI ? UIRoot.TouchTargetHeight : 64) : new Vector2(260, TouchUI ? UIRoot.TouchTargetHeight : 62));
             var logPanel = UIFactory.Panel(_root, UIPanelStyle.Dark, false);
             _logPanel = logPanel.Rect;
             if (Compact) logPanel.Rect.Place(UIAnchor.Top, new Vector2(0, -88), new Vector2(820, 48));
@@ -383,7 +383,7 @@ namespace Abyss.UI.Battle
         {
             _toggleSpeed = toggle;
             _speedButton = UIFactory.Button(_root, label, () => { if (!Paused) _toggleSpeed?.Invoke(); });
-            _speedButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-266, -12) : new Vector2(-306, -26), Compact ? new Vector2(150, 64) : new Vector2(150, 62));
+            _speedButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-266, -12) : new Vector2(-306, -26), new Vector2(150, TouchUI ? UIRoot.TouchTargetHeight : 62));
         }
         public void SetSpeedLabel(string label) { if (_speedButton != null) _speedButton.SetLabel(label); }
         public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? "자동전투 ON" : "자동전투 OFF"); }
@@ -688,9 +688,9 @@ namespace Abyss.UI.Battle
             };
             _rewardPage = delta => { if (!Paused) { page = Mathf.Clamp(page + delta, 0, Math.Max(0, (drops.Count - 1) / 6)); refresh(); } };
             var previous = UIFactory.Button(loot.Rect, "◀", () => _rewardPage(-1));
-            previous.Rt().Place(UIAnchor.BottomLeft, new Vector2(18, 6), new Vector2(94, 38));
+            previous.Rt().Place(UIAnchor.BottomLeft, new Vector2(18, 6), new Vector2(94, TouchUI ? 72 : 38));
             var next = UIFactory.Button(loot.Rect, "▶", () => _rewardPage(1));
-            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-18, 6), new Vector2(94, 38));
+            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-18, 6), new Vector2(94, TouchUI ? 72 : 38));
             previous.gameObject.SetActive(drops.Count > 6); next.gameObject.SetActive(drops.Count > 6);
             refresh();
             UIFactory.Label(panel.Rect, TouchUI ? "전리품을 탭하면 상세 보기 · 기록은 끌어서 스크롤" : "↑↓ 기록 스크롤 · Q/E 또는 LB/RB 전리품 페이지",
@@ -699,7 +699,7 @@ namespace Abyss.UI.Battle
             float acceptAfter = Time.unscaledTime + 0.4f;
             var ok = UIFactory.Button(panel.Rect, "모험 계속", () =>
             { if (Paused || answered || Time.unscaledTime < acceptAfter) return; answered = true; UIInput.Consume(); confirmed(); });
-            ok.Rt().Place(UIAnchor.BottomRight, new Vector2(-36, 18), new Vector2(312, 58));
+            ok.Rt().Place(UIAnchor.BottomRight, new Vector2(-36, 18), new Vector2(312, TouchUI ? UIRoot.TouchTargetHeight : 58));
             _buttons.Clear(); _buttons.Add(ok); _focus = 0; ok.Focused = true;
             _openedFrame = Time.frameCount; UIInput.Consume();
         }

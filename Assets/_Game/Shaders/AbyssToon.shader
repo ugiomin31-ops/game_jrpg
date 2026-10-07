@@ -14,8 +14,8 @@ Shader "Abyss/Toon"
         [NoScaleOffset] _BaseMap ("Base Map (optional)", 2D) = "white" {}
         _ShadowTint ("Shadow Tint", Color) = (0.42,0.40,0.62,1)
         _ShadowThreshold ("Shadow Threshold", Range(-1,1)) = 0.05
-        _ShadowSoftness ("Shadow Softness", Range(0.001,0.5)) = 0.06
-        _MidBand ("Mid Band Strength", Range(0,1)) = 0.25
+        _ShadowSoftness ("Shadow Softness", Range(0.001,0.5)) = 0.12
+        _MidBand ("Mid Band Strength", Range(0,1)) = 0.16
         _RimColor ("Rim Colour", Color) = (1,0.95,0.85,1)
         _RimStrength ("Rim Strength", Range(0,2)) = 0.35
         _RimPower ("Rim Power", Range(0.5,8)) = 3.5
@@ -26,7 +26,7 @@ Shader "Abyss/Toon"
         _Alpha ("Alpha", Range(0,1)) = 1
         [Toggle(_ALPHATEST_ON)] _AlphaClip ("Alpha Cutout (Base Map alpha)", Float) = 0
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.5
-        _OutlineWidth ("Outline Width", Range(0,0.05)) = 0.012
+        _OutlineWidth ("Outline Width", Range(0,0.05)) = 0.0055
         _OutlineZOffset ("Outline Z Offset (m, away from camera)", Range(0,0.1)) = 0
         _OutlineColor ("Outline Colour", Color) = (0.10,0.07,0.12,1)
         _FlashColor ("Flash Colour (a = amount)", Color) = (1,1,1,0)

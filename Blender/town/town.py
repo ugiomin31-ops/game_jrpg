@@ -318,6 +318,37 @@ def scenery():
     for name,size,loc in [('West',(1,66,8),(-32,0,4)),('East',(1,66,8),(32,0,4)),('South',(66,1,8),(0,-32,4)),('North',(66,1,8),(0,32,4))]: col_box('Boundary'+name,size,loc)
 
 
+def wayfinding():
+    """A readable town silhouette: service-colour cloth standards and a planted fountain border.
+    Posts sit outside the main walkway; cloth stays above head height. No interaction markers move.
+    """
+    m = MB()
+    for x, y, colour in [(-7, -11, '#b76882'), (-7, 12, '#4b9a91'),
+                          (7, -11, '#cc865c'), (7, 12, '#628bb3')]:
+        m.cyl(.075, 4.6, (x, y, 2.3), '#455562', seg=10)
+        m.ico(.14, (x, y, 4.7), GOLD, sub=1)
+        m.box((1.25, .075, .075), (x + .48, y, 4.4), GOLD)
+        # A folded cloth silhouette with a gold hem. Slabs have thickness and show from both sides.
+        for i in range(5):
+            xx = x + .08 + i * .22
+            yy = y + math.sin(i * .9) * .09
+            m.box((.235, .045, 1.35), (xx, yy, 3.69), shade(colour, .9 + i * .025))
+            m.box((.235, .052, .055), (xx, yy, 3.05), GOLD)
+        m.ico(.15, (x + .52, y - .08, 3.74), '#f1dfb3', sub=1, scale=(1, .3, 1))
+        m.cyl(.27, .15, (x, y, .075), STONE, seg=10)
+        col_box('Standard_%s_%s' % (x, y), (.3, .3, 4.5), (x, y, 2.25))
+    # Two curved flower beds frame the fountain without obstructing the north/south route.
+    for side in (-1, 1):
+        for i in range(7):
+            a = math.radians(-45 + i * 15)
+            x, y = side * 2.7 * math.cos(a), 2.7 * math.sin(a)
+            m.pillow((.62, .62, .2), (x, y, .08), '#a3a79a', inset=.08)
+            m.ico(.23, (x, y, .26), '#547e69', sub=1, scale=(1, 1, .7))
+            for dx, dy, c in [(-.12, -.08, '#e5b8b9'), (.12, .08, '#e8d6a3')]:
+                m.ico(.07, (x + dx, y + dy, .43), c, sub=1)
+    m.build('Square_StandardsAndFlowers')
+
+
 def markers():
     entries=[
         ('Spot_spawn',(0,-15,0),0),('Spot_innkeeper',(-8,-4,0),90),
@@ -363,7 +394,7 @@ def main():
     for x,y,a in [(-5,0,90),(5,0,-90),(-5,5,90),(5,-5,-90)]: bench(m,x,y,a)
     for x,y in [(-6,-6),(6,6)]: planter(m,x,y,0,2.1)
     m.build('Square_Furniture')
-    markers()
+    wayfinding(); markers()
     objects=[o for o in bpy.context.scene.objects if o.type in ('MESH','EMPTY')]
     A.export_fbx('Town/town.fbx',objects)
     A.save_blend('town')
