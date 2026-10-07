@@ -17,6 +17,8 @@ namespace Abyss.Runtime.Persistence
         public int ResolutionIndex = 2;
         public float TextSpeed = 42f;
         public bool ReducedMotion;
+        /// <summary>User intent persists until explicitly toggled off, including between encounters.</summary>
+        public bool AutoBattle;
         /// <summary>Mobile only: caps the frame rate at 30 to save battery and heat.</summary>
         public bool BatterySaver;
         /// <summary>Battle pacing multiplier: 1, 1.5 or 2.</summary>

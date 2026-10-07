@@ -25,16 +25,22 @@ namespace Abyss.UI
         public void ShowTown()
         {
             Clear(); BuildHud(false); RefreshTown();
-            var services = UIFactory.Panel(hud);
+            var services = UIFactory.Panel(hud, name: "Town service cards");
             bool compact = UIRoot.Compact;
-            float row = compact ? 64f : 52f, step = compact ? 71f : 60f;
-            services.Rect.Place(UIAnchor.Right, new Vector2(compact ? -22 : -30, compact ? 40 : 30), new Vector2(compact ? 400 : 390, 82 + TownIds.Length * step));
-            UIFactory.Label(services.Rect, "마을 시설", compact ? 30 : 28, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(50, 15, 20, 20);
+            const float width = 440f;
+            services.Rect.Place(UIAnchor.TopRight, new Vector2(-24, compact ? -126 : -156), new Vector2(width, 532));
+            UIFactory.Label(services.Rect, "마을에서 준비하기", 30, UIFont.Bold, UITheme.Text).Rt().TopStrip(42, 20, 24, 24);
+            UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 22, color: UITheme.TextDim).Rt().TopStrip(30, 66, 24, 24);
+            var hints = new[] { "파티 회복", "소모품 · 장비", "장비 제작", "의뢰 · 보상", "약점 · 전리품", "장비 · 기술", "이야기", "미궁 탐험 시작" };
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
-                var button = UIFactory.Button(services.Rect, T(TownTitles[i]), () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
-                button.Rt().TopStrip(row, 74 + i * step, 18, 18);
+                var button = UIFactory.Button(services.Rect, (id == "elder" ? "촌장" : T(TownTitles[i])) + "\n<size=20>" + hints[i] + "</size>",
+                    () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
+                button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -112 - (i / 2) * 102), new Vector2(196, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 92));
+                button.Label.textWrappingMode = TMPro.TextWrappingModes.Normal;
+                button.Label.fontSizeMax = 25;
+                if (id == "gate") button.Label.color = UITheme.DawnBright;
             }
             string help = UIRoot.TouchFirst
                 ? "이동 · 화면을 누른 채 끌기    대화 · 시설 근처에서 탭    수첩 · 오른쪽 아래 버튼"
@@ -95,7 +101,7 @@ namespace Abyss.UI
                     int maximum = Math.Min(cap - have, app.State.Gold / entry.Price);
                     string reason = !entry.Unlocked ? T("reason_tier_locked") : have >= cap ? T("reason_stack_full") : T("reason_not_enough_gold");
                     string description = ContentDescription(entry.Id) + $"\n\n보유 {have}개";
-                    if (equipment) description += $" · 장착 {PartyStats.EquippedCount(app.State, entry.Id)}개";
+                    if (equipment) description = ShopComparison(app.DB.Equipment[entry.Id]) + "\n\n" + description + $" · 장착 {PartyStats.EquippedCount(app.State, entry.Id)}개";
                     if (!entry.Unlocked) description += $"\n{app.DB.Floors[Math.Min(app.DB.Floors.Count - 1, (entry.ShopTier - 1) * 3)].FloorLabel} 도달 시 해금";
                     m.Add(entry.DisplayName, () => ShowQuantity(T("buy") + " · " + entry.DisplayName, maximum, entry.Price, n => equipment ? TownServices.BuyEquipment(app.DB, app.State, entry.Id, n) : TownServices.BuyItem(app.DB, app.State, entry.Id, n), m), description, $"{entry.Price:N0} G", entry.Unlocked && maximum > 0, reason, equipment ? UIArtwork.Gear(entry.Id) : UIArtwork.Item(entry.Id));
                 }
@@ -122,17 +128,17 @@ namespace Abyss.UI
         }
         void ShowQuantity(string title, int maximum, int price, Func<int, ServiceResult> operation, GameMenuScreen owner)
         {
-            Menu(title, "수량을 선택하세요. 결정하면 거래가 완료됩니다.", q =>
+            Menu(title, "수량을 선택한 뒤 합계를 확인하고 거래를 승인하세요.", q =>
             {
                 for (int i = 1; i <= maximum; i++)
                 {
                     int count = i;
-                    q.Add($"{count}개", () =>
+                    q.Add($"{count}개", () => Confirm("거래 확인", $"{title}\n수량 {count}개 · 합계 {price * count:N0} G\n{GoldLine}\n\n거래를 진행할까요?", () =>
                     {
                         var result = operation(count);
                         if (result.Success) q.Close();
                         Execute(result, owner);
-                    }, $"{title}\n수량 {count}개\n합계 {price * count:N0} G\n\n{GoldLine}", $"{price * count:N0} G");
+                    }), $"{title}\n수량 {count}개\n합계 {price * count:N0} G\n\n{GoldLine}", $"{price * count:N0} G");
                 }
             });
         }
@@ -164,8 +170,8 @@ namespace Abyss.UI
                 if (entry.State == QuestBoardState.Locked) details += $"\n{app.DB.Floors[Mathf.Clamp(quest.UnlockFloor, 0, app.DB.Floors.Count - 1)].FloorLabel} 도달 시 해금";
                 m.Add(quest.Title, () =>
                 {
-                    if (guild && entry.State == QuestBoardState.Available) Execute(TownServices.AcceptQuest(app.DB, app.State, quest.Id), m);
-                    else if (guild && entry.State == QuestBoardState.Complete) Execute(TownServices.ClaimQuest(app.DB, app.State, quest.Id), m);
+                    if (guild && entry.State == QuestBoardState.Available) Confirm("의뢰 수락", details + "\n\n이 의뢰를 수락할까요?", () => Execute(TownServices.AcceptQuest(app.DB, app.State, quest.Id), m));
+                    else if (guild && entry.State == QuestBoardState.Complete) Confirm("의뢰 보상", details + "\n\n보상을 수령할까요?", () => Execute(TownServices.ClaimQuest(app.DB, app.State, quest.Id), m));
                     else UIModal.Alert(root.Modals, quest.Title, details);
                 }, details, status);
             }

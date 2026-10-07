@@ -1,0 +1,2334 @@
+{
+  "unity": "6000.3.25f1",
+  "models": 298,
+  "heroes": 4,
+  "enemies": 51,
+  "equipment": 48,
+  "problems": [],
+  "assets": [
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/bomb.fbx",
+      "triangles": 544,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/villager_b/villager_b.fbx",
+      "triangles": 14660,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/arena.fbx",
+      "triangles": 27862,
+      "renderers": 4,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/overlay_1.fbx",
+      "triangles": 124,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/armor_chain.fbx",
+      "triangles": 13220,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/spring.fbx",
+      "triangles": 2876,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/wall_b.fbx",
+      "triangles": 4131,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/frost_kraken/frost_kraken.fbx",
+      "triangles": 23724,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Roar",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/ghost_essence.fbx",
+      "triangles": 376,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/defense_down.fbx",
+      "triangles": 176,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/ether.fbx",
+      "triangles": 318,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/stairs_up.fbx",
+      "triangles": 1390,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_bat/elite_bat.fbx",
+      "triangles": 8394,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/staff_crystal.fbx",
+      "triangles": 3538,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/item.fbx",
+      "triangles": 476,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/door_locked.fbx",
+      "triangles": 1554,
+      "renderers": 3,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/armor_dawn.fbx",
+      "triangles": 3668,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/party.fbx",
+      "triangles": 1312,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/floor_b.fbx",
+      "triangles": 1370,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+      "triangles": 3152,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_skeleton/elite_skeleton.fbx",
+      "triangles": 8366,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/frost_fur.fbx",
+      "triangles": 196,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/foe_marker.fbx",
+      "triangles": 824,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/lore_stone.fbx",
+      "triangles": 415,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/torch.fbx",
+      "triangles": 386,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/auto.fbx",
+      "triangles": 540,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/key.fbx",
+      "triangles": 762,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/door.fbx",
+      "triangles": 1414,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/floor_c.fbx",
+      "triangles": 330,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
+      "triangles": 10244,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+      "triangles": 9268,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/decor_5.fbx",
+      "triangles": 703,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/gold.fbx",
+      "triangles": 744,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/decor_3.fbx",
+      "triangles": 294,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/bow_hunter.fbx",
+      "triangles": 6088,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/gold_pile.fbx",
+      "triangles": 4340,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/boss_gate.fbx",
+      "triangles": 3490,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_guardian_ring.fbx",
+      "triangles": 1416,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/jellyfish/jellyfish.fbx",
+      "triangles": 9168,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_4.fbx",
+      "triangles": 448,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/trap.fbx",
+      "triangles": 646,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_flame_amulet.fbx",
+      "triangles": 3908,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "triangles": 8202,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/arena.fbx",
+      "triangles": 13162,
+      "renderers": 4,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_5.fbx",
+      "triangles": 129,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/hi_ether.fbx",
+      "triangles": 382,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
+      "triangles": 11276,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/robe_sage.fbx",
+      "triangles": 3856,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/speed_up.fbx",
+      "triangles": 148,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+      "triangles": 2798,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
+      "triangles": 5232,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/villager_c/villager_c.fbx",
+      "triangles": 12796,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/trap.fbx",
+      "triangles": 646,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/drake_scale.fbx",
+      "triangles": 60,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/door.fbx",
+      "triangles": 1080,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+      "triangles": 9542,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/floor_b.fbx",
+      "triangles": 272,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/decor_2.fbx",
+      "triangles": 80,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/fire.fbx",
+      "triangles": 96,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/healing_potion.fbx",
+      "triangles": 318,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/wall_a.fbx",
+      "triangles": 1404,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/bow_star.fbx",
+      "triangles": 6820,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/wall_c.fbx",
+      "triangles": 4284,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/blind.fbx",
+      "triangles": 396,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/overlay_1.fbx",
+      "triangles": 204,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/mega_potion.fbx",
+      "triangles": 446,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/skill.fbx",
+      "triangles": 812,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/guard.fbx",
+      "triangles": 508,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/smith/smith.fbx",
+      "triangles": 12742,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
+      "triangles": 10836,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/lore_stone.fbx",
+      "triangles": 437,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/warp.fbx",
+      "triangles": 476,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_hero_emblem.fbx",
+      "triangles": 4576,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/villager_a/villager_a.fbx",
+      "triangles": 12150,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/decor_1.fbx",
+      "triangles": 108,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/holy.fbx",
+      "triangles": 548,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/blunt.fbx",
+      "triangles": 112,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/sword_flamberge.fbx",
+      "triangles": 6194,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
+      "triangles": 13542,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
+      "triangles": 4194,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/verdant_crystal.fbx",
+      "triangles": 212,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/staff_sage.fbx",
+      "triangles": 3374,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/decor_2.fbx",
+      "triangles": 60,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/lore_stone.fbx",
+      "triangles": 684,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_3.fbx",
+      "triangles": 316,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/poison_strong.fbx",
+      "triangles": 800,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/decor_6.fbx",
+      "triangles": 152,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/bat/bat.fbx",
+      "triangles": 8280,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_power_band.fbx",
+      "triangles": 1632,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/foe_marker.fbx",
+      "triangles": 824,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/floor_a.fbx",
+      "triangles": 638,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/silence.fbx",
+      "triangles": 104,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/dark.fbx",
+      "triangles": 200,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/robe_silk.fbx",
+      "triangles": 2624,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_2.fbx",
+      "triangles": 400,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/staff_starlight.fbx",
+      "triangles": 4666,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/remedy.fbx",
+      "triangles": 478,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/door_locked.fbx",
+      "triangles": 1220,
+      "renderers": 3,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/old_bone.fbx",
+      "triangles": 436,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/overlay_2.fbx",
+      "triangles": 284,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/bow_gale.fbx",
+      "triangles": 6012,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/stairs_down.fbx",
+      "triangles": 1504,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/door_locked.fbx",
+      "triangles": 1446,
+      "renderers": 3,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/foe_marker.fbx",
+      "triangles": 824,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/armor_scale.fbx",
+      "triangles": 6108,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/grave_bat/grave_bat.fbx",
+      "triangles": 8280,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/slash.fbx",
+      "triangles": 432,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_frost_amulet.fbx",
+      "triangles": 4712,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/ember_crystal.fbx",
+      "triangles": 242,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/sword_dawn.fbx",
+      "triangles": 3486,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_1.fbx",
+      "triangles": 741,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/pierce.fbx",
+      "triangles": 112,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/garb_shadow.fbx",
+      "triangles": 3496,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/forest_fiber.fbx",
+      "triangles": 836,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/spring.fbx",
+      "triangles": 1328,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/ice_wolf/ice_wolf.fbx",
+      "triangles": 9976,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/torch.fbx",
+      "triangles": 386,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/chest_rare.fbx",
+      "triangles": 324,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx",
+      "triangles": 7504,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "triangles": 8880,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/attack_up.fbx",
+      "triangles": 420,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/ice.fbx",
+      "triangles": 340,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/slow.fbx",
+      "triangles": 700,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+      "triangles": 5868,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/floor_b.fbx",
+      "triangles": 1040,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/wall_a.fbx",
+      "triangles": 864,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/wall_c.fbx",
+      "triangles": 1244,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/decor_3.fbx",
+      "triangles": 136,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/garb_dawn.fbx",
+      "triangles": 3040,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/flee.fbx",
+      "triangles": 552,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/defense_up.fbx",
+      "triangles": 176,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/regen.fbx",
+      "triangles": 388,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_mushroom/elite_mushroom.fbx",
+      "triangles": 8994,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/staff_oak.fbx",
+      "triangles": 3578,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/map.fbx",
+      "triangles": 528,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "triangles": 11796,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/wall_a.fbx",
+      "triangles": 932,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/golem_sandstone.fbx",
+      "triangles": 64,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/power_tonic.fbx",
+      "triangles": 498,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/mace_silver.fbx",
+      "triangles": 3210,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/wall_b.fbx",
+      "triangles": 3504,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/stairs_down.fbx",
+      "triangles": 712,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/freeze.fbx",
+      "triangles": 372,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/mace_dawn.fbx",
+      "triangles": 4402,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/chest_common.fbx",
+      "triangles": 304,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_2.fbx",
+      "triangles": 448,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/guild_clerk/guild_clerk.fbx",
+      "triangles": 13440,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/wall_a.fbx",
+      "triangles": 4524,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/sword_bronze.fbx",
+      "triangles": 2390,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Characters/archer/archer.fbx",
+      "triangles": 27351,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Guard",
+        "Hit",
+        "Idle",
+        "Revive",
+        "Run",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/arena.fbx",
+      "triangles": 35082,
+      "renderers": 4,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/banner_party.fbx",
+      "triangles": 136,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/spring.fbx",
+      "triangles": 1664,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/spring.fbx",
+      "triangles": 1328,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/warp.fbx",
+      "triangles": 1076,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/attack_down.fbx",
+      "triangles": 420,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/sleep.fbx",
+      "triangles": 276,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/guard_tonic.fbx",
+      "triangles": 430,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/robe_cloth.fbx",
+      "triangles": 3228,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/magma_core.fbx",
+      "triangles": 240,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/wall_c.fbx",
+      "triangles": 1580,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx",
+      "triangles": 7096,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+      "triangles": 12740,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/robe_mystic.fbx",
+      "triangles": 3592,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/overlay_1.fbx",
+      "triangles": 676,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/floor_a.fbx",
+      "triangles": 724,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/mace_wood.fbx",
+      "triangles": 2446,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/decor_4.fbx",
+      "triangles": 108,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+      "triangles": 9848,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/chest.fbx",
+      "triangles": 1652,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/lore_stone.fbx",
+      "triangles": 1897,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_scarecrow/elite_scarecrow.fbx",
+      "triangles": 8886,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+      "triangles": 10898,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/boss_gate.fbx",
+      "triangles": 1500,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/floor_c.fbx",
+      "triangles": 1540,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/smoke_bomb.fbx",
+      "triangles": 904,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/wisp/wisp.fbx",
+      "triangles": 1696,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/chest.fbx",
+      "triangles": 1634,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/return_stone.fbx",
+      "triangles": 380,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/magic_up.fbx",
+      "triangles": 396,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_lucky_charm.fbx",
+      "triangles": 5128,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/boss/boss.fbx",
+      "triangles": 27530,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Roar",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/overlay_2.fbx",
+      "triangles": 96,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
+      "triangles": 8610,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_sage_pendant.fbx",
+      "triangles": 3928,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/defense_up_l.fbx",
+      "triangles": 180,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/attack_up_berserk.fbx",
+      "triangles": 420,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_wind_boots.fbx",
+      "triangles": 2152,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/decor_5.fbx",
+      "triangles": 598,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/boss_gate.fbx",
+      "triangles": 1602,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/wall_b.fbx",
+      "triangles": 1412,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/mace_blessed.fbx",
+      "triangles": 3242,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/staff_ruby.fbx",
+      "triangles": 4678,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/armor_dragon.fbx",
+      "triangles": 7016,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/warp.fbx",
+      "triangles": 476,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/stun.fbx",
+      "triangles": 452,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/floor_a.fbx",
+      "triangles": 305,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/chest.fbx",
+      "triangles": 2600,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/poison.fbx",
+      "triangles": 752,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Elements/thunder.fbx",
+      "triangles": 60,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Town/town.fbx",
+      "triangles": 78874,
+      "renderers": 66,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/flame_sphinx/flame_sphinx.fbx",
+      "triangles": 28504,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Roar",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/door.fbx",
+      "triangles": 2616,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_1.fbx",
+      "triangles": 288,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+      "triangles": 4932,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/floor_c.fbx",
+      "triangles": 334,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/stairs_up.fbx",
+      "triangles": 512,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/cursed_straw.fbx",
+      "triangles": 640,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_coral_crab/elite_coral_crab.fbx",
+      "triangles": 11270,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/floor_c.fbx",
+      "triangles": 780,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/stairs_down.fbx",
+      "triangles": 754,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/stairs_down.fbx",
+      "triangles": 1010,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/barrier_abyss.fbx",
+      "triangles": 572,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/wall_b.fbx",
+      "triangles": 1644,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/torch.fbx",
+      "triangles": 386,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/floor_a.fbx",
+      "triangles": 328,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/door.fbx",
+      "triangles": 1306,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/bow_composite.fbx",
+      "triangles": 6428,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/forest_guardian/forest_guardian.fbx",
+      "triangles": 26316,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Roar",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/decor_6.fbx",
+      "triangles": 106,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_antidote_ring.fbx",
+      "triangles": 1376,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/boss_gate.fbx",
+      "triangles": 1558,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/provoke.fbx",
+      "triangles": 432,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/slime_gel.fbx",
+      "triangles": 524,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/barrier.fbx",
+      "triangles": 440,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+      "triangles": 10100,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+      "triangles": 8952,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
+      "triangles": 8840,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/ultimate.fbx",
+      "triangles": 500,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/overlay_1.fbx",
+      "triangles": 185,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper.fbx",
+      "triangles": 13500,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/sword_iron.fbx",
+      "triangles": 2122,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/coral_shard.fbx",
+      "triangles": 228,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_shadow_amulet.fbx",
+      "triangles": 4340,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/armor_plate.fbx",
+      "triangles": 3640,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/burn.fbx",
+      "triangles": 112,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/chest.fbx",
+      "triangles": 1634,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/mace_saint.fbx",
+      "triangles": 3786,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_eagle_eye.fbx",
+      "triangles": 4380,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper.fbx",
+      "triangles": 15736,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/bow_short.fbx",
+      "triangles": 3180,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_4.fbx",
+      "triangles": 518,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/door_locked.fbx",
+      "triangles": 2756,
+      "renderers": 3,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/warp.fbx",
+      "triangles": 476,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/frost_crystal.fbx",
+      "triangles": 272,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/decor_4.fbx",
+      "triangles": 40,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/NPCs/elder/elder.fbx",
+      "triangles": 13850,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Talk",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/stairs_up.fbx",
+      "triangles": 658,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/attack.fbx",
+      "triangles": 752,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/garb_leather.fbx",
+      "triangles": 1624,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/campfire.fbx",
+      "triangles": 458,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+      "triangles": 4534,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Weapons/sword_knight.fbx",
+      "triangles": 4062,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_clarity_earring.fbx",
+      "triangles": 1376,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/floor_b.fbx",
+      "triangles": 971,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/overlay_2.fbx",
+      "triangles": 513,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/wall_c.fbx",
+      "triangles": 3355,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_fire_drake/elite_fire_drake.fbx",
+      "triangles": 11544,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/arena.fbx",
+      "triangles": 32398,
+      "renderers": 4,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/trap.fbx",
+      "triangles": 646,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Characters/mage/mage.fbx",
+      "triangles": 31299,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Guard",
+        "Hit",
+        "Idle",
+        "Revive",
+        "Run",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_6.fbx",
+      "triangles": 932,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/sand_golem/sand_golem.fbx",
+      "triangles": 9300,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/bat_wing.fbx",
+      "triangles": 88,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/phoenix/phoenix.fbx",
+      "triangles": 9196,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/verdant_ruins/overlay_2.fbx",
+      "triangles": 360,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/decor_1.fbx",
+      "triangles": 115,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/foe_marker.fbx",
+      "triangles": 824,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/garb_ranger.fbx",
+      "triangles": 2608,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_3.fbx",
+      "triangles": 654,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/penguin_mage/penguin_mage.fbx",
+      "triangles": 10224,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/coral_crab/coral_crab.fbx",
+      "triangles": 11216,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/hi_potion.fbx",
+      "triangles": 382,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/acc_awake_bell.fbx",
+      "triangles": 1928,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_sand_golem/elite_sand_golem.fbx",
+      "triangles": 11168,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_6.fbx",
+      "triangles": 660,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/jelly_core.fbx",
+      "triangles": 448,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_ice_wolf/elite_ice_wolf.fbx",
+      "triangles": 10048,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/garb_wind.fbx",
+      "triangles": 2196,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+      "triangles": 10996,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/phoenix_feather.fbx",
+      "triangles": 116,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/big_bomb.fbx",
+      "triangles": 568,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
+      "triangles": 35999,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Guard",
+        "Hit",
+        "Idle",
+        "Revive",
+        "Run",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item.fbx",
+      "triangles": 228,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_5.fbx",
+      "triangles": 1004,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/fire_drake/fire_drake.fbx",
+      "triangles": 11456,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/UI/camp.fbx",
+      "triangles": 452,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/abyss_crystal.fbx",
+      "triangles": 464,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Characters/cleric/cleric.fbx",
+      "triangles": 27603,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Guard",
+        "Hit",
+        "Idle",
+        "Revive",
+        "Run",
+        "Victory",
+        "Walk"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Equipment/robe_dawn.fbx",
+      "triangles": 3524,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/stairs_up.fbx",
+      "triangles": 490,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/ember_caverns/trap.fbx",
+      "triangles": 646,
+      "renderers": 2,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
+      "triangles": 7264,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
+      "triangles": 10184,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "triangles": 7060,
+      "renderers": 1,
+      "clips": [
+        "Attack",
+        "Cast",
+        "Die",
+        "Hit",
+        "Idle",
+        "Run",
+        "Victory"
+      ]
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Items/elixir.fbx",
+      "triangles": 446,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Status/bleed.fbx",
+      "triangles": 112,
+      "renderers": 1,
+      "clips": []
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Environment/frost_grotto/torch.fbx",
+      "triangles": 434,
+      "renderers": 1,
+      "clips": []
+    }
+  ]
+}

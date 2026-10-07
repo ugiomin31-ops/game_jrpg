@@ -19,11 +19,11 @@ Evidence class: directly inspected project code, production outputs and local ex
 - Geometry exceeds the original aspirational polygon budgets for several heroes/enemies/environment parts; no low-end performance claim is supported by this import check.
 - Checked: 2026-10-06.
 
-### Sculpted monster rebuild (v3) — verified (Blender production; not yet Unity-imported) — 2026-10-07
+### Sculpted monster rebuild (v3) — verified (Blender production and Unity import) — 2026-10-07
 
 - 32 regular/elite monsters were remodelled with the sculpted kit (`Blender/enemies_d/`): one fused organic surface per creature, smooth multi-bone weights, Cycles-baked ambient occlusion in the vertex colours, small modelled eyeballs in sockets (no glowing or sticker eyes). The other 15 (skeletons, knights, scarecrows, golems, mimics, lich, wisp, fairies) keep their v1/v2 geometry with hero-style painted faces (`Blender/lib/creature_face.py`). All 47 bestiary icons were re-rendered.
 - Evidence: Blender 5.2.2 (Linux) runs of `Blender/enemies_a/generate_all.py -- --asset ID` for all 47 ids; each `Blender/blend/enemy_production_<id>.json` records the saved and re-imported FBX (Rig + one skinned Body, Col, 0 unweighted vertices, 7 clips). Triangle counts are 7–13.5k (above the old ≤10k normal budget for several).
-- Unity has not yet re-imported these FBX files in this checkout; run `Abyss/Validate Production Content` after opening the project and check the toon shading in play mode.
+- Follow-up on 2026-10-07: the current 51 enemy FBX resources were imported in the isolated PR checkout with Unity 6000.3.25f1. Renderers/materials/shader support, Animator and seven required clips passed; the complete enemy contact sheet was rendered and inspected. Evidence: `docs/verification/asset-audit.json`, `docs/verification/enemies.png` and `docs/UNITY_ASSET_REVIEW.md`. This is not frame-by-frame verification of every combat animation.
 
 ### UI artwork — verified (production and local dungeon HUD rendering) — 2026-10-06
 
@@ -61,10 +61,20 @@ Evidence class: directly inspected project code, production outputs and local ex
 - Actual volume menu changed master volume to 0.5; reading the saved preference file returned 0.5 with mute disabled. Other settings/native-window paths remain unverified.
 - Checked: 2026-10-06.
 
+### PR UI, assets and emulated touch — verified (real Unity Editor and Windows build) — 2026-10-07
+
+- PR #3 uses `claude/project-thread-65bpbq` / `50ecaf1` as its baseline. Pages deployment `e4f72c5` differs only in this fact file, so the game/assets baseline matches. PR changes have not been deployed to Pages. The obsolete `Assets/Temp/battle-framing-preview.png` is not current evidence.
+- Actual Unity 6000.3.25f1 compilation passed. The real URP and Input System packages were used in an isolated Windows checkout and separate review save folder.
+- All 298 FBX models passed material/shader checks; actors passed Animator and seven-clip checks. Hero 4 / enemy 51 / equipment 48 galleries were rendered with Unity. All 221 VFX recipes were instantiated, started and stopped with zero missing textures or failures.
+- Touchscreen events through the real Input System UI module passed 21 checks at 915x412 and 21 at 1024x768: town stick move/release, service UI, confirmation cancel/duplicate guard, dungeon turn/map, four biomes, AUTO toggle/result/next encounter. Tablet battle framing was adjusted after inspecting the captures. Review encounters and unlocked floors use fixtures; this is not a natural campaign playthrough.
+- Applied shared toon material/lighting polish across asset categories, reduced bright effect layers, and regenerated town FBX/Blender outputs with facility flags and fountain planting. Existing current hero/monster models were retained.
+- Windows x64/Mono build succeeded. An initial command transport timeout did not stop the build; the actual Unity BuildReport is the verdict. Runtime Pipeline is intentionally disabled in player builds, generating a tooling warning. An earlier Editor graphics ring-buffer warning is retained in the review history; no minimum-device performance/FPS claim is made.
+- Evidence and current limits: `docs/UNITY_ASSET_REVIEW.md`, `docs/verification/`. No physical Android/iOS device was connected, and this PR's WebGL build/Pages deploy, standalone input suite and full campaign remain unverified. Logic tests: 32/32 passed.
+
 ## Not implemented / not yet verified
 
 - Mobile: Android APK/AAB and iOS Xcode build menus, landscape/IL2CPP/ASTC settings, touch-sized dungeon pad (hold-to-walk, strafe), tappable minimap, tap-to-target battle cards, drag-scrolling lists and a battle speed option (1x/1.5x/2x) exist in code (2026-10-07). They compile against the real Unity 6000.3.25f1 engine/editor reference assemblies with ugui/TMP/InputSystem 1.20.0 built from package source (URP replaced by a member-level stub) for both the editor and an Android player define set (2026-10-07; this check found and fixed a `PointerEventData.eventSystem` compile error in `UITouch.cs` that had removed every `Abyss/*` menu). GitHub Actions run 37569388774 (unity-builder v6, Personal license from repository secrets) built both targets on 2026-10-07: a 126 MB Android APK published to release `phone-latest`, and a WebGL build (84 MB gzip data) pushed to `gh-pages`. The WebGL build was served locally and opened in headless Chromium emulating an Android phone (915x412): it reached the title screen and a tap on 새로운 모험 opened the difficulty screen. Headless Chromium raised an HTML audio 'no supported source' error (it lacks the AAC codec); sound on real phone browsers is unverified. The APK has not been installed on a device.
-- Standalone Windows build and native input/play verification have not yet completed. Do not call the deliverable release-ready or publish minimum specifications/FPS.
+- The PR Windows x64/Mono build succeeded in Unity 6000.3.25f1. Standalone native input/play verification has not yet completed. Do not call the deliverable release-ready or publish minimum specifications/FPS.
 - Natural Unity battle and the listed transactions/settings are verified above; full VFX/boss/ending and remaining service/settings scenarios are not yet verified. Code/source assets alone are not full scenario proof.
 - Store submission, approved publisher identity, price, release date and storefront app ID are not established by the project. Do not imply a published storefront.
 - English localization is not provided by the Korean text table. Do not list English as a supported UI/story language.

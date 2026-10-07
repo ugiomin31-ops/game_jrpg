@@ -44,14 +44,15 @@ namespace Abyss.LogicTests
         }
 
         [LogicTest]
-        public static void AutoFiresTheNewestUltimate()
+        public static void AutoFiresTheNewestUltimateWhenUseful()
         {
-            var setup = BattleTestUtil.Setup(38, new[] { "slime" }, 3, heroes: new[] { "warrior" });
+            var setup = BattleTestUtil.Setup(38, new[] { "slime", "slime", "slime" }, 3, heroes: new[] { "warrior" });
             var engine = new BattleEngine(TestMain.DB, setup);
             engine.Start();
             var hero = engine.ActiveHero;
             Assert.True(hero != null, "warrior awaits a command");
             hero.Tp = 100;
+            foreach (var enemy in engine.Enemies) enemy.Hp = enemy.MaxHp = 3000;
             var cmd = engine.SuggestCommand(hero);
             Assert.Equal("ult_w_ragnarok", cmd.SkillId, "the later, stronger ultimate is preferred by AUTO");
         }

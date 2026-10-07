@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace Abyss.UI
 {
     /// <summary>
-    /// Circular gold-ringed portrait. Feed it a texture (render texture / illustration) or sprite;
+    /// Circular portrait with a quiet slate rim. Feed it a texture (render texture / illustration) or sprite;
     /// supports an "active turn" halo, hit flash and shake. Create with <see cref="UIFactory.Portrait"/>.
     /// </summary>
     public sealed class UIPortrait : MonoBehaviour
@@ -23,13 +23,13 @@ namespace Abyss.UI
         {
             var rt = (RectTransform)transform;
             rt.sizeDelta = new Vector2(size, size);
-            _halo = UIFactory.Image(rt, UISprites.SoftRadial, new Color(1f, 0.68f, 0.3f, 0f), "Halo");
+            _halo = UIFactory.Image(rt, UISprites.SoftRadial, UITheme.Dawn.WithAlpha(0f), "Halo");
             _halo.rectTransform.Outset(size * 0.32f);
             _body = UIFactory.Rect(rt, "Body").Stretch();
-            var bg = UIFactory.Image(_body, UISprites.PortraitBg, Color.white, "Backdrop");
+            var bg = UIFactory.Image(_body, UISprites.Circle, UITheme.Border, "Backdrop");
             bg.rectTransform.Stretch();
             var mask = UIFactory.Image(_body, UISprites.PortraitMask, Color.white, "Mask");
-            mask.rectTransform.Stretch();
+            mask.rectTransform.Stretch(3, 3, 3, 3);
             mask.gameObject.AddComponent<Mask>().showMaskGraphic = false;
             _raw = UIFactory.RawImage(mask.transform, null, "Raw");
             _raw.rectTransform.Stretch();
@@ -40,8 +40,6 @@ namespace Abyss.UI
             _sprite.enabled = false;
             _flash = UIFactory.Image(mask.transform, UISprites.White, new Color(1f, 1f, 1f, 0f), "Flash");
             _flash.rectTransform.Stretch();
-            var frame = UIFactory.Image(_body, UISprites.PortraitFrame, Color.white, "Frame");
-            frame.rectTransform.Stretch();
         }
 
         /// <summary>Shows a texture (null hides it). <paramref name="uv"/> crops it (defaults to the full texture).</summary>
@@ -69,7 +67,7 @@ namespace Abyss.UI
             {
                 _active = value;
                 UITween.Kill(_halo);
-                _halo.color = new Color(1f, 0.68f, 0.3f, value ? 0.75f : 0f);
+                _halo.color = UITheme.Dawn.WithAlpha(value ? 0.75f : 0f);
             }
         }
 
@@ -95,7 +93,7 @@ namespace Abyss.UI
         {
             if (!_active) return;
             float a = UIRoot.Instance != null && UIRoot.Instance.ReducedMotion ? 0.75f : 0.55f + 0.3f * Mathf.Sin(Time.unscaledTime * 4f);
-            _halo.color = new Color(1f, 0.68f, 0.3f, a);
+            _halo.color = UITheme.Dawn.WithAlpha(a);
         }
     }
 }

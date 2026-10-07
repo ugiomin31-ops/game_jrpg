@@ -1539,6 +1539,21 @@ def widen(recipe, factor):
                     item[field] = round(item[field] * factor) if field == 'count' else round(item[field] * factor, 2)
 
 
+def readable_impacts(recipe):
+    """Keep the authored elemental shapes and timings, but expose the actor beneath hot billboard cores.
+    Floor telegraphs, projectiles, directional slash/arrow silhouettes and ultimate coverage stay authored.
+    Dense bursts use fewer small particles so phones spend less fill on overlapping glints.
+    """
+    for item in recipe['layers']:
+        if item['kind'] == 'quad' and not item.get('horizontal') and item['texture'] in (
+                'glow', 'glow_hard', 'hit_flash', 'star4', 'sunburst'):
+            for field in ('size', 'endSize'):
+                if field in item:
+                    item[field] = round(item[field] * .82, 3)
+        if item['kind'] == 'burst' and item.get('count', 0) >= 24:
+            item['count'] = max(18, round(item['count'] * .8))
+
+
 def main():
     battle_effects()
     ultimates()
@@ -1555,6 +1570,8 @@ def main():
         grow(EFFECTS[key], factor)
     for key, factor in WIDEN.items():
         widen(EFFECTS[key], factor)
+    for recipe in EFFECTS.values():
+        readable_impacts(recipe)
     required = {p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
                 for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()

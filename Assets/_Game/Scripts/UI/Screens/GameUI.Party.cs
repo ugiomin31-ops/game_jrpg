@@ -76,7 +76,7 @@ namespace Abyss.UI
             string currentId = hero.Equipped(slot);
             app.DB.Equipment.TryGetValue(currentId, out var current);
             m.Subtitle = T("equipped_now") + " · " + EquipmentName(currentId) + (mutable ? "" : " · 전투 중 변경 불가");
-            m.Add(T("remove"), () => ExecuteEquipment(PartyStats.Unequip(app.DB, app.State, hero.Id, slot), m), current == null ? T("slot_empty") : EquipmentDescription(current), enabled: mutable && current != null, reason: !mutable ? T("battle_unavailable") : T("reason_slot_empty"));
+            m.Add(T("remove"), () => Confirm("장비 해제", GearComparison(hero, slot, null) + "\n\n해제할까요?", () => ExecuteEquipment(PartyStats.Unequip(app.DB, app.State, hero.Id, slot), m)), current == null ? T("slot_empty") : GearComparison(hero, slot, null), enabled: mutable && current != null, reason: !mutable ? T("battle_unavailable") : T("reason_slot_empty"));
             var ids = new List<string>(app.State.EquipmentBag.Keys); ids.Sort(StringComparer.Ordinal);
             int candidates = 0;
             foreach (string id in ids)
@@ -85,8 +85,8 @@ namespace Abyss.UI
                 candidates++;
                 var equipment = piece;
                 bool allowed = PartyStats.CanEquip(app.DB, hero.Id, id);
-                string details = EquipmentDescription(piece) + "\n\n" + T("candidates") + "\n" + EquipmentDelta(piece, current);
-                m.Add(piece.DisplayName, () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m), details, $"×{app.State.BagCount(id)}", mutable && allowed, !mutable ? T("battle_unavailable") : T("cannot_equip_class"), UIArtwork.Gear(id));
+                string details = (allowed ? GearComparison(hero, slot, piece) + "\n\n" : "") + EquipmentDescription(piece);
+                m.Add(piece.DisplayName, () => Confirm("장비 변경", details + "\n\n이 장비를 장착할까요?", () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m)), details, allowed ? GearVerdict(hero, slot, piece) : "직업 제한", mutable && allowed, !mutable ? T("battle_unavailable") : T("cannot_equip_class"), UIArtwork.Gear(id));
             }
             if (candidates == 0) AddInformation(m, T("no_candidates"), T("no_candidates"));
         });
@@ -143,9 +143,61 @@ namespace Abyss.UI
         string EquipmentDescription(EquipmentDef piece)
         {
             var names = new List<string>(); foreach (string id in piece.Classes) names.Add(HeroName(id));
-            return $"{piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}\n" + EquipmentDelta(piece, null)
+            return $"{UITheme.Tag(UITheme.RarityColor(piece.Rarity))}{UITheme.RarityName(piece.Rarity)}</color> · {piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}\n" + EquipmentDelta(piece, null)
                 + $"\n\n{T("resist_label")} · {Elements(piece.ElementResists)}\n{T("immune_label")} · {StatusNames(piece.StatusImmunities)}";
         }
+        string GearVerdict(HeroState hero, string slot, EquipmentDef piece)
+        {
+            var before = PartyStats.EffectiveStats(app.DB, hero);
+            var after = PartyStats.PreviewEquipment(app.DB, hero, slot, piece?.Id);
+            var a = before.Stats; var z = after.Stats;
+            var deltas = new[] { z.MaxHp-a.MaxHp, z.MaxMp-a.MaxMp, z.Attack-a.Attack, z.Magic-a.Magic,
+                z.Defense-a.Defense, z.Resistance-a.Resistance, z.Speed-a.Speed, after.Hit-before.Hit, after.Evade-before.Evade, after.Crit-before.Crit };
+            bool up = false, down = false;
+            foreach (var d in deltas) { up |= d > 0.0001f; down |= d < -0.0001f; }
+            foreach (var e in after.ElementResists) up |= !before.ElementResists.Contains(e);
+            foreach (var e in before.ElementResists) down |= !after.ElementResists.Contains(e);
+            foreach (var s in after.StatusImmunities) up |= !before.StatusImmunities.Contains(s);
+            foreach (var s in before.StatusImmunities) down |= !after.StatusImmunities.Contains(s);
+            return up && down ? "장단점 교환" : up ? "능력 상승 ↑" : down ? "능력 하락 ↓" : "동일 능력";
+        }
+        string GearComparison(HeroState hero, string slot, EquipmentDef piece)
+        {
+            var before = PartyStats.EffectiveStats(app.DB, hero);
+            var after = PartyStats.PreviewEquipment(app.DB, hero, slot, piece?.Id);
+            var a = before.Stats; var z = after.Stats;
+            var lines = new List<string> { $"<b>{HeroName(hero.Id)} · {GearVerdict(hero, slot, piece)}</b>",
+                "현재 · " + EquipmentName(hero.Equipped(slot)), "선택 · " + (piece?.DisplayName ?? T("slot_none")), "", "<b>능력치     현재 → 변경 (차이)</b>" };
+            ComparisonLine(lines, T("stat_hp"), a.MaxHp, z.MaxHp);
+            ComparisonLine(lines, T("stat_mp"), a.MaxMp, z.MaxMp);
+            ComparisonLine(lines, T("stat_atk"), a.Attack, z.Attack);
+            ComparisonLine(lines, T("stat_mag"), a.Magic, z.Magic);
+            ComparisonLine(lines, T("stat_def"), a.Defense, z.Defense);
+            ComparisonLine(lines, T("stat_res"), a.Resistance, z.Resistance);
+            ComparisonLine(lines, T("stat_spd"), a.Speed, z.Speed);
+            ComparisonLine(lines, T("stat_hit"), before.Hit * 100, after.Hit * 100, true);
+            ComparisonLine(lines, T("stat_evade"), before.Evade * 100, after.Evade * 100, true);
+            ComparisonLine(lines, T("stat_crit"), before.Crit * 100, after.Crit * 100, true);
+            lines.Add($"\n속성 저항 · {Elements(before.ElementResists)} → {Elements(after.ElementResists)}");
+            lines.Add($"상태 면역 · {StatusNames(before.StatusImmunities)} → {StatusNames(after.StatusImmunities)}");
+            return string.Join("\n", lines);
+        }
+        static void ComparisonLine(List<string> lines, string name, float before, float after, bool percent = false)
+        {
+            float delta = after - before;
+            string unit = percent ? "%" : "";
+            string difference = Math.Abs(delta) < 0.0001f ? "변화 없음" : $"{delta:+0.#;-0.#;0}{(percent ? "%p" : "")}";
+            var color = delta > 0.0001f ? UITheme.Positive : delta < -0.0001f ? UITheme.Danger : UITheme.TextDim;
+            lines.Add($"{name}   {before:0.#}{unit} → {after:0.#}{unit}   {UITheme.Tag(color)}({difference})</color>");
+        }
+        string ShopComparison(EquipmentDef piece)
+        {
+            var lines = new List<string>();
+            foreach (var hero in app.State.Party)
+                if (PartyStats.AllowsClass(piece, hero.Id)) lines.Add(GearComparison(hero, piece.Slot, piece));
+            return string.Join("\n\n", lines);
+        }
+
         string EquipmentDelta(EquipmentDef piece, EquipmentDef current)
         {
             var lines = new List<string>();
@@ -175,7 +227,7 @@ namespace Abyss.UI
                 m.Add(item.DisplayName, () =>
                 {
                     if (item.ItemType == ItemType.EscapeDungeon) Confirm(T("return_stone"), "귀환의 돌을 사용하고 마을로 돌아갈까요?", () => UseFieldItem(id, null, m));
-                    else if (item.Target == "all_allies") UseFieldItem(id, null, m);
+                    else if (item.Target == "all_allies") Confirm("아이템 사용", $"{item.DisplayName} 1개를 전체 동료에게 사용할까요?\n{item.Description}", () => UseFieldItem(id, null, m));
                     else ShowItemTargets(id, m);
                 }, item.Description + "\n\n" + (item.ItemType == ItemType.Material ? T("materials") : item.Target == "all_allies" ? T("target_allies") : T("target_ally")), $"×{app.State.ItemCount(id)}", usable && mutable, !mutable ? T("battle_unavailable") : T("item_unavailable"), UIArtwork.Item(id));
             }
@@ -185,7 +237,7 @@ namespace Abyss.UI
             foreach (var member in app.State.Party)
             {
                 var hero = member;
-                m.Add(HeroName(hero.Id), () => UseFieldItem(itemId, hero.Id, inventory, m), HeroSummary(hero), $"HP {hero.Hp}", app.State.ItemCount(itemId) > 0, T("item_missing"), UIArtwork.Hero(hero.Id));
+                m.Add(HeroName(hero.Id), () => Confirm("아이템 사용", $"{ItemName(itemId)} 1개 → {HeroName(hero.Id)}\n\n{ContentDescription(itemId)}\n\n사용할까요?", () => UseFieldItem(itemId, hero.Id, inventory, m)), HeroSummary(hero), $"HP {hero.Hp}", app.State.ItemCount(itemId) > 0, T("item_missing"), UIArtwork.Hero(hero.Id));
             }
         });
         void UseFieldItem(string itemId, string heroId, GameMenuScreen inventory, GameMenuScreen targets = null)

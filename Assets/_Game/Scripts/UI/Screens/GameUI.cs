@@ -87,8 +87,8 @@ namespace Abyss.UI
                     entries.Add(new UILootEntry
                     {
                         Icon = UIArtwork.Gear(kv.Key), Name = ItemName(kv.Key), Count = kv.Value,
-                        Tag = piece == null ? "장비" : T("slot_" + piece.Slot, "장비"),
-                        Accent = piece == null ? UITheme.Dawn : piece.Slot == "weapon" ? UITheme.Dawn : piece.Slot == "armor" ? UITheme.Mp : new Color(0.82f, 0.6f, 1f),
+                        Tag = piece == null ? "장비" : UITheme.RarityName(piece.Rarity) + " · " + T("slot_" + piece.Slot, "장비"),
+                        Accent = piece == null ? UITheme.Dawn : UITheme.RarityColor(piece.Rarity),
                     });
                 }
                 foreach (var kv in contents.Items)
@@ -98,7 +98,7 @@ namespace Abyss.UI
                     entries.Add(new UILootEntry
                     {
                         Icon = UIArtwork.Item(kv.Key), Name = ItemName(kv.Key), Count = kv.Value,
-                        Tag = material ? "재료" : "소모품", Accent = material ? UITheme.TextDim : UITheme.Positive,
+                        Tag = UITheme.RarityName(item?.Rarity ?? 0) + (material ? " · 재료" : " · 소모품"), Accent = UITheme.RarityColor(item?.Rarity ?? 0),
                     });
                 }
             }
@@ -127,7 +127,7 @@ namespace Abyss.UI
                     m.Add(DifficultyName(d), () =>
                     {
                         if (app.Saves.Exists(-1)) Confirm("새 모험 시작", "새 모험의 자동 저장이 기존 자동 저장을 덮어씁니다. 수동 저장 슬롯은 유지됩니다. 시작할까요?", () => app.NewGame(difficulty));
-                        else app.NewGame(difficulty);
+                        else Confirm("새 모험 시작", $"{DifficultyName(difficulty)} 난이도로 모험을 시작할까요?", () => app.NewGame(difficulty));
                     }, T(d == Difficulty.Easy ? "easy" : d == Difficulty.Hard ? "hard" : "normal"));
                 }
             });
@@ -298,7 +298,7 @@ namespace Abyss.UI
                 mapHit.navigation = new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.None };
                 mapHit.onClick.AddListener(() => { if (!BlocksWorldInput) OpenMapFromHud(); });
                 var camp = UIFactory.Button(hud, "캠프", () => { if (!BlocksWorldInput) ShowPause(); }, UIArtwork.Command("camp"));
-                camp.Rt().Place(UIAnchor.TopRight, new Vector2(-30, -312), new Vector2(335, touch ? 84 : 64));
+                camp.Rt().Place(UIAnchor.TopRight, new Vector2(-30, -312), new Vector2(335, touch ? UIRoot.TouchTargetHeight : 64));
                 // 3x3 pad: strafe / forward / strafe, turn / search / turn, wait / back / map.
                 // Thumb-sized on touch screens (~7 mm tall on a phone); movement repeats while held.
                 Vector2 cell = touch ? new Vector2(170, 108) : new Vector2(124, 62);
@@ -319,7 +319,7 @@ namespace Abyss.UI
             else
             {
                 var menu = UIFactory.Button(hud, "모험 수첩", ShowPause);
-                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, touch ? 96 : 76));
+                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, touch ? UIRoot.TouchTargetHeight : 76));
                 padPanel = menu.Rt();
             }
             RefreshVitals();

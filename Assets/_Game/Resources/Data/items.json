@@ -14,7 +14,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "abyss_crystal"
+  "_file": "abyss_crystal",
+  "rarity": 2
  },
  {
   "id": "bat_wing",
@@ -31,7 +32,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "bat_wing"
+  "_file": "bat_wing",
+  "rarity": 0
  },
  {
   "id": "big_bomb",
@@ -48,7 +50,8 @@
   "shop_tier": 3,
   "status_id": "",
   "element": 0,
-  "_file": "big_bomb"
+  "_file": "big_bomb",
+  "rarity": 0
  },
  {
   "id": "bomb",
@@ -65,7 +68,8 @@
   "shop_tier": 1,
   "status_id": "",
   "element": 0,
-  "_file": "bomb"
+  "_file": "bomb",
+  "rarity": 0
  },
  {
   "id": "coral_shard",
@@ -82,7 +86,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "coral_shard"
+  "_file": "coral_shard",
+  "rarity": 0
  },
  {
   "id": "cursed_straw",
@@ -99,7 +104,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "cursed_straw"
+  "_file": "cursed_straw",
+  "rarity": 0
  },
  {
   "id": "drake_scale",
@@ -116,7 +122,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "drake_scale"
+  "_file": "drake_scale",
+  "rarity": 0
  },
  {
   "id": "elixir",
@@ -133,7 +140,8 @@
   "shop_tier": 4,
   "status_id": "",
   "element": 0,
-  "_file": "elixir"
+  "_file": "elixir",
+  "rarity": 2
  },
  {
   "id": "ember_crystal",
@@ -150,7 +158,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "ember_crystal"
+  "_file": "ember_crystal",
+  "rarity": 1
  },
  {
   "id": "ether",
@@ -167,7 +176,8 @@
   "shop_tier": 1,
   "status_id": "",
   "element": 0,
-  "_file": "ether"
+  "_file": "ether",
+  "rarity": 0
  },
  {
   "id": "forest_fiber",
@@ -184,7 +194,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "forest_fiber"
+  "_file": "forest_fiber",
+  "rarity": 0
  },
  {
   "id": "frost_crystal",
@@ -201,7 +212,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "frost_crystal"
+  "_file": "frost_crystal",
+  "rarity": 1
  },
  {
   "id": "frost_fur",
@@ -218,7 +230,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "frost_fur"
+  "_file": "frost_fur",
+  "rarity": 0
  },
  {
   "id": "ghost_essence",
@@ -235,7 +248,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "ghost_essence"
+  "_file": "ghost_essence",
+  "rarity": 0
  },
  {
   "id": "golem_sandstone",
@@ -252,7 +266,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "golem_sandstone"
+  "_file": "golem_sandstone",
+  "rarity": 0
  },
  {
   "id": "guard_tonic",
@@ -269,7 +284,8 @@
   "shop_tier": 2,
   "status_id": "defense_up",
   "element": 0,
-  "_file": "guard_tonic"
+  "_file": "guard_tonic",
+  "rarity": 0
  },
  {
   "id": "healing_potion",
@@ -286,7 +302,8 @@
   "shop_tier": 1,
   "status_id": "",
   "element": 0,
-  "_file": "healing_potion"
+  "_file": "healing_potion",
+  "rarity": 0
  },
  {
   "id": "hi_ether",
@@ -303,7 +320,8 @@
   "shop_tier": 3,
   "status_id": "",
   "element": 0,
-  "_file": "hi_ether"
+  "_file": "hi_ether",
+  "rarity": 1
  },
  {
   "id": "hi_potion",
@@ -320,7 +338,8 @@
   "shop_tier": 2,
   "status_id": "",
   "element": 0,
-  "_file": "hi_potion"
+  "_file": "hi_potion",
+  "rarity": 0
  },
  {
   "id": "jelly_core",
@@ -337,7 +356,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "jelly_core"
+  "_file": "jelly_core",
+  "rarity": 0
  },
  {
   "id": "magma_core",
@@ -354,7 +374,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "magma_core"
+  "_file": "magma_core",
+  "rarity": 0
  },
  {
   "id": "mega_potion",
@@ -371,7 +392,8 @@
   "shop_tier": 3,
   "status_id": "",
   "element": 0,
-  "_file": "mega_potion"
+  "_file": "mega_potion",
+  "rarity": 1
  },
  {
   "id": "old_bone",
@@ -388,7 +410,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "old_bone"
+  "_file": "old_bone",
+  "rarity": 0
  },
  {
   "id": "phoenix_feather",
@@ -405,7 +428,8 @@
   "shop_tier": 2,
   "status_id": "",
   "element": 0,
-  "_file": "phoenix_feather"
+  "_file": "phoenix_feather",
+  "rarity": 1
  },
  {
   "id": "power_tonic",
@@ -422,7 +446,8 @@
   "shop_tier": 2,
   "status_id": "attack_up",
   "element": 0,
-  "_file": "power_tonic"
+  "_file": "power_tonic",
+  "rarity": 0
  },
  {
   "id": "remedy",
@@ -439,7 +464,8 @@
   "shop_tier": 1,
   "status_id": "",
   "element": 0,
-  "_file": "remedy"
+  "_file": "remedy",
+  "rarity": 0
  },
  {
   "id": "return_stone",
@@ -456,7 +482,8 @@
   "shop_tier": 1,
   "status_id": "",
   "element": 0,
-  "_file": "return_stone"
+  "_file": "return_stone",
+  "rarity": 0
  },
  {
   "id": "slime_gel",
@@ -473,7 +500,8 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "slime_gel"
+  "_file": "slime_gel",
+  "rarity": 0
  },
  {
   "id": "smoke_bomb",
@@ -490,7 +518,8 @@
   "shop_tier": 1,
   "status_id": "",
   "element": 0,
-  "_file": "smoke_bomb"
+  "_file": "smoke_bomb",
+  "rarity": 0
  },
  {
   "id": "verdant_crystal",
@@ -507,6 +536,7 @@
   "shop_tier": 0,
   "status_id": "",
   "element": 0,
-  "_file": "verdant_crystal"
+  "_file": "verdant_crystal",
+  "rarity": 1
  }
 ]

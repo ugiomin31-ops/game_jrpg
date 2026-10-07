@@ -131,6 +131,9 @@ namespace Abyss.UI
         public static bool Compact { get; private set; }
         /// <summary>Phones and tablets (or any device with a touchscreen): keyboard/gamepad hints are hidden.</summary>
         public static bool TouchFirst => Application.isMobilePlatform || UITouch.Supported;
+        /// <summary>A touch target occupies at least 44 screen pixels, including the scaled landscape phone canvas.</summary>
+        public static float TouchTargetHeight => TouchFirst && Instance != null && Instance.Canvas.scaleFactor > 0f
+            ? Mathf.Max(84f, 44f / Instance.Canvas.scaleFactor) : 64f;
         public static readonly Vector2 PhoneReference = new Vector2(1600f, 900f);
 
         static bool ComputeCompact(int width, int height) =>

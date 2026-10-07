@@ -54,6 +54,14 @@ namespace Abyss.Runtime.Battle
         // Establishing shot: close enough that 1.3 m heroes and the monsters read on a landscape phone.
         static readonly Vector3 CameraHome = new Vector3(0f, 3.6f, -10.2f), CameraAim = new Vector3(1.4f, 1.05f, 0.6f);
         const float CameraFov = 42f;
+        // Preserve the phone's horizontal composition on narrower landscape tablets.
+        // A fixed vertical FOV otherwise crops the outer two heroes behind the HUD.
+        float FramingFov => UIRoot.TouchFirst && _camera != null
+            ? Mathf.Atan(Mathf.Tan(CameraFov * Mathf.Deg2Rad * .5f) * Mathf.Max(1f, (20f / 9f) / _camera.aspect)) * 2f * Mathf.Rad2Deg
+            : CameraFov;
+        // The full-height command panel starts farther left on a tablet than on
+        // a compact phone. Move the shot as well as widening it to reserve that space.
+        Vector3 FramingOffset => UIRoot.TouchFirst && !UIRoot.Compact ? Vector3.right * 1.5f : Vector3.zero;
         float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
@@ -92,6 +100,7 @@ namespace Abyss.Runtime.Battle
             _hud.EnableSpeedToggle(SpeedLabel, ToggleSpeed);
             _flash = UIFactory.Fill(app.UI.Content, new Color(1, 1, 1, 0), "Battle flash");
             Engine = new BattleEngine(app.DB, setup);
+            Auto = app.Preferences.AutoBattle; _hud.SetAuto(Auto);
             string music = setup.Kind == BattleKind.Boss ? "bgm_boss" : "bgm_battle";
             if (floor.Index == 11 && setup.Kind == BattleKind.Boss) music = "bgm_finalboss";
             AudioManager.Instance.PlayBgm(music);
@@ -103,13 +112,29 @@ namespace Abyss.Runtime.Battle
         public void Submit(BattleCommand command)
         {
             if (_finished || Playing || _app.Paused || Engine.State != BattleEngineState.AwaitingCommand) return;
-            _hud.Lock(); Playing = true;
-            StartCoroutine(Replay(Engine.Submit(command), false));
+            var actor = Engine.ActiveHero;
+            var names = new List<string>();
+            foreach (var target in Engine.ValidTargets(actor, command))
+                if (command.TargetId == null || command.TargetId == target.Id) names.Add(target.DisplayName);
+            string label = command.Kind == CommandKind.Guard ? "방어" : command.Kind == CommandKind.Flee ? "도주 시도" : "공격";
+            string cost = "";
+            if (command.Kind == CommandKind.Skill && _app.DB.Skills.TryGetValue(command.SkillId, out var skill))
+            { label = skill.DisplayName; cost = $"MP {skill.MpCost} · TP {skill.TpCost}\n{skill.Description}\n"; }
+            if (command.Kind == CommandKind.Item && _app.DB.Items.TryGetValue(command.ItemId, out var item))
+            { label = item.DisplayName; cost = $"아이템 1개 소비\n{item.Description}\n"; }
+            UIModal.Confirm(_ui.Modals, "행동 확인", $"{actor.DisplayName} · {label}\n대상 · {string.Join(" · ", names)}\n{cost}\n이 행동을 실행할까요?", yes =>
+            {
+                if (_finished || Playing || Engine.State != BattleEngineState.AwaitingCommand) return;
+                if (!yes) { _hud.ShowCommands(Engine); return; }
+                _hud.Lock(); Playing = true;
+                StartCoroutine(Replay(Engine.Submit(command), false));
+            });
         }
         public void SetAuto(bool enabled)
         {
             if (_finished) return;
             Auto = enabled; _hud.SetAuto(enabled);
+            _app.Preferences.AutoBattle = enabled; _app.SavePreferences();
             if (enabled && !Playing && Engine.State == BattleEngineState.AwaitingCommand)
             {
                 _hud.Lock(); Playing = true; StartCoroutine(AutoInput());
@@ -320,7 +345,7 @@ namespace Abyss.Runtime.Battle
                 case MessageEvent e:
                     _hud.Log(e.Text); break;
                 case CommandRejectedEvent e:
-                    Auto = false; _hud.SetAuto(false); _hud.Log(e.Text); _ui.Toast.Show(e.Text);
+                    SetAuto(false); _hud.Log(e.Text); _ui.Toast.Show(e.Text);
                     yield return Wait(.3f); break;
                 case FleeEvent e:
                     _hud.Log(e.Success ? "도주 성공" : "도주 실패");
@@ -664,7 +689,7 @@ namespace Abyss.Runtime.Battle
             }
             _cameraPosition = transform.TransformPoint(new Vector3(-7.8f, 1.5f, 5.2f));
             _cameraLook = transform.TransformPoint(new Vector3(0f, 1.3f, 2.2f));
-            _fov = 52f; SetCamera();
+            _fov = FramingFov + 10f; SetCamera();
             _cameraRate = 2.4f; Establishing(false);
             _flashAlpha = .6f; _flash.color = new Color(1, 1, 1, _flashAlpha);
             var names = new List<string>();
@@ -696,7 +721,7 @@ namespace Abyss.Runtime.Battle
 
         IEnumerator Finish(BattleOutcome outcome)
         {
-            _hud.Lock(); Auto = false; _hud.SetAuto(false); Establishing(false);
+            _hud.Lock(); Establishing(false);
             if (!Reduced) StageOutcome(outcome.Result);
             foreach (var unit in _units.Values)
                 if (unit.Side == BattleSide.Party && unit.Alive)
@@ -845,8 +870,8 @@ namespace Abyss.Runtime.Battle
         }
         void Establishing(bool instant)
         {
-            _cameraPosition = transform.TransformPoint(CameraHome);
-            _cameraLook = transform.TransformPoint(CameraAim); _fov = CameraFov;
+            _cameraPosition = transform.TransformPoint(CameraHome + FramingOffset);
+            _cameraLook = transform.TransformPoint(CameraAim + FramingOffset); _fov = FramingFov;
             if (instant) SetCamera();
         }
         void ActiveShot(BattleDisplayUnit actor, BattleDisplayUnit target, bool ultimate)
@@ -857,9 +882,9 @@ namespace Abyss.Runtime.Battle
             // Keep the four-hero establishing composition; action emphasis is a small dolly, not a cut.
             Vector3 emphasis = new Vector3(Mathf.Clamp(local.x - CameraAim.x, -3f, 3f) * .16f, 0,
                 Mathf.Clamp(local.z, -3f, 3f) * .1f);
-            _cameraPosition = transform.TransformPoint(CameraHome + emphasis);
-            _cameraLook = transform.TransformPoint(CameraAim + emphasis);
-            _fov = ultimate ? CameraFov - 5f : CameraFov - 2f;
+            _cameraPosition = transform.TransformPoint(CameraHome + FramingOffset + emphasis);
+            _cameraLook = transform.TransformPoint(CameraAim + FramingOffset + emphasis);
+            _fov = ultimate ? FramingFov - 5f : FramingFov - 2f;
         }
         void SetCamera()
         {
