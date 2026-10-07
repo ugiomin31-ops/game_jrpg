@@ -70,7 +70,7 @@ namespace Abyss.Runtime.Persistence
             }
             QualitySettings.vSyncCount = 1;
             Application.targetFrameRate = 60;
-            if (!Application.isEditor)
+            if (!Application.isEditor && Application.platform != RuntimePlatform.WebGLPlayer)
             {
                 var resolution = Resolutions[ResolutionIndex];
                 Screen.SetResolution(resolution.x, resolution.y, Fullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);

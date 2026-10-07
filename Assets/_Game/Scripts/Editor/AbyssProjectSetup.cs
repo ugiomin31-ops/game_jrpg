@@ -161,12 +161,12 @@ namespace Abyss.EditorTools
         }
 
         [MenuItem("Abyss/Build Android (APK)")]
-        public static void BuildAndroid() => BuildAndroidPlayer(false);
+        public static void BuildAndroid() => BuildAndroidPlayer(false, "Build/Android/AbyssLabyrinth.apk");
 
         [MenuItem("Abyss/Build Android (Google Play AAB)")]
-        public static void BuildAndroidBundle() => BuildAndroidPlayer(true);
+        public static void BuildAndroidBundle() => BuildAndroidPlayer(true, "Build/Android/AbyssLabyrinth.aab");
 
-        static void BuildAndroidPlayer(bool bundle)
+        static void BuildAndroidPlayer(bool bundle, string output)
         {
             if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
                 throw new InvalidOperationException("Android Build Support (IL2CPP, OpenJDK, SDK & NDK) is not installed for this editor.");
@@ -176,7 +176,6 @@ namespace Abyss.EditorTools
             ValidateContent();
             ConfigureMobile();
             EditorUserBuildSettings.buildAppBundle = bundle;
-            string output = bundle ? "Build/Android/AbyssLabyrinth.aab" : "Build/Android/AbyssLabyrinth.apk";
             Directory.CreateDirectory(Path.GetDirectoryName(output));
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
@@ -185,6 +184,68 @@ namespace Abyss.EditorTools
             });
             if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Android build failed: " + report.summary.result);
             Debug.Log($"Android build: {report.summary.totalSize} bytes at {output}");
+        }
+
+        /// <summary>
+        /// Browser build that phones can open from a URL. Gzip with the JavaScript decompression fallback, because
+        /// static hosts such as GitHub Pages do not send Content-Encoding headers for Unity's .gz files.
+        /// </summary>
+        [MenuItem("Abyss/Build Web (WebGL)")]
+        public static void BuildWeb() => BuildWebPlayer("Build/Web");
+
+        static void BuildWebPlayer(string output)
+        {
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.WebGL, BuildTarget.WebGL))
+                throw new InvalidOperationException("Web Build Support is not installed for this editor.");
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
+            Prepare();
+            ValidateContent();
+            ConfigureMobile();
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+            PlayerSettings.WebGL.decompressionFallback = true;
+            PlayerSettings.WebGL.dataCaching = true;
+            PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
+            PlayerSettings.WebGL.nameFilesAsHashes = false;
+            PlayerSettings.WebGL.template = "APPLICATION:Default";
+            Directory.CreateDirectory(output);
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { MainScenePath }, locationPathName = output,
+                target = BuildTarget.WebGL, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Web build failed: " + report.summary.result);
+            Debug.Log($"Web build: {report.summary.totalSize} bytes at {output} (serve the folder over http/https; index.html is the entry)");
+        }
+
+        /// <summary>
+        /// Entry point for GitHub Actions (game-ci/unity-builder buildMethod). The builder passes -buildTarget and
+        /// -customBuildPath; the output lands where the workflow uploads it from.
+        /// </summary>
+        public static void BuildFromCommandLine()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            string Arg(string name)
+            {
+                int i = Array.IndexOf(args, name);
+                return i >= 0 && i + 1 < args.Length ? args[i + 1] : null;
+            }
+            string target = Arg("-buildTarget") ?? Arg("-customBuildTarget") ?? "";
+            string path = Arg("-customBuildPath");
+            Debug.Log($"[Abyss CI] target={target} path={path}");
+            switch (target)
+            {
+                case "Android":
+                    bool bundle = path != null && path.EndsWith(".aab", StringComparison.OrdinalIgnoreCase);
+                    BuildAndroidPlayer(bundle, path ?? "build/Android/AbyssLabyrinth.apk");
+                    break;
+                case "WebGL":
+                    // The builder passes a folder (build/WebGL/<buildName>); index.html is written inside it.
+                    BuildWebPlayer(path == null ? "build/WebGL/Web" : path.TrimEnd('/', '\\'));
+                    break;
+                default:
+                    throw new InvalidOperationException("Unsupported CI build target: " + target);
+            }
         }
 
         [MenuItem("Abyss/Build iOS (Xcode project)")]

@@ -74,6 +74,11 @@
 
 5. 휴대폰용은 Unity Hub에서 **Android Build Support(IL2CPP·OpenJDK·Android SDK & NDK)** 또는 **iOS Build Support**를 추가한 뒤 **`Abyss > Build Android (APK)`**, **`Abyss > Build Android (Google Play AAB)`**, **`Abyss > Build iOS (Xcode project)`**를 사용합니다. 출력은 `Build/Android/AbyssLabyrinth.apk|.aab`, `Build/iOS/`(Mac의 Xcode에서 서명·실행)입니다. 가로 화면 고정, IL2CPP·ARM64, ASTC 텍스처, Android 7.1(API 25) 이상으로 설정되며, 휴대폰은 `Mobile` 품질 단계(URP `Mobile_RPAsset`, 렌더 스케일 0.8)를 씁니다. 배치 빌드: `Unity -batchmode -quit -projectPath . -executeMethod Abyss.EditorTools.AbyssProjectSetup.BuildAndroid`. 스토어 업로드용 AAB에는 별도의 키스토어 서명 설정이 필요합니다.
 
+6. **웹(휴대폰 브라우저)용**은 **Web Build Support**를 추가한 뒤 **`Abyss > Build Web (WebGL)`**을 사용합니다. 출력 `Build/Web/`은 http(s)로 올려야 열립니다(Gzip + 브라우저 해제 대체 경로라 GitHub Pages 같은 정적 호스팅에서 동작). 브라우저 저장은 IndexedDB에 기록됩니다.
+7. **PC에 모듈을 설치하지 않고 휴대폰에서 바로 하기**: `.github/workflows/phone-build.yml`이 작업 브랜치에 푸시할 때마다 GitHub Actions에서 Android APK와 웹 버전을 만듭니다. 처음 한 번 저장소 **Settings > Secrets and variables > Actions**에 `UNITY_LICENSE`(Unity Hub에 로그인한 PC의 `C:\ProgramData\Unity\Unity_lic.ulf` 내용), `UNITY_EMAIL`, `UNITY_PASSWORD`를 넣고, **Settings > Pages**에서 `gh-pages` 브랜치를 선택합니다. 결과:
+   - APK: `https://github.com/<소유자>/<저장소>/releases/download/phone-latest/AbyssLabyrinth.apk` (안드로이드에서 받아 설치, "출처를 알 수 없는 앱" 허용 필요)
+   - 웹: `https://<소유자>.github.io/<저장소>/` (안드로이드·아이폰 브라우저, 가로 화면). 첫 실행은 수십 MB를 내려받습니다.
+
 이미 제작된 게임 리소스를 사용하는 Unity 실행/빌드에 Blender·Python 재생성은 필요하지 않습니다. 제작 원본을 수정할 때만 아래 경로를 사용합니다.
 
 | 경로 | 역할 |

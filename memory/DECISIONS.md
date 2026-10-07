@@ -24,3 +24,6 @@
   몸은 하나로 이어진 조각, 눈은 작은 실제 안구를 소켓에 박는다. 가는 마디 다리·여러 개의 눈은 피한다. (`Blender/README.md` 아트 디렉션)
 - 무료 CC0 몬스터 팩(Quaternius 등)은 둥근 몸 + 큰 눈 스타일이라 채택하지 않았고, 조각식 키트(`Blender/enemies_d/`)로 32종을 다시 만들었다. 조사 내용은 `docs/REFERENCES.md`.
 - 모바일은 Android(APK/AAB)와 iOS(Xcode) 빌드 메뉴, 가로 화면, 터치 우선 HUD로 지원한다. 실제 기기 빌드·실행은 아직 확인하지 않았다.
+- 사용자 지시 4: "바로 핸드폰으로 할 수 있게 url이나 apk 해서 만들어줘"
+- 결정: Unity 빌드에는 Unity 계정 라이선스가 필요하므로 클라우드 세션에서 직접 빌드하지 않고, GitHub Actions(GameCI `unity-builder`)로
+  APK(Release `phone-latest`)와 WebGL(gh-pages → GitHub Pages)을 만든다. 라이선스는 사용자가 저장소 Secrets에 직접 넣으며 대화나 파일에 남기지 않는다.

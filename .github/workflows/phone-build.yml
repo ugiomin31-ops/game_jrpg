@@ -1,0 +1,130 @@
+# Builds the game for phones on every push to the working branch:
+#   - Android APK  -> GitHub Release "phone-latest" (stable download link for the phone browser)
+#   - Web (WebGL)  -> gh-pages branch -> https://<owner>.github.io/<repo>/  (plays in the phone browser)
+#
+# One-time setup (repository Settings > Secrets and variables > Actions > New repository secret):
+#   UNITY_LICENSE   contents of C:\ProgramData\Unity\Unity_lic.ulf (after signing in to Unity Hub on this PC)
+#   UNITY_EMAIL     Unity account e-mail
+#   UNITY_PASSWORD  Unity account password
+# and Settings > Pages > Source: "Deploy from a branch", branch gh-pages, folder / (root).
+name: Phone build
+
+on:
+  push:
+    branches: [claude/project-thread-65bpbq]
+    paths: ["Assets/**", "Packages/**", "ProjectSettings/**", ".github/workflows/phone-build.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: phone-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+jobs:
+  build:
+    name: ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform: [Android, WebGL]
+    steps:
+      - name: Check Unity license secrets
+        run: |
+          if [ -z "$UNITY_LICENSE" ] || [ -z "$UNITY_EMAIL" ] || [ -z "$UNITY_PASSWORD" ]; then
+            echo "::error::Unity 라이선스 비밀값이 없습니다. 저장소 Settings > Secrets and variables > Actions 에 UNITY_LICENSE, UNITY_EMAIL, UNITY_PASSWORD 를 추가한 뒤 이 실행을 다시 돌려 주세요."
+            exit 1
+          fi
+
+      - name: Free disk space for the Unity image
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          swap-storage: false
+
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}-${{ github.sha }}
+          restore-keys: |
+            Library-${{ matrix.targetPlatform }}-${{ hashFiles('Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}-
+            Library-${{ matrix.targetPlatform }}-
+
+      - name: Build with Unity
+        uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: ${{ matrix.targetPlatform == 'Android' && 'AbyssLabyrinth' || 'Web' }}
+          buildMethod: Abyss.EditorTools.AbyssProjectSetup.BuildFromCommandLine
+          androidExportType: androidPackage
+          versioning: None
+          allowDirtyBuild: true
+
+      - name: Keep the build as a workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AbyssLabyrinth-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+          retention-days: 14
+
+      - name: Publish APK to the phone-latest release
+        if: matrix.targetPlatform == 'Android'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          apk=$(find build/Android -name '*.apk' | head -n 1)
+          test -n "$apk"
+          cp "$apk" AbyssLabyrinth.apk
+          notes="최신 휴대폰 빌드 (${GITHUB_SHA::7}). 안드로이드 휴대폰에서 AbyssLabyrinth.apk 를 받아 설치하세요."
+          if ! gh release view phone-latest >/dev/null 2>&1; then
+            gh release create phone-latest --prerelease --target "$GITHUB_SHA" --title "휴대폰 최신 빌드" --notes "$notes"
+          else
+            gh release edit phone-latest --notes "$notes"
+          fi
+          gh release upload phone-latest AbyssLabyrinth.apk --clobber
+          echo "APK: https://github.com/${GITHUB_REPOSITORY}/releases/download/phone-latest/AbyssLabyrinth.apk" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Find the web build folder
+        id: web
+        if: matrix.targetPlatform == 'WebGL'
+        run: |
+          index=$(find build/WebGL -name index.html | head -n 1)
+          test -n "$index"
+          echo "dir=$(dirname "$index")" >> "$GITHUB_OUTPUT"
+          # The Unity container writes the build as root.
+          sudo python3 Tools/web/patch_index.py "$index"
+          big=$(find "$(dirname "$index")" -type f -size +95M)
+          if [ -n "$big" ]; then echo "::error::GitHub Pages cannot host files over 100 MB: $big"; exit 1; fi
+
+      - name: Publish web build to gh-pages
+        if: matrix.targetPlatform == 'WebGL'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ github.token }}
+          publish_dir: ${{ steps.web.outputs.dir }}
+          publish_branch: gh-pages
+          force_orphan: true
+
+      - name: Web link
+        if: matrix.targetPlatform == 'WebGL'
+        run: |
+          owner=${GITHUB_REPOSITORY%%/*}; repo=${GITHUB_REPOSITORY#*/}
+          echo "Web: https://${owner,,}.github.io/${repo}/ (Settings > Pages 에서 gh-pages 브랜치를 선택해야 열립니다)" >> "$GITHUB_STEP_SUMMARY"
