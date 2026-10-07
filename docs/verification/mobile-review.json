@@ -1,0 +1,70 @@
+{
+  "status": "complete",
+  "unity": "6000.3.25f1",
+  "width": 915,
+  "height": 412,
+  "frame": 1255,
+  "checks": [
+    {
+      "name": "Player loop advances",
+      "passed": true
+    },
+    {
+      "name": "Phone layout and touch device",
+      "passed": true
+    },
+    {
+      "name": "Touch stick moves town party",
+      "passed": true
+    },
+    {
+      "name": "Stick stops on release",
+      "passed": true
+    },
+    {
+      "name": "Facility opens through touch",
+      "passed": true
+    },
+    {
+      "name": "Purchase/rest asks for confirmation",
+      "passed": true
+    },
+    {
+      "name": "Cancel preserves gold",
+      "passed": true
+    },
+    {
+      "name": "Immediate duplicate submit rejected",
+      "passed": true
+    },
+    {
+      "name": "Confirmed action executes once",
+      "passed": true
+    },
+    {
+      "name": "Dungeon route opens",
+      "passed": true
+    },
+    {
+      "name": "AUTO touch persists preference",
+      "passed": true
+    },
+    {
+      "name": "AUTO reaches battle result",
+      "passed": true
+    },
+    {
+      "name": "AUTO remains enabled after combat",
+      "passed": true
+    },
+    {
+      "name": "Result acknowledgement returns to dungeon",
+      "passed": true
+    },
+    {
+      "name": "Next encounter inherits AUTO",
+      "passed": true
+    }
+  ],
+  "failures": []
+}
