@@ -1,22 +1,22 @@
 {
   "id": "mage",
   "category": "Characters",
-  "triangles": 17634,
+  "triangles": 31302,
   "bounds": {
     "min": [
-      -0.383,
-      -0.3287,
-      -0.0
+      -0.35898,
+      -0.32177,
+      0.02928
     ],
     "max": [
-      0.383,
-      0.3607,
-      1.39545
+      0.35377,
+      0.33397,
+      1.86886
     ],
     "size": [
-      0.766,
-      0.6894,
-      1.39545
+      0.71275,
+      0.65573,
+      1.83958
     ]
   },
   "bones": [
@@ -26,8 +26,6 @@
     "chest",
     "neck",
     "head",
-    "hair.R",
-    "hair.L",
     "shoulder.L",
     "upper_arm.L",
     "forearm.L",
@@ -38,7 +36,6 @@
     "forearm.R",
     "hand.R",
     "weapon.R",
-    "cape",
     "thigh.L",
     "shin.L",
     "foot.L",
@@ -358,137 +355,331 @@
   "sockets": {
     "weapon.R": {
       "head": [
-        -0.16637136042118073,
-        -0.005388501100242138,
-        0.3640013337135315
+        -0.1596938818693161,
+        -0.0441034659743309,
+        0.7814450860023499
       ],
       "tail": [
-        -0.16637136042118073,
-        -0.14696724712848663,
-        0.4135538935661316
+        -0.1596938818693161,
+        -0.18568220734596252,
+        0.83099764585495
       ],
       "parent": "hand.R"
     },
     "weapon.L": {
       "head": [
-        0.16637136042118073,
-        -0.005388501100242138,
-        0.3640013337135315
+        0.159025177359581,
+        -0.04410388693213463,
+        0.7814451456069946
       ],
       "tail": [
-        0.16637136042118073,
-        -0.14696724712848663,
-        0.4135538935661316
+        0.159025177359581,
+        -0.18568263947963715,
+        0.8309977054595947
       ],
       "parent": "hand.L"
     }
   },
-  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Characters/mage/mage.fbx",
+  "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage.fbx",
+  "texture_dir": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex",
+  "textures": [
+    {
+      "material": "F00_000_00_FaceMouth_00_FACE",
+      "source_material": "F00_000_00_FaceMouth_00_FACE",
+      "image": "F00_000_00_FaceMouth_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_FaceMouth_00_FACE.png",
+      "source_size": [
+        512,
+        512
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 121154
+    },
+    {
+      "material": "F00_000_00_EyeWhite_00_EYE",
+      "source_material": "F00_000_00_EyeWhite_00_EYE",
+      "image": "F00_000_00_EyeWhite_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_EyeWhite_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 261612
+    },
+    {
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "source_material": "F00_000_00_FaceEyeline_00_FACE",
+      "image": "F00_000_00_FaceEyeline_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_FaceEyeline_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.8404,
+      "bytes": 52729
+    },
+    {
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "source_material": "F00_000_00_FaceEyelash_00_FACE",
+      "image": "F00_000_00_FaceEyelash_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_FaceEyelash_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.8659,
+      "bytes": 71831
+    },
+    {
+      "material": "F00_000_00_FaceBrow_00_FACE",
+      "source_material": "F00_000_00_FaceBrow_00_FACE",
+      "image": "F00_000_00_FaceBrow_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_FaceBrow_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.9803,
+      "bytes": 29625
+    },
+    {
+      "material": "F00_000_00_EyeIris_00_EYE",
+      "source_material": "F00_000_00_EyeIris_00_EYE",
+      "image": "F00_000_00_EyeIris_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_EyeIris_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.8126,
+      "bytes": 147609
+    },
+    {
+      "material": "F00_000_00_EyeHighlight_00_EYE",
+      "source_material": "F00_000_00_EyeHighlight_00_EYE",
+      "image": "F00_000_00_EyeHighlight_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_EyeHighlight_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.9922,
+      "bytes": 17720
+    },
+    {
+      "material": "F00_000_00_Face_00_SKIN",
+      "source_material": "F00_000_00_Face_00_SKIN",
+      "image": "F00_000_00_Face_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_00_Face_00_SKIN.png",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 683201
+    },
+    {
+      "material": "F00_002_02_Body_00_SKIN",
+      "source_material": "F00_002_02_Body_00_SKIN",
+      "image": "F00_002_02_Body_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_002_02_Body_00_SKIN.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 847749
+    },
+    {
+      "material": "F00_002_01_Tops_01_CLOTH",
+      "source_material": "F00_002_01_Tops_01_CLOTH",
+      "image": "F00_002_01_Tops_01",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_002_01_Tops_01_CLOTH.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 747092
+    },
+    {
+      "material": "F00_000_Hair_00_HAIR_01",
+      "source_material": "F00_000_Hair_00_HAIR_01",
+      "image": "F00_000_Hair_00_01",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/mage/mage_tex/F00_000_Hair_00_HAIR_01.png",
+      "source_size": [
+        512,
+        1024
+      ],
+      "size": [
+        512,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 304193
+    }
+  ],
+  "materials": [
+    "F00_000_00_FaceMouth_00_FACE",
+    "F00_000_00_EyeWhite_00_EYE",
+    "F00_000_00_FaceEyeline_00_FACE",
+    "F00_000_00_FaceEyelash_00_FACE",
+    "F00_000_00_FaceBrow_00_FACE",
+    "F00_000_00_EyeIris_00_EYE",
+    "F00_000_00_EyeHighlight_00_EYE",
+    "F00_000_00_Face_00_SKIN",
+    "F00_002_02_Body_00_SKIN",
+    "F00_002_01_Tops_01_CLOTH",
+    "F00_000_Hair_00_HAIR_01",
+    "M_Toon",
+    "M_Emit"
+  ],
   "previews": [
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_front.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_attack.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_cast.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_die.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_victory.png"
+    "/home/user/game_jrpg/Blender/preview/hero_mage.png",
+    "/home/user/game_jrpg/Blender/preview/hero_mage_front.png",
+    "/home/user/game_jrpg/Blender/preview/hero_mage_attack.png",
+    "/home/user/game_jrpg/Blender/preview/hero_mage_cast.png",
+    "/home/user/game_jrpg/Blender/preview/hero_mage_die.png",
+    "/home/user/game_jrpg/Blender/preview/hero_mage_victory.png"
   ],
   "pose_bounds": {
     "Idle": {
       "min": [
-        -0.383,
-        -0.3287,
-        -0.0
+        -0.35898,
+        -0.32177,
+        0.02928
       ],
       "max": [
-        0.383,
-        0.3747,
-        1.39545
+        0.35377,
+        0.33397,
+        1.86886
       ],
       "size": [
-        0.766,
-        0.7034,
-        1.39545
+        0.71275,
+        0.65573,
+        1.83958
       ]
     },
     "Attack": {
       "min": [
-        -0.39366,
-        -0.32006,
-        0.008
+        -0.36807,
+        -0.5126,
+        0.03728
       ],
       "max": [
-        0.36935,
-        0.42082,
-        1.40511
+        0.34202,
+        0.37224,
+        1.86036
       ],
       "size": [
-        0.763,
-        0.74088,
-        1.39711
+        0.71008,
+        0.88483,
+        1.82308
       ]
     },
     "Cast": {
       "min": [
-        -0.383,
-        -0.28754,
-        0.012
+        -0.35898,
+        -0.45684,
+        0.04128
       ],
       "max": [
-        0.383,
-        0.47583,
-        1.38411
+        0.35377,
+        0.38817,
+        1.82545
       ],
       "size": [
-        0.766,
-        0.76338,
-        1.37211
+        0.71275,
+        0.845,
+        1.78416
       ]
     },
     "Die": {
       "min": [
-        -0.51244,
-        -1.42677,
+        -0.54646,
+        -1.86004,
         0.0
       ],
       "max": [
-        0.26487,
-        0.01136,
-        0.73657
+        0.26209,
+        -0.0226,
+        0.65533
       ],
       "size": [
-        0.77732,
-        1.43813,
-        0.73657
+        0.80855,
+        1.83744,
+        0.65533
       ]
     },
     "Victory": {
       "min": [
-        -0.383,
-        -0.29647,
-        0.01
+        -0.35898,
+        -0.4652,
+        0.03928
       ],
       "max": [
-        0.383,
-        0.44076,
-        1.39909
+        0.35377,
+        0.37455,
+        1.84726
       ],
       "size": [
-        0.766,
-        0.73723,
-        1.38909
+        0.71275,
+        0.83975,
+        1.80798
       ]
     }
   },
   "motion_proof": {
     "transitions_max_local_component_delta": {
       "Die_to_Revive": 0.0,
-      "Revive_to_Idle": 0.0,
-      "Idle_to_Guard": 0.0,
-      "Guard_to_Idle": 0.0
+      "Revive_to_Idle": 0.02928154170513153,
+      "Idle_to_Guard": 0.02928154170513153,
+      "Guard_to_Idle": 0.02928154170513153
     },
     "die_final_root_location": [
       0.0,
-      0.33804675936698914,
+      0.3356934189796448,
       0.0
     ],
     "clips": {
@@ -658,20 +849,20 @@
           32,
           36
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f03.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f06.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f09.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f12.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f18.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f21.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f28.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f32.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_threequarter_f36.png"
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f03.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f06.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f09.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f12.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f18.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f21.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f28.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f32.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_threequarter_f36.png"
         ]
       },
       {
@@ -691,20 +882,20 @@
           32,
           36
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f03.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f06.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f09.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f12.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f18.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f21.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f28.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f32.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_guard_side_f36.png"
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f03.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f06.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f09.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f12.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f18.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f21.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f28.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f32.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_guard_side_f36.png"
         ]
       },
       {
@@ -724,20 +915,20 @@
           55,
           60
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f04.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f10.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f19.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f29.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f34.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f39.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f49.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f55.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_threequarter_f60.png"
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f04.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f10.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f19.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f29.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f34.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f39.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f49.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f55.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_threequarter_f60.png"
         ]
       },
       {
@@ -757,23 +948,23 @@
           55,
           60
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f04.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f10.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f19.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f29.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f34.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f39.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f49.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f55.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_mage_revive_side_f60.png"
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f04.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f10.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f19.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f29.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f34.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f39.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f49.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f55.png",
+          "/home/user/game_jrpg/Blender/preview/hero_mage_revive_side_f60.png"
         ]
       }
     ]
   },
-  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\hero_mage.blend"
-}
+  "blend": "/home/user/game_jrpg/Blender/blend/hero_mage.blend"
+}

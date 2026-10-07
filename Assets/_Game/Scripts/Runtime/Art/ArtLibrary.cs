@@ -45,7 +45,22 @@ namespace Abyss.Runtime.Art
             return c;
         }
 
-        public static CharacterModel SpawnHero(string heroId, Transform parent = null) => SpawnCharacter(HeroPath(heroId), heroId, parent);
+        /// <summary>
+        /// Heroes stand at the chibi height the battle arena, town and monster sizes were laid out for. The textured
+        /// anime heroes are modelled at full height (~1.75 m), so they are scaled down uniformly (weapons follow).
+        /// </summary>
+        public const float HeroDisplayHeight = 1.3f;
+
+        public static CharacterModel SpawnHero(string heroId, Transform parent = null)
+        {
+            var model = SpawnCharacter(HeroPath(heroId), heroId, parent);
+            if (model.Height > HeroDisplayHeight * 1.12f)
+            {
+                model.transform.localScale *= HeroDisplayHeight / model.Height;
+                model.RecomputeBounds();
+            }
+            return model;
+        }
         public static CharacterModel SpawnNpc(string npcId, Transform parent = null) => SpawnCharacter(NpcPath(npcId), npcId, parent);
         public static CharacterModel SpawnEnemy(string enemyId, Transform parent = null) => SpawnCharacter(EnemyPath(enemyId), enemyId, parent);
 

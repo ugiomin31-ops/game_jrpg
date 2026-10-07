@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:40:32Z",
+  "produced_at_utc": "2026-10-07T05:39:54Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
-      "bytes": 493164
+      "bytes": 488124
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_slime.blend",
-      "bytes": 309074
+      "bytes": 305268
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime.png",
-        "bytes": 170810
+        "bytes": 171397
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_side.png",
-        "bytes": 164818
+        "bytes": 164803
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_attack.png",
-        "bytes": 167681
+        "bytes": 168624
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_cast.png",
-        "bytes": 170572
+        "bytes": 171318
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_die.png",
-        "bytes": 166034
+        "bytes": 167300
       }
     ]
   },
@@ -41,12 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7348,
-    "vertices": 3690,
+    "triangles": 7060,
+    "vertices": 3544,
     "bones": 4,
     "materials": [
-      "M_Clear",
-      "M_Toon"
+      "M_Toon",
+      "M_Clear"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7348,
-    "vertices": 3690,
+    "triangles": 7060,
+    "vertices": 3544,
     "bones": 4,
     "materials": [
-      "M_Clear",
-      "M_Toon"
+      "M_Toon",
+      "M_Clear"
     ],
     "clips": {
       "Idle": [
@@ -124,4 +124,4 @@
     },
     "unweighted_vertices": 0
   }
-}
+}

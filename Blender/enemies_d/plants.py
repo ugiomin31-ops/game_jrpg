@@ -19,9 +19,9 @@ def _drip_skirt(c, bone, r, z, lobes, size, color, seed=0):
 
 
 def slime(eid):
-    """숲 슬라임 — translucent teal jelly with a drooping teardrop top, a drip skirt, a darker core,
-    glossy dark eyes, a leaf sprig and a small crystal grown into its crown."""
-    c = Sculpt(eid, tris=6000, material='M_Clear', ao=0.45)
+    """숲 슬라임 — teal jelly with a drooping teardrop top, a drip skirt, glossy dark eyes, a leaf sprig and a
+    small crystal grown into its crown. Opaque toon body: the translucent material washed it out to white in battle."""
+    c = Sculpt(eid, tris=6000, material='M_Toon', ao=0.45)
     c.bone('body', (0, 0, 0.2)); c.bone('eyes', (0, -0.27, 0.34), 'body'); c.bone('crest', (0, 0.06, 0.58), 'body')
     jelly = vgrad(0.0, '#2f8fd0', 0.6, '#9fe3ff')
     c.blob('body', (0, 0, 0.21), (0.36, 0.33, 0.21), jelly)
@@ -33,8 +33,6 @@ def slime(eid):
     for s in (-1, 1):
         c.eye('eyes', (s * 0.1, -0.265, 0.34), (s * 0.25, -1, 0.1), 0.055, '#0f1a33', iris_edge=0.25,
               sclera='#16213d')
-    core = A.sphere('core', r=0.11, loc=(0, 0.04, 0.23), color='#1f6aa8', seg=16, rings=10)
-    c.add('body', core)
     for k, (d, L) in enumerate((((0.8, -0.2, 0.6), 0.16), ((-0.7, 0.2, 0.7), 0.14), ((0.1, 0.6, 1), 0.1))):
         c.petal('crest', f'leaf{k}', (0.06, 0.15, 0.66), d, L, L * 0.6, '#7fd65a', tip='#3c9a35')
     c.gem('body', 'crystal', (-0.16, 0.08, 0.42), (-0.5, 0.3, 1), 0.04, 0.16, '#d9f4ff', '#58aee0', mat='M_Clear')

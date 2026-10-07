@@ -1,22 +1,22 @@
 {
   "id": "archer",
   "category": "Characters",
-  "triangles": 16516,
+  "triangles": 27351,
   "bounds": {
     "min": [
-      -0.29643,
-      -0.24505,
-      -0.0
+      -0.23561,
+      -0.17314,
+      0.01337
     ],
     "max": [
-      0.29643,
-      0.31944,
-      1.23495
+      0.23465,
+      0.25746,
+      1.7059
     ],
     "size": [
-      0.59286,
-      0.56449,
-      1.23495
+      0.47027,
+      0.43059,
+      1.69254
     ]
   },
   "bones": [
@@ -36,7 +36,6 @@
     "forearm.R",
     "hand.R",
     "weapon.R",
-    "cape",
     "thigh.L",
     "shin.L",
     "foot.L",
@@ -356,137 +355,347 @@
   "sockets": {
     "weapon.R": {
       "head": [
-        -0.168655127286911,
-        -0.005415859632194042,
-        0.3717392086982727
+        -0.19236303865909576,
+        -0.05789493769407272,
+        0.7929624319076538
       ],
       "tail": [
-        -0.168655127286911,
-        -0.14699460566043854,
-        0.4212917685508728
+        -0.19236303865909576,
+        -0.19947367906570435,
+        0.8425149917602539
       ],
       "parent": "hand.R"
     },
     "weapon.L": {
       "head": [
-        0.168655127286911,
-        -0.005415859632194042,
-        0.3717392086982727
+        0.19140201807022095,
+        -0.05789550393819809,
+        0.7929621934890747
       ],
       "tail": [
-        0.168655127286911,
-        -0.14699460566043854,
-        0.4212917685508728
+        0.19140201807022095,
+        -0.1994742453098297,
+        0.8425147533416748
       ],
       "parent": "hand.L"
     }
   },
-  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Characters/archer/archer.fbx",
+  "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer.fbx",
+  "texture_dir": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex",
+  "textures": [
+    {
+      "material": "M00_000_00_FaceBrow_00_FACE",
+      "source_material": "M00_000_00_FaceBrow_00_FACE",
+      "image": "M00_000_00_FaceBrow_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_FaceBrow_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.9803,
+      "bytes": 30917
+    },
+    {
+      "material": "M00_000_00_FaceMouth_00_FACE",
+      "source_material": "M00_000_00_FaceMouth_00_FACE",
+      "image": "M00_000_00_FaceMouth_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_FaceMouth_00_FACE.png",
+      "source_size": [
+        512,
+        512
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 120447
+    },
+    {
+      "material": "M00_000_00_EyeIris_00_EYE",
+      "source_material": "M00_000_00_EyeIris_00_EYE",
+      "image": "M00_000_00_EyeIris_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_EyeIris_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.8116,
+      "bytes": 147386
+    },
+    {
+      "material": "M00_000_00_EyeHighlight_00_EYE",
+      "source_material": "M00_000_00_EyeHighlight_00_EYE",
+      "image": "M00_000_00_EyeHighlight_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_EyeHighlight_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.9931,
+      "bytes": 28495
+    },
+    {
+      "material": "M00_000_00_EyeWhite_00_EYE",
+      "source_material": "M00_000_00_EyeWhite_00_EYE",
+      "image": "M00_000_00_EyeWhite_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_EyeWhite_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 261612
+    },
+    {
+      "material": "M00_000_00_Face_00_SKIN",
+      "source_material": "M00_000_00_Face_00_SKIN",
+      "image": "M00_000_00_Face_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_Face_00_SKIN.png",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 609116
+    },
+    {
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "source_material": "M00_000_00_FaceEyelash_00_FACE",
+      "image": "M00_000_00_FaceEyelash_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_FaceEyelash_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 1.0,
+      "bytes": 4835
+    },
+    {
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "source_material": "M00_000_00_FaceEyeline_00_FACE",
+      "image": "M00_000_00_FaceEyeline_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_000_00_FaceEyeline_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.8404,
+      "bytes": 52729
+    },
+    {
+      "material": "M00_001_01_Body_00_SKIN",
+      "source_material": "M00_001_01_Body_00_SKIN",
+      "image": "M00_001_00_Body_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_001_01_Body_00_SKIN.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 735680
+    },
+    {
+      "material": "M00_006_01_Tops_01_CLOTH",
+      "source_material": "M00_006_01_Tops_01_CLOTH",
+      "image": "M00_006_01_Tops_01",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_006_01_Tops_01_CLOTH.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 621956
+    },
+    {
+      "material": "M00_001_01_Bottoms_01_CLOTH",
+      "source_material": "M00_001_01_Bottoms_01_CLOTH",
+      "image": "M00_001_01_Bottoms_01",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/M00_001_01_Bottoms_01_CLOTH.png",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0044,
+      "bytes": 627301
+    },
+    {
+      "material": "F00_000_Hair_00_HAIR",
+      "source_material": "F00_000_Hair_00_HAIR",
+      "image": "F00_000_Hair_00",
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/archer/archer_tex/F00_000_Hair_00_HAIR.png",
+      "source_size": [
+        512,
+        1024
+      ],
+      "size": [
+        512,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 282331
+    }
+  ],
+  "materials": [
+    "M_Toon",
+    "M00_000_00_FaceBrow_00_FACE",
+    "M00_000_00_FaceMouth_00_FACE",
+    "M00_000_00_EyeIris_00_EYE",
+    "M00_000_00_EyeHighlight_00_EYE",
+    "M00_000_00_EyeWhite_00_EYE",
+    "M00_000_00_Face_00_SKIN",
+    "M00_000_00_FaceEyelash_00_FACE",
+    "M00_000_00_FaceEyeline_00_FACE",
+    "M00_001_01_Body_00_SKIN",
+    "M00_006_01_Tops_01_CLOTH",
+    "M00_001_01_Bottoms_01_CLOTH",
+    "F00_000_Hair_00_HAIR"
+  ],
   "previews": [
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_front.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_attack.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_cast.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_die.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_victory.png"
+    "/home/user/game_jrpg/Blender/preview/hero_archer.png",
+    "/home/user/game_jrpg/Blender/preview/hero_archer_front.png",
+    "/home/user/game_jrpg/Blender/preview/hero_archer_attack.png",
+    "/home/user/game_jrpg/Blender/preview/hero_archer_cast.png",
+    "/home/user/game_jrpg/Blender/preview/hero_archer_die.png",
+    "/home/user/game_jrpg/Blender/preview/hero_archer_victory.png"
   ],
   "pose_bounds": {
     "Idle": {
       "min": [
-        -0.29643,
-        -0.24505,
-        -0.0
+        -0.25835,
+        -0.17314,
+        0.01337
       ],
       "max": [
-        0.29643,
-        0.31944,
-        1.23495
+        0.25739,
+        0.25746,
+        1.7059
       ],
       "size": [
-        0.59286,
-        0.56449,
-        1.23495
+        0.51573,
+        0.43059,
+        1.69254
       ]
     },
     "Attack": {
       "min": [
-        -0.29707,
-        -0.3387,
-        0.008
+        -0.30362,
+        -0.54402,
+        0.02137
       ],
       "max": [
-        0.29498,
-        0.38061,
-        1.24295
+        0.19804,
+        0.27177,
+        1.7139
       ],
       "size": [
-        0.59205,
-        0.71931,
-        1.23495
+        0.50165,
+        0.81579,
+        1.69254
       ]
     },
     "Cast": {
       "min": [
-        -0.29643,
-        -0.29154,
-        0.012
+        -0.22367,
+        -0.47842,
+        0.02537
       ],
       "max": [
-        0.29643,
-        0.38743,
-        1.25453
+        0.2106,
+        0.28464,
+        1.84455
       ],
       "size": [
-        0.59286,
-        0.67897,
-        1.24253
+        0.43428,
+        0.76306,
+        1.81918
       ]
     },
     "Die": {
       "min": [
-        -0.41186,
-        -1.22571,
+        -0.5175,
+        -1.68829,
         0.0
       ],
       "max": [
-        0.2485,
-        0.01136,
-        0.60846
+        0.29081,
+        -0.00476,
+        0.40554
       ],
       "size": [
-        0.66036,
-        1.23707,
-        0.60846
+        0.80831,
+        1.68353,
+        0.40554
       ]
     },
     "Victory": {
       "min": [
-        -0.29643,
-        -0.3007,
-        0.01
+        -0.24629,
+        -0.48925,
+        0.02337
       ],
       "max": [
-        0.29643,
-        0.35836,
-        1.24359
+        0.25424,
+        0.27729,
+        1.85246
       ],
       "size": [
-        0.59286,
-        0.65906,
-        1.23359
+        0.50052,
+        0.76654,
+        1.82909
       ]
     }
   },
   "motion_proof": {
     "transitions_max_local_component_delta": {
       "Die_to_Revive": 0.0,
-      "Revive_to_Idle": 0.0,
-      "Idle_to_Guard": 0.0,
-      "Guard_to_Idle": 0.0
+      "Revive_to_Idle": 0.013368461281061172,
+      "Idle_to_Guard": 0.013368461281061172,
+      "Guard_to_Idle": 0.013368461281061172
     },
     "die_final_root_location": [
       0.0,
-      0.2572188973426819,
+      0.17427808046340942,
       0.0
     ],
     "clips": {
@@ -656,20 +865,20 @@
           32,
           36
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f03.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f06.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f09.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f12.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f18.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f21.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f28.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f32.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_threequarter_f36.png"
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f03.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f06.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f09.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f12.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f18.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f21.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f28.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f32.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_threequarter_f36.png"
         ]
       },
       {
@@ -689,20 +898,20 @@
           32,
           36
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f03.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f06.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f09.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f12.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f18.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f21.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f28.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f32.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_guard_side_f36.png"
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f03.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f06.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f09.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f12.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f18.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f21.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f28.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f32.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_guard_side_f36.png"
         ]
       },
       {
@@ -722,20 +931,20 @@
           55,
           60
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f04.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f10.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f19.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f29.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f34.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f39.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f49.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f55.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_threequarter_f60.png"
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f04.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f10.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f19.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f29.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f34.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f39.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f49.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f55.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_threequarter_f60.png"
         ]
       },
       {
@@ -755,23 +964,23 @@
           55,
           60
         ],
-        "file": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_sheet.png",
+        "file": "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_sheet.png",
         "renders": [
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f00.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f04.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f10.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f15.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f19.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f24.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f29.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f34.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f39.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f49.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f55.png",
-          "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\hero_archer_revive_side_f60.png"
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f00.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f04.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f10.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f15.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f19.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f24.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f29.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f34.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f39.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f49.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f55.png",
+          "/home/user/game_jrpg/Blender/preview/hero_archer_revive_side_f60.png"
         ]
       }
     ]
   },
-  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\hero_archer.blend"
-}
+  "blend": "/home/user/game_jrpg/Blender/blend/hero_archer.blend"
+}

@@ -41,6 +41,31 @@ def catalog():
     return rows
 
 
+def textured_shading(meshes):
+    """Textured anime heroes (lib_humanoid/textured.py): image materials show their PNG; the procedural parts
+    (M_Toon/M_Emit/M_Clear, coloured by Col) get their average Col as the flat material colour Workbench uses
+    for materials without an image. Returns False for ordinary vertex-colour models."""
+    def has_image(mat):
+        return mat is not None and mat.use_nodes and any(n.type == 'TEX_IMAGE' and n.image for n in mat.node_tree.nodes)
+    if not any(has_image(slot.material) for obj in meshes for slot in obj.material_slots):
+        return False
+    sums = {}
+    for obj in meshes:
+        col = obj.data.color_attributes['Col']
+        for poly in obj.data.polygons:
+            mat = obj.material_slots[poly.material_index].material if poly.material_index < len(obj.material_slots) else None
+            if mat is None or has_image(mat):
+                continue
+            acc = sums.setdefault(mat.name, [0.0, 0.0, 0.0, 0])
+            for li in poly.loop_indices:
+                c = col.data[li].color if col.domain == 'CORNER' else col.data[obj.data.loops[li].vertex_index].color
+                acc[0] += c[0]; acc[1] += c[1]; acc[2] += c[2]; acc[3] += 1
+    for name, (r, g, b, n) in sums.items():
+        if n:
+            bpy.data.materials[name].diffuse_color = (r / n, g / n, b / n, 1.0)
+    return True
+
+
 def render(family, ident, source):
     if not source.is_file():
         raise FileNotFoundError(source)
@@ -69,7 +94,8 @@ def render(family, ident, source):
     # Portrait includes the complete head/hair/hat and shoulder neckline, viewed front-on
     # so bangs, hat brims, and held props cannot hide either eye.
     if portrait:
-        cutoff = lo.z + (hi.z - lo.z) * .48
+        # Full-height (anime) figures: keep head and shoulders only, or the face shrinks to a dot on the cards.
+        cutoff = lo.z + (hi.z - lo.z) * (.76 if hi.z - lo.z > 1.45 else .48)
         framed = [p for p in points if p.z >= cutoff]
     else:
         framed = points
@@ -106,7 +132,7 @@ def render(family, ident, source):
     shading = scene.display.shading
     shading.light = 'STUDIO'
     shading.studiolight_rotate_z = math.radians(20)
-    shading.color_type = 'VERTEX'
+    shading.color_type = 'TEXTURE' if textured_shading(meshes) else 'VERTEX'
     shading.show_shadows = True
     shading.show_cavity = True
     shading.cavity_type = 'BOTH'
