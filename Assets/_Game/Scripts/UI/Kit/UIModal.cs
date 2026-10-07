@@ -79,7 +79,7 @@ namespace Abyss.UI
 
             if (!string.IsNullOrEmpty(_title))
             {
-                var title = UIFactory.Label(_panel.Rect, _title, UITheme.SizeHeader + 4f, UIFont.Bold, UITheme.Text, TextAlignmentOptions.Center, UITextFx.Plain, "Title");
+                var title = UIFactory.Label(_panel.Rect, _title, UITheme.SizeHeader + 4f, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Outline, "Title");
                 title.textWrappingMode = TextWrappingModes.Normal;
                 title.overflowMode = TextOverflowModes.Ellipsis;
                 UIFactory.Layout(title, -1f, Mathf.Clamp(title.GetPreferredValues(_title, 692f, 0f).y, 48f, 96f));

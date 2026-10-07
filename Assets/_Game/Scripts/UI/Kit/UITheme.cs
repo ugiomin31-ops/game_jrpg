@@ -13,7 +13,7 @@ namespace Abyss.UI
         Bold,
         /// <summary>Pretendard ExtraBold — numbers, emphasis.</summary>
         Heavy,
-        /// <summary>Pretendard Bold — titles and banners; heavy family for damage numbers.</summary>
+        /// <summary>Black Han Sans — titles, banners, damage numbers.</summary>
         Title,
     }
 
@@ -33,36 +33,36 @@ namespace Abyss.UI
     }
 
     /// <summary>
-    /// Visual language of the Abyss UI: layered slate surfaces, cool white text, restrained teal focus and rarity accents.
+    /// Visual language of the Abyss UI: deep navy glass, thin gold filigree, white text, dawn-orange focus.
     /// All colours / fonts / sizes / sprites used by the kit come from here.
     /// </summary>
     public static class UITheme
     {
         // ---- colours ------------------------------------------------------------------------------
-        /// <summary>Primary text (cool white).</summary>
-        public static readonly Color Text = Hex("edf3fa");
-        /// <summary>Secondary text (slate grey).</summary>
-        public static readonly Color TextDim = Hex("9eafc2");
+        /// <summary>Primary text (warm white).</summary>
+        public static readonly Color Text = Hex("f6f2e9");
+        /// <summary>Secondary text (cool lavender grey).</summary>
+        public static readonly Color TextDim = Hex("aab3d6");
         /// <summary>Disabled text.</summary>
-        public static readonly Color TextDisabled = Hex("64748b");
-        /// <summary>Gold accent (currency and legendary gear).</summary>
-        public static readonly Color Gold = Hex("dfbd82");
+        public static readonly Color TextDisabled = Hex("6c7290");
+        /// <summary>Gold accent (frames, headers, currency).</summary>
+        public static readonly Color Gold = Hex("e6c477");
         /// <summary>Bright gold for highlights.</summary>
-        public static readonly Color GoldBright = Hex("f4dbad");
+        public static readonly Color GoldBright = Hex("fbe7b0");
         /// <summary>Muted gold for subtle lines.</summary>
         public static readonly Color GoldDim = Hex("8c7444");
-        /// <summary>Teal — keyboard/gamepad focus and selection.</summary>
-        public static readonly Color Dawn = Hex("64d8cb");
+        /// <summary>Dawn orange — keyboard/gamepad focus and selection.</summary>
+        public static readonly Color Dawn = Hex("ffad5a");
         /// <summary>Light dawn for focus text.</summary>
-        public static readonly Color DawnBright = Hex("bdfff4");
+        public static readonly Color DawnBright = Hex("ffe0b0");
         /// <summary>Navy used for flat fills / dimmers.</summary>
-        public static readonly Color Navy = Hex("101b2b");
+        public static readonly Color Navy = Hex("0d1430");
         /// <summary>Very dark navy (outline / shadow tint, never pure black).</summary>
-        public static readonly Color Ink = Hex("080f1a");
+        public static readonly Color Ink = Hex("070914");
         /// <summary>Negative / warning (disabled reasons, low HP).</summary>
         public static readonly Color Danger = Hex("ff5a6e");
         /// <summary>Positive value change.</summary>
-        public static readonly Color Positive = Hex("74e4b2");
+        public static readonly Color Positive = Hex("7dffa8");
         /// <summary>HP full.</summary>
         public static readonly Color HpHigh = Hex("5fe08a");
         /// <summary>HP mid.</summary>
@@ -92,13 +92,14 @@ namespace Abyss.UI
         /// <summary>Full-screen dimmer behind modals.</summary>
         public static readonly Color Dim = new Color(0.02f, 0.03f, 0.08f, 0.62f);
 
-        /// <summary>Neutral raised surfaces with a restrained teal selection accent.</summary>
-        public static readonly Color Surface = Hex("172538");
-        public static readonly Color SurfaceRaised = Hex("23354c");
-        public static readonly Color SurfaceSelected = Hex("264f59");
-        public static readonly Color Border = Hex("3d526a");
-        public static readonly Color Rare = Hex("9eb7ff");
-        public static readonly Color Epic = Hex("d6abff");
+        /// <summary>Card fills for result / facility tiles: the same midnight glass family as the kit sprites.</summary>
+        public static readonly Color Surface = Hex("111a40");
+        public static readonly Color SurfaceRaised = Hex("1d2858");
+        public static readonly Color SurfaceSelected = Hex("33407e");
+        public static readonly Color Border = Hex("8c7444");
+        /// <summary>Rarity accents: common (dim) · rare (azure) · epic (violet) · legendary (gold).</summary>
+        public static readonly Color Rare = Hex("7fb6ff");
+        public static readonly Color Epic = Hex("cf9dff");
 
         public static Color RarityColor(int rarity) => rarity >= 3 ? GoldBright : rarity == 2 ? Epic : rarity == 1 ? Rare : TextDim;
         public static string RarityName(int rarity) => rarity >= 3 ? "전설" : rarity == 2 ? "영웅" : rarity == 1 ? "희귀" : "일반";
@@ -126,7 +127,7 @@ namespace Abyss.UI
 
         // ---- fonts ----------------------------------------------------------------------------------
         static readonly TMP_FontAsset[] Fonts = new TMP_FontAsset[4];
-        static readonly string[] FontPaths = { "Fonts/Body SDF", "Fonts/Bold SDF", "Fonts/Heavy SDF", "Fonts/Bold SDF" };
+        static readonly string[] FontPaths = { "Fonts/Body SDF", "Fonts/Bold SDF", "Fonts/Heavy SDF", "Fonts/Title SDF" };
         static readonly Dictionary<(UIFont, UITextFx), Material> Materials = new Dictionary<(UIFont, UITextFx), Material>();
 
         /// <summary>Returns the TMP font asset for a family (loaded once from Resources).</summary>
@@ -163,7 +164,7 @@ namespace Abyss.UI
                     break;
                 case UITextFx.Glow:
                     SetOutline(m, new Color(0.18f, 0.08f, 0.02f, 1f), 0.10f);
-                    SetUnderlay(m, Dawn.WithAlpha(0.35f), 0f, 0f, 0.8f, 0.45f);
+                    SetUnderlay(m, new Color(1f, 0.55f, 0.15f, 0.55f), 0f, 0f, 0.8f, 0.45f);
                     break;
             }
             Materials[(font, fx)] = m;

@@ -57,8 +57,8 @@ namespace Abyss.UI
             public UIListRowHandler Handler;
         }
 
-        static readonly Color RowCard = UITheme.SurfaceRaised.WithAlpha(0.85f);
-        static readonly Color RowCardDisabled = UITheme.Surface.WithAlpha(0.55f);
+        static readonly Color RowCard = new Color(0.16f, 0.2f, 0.4f, 0.5f);
+        static readonly Color RowCardDisabled = new Color(0.1f, 0.11f, 0.2f, 0.4f);
         /// <summary>Why a row is unavailable: soft coral, not alarm red (most reasons are just "not yet").</summary>
         static readonly Color ReasonColor = new Color(1f, 0.62f, 0.55f);
 
@@ -117,11 +117,11 @@ namespace Abyss.UI
             _rowsRoot = UIFactory.Rect(rt, "Rows").Stretch(28f, 0f, 14f, 0f);
             for (int i = 0; i < _visibleRows; i++) _rows.Add(BuildRow(i));
 
-            var cursorImg = UIFactory.Image(rt, UISprites.PanelWhite, UITheme.Dawn, "Cursor");
+            var cursorImg = UIFactory.Image(rt, UISprites.Cursor, Color.white, "Cursor");
             _cursor = cursorImg.rectTransform;
             _cursor.anchorMin = _cursor.anchorMax = new Vector2(0f, 1f);
             _cursor.pivot = new Vector2(0.5f, 0.5f);
-            _cursor.sizeDelta = new Vector2(4f, _rowHeight - 18f);
+            _cursor.sizeDelta = new Vector2(40f, 40f);
 
             _scrollTrack = UIFactory.Image(rt, UISprites.BarFlat, new Color(0f, 0f, 0.04f, 0.55f), "ScrollTrack").rectTransform;
             _scrollTrack.anchorMin = new Vector2(1f, 0f);
@@ -158,7 +158,7 @@ namespace Abyss.UI
             // Each row sits on its own soft card so lists read as tappable items, not loose text.
             r.Card = UIFactory.Image(r.Rect, UISprites.PanelWhite, RowCard, "Card", borderScale: 1.6f);
             r.Card.rectTransform.Stretch(0f, 2f, 0f, 2f);
-            r.Highlight = UIFactory.Image(r.Rect, UISprites.PanelWhite, UITheme.SurfaceSelected, "Highlight");
+            r.Highlight = UIFactory.Image(r.Rect, UISprites.RowHighlight, Color.white, "Highlight");
             r.Highlight.rectTransform.Stretch(-6f, 0f, 0f, 0f);
             // Tall (touch) rows get larger icons and text; desktop rows keep the original 40 px / 28 pt.
             float iconSize = Mathf.Clamp(_rowHeight * 0.62f, 26f, 64f);
@@ -284,7 +284,7 @@ namespace Abyss.UI
                 bool sel = idx == _selected;
                 r.Highlight.enabled = sel;
                 r.Card.color = it.Enabled ? RowCard : RowCardDisabled;
-                r.Highlight.color = UITheme.SurfaceSelected.WithAlpha(_focused ? 1f : 0.6f);
+                r.Highlight.color = _focused ? Color.white : new Color(0.75f, 0.8f, 1f, 0.45f);
                 bool icon = it.Icon != null;
                 r.Icon.sprite = it.Icon;
                 r.Icon.enabled = icon;

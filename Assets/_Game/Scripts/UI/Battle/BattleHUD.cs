@@ -622,7 +622,7 @@ namespace Abyss.UI.Battle
             if (_speedButton != null) _speedButton.gameObject.SetActive(false);
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
             UIFactory.Fill(_reward, UITheme.Ink.WithAlpha(0.8f), raycast: true);
-            var panel = UIFactory.Panel(_reward, name: "Result dashboard");
+            var panel = UIFactory.Panel(_reward, UIPanelStyle.Ornate, name: "Result dashboard");
             bool victory = outcome.Result == BattleResult.Victory;
             var panelSize = new Vector2(1240, 800);
             panel.Rect.Place(UIAnchor.Center, Vector2.zero, panelSize);
@@ -630,14 +630,19 @@ namespace Abyss.UI.Battle
             panel.Rect.localScale = Vector3.one * (reduced ? 1f : 0.98f);
             UITween.Scale(panel.Rect, 1f, reduced ? 0f : 0.2f, UIEase.OutCubic);
             string heading = victory ? "전투 승리" : outcome.Result == BattleResult.Defeat ? "다시 준비할 시간" : "전투에서 벗어났습니다";
-            UIFactory.Label(panel.Rect, heading, 44, UIFont.Bold, victory ? UITheme.DawnBright : UITheme.Text,
-                fx: UITextFx.Plain).Rt().TopStrip(62, 22, 36, 36);
-            UIFactory.Label(panel.Rect, victory ? $"획득 골드  {report.Gold:N0} G   ·   생존 동료 EXP +{report.Experience:N0}" : "전투 결과와 탐험 기록을 확인하세요.",
-                25, color: UITheme.TextDim).Rt().TopStrip(38, 86, 36, 36);
+            // Victory plate: ribbon band + glowing title, the beat every console JRPG lands before the spoils.
+            var ribbon = UIFactory.Image(panel.Rect, UISprites.Ribbon, Color.white, "Title ribbon");
+            ribbon.rectTransform.Place(UIAnchor.Top, new Vector2(0, -8), new Vector2(760, 92));
+            UIFactory.Label(panel.Rect, heading, 52, UIFont.Title, victory ? UITheme.GoldBright : UITheme.Text, TextAlignmentOptions.Center,
+                victory ? UITextFx.Glow : UITextFx.Outline).Rt().TopStrip(72, 18, 36, 36);
+            UIFactory.Label(panel.Rect, victory
+                    ? $"{UITheme.Tag(UITheme.GoldBright)}{report.Gold:N0} G</color>   <size=20>획득 골드</size>        {UITheme.Tag(UITheme.Positive)}EXP +{report.Experience:N0}</color>   <size=20>생존 동료</size>"
+                    : "전투 결과와 탐험 기록을 확인하세요.",
+                26, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.Center).Rt().TopStrip(36, 96, 36, 36);
             if (victory) BuildPartyResults(panel.Rect, panelSize.x, report, outcome);
             var growth = UIFactory.Panel(panel.Rect, UIPanelStyle.Dark, false, "Progression card");
             growth.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -260), new Vector2(444, 426));
-            UIFactory.Label(growth.Rect, "성장과 탐험 기록", 27, color: UITheme.Text).Rt().TopStrip(46, 12, 22, 22);
+            UIFactory.Label(growth.Rect, "성장과 탐험 기록", 27, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(46, 12, 22, 22);
             _rewardScroll = UIFactory.ScrollView(growth.Rect, out var rewardContent, name: "Result progression");
             _rewardScroll.Rt().Stretch(22, 70, 22, 20);
             _text.Clear();
@@ -649,7 +654,7 @@ namespace Abyss.UI.Battle
 
             var loot = UIFactory.Panel(panel.Rect, UIPanelStyle.Dark, false, "Loot collection");
             loot.Rect.Place(UIAnchor.TopRight, new Vector2(-32, -260), new Vector2(714, 426));
-            UIFactory.Label(loot.Rect, "획득한 전리품", 27, color: UITheme.Text).Rt().TopStrip(46, 12, 22, 22);
+            UIFactory.Label(loot.Rect, "획득한 전리품", 27, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(46, 12, 22, 22);
             var drops = new List<KeyValuePair<string, int>>(report.Drops);
             drops.Sort((a, b) => { int rarity = DropRarity(b.Key).CompareTo(DropRarity(a.Key)); return rarity != 0 ? rarity : string.CompareOrdinal(a.Key, b.Key); });
             var cards = UIFactory.Rect(loot.Rect, "Loot page").Stretch(18, 70, 18, 48);
@@ -670,6 +675,13 @@ namespace Abyss.UI.Battle
                     card.Rect.Place(UIAnchor.TopLeft, new Vector2((index % 2) * 342, -(index / 2) * 100), new Vector2(330, 90));
                     var stripe = UIFactory.Image(card.Rect, UISprites.PanelWhite, accent, "Rarity stripe");
                     stripe.Rt().Place(UIAnchor.Left, new Vector2(0, 0), new Vector2(4, 70));
+                    if (rarity > 0)
+                    {
+                        // Rare and better drops glow in their rarity colour so the eye finds them first.
+                        var halo = UIFactory.Image(card.Rect, UISprites.SoftRadial, accent.WithAlpha(0.22f + 0.1f * rarity), "Rarity glow");
+                        halo.rectTransform.Place(UIAnchor.Left, new Vector2(-6, 0), new Vector2(110, 110));
+                        UIFactory.Image(card.Rect, UISprites.PanelOutline, accent.WithAlpha(0.75f), "Rarity edge").rectTransform.Stretch();
+                    }
                     var icon = UIFactory.Icon(card.Rect, _db.Items.ContainsKey(id) ? UIArtwork.Item(id) : UIArtwork.Gear(id), 54);
                     icon.Rt().Place(UIAnchor.Left, new Vector2(14, 0), new Vector2(54, 54));
                     string name = _db.Items.TryGetValue(id, out var item) ? item.DisplayName : _db.Equipment[id].DisplayName;

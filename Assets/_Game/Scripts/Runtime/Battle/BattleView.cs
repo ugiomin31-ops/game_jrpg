@@ -112,23 +112,8 @@ namespace Abyss.Runtime.Battle
         public void Submit(BattleCommand command)
         {
             if (_finished || Playing || _app.Paused || Engine.State != BattleEngineState.AwaitingCommand) return;
-            var actor = Engine.ActiveHero;
-            var names = new List<string>();
-            foreach (var target in Engine.ValidTargets(actor, command))
-                if (command.TargetId == null || command.TargetId == target.Id) names.Add(target.DisplayName);
-            string label = command.Kind == CommandKind.Guard ? "방어" : command.Kind == CommandKind.Flee ? "도주 시도" : "공격";
-            string cost = "";
-            if (command.Kind == CommandKind.Skill && _app.DB.Skills.TryGetValue(command.SkillId, out var skill))
-            { label = skill.DisplayName; cost = $"MP {skill.MpCost} · TP {skill.TpCost}\n{skill.Description}\n"; }
-            if (command.Kind == CommandKind.Item && _app.DB.Items.TryGetValue(command.ItemId, out var item))
-            { label = item.DisplayName; cost = $"아이템 1개 소비\n{item.Description}\n"; }
-            UIModal.Confirm(_ui.Modals, "행동 확인", $"{actor.DisplayName} · {label}\n대상 · {string.Join(" · ", names)}\n{cost}\n이 행동을 실행할까요?", yes =>
-            {
-                if (_finished || Playing || Engine.State != BattleEngineState.AwaitingCommand) return;
-                if (!yes) { _hud.ShowCommands(Engine); return; }
-                _hud.Lock(); Playing = true;
-                StartCoroutine(Replay(Engine.Submit(command), false));
-            });
+            _hud.Lock(); Playing = true;
+            StartCoroutine(Replay(Engine.Submit(command), false));
         }
         public void SetAuto(bool enabled)
         {

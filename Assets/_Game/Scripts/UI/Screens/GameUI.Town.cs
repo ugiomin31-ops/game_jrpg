@@ -25,19 +25,20 @@ namespace Abyss.UI
         public void ShowTown()
         {
             Clear(); BuildHud(false); RefreshTown();
-            var services = UIFactory.Panel(hud, name: "Town service cards");
+            var services = UIFactory.Panel(hud, UIPanelStyle.Ornate, name: "Town service cards");
             bool compact = UIRoot.Compact;
             const float width = 440f;
-            services.Rect.Place(UIAnchor.TopRight, new Vector2(-24, compact ? -126 : -156), new Vector2(width, 532));
-            UIFactory.Label(services.Rect, "마을에서 준비하기", 30, UIFont.Bold, UITheme.Text).Rt().TopStrip(42, 20, 24, 24);
-            UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 22, color: UITheme.TextDim).Rt().TopStrip(30, 66, 24, 24);
+            services.Rect.Place(UIAnchor.TopRight, new Vector2(-24, compact ? -126 : -156), new Vector2(width, 548));
+            UIFactory.Label(services.Rect, "마을에서 준비하기", 32, UIFont.Title, UITheme.GoldBright, TMPro.TextAlignmentOptions.Center, UITextFx.Outline).Rt().TopStrip(44, 18, 24, 24);
+            UIFactory.Separator(services.Rect, width - 80f).rectTransform.Place(UIAnchor.Top, new Vector2(0, -66), new Vector2(width - 80f, 18));
+            UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 21, color: UITheme.TextDim, align: TMPro.TextAlignmentOptions.Center).Rt().TopStrip(28, 80, 24, 24);
             var hints = new[] { "파티 회복", "소모품 · 장비", "장비 제작", "의뢰 · 보상", "약점 · 전리품", "장비 · 기술", "이야기", "미궁 탐험 시작" };
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
                 var button = UIFactory.Button(services.Rect, (id == "elder" ? "촌장" : T(TownTitles[i])) + "\n<size=20>" + hints[i] + "</size>",
                     () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
-                button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -112 - (i / 2) * 102), new Vector2(196, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 92));
+                button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -124 - (i / 2) * 102), new Vector2(196, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 92));
                 button.Label.textWrappingMode = TMPro.TextWrappingModes.Normal;
                 button.Label.fontSizeMax = 25;
                 if (id == "gate") button.Label.color = UITheme.DawnBright;
@@ -171,7 +172,7 @@ namespace Abyss.UI
                 m.Add(quest.Title, () =>
                 {
                     if (guild && entry.State == QuestBoardState.Available) Confirm("의뢰 수락", details + "\n\n이 의뢰를 수락할까요?", () => Execute(TownServices.AcceptQuest(app.DB, app.State, quest.Id), m));
-                    else if (guild && entry.State == QuestBoardState.Complete) Confirm("의뢰 보상", details + "\n\n보상을 수령할까요?", () => Execute(TownServices.ClaimQuest(app.DB, app.State, quest.Id), m));
+                    else if (guild && entry.State == QuestBoardState.Complete) Execute(TownServices.ClaimQuest(app.DB, app.State, quest.Id), m);
                     else UIModal.Alert(root.Modals, quest.Title, details);
                 }, details, status);
             }
