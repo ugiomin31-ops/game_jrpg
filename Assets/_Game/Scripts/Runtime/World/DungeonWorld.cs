@@ -22,6 +22,9 @@ namespace Abyss.Runtime.World
         static readonly Color FoeAlertColor = new Color(1.6f, 0.75f, 0.25f);
         static readonly Color FoeChaseBodyTint = new Color(1f, 0.82f, 0.7f);
         readonly Dictionary<GridPos, Transform> chests = new Dictionary<GridPos, Transform>();
+        // Props standing on a walkable cell (chest, lore stone, spring, key): they shrink away as the camera walks
+        // into them instead of filling the screen from the inside.
+        readonly List<(Transform Root, Vector3 Scale)> nearProps = new List<(Transform, Vector3)>();
         readonly Dictionary<GridPos, Transform> doors = new Dictionary<GridPos, Transform>();
         readonly Dictionary<GridPos, GameObject> keys = new Dictionary<GridPos, GameObject>();
         readonly Dictionary<string, CharacterModel> foes = new Dictionary<string, CharacterModel>();
@@ -78,6 +81,7 @@ namespace Abyss.Runtime.World
                 {
                     case 'T':
                         var chest = Spawn("chest", cell);
+                        AgainstWall(chest, grid, cell, 1.3f);
                         chests[cell] = EnvironmentProcessor.Find(chest.transform, "Lid");
                         break;
                     case 'L':
@@ -90,11 +94,12 @@ namespace Abyss.Runtime.World
                     case 'K':
                         var key = ArtLibrary.SpawnStatic(ArtLibrary.PropPath("Common", "key_item"), transform);
                         key.transform.position = Position(cell) + Vector3.up * 0.8f;
+                        AgainstWall(key, grid, cell, 1.1f);
                         keys[cell] = key;
                         break;
-                    case 'H': Spawn("spring", cell); break;
+                    case 'H': AgainstWall(Spawn("spring", cell), grid, cell, 1.1f); break;
                     case 'W': Spawn("warp", cell); break;
-                    case 'N': Spawn("lore_stone", cell); break;
+                    case 'N': AgainstWall(Spawn("lore_stone", cell), grid, cell, 1.35f); break;
                     case 'X': Spawn("trap", cell); break;
                     case 'B': Spawn("boss_gate", cell); break;
                 }
@@ -223,6 +228,41 @@ namespace Abyss.Runtime.World
                     decor.transform.rotation = Quaternion.LookRotation(-toWall) * Quaternion.Euler(0f, ((hash >> 21) % 5 - 2) * 12f, 0f);
                     decorAllowed = false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Moves a cell prop from the centre (where the camera walks) against one of the cell's walls, facing the
+        /// cell, and registers it for the near-camera fade. Open cells without a wall keep the prop centred.
+        /// </summary>
+        void AgainstWall(GameObject prop, DungeonGrid grid, GridPos cell, float offset)
+        {
+            int start = CellHash(cell.X, cell.Y, 7) % 4;
+            for (int i = 0; i < 4; i++)
+            {
+                int facing = (start + i) % 4;
+                if (grid.Cell(cell.Step((Facing)facing)) != '#') continue;
+                Vector3 toWall = (Position(cell.Step((Facing)facing)) - Position(cell)) / CellSize;
+                prop.transform.position += toWall * offset;
+                prop.transform.rotation = Quaternion.LookRotation(-toWall);
+                break;
+            }
+            nearProps.Add((prop.transform, prop.transform.localScale));
+        }
+
+        /// <summary>Shrinks cell props the camera is about to pass through (horizontal distance under ~1.6 m).</summary>
+        void FadeNearProps()
+        {
+            if (nearProps.Count == 0 || app == null) return;
+            Vector3 eye = app.MainCamera.transform.position;
+            for (int i = 0; i < nearProps.Count; i++)
+            {
+                var (root, scale) = nearProps[i];
+                if (root == null) continue;
+                Vector3 d = root.position - eye;
+                d.y = 0f;
+                float k = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.7f, 1.6f, d.magnitude));
+                root.localScale = scale * k; // scale only: activation belongs to progress (taken keys)
             }
         }
 
@@ -367,6 +407,7 @@ namespace Abyss.Runtime.World
         // Markers are children of FOE models: hidden with the model on defeat, destroyed with it. Scaled time freezes them while paused.
         void LateUpdate()
         {
+            FadeNearProps();
             if (foeMarkers.Count == 0 || app == null) return;
             bool reduced = app.Preferences.ReducedMotion;
             var view = app.MainCamera.transform;

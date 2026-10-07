@@ -44,6 +44,9 @@ namespace Abyss.UI.Battle
         ScrollRect _detailScroll;
         ScrollRect _rewardScroll;
         TMP_Text _menuHint, _rewardCounter;
+        RectTransform _announce, _announceBand;
+        TMP_Text _announceTitle, _announceSub;
+        CanvasGroup _announceGroup;
         BattleEngine _engine;
         GameDB _db;
         Camera _camera;
@@ -107,7 +110,60 @@ namespace Abyss.UI.Battle
             _bannerText.Rt().Stretch(16, 6, 16, 6);
             _bannerText.overflowMode = TextOverflowModes.Ellipsis;
             _banner.gameObject.SetActive(false);
+            BuildAnnounce();
             Lock();
+        }
+
+        /// <summary>Centre-screen call-out for battle start / victory / defeat: a light band that opens, big title, subtitle.</summary>
+        void BuildAnnounce()
+        {
+            _announce = UIFactory.Rect(_root, "Announce");
+            _announce.anchorMin = new Vector2(0f, 0.5f); _announce.anchorMax = new Vector2(1f, 0.5f);
+            _announce.sizeDelta = new Vector2(0f, 250f); _announce.anchoredPosition = new Vector2(0f, 70f);
+            _announceGroup = _announce.gameObject.AddComponent<CanvasGroup>();
+            _announceGroup.blocksRaycasts = false; _announceGroup.interactable = false;
+            _announceBand = UIFactory.Rect(_announce, "Band");
+            _announceBand.anchorMin = Vector2.zero; _announceBand.anchorMax = Vector2.one; _announceBand.sizeDelta = Vector2.zero;
+            var band = UIFactory.Image(_announceBand, UISprites.White, new Color(0.02f, 0.03f, 0.1f, 0.78f), "Fill");
+            band.rectTransform.Stretch();
+            foreach (float y in new[] { 0f, 1f })
+            {
+                var line = UIFactory.Image(_announceBand, UISprites.GlowLine, UITheme.Gold, y == 0f ? "Bottom line" : "Top line");
+                line.rectTransform.anchorMin = new Vector2(0f, y); line.rectTransform.anchorMax = new Vector2(1f, y);
+                line.rectTransform.sizeDelta = new Vector2(0f, 6f); line.rectTransform.anchoredPosition = Vector2.zero;
+            }
+            _announceTitle = UIFactory.Label(_announce, "", 104, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Heavy, "Title");
+            _announceTitle.Rt().Stretch(40f, 12f, 40f, 72f);
+            _announceSub = UIFactory.Label(_announce, "", 34, UIFont.Bold, UITheme.Text, TextAlignmentOptions.Center, UITextFx.Outline, "Subtitle");
+            _announceSub.Rt().Stretch(40f, 182f, 40f, 14f);
+            _announce.gameObject.SetActive(false);
+        }
+
+        /// <summary>Plays the call-out: band opens (0.2 s), title punches in, holds, then fades. Returns the total time.</summary>
+        public float Announce(string title, string subtitle, Color accent, float hold = 1.1f)
+        {
+            if (_announce == null) return 0f;
+            UITween.Kill(_announce);
+            _announce.gameObject.SetActive(true);
+            _announce.SetAsLastSibling();
+            _announceTitle.text = title;
+            _announceTitle.color = Color.Lerp(UITheme.GoldBright, accent, 0.35f);
+            _announceSub.text = subtitle ?? "";
+            _announceGroup.alpha = 1f;
+            _announceBand.localScale = new Vector3(1f, 0f, 1f);
+            _announceTitle.transform.localScale = Vector3.one * 1.7f;
+            _announceTitle.alpha = 0f; _announceSub.alpha = 0f;
+            UITween.To(_announce, 0.22f, t => _announceBand.localScale = new Vector3(1f, t, 1f), UIEase.OutCubic);
+            UITween.To(_announce, 0.32f, t =>
+            {
+                _announceTitle.transform.localScale = Vector3.one * Mathf.Lerp(1.7f, 1f, t);
+                _announceTitle.alpha = t;
+            }, UIEase.OutBack, 0.12f);
+            UITween.To(_announce, 0.3f, t => _announceSub.alpha = t, UIEase.OutCubic, 0.32f);
+            float total = 0.45f + hold + 0.35f;
+            UITween.To(_announce, 0.35f, t => _announceGroup.alpha = 1f - t, UIEase.InQuad, 0.45f + hold)
+                .OnComplete(() => { if (_announce != null) _announce.gameObject.SetActive(false); });
+            return total;
         }
 
         public void AddUnit(BattleDisplayUnit unit)

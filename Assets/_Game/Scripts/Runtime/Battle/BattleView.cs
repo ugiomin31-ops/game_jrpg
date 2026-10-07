@@ -49,6 +49,10 @@ namespace Abyss.Runtime.Battle
         Image _flash, _dim;
         Vector3 _cameraPosition, _cameraLook, _cameraBasePosition, _oldPosition;
         Quaternion _oldRotation, _cameraBaseRotation;
+        float _cameraRate = 7f;
+        // Establishing shot: close enough that 1.3 m heroes and the monsters read on a landscape phone.
+        static readonly Vector3 CameraHome = new Vector3(0f, 3.6f, -10.2f), CameraAim = new Vector3(1.4f, 1.05f, 0.6f);
+        const float CameraFov = 42f;
         float _oldFov, _fov = 43, _shake, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength;
         const float KnockLength = .24f;
         int _round;
@@ -136,7 +140,7 @@ namespace Abyss.Runtime.Battle
                 yield return Wait(0);
                 yield return Present(events[i]);
                 if (_finished) yield break;
-                if (initial && events[i] is BattleStartEvent) yield return Wait(Reduced ? .35f : 1.1f);
+                if (initial && events[i] is BattleStartEvent) yield return Reduced ? Wait(.35f) : Intro();
             }
             Playing = false;
             if (Engine.State == BattleEngineState.AwaitingCommand)
@@ -555,9 +559,57 @@ namespace Abyss.Runtime.Battle
             yield return Wait(HitInterval());
         }
 
+        /// <summary>
+        /// Battle entrance: both sides run onto their marks while the camera sweeps from a low enemy-side angle into
+        /// the establishing shot, under an ENCOUNTER / BOSS call-out.
+        /// </summary>
+        IEnumerator Intro()
+        {
+            var movers = new List<(BattleDisplayUnit Unit, Vector3 From)>();
+            foreach (var unit in _units.Values)
+            {
+                if (!unit.Alive) continue;
+                Vector3 from = unit.Home + unit.Facing * Vector3.back * (unit.Side == BattleSide.Party ? 3.4f : 4.6f);
+                unit.Model.transform.position = from;
+                unit.Model.Play("Run");
+                movers.Add((unit, from));
+            }
+            _cameraPosition = transform.TransformPoint(new Vector3(-7.8f, 1.5f, 5.2f));
+            _cameraLook = transform.TransformPoint(new Vector3(0f, 1.3f, 2.2f));
+            _fov = 52f; SetCamera();
+            _cameraRate = 2.4f; Establishing(false);
+            _flashAlpha = .6f; _flash.color = new Color(1, 1, 1, _flashAlpha);
+            var names = new List<string>();
+            foreach (var unit in _units.Values) if (unit.Side == BattleSide.Enemy && !names.Contains(unit.Name)) names.Add(unit.Name);
+            bool boss = _setup.Kind == BattleKind.Boss, foe = _setup.Kind == BattleKind.Foe;
+            _hud.Announce(boss ? "BOSS BATTLE" : foe ? "F.O.E" : "ENCOUNTER", string.Join(" · ", names) + (boss || foe ? " 출현!" : " 이(가) 나타났다!"),
+                boss || foe ? UITheme.Danger : UITheme.Dawn, .8f);
+            AudioManager.Instance.PlaySfx("sfx_encounter"); AudioManager.Instance.PlaySfx("sfx_wind", .55f, 1.2f);
+            float elapsed = 0f, length = .8f;
+            while (elapsed < length)
+            {
+                if (!_app.Paused)
+                {
+                    elapsed += Dt;
+                    float k = 1f - Mathf.Pow(1f - Mathf.Clamp01(elapsed / length), 3f);
+                    foreach (var (unit, from) in movers) unit.Model.transform.position = Vector3.Lerp(from, unit.Home, k);
+                }
+                yield return null;
+            }
+            foreach (var (unit, _) in movers)
+            {
+                unit.Model.transform.position = unit.Home;
+                unit.Model.Play(unit.Side == BattleSide.Enemy && (boss || foe) ? "Cast" : "Idle");
+            }
+            yield return Wait(boss || foe ? .9f : .55f);
+            foreach (var (unit, _) in movers) unit.Model.Play("Idle");
+            _cameraRate = 7f;
+        }
+
         IEnumerator Finish(BattleOutcome outcome)
         {
             _hud.Lock(); Auto = false; _hud.SetAuto(false); Establishing(false);
+            if (!Reduced) StageOutcome(outcome.Result);
             foreach (var unit in _units.Values)
                 if (unit.Side == BattleSide.Party && unit.Alive)
                     unit.Model.Play(outcome.Result == BattleResult.Victory ? "Victory" : outcome.Result == BattleResult.Fled ? "Run" : "Idle");
@@ -578,7 +630,8 @@ namespace Abyss.Runtime.Battle
                     yield return null;
                 }
             }
-            else yield return Wait(Reduced ? .6f : 1.5f);
+            else yield return Wait(Reduced ? .6f : 2.1f);
+            _cameraRate = 7f;
             // Commit every outcome before showing acknowledgement UI: closing the player must not replay this battle.
             var resolution = _app.Dungeon.ResolveBattle(outcome);
             _app.Save();
@@ -591,6 +644,34 @@ namespace Abyss.Runtime.Battle
             var callback = _completed; _completed = null;
             callback?.Invoke(outcome);
         }
+        /// <summary>Victory: the camera swings round in front of the party for their poses. Defeat: it lifts away and the arena dims.</summary>
+        void StageOutcome(BattleResult result)
+        {
+            Vector3 party = Vector3.zero; int count = 0;
+            foreach (var unit in _units.Values)
+                if (unit.Side == BattleSide.Party) { party += transform.InverseTransformPoint(unit.Home); count++; }
+            party = count > 0 ? party / count : new Vector3(0f, 0f, -3f);
+            _cameraRate = 2.2f;
+            switch (result)
+            {
+                case BattleResult.Victory:
+                    _cameraPosition = transform.TransformPoint(party + new Vector3(.6f, 1.55f, 5.2f));
+                    _cameraLook = transform.TransformPoint(party + new Vector3(0f, .85f, 0f));
+                    _fov = 40f;
+                    _hud.Announce("VICTORY", "전투에서 승리했다!", UITheme.GoldBright, 1.2f);
+                    break;
+                case BattleResult.Defeat:
+                    _cameraPosition = transform.TransformPoint(new Vector3(0f, 8.5f, -12.5f));
+                    _cameraLook = transform.TransformPoint(party);
+                    _dimTarget = .45f;
+                    _hud.Announce("전멸…", "파티가 쓰러졌다", UITheme.Danger, 1.2f);
+                    break;
+                case BattleResult.Fled:
+                    _hud.Announce("도주 성공", "무사히 빠져나왔다", UITheme.TextDim, .5f);
+                    break;
+            }
+        }
+
         void Sync(BattleDisplayUnit unit) { _hud.Sync(unit); UpdateAuras(unit); }
         void UpdateAuras(BattleDisplayUnit unit)
         {
@@ -644,8 +725,8 @@ namespace Abyss.Runtime.Battle
         }
         void Establishing(bool instant)
         {
-            _cameraPosition = transform.TransformPoint(new Vector3(0, 4.8f, -14.8f));
-            _cameraLook = transform.TransformPoint(new Vector3(2.1f, .9f, 0)); _fov = 40;
+            _cameraPosition = transform.TransformPoint(CameraHome);
+            _cameraLook = transform.TransformPoint(CameraAim); _fov = CameraFov;
             if (instant) SetCamera();
         }
         void ActiveShot(BattleDisplayUnit actor, BattleDisplayUnit target, bool ultimate)
@@ -654,11 +735,11 @@ namespace Abyss.Runtime.Battle
             Vector3 center = target != null ? (actor.Model.CenterPoint + target.Model.CenterPoint) * .5f : actor.Model.CenterPoint;
             Vector3 local = transform.InverseTransformPoint(center);
             // Keep the four-hero establishing composition; action emphasis is a small dolly, not a cut.
-            Vector3 emphasis = new Vector3(Mathf.Clamp(local.x - 2.1f, -3f, 3f) * .14f, 0,
-                Mathf.Clamp(local.z, -3f, 3f) * .08f);
-            _cameraPosition = transform.TransformPoint(new Vector3(0, 4.8f, -14.8f) + emphasis);
-            _cameraLook = transform.TransformPoint(new Vector3(2.1f, .9f, 0) + emphasis);
-            _fov = ultimate ? 37 : 40;
+            Vector3 emphasis = new Vector3(Mathf.Clamp(local.x - CameraAim.x, -3f, 3f) * .16f, 0,
+                Mathf.Clamp(local.z, -3f, 3f) * .1f);
+            _cameraPosition = transform.TransformPoint(CameraHome + emphasis);
+            _cameraLook = transform.TransformPoint(CameraAim + emphasis);
+            _fov = ultimate ? CameraFov - 5f : CameraFov - 2f;
         }
         void SetCamera()
         {
@@ -695,7 +776,7 @@ namespace Abyss.Runtime.Battle
                 var d = _dim.color; d.a = _dimAlpha; _dim.color = d;
             }
             _wasReduced = Reduced;
-            float blend = 1 - Mathf.Exp(-Time.unscaledDeltaTime * 7);
+            float blend = 1 - Mathf.Exp(-Time.unscaledDeltaTime * _cameraRate);
             _cameraBasePosition = Vector3.Lerp(_cameraBasePosition, _cameraPosition, blend);
             Vector3 position = _cameraBasePosition;
             if (!Reduced && _shake > .001f)
