@@ -56,7 +56,7 @@ public static class MobileReview
             app.State.Flags.Add("biome_0_seen");
             app.EnterTown();
             await Frames(24);
-            Check("Phone layout and touch device", UIRoot.Compact && UITouch.Supported);
+            Check("Phone layout and touch device", UIRoot.Compact == ((float)Screen.width / Screen.height >= 1.85f) && UITouch.Supported);
             Capture("town");
             await Frames(4);
             var player = app.WorldRoot.GetComponentsInChildren<Abyss.Runtime.Art.CharacterModel>().First(x => x.ModelId == "warrior").transform;
@@ -153,7 +153,9 @@ public static class MobileReview
         finally
         {
             if (touch != null) EndTouch(Vector2.zero);
-            File.WriteAllText("Review/mobile-review.json", JsonConvert.SerializeObject(new { status = "complete", unity = Application.unityVersion, width = Screen.width, height = Screen.height, frame = Time.frameCount, checks = Checks, failures = Failures }, Formatting.Indented));
+            string report = JsonConvert.SerializeObject(new { status = "complete", unity = Application.unityVersion, width = Screen.width, height = Screen.height, frame = Time.frameCount, checks = Checks, failures = Failures }, Formatting.Indented);
+            File.WriteAllText("Review/mobile-review.json", report);
+            File.WriteAllText($"Review/mobile-review-{Screen.width}x{Screen.height}.json", report);
         }
     }
 
@@ -182,7 +184,7 @@ public static class MobileReview
     }
     static void MoveTouch(Vector2 point) => InputSystem.QueueStateEvent(touch, new TouchState { touchId = finger, phase = UnityEngine.InputSystem.TouchPhase.Moved, position = point });
     static void EndTouch(Vector2 point) => InputSystem.QueueStateEvent(touch, new TouchState { touchId = finger, phase = UnityEngine.InputSystem.TouchPhase.Ended, position = point });
-    static void Capture(string name) => ScreenCapture.CaptureScreenshot("Review/" + name + ".png");
+    static void Capture(string name) => ScreenCapture.CaptureScreenshot($"Review/{name}-{Screen.width}x{Screen.height}.png");
     static Task Frames(int count)
     {
         var task = new TaskCompletionSource<bool>();
