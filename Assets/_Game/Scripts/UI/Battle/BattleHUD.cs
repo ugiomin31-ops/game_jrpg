@@ -67,7 +67,9 @@ namespace Abyss.UI.Battle
         static float RowStep => Compact ? 68f : TouchUI ? 70f : 56f;
         static float NavHeight => Compact ? 60f : TouchUI ? 62f : 46f;
         static float MenuWidth => Compact ? 500f : 570f;
-        RectTransform _logPanel;
+        RectTransform _logPanel, _orderRow;
+        TMP_Text _roundLabel;
+        readonly List<(RectTransform Root, UIPortrait Face, Image Mark)> _orderChips = new List<(RectTransform, UIPortrait, Image)>();
         public bool CommandRootOpen => _input && _back == null && _reward == null;
 
         public void Initialize(Transform parent, Camera camera, GameDB db, Action<BattleCommand> submit,
@@ -83,6 +85,15 @@ namespace Abyss.UI.Battle
             top.Rect.TopStrip(Compact ? 64 : 84, Compact ? 12 : 18, Compact ? 22 : 32, Compact ? 440 : 500);
             _order = UIFactory.Label(top.transform, "", Compact ? 25 : 23); _order.Rt().Stretch(22, Compact ? 8 : 14, 22, Compact ? 8 : 14);
             _order.overflowMode = TextOverflowModes.Ellipsis;
+            if (Compact)
+            {
+                // Phones: the turn order is a row of portraits (active one enlarged) instead of a line of names.
+                _order.gameObject.SetActive(false);
+                _roundLabel = UIFactory.Label(top.transform, "", 26, UIFont.Title, UITheme.GoldBright);
+                _roundLabel.Rt().Place(UIAnchor.Left, new Vector2(18, 0), new Vector2(110, 50));
+                _orderRow = UIFactory.Rect(top.transform, "Turn order");
+                _orderRow.Stretch(128, 0, 12, 0);
+            }
             _autoButton = UIFactory.Button(_root, "자동: OFF", ToggleAuto);
             _autoButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-22, -12) : new Vector2(-32, -26), Compact ? new Vector2(230, 64) : new Vector2(260, 62));
             var logPanel = UIFactory.Panel(_root, UIPanelStyle.Dark, false);
@@ -313,6 +324,7 @@ namespace Abyss.UI.Battle
 
         public void ShowOrder(int round, IReadOnlyList<string> order, string active)
         {
+            if (_orderRow != null) { ShowOrderChips(round, order, active); return; }
             _text.Clear(); _text.Append("ROUND ").Append(round).Append("    ");
             foreach (string id in order)
             {
@@ -326,6 +338,39 @@ namespace Abyss.UI.Battle
         }
 
         /// <summary>Action line under the turn order; hidden when empty and for round numbers (the order bar shows them).</summary>
+        void ShowOrderChips(int round, IReadOnlyList<string> order, string active)
+        {
+            _roundLabel.text = "R" + round;
+            int n = 0;
+            float x = 0f;
+            foreach (string id in order)
+            {
+                if (!_cards.TryGetValue(id, out var card) || !card.Unit.Alive) continue;
+                if (n == _orderChips.Count)
+                {
+                    var root = UIFactory.Rect(_orderRow, "Chip");
+                    root.anchorMin = root.anchorMax = new Vector2(0f, 0.5f);
+                    root.pivot = new Vector2(0f, 0.5f);
+                    var mark = UIFactory.Image(root, UISprites.Circle, Color.white, "Side");
+                    mark.rectTransform.Stretch(-3f, -3f, -3f, -3f);
+                    root.sizeDelta = new Vector2(56f, 56f);
+                    var face = UIFactory.Portrait(root, 56f);
+                    face.Rt().Place(UIAnchor.Center, Vector2.zero, new Vector2(56f, 56f));
+                    _orderChips.Add((root, face, mark));
+                }
+                var chip = _orderChips[n++];
+                bool now = id == active, party = card.Unit.Side == BattleSide.Party;
+                float scale = now ? 1f : 0.78f;
+                chip.Root.gameObject.SetActive(true);
+                chip.Root.localScale = new Vector3(scale, scale, 1f);
+                chip.Root.anchoredPosition = new Vector2(x, 0f);
+                x += 56f * scale + 8f;
+                chip.Face.SetSprite(party ? UIArtwork.Hero(card.Unit.DefId) : UIArtwork.Enemy(card.Unit.DefId));
+                chip.Mark.color = now ? UITheme.Dawn : party ? new Color(0.35f, 0.6f, 1f, 0.9f) : new Color(1f, 0.3f, 0.35f, 0.9f);
+            }
+            for (int i = n; i < _orderChips.Count; i++) _orderChips[i].Root.gameObject.SetActive(false);
+        }
+
         public void Log(string text)
         {
             _log.text = text;
