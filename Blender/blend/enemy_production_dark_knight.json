@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:28Z",
+  "produced_at_utc": "2026-10-07T08:24:46Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
-      "bytes": 771996
+      "bytes": 777708
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_dark_knight.blend",
-      "bytes": 210374
+      "bytes": 257648
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight.png",
-        "bytes": 182035
+        "bytes": 184591
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_side.png",
-        "bytes": 160113
+        "bytes": 161638
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_attack.png",
-        "bytes": 170863
+        "bytes": 177151
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_cast.png",
-        "bytes": 172465
+        "bytes": 166457
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_die.png",
-        "bytes": 159367
+        "bytes": 162030
       }
     ]
   },

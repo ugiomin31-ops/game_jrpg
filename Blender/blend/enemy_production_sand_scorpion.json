@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:52:37Z",
+  "produced_at_utc": "2026-10-07T08:32:08Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
-      "bytes": 1239116
+      "bytes": 1243132
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_sand_scorpion.blend",
-      "bytes": 469005
+      "bytes": 517538
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion.png",
-        "bytes": 166115
+        "bytes": 162442
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_side.png",
-        "bytes": 163230
+        "bytes": 164045
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_attack.png",
-        "bytes": 167552
+        "bytes": 165824
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_cast.png",
-        "bytes": 172913
+        "bytes": 166887
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_scorpion_die.png",
-        "bytes": 171779
+        "bytes": 166414
       }
     ]
   },

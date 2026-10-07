@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:46:09Z",
+  "produced_at_utc": "2026-10-07T08:31:16Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/phoenix/phoenix.fbx",
-      "bytes": 866812
+      "bytes": 867868
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_phoenix.blend",
-      "bytes": 378777
+      "bytes": 422213
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix.png",
-        "bytes": 145833
+        "bytes": 143630
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_side.png",
-        "bytes": 138047
+        "bytes": 138606
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_attack.png",
-        "bytes": 146208
+        "bytes": 143430
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_cast.png",
-        "bytes": 146662
+        "bytes": 143678
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_die.png",
-        "bytes": 149646
+        "bytes": 150493
       }
     ]
   },

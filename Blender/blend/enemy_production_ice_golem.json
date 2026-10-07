@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/frost.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:45Z",
+  "produced_at_utc": "2026-10-07T08:29:35Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
-      "bytes": 615596
+      "bytes": 620284
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_ice_golem.blend",
-      "bytes": 168665
+      "bytes": 211936
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem.png",
-        "bytes": 192012
+        "bytes": 189867
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_side.png",
-        "bytes": 162596
+        "bytes": 162140
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_attack.png",
-        "bytes": 186233
+        "bytes": 187821
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_cast.png",
-        "bytes": 172339
+        "bytes": 174350
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_die.png",
-        "bytes": 170565
+        "bytes": 163751
       }
     ]
   },

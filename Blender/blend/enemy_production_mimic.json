@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:47Z",
+  "produced_at_utc": "2026-10-07T08:30:46Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
-      "bytes": 449612
+      "bytes": 454284
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_mimic.blend",
-      "bytes": 158064
+      "bytes": 181546
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic.png",
-        "bytes": 202791
+        "bytes": 200605
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_side.png",
-        "bytes": 168411
+        "bytes": 168552
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_attack.png",
-        "bytes": 188363
+        "bytes": 187037
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_cast.png",
-        "bytes": 196988
+        "bytes": 192217
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_die.png",
-        "bytes": 170403
+        "bytes": 185912
       }
     ]
   },

@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:37Z",
+  "produced_at_utc": "2026-10-07T08:27:31Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_scarecrow/elite_scarecrow.fbx",
-      "bytes": 835676
+      "bytes": 848044
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_scarecrow.blend",
-      "bytes": 249347
+      "bytes": 298245
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow.png",
-        "bytes": 178456
+        "bytes": 179665
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_side.png",
-        "bytes": 154548
+        "bytes": 154674
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_attack.png",
-        "bytes": 158804
+        "bytes": 175174
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_cast.png",
-        "bytes": 162032
+        "bytes": 163182
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_die.png",
-        "bytes": 163128
+        "bytes": 160751
       }
     ]
   },

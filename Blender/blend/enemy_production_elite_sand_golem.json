@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:43Z",
+  "produced_at_utc": "2026-10-07T08:27:10Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_sand_golem/elite_sand_golem.fbx",
-      "bytes": 746972
+      "bytes": 757100
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_sand_golem.blend",
-      "bytes": 262294
+      "bytes": 309790
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_sand_golem.png",
-        "bytes": 200611
+        "bytes": 197030
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_sand_golem_side.png",
-        "bytes": 162496
+        "bytes": 163434
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_sand_golem_attack.png",
-        "bytes": 179308
+        "bytes": 192672
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_sand_golem_cast.png",
-        "bytes": 180333
+        "bytes": 179416
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_sand_golem_die.png",
-        "bytes": 166905
+        "bytes": 162583
       }
     ]
   },

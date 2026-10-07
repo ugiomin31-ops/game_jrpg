@@ -7,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sculpt_kit import Sculpt, A, lerp_col, vgrad  # noqa: E402,F401
+from monster_kit import DIE_HOLD, soft  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 
@@ -46,8 +47,15 @@ def ghost(eid):
     c.box('weapon.L', 'lantern_base', (0.35, -0.17, 0.355), (0.075, 0.075, 0.02), '#2b2632', bevel=0.006)
 
     def extra(a, clip, f, t, i, names):
-        a.r('tail1', f, (4 * math.sin(math.tau * t * 2), 0, 12 * math.sin(math.tau * t)))
-        a.r('tail2', f, (6 * math.sin(math.tau * t * 2 + 1), 0, 18 * math.sin(math.tau * t + 0.8)))
+        # the soul lantern hangs plumb from its chain and swings a beat behind the sleeve (pendulum follow-through)
+        tt = min(t, DIE_HOLD) if clip == 'Die' else t
+        P, Q = a.P, a.anim.at(clip, tt - 0.1)
+        dax, daz, dz, dy = a.anim._drag(clip, tt, 'weapon.L', 0.1, 1.0)
+        tilt = lambda X: soft(X.arm['L'][0], 85) + X.br[0] + X.rr[0]  # noqa: E731
+        swing = -tilt(P) + 0.8 * (tilt(Q) - tilt(P)) - 90 * dz + 60 * dy
+        if clip == 'Idle':
+            swing += 6 * math.sin(math.tau * (t - 0.2))
+        a.r('weapon.L', f, (soft(swing, 80), 0, soft(daz, 25)))
     return c.finish('float', extra)
 
 

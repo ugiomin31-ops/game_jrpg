@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:52:31Z",
+  "produced_at_utc": "2026-10-07T08:27:18Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
-      "bytes": 934396
+      "bytes": 938348
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_rhino_beetle.blend",
-      "bytes": 408439
+      "bytes": 441049
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle.png",
-        "bytes": 162093
+        "bytes": 161634
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_side.png",
-        "bytes": 161755
+        "bytes": 162381
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_attack.png",
-        "bytes": 158901
+        "bytes": 157682
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_cast.png",
-        "bytes": 164459
+        "bytes": 159435
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_rhino_beetle_die.png",
-        "bytes": 162875
+        "bytes": 172315
       }
     ]
   },

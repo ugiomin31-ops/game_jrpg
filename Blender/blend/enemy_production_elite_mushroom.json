@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:55:49Z",
+  "produced_at_utc": "2026-10-07T08:26:50Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_mushroom/elite_mushroom.fbx",
-      "bytes": 760828
+      "bytes": 765836
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_mushroom.blend",
-      "bytes": 386680
+      "bytes": 421337
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mushroom.png",
-        "bytes": 172809
+        "bytes": 172277
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mushroom_side.png",
-        "bytes": 161278
+        "bytes": 161514
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mushroom_attack.png",
-        "bytes": 175327
+        "bytes": 176083
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mushroom_cast.png",
-        "bytes": 170821
+        "bytes": 174028
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mushroom_die.png",
-        "bytes": 166478
+        "bytes": 167397
       }
     ]
   },

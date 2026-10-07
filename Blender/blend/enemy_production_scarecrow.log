@@ -1,20 +1,20 @@
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
-00:01.941  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow.png'
-00:02.142  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_side.png'
-00:02.335  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_attack.png'
-00:02.517  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_cast.png'
-00:02.696  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_die.png'
+00:05.800  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow.png'
+00:07.068  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_side.png'
+00:07.930  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_attack.png'
+00:09.912  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_cast.png'
+00:10.830  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_scarecrow_die.png'
 
 FBX export starting... '/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx'
 (bpy.data.armatures['Rig'], 'POSE')
-export finished in 0.1377 sec.
+export finished in 0.5462 sec.
 Info: Saved as "enemy_scarecrow.blend"
 ENEMY_EXPORT {"id": "scarecrow", "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx", "triangles": 7096, "bones": ["root", "body", "head", "eyes", "crest", "arm.R", "leg.R", "arm.L", "leg.L"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "missing_clips": []}
-00:02.699  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_scarecrow.blend"
+00:10.834  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_scarecrow.blend"
 FBX version: 7400
-ENEMY_PRODUCTION {"id": "scarecrow", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T01:53:33Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx", "bytes": 692844}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_scarecrow.blend", "bytes": 219911}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow.png", "bytes": 167172}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_side.png", "bytes": 147666}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_attack.png", "bytes": 160104}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_cast.png", "bytes": 164264}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_die.png", "bytes": 150171}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 7096, "vertices": 4132, "bones": 9, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 7096, "vertices": 4132, "bones": 9, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
+ENEMY_PRODUCTION {"id": "scarecrow", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T08:32:20Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx", "bytes": 703868}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_scarecrow.blend", "bytes": 266497}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow.png", "bytes": 167715}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_side.png", "bytes": 147493}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_attack.png", "bytes": 166096}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_cast.png", "bytes": 162128}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_die.png", "bytes": 150259}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 7096, "vertices": 4132, "bones": 9, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 7096, "vertices": 4132, "bones": 9, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
 Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:34:58)
 
 Blender quit

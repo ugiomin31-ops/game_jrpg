@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:52:50Z",
+  "produced_at_utc": "2026-10-07T08:25:39Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_coral_crab/elite_coral_crab.fbx",
-      "bytes": 1039180
+      "bytes": 1044204
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_coral_crab.blend",
-      "bytes": 461606
+      "bytes": 500554
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_coral_crab.png",
-        "bytes": 178451
+        "bytes": 175563
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_coral_crab_side.png",
-        "bytes": 172713
+        "bytes": 173833
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_coral_crab_attack.png",
-        "bytes": 178440
+        "bytes": 174302
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_coral_crab_cast.png",
-        "bytes": 184143
+        "bytes": 176468
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_coral_crab_die.png",
-        "bytes": 179487
+        "bytes": 177986
       }
     ]
   },

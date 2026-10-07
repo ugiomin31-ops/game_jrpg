@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:45:09Z",
+  "produced_at_utc": "2026-10-07T08:25:59Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_fire_drake/elite_fire_drake.fbx",
-      "bytes": 1202780
+      "bytes": 1207484
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_fire_drake.blend",
-      "bytes": 482181
+      "bytes": 535115
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_fire_drake.png",
-        "bytes": 168971
+        "bytes": 170859
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_fire_drake_side.png",
-        "bytes": 157060
+        "bytes": 163242
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_fire_drake_attack.png",
-        "bytes": 168097
+        "bytes": 165184
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_fire_drake_cast.png",
-        "bytes": 163062
+        "bytes": 154550
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_fire_drake_die.png",
-        "bytes": 155905
+        "bytes": 157780
       }
     ]
   },

@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:48:40Z",
+  "produced_at_utc": "2026-10-07T08:28:04Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
-      "bytes": 991836
+      "bytes": 996812
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_yeti.blend",
-      "bytes": 467572
+      "bytes": 506275
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti.png",
-        "bytes": 192570
+        "bytes": 190367
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_side.png",
-        "bytes": 159917
+        "bytes": 160864
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_attack.png",
-        "bytes": 181868
+        "bytes": 181536
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_cast.png",
-        "bytes": 175108
+        "bytes": 180403
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_die.png",
-        "bytes": 171730
+        "bytes": 170254
       }
     ]
   },
@@ -42,7 +42,7 @@
       "Rig"
     ],
     "triangles": 11276,
-    "vertices": 5720,
+    "vertices": 5716,
     "bones": 10,
     "materials": [
       "M_Toon",
@@ -87,7 +87,7 @@
       "Rig"
     ],
     "triangles": 11276,
-    "vertices": 5720,
+    "vertices": 5716,
     "bones": 10,
     "materials": [
       "M_Toon",

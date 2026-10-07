@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:37:34Z",
+  "produced_at_utc": "2026-10-07T08:26:24Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_ice_wolf/elite_ice_wolf.fbx",
-      "bytes": 1117180
+      "bytes": 1122828
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_ice_wolf.blend",
-      "bytes": 444874
+      "bytes": 494647
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf.png",
-        "bytes": 159610
+        "bytes": 158783
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_side.png",
-        "bytes": 168958
+        "bytes": 169673
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_attack.png",
-        "bytes": 160859
+        "bytes": 166230
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_cast.png",
-        "bytes": 160644
+        "bytes": 160541
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_die.png",
-        "bytes": 155385
+        "bytes": 162956
       }
     ]
   },

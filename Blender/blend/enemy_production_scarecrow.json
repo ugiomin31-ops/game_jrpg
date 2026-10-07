@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:33Z",
+  "produced_at_utc": "2026-10-07T08:32:20Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx",
-      "bytes": 692844
+      "bytes": 703868
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_scarecrow.blend",
-      "bytes": 219911
+      "bytes": 266497
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow.png",
-        "bytes": 167172
+        "bytes": 167715
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_side.png",
-        "bytes": 147666
+        "bytes": 147493
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_attack.png",
-        "bytes": 160104
+        "bytes": 166096
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_cast.png",
-        "bytes": 164264
+        "bytes": 162128
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_die.png",
-        "bytes": 150171
+        "bytes": 150259
       }
     ]
   },

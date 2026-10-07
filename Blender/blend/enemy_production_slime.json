@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T05:39:54Z",
+  "produced_at_utc": "2026-10-07T08:32:39Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
-      "bytes": 488124
+      "bytes": 491932
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_slime.blend",
-      "bytes": 305268
+      "bytes": 329343
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime.png",
-        "bytes": 171397
+        "bytes": 171997
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_side.png",
-        "bytes": 164803
+        "bytes": 164735
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_attack.png",
-        "bytes": 168624
+        "bytes": 161605
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_cast.png",
-        "bytes": 171318
+        "bytes": 172410
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_die.png",
-        "bytes": 167300
+        "bytes": 157189
       }
     ]
   },

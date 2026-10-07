@@ -2,20 +2,20 @@ TRI_TOP eyeball.001:440, eyeball:440, sapleaf2:52, sapleaf1:52, sapleaf0:52, arm
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
-00:03.372  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout.png'
-00:03.558  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png'
-00:03.741  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png'
-00:03.906  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png'
-00:04.090  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png'
+00:15.544  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout.png'
+00:16.431  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png'
+00:17.231  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png'
+00:18.120  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png'
+00:18.768  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png'
 
 FBX export starting... '/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx'
 (bpy.data.armatures['Rig'], 'POSE')
-export finished in 0.1463 sec.
+export finished in 0.3662 sec.
 Info: Saved as "enemy_sprout.blend"
-ENEMY_EXPORT {"id": "sprout", "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx", "triangles": 10184, "bones": ["root", "body", "eyes", "crest", "arm.R", "leg.R", "arm.L", "leg.L"], "dimensions": [0.779, 1.164, 0.508], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "materials": ["M_Toon"]}
-00:04.093  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend"
+ENEMY_EXPORT {"id": "sprout", "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx", "triangles": 10184, "bones": ["root", "body", "eyes", "crest", "arm.R", "leg.R", "arm.L", "leg.L"], "dimensions": [1.195, 1.162, 0.502], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "materials": ["M_Toon"]}
+00:18.772  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend"
 FBX version: 7400
-ENEMY_PRODUCTION {"id": "sprout", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T01:40:46Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx", "bytes": 838396}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend", "bytes": 419140}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout.png", "bytes": 174466}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png", "bytes": 156447}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png", "bytes": 170655}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png", "bytes": 165923}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png", "bytes": 163598}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 10184, "vertices": 5126, "bones": 8, "materials": ["M_Toon"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 10184, "vertices": 5126, "bones": 8, "materials": ["M_Toon"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
+ENEMY_PRODUCTION {"id": "sprout", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T08:32:59Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx", "bytes": 845196}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend", "bytes": 458795}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout.png", "bytes": 172304}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png", "bytes": 155822}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png", "bytes": 169623}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png", "bytes": 166748}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png", "bytes": 155331}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 10184, "vertices": 5126, "bones": 8, "materials": ["M_Toon"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 10184, "vertices": 5126, "bones": 8, "materials": ["M_Toon"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
 Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:34:58)
 
 Blender quit

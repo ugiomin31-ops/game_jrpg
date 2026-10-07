@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:52:44Z",
+  "produced_at_utc": "2026-10-07T08:25:00Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/coral_crab/coral_crab.fbx",
-      "bytes": 995724
+      "bytes": 1000716
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_coral_crab.blend",
-      "bytes": 460434
+      "bytes": 498678
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab.png",
-        "bytes": 177693
+        "bytes": 174602
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_side.png",
-        "bytes": 171383
+        "bytes": 171602
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_attack.png",
-        "bytes": 176367
+        "bytes": 174289
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_cast.png",
-        "bytes": 187450
+        "bytes": 177296
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_die.png",
-        "bytes": 178842
+        "bytes": 178703
       }
     ]
   },

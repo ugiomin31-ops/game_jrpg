@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:40:46Z",
+  "produced_at_utc": "2026-10-07T08:32:59Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
-      "bytes": 838396
+      "bytes": 845196
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend",
-      "bytes": 419140
+      "bytes": 458795
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout.png",
-        "bytes": 174466
+        "bytes": 172304
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png",
-        "bytes": 156447
+        "bytes": 155822
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png",
-        "bytes": 170655
+        "bytes": 169623
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png",
-        "bytes": 165923
+        "bytes": 166748
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png",
-        "bytes": 163598
+        "bytes": 155331
       }
     ]
   },

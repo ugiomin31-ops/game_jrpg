@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:42:00Z",
+  "produced_at_utc": "2026-10-07T08:30:56Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
-      "bytes": 722460
+      "bytes": 727516
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_mushroom.blend",
-      "bytes": 382161
+      "bytes": 417848
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom.png",
-        "bytes": 174096
+        "bytes": 173152
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_side.png",
-        "bytes": 161932
+        "bytes": 162127
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_attack.png",
-        "bytes": 174989
+        "bytes": 175211
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_cast.png",
-        "bytes": 171299
+        "bytes": 173732
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_die.png",
-        "bytes": 168220
+        "bytes": 168902
       }
     ]
   },

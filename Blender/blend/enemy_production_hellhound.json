@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:38:37Z",
+  "produced_at_utc": "2026-10-07T08:29:25Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
-      "bytes": 1250284
+      "bytes": 1255932
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_hellhound.blend",
-      "bytes": 477776
+      "bytes": 538991
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound.png",
-        "bytes": 154693
+        "bytes": 154495
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_side.png",
-        "bytes": 161860
+        "bytes": 163324
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_attack.png",
-        "bytes": 154666
+        "bytes": 156837
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_cast.png",
-        "bytes": 154780
+        "bytes": 150403
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_die.png",
-        "bytes": 151459
+        "bytes": 159896
       }
     ]
   },

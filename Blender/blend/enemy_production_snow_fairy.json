@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/frost.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:55Z",
+  "produced_at_utc": "2026-10-07T08:32:33Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
-      "bytes": 780988
+      "bytes": 782604
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_snow_fairy.blend",
-      "bytes": 212438
+      "bytes": 256921
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy.png",
-        "bytes": 178772
+        "bytes": 180920
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_side.png",
-        "bytes": 163257
+        "bytes": 164591
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_attack.png",
-        "bytes": 167137
+        "bytes": 164023
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_cast.png",
-        "bytes": 173394
+        "bytes": 164876
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_die.png",
-        "bytes": 167144
+        "bytes": 175953
       }
     ]
   },

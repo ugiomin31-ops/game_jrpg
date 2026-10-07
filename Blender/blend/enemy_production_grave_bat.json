@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:44:55Z",
+  "produced_at_utc": "2026-10-07T08:28:50Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/grave_bat/grave_bat.fbx",
-      "bytes": 922652
+      "bytes": 924764
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_grave_bat.blend",
-      "bytes": 356628
+      "bytes": 397565
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat.png",
-        "bytes": 147056
+        "bytes": 144625
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_side.png",
-        "bytes": 128713
+        "bytes": 130173
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_attack.png",
-        "bytes": 143332
+        "bytes": 138117
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_cast.png",
-        "bytes": 147674
+        "bytes": 144289
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_die.png",
-        "bytes": 136369
+        "bytes": 137530
       }
     ]
   },

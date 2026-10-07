@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:52:25Z",
+  "produced_at_utc": "2026-10-07T08:31:44Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
-      "bytes": 926060
+      "bytes": 929996
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_rhino_beetle.blend",
-      "bytes": 399861
+      "bytes": 431898
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle.png",
-        "bytes": 157776
+        "bytes": 157060
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_side.png",
-        "bytes": 157222
+        "bytes": 157834
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_attack.png",
-        "bytes": 155015
+        "bytes": 154981
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_cast.png",
-        "bytes": 160245
+        "bytes": 156093
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_die.png",
-        "bytes": 158668
+        "bytes": 169115
       }
     ]
   },

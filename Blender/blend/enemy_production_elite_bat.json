@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:44:51Z",
+  "produced_at_utc": "2026-10-07T08:25:29Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_bat/elite_bat.fbx",
-      "bytes": 927804
+      "bytes": 929980
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_bat.blend",
-      "bytes": 361766
+      "bytes": 402399
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat.png",
-        "bytes": 148663
+        "bytes": 146459
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_side.png",
-        "bytes": 129579
+        "bytes": 131231
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_attack.png",
-        "bytes": 144807
+        "bytes": 139652
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_cast.png",
-        "bytes": 149222
+        "bytes": 146162
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_die.png",
-        "bytes": 137755
+        "bytes": 139268
       }
     ]
   },

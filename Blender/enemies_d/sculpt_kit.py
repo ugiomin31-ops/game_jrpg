@@ -60,6 +60,7 @@ class Sculpt(Monster):
         self.target_tris = tris
         self.ao_strength = ao
         self.smooth_iterations = smooth
+        self.arm_limit = (75, 28)  # fused shoulders stretch into webbing beyond this; big swings are compressed
 
     # ------------------------------------------------------------ modelling
     def blob(self, bone, co, radii, color, rot=(0, 0, 0), stiff=2.0, negative=False, weight=1.0):

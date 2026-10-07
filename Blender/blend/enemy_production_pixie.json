@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/verdant.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:52Z",
+  "produced_at_utc": "2026-10-07T08:31:33Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
-      "bytes": 868396
+      "bytes": 870316
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_pixie.blend",
-      "bytes": 206593
+      "bytes": 254474
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie.png",
-        "bytes": 168164
+        "bytes": 168539
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_side.png",
-        "bytes": 148730
+        "bytes": 152054
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_attack.png",
-        "bytes": 162259
+        "bytes": 157248
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_cast.png",
-        "bytes": 159751
+        "bytes": 160880
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_die.png",
-        "bytes": 149637
+        "bytes": 155302
       }
     ]
   },

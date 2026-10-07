@@ -44,6 +44,23 @@ class AnimeHumanoid(Humanoid):
         self.weighted.append(obj)
         return obj
 
+    def add_bone(self, name, head, tail, parent, secondary=True):
+        """Textured heroes build their rig before the garments: a bone added afterwards (the warrior's cape)
+        goes straight into that rig, otherwise its vertex group would stay unskinned and never move."""
+        super().add_bone(name, head, tail, parent, secondary)
+        rig = getattr(self, "rig", None)
+        if rig is None or name in rig.data.bones:
+            return
+        active = bpy.context.view_layer.objects.active
+        bpy.context.view_layer.objects.active = rig
+        bpy.ops.object.mode_set(mode="EDIT")
+        eb = rig.data.edit_bones.new(name)
+        eb.head, eb.tail, eb.roll = V(head), V(tail), 0.0
+        eb.parent = rig.data.edit_bones[parent]
+        bpy.ops.object.mode_set(mode="OBJECT")
+        rig.pose.bones[name].rotation_mode = "QUATERNION"
+        bpy.context.view_layer.objects.active = active
+
     def skin(self):
         """Rigid/blended parts get groups like the chibi pipeline; weighted parts keep theirs."""
         weighted = list(self.weighted)
@@ -349,6 +366,23 @@ def transfer_weights(o, body):
     return o
 
 
+def one_leg(o, S):
+    """A boot belongs to one leg: the inner wall sits nearer the other leg's skin and would inherit its weights,
+    tearing the boot open between the feet as soon as the legs move apart. Moves those weights to side S."""
+    other = "R" if S == "L" else "L"
+    moves = [(g, o.vertex_groups.get(g.name[:-1] + S) or o.vertex_groups.new(name=g.name[:-1] + S))
+             for g in list(o.vertex_groups) if g.name.endswith("." + other)
+             and g.name.split(".")[0] in ("thigh", "shin", "foot")]
+    for v in o.data.vertices:
+        for src, dst in moves:
+            w = next((e.weight for e in v.groups if e.group == src.index), 0.0)
+            if w > 0:
+                cur = next((e.weight for e in v.groups if e.group == dst.index), 0.0)
+                dst.add([v.index], min(1.0, cur + w), "REPLACE")
+                src.remove([v.index])
+    return o
+
+
 def fitted(H, o, body, offset=0.008):
     """Conform + inherit weights, registered as an already-weighted part."""
     conform(o, body, offset)
@@ -423,6 +457,7 @@ def boot(H, body, S, top, color, cuff_color=None, cuff=0.045):
     zgrad(b, 0.0, shade(color, 0.55), 0.03, color)
     conform(b, body, 0.006)
     transfer_weights(b, body)
+    one_leg(b, S)
     for p in b.data.polygons:
         p.use_smooth = True
     H.add_weighted(b)

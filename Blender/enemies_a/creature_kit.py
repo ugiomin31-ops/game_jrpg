@@ -95,81 +95,16 @@ class Creature:
             self.spike(bone,f'crown_point{i}',p,q,.05,color)
             self.orb(bone,f'crown_jewel{i}',q,(.025,.025,.032),'#a9ffe2','M_Emit',seg=10,rings=6)
     def animate(self,kind='biped'):
+        """Seven clips from the shared monster Animator (enemies_c/monster_kit.py), keyed on every frame.
+        Kinds: biped (default), heavy, fly, and wisp/jelly (hovering floaters)."""
+        sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','enemies_c'))
+        from monster_kit import Animator  # lazy: monster_kit itself builds on this module
         rig=A.armature(self.bones)
-        names=set(self.parts)
-        flying=kind in ('fly','jelly','wisp')
-        heavy=kind=='heavy'
+        anim=Animator(self.bones,self.parts,kind or 'biped')
         for clip,length in CLIPS.items():
             with Motion(rig,clip,length) as a:
-                frames = {round(i * length / 12) for i in range(13)}
-                if clip == 'Attack':
-                    frames.add(round(length * .4))
-                elif clip == 'Cast':
-                    frames.add(round(length * .6))
-                for i, f in enumerate(sorted(frames)):
-                    t = f / length
-                    wave=math.sin(math.tau*t)
-                    pulse=math.sin(math.pi*t)
-                    # All clips are authored in place; lunges return to the origin.
-                    if clip=='Idle':
-                        a.l('root',f,(0,0,.025*wave if flying else .008*wave))
-                    elif clip=='Run':
-                        a.l('root',f,(0,0,.04*(1-math.cos(math.tau*t*2))))
-                        if 'body' in names: a.r('body',f,(8 if not flying else -10,0,0))
-                    elif clip=='Attack':
-                        hit=max(0,1-abs(t-.4)/.18)
-                        wind=max(0,1-abs(t-.2)/.2)
-                        a.l('root',f,(0,.07*wind-.3*hit,.10*hit if flying else .02*hit))
-                        if 'body' in names:a.r('body',f,(-12*wind+24*hit,0,0))
-                    elif clip=='Cast':
-                        release=max(0,1-abs(t-.6)/.2)
-                        a.l('root',f,(0,0,.10*pulse if flying else .025*release))
-                        if 'head' in names:a.r('head',f,(-20*pulse,0,0))
-                        if 'crest' in names:a.s('crest',f,(1+.25*release,1+.25*release,1+.45*release))
-                    elif clip=='Hit':
-                        recoil=max(0,1-abs(t-.2)/.2)
-                        a.l('root',f,(0,.13*recoil,0))
-                        if 'body' in names:a.r('body',f,(-22*recoil,8*recoil,0))
-                    elif clip=='Die':
-                        fall=min(1,max(0,(t-.15)/.65))
-                        if flying:
-                            # Collapse by scaling around the ground root: no below-floor hover offset.
-                            a.s('root',f,(1-.75*fall,1-.75*fall,1-.95*fall))
-                        else:
-                            a.r('root',f,(82*fall,0,-12*fall))
-                            a.l('root',f,(0,.18*fall,.10*fall))
-                    elif clip=='Victory':
-                        a.l('root',f,(0,0,.10*abs(math.sin(math.tau*t))))
-                        if 'head' in names:a.r('head',f,(-10*pulse,0,8*wave))
-                    for name in names:
-                        if name.startswith('wing.'):
-                            side=1 if name.endswith('L') else -1
-                            flap=(22 if clip=='Idle' else 40)*math.sin(math.tau*t*(2 if clip=='Run' else 1))
-                            if clip=='Die':flap=-65*t
-                            elif clip=='Cast':flap=50*pulse
-                            a.r(name,f,(0,side*flap,side*8*pulse))
-                        elif name.startswith('tentacle'):
-                            phase=int(name.replace('tentacle',''))*.62
-                            sway=math.sin(math.tau*t+phase)-math.sin(phase)
-                            a.r(name,f,(18*sway,12*sway,5*sway))
-                        elif name.startswith(('leg.','arm.')):
-                            side=1 if name.endswith('L') else -1
-                            isarm=name.startswith('arm.')
-                            angle=(22 if isarm else 30)*side*wave if clip=='Run' else 3*wave
-                            if heavy:angle*=.6
-                            if clip=='Attack' and isarm:
-                                angle=-45*max(0,1-abs(t-.22)/.22)+75*max(0,1-abs(t-.4)/.2)
-                            elif clip=='Cast' and isarm:angle=-95*pulse
-                            elif clip=='Victory' and isarm:angle=-115*pulse
-                            elif clip=='Die':angle=30*t
-                            a.r(name,f,(angle,0,side*(12*pulse if clip in ('Cast','Victory') else 0)))
-                        elif name.startswith('tail'):
-                            a.r(name,f,(5*wave,0,20*wave*(.2 if clip=='Die' else 1)))
-                        elif name=='jaw':
-                            a.r(name,f,(20*pulse if clip in ('Attack','Cast','Victory') else 4*wave,0,0))
-                        elif name=='eyes' and clip in ('Idle','Hit','Die'):
-                            blink=.12 if (clip=='Idle' and i==9) or (clip=='Hit' and i in (2,3)) or (clip=='Die' and i>7) else 1
-                            a.s(name,f,(1,1,blink))
+                for f in range(length+1):
+                    anim.write(a,clip,f,length)
         body=A.skin(self.parts,rig)
         return rig,body
     def finish(self,kind='biped'):

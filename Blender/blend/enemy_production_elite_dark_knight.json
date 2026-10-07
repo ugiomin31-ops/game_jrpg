@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:53:30Z",
+  "produced_at_utc": "2026-10-07T08:25:48Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
-      "bytes": 855452
+      "bytes": 861724
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_dark_knight.blend",
-      "bytes": 230517
+      "bytes": 279510
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight.png",
-        "bytes": 183956
+        "bytes": 186861
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_side.png",
-        "bytes": 157693
+        "bytes": 160000
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_attack.png",
-        "bytes": 174350
+        "bytes": 180407
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_cast.png",
-        "bytes": 170943
+        "bytes": 170194
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_die.png",
-        "bytes": 160625
+        "bytes": 161716
       }
     ]
   },

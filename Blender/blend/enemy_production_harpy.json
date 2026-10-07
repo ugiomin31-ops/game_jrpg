@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:46:13Z",
+  "produced_at_utc": "2026-10-07T08:28:52Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
-      "bytes": 855948
+      "bytes": 855900
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_harpy.blend",
-      "bytes": 389160
+      "bytes": 421319
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy.png",
-        "bytes": 147946
+        "bytes": 145062
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_side.png",
-        "bytes": 136129
+        "bytes": 136786
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_attack.png",
-        "bytes": 148351
+        "bytes": 141406
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_cast.png",
-        "bytes": 147664
+        "bytes": 143777
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_die.png",
-        "bytes": 142802
+        "bytes": 147940
       }
     ]
   },

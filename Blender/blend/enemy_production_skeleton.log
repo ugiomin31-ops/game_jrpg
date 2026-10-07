@@ -1,20 +1,20 @@
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
 EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
-00:01.362  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton.png'
-00:01.566  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_side.png'
-00:01.749  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_attack.png'
-00:01.925  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_cast.png'
-00:02.089  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_die.png'
+00:05.868  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton.png'
+00:07.711  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_side.png'
+00:09.123  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_attack.png'
+00:10.286  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_cast.png'
+00:11.599  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_skeleton_die.png'
 
 FBX export starting... '/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx'
 (bpy.data.armatures['Rig'], 'POSE')
-export finished in 0.1523 sec.
+export finished in 0.9962 sec.
 Info: Saved as "enemy_skeleton.blend"
 ENEMY_EXPORT {"id": "skeleton", "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx", "triangles": 7504, "bones": ["root", "body", "head", "eyes", "jaw", "crest", "arm.R", "leg.R", "arm.L", "leg.L", "weapon.R", "weapon.L"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "missing_clips": []}
-00:02.092  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_skeleton.blend"
+00:11.603  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_skeleton.blend"
 FBX version: 7400
-ENEMY_PRODUCTION {"id": "skeleton", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T01:53:23Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx", "bytes": 859804}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_skeleton.blend", "bytes": 229651}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton.png", "bytes": 185556}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_side.png", "bytes": 157027}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_attack.png", "bytes": 166279}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_cast.png", "bytes": 168932}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_die.png", "bytes": 160301}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 7504, "vertices": 4406, "bones": 12, "materials": ["M_Toon"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 7504, "vertices": 4406, "bones": 12, "materials": ["M_Toon"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
+ENEMY_PRODUCTION {"id": "skeleton", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T08:32:20Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx", "bytes": 873036}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_skeleton.blend", "bytes": 280428}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton.png", "bytes": 188321}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_side.png", "bytes": 157578}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_attack.png", "bytes": 173719}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_cast.png", "bytes": 170294}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_die.png", "bytes": 164954}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 7504, "vertices": 4406, "bones": 12, "materials": ["M_Toon"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 7504, "vertices": 4406, "bones": 12, "materials": ["M_Toon"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
 Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:34:58)
 
 Blender quit

@@ -7,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sculpt_kit import Sculpt, A, lerp_col  # noqa: E402,F401
+from monster_kit import DIE_HOLD  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 
@@ -154,15 +155,15 @@ def hellhound(eid):
         c.gem('body', 'brand_gem', (0, -0.36, 0.6), (0, -1, 0.3), 0.035, 0.07, '#ffd1a1', '#ff5a1a')
 
     def extra(a, clip, f, t, i, names):
-        if 'head2' in names:  # second head follows with an offset so the pair reads as two minds
-            if clip == 'Idle':
-                a.r('head2', f, (3 * math.sin(math.tau * t + 2), -4 * math.sin(math.tau * t), 0))
-            elif clip in ('Attack', 'Victory', 'Cast'):
-                p = math.sin(math.pi * t)
-                a.r('head2', f, (-12 * p, -6 * p, 0))
-                a.r('jaw2', f, (25 * p, 0, 0))
-            elif clip == 'Hit':
-                a.r('head2', f, (-14 * max(0, 1 - abs(t - 0.22) / 0.22), 6, 0))
+        if 'head2' not in names:
+            return
+        # The second head is a lagging, mirrored twin of the first: it looks the other way in Idle, snaps a beat
+        # after its brother in Attack and howls a beat later in Cast, so the pair reads as two minds.
+        tt = min(t, DIE_HOLD) if clip == 'Die' else t
+        q = a.anim.at(clip, tt - 0.04)
+        a.r('head2', f, (q.hr[0] + (3 * math.sin(math.tau * t + 2) if clip == 'Idle' else 0), -q.hr[1], -q.hr[2]))
+        a.r('jaw2', f, (q.jaw, 0, 0))
+        a.s('eyes2', f, (1, 1, max(0.08, a.anim.at(clip, tt - 0.08).blink)))
     return c.finish('quad', extra)
 
 

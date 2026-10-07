@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:51:14Z",
+  "produced_at_utc": "2026-10-07T08:29:48Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/jellyfish/jellyfish.fbx",
-      "bytes": 787468
+      "bytes": 786764
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_jellyfish.blend",
-      "bytes": 402422
+      "bytes": 431816
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish.png",
-        "bytes": 159454
+        "bytes": 158809
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_side.png",
-        "bytes": 158068
+        "bytes": 158764
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_attack.png",
-        "bytes": 158054
+        "bytes": 158094
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_cast.png",
-        "bytes": 161462
+        "bytes": 158272
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_die.png",
-        "bytes": 159504
+        "bytes": 161744
       }
     ]
   },

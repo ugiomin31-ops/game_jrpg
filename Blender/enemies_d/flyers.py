@@ -8,6 +8,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sculpt_kit import Sculpt, A, lerp_col, vgrad  # noqa: E402,F401
+from monster_kit import attack_env, cast_env, window  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 
@@ -152,7 +153,14 @@ def phoenix(eid):
         a = math.radians(-18 + k * 18)
         c.flame('tail1', f'plume_fire{k}', (math.sin(a) * 0.36, 0.14 + math.cos(a) * 0.36, 0.95 - 0.2), 0.12, 0.025,
                 lean=(0, 0.06, 0))
-    return c.finish('fly')
+    c.follow['crest'] = 1.5  # the burning crest flicks back on every wing beat
+
+    def extra(a, clip, f, t, i, names):
+        if clip == 'Cast':  # crest fire roars up with the release
+            g, sh, burst, pop, settle = cast_env(t)
+            k = 1 + 0.2 * g + 0.5 * burst
+            a.s('crest', f, (1 + 0.4 * (k - 1), 1 + 0.4 * (k - 1), k))
+    return c.finish('fly', extra)
 
 
 def fire_drake(eid):
@@ -214,7 +222,19 @@ def fire_drake(eid):
     for kk in range(4):
         c.cone_to('body', f'spine{kk}', S(0, 0.06 + 0.07 * kk, 0.66 - 0.08 * kk), S(0, 0.1 + 0.07 * kk, 0.72 - 0.08 * kk),
                   0.022 * k, '#3a2420' if not el else '#e8b84a')
-    return c.finish('biped')
+
+    def extra(a, clip, f, t, i, names):
+        P = a.P
+        if clip == 'Cast':  # fire breath: rear back with wings spread, then thrust the head out and hold the jaw wide
+            g, sh, burst, pop, settle = cast_env(t)
+            breath = window(t, 0.55, 0.6, 0.8, 0.93)
+            a.r('head', f, (-26 * g + 24 * breath + 2 * sh, 0, 3 * math.sin(math.tau * 6 * t) * breath))
+            a.r('jaw', f, (8 * g + 42 * breath, 0, 0))
+            a.r('body', f, (P.br[0] + 8 * breath, P.br[1], P.br[2]))
+        elif clip == 'Attack':  # claw swipe with a snapping bite on the hit frame
+            ant, st, imp, wob = attack_env(t)
+            a.r('jaw', f, (35 * window(t, 0.2, 0.33, 0.38, 0.41) + 10 * imp, 0, 0))
+    return c.finish('biped', extra)
 
 
 def killer_bee(eid):
@@ -251,11 +271,16 @@ def killer_bee(eid):
             A.paint(p, '#d6f4ff', 'M_Clear')
 
     def extra(a, clip, f, t, i, names):
-        hit = max(0.0, 1 - abs(t - 0.4) / 0.16)
-        if clip == 'Attack':
-            a.r('tail1', f, (-60 * hit, 0, 0))
-        elif clip == 'Idle':
-            a.r('tail1', f, (-6 * math.sin(math.tau * t), 0, 0))
+        if clip == 'Attack':  # cock the abdomen back, then curl it under and jab the stinger forward
+            ant, st, imp, wob = attack_env(t)
+            a.r('tail1', f, (25 * ant - 70 * st + 10 * wob, 0, 0))
+        elif clip == 'Cast':  # abdomen pumps venom
+            g, sh, burst, pop, settle = cast_env(t)
+            a.r('tail1', f, (-15 * g - 35 * burst + 4 * sh, 0, 0))
+            a.s('tail1', f, (1 + 0.08 * g, 1 + 0.08 * g, 1 + 0.08 * g - 0.06 * burst))
+        elif clip == 'Idle':  # abdomen pulses with each wing beat
+            a.r('tail1', f, (-8 * math.sin(math.tau * 3 * t - 0.8), 0, 4 * math.sin(math.tau * t)))
+            a.s('tail1', f, (1, 1 + 0.04 * math.sin(math.tau * 3 * t), 1 + 0.04 * math.sin(math.tau * 3 * t)))
     return c.finish('fly', extra)
 
 

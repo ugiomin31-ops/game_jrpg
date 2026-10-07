@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:44:47Z",
+  "produced_at_utc": "2026-10-07T08:23:49Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/bat/bat.fbx",
-      "bytes": 922844
+      "bytes": 924828
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_bat.blend",
-      "bytes": 356674
+      "bytes": 397444
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_bat.png",
-        "bytes": 148539
+        "bytes": 146441
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_side.png",
-        "bytes": 129300
+        "bytes": 131088
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_attack.png",
-        "bytes": 144700
+        "bytes": 139280
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_cast.png",
-        "bytes": 149166
+        "bytes": 145570
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_die.png",
-        "bytes": 137527
+        "bytes": 139159
       }
     ]
   },

@@ -7,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sculpt_kit import Sculpt, A, lerp_col, vgrad  # noqa: E402,F401
+from monster_kit import attack_env, cast_env, window  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 
@@ -36,6 +37,7 @@ def slime(eid):
     for k, (d, L) in enumerate((((0.8, -0.2, 0.6), 0.16), ((-0.7, 0.2, 0.7), 0.14), ((0.1, 0.6, 1), 0.1))):
         c.petal('crest', f'leaf{k}', (0.06, 0.15, 0.66), d, L, L * 0.6, '#7fd65a', tip='#3c9a35')
     c.gem('body', 'crystal', (-0.16, 0.08, 0.42), (-0.5, 0.3, 1), 0.04, 0.16, '#d9f4ff', '#58aee0', mat='M_Clear')
+    c.follow['crest'] = 1.8  # the leafy drip on top whips after every jiggle and hop
     return c.finish('hop')
 
 
@@ -69,7 +71,20 @@ def magma_slime(eid):
                 (0.07, 0.06, 0.04), '#2c1a18', seed=k + 3)
     for k in range(3):
         c.flame('crest', f'vent{k}', (0.06 * (k - 1), 0.08, 0.6), 0.14, 0.035, lean=(0.03 * (k - 1), 0.04, 0))
-    return c.finish('hop')
+    c.follow['crest'] = 0.9
+
+    def extra(a, clip, f, t, i, names):
+        # molten top bubbles (crust heaves, vents puff) and erupts on the cast release
+        if clip == 'Cast':
+            g, sh, burst, pop, settle = cast_env(t)
+            k = 1 + 0.12 * g + 0.4 * burst
+        elif clip in ('Die', 'Hit'):
+            return
+        else:
+            n = 2 if clip == 'Run' else 3
+            k = 1 + 0.06 * math.sin(math.tau * n * t) ** 2 + 0.04 * math.sin(math.tau * 2 * n * t + 1)
+        a.s('crest', f, (1 + 0.5 * (k - 1), 1 + 0.5 * (k - 1), k))
+    return c.finish('hop', extra)
 
 
 def mushroom(eid):
@@ -111,7 +126,20 @@ def mushroom(eid):
             c.cone_to('head', f'crown{k}', (0.12 * math.cos(a), -0.02 + 0.06 * math.sin(a), 0.86),
                       (0.14 * math.cos(a), -0.02 + 0.07 * math.sin(a), 0.98), 0.025, '#e8b84a')
         c.gem('head', 'crown_gem', (0, -0.1, 0.88), (0, -0.4, 1), 0.03, 0.06, '#c8ff7a', '#5aa02a')
-    return c.finish('biped')
+
+    def extra(a, clip, f, t, i, names):
+        P = a.P
+        if clip == 'Attack':  # rears back, then slams the heavy cap down onto the target; arms fling back
+            ant, st, imp, wob = attack_env(t)
+            a.r('body', f, (-18 * ant + 30 * st + 5 * wob, 0, 4 * wob))
+            a.r('head', f, (-16 * ant + 26 * st - 10 * imp + 8 * wob, 0, 0))
+            for s, side in (('L', 1), ('R', -1)):
+                a.r('arm.' + s, f, (-40 * ant + 50 * st, -side * (30 * ant + 25 * st), 0))
+        elif clip in ('Idle', 'Run'):  # the cap wobbles a beat behind the stalk
+            q = a.anim.at(clip, t - 0.08)
+            a.r('head', f, (P.hr[0] + 0.6 * (q.br[0] - P.br[0]), P.hr[1] + 0.8 * (q.br[1] - P.br[1]) + 3 * math.sin(math.tau * 2 * t),
+                            P.hr[2]))
+    return c.finish('biped', extra)
 
 
 def sprout(eid):
@@ -149,6 +177,7 @@ def sprout(eid):
     c.tube('crest', 'stem', [(0, 0, 0.78), (0.01, 0, 0.9), (0, 0, 1.02)], 0.018, '#5aa833', taper=0.6)
     for k, (d, L) in enumerate((((0.9, -0.15, 0.5), 0.22), ((-0.9, 0.1, 0.6), 0.21), ((0.1, -0.35, 1.0), 0.12))):
         c.petal('crest', f'sapleaf{k}', (0, 0, 1.0), d, L, L * 0.6, '#9ae05a', tip='#4c9a2c')
+    c.follow['crest'] = 1.8  # the sapling on top sways and whips after the trunk
     return c.finish('biped')
 
 
@@ -185,12 +214,16 @@ def mandragora(eid):
                 tip='#c02d93', cup=0.3)
     c.orb('crest', 'bloom_heart', (0, -0.06, 1.0), (0.035, 0.035, 0.03), '#ffe45c')
 
+    c.follow['crest'] = 1.6
+
     def extra(a, clip, f, t, i, names):
-        if clip == 'Cast':  # the scream: crown leaves flare
-            r = max(0.0, 1 - abs(t - 0.6) / 0.25)
+        if clip == 'Cast':  # the scream: crown leaves flare and the whole root shudders
+            g, sh, burst, pop, settle = cast_env(t)
+            r = max(burst, window(t, 0.55, 0.6, 0.8, 0.95))
             a.s('crest', f, (1 + 0.35 * r, 1 + 0.35 * r, 1 - 0.1 * r))
-        else:
-            a.r('crest', f, (4 * math.sin(math.tau * t), 6 * math.sin(math.tau * t + 1), 0))
+            P = a.P
+            vib = 5 * math.sin(math.tau * 14 * t) * r
+            a.r('body', f, (P.br[0], P.br[1] + vib, P.br[2] - 0.6 * vib))
     return c.finish('biped', extra)
 
 

@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:51:24Z",
+  "produced_at_utc": "2026-10-07T08:33:18Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
-      "bytes": 926492
+      "bytes": 930428
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_yeti.blend",
-      "bytes": 456233
+      "bytes": 491745
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti.png",
-        "bytes": 182141
+        "bytes": 181376
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_side.png",
-        "bytes": 158997
+        "bytes": 158405
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_attack.png",
-        "bytes": 174330
+        "bytes": 176749
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_cast.png",
-        "bytes": 173561
+        "bytes": 174671
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_die.png",
-        "bytes": 172044
+        "bytes": 163783
       }
     ]
   },

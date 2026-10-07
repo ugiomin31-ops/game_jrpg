@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/spirits.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:55:17Z",
+  "produced_at_utc": "2026-10-07T08:28:31Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
-      "bytes": 818860
+      "bytes": 819932
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_ghost.blend",
-      "bytes": 397508
+      "bytes": 439299
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost.png",
-        "bytes": 162875
+        "bytes": 161958
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_side.png",
-        "bytes": 153500
+        "bytes": 154016
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_attack.png",
-        "bytes": 155528
+        "bytes": 151915
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_cast.png",
-        "bytes": 154146
+        "bytes": 155576
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_die.png",
-        "bytes": 157358
+        "bytes": 156935
       }
     ]
   },

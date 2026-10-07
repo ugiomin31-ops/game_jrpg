@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:44:44Z",
+  "produced_at_utc": "2026-10-07T08:30:37Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
-      "bytes": 535852
+      "bytes": 540348
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_magma_slime.blend",
-      "bytes": 344443
+      "bytes": 373493
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime.png",
-        "bytes": 184490
+        "bytes": 187168
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_side.png",
-        "bytes": 176670
+        "bytes": 178986
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_attack.png",
-        "bytes": 184084
+        "bytes": 170748
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_cast.png",
-        "bytes": 183422
+        "bytes": 185083
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_die.png",
-        "bytes": 172876
+        "bytes": 170223
       }
     ]
   },

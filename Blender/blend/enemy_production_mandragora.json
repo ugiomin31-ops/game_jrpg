@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:40:50Z",
+  "produced_at_utc": "2026-10-07T08:30:33Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
-      "bytes": 776524
+      "bytes": 782844
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_mandragora.blend",
-      "bytes": 364648
+      "bytes": 402036
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora.png",
-        "bytes": 173746
+        "bytes": 172559
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_side.png",
-        "bytes": 162093
+        "bytes": 161064
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_attack.png",
-        "bytes": 167646
+        "bytes": 170675
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_cast.png",
-        "bytes": 173023
+        "bytes": 169213
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mandragora_die.png",
-        "bytes": 166119
+        "bytes": 156676
       }
     ]
   },

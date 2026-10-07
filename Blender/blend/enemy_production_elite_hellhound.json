@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:38:45Z",
+  "produced_at_utc": "2026-10-07T08:26:29Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
-      "bytes": 1453260
+      "bytes": 1458540
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_hellhound.blend",
-      "bytes": 518611
+      "bytes": 586400
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound.png",
-        "bytes": 166260
+        "bytes": 166117
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_side.png",
-        "bytes": 166391
+        "bytes": 166547
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_attack.png",
-        "bytes": 163069
+        "bytes": 167373
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_cast.png",
-        "bytes": 164530
+        "bytes": 160665
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_die.png",
-        "bytes": 163915
+        "bytes": 166826
       }
     ]
   },

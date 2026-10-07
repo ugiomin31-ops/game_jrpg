@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T01:38:30Z",
+  "produced_at_utc": "2026-10-07T08:23:59Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_wolf/ice_wolf.fbx",
-      "bytes": 1114156
+      "bytes": 1119388
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_ice_wolf.blend",
-      "bytes": 441658
+      "bytes": 492016
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_wolf.png",
-        "bytes": 159083
+        "bytes": 158265
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_wolf_side.png",
-        "bytes": 166847
+        "bytes": 167554
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_wolf_attack.png",
-        "bytes": 159549
+        "bytes": 164901
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_wolf_cast.png",
-        "bytes": 160176
+        "bytes": 159340
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_wolf_die.png",
-        "bytes": 155020
+        "bytes": 161836
       }
     ]
   },

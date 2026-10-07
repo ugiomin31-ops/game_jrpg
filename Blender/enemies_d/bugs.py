@@ -8,6 +8,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sculpt_kit import Sculpt, A, lerp_col, vgrad  # noqa: E402,F401
+from monster_kit import attack_env, cast_env, bump, window  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 
@@ -49,7 +50,16 @@ def frost_spider(eid):
         c.eye('eyes', (s * 0.06, -0.235, 0.38), (s * 0.4, -1, 0.05), 0.03, '#2ab8f0')
     c.paint((0, -0.27, 0.3), (0.035, 0.015, 0.01), '#1d3a66')
     walker_legs(c, (-0.16, 0.0, 0.16), 0.13, 0.3, 0.32, 0.14, 0.048, navy, foot_col=white, cuff=white, splay=0.12)
-    return c.finish('crawler')
+
+    def extra(a, clip, f, t, i, names):
+        if clip == 'Idle':  # the frosty abdomen breathes on its own slow beat
+            w = math.sin(math.tau * t - 1.0)
+            a.s('tail1', f, (1 + 0.035 * w, 1 + 0.02 * w, 1 + 0.035 * w))
+        elif clip == 'Cast':  # abdomen swells and pumps out the frost on the release
+            g, sh, burst, pop, settle = cast_env(t)
+            k = 1 + 0.1 * g - 0.08 * pop + 0.03 * settle
+            a.s('tail1', f, (k, k, k))
+    return c.finish('crawler', extra)
 
 
 def rhino_beetle(eid):
@@ -84,7 +94,17 @@ def rhino_beetle(eid):
             c.tube('body', f'gold_edge{s}', [(s * 0.02, -0.07, 0.52), (s * 0.2, 0.05, 0.44), (s * 0.24, 0.22, 0.34),
                                              (s * 0.14, 0.38, 0.3)], 0.014, '#e3b64c')
         c.gem('body', 'shell_gem', (0, 0.14, 0.55), (0, 0.2, 1), 0.05, 0.1, '#9fffe9', '#2fb39a')
-    return c.finish('crawler')
+
+    def extra(a, clip, f, t, i, names):
+        if clip == 'Attack':  # horn down into the charge, then toss the target up with a head flick
+            ant, st, imp, wob = attack_env(t)
+            toss = window(t, 0.40, 0.47, 0.56, 0.8)
+            a.r('head', f, (-10 * ant + 22 * st - 50 * toss + 6 * wob, 0, 0))
+            a.r('body', f, (a.P.br[0] - 12 * toss, a.P.br[1], a.P.br[2]))
+        elif clip == 'Victory':  # proud horn shakes
+            r = window(t, 0.68, 0.77, 0.9, 0.99)
+            a.r('head', f, (a.P.hr[0] - 10 * r, 0, a.P.hr[2] + 14 * math.sin(math.tau * 6 * t) * r))
+    return c.finish('crawler', extra)
 
 
 def sand_scorpion(eid):
@@ -118,11 +138,25 @@ def sand_scorpion(eid):
     walker_legs(c, (-0.06, 0.07, 0.2), 0.14, 0.24, 0.3, 0.12, 0.036, plate, foot_col=sand, splay=0.1)
 
     def extra(a, clip, f, t, i, names):
-        hit = max(0.0, 1 - abs(t - 0.4) / 0.16)
-        wind = max(0.0, 1 - abs(t - 0.2) / 0.16)
-        if clip == 'Attack':
-            for k, w in ((1, 10), (2, 22), (3, 28), (4, 30)):
-                a.r(f'tail{k}', f, (-8 * wind * k / 4 + w * hit, 0, 0))
+        # The tail is the weapon: it cocks back, whips forward over the back to sting on the hit frame and
+        # quivers with venom in Cast; segments overlap (tip lags the base) in every clip.
+        for k in range(1, 5):
+            lag = 0.035 * (k - 1)
+            if clip == 'Attack':
+                ant, st, imp, wob = attack_env(t - lag)
+                ax = -14 * ant * k / 4 + (10, 22, 28, 30)[k - 1] * st + 6 * wob
+            elif clip == 'Cast':
+                g, sh, burst, pop, settle = cast_env(t - lag)
+                ax = -8 * g + 14 * burst + 3 * sh * k / 4
+            elif clip == 'Idle':
+                ax = 5 * math.sin(math.tau * (t - 0.08 * k)) + 6 * bump(t, 0.4 + 0.03 * k, 0.08)
+            elif clip == 'Run':
+                ax = 6 * math.sin(math.tau * (2 * t - 0.1 * k))
+            elif clip == 'Victory':
+                ax = 10 * math.sin(math.tau * (4 * t - 0.1 * k)) * window(t, 0.05, 0.15, 0.85, 0.98)
+            else:
+                continue
+            a.r(f'tail{k}', f, (ax, 0, a.P.tail[1] / 4 + (6 * math.sin(math.tau * (t - 0.1 * k)) if clip == 'Idle' else 0)))
     return c.finish('crawler', extra)
 
 
@@ -202,7 +236,18 @@ def jellyfish(eid):
         root = Vector((0.05 * math.cos(a), 0.05 * math.sin(a), 0.95))
         pts = [tuple(root + Vector((0.04 * math.cos(a) * j, 0.04 * math.sin(a) * j, -0.08 * j))) for j in range(4)]
         c.limb('body', pts, [0.045, 0.04, 0.03, 0.015], '#d6a8ff')
-    return c.finish('float')
+
+    def extra(a, clip, f, t, i, names):
+        if clip not in ('Idle', 'Run'):
+            return
+        # jet swimming: the bell contracts sharply, the body surges up after each pulse, tentacles trail
+        n = 2 if clip == 'Idle' else 3
+        u = (n * t) % 1.0
+        squeeze = bump(u, 0.12, 0.12)
+        P = a.P
+        a.s('body', f, (P.bs[0] - 0.12 * squeeze, P.bs[1] - 0.12 * squeeze, P.bs[2] + 0.1 * squeeze))
+        a.l('root', f, (P.rl[0], P.rl[1], P.rl[2] + 0.03 * math.sin(math.tau * (u - 0.15))))
+    return c.finish('float', extra)
 
 
 BUILDERS = {'frost_spider': frost_spider, 'rhino_beetle': rhino_beetle, 'elite_rhino_beetle': rhino_beetle,

@@ -7,6 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sculpt_kit import Sculpt, A, lerp_col, vgrad  # noqa: E402,F401
+from monster_kit import cast_env, window  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 
@@ -49,6 +50,7 @@ def horned_rabbit(eid):
     c.ring('body', 'leaf_scarf', (0, -0.05, 0.37), 0.135, 0.024, '#58b947', scale=(1, 0.95, 0.7))
     c.petal('body', 'scarf_leaf_a', (-0.02, -0.15, 0.36), (-0.35, -0.25, -1), 0.12, 0.07, '#7ad354', tip='#3f8f2f')
     c.petal('body', 'scarf_leaf_b', (0.02, -0.15, 0.36), (0.45, -0.2, -1), 0.1, 0.06, '#7ad354', tip='#3f8f2f')
+    c.follow['ear'] = 1.7  # long ears flop after every hop and flinch
     return c.finish('hop')
 
 
@@ -102,6 +104,7 @@ def yeti(eid):
         c.bone('weapon.R', (-0.42, -0.14, 0.22), 'arm.R')
         c.tube('weapon.R', 'club_grip', [(-0.42, -0.16, 0.12), (-0.42, -0.18, 0.44)], 0.03, '#6b4a3a')
         c.gem('weapon.R', 'icicle_club', (-0.42, -0.18, 0.4), (0, -0.15, 1), 0.1, 0.5, '#e9fdff', '#4fb8f2', mat='M_Clear', sides=7)
+    c.arm_limit = (55, 22)  # huge fused arms: keep the slam inside what the shoulders can take
     return c.finish('heavy')
 
 
@@ -146,7 +149,13 @@ def penguin_mage(eid):
     for j in range(3):
         c.spike('weapon.R', f'staff_crystal{j}', (-0.32 + (j - 1) * 0.05, -0.06, 0.98), (-0.32 + (j - 1) * 0.08, -0.06, 1.26 - (j % 2) * 0.1),
                 0.035, '#8ef2ff', 'M_Emit')
-    return c.finish('biped')
+    c.follow['crest'] = 1.3  # the floppy wizard hat lags and flops
+
+    def extra(a, clip, f, t, i, names):
+        if clip == 'Cast':  # staff tipped up while charging, then pointed at the foe on the release
+            g, sh, burst, pop, settle = cast_env(t)
+            a.r('weapon.R', f, (-25 * g + 35 * burst + 3 * sh, 0, 0))
+    return c.finish('biped', extra)
 
 
 def lizardman(eid):
@@ -208,7 +217,17 @@ def lizardman(eid):
     c.orb('weapon.L', 'buckler', (0.3, -0.15, 0.5), (0.13, 0.035, 0.13), brass, seg=24, rings=10)
     c.ring('weapon.L', 'buckler_rim', (0.3, -0.172, 0.5), 0.125, 0.012, '#8a5530', rot=(90, 0, 0))
     c.gem('weapon.L', 'buckler_gem', (0.3, -0.18, 0.5), (0, -1, 0), 0.035, 0.05, '#9ffff0', '#1fb3a0')
-    return c.finish('biped')
+    c.follow['crest'] = 1.3
+
+    def extra(a, clip, f, t, i, names):
+        if clip == 'Cast':  # threat display: the head frill fans out on the release
+            g, sh, burst, pop, settle = cast_env(t)
+            r = max(burst, window(t, 0.55, 0.6, 0.75, 0.9))
+            a.s('crest', f, (1 + 0.35 * r, 1 + 0.1 * r, 1 + 0.3 * r))
+        elif clip == 'Victory':
+            r = window(t, 0.68, 0.77, 0.9, 0.99)
+            a.s('crest', f, (1 + 0.3 * r, 1, 1 + 0.25 * r))
+    return c.finish('biped', extra)
 
 
 BUILDERS = {'horned_rabbit': horned_rabbit, 'yeti': yeti, 'elite_yeti': yeti, 'penguin_mage': penguin_mage,
