@@ -34,6 +34,7 @@ namespace Abyss.UI
         static Vector2Int _swipe;
         static readonly List<RaycastResult> Hits = new List<RaycastResult>();
         static PointerEventData _probe;
+        static EventSystem _probeSystem;
 
         /// <summary>True on touch devices (phones, tablets, touch laptops).</summary>
         public static bool Supported => UnityEngine.InputSystem.Touchscreen.current != null;
@@ -120,7 +121,7 @@ namespace Abyss.UI
         {
             var system = EventSystem.current;
             if (system == null) return false;
-            if (_probe == null || _probe.eventSystem != system) _probe = new PointerEventData(system);
+            if (_probe == null || _probeSystem != system) { _probe = new PointerEventData(system); _probeSystem = system; }
             _probe.position = screen;
             Hits.Clear();
             system.RaycastAll(_probe, Hits);

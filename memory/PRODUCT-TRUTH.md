@@ -63,7 +63,7 @@ Evidence class: directly inspected project code, production outputs and local ex
 
 ## Not implemented / not yet verified
 
-- Mobile: Android APK/AAB and iOS Xcode build menus, landscape/IL2CPP/ASTC settings, touch-sized dungeon pad (hold-to-walk, strafe), tappable minimap, tap-to-target battle cards, drag-scrolling lists and a battle speed option (1x/1.5x/2x) exist in code (2026-10-07). They passed a C# syntax check only; no Unity compile, device build or on-device play has been observed.
+- Mobile: Android APK/AAB and iOS Xcode build menus, landscape/IL2CPP/ASTC settings, touch-sized dungeon pad (hold-to-walk, strafe), tappable minimap, tap-to-target battle cards, drag-scrolling lists and a battle speed option (1x/1.5x/2x) exist in code (2026-10-07). They compile against the real Unity 6000.3.25f1 engine/editor reference assemblies with ugui/TMP/InputSystem 1.20.0 built from package source (URP replaced by a member-level stub) for both the editor and an Android player define set (2026-10-07; this check found and fixed a `PointerEventData.eventSystem` compile error in `UITouch.cs` that had removed every `Abyss/*` menu). No device build or on-device play has been observed.
 - Standalone Windows build and native input/play verification have not yet completed. Do not call the deliverable release-ready or publish minimum specifications/FPS.
 - Natural Unity battle and the listed transactions/settings are verified above; full VFX/boss/ending and remaining service/settings scenarios are not yet verified. Code/source assets alone are not full scenario proof.
 - Store submission, approved publisher identity, price, release date and storefront app ID are not established by the project. Do not imply a published storefront.
