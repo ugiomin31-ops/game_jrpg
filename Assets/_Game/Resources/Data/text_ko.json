@@ -483,5 +483,17 @@
  "enemy_desc_snow_fairy": "눈송이 지팡이를 든 요정. 얼음 마법과 치유를 함께 쓴다.",
  "enemy_desc_sprout": "유적 틈에서 자라난 어린 나무 정령. 뿌리로 발을 묶는다.",
  "enemy_desc_wisp": "묘소를 떠도는 푸른 혼불. 높은 마법 저항을 지녔다.",
- "enemy_desc_yeti": "눈뭉치 같은 꼬마 설인. 궁지에 몰리면 광폭해진다."
+ "enemy_desc_yeti": "눈뭉치 같은 꼬마 설인. 궁지에 몰리면 광폭해진다.",
+ "job_title": "전직",
+ "job_greeting": "충분히 단련했다면 새로운 길을 열어 드리지요. 전직해도 익힌 기술은 그대로 남습니다.",
+ "job_changed_msg": "전직 완료! %s의 새 직업은 %s입니다.",
+ "job_label": "직업",
+ "reason_job_unknown": "등록되지 않은 직업입니다.",
+ "reason_job_not_next": "지금 직업에서 바로 이어지는 직업이 아닙니다.",
+ "reason_job_level": "레벨이 부족합니다.",
+ "reason_job_boss": "아직 전직의 자격을 얻지 못했습니다. 더 강한 수호자를 쓰러뜨려야 합니다.",
+ "reason_job_item": "전직에 필요한 아이템이 없습니다.",
+ "reason_job_battle": "탐험 중에는 전직할 수 없습니다.",
+ "reason_job_mismatch": "지금 직업으로는 장착할 수 없습니다.",
+ "cannot_equip_job": "다른 직업 전용 장비"
 }

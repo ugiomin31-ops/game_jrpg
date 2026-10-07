@@ -1,0 +1,882 @@
+[
+ {
+  "id": "warrior",
+  "display_name": "전사",
+  "hero": "warrior",
+  "tier": 1,
+  "parent": "",
+  "description": "검과 방패로 앞에 서는 기본 직업입니다. 균형 잡힌 공격과 방어를 갖췄습니다.",
+  "required_level": 1,
+  "required_item": "",
+  "required_boss": "",
+  "hp_mult": 1.0,
+  "mp_mult": 1.0,
+  "atk_mult": 1.0,
+  "mag_mult": 1.0,
+  "def_mult": 1.0,
+  "res_mult": 1.0,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "",
+  "learnset": [],
+  "_file": "warrior"
+ },
+ {
+  "id": "knight",
+  "display_name": "기사",
+  "hero": "warrior",
+  "tier": 2,
+  "parent": "warrior",
+  "description": "동료를 지키는 방패의 기사입니다. 체력과 방어가 크게 오르고, 적의 공격을 끌어모으는 기술을 익힙니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.15,
+  "mp_mult": 1.0,
+  "atk_mult": 1.0,
+  "mag_mult": 1.0,
+  "def_mult": 1.25,
+  "res_mult": 1.1,
+  "spd_mult": 0.95,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "sword_aegis",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_kn_shield_bash"
+   },
+   {
+    "level": 17,
+    "skill": "jb_kn_vow"
+   },
+   {
+    "level": 20,
+    "skill": "jb_kn_guard_aura"
+   },
+   {
+    "level": 23,
+    "skill": "jb_kn_lance_charge"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_knight"
+   },
+   {
+    "level": 26,
+    "skill": "jb_kn_fortress"
+   },
+   {
+    "level": 29,
+    "skill": "jb_kn_rampart_crash"
+   }
+  ],
+  "_file": "knight"
+ },
+ {
+  "id": "paladin",
+  "display_name": "성기사",
+  "hero": "warrior",
+  "tier": 3,
+  "parent": "knight",
+  "description": "성스러운 검을 든 수호자입니다. 기사의 단단함에 신성한 공격과 아군 전체를 지키는 결계를 더합니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.3,
+  "mp_mult": 1.1,
+  "atk_mult": 1.1,
+  "mag_mult": 1.1,
+  "def_mult": 1.4,
+  "res_mult": 1.25,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "sword_holy_avenger",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_paladin"
+   },
+   {
+    "level": 44,
+    "skill": "jb_pa_holy_smite"
+   },
+   {
+    "level": 48,
+    "skill": "jb_pa_sanctuary_guard"
+   },
+   {
+    "level": 52,
+    "skill": "jb_pa_judgment_blade"
+   },
+   {
+    "level": 56,
+    "skill": "jb_pa_divine_ward"
+   }
+  ],
+  "_file": "paladin"
+ },
+ {
+  "id": "berserker",
+  "display_name": "광전사",
+  "hero": "warrior",
+  "tier": 2,
+  "parent": "warrior",
+  "description": "방어를 버리고 공격에 모든 것을 거는 전사입니다. 공격과 치명타가 오르고 방어는 떨어집니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.1,
+  "mp_mult": 0.9,
+  "atk_mult": 1.25,
+  "mag_mult": 0.9,
+  "def_mult": 0.85,
+  "res_mult": 0.9,
+  "spd_mult": 1.05,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.05,
+  "signature_weapon": "sword_ravager",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_be_reckless"
+   },
+   {
+    "level": 17,
+    "skill": "jb_be_frenzy"
+   },
+   {
+    "level": 20,
+    "skill": "jb_be_rend"
+   },
+   {
+    "level": 23,
+    "skill": "jb_be_blood_thirst"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_berserker"
+   },
+   {
+    "level": 26,
+    "skill": "jb_be_rampage"
+   },
+   {
+    "level": 29,
+    "skill": "jb_be_skull_split"
+   }
+  ],
+  "_file": "berserker"
+ },
+ {
+  "id": "warlord",
+  "display_name": "워로드",
+  "hero": "warrior",
+  "tier": 3,
+  "parent": "berserker",
+  "description": "전장을 지배하는 패왕입니다. 압도적인 공격력으로 적 전체를 무너뜨리고 아군의 사기를 높입니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.25,
+  "mp_mult": 1.0,
+  "atk_mult": 1.45,
+  "mag_mult": 0.95,
+  "def_mult": 1.0,
+  "res_mult": 1.0,
+  "spd_mult": 1.1,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.08,
+  "signature_weapon": "sword_conqueror",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_warlord"
+   },
+   {
+    "level": 44,
+    "skill": "jb_wl_war_banner"
+   },
+   {
+    "level": 48,
+    "skill": "jb_wl_conquer"
+   },
+   {
+    "level": 52,
+    "skill": "jb_wl_earthshaker"
+   },
+   {
+    "level": 56,
+    "skill": "jb_wl_overlord"
+   }
+  ],
+  "_file": "warlord"
+ },
+ {
+  "id": "mage",
+  "display_name": "마법사",
+  "hero": "mage",
+  "tier": 1,
+  "parent": "",
+  "description": "원소 마법을 다루는 기본 직업입니다.",
+  "required_level": 1,
+  "required_item": "",
+  "required_boss": "",
+  "hp_mult": 1.0,
+  "mp_mult": 1.0,
+  "atk_mult": 1.0,
+  "mag_mult": 1.0,
+  "def_mult": 1.0,
+  "res_mult": 1.0,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "",
+  "learnset": [],
+  "_file": "mage"
+ },
+ {
+  "id": "elementalist",
+  "display_name": "원소술사",
+  "hero": "mage",
+  "tier": 2,
+  "parent": "mage",
+  "description": "불, 얼음, 번개의 정령을 부리는 술사입니다. 마력과 MP가 오르고 상태 이상을 거는 원소 마법을 익힙니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.0,
+  "mp_mult": 1.15,
+  "atk_mult": 1.0,
+  "mag_mult": 1.2,
+  "def_mult": 1.0,
+  "res_mult": 1.1,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "staff_prism",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_el_fire_spirit"
+   },
+   {
+    "level": 17,
+    "skill": "jb_el_frost_spirit"
+   },
+   {
+    "level": 20,
+    "skill": "jb_el_storm_spirit"
+   },
+   {
+    "level": 23,
+    "skill": "jb_el_resonance"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_elementalist"
+   },
+   {
+    "level": 26,
+    "skill": "jb_el_tri_burst"
+   },
+   {
+    "level": 29,
+    "skill": "jb_el_eruption"
+   }
+  ],
+  "_file": "elementalist"
+ },
+ {
+  "id": "archmage",
+  "display_name": "대마도사",
+  "hero": "mage",
+  "tier": 3,
+  "parent": "elementalist",
+  "description": "모든 마법의 정점에 선 대마도사입니다. 마력이 크게 오르고 적 전체를 휩쓰는 대마법을 씁니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.1,
+  "mp_mult": 1.3,
+  "atk_mult": 1.0,
+  "mag_mult": 1.4,
+  "def_mult": 1.05,
+  "res_mult": 1.25,
+  "spd_mult": 1.05,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "staff_arcanum",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_archmage"
+   },
+   {
+    "level": 44,
+    "skill": "jb_am_mana_tide"
+   },
+   {
+    "level": 48,
+    "skill": "jb_am_starfall"
+   },
+   {
+    "level": 52,
+    "skill": "jb_am_time_stop"
+   },
+   {
+    "level": 56,
+    "skill": "jb_am_annihilate"
+   }
+  ],
+  "_file": "archmage"
+ },
+ {
+  "id": "warlock",
+  "display_name": "흑마법사",
+  "hero": "mage",
+  "tier": 2,
+  "parent": "mage",
+  "description": "저주와 어둠을 다루는 마법사입니다. 적을 약하게 만들고 생명력을 빼앗는 주문을 익힙니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.05,
+  "mp_mult": 1.1,
+  "atk_mult": 1.0,
+  "mag_mult": 1.15,
+  "def_mult": 1.0,
+  "res_mult": 1.15,
+  "spd_mult": 1.05,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "staff_hex",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_wk_hex_bolt"
+   },
+   {
+    "level": 17,
+    "skill": "jb_wk_wither"
+   },
+   {
+    "level": 20,
+    "skill": "jb_wk_soul_drain"
+   },
+   {
+    "level": 23,
+    "skill": "jb_wk_plague"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_warlock"
+   },
+   {
+    "level": 26,
+    "skill": "jb_wk_nightmare"
+   },
+   {
+    "level": 29,
+    "skill": "jb_wk_doom"
+   }
+  ],
+  "_file": "warlock"
+ },
+ {
+  "id": "abyssal",
+  "display_name": "심연술사",
+  "hero": "mage",
+  "tier": 3,
+  "parent": "warlock",
+  "description": "심연의 힘을 빌린 술사입니다. 공허의 마법으로 적 전체를 잠식하고 저주를 퍼뜨립니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.15,
+  "mp_mult": 1.2,
+  "atk_mult": 1.05,
+  "mag_mult": 1.35,
+  "def_mult": 1.1,
+  "res_mult": 1.3,
+  "spd_mult": 1.1,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "staff_abyss_eye",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_abyssal"
+   },
+   {
+    "level": 44,
+    "skill": "jb_ab_void_rift"
+   },
+   {
+    "level": 48,
+    "skill": "jb_ab_abyss_ward"
+   },
+   {
+    "level": 52,
+    "skill": "jb_ab_soul_harvest"
+   },
+   {
+    "level": 56,
+    "skill": "jb_ab_oblivion"
+   }
+  ],
+  "_file": "abyssal"
+ },
+ {
+  "id": "archer",
+  "display_name": "궁수",
+  "hero": "archer",
+  "tier": 1,
+  "parent": "",
+  "description": "활과 화살로 싸우는 기본 직업입니다.",
+  "required_level": 1,
+  "required_item": "",
+  "required_boss": "",
+  "hp_mult": 1.0,
+  "mp_mult": 1.0,
+  "atk_mult": 1.0,
+  "mag_mult": 1.0,
+  "def_mult": 1.0,
+  "res_mult": 1.0,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "",
+  "learnset": [],
+  "_file": "archer"
+ },
+ {
+  "id": "sniper",
+  "display_name": "저격수",
+  "hero": "archer",
+  "tier": 2,
+  "parent": "archer",
+  "description": "한 발에 모든 것을 거는 저격수입니다. 명중과 치명타가 오르고 방어를 꿰뚫는 사격을 익힙니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.0,
+  "mp_mult": 1.0,
+  "atk_mult": 1.2,
+  "mag_mult": 1.0,
+  "def_mult": 0.95,
+  "res_mult": 1.0,
+  "spd_mult": 1.0,
+  "hit": 0.03,
+  "evade": 0.0,
+  "crit": 0.1,
+  "signature_weapon": "bow_longshot",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_sn_aimed_shot"
+   },
+   {
+    "level": 17,
+    "skill": "jb_sn_steady_aim"
+   },
+   {
+    "level": 20,
+    "skill": "jb_sn_armor_pierce"
+   },
+   {
+    "level": 23,
+    "skill": "jb_sn_headshot"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_sniper"
+   },
+   {
+    "level": 26,
+    "skill": "jb_sn_suppress"
+   },
+   {
+    "level": 29,
+    "skill": "jb_sn_disarm"
+   }
+  ],
+  "_file": "sniper"
+ },
+ {
+  "id": "divine_archer",
+  "display_name": "신궁",
+  "hero": "archer",
+  "tier": 3,
+  "parent": "sniper",
+  "description": "하늘의 화살을 쏘는 신궁입니다. 신성한 화살비로 적 전체를 꿰뚫습니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.15,
+  "mp_mult": 1.1,
+  "atk_mult": 1.4,
+  "mag_mult": 1.1,
+  "def_mult": 1.05,
+  "res_mult": 1.1,
+  "spd_mult": 1.1,
+  "hit": 0.03,
+  "evade": 0.0,
+  "crit": 0.15,
+  "signature_weapon": "bow_heavens",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_divine_archer"
+   },
+   {
+    "level": 44,
+    "skill": "jb_da_sacred_arrow"
+   },
+   {
+    "level": 48,
+    "skill": "jb_da_blessing_wind"
+   },
+   {
+    "level": 52,
+    "skill": "jb_da_judgment_rain"
+   },
+   {
+    "level": 56,
+    "skill": "jb_da_true_shot"
+   }
+  ],
+  "_file": "divine_archer"
+ },
+ {
+  "id": "ranger",
+  "display_name": "레인저",
+  "hero": "archer",
+  "tier": 2,
+  "parent": "archer",
+  "description": "숲을 누비는 날렵한 사냥꾼입니다. 속도와 회피가 오르고 여러 번 쏘는 연사 기술을 익힙니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.05,
+  "mp_mult": 1.0,
+  "atk_mult": 1.1,
+  "mag_mult": 1.0,
+  "def_mult": 1.0,
+  "res_mult": 1.0,
+  "spd_mult": 1.2,
+  "hit": 0.0,
+  "evade": 0.05,
+  "crit": 0.0,
+  "signature_weapon": "bow_thornvine",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_ra_quick_draw"
+   },
+   {
+    "level": 17,
+    "skill": "jb_ra_snare"
+   },
+   {
+    "level": 20,
+    "skill": "jb_ra_wind_step"
+   },
+   {
+    "level": 23,
+    "skill": "jb_ra_thorn_volley"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_ranger"
+   },
+   {
+    "level": 26,
+    "skill": "jb_ra_falcon"
+   },
+   {
+    "level": 29,
+    "skill": "jb_ra_storm_arrows"
+   }
+  ],
+  "_file": "ranger"
+ },
+ {
+  "id": "shadow_stalker",
+  "display_name": "그림자 추적자",
+  "hero": "archer",
+  "tier": 3,
+  "parent": "ranger",
+  "description": "그림자에 숨어 사냥하는 추적자입니다. 압도적인 속도로 어둠의 연격을 퍼붓습니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.15,
+  "mp_mult": 1.05,
+  "atk_mult": 1.3,
+  "mag_mult": 1.0,
+  "def_mult": 1.05,
+  "res_mult": 1.05,
+  "spd_mult": 1.35,
+  "hit": 0.0,
+  "evade": 0.08,
+  "crit": 0.08,
+  "signature_weapon": "bow_nightfall",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_shadow_stalker"
+   },
+   {
+    "level": 44,
+    "skill": "jb_ss_shadow_veil"
+   },
+   {
+    "level": 48,
+    "skill": "jb_ss_assassinate"
+   },
+   {
+    "level": 52,
+    "skill": "jb_ss_night_raid"
+   },
+   {
+    "level": 56,
+    "skill": "jb_ss_venom_fang"
+   }
+  ],
+  "_file": "shadow_stalker"
+ },
+ {
+  "id": "cleric",
+  "display_name": "사제",
+  "hero": "cleric",
+  "tier": 1,
+  "parent": "",
+  "description": "치유와 신성 마법을 다루는 기본 직업입니다.",
+  "required_level": 1,
+  "required_item": "",
+  "required_boss": "",
+  "hp_mult": 1.0,
+  "mp_mult": 1.0,
+  "atk_mult": 1.0,
+  "mag_mult": 1.0,
+  "def_mult": 1.0,
+  "res_mult": 1.0,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "",
+  "learnset": [],
+  "_file": "cleric"
+ },
+ {
+  "id": "priest",
+  "display_name": "신관",
+  "hero": "cleric",
+  "tier": 2,
+  "parent": "cleric",
+  "description": "치유에 정통한 신관입니다. MP와 마력이 오르고 회복과 보호 기술이 늘어납니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.05,
+  "mp_mult": 1.2,
+  "atk_mult": 1.0,
+  "mag_mult": 1.15,
+  "def_mult": 1.0,
+  "res_mult": 1.15,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "mace_grace",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_pr_renew"
+   },
+   {
+    "level": 17,
+    "skill": "jb_pr_prayer"
+   },
+   {
+    "level": 20,
+    "skill": "jb_pr_bless_all"
+   },
+   {
+    "level": 23,
+    "skill": "jb_pr_revive_light"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_priest"
+   },
+   {
+    "level": 26,
+    "skill": "jb_pr_holy_wall"
+   },
+   {
+    "level": 29,
+    "skill": "jb_pr_full_heal"
+   }
+  ],
+  "_file": "priest"
+ },
+ {
+  "id": "saint",
+  "display_name": "성녀",
+  "hero": "cleric",
+  "tier": 3,
+  "parent": "priest",
+  "description": "기적을 일으키는 성녀입니다. 쓰러진 동료를 한꺼번에 일으키고 파티 전체를 지킵니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.2,
+  "mp_mult": 1.4,
+  "atk_mult": 1.0,
+  "mag_mult": 1.35,
+  "def_mult": 1.1,
+  "res_mult": 1.35,
+  "spd_mult": 1.05,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "signature_weapon": "mace_seraph",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_saint"
+   },
+   {
+    "level": 44,
+    "skill": "jb_sa_grace"
+   },
+   {
+    "level": 48,
+    "skill": "jb_sa_divine_shield"
+   },
+   {
+    "level": 52,
+    "skill": "jb_sa_holy_nova"
+   },
+   {
+    "level": 56,
+    "skill": "jb_sa_angel_song"
+   }
+  ],
+  "_file": "saint"
+ },
+ {
+  "id": "exorcist",
+  "display_name": "퇴마사",
+  "hero": "cleric",
+  "tier": 2,
+  "parent": "cleric",
+  "description": "악을 몰아내는 퇴마사입니다. 마력이 오르고 신성 속성 공격 마법을 익힙니다.",
+  "required_level": 15,
+  "required_item": "job_medal",
+  "required_boss": "forest_guardian",
+  "hp_mult": 1.05,
+  "mp_mult": 1.05,
+  "atk_mult": 1.1,
+  "mag_mult": 1.2,
+  "def_mult": 1.05,
+  "res_mult": 1.1,
+  "spd_mult": 1.0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.02,
+  "signature_weapon": "mace_purifier",
+  "learnset": [
+   {
+    "level": 15,
+    "skill": "jb_ex_holy_seal"
+   },
+   {
+    "level": 17,
+    "skill": "jb_ex_smite"
+   },
+   {
+    "level": 20,
+    "skill": "jb_ex_ward"
+   },
+   {
+    "level": 23,
+    "skill": "jb_ex_purge"
+   },
+   {
+    "level": 25,
+    "skill": "ult_jb_exorcist"
+   },
+   {
+    "level": 26,
+    "skill": "jb_ex_spirit_chain"
+   },
+   {
+    "level": 29,
+    "skill": "jb_ex_banishment"
+   }
+  ],
+  "_file": "exorcist"
+ },
+ {
+  "id": "inquisitor",
+  "display_name": "심판관",
+  "hero": "cleric",
+  "tier": 3,
+  "parent": "exorcist",
+  "description": "악을 심판하는 심판관입니다. 강력한 신성 공격과 적을 무력하게 만드는 심문 기술을 씁니다.",
+  "required_level": 40,
+  "required_item": "master_seal",
+  "required_boss": "boss",
+  "hp_mult": 1.2,
+  "mp_mult": 1.15,
+  "atk_mult": 1.2,
+  "mag_mult": 1.4,
+  "def_mult": 1.15,
+  "res_mult": 1.2,
+  "spd_mult": 1.05,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.05,
+  "signature_weapon": "mace_verdict",
+  "learnset": [
+   {
+    "level": 40,
+    "skill": "ult_jb_inquisitor"
+   },
+   {
+    "level": 44,
+    "skill": "jb_iq_verdict"
+   },
+   {
+    "level": 48,
+    "skill": "jb_iq_interrogate"
+   },
+   {
+    "level": 52,
+    "skill": "jb_iq_crimson_cross"
+   },
+   {
+    "level": 56,
+    "skill": "jb_iq_absolution"
+   }
+  ],
+  "_file": "inquisitor"
+ }
+]

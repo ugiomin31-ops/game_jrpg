@@ -93,6 +93,70 @@ namespace Abyss.Logic.Game
         /// <summary>Equipment class restriction: empty Classes = every hero.</summary>
         public static bool AllowsClass(EquipmentDef piece, string heroId) => piece.Classes == null || piece.Classes.Count == 0 || piece.Classes.Contains(heroId);
 
+        /// <summary>
+        /// Equipment job restriction: empty Jobs = any job; otherwise the hero's current job or a job it was promoted
+        /// from must be listed (a knight's sword stays usable as a paladin; a paladin's sword is not usable as a knight).
+        /// </summary>
+        public static bool AllowsJob(GameDB db, EquipmentDef piece, HeroState hero)
+        {
+            if (piece.Jobs == null || piece.Jobs.Count == 0) return true;
+            foreach (string job in JobPath(db, hero)) if (piece.Jobs.Contains(job)) return true;
+            return false;
+        }
+
+        /// <summary>Class and job restriction together.</summary>
+        public static bool AllowsHero(GameDB db, EquipmentDef piece, HeroState hero) => AllowsClass(piece, hero.Id) && AllowsJob(db, piece, hero);
+
+        /// <summary>The hero's current job row, or null when jobs.json has no row for it (stats then use the plain hero).</summary>
+        public static JobDef JobOf(GameDB db, HeroState hero)
+        {
+            string id = string.IsNullOrEmpty(hero.Job) ? hero.Id : hero.Job;
+            return db.Jobs.TryGetValue(id, out var job) && job.Hero == hero.Id ? job : null;
+        }
+
+        /// <summary>Job ids from the base job down to <paramref name="jobId"/> (e.g. cleric, priest, saint).</summary>
+        public static List<string> JobPath(GameDB db, string heroId, string jobId)
+        {
+            var path = new List<string>();
+            string id = string.IsNullOrEmpty(jobId) ? heroId : jobId;
+            while (!string.IsNullOrEmpty(id) && db.Jobs.TryGetValue(id, out var job) && job.Hero == heroId && !path.Contains(id))
+            {
+                path.Insert(0, id);
+                id = job.Parent;
+            }
+            if (path.Count == 0 || path[0] != heroId) path.Insert(0, heroId);
+            return path;
+        }
+
+        /// <summary>Job path of the hero's current job.</summary>
+        public static List<string> JobPath(GameDB db, HeroState hero) => JobPath(db, hero.Id, hero.Job);
+
+        /// <summary>Display name of the hero's current job (the hero's own name for a missing job row).</summary>
+        public static string JobName(GameDB db, HeroState hero) => JobOf(db, hero)?.DisplayName ?? (db.Heroes.TryGetValue(hero.Id, out var def) ? def.DisplayName : hero.Id);
+
+        /// <summary>True once the hero has left the base job.</summary>
+        public static bool IsPromoted(HeroState hero) => !string.IsNullOrEmpty(hero.Job) && hero.Job != hero.Id;
+
+        /// <summary>Level stats with the job multipliers applied (no equipment).</summary>
+        public static StatBlock JobLevelStats(HeroDef hero, JobDef job, int level)
+        {
+            var stats = LevelStats(hero, level);
+            if (job == null) return stats;
+            return new StatBlock
+            {
+                MaxHp = Math.Max(1, RoundI(stats.MaxHp * D(job.HpMult))),
+                MaxMp = Math.Max(0, RoundI(stats.MaxMp * D(job.MpMult))),
+                Attack = Math.Max(1, RoundI(stats.Attack * D(job.AtkMult))),
+                Magic = Math.Max(0, RoundI(stats.Magic * D(job.MagMult))),
+                Defense = Math.Max(0, RoundI(stats.Defense * D(job.DefMult))),
+                Resistance = Math.Max(0, RoundI(stats.Resistance * D(job.ResMult))),
+                Speed = Math.Max(1, RoundI(stats.Speed * D(job.SpdMult))),
+            };
+        }
+
+        /// <summary>Level stats of the hero in its current job (no equipment); the party menu's "기본" column.</summary>
+        public static StatBlock BaseStats(GameDB db, HeroState hero) => JobLevelStats(db.Heroes[hero.Id], JobOf(db, hero), hero.Level);
+
         /// <summary>Level stats without equipment: round(base + growth × (L − 1)) (§1.1).</summary>
         public static StatBlock LevelStats(HeroDef hero, int level)
         {
@@ -113,8 +177,10 @@ namespace Abyss.Logic.Game
         public static HeroStats EffectiveStats(GameDB db, HeroState hero)
         {
             var def = db.Heroes[hero.Id];
-            var stats = LevelStats(def, hero.Level);
+            var job = JobOf(db, hero);
+            var stats = JobLevelStats(def, job, hero.Level);
             double hit = D(def.Hit), evade = D(def.Evade), crit = D(def.Crit);
+            if (job != null) { hit += D(job.Hit); evade += D(job.Evade); crit += D(job.Crit); }
             var output = new HeroStats();
             foreach (string slot in GameState.EquipSlots)
             {
@@ -145,8 +211,8 @@ namespace Abyss.Logic.Game
         {
             if (Array.IndexOf(GameState.EquipSlots, slot) < 0) throw new ArgumentException("Unknown equipment slot", nameof(slot));
             if (!string.IsNullOrEmpty(equipmentId) && (!db.Equipment.TryGetValue(equipmentId, out var piece)
-                || piece.Slot != slot || !AllowsClass(piece, hero.Id))) throw new ArgumentException("Incompatible equipment", nameof(equipmentId));
-            var preview = new HeroState { Id = hero.Id, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment) };
+                || piece.Slot != slot || !AllowsHero(db, piece, hero))) throw new ArgumentException("Incompatible equipment", nameof(equipmentId));
+            var preview = new HeroState { Id = hero.Id, Job = hero.Job, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment) };
             preview.Equipment[slot] = equipmentId ?? "";
             return EffectiveStats(db, preview);
         }
@@ -165,19 +231,45 @@ namespace Abyss.Logic.Game
             return output;
         }
 
-        /// <summary>Learnset entries with a level above the hero's current level (party menu "upcoming skills").</summary>
+        /// <summary>
+        /// Usable skills of a hero in a job: the hero's own skills by level (<see cref="SkillsForLevel"/>), then the
+        /// learnset of every job on the path base -> <paramref name="jobId"/> with level ≤ <paramref name="level"/>.
+        /// Learn rule: job learnsets use hero levels and are learned while the hero is that job or any job promoted
+        /// from it. Promotion only moves down the tree, so a class change never removes a skill; promoting late
+        /// grants every job skill up to the current level at once.
+        /// </summary>
+        public static List<string> SkillsFor(GameDB db, string heroId, string jobId, int level)
+        {
+            var output = SkillsForLevel(db.Heroes[heroId], level);
+            foreach (string id in JobPath(db, heroId, jobId))
+            {
+                if (id == heroId || !db.Jobs.TryGetValue(id, out var job)) continue;
+                var rows = new List<LearnEntry>(job.Learnset);
+                rows.Sort((a, b) => a.Level.CompareTo(b.Level));
+                foreach (var row in rows) if (row.Level <= level && !string.IsNullOrEmpty(row.Skill) && !output.Contains(row.Skill)) output.Add(row.Skill);
+            }
+            return output;
+        }
+
+        /// <summary>Usable skills of a hero state (current job and level).</summary>
+        public static List<string> SkillsFor(GameDB db, HeroState hero) => SkillsFor(db, hero.Id, hero.Job, hero.Level);
+
+        /// <summary>Learnset entries (hero and current job path) with a level above the hero's current level (party menu "upcoming skills").</summary>
         public static List<LearnEntry> UpcomingSkills(GameDB db, HeroState hero)
         {
             var output = new List<LearnEntry>();
             foreach (var row in db.Heroes[hero.Id].Learnset) if (row.Level > hero.Level) output.Add(row);
+            foreach (string id in JobPath(db, hero))
+                if (id != hero.Id && db.Jobs.TryGetValue(id, out var job))
+                    foreach (var row in job.Learnset) if (row.Level > hero.Level) output.Add(row);
             output.Sort((a, b) => a.Level.CompareTo(b.Level));
             return output;
         }
 
-        /// <summary>Makes <see cref="HeroState.LearnedSkills"/> exactly the skills of the hero's level. Returns ids newly added.</summary>
+        /// <summary>Makes <see cref="HeroState.LearnedSkills"/> exactly the skills of the hero's job path and level. Returns ids newly added.</summary>
         public static List<string> SyncLearnedSkills(GameDB db, HeroState hero)
         {
-            var target = SkillsForLevel(db.Heroes[hero.Id], hero.Level);
+            var target = SkillsFor(db, hero);
             var added = new List<string>();
             foreach (string s in target) if (!hero.LearnedSkills.Contains(s)) added.Add(s);
             hero.LearnedSkills = target;
@@ -193,7 +285,7 @@ namespace Abyss.Logic.Game
             var spec = new HeroCombatSpec
             {
                 HeroId = heroId,
-                DisplayName = def.DisplayName,
+                DisplayName = IsPromoted(hero) ? JobName(db, hero) : def.DisplayName,
                 Level = hero.Level,
                 MaxHp = stats.MaxHp,
                 MaxMp = stats.MaxMp,
@@ -207,7 +299,7 @@ namespace Abyss.Logic.Game
                 Hit = stats.Hit,
                 Evade = stats.Evade,
                 Crit = stats.Crit,
-                Skills = SkillsForLevel(def, hero.Level),
+                Skills = SkillsFor(db, hero),
                 ElementResists = new List<int>(stats.ElementResists),
                 StatusImmunities = new List<string>(stats.StatusImmunities),
                 WeaponId = hero.Equipped("weapon"),
@@ -394,6 +486,10 @@ namespace Abyss.Logic.Game
             db.Equipment.TryGetValue(equipmentId, out var piece) && db.Heroes.ContainsKey(heroId)
             && Array.IndexOf(GameState.EquipSlots, piece.Slot) >= 0 && AllowsClass(piece, heroId);
 
+        /// <summary>Whether this hero, in its current job, may wear <paramref name="equipmentId"/> (class and job restriction).</summary>
+        public static bool CanEquip(GameDB db, HeroState hero, string equipmentId) =>
+            CanEquip(db, hero.Id, equipmentId) && AllowsJob(db, db.Equipment[equipmentId], hero);
+
         /// <summary>Equips one piece from the bag; the previous piece in that slot returns to the bag. Vitals are clamped.</summary>
         public static ServiceResult Equip(GameDB db, GameState state, string heroId, string equipmentId)
         {
@@ -402,6 +498,7 @@ namespace Abyss.Logic.Game
             if (!db.Equipment.TryGetValue(equipmentId, out var piece)) return ServiceResult.Fail("unknown_equipment");
             if (Array.IndexOf(GameState.EquipSlots, piece.Slot) < 0) return ServiceResult.Fail("invalid_slot");
             if (!AllowsClass(piece, heroId)) return ServiceResult.Fail("class_mismatch");
+            if (!AllowsJob(db, piece, hero)) return ServiceResult.Fail("job_mismatch");
             if (state.BagCount(equipmentId) < 1) return ServiceResult.Fail("not_owned");
             string previous = hero.Equipped(piece.Slot);
             state.RemoveEquipment(equipmentId, 1);

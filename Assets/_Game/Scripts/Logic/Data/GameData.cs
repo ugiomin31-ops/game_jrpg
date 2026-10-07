@@ -153,6 +153,8 @@ namespace Abyss.Logic
         public string Description = "";
         public string Slot;                      // weapon | armor | accessory
         public List<string> Classes = new List<string>();
+        /// <summary>Job ids allowed to equip (any job on the hero's path counts); empty = no job restriction.</summary>
+        public List<string> Jobs = new List<string>();
         public int Atk, Mag, Def, Res, Spd, Hp, Mp;
         public float Hit, Evade, Crit;
         public List<int> ElementResists = new List<int>();
@@ -162,6 +164,32 @@ namespace Abyss.Logic
         public int ShopTier;
         public Dictionary<string, int> CraftMaterials = new Dictionary<string, int>();
         public int CraftGold;
+    }
+
+    /// <summary>
+    /// Class (job) of jobs.json. Every hero starts as the base job with the hero's id (tier 1) and may move down the
+    /// tree: advanced (tier 2), then master (tier 3). Level stats are multiplied by the *Mult fields; Hit/Evade/Crit add.
+    /// </summary>
+    public sealed class JobDef
+    {
+        public string Id;
+        public string DisplayName;
+        public string Description = "";
+        /// <summary>Hero id this job belongs to.</summary>
+        public string Hero;
+        public int Tier = 1;
+        /// <summary>Job this one is promoted from; "" for base jobs.</summary>
+        public string Parent = "";
+        public int RequiredLevel = 1;
+        /// <summary>Item consumed by the class change ("" = none).</summary>
+        public string RequiredItem = "";
+        /// <summary>Enemy id that must have been defeated ("" = none).</summary>
+        public string RequiredBoss = "";
+        public float HpMult = 1f, MpMult = 1f, AtkMult = 1f, MagMult = 1f, DefMult = 1f, ResMult = 1f, SpdMult = 1f;
+        public float Hit, Evade, Crit;
+        public string SignatureWeapon = "";
+        /// <summary>Skills learned at hero level while the hero is this job or a job promoted from it.</summary>
+        public List<LearnEntry> Learnset = new List<LearnEntry>();
     }
 
     public sealed class TreasureContents
@@ -272,6 +300,8 @@ namespace Abyss.Logic
         public static GameDB Instance { get; private set; }
 
         public readonly Dictionary<string, HeroDef> Heroes = new Dictionary<string, HeroDef>();
+        /// <summary>jobs.json rows by id, base jobs (id = hero id) included.</summary>
+        public readonly Dictionary<string, JobDef> Jobs = new Dictionary<string, JobDef>();
         public readonly List<string> HeroOrder = new List<string> { "warrior", "mage", "archer", "cleric" };
         public readonly Dictionary<string, EnemyDef> Enemies = new Dictionary<string, EnemyDef>();
         public readonly Dictionary<string, SkillDef> Skills = new Dictionary<string, SkillDef>();
@@ -296,6 +326,7 @@ namespace Abyss.Logic
         {
             var db = new GameDB();
             foreach (var h in Parse<HeroDef>(readTable("heroes"))) db.Heroes[h.Id] = h;
+            foreach (var j in Parse<JobDef>(readTable("jobs"))) db.Jobs[j.Id] = j;
             foreach (var e in Parse<EnemyDef>(readTable("enemies"))) db.Enemies[e.Id] = e;
             foreach (var s in Parse<SkillDef>(readTable("skills"))) db.Skills[s.Id] = s;
             foreach (var s in Parse<StatusDef>(readTable("statuses"))) db.Statuses[s.Id] = s;

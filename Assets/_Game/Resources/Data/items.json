@@ -360,6 +360,24 @@
   "rarity": 0
  },
  {
+  "id": "job_medal",
+  "display_name": "전직의 증표",
+  "description": "전직의 자격을 증명하는 은빛 증표. 길드에서 1차 전직을 할 때 하나 사용합니다.",
+  "item_type": 7,
+  "heal_amount": 0,
+  "max_stack": 99,
+  "power": 0.0,
+  "value": 0,
+  "target": "none",
+  "price": 0,
+  "sell_price": 0,
+  "shop_tier": 0,
+  "status_id": "",
+  "element": 0,
+  "_file": "job_medal",
+  "rarity": 2
+ },
+ {
   "id": "magma_core",
   "display_name": "용암 핵",
   "description": "식지 않는 용암 덩어리.",
@@ -376,6 +394,24 @@
   "element": 0,
   "_file": "magma_core",
   "rarity": 0
+ },
+ {
+  "id": "master_seal",
+  "display_name": "마스터의 인장",
+  "description": "한 길을 끝까지 걸은 자에게 주어지는 금빛 인장. 길드에서 2차 전직을 할 때 하나 사용합니다.",
+  "item_type": 7,
+  "heal_amount": 0,
+  "max_stack": 99,
+  "power": 0.0,
+  "value": 0,
+  "target": "none",
+  "price": 0,
+  "sell_price": 0,
+  "shop_tier": 0,
+  "status_id": "",
+  "element": 0,
+  "_file": "master_seal",
+  "rarity": 3
  },
  {
   "id": "mega_potion",
