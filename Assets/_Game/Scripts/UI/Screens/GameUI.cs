@@ -35,6 +35,7 @@ namespace Abyss.UI
         public void Initialize(GameApp owner)
         {
             app = owner;
+            UIArtwork.HeroJob = id => app.State?.Hero(id)?.Job;
             root = UIRoot.Create();
             root.ReducedMotion = app.Preferences.ReducedMotion;
             Content = UIFactory.Rect(root.Hud, "Game Content").Stretch();
@@ -350,7 +351,8 @@ namespace Abyss.UI
             foreach (var h in heroHud)
             {
                 var stats = PartyStats.EffectiveStats(app.DB, h.Hero);
-                h.Name.text = $"{HeroName(h.Hero.Id)}  Lv.{h.Hero.Level}";
+                h.Name.text = $"{HeroLabel(h.Hero)}  Lv.{h.Hero.Level}";
+                if (h.Portrait != null) h.Portrait.SetSprite(UIArtwork.Hero(h.Hero.Id));
                 h.Hp.SetValue(h.Hero.Hp, stats.MaxHp); h.Mp.SetValue(h.Hero.Mp, stats.MaxMp);
                 var status = new List<string>();
                 if (h.Hero.Hp <= 0) status.Add(T("knocked_out"));

@@ -349,7 +349,7 @@ namespace Abyss.Runtime.Battle
         BattleDisplayUnit Spawn(UnitSnapshot snapshot)
         {
             var unit = new BattleDisplayUnit(); unit.Apply(snapshot);
-            unit.Model = snapshot.Side == BattleSide.Party ? ArtLibrary.SpawnHero(snapshot.DefId, transform) : ArtLibrary.SpawnEnemy(snapshot.DefId, transform);
+            unit.Model = snapshot.Side == BattleSide.Party ? ArtLibrary.SpawnHero(snapshot.DefId, transform, _app.State?.Hero(snapshot.DefId)?.Job) : ArtLibrary.SpawnEnemy(snapshot.DefId, transform);
             if (snapshot.Side == BattleSide.Enemy)
             {
                 var def = _app.DB.Enemies[snapshot.DefId];

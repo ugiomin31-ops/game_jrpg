@@ -14,13 +14,13 @@ namespace Abyss.UI
             foreach (var member in app.State.Party)
             {
                 var hero = member;
-                m.Add(HeroName(hero.Id), () => ShowHero(hero), HeroSummary(hero), $"Lv.{hero.Level}", icon: UIArtwork.Hero(hero.Id));
+                m.Add(HeroLabel(hero), () => ShowHero(hero), HeroSummary(hero), $"{JobName(hero)} · Lv.{hero.Level}", icon: UIArtwork.Hero(hero.Id));
             }
         });
-        void ShowHero(HeroState hero) => Menu(HeroName(hero.Id), HeroSummary(hero), m =>
+        void ShowHero(HeroState hero) => Menu(HeroLabel(hero), HeroSummary(hero), m =>
         {
             var stats = PartyStats.EffectiveStats(app.DB, hero);
-            m.Subtitle = $"Lv.{hero.Level} · {HeroVitals(hero)}";
+            m.Subtitle = $"{JobName(hero)} · Lv.{hero.Level} · {HeroVitals(hero)}";
             if (m.TabIndex == 0)
             {
                 foreach (string value in GameState.EquipSlots)
@@ -33,14 +33,14 @@ namespace Abyss.UI
             }
             else if (m.TabIndex == 1)
             {
-                foreach (string id in PartyStats.SkillsForLevel(app.DB.Heroes[hero.Id], hero.Level))
+                foreach (string id in PartyStats.SkillsFor(app.DB, hero))
                     if (app.DB.Skills.TryGetValue(id, out var skill)) AddSkill(m, skill, 0);
                 foreach (var learn in PartyStats.UpcomingSkills(app.DB, hero))
                     if (app.DB.Skills.TryGetValue(learn.Skill, out var skill)) AddSkill(m, skill, learn.Level);
             }
             else
             {
-                var baseline = PartyStats.LevelStats(app.DB.Heroes[hero.Id], hero.Level);
+                var baseline = PartyStats.BaseStats(app.DB, hero);
                 AddStat(m, T("stat_hp"), stats.MaxHp, baseline.MaxHp);
                 AddStat(m, T("stat_mp"), stats.MaxMp, baseline.MaxMp);
                 AddStat(m, T("stat_atk"), stats.Stats.Attack, baseline.Attack);
@@ -84,9 +84,10 @@ namespace Abyss.UI
                 if (app.State.BagCount(id) <= 0 || !app.DB.Equipment.TryGetValue(id, out var piece) || piece.Slot != slot) continue;
                 candidates++;
                 var equipment = piece;
-                bool allowed = PartyStats.CanEquip(app.DB, hero.Id, id);
+                bool allowed = PartyStats.CanEquip(app.DB, hero, id);
+                string refusal = PartyStats.CanEquip(app.DB, hero.Id, id) ? T("cannot_equip_job", "다른 직업 전용 장비") : T("cannot_equip_class");
                 string details = (allowed ? GearComparison(hero, slot, piece) + "\n\n" : "") + EquipmentDescription(piece);
-                m.Add(piece.DisplayName, () => Confirm("장비 변경", details + "\n\n이 장비를 장착할까요?", () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m)), details, allowed ? GearVerdict(hero, slot, piece) : "직업 제한", mutable && allowed, !mutable ? T("battle_unavailable") : T("cannot_equip_class"), UIArtwork.Gear(id));
+                m.Add(piece.DisplayName, () => Confirm("장비 변경", details + "\n\n이 장비를 장착할까요?", () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m)), details, allowed ? GearVerdict(hero, slot, piece) : "직업 제한", mutable && allowed, !mutable ? T("battle_unavailable") : refusal, UIArtwork.Gear(id));
             }
             if (candidates == 0) AddInformation(m, T("no_candidates"), T("no_candidates"));
         });
@@ -110,7 +111,7 @@ namespace Abyss.UI
         }
         string HeroSummary(HeroState hero)
         {
-            var lines = new List<string> { $"{HeroName(hero.Id)} · Lv.{hero.Level}", T("role_" + hero.Id, "모험가"), HeroVitals(hero), "상태 · " + HeroStatuses(hero) };
+            var lines = new List<string> { $"{HeroName(hero.Id)} · Lv.{hero.Level}", $"{T("job_label", "직업")} · {JobName(hero)}", T("role_" + hero.Id, "모험가"), HeroVitals(hero), "상태 · " + HeroStatuses(hero) };
             foreach (string slot in GameState.EquipSlots) lines.Add(T("slot_" + slot) + " · " + EquipmentName(hero.Equipped(slot)));
             lines.Add(hero.Level >= GameState.LevelCap ? "최대 레벨" : $"다음 레벨까지 EXP {Math.Max(0, PartyStats.XpToNext(hero.Level) - hero.Xp)}");
             return string.Join("\n", lines);
@@ -143,7 +144,10 @@ namespace Abyss.UI
         string EquipmentDescription(EquipmentDef piece)
         {
             var names = new List<string>(); foreach (string id in piece.Classes) names.Add(HeroName(id));
-            return $"{UITheme.Tag(UITheme.RarityColor(piece.Rarity))}{UITheme.RarityName(piece.Rarity)}</color> · {piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}\n" + EquipmentDelta(piece, null)
+            var jobs = new List<string>();
+            if (piece.Jobs != null) foreach (string id in piece.Jobs) jobs.Add(app.DB.Jobs.TryGetValue(id, out var job) ? job.DisplayName : id);
+            string jobLine = jobs.Count == 0 ? "" : $"\n전용 직업 · {string.Join(" · ", jobs)}";
+            return $"{UITheme.Tag(UITheme.RarityColor(piece.Rarity))}{UITheme.RarityName(piece.Rarity)}</color> · {piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}{jobLine}\n" + EquipmentDelta(piece, null)
                 + $"\n\n{T("resist_label")} · {Elements(piece.ElementResists)}\n{T("immune_label")} · {StatusNames(piece.StatusImmunities)}";
         }
         string GearVerdict(HeroState hero, string slot, EquipmentDef piece)
@@ -194,7 +198,7 @@ namespace Abyss.UI
         {
             var lines = new List<string>();
             foreach (var hero in app.State.Party)
-                if (PartyStats.AllowsClass(piece, hero.Id)) lines.Add(GearComparison(hero, piece.Slot, piece));
+                if (PartyStats.AllowsHero(app.DB, piece, hero)) lines.Add(GearComparison(hero, piece.Slot, piece));
             return string.Join("\n\n", lines);
         }
 

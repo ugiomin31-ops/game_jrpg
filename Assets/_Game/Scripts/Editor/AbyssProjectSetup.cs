@@ -104,6 +104,7 @@ namespace Abyss.EditorTools
                 if (Resources.Load<GameObject>(resource) == null) missing.Add(resource);
             };
             foreach (var id in db.HeroOrder) require(ArtLibrary.HeroPath(id));
+            foreach (var job in db.Jobs.Values) if (job.Id != job.Hero) require(ArtLibrary.HeroPath(job.Id)); // job outfits (Blender/heroes/generate_anime.py)
             foreach (string id in new[] { "innkeeper", "shopkeeper", "smith", "guild_clerk", "elder", "villager_a", "villager_b", "villager_c" }) require(ArtLibrary.NpcPath(id));
             foreach (var id in db.Enemies.Keys) require(ArtLibrary.EnemyPath(id));
             foreach (var gear in db.Equipment.Values) require(gear.Slot == "weapon" ? ArtLibrary.WeaponPath(gear.Id) : ArtLibrary.PropPath("Equipment", gear.Id));

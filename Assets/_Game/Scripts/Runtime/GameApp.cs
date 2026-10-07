@@ -175,6 +175,8 @@ namespace Abyss.Runtime
         }
 
         public void RefreshEquipmentVisuals() => townWorld?.RefreshEquipment();
+        /// <summary>Swaps town party models to their current job outfits (after a class change).</summary>
+        public void RefreshJobVisuals() => townWorld?.RefreshJobModels();
 
         public void OpenTownService(string id)
         {

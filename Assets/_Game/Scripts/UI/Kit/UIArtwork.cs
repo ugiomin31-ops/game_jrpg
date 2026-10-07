@@ -22,7 +22,39 @@ namespace Abyss.UI
             return sprite;
         }
 
-        public static Sprite Hero(string id) => Load("Heroes", id);
+        static readonly HashSet<string> missing = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>Returns the sprite or null when it does not exist (job portraits only; everything else must exist).</summary>
+        static Sprite TryLoad(string family, string id)
+        {
+            string key = family + "/" + id;
+            if (cache.TryGetValue(key, out var sprite)) return sprite;
+            if (missing.Contains(key)) return null;
+            sprite = Resources.Load<Sprite>("Icons/" + key);
+            if (sprite == null) { missing.Add(key); return null; }
+            cache.Add(key, sprite);
+            return sprite;
+        }
+
+        /// <summary>
+        /// Hero id -> current job id, set by the game UI. <see cref="Hero"/> shows the job portrait
+        /// (Icons/Heroes/&lt;job&gt;) when one exists and falls back to the hero's own portrait.
+        /// </summary>
+        public static Func<string, string> HeroJob;
+
+        public static Sprite Hero(string id)
+        {
+            string job = string.IsNullOrEmpty(id) ? null : HeroJob?.Invoke(id);
+            if (!string.IsNullOrEmpty(job) && job != id && job.IndexOf('/') < 0 && job.IndexOf('\\') < 0)
+            {
+                var sprite = TryLoad("Heroes", job);
+                if (sprite != null) return sprite;
+            }
+            return Load("Heroes", id);
+        }
+
+        /// <summary>Portrait of a job (falls back to the hero's portrait when the job has none).</summary>
+        public static Sprite Job(string jobId, string heroId) => (string.IsNullOrEmpty(jobId) ? null : TryLoad("Heroes", jobId)) ?? Load("Heroes", heroId);
         public static Sprite NPC(string id) => Load("NPCs", id);
         public static Sprite Enemy(string id) => Load("Enemies", id);
         public static Sprite Gear(string id) => Load("Gear", id);

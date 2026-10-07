@@ -32,7 +32,7 @@ namespace Abyss.UI
             UIFactory.Label(services.Rect, "마을에서 준비하기", 32, UIFont.Title, UITheme.GoldBright, TMPro.TextAlignmentOptions.Center, UITextFx.Outline).Rt().TopStrip(44, 18, 24, 24);
             UIFactory.Separator(services.Rect, width - 80f).rectTransform.Place(UIAnchor.Top, new Vector2(0, -66), new Vector2(width - 80f, 18));
             UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 21, color: UITheme.TextDim, align: TMPro.TextAlignmentOptions.Center).Rt().TopStrip(28, 80, 24, 24);
-            var hints = new[] { "파티 회복", "소모품 · 장비", "장비 제작", "의뢰 · 보상", "약점 · 전리품", "장비 · 기술", "이야기", "미궁 탐험 시작" };
+            var hints = new[] { "파티 회복", "소모품 · 장비", "장비 제작", "의뢰 · 전직", "약점 · 전리품", "장비 · 기술", "이야기", "미궁 탐험 시작" };
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
@@ -162,6 +162,7 @@ namespace Abyss.UI
         public void ShowQuests(bool guild = false) => Menu(guild ? T("guild_title") : "의뢰 수첩", guild ? T("npc_guild_clerk_greeting") : "의뢰의 진행 상황을 확인합니다. 수락과 보상 수령은 마을 길드에서 할 수 있습니다.", m =>
         {
             QuestLog.Refresh(app.DB, app.State);
+            if (guild) m.Add(T("job_title", "전직"), ShowJobs, T("job_greeting", "전직"), JobBoardValue(), icon: UIArtwork.Command("party"));
             foreach (var row in TownServices.QuestBoard(app.DB, app.State))
             {
                 var entry = row; var quest = entry.Quest;

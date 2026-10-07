@@ -32,7 +32,9 @@ def catalog():
     def add(family, ids, source):
         for ident in ids:
             rows.append((family, ident, ART / source(ident)))
-    add('Heroes', data_ids('heroes'), lambda i: f'Characters/{i}/{i}.fbx')
+    heroes = data_ids('heroes')
+    # Promoted job outfits (jobs.json rows that are not a base hero) get portraits framed like the heroes.
+    add('Heroes', heroes + [j for j in data_ids('jobs') if j not in heroes], lambda i: f'Characters/{i}/{i}.fbx')
     add('NPCs', NPCS, lambda i: f'NPCs/{i}/{i}.fbx')
     add('Enemies', data_ids('enemies'), lambda i: f'Enemies/{i}/{i}.fbx')
     add('Gear', data_ids('equipment'), lambda i: f'Weapons/{i}.fbx' if i.startswith(('sword_', 'staff_', 'bow_', 'mace_')) else f'Props/Equipment/{i}.fbx')
@@ -220,9 +222,11 @@ def render(family, ident, source):
 def main():
     selection = set(sys.argv[sys.argv.index('--') + 1:]) if '--' in sys.argv else set()
     rows = catalog()
-    expected = {'Heroes': 4, 'NPCs': 8, 'Enemies': 51, 'Gear': 48, 'Items': 30, 'Status': 22, 'Elements': 8, 'UI': 12}
-    actual = {family: sum(row[0] == family for row in rows) for family in expected}
-    if actual != expected:
+    expected = {'Heroes': 20, 'NPCs': 8, 'Enemies': 51, 'Gear': 48, 'Items': 30, 'Status': 22, 'Elements': 8, 'UI': 12}
+    # A selective render (-- Heroes/knight ...) only requires the coverage of the families it touches.
+    families = [f for f in expected if not selection or any(item.startswith(f + '/') for item in selection)]
+    actual = {family: sum(row[0] == family for row in rows) for family in families}
+    if actual != {family: expected[family] for family in families}:
         raise ValueError(f'Production data coverage changed: {actual}')
     manifest_path = OUTPUT / 'manifest.json'
     prior = json.loads(manifest_path.read_text(encoding='utf-8'))['assets'] if selection and manifest_path.exists() else []
