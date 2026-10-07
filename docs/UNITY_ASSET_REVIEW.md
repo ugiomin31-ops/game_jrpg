@@ -35,7 +35,7 @@
 
 터치 검증은 실제 `Touchscreen` 이벤트를 Input System에 넣고 게임의 UI 입력 모듈로 전달했다. 마을 스틱 이동·손 떼기, 시설 열기, 회복 확인/취소, 중복 제출 차단, 미궁 회전·지도, 네 바이옴 로딩, AUTO 켜기·승리·보상 확인·다음 전투 유지가 포함된다. 중복 입력 차단 시점은 버튼 직접 제출도 별도로 확인했다. 전투와 층 이동에는 재현 가능한 초기 상태를 사용했으며 자연스러운 전체 캠페인 완주 검증은 아니다.
 
-초기 에디터 실행에는 오류가 없었지만 `Ran out of Graphics Ring Buffer space` 경고 1건이 있었다. [이전 콘솔 기록](verification/console-history.json)에 원문을 보관했다. 모든 효과를 생성할 수 있다는 결과가 모든 연출의 프레임별 품질·실기기 성능을 보장하지는 않는다.
+초기 에디터 실행에는 오류가 없었지만 `Ran out of Graphics Ring Buffer space` 같은 경고가 최종 입력 검증 스트림에 2회 기록되었다. [이전 콘솔 기록](verification/console-history.json)에 원문을 보관했다. 모든 효과를 생성할 수 있다는 결과가 모든 연출의 프레임별 품질·실기기 성능을 보장하지는 않는다.
 
 ## 실제 화면
 
@@ -64,11 +64,11 @@ unity command run_script --project-path <project> -- --file Tools/UnityReview.cs
 unity command run_script --project-path <project> -- --file Tools/UnityReview.cs --entry UnityReview.PhoneView --args '[915,412]'
 unity command run_script --project-path <project> -- --file Tools/MobileReview.cs --entry MobileReview.Begin
 # Play 모드를 끈 뒤 실제 Windows 빌드 요청·완료 보고서 확인
-unity command run_script --project-path <project> -- --file Tools/UnityReview.cs --entry UnityReview.BeginWindowsBuild
+unity command run_script --project-path <project> --timeout 600 -- --file Tools/UnityReview.cs --entry UnityReview.BuildWindows --timeout_ms 540000
 ```
 
 `MobileReview`는 검증용 새 게임과 설정을 기록한다. 별도 클론·저장 폴더에서만 실행하고 완료된 `Review/mobile-review-<width>x<height>.json`을 확인한다.
 
-`BeginWindowsBuild`는 긴 빌드가 명령 전송 제한으로 실패 판정되지 않도록 다음 에디터 틱에서 빌드한다. 최종 판정은 `Review/windows-build.json`의 실제 `BuildReport`로 확인한다. 플레이어에서 검증 도구 Pipeline이 비활성화된다는 경고는 게임 콘텐츠 누락을 뜻하지 않는다. Windows 출력물은 검증 PC의 `Build/Windows/`에 있으며 Git에 실행 파일을 추가하지 않았다.
+`BuildWindows`는 플레이 모드와 스크립트 리로드가 완전히 멈춘 상태에서 실행한다. 명령 제한 시간을 600초로 지정하고 실제 빌드 보고서를 보관한다. 최종 판정은 `Review/windows-build.json`의 실제 `BuildReport`로 확인한다. 초기 빌드는 210초 명령 제한을 넘어 응답이 중단되었지만 Unity에서는 계속 실행되어 성공했다. 플레이어에서 검증 도구 Pipeline이 비활성화된다는 경고는 게임 콘텐츠 누락을 뜻하지 않는다. Windows 출력물은 검증 PC의 `Build/Windows/`에 있으며 Git에 실행 파일을 추가하지 않았다.
 
 현재 PC에는 Windows 빌드 모듈만 설치되어 있으며 `adb devices -l`에 연결된 휴대폰이 없다. 이번 PR의 Android/iOS 실기 실행과 WebGL 재빌드·Pages 배포는 검증하지 않았다. 실제 단말의 안전 영역·OS 뒤로 버튼·성능, 키보드/게임패드 전체 동작, 전체 캠페인·보스·엔딩·경제 균형은 추가 관찰이 필요하다.

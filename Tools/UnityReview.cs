@@ -19,37 +19,34 @@ public static class UnityReview
     const string Output = "Review";
     static readonly string[] RequiredClips = { "Idle", "Run", "Attack", "Cast", "Hit", "Die", "Victory" };
 
-    public static object BeginWindowsBuild()
+    public static object BuildWindows()
     {
-        if (Application.isPlaying) throw new InvalidOperationException("Stop Play mode before building.");
+        if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling)
+            throw new InvalidOperationException("Wait until Play mode and script reloads have fully stopped before building.");
         Directory.CreateDirectory(Output);
         File.WriteAllText(Output + "/windows-build.json", "{\"status\":\"running\"}");
-        // A player build can exceed the command dispatcher's timeout. Run on the next
-        // Editor tick and retain the actual BuildReport instead of a transport verdict.
-        EditorApplication.delayCall += () =>
+        try
         {
-            try
+            Abyss.EditorTools.AbyssProjectSetup.BuildWindows();
+            var report = UnityEditor.Build.Reporting.BuildReport.GetLatestReport();
+            var summary = report.summary;
+            var messages = report.steps.SelectMany(step => step.messages)
+                .Where(message => message.type == LogType.Error || message.type == LogType.Warning || message.type == LogType.Exception)
+                .Select(message => new { type = message.type.ToString(), message.content }).ToArray();
+            var result = new
             {
-                Abyss.EditorTools.AbyssProjectSetup.BuildWindows();
-                var report = UnityEditor.Build.Reporting.BuildReport.GetLatestReport();
-                var summary = report.summary;
-                var messages = report.steps.SelectMany(step => step.messages)
-                    .Where(message => message.type == LogType.Error || message.type == LogType.Warning || message.type == LogType.Exception)
-                    .Select(message => new { type = message.type.ToString(), message.content }).ToArray();
-                File.WriteAllText(Output + "/windows-build.json", JsonConvert.SerializeObject(new
-                {
-                    status = "complete", unity = Application.unityVersion, result = summary.result.ToString(),
-                    summary.outputPath, summary.totalSize, seconds = summary.totalTime.TotalSeconds,
-                    summary.totalErrors, summary.totalWarnings, messages
-                }, Formatting.Indented));
-            }
-            catch (Exception error)
-            {
-                File.WriteAllText(Output + "/windows-build.json", JsonConvert.SerializeObject(new { status = "failed", error = error.ToString() }, Formatting.Indented));
-                Debug.LogException(error);
-            }
-        };
-        return new { status = "running", output = Output + "/windows-build.json" };
+                status = "complete", unity = Application.unityVersion, result = summary.result.ToString(),
+                summary.outputPath, summary.totalSize, seconds = summary.totalTime.TotalSeconds,
+                summary.totalErrors, summary.totalWarnings, messages
+            };
+            File.WriteAllText(Output + "/windows-build.json", JsonConvert.SerializeObject(result, Formatting.Indented));
+            return result;
+        }
+        catch (Exception error)
+        {
+            File.WriteAllText(Output + "/windows-build.json", JsonConvert.SerializeObject(new { status = "failed", error = error.ToString() }, Formatting.Indented));
+            throw;
+        }
     }
 
     public static object Audit()
