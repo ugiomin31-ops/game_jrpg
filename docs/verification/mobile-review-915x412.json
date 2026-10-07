@@ -3,7 +3,7 @@
   "unity": "6000.3.25f1",
   "width": 915,
   "height": 412,
-  "frame": 7590,
+  "frame": 4803,
   "checks": [
     {
       "name": "Player loop advances",

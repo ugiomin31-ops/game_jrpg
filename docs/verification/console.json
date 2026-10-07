@@ -1,8 +1,17 @@
 ﻿{
   "entries": [
     {
-      "seq": 50,
-      "timestampUtc": "2026-10-07T14:52:21.6662765Z",
+      "seq": 59,
+      "timestampUtc": "2026-10-07T15:05:35.7342701Z",
+      "level": "warn",
+      "logType": "Warning",
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "stackTrace": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "seeded": false
+    },
+    {
+      "seq": 60,
+      "timestampUtc": "2026-10-07T15:10:35.2670181Z",
       "level": "warn",
       "logType": "Warning",
       "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
@@ -10,19 +19,19 @@
       "seeded": false
     }
   ],
-  "cursor": 50,
+  "cursor": 60,
   "session": "ae03833763c448c08a2e6eb0771deab6",
-  "returned": 1,
+  "returned": 2,
   "dropped": false,
   "reset": false,
   "counts": {
     "error": 0,
-    "warn": 1,
+    "warn": 2,
     "log": 0
   },
   "groundTruth": {
-    "sampledUtc": "2026-10-07T14:59:01.7232079Z",
-    "ageMs": 160,
+    "sampledUtc": "2026-10-07T15:11:07.7572841Z",
+    "ageMs": 40,
     "compilationFailed": false,
     "compiling": false,
     "consoleErrors": 0,
