@@ -372,6 +372,7 @@ namespace Abyss.Runtime.Battle
             if (snapshot.Side == BattleSide.Party)
             {
                 var spec = _setup.Party[snapshot.Slot];
+                GearDisplay.DressBody(unit.Model, GearDisplay.Rank(_app.DB, spec.ArmorId), GearDisplay.Rank(_app.DB, spec.AccessoryId));
                 if (!string.IsNullOrEmpty(spec.WeaponId))
                 {
                     string path = ArtLibrary.WeaponPath(spec.WeaponId);
@@ -379,7 +380,7 @@ namespace Abyss.Runtime.Battle
                     if (weapon == null) throw new InvalidOperationException("Missing equipped weapon art: " + path);
                     string socket = snapshot.DefId == "archer" ? "weapon.L" : "weapon.R";
                     if (unit.Model.FindBone(socket) == null) throw new InvalidOperationException("Missing weapon socket: " + snapshot.DefId + "/" + socket);
-                    unit.Model.Attach(socket, weapon);
+                    GearDisplay.AttachWeapon(unit.Model, socket, weapon, GearDisplay.Rank(_app.DB, spec.WeaponId), spec.WeaponId);
                 }
             }
             if (!unit.Alive) unit.Model.Play("Die");

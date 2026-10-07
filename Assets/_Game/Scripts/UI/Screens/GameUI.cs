@@ -74,6 +74,36 @@ namespace Abyss.UI
         }
         string LocalResult(ServiceResult result) => app.DB.Text.ContainsKey(result.TextKey) ? result.Message(app.DB) : T("reason_generic");
         public void Notify(string text) => root.Toast.Show(text, UIToastKind.Info);
+
+        /// <summary>Chest reveal: every item, piece of gear and the gold it held, shown once as icon cards.</summary>
+        public void ShowLoot(TreasureContents contents, Action closed = null)
+        {
+            var entries = new List<UILootEntry>();
+            if (contents != null)
+            {
+                foreach (var kv in contents.Equipment)
+                {
+                    app.DB.Equipment.TryGetValue(kv.Key, out var piece);
+                    entries.Add(new UILootEntry
+                    {
+                        Icon = UIArtwork.Gear(kv.Key), Name = ItemName(kv.Key), Count = kv.Value,
+                        Tag = piece == null ? "장비" : T("slot_" + piece.Slot, "장비"),
+                        Accent = piece == null ? UITheme.Dawn : piece.Slot == "weapon" ? UITheme.Dawn : piece.Slot == "armor" ? UITheme.Mp : new Color(0.82f, 0.6f, 1f),
+                    });
+                }
+                foreach (var kv in contents.Items)
+                {
+                    app.DB.Items.TryGetValue(kv.Key, out var item);
+                    bool material = item != null && item.ItemType == ItemType.Material;
+                    entries.Add(new UILootEntry
+                    {
+                        Icon = UIArtwork.Item(kv.Key), Name = ItemName(kv.Key), Count = kv.Value,
+                        Tag = material ? "재료" : "소모품", Accent = material ? UITheme.TextDim : UITheme.Positive,
+                    });
+                }
+            }
+            UILootPopup.Show(root.Modals, T("treasure_opened", "보물 상자를 열었다!"), entries, contents?.Gold ?? 0, closed);
+        }
         public void ShowTitle()
         {
             Clear();

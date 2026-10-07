@@ -20,6 +20,7 @@ namespace Abyss.Logic
         public List<int> ElementResists = new List<int>();        // from equipment
         public List<string> StatusImmunities = new List<string>();// from equipment
         public string WeaponId;                                   // for presentation (model attach)
+        public string ArmorId, AccessoryId;                       // for presentation (gear aura)
         public int Row;                                           // 0 front, 1 back (if formation is used)
         public Dictionary<string, int> Statuses = new Dictionary<string, int>(); // statuses carried into battle (status id -> turns left), e.g. trap poison
     }

@@ -354,8 +354,33 @@ namespace Abyss.Runtime.World
             }
             foreach (var pair in foes) pair.Value.Play("Idle");
             camera.SetPositionAndRotation(destination, destinationRotation);
+            if (result.Effect == DungeonEffect.Treasure) yield return OpenChestLid();
             busy = false;
             app.HandleDungeonStep(result);
+        }
+
+        /// <summary>Swings open the lid of the chest that was just opened (closed lid, opened cell) with a gold burst.</summary>
+        IEnumerator OpenChestLid()
+        {
+            Transform lid = null;
+            foreach (var pair in chests)
+                if (pair.Value != null && run.Grid.Progress.OpenedChests.Contains(pair.Key) && Quaternion.Angle(pair.Value.localRotation, Quaternion.identity) < 1f)
+                    lid = pair.Value;
+            if (lid == null) yield break;
+            var vfx = VfxLibrary.Create();
+            vfx.Camera = app.MainCamera;
+            vfx.Play("buff", lid.position + Vector3.up * 0.2f, new Color(1f, 0.82f, 0.35f), 1.2f);
+            float duration = app.Preferences.ReducedMotion ? 0.05f : 0.42f;
+            for (float t = 0; t < duration; t += Time.deltaTime)
+            {
+                float k = Mathf.Clamp01(t / duration);
+                // Overshoot slightly past fully open, then settle.
+                float angle = -105f * (1f + 0.12f * Mathf.Sin(k * Mathf.PI)) * (1f - Mathf.Pow(1f - k, 3f));
+                lid.localRotation = Quaternion.Euler(angle, 0, 0);
+                yield return null;
+            }
+            lid.localRotation = Quaternion.Euler(-105, 0, 0);
+            yield return new WaitForSeconds(app.Preferences.ReducedMotion ? 0f : 0.15f);
         }
         void Update()
         {

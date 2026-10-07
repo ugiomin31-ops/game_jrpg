@@ -217,7 +217,8 @@ namespace Abyss.Runtime
             else { dungeonWorld.RefreshProgress(); UI.RefreshDungeon(); }
             if (result.Effect == DungeonEffect.Trap) NotifyTip("first_trap");
             NotifyVisibleFoe();
-            if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
+            if (result.Effect == DungeonEffect.Treasure && result.Treasure != null) UI.ShowLoot(result.Treasure);
+            else if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
             if (result.Battle != null)
             {
                 Save();

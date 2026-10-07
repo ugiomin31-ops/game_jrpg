@@ -200,6 +200,8 @@ namespace Abyss.Logic.Game
                 ElementResists = new List<int>(stats.ElementResists),
                 StatusImmunities = new List<string>(stats.StatusImmunities),
                 WeaponId = hero.Equipped("weapon"),
+                ArmorId = hero.Equipped("armor"),
+                AccessoryId = hero.Equipped("accessory"),
                 Row = db.HeroOrder.IndexOf(heroId) == 0 ? 0 : 1,
             };
             if (hero.Hp > 0)
