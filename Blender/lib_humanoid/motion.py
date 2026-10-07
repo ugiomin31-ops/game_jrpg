@@ -11,7 +11,8 @@ Heroes (create_actions(H)) get layered, eased motion:
   for overlapping action;
 - every frame is baked (LINEAR keys) and grounded: planted clips sit on the rest sole height, falling and
   locomotion clips on the evaluated skinned mesh.
-Timing contract: Attack contact frame 12 / 30 (40 %), Cast release frame 24 / 40 (60 %), Die holds the
+Timing contract: Attack contact frame 12 / 30 (40 %), Cast release frame 24 / 40 (60 %), Skill contact 18 / 36
+(50 %), Ultimate power-up 0-28 then finisher at 44 / 66 (resume_normalized 28 / 66), Die holds the
 pose of frame 30 lying on the floor, Revive starts at Die:30 and ends at Idle:0, Guard returns to Idle:0.
 NPCs (create_actions(H, npc=True)) keep their original clips (_legacy_actions).
 """
@@ -21,11 +22,15 @@ import numpy as np
 from mathutils import Euler, Vector, Quaternion, Matrix
 
 LENGTHS = dict(Idle=60, Walk=32, Run=20, Attack=30, Cast=40, Hit=12, Die=30, Victory=48, Talk=48,
-               Guard=36, Revive=60)
+               Guard=36, Revive=60, Skill=36, Ultimate=66)
 LEGACY_LENGTHS = dict(Idle=48, Walk=32, Run=20, Attack=25, Cast=35, Hit=12, Die=30, Victory=42, Talk=48,
                       Guard=36, Revive=60)
 LOOPS = ('Idle', 'Walk', 'Run', 'Talk')
 ATTACK_HIT, CAST_RELEASE = 12, 24
+# Signature moves: Skill contacts at 18 / 36 (50 %); Ultimate powers up (0-28, under the cut-in), then
+# crouches, leaps or levitates and lands its finisher at 44 / 66.
+SKILL_HIT, ULT_RESUME, ULT_HIT = 18, 28, 44
+CONTACT = dict(Attack=ATTACK_HIT / 30, Cast=CAST_RELEASE / 40, Skill=SKILL_HIT / 36, Ultimate=ULT_HIT / 66)
 # Promoted job outfits move like the hero they grew from.
 STYLE_OF = dict(knight='warrior', paladin='warrior', berserker='warrior', warlord='warrior',
                 elementalist='mage', archmage='mage', warlock='mage', abyssal='mage',
@@ -508,7 +513,7 @@ class HeroMotion:
             for k in curve.keyframe_points:
                 k.interpolation = 'LINEAR'
         act['root_height_keys'] = heights
-        act['contact_normalized'] = .4 if name == 'Attack' else .6 if name == 'Cast' else -1.0
+        act['contact_normalized'] = CONTACT.get(name, -1.0)
         act['loop'] = name in LOOPS
         act['authored_keyframes'] = list((extra or {}).get('keys', range(length + 1)))
         for k, v in (extra or {}).items():
@@ -531,6 +536,8 @@ class HeroMotion:
         self.locomotion(stance)
         self.attack(stance)
         self.cast(stance)
+        self.skill(stance)
+        self.ultimate(stance)
         self.hit(stance)
         collapse = self.die(stance)
         self.guard(stance)
@@ -846,6 +853,204 @@ class HeroMotion:
         ]
         lags = {'upper_arm.' + W: 0, 'forearm.' + W: 0, 'hand.' + W: 0}
         self.bake('Cast', self.keyed(keys, lags), dict(keys=[f for f, _ in keys]))
+
+    # ---- Skill: each hero's signature technique (contact at 50 %), bigger than the basic Attack
+    def skill(self, st):
+        k, sf, W, F = self.k, self.stance_feet, self.W, self.F
+        style = self.style
+        toes = lambda p: {S: sf(S, pitch=p) for S in 'LR'}  # noqa: E731
+        two = lambda h, a: {W: dict(hand=h, aim=a, elbow=(.7, -.1, -.3)), F: dict(along=(W, .26), elbow=(.6, -.2, -.6))}  # noqa: E731
+        H = SKILL_HIT
+        if style in ('warrior', 'cleric'):
+            # Leaping overhead smash: drop into a crouch, spring up with the weapon raised in both hands,
+            # arch back at the apex and drive it down as the feet land.
+            lift = .30 if style == 'warrior' else .22
+            keys = [
+                (0, st),
+                (5, k(add={'hips': (10, 0, -8), 'spine': (10, 0, -2), 'chest': (10, 0, -4), 'head': (-6, 0, 4)},
+                      loc=(0, .04, -.17),
+                      arms={W: dict(hand=(.12, -.12, -.26), aim=(.3, -.7, -.6), elbow=(.6, .2, -.4)),
+                            F: dict(hand=(-.04, .30, -.22), elbow=(.6, -.2, -.5))})),
+                (9, k(add={'hips': (-4, 0, 0), 'spine': (-6, 0, 0), 'chest': (-8, 0, 0), 'head': (-8, 0, 0)},
+                      loc=(0, -.04, 0), air=lift * .7, feet=toes(20),
+                      arms=two((.02, .08, .40), (0, -.25, .97)))),
+                (13, k(add={'hips': (-6, 0, 0), 'spine': (-8, 0, 0), 'chest': (-14, 0, 0), 'neck': (-4, 0, 0),
+                            'head': (-10, 0, 0)},
+                       loc=(0, -.10, 0), air=lift, feet={'L': sf('L', dfwd=.06, up=.08, pitch=14),
+                                                         'R': sf('R', up=.12, pitch=24)},
+                       arms=two((.02, -.04, .44), (0, -.85, .5)))),
+                (16, k(add={'hips': (4, 0, 0), 'spine': (6, 0, 0), 'chest': (6, 0, 0), 'head': (2, 0, 0)},
+                       loc=(0, -.16, -.04), air=lift * .45, feet={'L': sf('L', dfwd=.12, up=.04)},
+                       arms=two((.0, .30, .30), (0, .35, .94)))),
+                (H, k(add={'hips': (10, 0, 0), 'spine': (10, 0, 0), 'chest': (14, 0, 0), 'neck': (-2, 0, 0),
+                           'head': (-4, 0, 0)},
+                      loc=(0, -.20, -.19), feet={'L': sf('L', dfwd=.16)},
+                      arms=two((.0, .42, -.26), (0, .65, -.76)))),
+                (23, k(add={'hips': (12, 0, 0), 'spine': (12, 0, 0), 'chest': (16, 0, 0), 'head': (-2, 0, 0)},
+                       loc=(0, -.21, -.21), feet={'L': sf('L', dfwd=.16)},
+                       arms=two((.0, .44, -.30), (0, .6, -.8)))),
+                (29, k(add={'hips': (6, 0, 6), 'spine': (6, 0, 2), 'chest': (6, 0, 2), 'head': (2, 0, -2)},
+                       loc=(0, -.09, -.09), feet={'L': sf('L', dfwd=.07, up=.04)})),
+                (LENGTHS['Skill'], st),
+            ]
+        elif style == 'archer':
+            # Power shot: hop back into a wide low stance, heave the draw past the ear, hold, loose with a recoil.
+            bow = lambda h, a: dict(hand=h, aim=a, elbow=(.7, .1, -.5))  # noqa: E731
+            wide = {'L': sf('L', dfwd=.06, dout=.06), 'R': sf('R', dfwd=-.06, dout=.08, yaw=50)}
+            keys = [
+                (0, st),
+                (4, k(add={'hips': (6, 0, -18), 'spine': (4, 0, -8), 'chest': (2, 0, -10), 'head': (0, 0, 24)},
+                      loc=(0, .10, -.04), air=.10, feet=toes(16),
+                      arms={'L': bow((-.06, .36, -.06), (.15, .1, 1)), 'R': dict(hand=(-.14, .30, -.06), elbow=(.6, -.2, .2))})),
+                (8, k(add={'hips': (8, 0, -30), 'spine': (2, 0, -12), 'chest': (-2, 0, -16), 'neck': (0, 0, 12),
+                           'head': (0, 0, 38)},
+                      loc=(0, .14, -.17), feet=wide,
+                      arms={'L': bow((-.10, .48, .04), (.18, .05, 1)), 'R': dict(hand=(-.10, .14, .10), elbow=(.5, -.8, .3))})),
+                (13, k(add={'hips': (8, 0, -32), 'spine': (0, 0, -12), 'chest': (-6, 0, -18), 'neck': (0, 0, 12),
+                            'head': (-2, 0, 40)},
+                       loc=(0, .14, -.18), feet=wide,
+                       arms={'L': bow((-.10, .50, .05), (.15, .3, .94)), 'R': dict(hand=(.06, -.12, .14), elbow=(.5, -.85, .1))})),
+                (16, k(add={'hips': (8, 0, -32), 'spine': (0, 0, -12), 'chest': (-7, 0, -18), 'neck': (0, 0, 12),
+                            'head': (-2, 0, 40)},
+                       loc=(0, .145, -.185), feet=wide,
+                       arms={'L': bow((-.10, .50, .05), (.15, .3, .94)), 'R': dict(hand=(.07, -.14, .14), elbow=(.5, -.85, .1))})),
+                (H, k(add={'hips': (4, 0, -28), 'spine': (-6, 0, -12), 'chest': (-12, 0, -18), 'neck': (0, 0, 12),
+                           'head': (-4, 0, 38)},
+                      loc=(0, .20, -.15), feet=wide,
+                      arms={'L': bow((-.10, .50, .08), (.1, .45, .89)), 'R': dict(hand=(.16, -.26, .10), elbow=(.4, -.8, .2))})),
+                (24, k(add={'hips': (2, 0, -26), 'spine': (-4, 0, -10), 'chest': (-8, 0, -16), 'neck': (0, 0, 10),
+                            'head': (-2, 0, 34)},
+                       loc=(0, .19, -.14), feet=wide,
+                       arms={'L': bow((-.08, .46, .02), (.12, .3, .95)), 'R': dict(hand=(.18, -.24, -.06), elbow=(.5, -.8, -.2))})),
+                (30, k(add={'hips': (0, 0, -10), 'spine': (0, 0, -4), 'chest': (0, 0, -6), 'head': (0, 0, 12)},
+                       loc=(0, .06, -.07), feet={'R': sf('R', yaw=34)},
+                       arms={'L': bow((-.02, .32, -.18), (.1, .2, 1)), 'R': dict(hand=(0, .12, -.25), elbow=(.6, -.3, -.6))})),
+                (LENGTHS['Skill'], st),
+            ]
+        else:
+            # Mage: staff whirled overhead with a twist of the body, then slammed head-first into the floor (shockwave).
+            keys = [
+                (0, st),
+                (5, k(add={'hips': (4, 0, -10), 'spine': (4, 0, -4), 'chest': (2, 0, -6), 'head': (-4, 0, 8)},
+                      loc=(0, .02, -.08),
+                      arms=two((.10, .10, .30), (.3, .2, .93)))),
+                (9, k(add={'hips': (-2, 0, 0), 'chest': (-8, 0, 0), 'head': (-12, 0, 0)},
+                      loc=(0, 0, -.01), yaw=55, air=.06, feet=toes(16),
+                      arms=two((.04, .06, .44), (.9, .1, .4)))),
+                (13, k(add={'hips': (-2, 0, 0), 'chest': (-10, 0, 0), 'head': (-12, 0, 0)},
+                       loc=(0, 0, -.01), yaw=-45, air=.10, feet=toes(20),
+                       arms=two((.04, .02, .46), (-.9, -.2, .4)))),
+                (16, k(add={'hips': (2, 0, 0), 'spine': (2, 0, 0), 'chest': (-4, 0, 0), 'head': (-6, 0, 0)},
+                       loc=(0, -.04, -.04), yaw=0, air=.04,
+                       arms=two((.0, .16, .42), (0, -.4, .92)))),
+                (H, k(add={'hips': (16, 0, 0), 'spine': (14, 0, 0), 'chest': (16, 0, 0), 'head': (6, 0, 0)},
+                      loc=(0, -.14, -.20), feet={'L': sf('L', dfwd=.12)},
+                      arms=two((.0, .40, -.24), (0, .45, -.89)))),
+                (24, k(add={'hips': (18, 0, 0), 'spine': (16, 0, 0), 'chest': (18, 0, 0), 'head': (8, 0, 0)},
+                       loc=(0, -.15, -.22), feet={'L': sf('L', dfwd=.12)},
+                       arms=two((.0, .42, -.28), (0, .4, -.92)))),
+                (30, k(add={'hips': (6, 0, 4), 'spine': (5, 0, 2), 'chest': (5, 0, 2)},
+                       loc=(0, -.06, -.08), feet={'L': sf('L', dfwd=.06, up=.04)})),
+                (LENGTHS['Skill'], st),
+            ]
+        lags = {'upper_arm.' + W: 0, 'forearm.' + W: 0, 'hand.' + W: 0}
+        if style == 'archer':
+            lags.update({'upper_arm.L': 0, 'forearm.L': .3, 'hand.L': .5, 'upper_arm.R': 0, 'forearm.R': 0, 'hand.R': 0})
+        self.bake('Skill', self.keyed(keys, lags), dict(keys=[f for f, _ in keys]))
+
+    # ---- Ultimate: power up (0-28, plays under the cut-in), crouch, launch, finisher at 44, settle
+    def ultimate(self, st):
+        k, sf, W, F = self.k, self.stance_feet, self.W, self.F
+        style = self.style
+        toes = lambda p: {S: sf(S, pitch=p) for S in 'LR'}  # noqa: E731
+        two = lambda h, a: {W: dict(hand=h, aim=a, elbow=(.7, -.1, -.3)), F: dict(along=(W, .26), elbow=(.6, -.2, -.6))}  # noqa: E731
+        wide = {'L': sf('L', dout=.07, dfwd=.04), 'R': sf('R', dout=.07, dfwd=-.04)}
+        up_aim = (.1, .3, 1) if style == 'archer' else (0, .1, 1)
+        # 1) gather: fold inward, head down, weapon low
+        gather = k(add={'hips': (12, 0, 0), 'spine': (12, 0, 0), 'chest': (14, 0, 0), 'neck': (6, 0, 0), 'head': (16, 0, 0),
+                        'shoulder.L': (0, 0, -8), 'shoulder.R': (0, 0, 8)},
+                   loc=(0, .02, -.16), feet=wide,
+                   arms={W: dict(hand=(-.14, .18, -.30), aim=(0, .3, -.95) if style != 'archer' else (.1, .2, 1), elbow=(.6, -.2, -.6)),
+                         F: dict(hand=(-.14, .20, -.28), elbow=(.6, -.2, -.6))})
+        # 2) burst: chest thrown open, arms flung up and out in a V, chin up (the aura flare)
+        burst = k(add={'hips': (-6, 0, 0), 'spine': (-8, 0, 0), 'chest': (-16, 0, 0), 'neck': (-6, 0, 0), 'head': (-14, 0, 0),
+                       'shoulder.L': (0, -10, 6), 'shoulder.R': (0, 10, -6)},
+                  loc=(0, .03, -.08), feet=wide,
+                  arms={W: dict(hand=(.30, .08, .30), aim=up_aim if style != 'warrior' else (.5, .2, .84), elbow=(.7, -.2, -.5)),
+                        F: dict(hand=(.30, .08, .30), elbow=(.7, -.2, -.5))})
+        burst2 = k(base=burst, add={'chest': (-3, 0, 0), 'head': (-2, 0, 0)}, loc=(0, .03, -.075), feet=wide,
+                   arms={W: dict(hand=(.31, .10, .35), aim=up_aim if style != 'warrior' else (.5, .2, .84), elbow=(.7, -.2, -.5)),
+                         F: dict(hand=(.31, .10, .35), elbow=(.7, -.2, -.5))})
+        crouch = k(add={'hips': (14, 0, -6), 'spine': (12, 0, 0), 'chest': (12, 0, -4), 'head': (-8, 0, 4)},
+                   loc=(0, .05, -.20), feet=wide,
+                   arms={W: dict(hand=(.14, -.12, -.24), aim=(.3, -.7, -.6) if style in ('warrior', 'cleric') else up_aim, elbow=(.6, .2, -.4)),
+                         F: dict(hand=(-.02, .30, -.24), elbow=(.6, -.2, -.5))})
+        keys = [(0, st), (8, gather), (14, gather), (18, burst), (24, burst2), (ULT_RESUME, burst2), (32, crouch)]
+        if style in ('warrior', 'cleric'):
+            # Sky-splitting leap: launch, weapon high overhead, arch, plunge into a crater-making strike.
+            keys += [
+                (36, k(add={'hips': (-4, 0, 0), 'chest': (-10, 0, 0), 'head': (-10, 0, 0)}, loc=(0, -.06, 0), air=.42,
+                       feet=toes(24), arms=two((.02, .06, .44), (0, -.3, .95)))),
+                (40, k(add={'hips': (-8, 0, 0), 'spine': (-10, 0, 0), 'chest': (-18, 0, 0), 'neck': (-6, 0, 0), 'head': (-12, 0, 0)},
+                       loc=(0, -.12, 0), air=.55, feet={'L': sf('L', dfwd=.08, up=.10, pitch=16), 'R': sf('R', up=.16, pitch=28)},
+                       arms=two((.02, -.08, .46), (0, -.92, .38)))),
+                (42, k(add={'hips': (6, 0, 0), 'spine': (8, 0, 0), 'chest': (10, 0, 0)}, loc=(0, -.18, -.02), air=.25,
+                       feet={'L': sf('L', dfwd=.12, up=.06)}, arms=two((.0, .34, .34), (0, .4, .92)))),
+                (ULT_HIT, k(add={'hips': (13, 0, 0), 'spine': (12, 0, 0), 'chest': (16, 0, 0), 'neck': (-2, 0, 0), 'head': (-4, 0, 0)},
+                            loc=(0, -.22, -.24), feet={'L': sf('L', dfwd=.18), 'R': sf('R', dfwd=-.06)},
+                            arms=two((.0, .44, -.30), (0, .6, -.8)))),
+                (52, k(add={'hips': (14, 0, 0), 'spine': (13, 0, 0), 'chest': (17, 0, 0), 'head': (-2, 0, 0)},
+                       loc=(0, -.23, -.26), feet={'L': sf('L', dfwd=.18), 'R': sf('R', dfwd=-.06)},
+                       arms=two((.0, .46, -.32), (0, .58, -.81)))),
+            ]
+        elif style == 'archer':
+            # Heaven shot: spring high, turn side-on in the air, full draw aimed down-range, loose at the top.
+            bow = lambda h, a: dict(hand=h, aim=a, elbow=(.7, .1, -.5))  # noqa: E731
+            keys += [
+                (36, k(add={'hips': (0, 0, -20), 'chest': (-6, 0, -10), 'head': (0, 0, 24)}, loc=(0, .02, 0), air=.40,
+                       feet=toes(24), arms={'L': bow((-.08, .40, .10), (.15, .1, 1)), 'R': dict(hand=(-.12, .30, .06), elbow=(.6, -.2, .2))})),
+                (40, k(add={'hips': (0, 0, -28), 'spine': (-2, 0, -10), 'chest': (-6, 0, -16), 'neck': (0, 0, 12), 'head': (0, 0, 36)},
+                       loc=(0, .04, 0), air=.58, feet={'L': sf('L', up=.14, pitch=20), 'R': sf('R', up=.10, pitch=16, yaw=44)},
+                       arms={'L': bow((-.10, .48, .06), (.15, .3, .94)), 'R': dict(hand=(.06, -.12, .14), elbow=(.5, -.85, .1))})),
+                (ULT_HIT, k(add={'hips': (0, 0, -28), 'spine': (-6, 0, -10), 'chest': (-12, 0, -16), 'neck': (0, 0, 12), 'head': (-2, 0, 36)},
+                            loc=(0, .08, 0), air=.52, feet={'L': sf('L', up=.12, pitch=20), 'R': sf('R', up=.10, pitch=16, yaw=44)},
+                            arms={'L': bow((-.10, .50, .08), (.1, .5, .86)), 'R': dict(hand=(.18, -.28, .10), elbow=(.4, -.8, .2))})),
+                (50, k(add={'hips': (8, 0, -16), 'spine': (6, 0, -6), 'chest': (4, 0, -8), 'head': (0, 0, 18)},
+                       loc=(0, .10, -.18), feet=wide,
+                       arms={'L': bow((-.06, .40, -.04), (.1, .3, .95)), 'R': dict(hand=(.16, -.20, -.10), elbow=(.5, -.8, -.2))})),
+                (54, k(add={'hips': (6, 0, -14), 'spine': (4, 0, -6), 'chest': (2, 0, -8), 'head': (0, 0, 16)},
+                       loc=(0, .10, -.16), feet=wide,
+                       arms={'L': bow((-.06, .38, -.06), (.1, .3, .95)), 'R': dict(hand=(.10, -.10, -.18), elbow=(.5, -.8, -.2))})),
+            ]
+        else:
+            # Mage: rise off the floor, staff and free hand raised to the sky, then thrust forward to unleash.
+            keys += [
+                (36, k(add={'hips': (-4, 0, 0), 'chest': (-10, 0, 0), 'head': (-14, 0, 0)}, loc=(0, 0, -.02), air=.16,
+                       feet=toes(30), arms={W: dict(hand=(.06, .04, .46), aim=(0, .05, 1), elbow=(.8, -.1, -.2)),
+                                            F: dict(hand=(.10, .06, .44), elbow=(.8, -.1, -.2))})),
+                (40, k(add={'hips': (-6, 0, 0), 'spine': (-6, 0, 0), 'chest': (-14, 0, 0), 'head': (-18, 0, 0)}, loc=(0, .02, -.02),
+                       air=.30, feet=toes(36), arms={W: dict(hand=(.08, .0, .48), aim=(0, -.1, 1), elbow=(.8, -.1, -.2)),
+                                                    F: dict(hand=(.14, .02, .46), elbow=(.8, -.1, -.2))})),
+                (ULT_HIT, k(add={'hips': (4, 0, 0), 'spine': (8, 0, 0), 'chest': (10, 0, 0), 'head': (-6, 0, 0),
+                                 'shoulder.L': (0, 0, -8), 'shoulder.R': (0, 0, 8)},
+                            loc=(0, -.10, -.02), air=.26, feet=toes(30),
+                            arms={W: dict(hand=(.04, .48, .04), aim=(0, .8, .6), elbow=(.6, -.2, -.6)),
+                                  F: dict(hand=(-.02, .50, .02), elbow=(.6, -.2, -.6))})),
+                (52, k(add={'hips': (5, 0, 0), 'spine': (9, 0, 0), 'chest': (11, 0, 0), 'head': (-5, 0, 0)},
+                       loc=(0, -.11, -.03), air=.22, feet=toes(28),
+                       arms={W: dict(hand=(.04, .50, .02), aim=(0, .8, .6), elbow=(.6, -.2, -.6)),
+                             F: dict(hand=(-.02, .52, 0), elbow=(.6, -.2, -.6))})),
+            ]
+        keys += [
+            (58, k(add={'hips': (6, 0, 4), 'spine': (6, 0, 2), 'chest': (6, 0, 2), 'head': (2, 0, -2)},
+                   loc=(0, -.08, -.10), feet={'L': sf('L', dfwd=.06, up=.03)})),
+            (LENGTHS['Ultimate'], st),
+        ]
+        lags = {'upper_arm.' + W: 0, 'forearm.' + W: 0, 'hand.' + W: 0}
+        if style == 'archer':
+            lags.update({'upper_arm.L': 0, 'forearm.L': .3, 'hand.L': .5, 'upper_arm.R': 0, 'forearm.R': 0, 'hand.R': 0})
+        self.bake('Ultimate', self.keyed(keys, lags), dict(keys=[f for f, _ in keys],
+                                                           resume_normalized=ULT_RESUME / LENGTHS['Ultimate']))
 
     # ---- Hit: sharp recoil (head snaps back, arms fly), quick recovery with a small forward overshoot
     def hit(self, st):

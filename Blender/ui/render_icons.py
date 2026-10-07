@@ -8,6 +8,7 @@ from pathlib import Path
 import sys
 
 import bpy
+import numpy as np
 from mathutils import Quaternion, Vector
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,6 +18,7 @@ sys.path.insert(0, str(ROOT / 'Tools/ui'))
 from asset_import import texture_meta
 
 ELEMENTS = ('slash', 'blunt', 'pierce', 'fire', 'ice', 'thunder', 'dark', 'holy')
+PORTRAIT_EXPOSURE = .55
 COMMANDS = ('attack', 'skill', 'ultimate', 'item', 'guard', 'flee', 'auto', 'gold', 'key', 'map', 'party', 'camp')
 NPCS = ('innkeeper', 'shopkeeper', 'smith', 'guild_clerk', 'elder', 'villager_a', 'villager_b', 'villager_c')
 
@@ -66,6 +68,53 @@ def textured_shading(meshes):
     return True
 
 
+def _pixels(path):
+    image = bpy.data.images.load(str(path), check_existing=False)
+    data = np.empty(len(image.pixels), dtype=np.float32)
+    image.pixels.foreach_get(data)
+    bpy.data.images.remove(image)
+    return data.reshape(-1, 4)
+
+
+def cel_portrait(scene, output):
+    """Anime hero portraits: painted textures (face, hair, clothes) come from a flat-lit pass so skin keeps its
+    colour, while untextured armour and props keep the studio-lit pass so they still read as solid shapes.
+    A third pass masks which pixels are textured."""
+    shading = scene.display.shading
+    lit = _pixels(output)
+    shading.light = 'FLAT'
+    exposure = scene.view_settings.exposure
+    scene.view_settings.exposure = 0
+    bpy.ops.render.render(write_still=True)
+    flat = _pixels(output)
+    saved = {}
+    for mat in bpy.data.materials:
+        textured = mat.use_nodes and any(n.type == 'TEX_IMAGE' and n.image for n in mat.node_tree.nodes)
+        saved[mat.name] = tuple(mat.diffuse_color)
+        mat.diffuse_color = (1, 1, 1, 1) if textured else (0, 0, 0, 1)
+    shading.color_type = 'MATERIAL'
+    shading.show_object_outline = False
+    render_aa = scene.display.render_aa
+    bpy.ops.render.render(write_still=True)
+    mask = _pixels(output)[:, :1]
+    for mat in bpy.data.materials:
+        mat.diffuse_color = saved[mat.name]
+    shading.color_type = 'TEXTURE'
+    shading.show_object_outline = True
+    shading.light = 'STUDIO'
+    scene.view_settings.exposure = exposure
+    scene.display.render_aa = render_aa
+    out = lit.copy()
+    out[:, :3] = flat[:, :3] * mask + lit[:, :3] * (1 - mask)
+    out[:, 3] = np.maximum(lit[:, 3], flat[:, 3])
+    image = bpy.data.images.new('CelPortrait', scene.render.resolution_x, scene.render.resolution_y, alpha=True)
+    image.pixels.foreach_set(out.ravel())
+    image.filepath_raw = str(output)
+    image.file_format = 'PNG'
+    image.save()
+    bpy.data.images.remove(image)
+
+
 def render(family, ident, source):
     if not source.is_file():
         raise FileNotFoundError(source)
@@ -104,7 +153,7 @@ def render(family, ident, source):
         head_lo = Vector(tuple(min(p[a] for p in framed) for a in range(3)))
         head_hi = Vector(tuple(max(p[a] for p in framed) for a in range(3)))
         center = (head_lo + head_hi) / 2
-    direction = Vector((0, -1, 0)) if portrait or family in ('Status', 'Elements', 'UI') else Vector((.32, -1, .20)).normalized()
+    direction = Vector((.18, -1, .03)).normalized() if portrait and hi.z - lo.z > 1.45 else Vector((0, -1, 0)) if portrait or family in ('Status', 'Elements', 'UI') else Vector((.32, -1, .20)).normalized()
     flat_weapon = family == 'Gear' and ident.startswith(('sword_', 'bow_'))
     if flat_weapon:
         # Authored sword flats and bow curves lie in YZ: -Y is the edge, not the display face.
@@ -132,9 +181,13 @@ def render(family, ident, source):
     shading = scene.display.shading
     shading.light = 'STUDIO'
     shading.studiolight_rotate_z = math.radians(20)
-    shading.color_type = 'TEXTURE' if textured_shading(meshes) else 'VERTEX'
-    shading.show_shadows = True
-    shading.show_cavity = True
+    textured = textured_shading(meshes)
+    shading.color_type = 'TEXTURE' if textured else 'VERTEX'
+    # Anime heroes carry painted shading in their textures: studio light + cavity turned the skin grey,
+    # so their portraits render the texture colours flat with the ink outline, like a cel illustration.
+    cel = portrait and textured
+    shading.show_shadows = not cel
+    shading.show_cavity = not cel
     shading.cavity_type = 'BOTH'
     shading.curvature_ridge_factor = 1.3
     shading.curvature_valley_factor = 1.05
@@ -143,6 +196,8 @@ def render(family, ident, source):
     shading.show_specular_highlight = True
     scene.display.render_aa = '32'
     scene.view_settings.view_transform = 'Standard'
+    if cel:
+        scene.view_settings.exposure = PORTRAIT_EXPOSURE
     scene.view_settings.look = 'None'
     scene.render.film_transparent = True
     scene.render.resolution_x = scene.render.resolution_y = 512
@@ -154,6 +209,8 @@ def render(family, ident, source):
     output.parent.mkdir(parents=True, exist_ok=True)
     scene.render.filepath = str(output)
     bpy.ops.render.render(write_still=True)
+    if cel:
+        cel_portrait(scene, output)
     texture_meta(output, sprite=True)
     record = dict(id=ident, family=family, source=source.relative_to(ROOT).as_posix(), output=output.relative_to(ROOT).as_posix(), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
     print('ARTWORK_RENDERED ' + family + '/' + ident, flush=True)

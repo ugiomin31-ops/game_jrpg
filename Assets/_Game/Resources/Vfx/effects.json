@@ -13940,6 +13940,37 @@
           "radius": 0.12,
           "delay": 0.1,
           "gravity": -0.2
+        },
+        {
+          "kind": "orbit",
+          "texture": "petal",
+          "color": "F0FFF0",
+          "life": 1.2,
+          "size": 0.28,
+          "radius": 0.75,
+          "spin": 260,
+          "count": 7,
+          "y": -0.5
+        },
+        {
+          "kind": "quad",
+          "texture": "glow",
+          "color": "F0FFF4",
+          "life": 0.55,
+          "size": 1.0,
+          "delay": 0.12,
+          "y": 0.1,
+          "endSize": 2.6
+        },
+        {
+          "kind": "quad",
+          "texture": "star8",
+          "color": "FFFFFF",
+          "life": 0.3,
+          "size": 0.4,
+          "delay": 0.3,
+          "y": 0.6,
+          "endSize": 1.8
         }
       ]
     },

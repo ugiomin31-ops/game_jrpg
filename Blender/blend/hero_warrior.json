@@ -1,7 +1,7 @@
 {
   "id": "warrior",
   "category": "Characters",
-  "triangles": 35999,
+  "triangles": 36001,
   "bounds": {
     "min": [
       -0.27593,
@@ -154,6 +154,54 @@
         40
       ]
     },
+    "Skill": {
+      "frames": [
+        0.0,
+        36.0
+      ],
+      "fps": 30,
+      "take": "Rig|Skill",
+      "seconds": 1.2,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        5,
+        9,
+        13,
+        16,
+        18,
+        23,
+        29,
+        36
+      ]
+    },
+    "Ultimate": {
+      "frames": [
+        0.0,
+        66.0
+      ],
+      "fps": 30,
+      "take": "Rig|Ultimate",
+      "seconds": 2.2,
+      "loop": false,
+      "authored_keyframes": [
+        0,
+        8,
+        14,
+        18,
+        24,
+        28,
+        32,
+        36,
+        40,
+        42,
+        44,
+        52,
+        58,
+        66
+      ],
+      "resume_normalized": 0.42424242424242425
+    },
     "Hit": {
       "frames": [
         0.0,
@@ -265,7 +313,9 @@
   },
   "contact": {
     "Attack": 0.4,
-    "Cast": 0.6
+    "Cast": 0.6,
+    "Skill": 0.5,
+    "Ultimate": 0.6666666666666666
   },
   "sockets": {
     "weapon.R": {
@@ -295,14 +345,14 @@
       "parent": "hand.L"
     }
   },
-  "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
-  "texture_dir": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex",
+  "fbx": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
+  "texture_dir": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex",
   "textures": [
     {
       "material": "M00_000_00_FaceBrow_00_FACE",
       "source_material": "M00_000_00_FaceBrow_00_FACE",
       "image": "M00_000_00_FaceBrow_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceBrow_00_FACE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceBrow_00_FACE.png",
       "source_size": [
         1024,
         256
@@ -318,7 +368,7 @@
       "material": "M00_000_00_FaceMouth_00_FACE",
       "source_material": "M00_000_00_FaceMouth_00_FACE",
       "image": "M00_000_00_FaceMouth_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceMouth_00_FACE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceMouth_00_FACE.png",
       "source_size": [
         512,
         512
@@ -334,7 +384,7 @@
       "material": "M00_000_00_EyeIris_00_EYE",
       "source_material": "M00_000_00_EyeIris_00_EYE",
       "image": "M00_000_00_EyeIris_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_EyeIris_00_EYE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_EyeIris_00_EYE.png",
       "source_size": [
         1024,
         512
@@ -350,7 +400,7 @@
       "material": "M00_000_00_EyeHighlight_00_EYE",
       "source_material": "M00_000_00_EyeHighlight_00_EYE",
       "image": "M00_000_00_EyeHighlight_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_EyeHighlight_00_EYE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_EyeHighlight_00_EYE.png",
       "source_size": [
         1024,
         512
@@ -366,7 +416,7 @@
       "material": "M00_000_00_EyeWhite_00_EYE",
       "source_material": "M00_000_00_EyeWhite_00_EYE",
       "image": "M00_000_00_EyeWhite_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_EyeWhite_00_EYE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_EyeWhite_00_EYE.png",
       "source_size": [
         1024,
         512
@@ -382,7 +432,7 @@
       "material": "M00_000_00_Face_00_SKIN",
       "source_material": "M00_000_00_Face_00_SKIN",
       "image": "M00_000_00_Face_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_Face_00_SKIN.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_Face_00_SKIN.png",
       "source_size": [
         1024,
         1024
@@ -398,7 +448,7 @@
       "material": "M00_000_00_FaceEyelash_00_FACE",
       "source_material": "M00_000_00_FaceEyelash_00_FACE",
       "image": "M00_000_00_FaceEyelash_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceEyelash_00_FACE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceEyelash_00_FACE.png",
       "source_size": [
         1024,
         256
@@ -414,7 +464,7 @@
       "material": "M00_000_00_FaceEyeline_00_FACE",
       "source_material": "M00_000_00_FaceEyeline_00_FACE",
       "image": "M00_000_00_FaceEyeline_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceEyeline_00_FACE.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_000_00_FaceEyeline_00_FACE.png",
       "source_size": [
         1024,
         256
@@ -430,7 +480,7 @@
       "material": "M00_001_01_Body_00_SKIN",
       "source_material": "M00_001_01_Body_00_SKIN",
       "image": "M00_001_00_Body_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_001_01_Body_00_SKIN.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_001_01_Body_00_SKIN.png",
       "source_size": [
         2048,
         2048
@@ -446,7 +496,7 @@
       "material": "M00_006_01_Tops_01_CLOTH",
       "source_material": "M00_006_01_Tops_01_CLOTH",
       "image": "M00_006_01_Tops_01",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_006_01_Tops_01_CLOTH.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_006_01_Tops_01_CLOTH.png",
       "source_size": [
         2048,
         2048
@@ -462,7 +512,7 @@
       "material": "M00_001_01_Bottoms_01_CLOTH",
       "source_material": "M00_001_01_Bottoms_01_CLOTH",
       "image": "M00_001_01_Bottoms_01",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_001_01_Bottoms_01_CLOTH.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/M00_001_01_Bottoms_01_CLOTH.png",
       "source_size": [
         1024,
         1024
@@ -478,7 +528,7 @@
       "material": "F00_000_Hair_00_HAIR",
       "source_material": "F00_000_Hair_00_HAIR",
       "image": "F00_000_Hair_00",
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/F00_000_Hair_00_HAIR.png",
+      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Characters/warrior/warrior_tex/F00_000_Hair_00_HAIR.png",
       "source_size": [
         512,
         1024
@@ -507,12 +557,12 @@
     "F00_000_Hair_00_HAIR"
   ],
   "previews": [
-    "/home/user/game_jrpg/Blender/preview/hero_warrior.png",
-    "/home/user/game_jrpg/Blender/preview/hero_warrior_front.png",
-    "/home/user/game_jrpg/Blender/preview/hero_warrior_attack.png",
-    "/home/user/game_jrpg/Blender/preview/hero_warrior_cast.png",
-    "/home/user/game_jrpg/Blender/preview/hero_warrior_die.png",
-    "/home/user/game_jrpg/Blender/preview/hero_warrior_victory.png"
+    "/home/claude/game_jrpg/Blender/preview/hero_warrior.png",
+    "/home/claude/game_jrpg/Blender/preview/hero_warrior_front.png",
+    "/home/claude/game_jrpg/Blender/preview/hero_warrior_attack.png",
+    "/home/claude/game_jrpg/Blender/preview/hero_warrior_cast.png",
+    "/home/claude/game_jrpg/Blender/preview/hero_warrior_die.png",
+    "/home/claude/game_jrpg/Blender/preview/hero_warrior_victory.png"
   ],
   "pose_bounds": {
     "Idle": {
@@ -780,20 +830,20 @@
           32,
           36
         ],
-        "file": "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_sheet.png",
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_sheet.png",
         "renders": [
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f00.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f03.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f06.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f09.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f12.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f15.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f18.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f21.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f24.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f28.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f32.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f36.png"
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f03.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f06.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f09.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f12.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f15.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f18.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f21.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f24.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f28.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f32.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_threequarter_f36.png"
         ]
       },
       {
@@ -813,20 +863,20 @@
           32,
           36
         ],
-        "file": "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_sheet.png",
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_sheet.png",
         "renders": [
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f00.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f03.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f06.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f09.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f12.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f15.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f18.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f21.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f24.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f28.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f32.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_guard_side_f36.png"
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f03.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f06.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f09.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f12.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f15.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f18.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f21.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f24.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f28.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f32.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_guard_side_f36.png"
         ]
       },
       {
@@ -846,20 +896,20 @@
           55,
           60
         ],
-        "file": "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_sheet.png",
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_sheet.png",
         "renders": [
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f00.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f04.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f10.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f15.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f19.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f24.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f29.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f34.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f39.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f49.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f55.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f60.png"
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f04.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f10.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f15.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f19.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f24.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f29.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f34.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f39.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f49.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f55.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_threequarter_f60.png"
         ]
       },
       {
@@ -879,23 +929,155 @@
           55,
           60
         ],
-        "file": "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_sheet.png",
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_sheet.png",
         "renders": [
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f00.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f04.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f10.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f15.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f19.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f24.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f29.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f34.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f39.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f49.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f55.png",
-          "/home/user/game_jrpg/Blender/preview/hero_warrior_revive_side_f60.png"
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f04.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f10.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f15.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f19.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f24.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f29.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f34.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f39.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f49.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f55.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_revive_side_f60.png"
+        ]
+      },
+      {
+        "clip": "Skill",
+        "view": "threequarter",
+        "frames": [
+          0,
+          5,
+          9,
+          11,
+          13,
+          15,
+          16,
+          17,
+          18,
+          23,
+          29,
+          36
+        ],
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_sheet.png",
+        "renders": [
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f05.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f09.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f11.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f13.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f15.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f16.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f17.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f18.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f23.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f29.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_threequarter_f36.png"
+        ]
+      },
+      {
+        "clip": "Skill",
+        "view": "side",
+        "frames": [
+          0,
+          5,
+          9,
+          11,
+          13,
+          15,
+          16,
+          17,
+          18,
+          23,
+          29,
+          36
+        ],
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_sheet.png",
+        "renders": [
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f05.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f09.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f11.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f13.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f15.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f16.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f17.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f18.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f23.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f29.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_skill_side_f36.png"
+        ]
+      },
+      {
+        "clip": "Ultimate",
+        "view": "threequarter",
+        "frames": [
+          0,
+          8,
+          18,
+          28,
+          32,
+          36,
+          40,
+          42,
+          44,
+          52,
+          58,
+          66
+        ],
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_sheet.png",
+        "renders": [
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f08.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f18.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f28.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f32.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f36.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f40.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f42.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f44.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f52.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f58.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_threequarter_f66.png"
+        ]
+      },
+      {
+        "clip": "Ultimate",
+        "view": "side",
+        "frames": [
+          0,
+          8,
+          18,
+          28,
+          32,
+          36,
+          40,
+          42,
+          44,
+          52,
+          58,
+          66
+        ],
+        "file": "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_sheet.png",
+        "renders": [
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f00.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f08.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f18.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f28.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f32.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f36.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f40.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f42.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f44.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f52.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f58.png",
+          "/home/claude/game_jrpg/Blender/preview/hero_warrior_ultimate_side_f66.png"
         ]
       }
     ]
   },
-  "blend": "/home/user/game_jrpg/Blender/blend/hero_warrior.blend"
+  "blend": "/home/claude/game_jrpg/Blender/blend/hero_warrior.blend"
 }

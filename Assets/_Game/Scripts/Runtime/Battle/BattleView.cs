@@ -419,10 +419,16 @@ namespace Abyss.Runtime.Battle
                 _hud.SkillBanner(e.DisplayName, PresentationColor(e.Element));
             bool grand = e.IsUltimate || (_presentation != null && _presentation.Tier >= 3);
             if (grand && !Reduced) _dimTarget = e.IsUltimate ? .62f : .4f;
+            // Heroes power up with their own Ultimate take under the cut-in (frames 0-28), then leap / levitate into
+            // the finisher; models without it fall back to the Cast wind-up and their normal strike.
+            bool ultimateTake = e.IsUltimate && actor.Model.Anim.HasClip("Ultimate");
             if (e.IsUltimate)
             {
-                if (actor.Model.Anim.HasClip("Cast")) actor.Model.Anim.Play("Cast", .12f);
-                _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
+                if (ultimateTake) Swing(actor, "Ultimate", false);
+                else if (actor.Model.Anim.HasClip("Cast")) actor.Model.Anim.Play("Cast", .12f);
+                if (actor.Side == BattleSide.Party)
+                    _hud.UltimateCutIn(actor.DefId, actor.Name, e.DisplayName ?? "궁극기", PresentationColor(e.Element));
+                else _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
                 string hero = actor.DefId == "archer" ? "ranger" : actor.DefId;
                 PlaySound("sfx_ultimate_" + hero);
                 yield return Wait(Reduced ? .5f : .95f); _hud.HideCutIn();
@@ -442,7 +448,9 @@ namespace Abyss.Runtime.Battle
             if (e.Kind == ActionKind.Flee) { actor.Model.Play("Run"); yield return Wait(.2f); yield break; }
             bool cast = e.Kind == ActionKind.Item || e.Kind == ActionKind.Summon ||
                 (_presentation != null && _presentation.ActorAction == "cast");
-            string clip = cast ? "Cast" : "Attack";
+            // Physical skills use the hero's signature technique (leap smash, power shot, staff slam) instead of the basic swing.
+            string clip = ultimateTake ? "Ultimate" : cast ? "Cast"
+                : e.Kind == ActionKind.Skill && actor.Model.Anim.HasClip("Skill") ? "Skill" : "Attack";
             bool rangedBasic = e.Kind == ActionKind.Attack &&
                 (actor.DefId == "archer" || actor.DefId == "mage" || actor.DefId == "cleric");
             bool approach = !Reduced && !cast && !rangedBasic && target != null && actor.Id != target.Id &&
@@ -468,7 +476,8 @@ namespace Abyss.Runtime.Battle
                     StartCoroutine(Move(actor, destination, time));
                     yield return Wait(time - lead);
                     // The wind-up overlaps the last strides so the blade lands as the feet plant.
-                    Swing(actor, clip, cast); swung = true;
+                    if (ultimateTake) Resume(actor, "Ultimate", UltimateResume); else Swing(actor, clip, cast);
+                    swung = true;
                     yield return Wait(lead);
                 }
             }
@@ -477,15 +486,15 @@ namespace Abyss.Runtime.Battle
                 Vector3 facing = target.Model.transform.position - actor.Model.transform.position; facing.y = 0;
                 if (facing.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(facing));
             }
-            if (!swung) Swing(actor, clip, cast);
+            if (!swung && !ultimateTake) Swing(actor, clip, cast);
             Color tint = PresentationColor(e.Element);
             if (_presentation != null && !string.IsNullOrEmpty(_presentation.ChargeVfx))
                 _charge = Effect(_presentation.ChargeVfx, actor.Model.CenterPoint, tint, 1, _actionLength, actor.Model.transform, actor.Home.y);
             PlaySound(_presentation != null && !string.IsNullOrEmpty(_presentation.SfxCast) ? _presentation.SfxCast :
                 e.Kind == ActionKind.Item ? "sfx_item" : cast ? ElementSound(e.Element) : WeaponSound(actor));
-            float contactTime = _actionLength * (cast ? .6f : .4f);
+            float contactTime = _actionLength * Contact(_strikeClip ?? clip);
             // The authored Attack contacts at 40%; the lunge belongs to that strike, not a tiny Run.
-            if (lunge) yield return Move(actor, destination, contactTime);
+            if (lunge) yield return Move(actor, destination, Mathf.Max(.05f, contactTime - _actionElapsed));
             else yield return Wait(Mathf.Max(0, contactTime - _actionElapsed));
             bool projectile = _presentation != null && !string.IsNullOrEmpty(_presentation.TravelVfx) && e.TargetIds != null;
             // Multi-hit shots send one projectile per hit; area spells keep a single opening volley under the big effect.
@@ -514,6 +523,15 @@ namespace Abyss.Runtime.Battle
             actor.Model.Anim.PlayOnce(clip, "Idle", cast ? .12f : .05f);
             _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = 0; _strikeClip = clip;
         }
+        /// <summary>Continues a take from a normalized point (the Ultimate finisher after the dash to the target).</summary>
+        void Resume(BattleDisplayUnit actor, string clip, float normalized)
+        {
+            actor.Model.Anim.PlayFrom(clip, normalized, .08f);
+            _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = _actionLength * normalized; _strikeClip = clip;
+        }
+        // Contact / release points authored in Blender/lib_humanoid/motion.py (CONTACT).
+        const float UltimateResume = 28f / 66f;
+        static float Contact(string clip) => clip == "Cast" ? .6f : clip == "Skill" ? .5f : clip == "Ultimate" ? 44f / 66f : .4f;
         /// <summary>Fires the presentation's projectile from the weapon socket at the target's hit point; returns its flight time.</summary>
         float Shoot(BattleDisplayUnit actor, BattleDisplayUnit target, Color tint)
         {
