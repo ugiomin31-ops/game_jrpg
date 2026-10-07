@@ -272,7 +272,9 @@ namespace Abyss.Runtime.Battle
                             revived.Model.Anim.PlayOnce("Revive", "Idle", 0f);
                         else revived.Model.Play("Idle", .25f);
                         Sync(revived);
-                        Effect("revive", revived.Model.CenterPoint, new Color(1, .9f, .55f), 1, 0, null, revived.Home.y);
+                        // Revive skills already burst their own impact on the target; items and passives need this one.
+                        bool skillBurst = _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx) && _presentation.ImpactVfx.Contains("revive");
+                        if (!skillBurst) Effect("revive", revived.Model.CenterPoint, new Color(1, .9f, .55f), 1, 0, null, revived.Home.y);
                         Popup(e.UnitId, "부활", new Color(1, .95f, .6f)); PlaySound("sfx_revive");
                         yield return Wait(revived.Side == BattleSide.Party ? revived.Model.Anim.Length("Revive") : .4f);
                     }

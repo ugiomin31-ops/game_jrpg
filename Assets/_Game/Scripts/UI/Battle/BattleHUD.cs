@@ -635,6 +635,7 @@ namespace Abyss.UI.Battle
             UIFactory.Separator(panel.transform, 600).Rt().Place(UIAnchor.Top, new Vector2(0, -104), new Vector2(600, 24));
             float textTop = 135f;
             if (victory) { BuildPartyResults(panel.transform, panelSize.x, report, outcome); textTop = 318f; }
+            if (victory && BuildDropIcons(panel.transform, report, textTop)) textTop += 104f;
             _rewardScroll = UIFactory.ScrollView(panel.transform, out var rewardContent, name: "Battle rewards");
             _rewardScroll.Rt().Stretch(50, textTop, 50, 160);
             _rewardText = UIFactory.Paragraph(rewardContent, "", 27);
@@ -686,6 +687,26 @@ namespace Abyss.UI.Battle
             ok.Rt().Place(UIAnchor.Bottom, new Vector2(0, 26), new Vector2(350, 60));
             _buttons.Clear(); _buttons.Add(ok); _focus = 0; ok.Focused = true;
             _openedFrame = Time.frameCount;
+        }
+
+        /// <summary>Spoils as a centred row of item icons with counts that pop in one by one; false when nothing dropped.</summary>
+        bool BuildDropIcons(Transform panel, Abyss.Logic.Game.BattleReport report, float top)
+        {
+            var drops = new List<KeyValuePair<string, int>>(report.Drops);
+            if (drops.Count == 0) return false;
+            const float size = 88f, gap = 18f;
+            int shown = Math.Min(drops.Count, 9);
+            float x0 = -(shown * size + (shown - 1) * gap) / 2f + size / 2f;
+            for (int i = 0; i < shown; i++)
+            {
+                string id = drops[i].Key;
+                var slot = UIFactory.IconSlot(panel, size, _db.Items.ContainsKey(id) ? UIArtwork.Item(id) : UIArtwork.Gear(id));
+                slot.Rt().Place(UIAnchor.Top, new Vector2(0.5f, 1f), new Vector2(x0 + i * (size + gap), -top), new Vector2(size, size));
+                slot.SetCount(drops[i].Value);
+                slot.transform.localScale = Vector3.zero;
+                UITween.Scale(slot.transform, 1f, 0.32f, UIEase.OutBack, 0.35f + i * 0.08f);
+            }
+            return true;
         }
 
         /// <summary>Victory header: each hero's portrait with XP gained, LEVEL UP badges and the gold total.</summary>

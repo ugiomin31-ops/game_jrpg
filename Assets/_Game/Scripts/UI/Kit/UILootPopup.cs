@@ -111,9 +111,10 @@ namespace Abyss.UI
             var card = UIFactory.Panel(_window, UIPanelStyle.Dark, false, "Loot " + entry.Name);
             card.Rect.Place(UIAnchor.Top, new Vector2(0.5f, 0.5f), position, size);
             var accent = entry.Accent.a > 0f ? entry.Accent : UITheme.Gold;
-            var edge = UIFactory.Image(card.Rect, UISprites.FocusGlow, accent.WithAlpha(0.65f), "Edge");
+            // Thin accent outline (the warm focus-glow sprite tinted toward red read as an error state).
+            var edge = UIFactory.Image(card.Rect, UISprites.PanelOutline, accent.WithAlpha(0.9f), "Edge");
             edge.type = Image.Type.Sliced;
-            edge.Rt().Stretch(-10, -10, -10, -10);
+            edge.Rt().Stretch(-3, -3, -3, -3);
             float iconSize = size.y - 28f;
             var halo = UIFactory.Image(card.Rect, UISprites.SoftRadial, accent.WithAlpha(0.5f), "Halo");
             halo.Rt().Place(UIAnchor.Left, new Vector2(14 + iconSize / 2f - (iconSize * 1.5f) / 2f, 0), new Vector2(iconSize * 1.5f, iconSize * 1.5f));
