@@ -90,8 +90,11 @@ namespace Abyss.UI
             Message.overflowMode = TextOverflowModes.Overflow;
             float messageHeight = Message.GetPreferredValues(_message, 674f, 0f).y + 18f;
             UIFactory.Layout(_messageScroll, -1f, Mathf.Clamp(messageHeight, 90f, 360f));
-            var hint = UIFactory.Label(_panel.Rect, "↑↓ 본문 스크롤 · ←→ 선택", 20f, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
-            UIFactory.Layout(hint, -1f, 30f);
+            if (!UIRoot.TouchFirst)
+            {
+                var hint = UIFactory.Label(_panel.Rect, "↑↓ 본문 스크롤 · ←→ 선택", 20f, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
+                UIFactory.Layout(hint, -1f, 30f);
+            }
 
             Buttons = UIFactory.ButtonGroup(_panel.Rect, true, 26f);
             UIFactory.Layout(Buttons, -1f, 72f);

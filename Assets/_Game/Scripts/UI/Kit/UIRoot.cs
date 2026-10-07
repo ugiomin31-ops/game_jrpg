@@ -96,7 +96,7 @@ namespace Abyss.UI
 
         void LateUpdate()
         {
-            if (_safe != Screen.safeArea || _width != Screen.width || _height != Screen.height) UpdateSafeArea();
+            if (_safe != Screen.safeArea || _width != Screen.width || _height != Screen.height || Compact != ComputeCompact(Screen.width, Screen.height)) UpdateSafeArea();
             UpdateTouchStick();
         }
 
@@ -123,13 +123,28 @@ namespace Abyss.UI
             _stickKnob.anchoredPosition = stick * (_stickBase.sizeDelta.x * 0.5f);
         }
 
+        /// <summary>
+        /// Landscape phone layout: touch-first and wide (≥1.85:1). The canvas then uses <see cref="PhoneReference"/>
+        /// (900 units tall instead of 1080), which draws every text and button 20 % larger, and screens switch to
+        /// their thumb-sized layouts. Tablets and desktops keep 1920x1080.
+        /// </summary>
+        public static bool Compact { get; private set; }
+        /// <summary>Phones and tablets (or any device with a touchscreen): keyboard/gamepad hints are hidden.</summary>
+        public static bool TouchFirst => Application.isMobilePlatform || UITouch.Supported;
+        public static readonly Vector2 PhoneReference = new Vector2(1600f, 900f);
+
+        static bool ComputeCompact(int width, int height) =>
+            (Application.isMobilePlatform || UITouch.Supported) && height > 0 && (float)width / height >= 1.85f;
+
         void UpdateSafeArea()
         {
             _safe = Screen.safeArea; _width = Screen.width; _height = Screen.height;
             if (_width <= 0 || _height <= 0) return;
-            // Layouts are authored for 1920x1080: wider screens (most phones) keep the full height and gain width,
+            Compact = ComputeCompact(_width, _height);
+            _scaler.referenceResolution = Compact ? PhoneReference : UITheme.ReferenceResolution;
+            // Layouts are authored for 16:9: wider screens (most phones) keep the full height and gain width,
             // narrower ones (tablets) keep the full width and gain height, so nothing is pushed off-screen.
-            float reference = UITheme.ReferenceResolution.x / UITheme.ReferenceResolution.y;
+            float reference = _scaler.referenceResolution.x / _scaler.referenceResolution.y;
             _scaler.matchWidthOrHeight = (float)_width / _height >= reference ? 1f : 0f;
             SafeArea.anchorMin = new Vector2(_safe.xMin / _width, _safe.yMin / _height);
             SafeArea.anchorMax = new Vector2(_safe.xMax / _width, _safe.yMax / _height);

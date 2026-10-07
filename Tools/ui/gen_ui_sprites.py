@@ -246,30 +246,54 @@ def slot():
 
 
 # ---------------------------------------------------------------- buttons
-def button(name, top, bottom, line, line_w, glow=None, sheen=0.12, inner_shadow=False):
+def corner_brackets(w, h, inset=4.5, arm=9.0, thick=1.6):
+    """Small L-shaped filigree in each corner (inside the 24 px 9-slice corners, so they never stretch)."""
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32) + 0.5
+    m = np.zeros((h, w), np.float32)
+    for cx, sx in ((inset, 1), (w - inset, -1)):
+        for cy, sy in ((inset, 1), (h - inset, -1)):
+            dx, dy = (xx - cx) * sx, (yy - cy) * sy
+            horiz = (dx >= 0) & (dx <= arm) & (np.abs(dy) <= thick / 2)
+            vert = (dy >= 0) & (dy <= arm * 0.7) & (np.abs(dx) <= thick / 2)
+            m = np.maximum(m, (horiz | vert).astype(np.float32))
+    return blur(m, 0.5)
+
+
+def button(name, top, bottom, line, line_w, glow=None, sheen=0.12, inner_shadow=False, brackets=None):
     w, h, r = 96, 64, 12
     img = blank(w, h)
     body = rrect(w, h, r)
     img = over(img, layer(vgrad(h, w, top, bottom), body))
+    # soft indigo light pooling along the bottom edge gives the face some depth
+    pool = np.clip(body - blur(rrect(w, h, r, 4), 6), 0, 1) * body
+    img = over(img, layer(vgrad(h, w, hexc("#7f93ff", 0.0), hexc("#7f93ff", 0.28), 0.4, 1.0), pool))
     if glow is not None:
         img = over(img, layer(glow, np.clip(body - blur(rrect(w, h, r, 6), 7), 0, 1) * body))
     if inner_shadow:
         sh = np.clip(body - np.roll(rrect(w, h, r, 2), 4, 0), 0, 1)
         img = over(img, layer(hexc("#000000", 0.55), blur(sh, 2) * body))
     if sheen > 0:
-        img = over(img, layer(vgrad(h, w, hexc("#ffffff", sheen), hexc("#ffffff", 0), 0.0, 0.5), rrect(w, h, r, 2)))
+        # glass gloss: bright upper band with a crisp lower edge at 46 % height
+        gloss = rrect(w, h, r, 2.5)
+        gloss[int(h * 0.46):, :] *= 0.0
+        img = over(img, layer(vgrad(h, w, hexc("#ffffff", sheen * 1.6), hexc("#ffffff", sheen * 0.35), 0.0, 0.46), gloss))
     img = over(img, layer(EDGE_DARK, stroke(w, h, r, 0, 1.0)))
     img = over(img, layer(line, stroke(w, h, r, 1.5, line_w)))
+    img = over(img, layer(hexc("#ffffff", 0.16), stroke(w, h, r, 3.6, 0.8)))
+    if brackets is not None:
+        img = over(img, layer(brackets, corner_brackets(w, h)))
     save(name, img, (24, 24, 24, 24))
 
 
 def buttons():
     gold = gold_grad(64, 96)
-    button("btn_normal", hexc("#2a3468", 0.96), hexc("#121838", 0.96), gold * np.array([1, 1, 1, 0.85], np.float32), 1.3)
+    button("btn_normal", hexc("#34418a", 0.97), hexc("#10153a", 0.97), gold * np.array([1, 1, 1, 0.9], np.float32), 1.5,
+           brackets=hexc("#f3d996", 0.85))
     dawn = vgrad(64, 96, DAWN_HI, DAWN)
-    button("btn_hover", hexc("#3a4790", 0.97), hexc("#1a2250", 0.97), dawn, 2.0, glow=hexc("#ffb15c", 0.35), sheen=0.16)
+    button("btn_hover", hexc("#4656a8", 0.98), hexc("#1a2258", 0.98), dawn, 2.2, glow=hexc("#ffb15c", 0.4), sheen=0.16,
+           brackets=hexc("#fff0c8", 1.0))
     button("btn_pressed", hexc("#0f1433", 0.97), hexc("#1c2558", 0.97), vgrad(64, 96, GOLD, DAWN), 1.8,
-           sheen=0.0, inner_shadow=True)
+           sheen=0.0, inner_shadow=True, brackets=hexc("#ffcf86", 0.9))
     button("btn_disabled", hexc("#24262f", 0.85), hexc("#15161c", 0.85), hexc("#5a5e6c", 0.75), 1.0, sheen=0.05)
 
 

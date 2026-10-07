@@ -256,8 +256,12 @@ namespace Abyss.UI
             {
                 var mapPanel = UIFactory.Panel(hud);
                 mapPanel.Rect.Place(UIAnchor.TopRight, new Vector2(-30, -10), new Vector2(335, 290));
-                minimap = UIFactory.Add<DungeonMapGraphic>(mapPanel.Rect, "Explored minimap");
-                minimap.Rt().Stretch(14, 14, 14, 14);
+                var mapView = UIFactory.Rect(mapPanel.Rect, "Minimap view").Stretch(14, 14, 14, 14);
+                mapView.gameObject.AddComponent<UnityEngine.UI.RectMask2D>();
+                minimap = UIFactory.Add<DungeonMapGraphic>(mapView, "Explored minimap");
+                minimap.Rt().Stretch();
+                // Zoomed around the party: 9 cells across reads clearly at phone size.
+                minimap.Window = 9;
                 // Tapping/clicking the minimap opens the full map.
                 var mapHit = mapPanel.gameObject.AddComponent<UnityEngine.UI.Button>();
                 mapHit.transition = UnityEngine.UI.Selectable.Transition.None;

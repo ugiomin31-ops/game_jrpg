@@ -109,6 +109,8 @@ namespace Abyss.UI
             _label = UIFactory.Label(transform, "", UITheme.SizeCaption + 2f, UIFont.Bold, UITheme.TextDim, TextAlignmentOptions.MidlineLeft, UITextFx.Shadow, "Text");
             SetLabel(label);
             Refresh(UIInput.Device);
+            // Key caps mean nothing on a touchscreen; buttons and taps carry the same actions there.
+            if (UIRoot.TouchFirst) gameObject.SetActive(false);
         }
 
         /// <summary>Changes the caption (empty hides it, leaving just the key cap).</summary>

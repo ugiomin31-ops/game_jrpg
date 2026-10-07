@@ -86,6 +86,14 @@ namespace Abyss.UI
             ApplyState(true);
         }
 
+        /// <summary>Tall (thumb-sized) buttons get proportionally larger labels: 40 % of the height, 28–38 pt.</summary>
+        void OnRectTransformDimensionsChange()
+        {
+            if (_label == null) return;
+            float h = ((RectTransform)transform).rect.height;
+            _label.fontSizeMax = Mathf.Clamp(h * 0.4f, UITheme.SizeLabel, 38f);
+        }
+
         /// <summary>Activates the button as if clicked (press bounce, sound, event). Plays a buzzer when not interactable.</summary>
         public void Click()
         {
