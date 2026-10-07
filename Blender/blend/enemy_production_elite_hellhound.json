@@ -1,38 +1,38 @@
 {
   "id": "elite_hellhound",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/ember.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:18Z",
+  "produced_at_utc": "2026-10-07T01:38:45Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
-      "bytes": 1141916
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
+      "bytes": 1453260
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_elite_hellhound.blend",
-      "bytes": 314850
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_hellhound.blend",
+      "bytes": 518611
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_hellhound.png",
-        "bytes": 184099
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound.png",
+        "bytes": 166260
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_hellhound_side.png",
-        "bytes": 170514
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_side.png",
+        "bytes": 166391
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_hellhound_attack.png",
-        "bytes": 173609
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_attack.png",
+        "bytes": 163069
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_hellhound_cast.png",
-        "bytes": 176342
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_cast.png",
+        "bytes": 164530
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_hellhound_die.png",
-        "bytes": 175697
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_hellhound_die.png",
+        "bytes": 163915
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12606,
-    "vertices": 6875,
-    "bones": 15,
+    "triangles": 13542,
+    "vertices": 6935,
+    "bones": 18,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12606,
-    "vertices": 6875,
-    "bones": 15,
+    "triangles": 13542,
+    "vertices": 6935,
+    "bones": 18,
     "materials": [
       "M_Toon",
       "M_Emit"

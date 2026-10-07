@@ -1,38 +1,38 @@
 {
   "id": "phoenix",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:21:42Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:46:09Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\phoenix\\phoenix.fbx",
-      "bytes": 745612
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/phoenix/phoenix.fbx",
+      "bytes": 866812
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_phoenix.blend",
-      "bytes": 217255
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_phoenix.blend",
+      "bytes": 378777
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_phoenix.png",
-        "bytes": 165149
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix.png",
+        "bytes": 145833
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_phoenix_side.png",
-        "bytes": 144876
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_side.png",
+        "bytes": 138047
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_phoenix_attack.png",
-        "bytes": 159573
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_attack.png",
+        "bytes": 146208
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_phoenix_cast.png",
-        "bytes": 163703
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_cast.png",
+        "bytes": 146662
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_phoenix_die.png",
-        "bytes": 147962
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_phoenix_die.png",
+        "bytes": 149646
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6112,
-    "vertices": 4254,
+    "triangles": 9196,
+    "vertices": 4654,
     "bones": 10,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6112,
-    "vertices": 4254,
+    "triangles": 9196,
+    "vertices": 4654,
     "bones": 10,
     "materials": [
       "M_Toon",

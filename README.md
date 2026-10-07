@@ -82,6 +82,7 @@
 | `Assets/_Game/Scripts/Runtime/`, `UI/`, `Presentation/` | 화면 전환, 3D 월드, 입력/UI, 오디오와 전투 연출 |
 | `Assets/_Game/Resources/Data/` | 영웅·적·기술·장비·아이템·층·의뢰·한국어 텍스트 |
 | `Blender/` | 3D 생성기, `blend/` 편집용 결과, `preview/` 검수 이미지. 상세 계약은 [Blender 안내](Blender/README.md) 참조 |
+| `Blender/enemies_d/` | 몬스터 v3 조각식 키트(하나로 이어진 몸, 부드러운 웨이트, 구운 AO, 실제 안구). 참고 자료·무료 에셋 조사는 [docs/REFERENCES.md](docs/REFERENCES.md) |
 | `Tools/ui/`, `Blender/ui/render_icons.py` | UI 스프라이트와 실제 3D 모델 기반 초상화·아이콘 제작 |
 | `Tools/vfx/` | 이펙트 텍스처와 리소스 정의 생성 |
 | `Tools/audio/` | 현재 사용 중인 음악·징글·효과음의 합성·내보내기 원본 |

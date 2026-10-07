@@ -1,38 +1,38 @@
 {
   "id": "pixie",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/verdant.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/verdant.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:05:52Z",
+  "produced_at_utc": "2026-10-07T01:53:52Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
-      "bytes": 878956
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+      "bytes": 868396
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_pixie.blend",
-      "bytes": 214001
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_pixie.blend",
+      "bytes": 206593
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_pixie.png",
-        "bytes": 169943
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie.png",
+        "bytes": 168164
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_pixie_side.png",
-        "bytes": 150001
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_side.png",
+        "bytes": 148730
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_pixie_attack.png",
-        "bytes": 164129
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_attack.png",
+        "bytes": 162259
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_pixie_cast.png",
-        "bytes": 161275
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_cast.png",
+        "bytes": 159751
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_pixie_die.png",
-        "bytes": 151186
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_pixie_die.png",
+        "bytes": 149637
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5404,
-    "vertices": 3100,
+    "triangles": 4534,
+    "vertices": 2769,
     "bones": 13,
     "materials": [
       "M_Toon",
@@ -86,8 +86,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5404,
-    "vertices": 3100,
+    "triangles": 4534,
+    "vertices": 2769,
     "bones": 13,
     "materials": [
       "M_Toon",

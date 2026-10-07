@@ -1,38 +1,38 @@
 {
   "id": "elite_scarecrow",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:25:42Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:53:37Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\elite_scarecrow\\elite_scarecrow.fbx",
-      "bytes": 826716
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_scarecrow/elite_scarecrow.fbx",
+      "bytes": 835676
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_elite_scarecrow.blend",
-      "bytes": 242102
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_scarecrow.blend",
+      "bytes": 249347
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow.png",
-        "bytes": 179538
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow.png",
+        "bytes": 178456
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_side.png",
-        "bytes": 154906
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_side.png",
+        "bytes": 154548
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_attack.png",
-        "bytes": 159009
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_attack.png",
+        "bytes": 158804
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_cast.png",
-        "bytes": 162814
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_cast.png",
+        "bytes": 162032
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_scarecrow_die.png",
-        "bytes": 163382
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_scarecrow_die.png",
+        "bytes": 163128
       }
     ]
   },

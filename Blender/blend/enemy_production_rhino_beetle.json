@@ -1,38 +1,38 @@
 {
   "id": "rhino_beetle",
   "is_boss": false,
-  "generator": "/home/user/game_jrpg/Blender/enemies_c/verdant.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T00:21:23Z",
+  "produced_at_utc": "2026-10-07T01:52:25Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
-      "bytes": 861612
+      "bytes": 926060
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_rhino_beetle.blend",
-      "bytes": 234721
+      "bytes": 399861
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle.png",
-        "bytes": 167464
+        "bytes": 157776
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_side.png",
-        "bytes": 166216
+        "bytes": 157222
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_attack.png",
-        "bytes": 161676
+        "bytes": 155015
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_cast.png",
-        "bytes": 170460
+        "bytes": 160245
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_rhino_beetle_die.png",
-        "bytes": 165204
+        "bytes": 158668
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7462,
-    "vertices": 4083,
-    "bones": 12,
+    "triangles": 10100,
+    "vertices": 5100,
+    "bones": 10,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7462,
-    "vertices": 4083,
-    "bones": 12,
+    "triangles": 10100,
+    "vertices": 5100,
+    "bones": 10,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

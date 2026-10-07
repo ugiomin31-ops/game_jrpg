@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T00:21:34Z",
+  "produced_at_utc": "2026-10-07T01:53:47Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
-      "bytes": 458092
+      "bytes": 449612
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_mimic.blend",
-      "bytes": 163154
+      "bytes": 158064
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic.png",
-        "bytes": 207618
+        "bytes": 202791
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_side.png",
-        "bytes": 170218
+        "bytes": 168411
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_attack.png",
-        "bytes": 191716
+        "bytes": 188363
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_cast.png",
-        "bytes": 201540
+        "bytes": 196988
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_mimic_die.png",
-        "bytes": 172934
+        "bytes": 170403
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 3784,
-    "vertices": 2056,
+    "triangles": 3176,
+    "vertices": 1836,
     "bones": 6,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 3784,
-    "vertices": 2056,
+    "triangles": 3176,
+    "vertices": 1836,
     "bones": 6,
     "materials": [
       "M_Toon",

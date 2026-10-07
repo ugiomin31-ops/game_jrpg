@@ -1,38 +1,38 @@
 {
   "id": "magma_slime",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\magma_slime.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:21:25Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:44:44Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\magma_slime\\magma_slime.fbx",
-      "bytes": 748204
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
+      "bytes": 535852
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_magma_slime.blend",
-      "bytes": 354478
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_magma_slime.blend",
+      "bytes": 344443
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime.png",
-        "bytes": 156547
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime.png",
+        "bytes": 184490
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_side.png",
-        "bytes": 145931
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_side.png",
+        "bytes": 176670
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_attack.png",
-        "bytes": 154458
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_attack.png",
+        "bytes": 184084
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_cast.png",
-        "bytes": 171488
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_cast.png",
+        "bytes": 183422
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_die.png",
-        "bytes": 139360
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_die.png",
+        "bytes": 172876
       }
     ]
   },
@@ -41,12 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12508,
-    "vertices": 6310,
-    "bones": 8,
+    "triangles": 8840,
+    "vertices": 4450,
+    "bones": 4,
     "materials": [
-      "M_Emit",
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -59,11 +59,11 @@
       ],
       "Attack": [
         0.0,
-        24.0
+        25.0
       ],
       "Cast": [
         0.0,
-        36.0
+        35.0
       ],
       "Hit": [
         0.0,
@@ -75,7 +75,7 @@
       ],
       "Victory": [
         0.0,
-        40.0
+        44.0
       ]
     },
     "unweighted_vertices": 0
@@ -85,12 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12508,
-    "vertices": 6310,
-    "bones": 8,
+    "triangles": 8840,
+    "vertices": 4450,
+    "bones": 4,
     "materials": [
-      "M_Emit",
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -103,11 +103,11 @@
       ],
       "Attack": [
         1.0,
-        25.0
+        26.0
       ],
       "Cast": [
         1.0,
-        37.0
+        36.0
       ],
       "Hit": [
         1.0,
@@ -119,7 +119,7 @@
       ],
       "Victory": [
         1.0,
-        41.0
+        45.0
       ]
     },
     "unweighted_vertices": 0

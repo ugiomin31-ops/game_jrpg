@@ -119,7 +119,7 @@ for s in (-1, 1):
                              radius=0.026, color=RED_L, seg=10, taper_end=0.8))
     eyes.append(ellipsoid(f"eyeball{s}", (0.062, 0.058, 0.066), loc=tuple(top), color="#fbf8f2", seg=18, rings=10))
     eyes += cute_eye(f"eye{s}", top + Vector((s * 0.006, -0.052, 0.0)), (s * 0.15, -1, 0.05), w=0.042, h=0.052,
-                     iris="#2f7fd8" if not ELITE else "#e0791c", pupil="#1a1424", depth=0.016)
+                     iris="#2f7fd8" if not ELITE else "#e0791c", pupil="#1a1424", depth=0.016, surface=eyes[-1])
     body_parts.append(orient(A.sphere(f"blush{s}", r=1.0, scale=(0.034, 0.008, 0.019), color="#ff9f9f", seg=10, rings=6),
                              front + Vector((s * 0.1, 0.0, -0.01)), on, offset=-0.014))
 body_parts += smile_mouth("mouth", front + Vector((0, 0.004, -0.035)), on, w=0.036, h=0.026, inner="#6a1a1a", tongue="#ff8f8f")

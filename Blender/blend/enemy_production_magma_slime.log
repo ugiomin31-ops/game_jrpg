@@ -1,25 +1,21 @@
-00:00.047  color_management | Using OCIO=C:\Users\User\Tools\Blender\5.2\datafiles\colormanagement\config.ocio
-00:03.969  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime.png'
-00:04.047  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_side.png'
-00:04.156  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_back.png'
-00:04.250  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_attack.png'
-00:04.360  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_attack0.png'
-00:04.453  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_cast.png'
-00:04.547  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_run.png'
-00:04.688  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_hit.png'
-00:04.766  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_die.png'
-00:04.860  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_magma_slime_victory.png'
-00:05.422  blend            | Read blend: "C:\Users\User\Desktop\game\Blender\blend\enemy_magma_slime.blend"
-[magma_slime] tris=12508 mats=['M_Emit', 'M_Toon'] bbox lo=[-0.6, -0.6, -0.03] hi=[0.62, 0.58, 0.84]
+TRI_TOP eyeball.001:440, eyeball:440, vent2_in:80, vent2:80, vent1_in:80, vent1:80, vent0_in:80, vent0:80, crust5:80, crust4:80
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+00:03.244  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_magma_slime.png'
+00:03.426  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_magma_slime_side.png'
+00:03.583  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_magma_slime_attack.png'
+00:03.726  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_magma_slime_cast.png'
+00:03.883  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_magma_slime_die.png'
 
-FBX export starting... 'C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies/magma_slime/magma_slime.fbx'
+FBX export starting... '/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx'
 (bpy.data.armatures['Rig'], 'POSE')
-export finished in 0.3041 sec.
+export finished in 0.1003 sec.
 Info: Saved as "enemy_magma_slime.blend"
+ENEMY_EXPORT {"id": "magma_slime", "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx", "triangles": 8840, "bones": ["root", "body", "eyes", "crest"], "dimensions": [0.899, 0.834, 0.8], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "materials": ["M_Toon", "M_Emit"]}
+00:03.885  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_magma_slime.blend"
 FBX version: 7400
-[magma_slime] FBX OK 748204 bytes objects=['Body', 'Rig'] takes=['Rig|Rig|Attack', 'Rig|Rig|Cast', 'Rig|Rig|Die', 'Rig|Rig|Hit', 'Rig|Rig|Idle', 'Rig|Rig|Run', 'Rig|Rig|Victory']
-FBX version: 7400
-ENEMY_PRODUCTION {"id": "magma_slime", "is_boss": false, "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\magma_slime.py", "blender_version": "5.2.1 LTS", "produced_at_utc": "2026-10-06T04:21:25Z", "files": {"fbx": {"path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\magma_slime\\magma_slime.fbx", "bytes": 748204}, "blend": {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_magma_slime.blend", "bytes": 354478}, "previews": [{"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime.png", "bytes": 156547}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_side.png", "bytes": 145931}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_attack.png", "bytes": 154458}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_cast.png", "bytes": 171488}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_magma_slime_die.png", "bytes": 139360}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 12508, "vertices": 6310, "bones": 8, "materials": ["M_Emit", "M_Toon"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 24.0], "Cast": [0.0, 36.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 40.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 12508, "vertices": 6310, "bones": 8, "materials": ["M_Emit", "M_Toon"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 25.0], "Cast": [1.0, 37.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 41.0]}, "unweighted_vertices": 0}}
-Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+ENEMY_PRODUCTION {"id": "magma_slime", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T01:44:44Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx", "bytes": 535852}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_magma_slime.blend", "bytes": 344443}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime.png", "bytes": 184490}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_side.png", "bytes": 176670}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_attack.png", "bytes": 184084}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_cast.png", "bytes": 183422}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_magma_slime_die.png", "bytes": 172876}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 8840, "vertices": 4450, "bones": 4, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 8840, "vertices": 4450, "bones": 4, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:34:58)
 
 Blender quit

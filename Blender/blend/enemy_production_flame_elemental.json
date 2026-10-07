@@ -1,38 +1,38 @@
 {
   "id": "flame_elemental",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/ember.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/spirits.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:21Z",
+  "produced_at_utc": "2026-10-07T01:54:53Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
-      "bytes": 685804
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
+      "bytes": 798492
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_flame_elemental.blend",
-      "bytes": 215576
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_flame_elemental.blend",
+      "bytes": 412413
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_flame_elemental.png",
-        "bytes": 178947
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_flame_elemental.png",
+        "bytes": 179626
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_flame_elemental_side.png",
-        "bytes": 163795
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_flame_elemental_side.png",
+        "bytes": 158142
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_flame_elemental_attack.png",
-        "bytes": 173242
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_flame_elemental_attack.png",
+        "bytes": 170747
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_flame_elemental_cast.png",
-        "bytes": 172471
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_flame_elemental_cast.png",
+        "bytes": 164503
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_flame_elemental_die.png",
-        "bytes": 160427
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_flame_elemental_die.png",
+        "bytes": 161287
       }
     ]
   },
@@ -41,12 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5954,
-    "vertices": 3269,
-    "bones": 9,
+    "triangles": 10836,
+    "vertices": 5476,
+    "bones": 8,
     "materials": [
-      "M_Emit",
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5954,
-    "vertices": 3269,
-    "bones": 9,
+    "triangles": 10836,
+    "vertices": 5476,
+    "bones": 8,
     "materials": [
-      "M_Emit",
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [

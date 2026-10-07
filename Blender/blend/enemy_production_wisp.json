@@ -1,38 +1,38 @@
 {
   "id": "wisp",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:24:21Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:53:15Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\wisp\\wisp.fbx",
-      "bytes": 531436
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/wisp/wisp.fbx",
+      "bytes": 532556
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_wisp.blend",
-      "bytes": 143484
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_wisp.blend",
+      "bytes": 144503
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_wisp.png",
-        "bytes": 159841
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_wisp.png",
+        "bytes": 159598
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_wisp_side.png",
-        "bytes": 150068
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_wisp_side.png",
+        "bytes": 149935
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_wisp_attack.png",
-        "bytes": 154958
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_wisp_attack.png",
+        "bytes": 154818
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_wisp_cast.png",
-        "bytes": 164057
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_wisp_cast.png",
+        "bytes": 163852
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_wisp_die.png",
-        "bytes": 154097
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_wisp_die.png",
+        "bytes": 154156
       }
     ]
   },

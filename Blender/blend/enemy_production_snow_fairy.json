@@ -1,38 +1,38 @@
 {
   "id": "snow_fairy",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/frost.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/frost.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:05:58Z",
+  "produced_at_utc": "2026-10-07T01:53:55Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
-      "bytes": 792156
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
+      "bytes": 780988
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_snow_fairy.blend",
-      "bytes": 219930
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_snow_fairy.blend",
+      "bytes": 212438
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_snow_fairy.png",
-        "bytes": 179901
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy.png",
+        "bytes": 178772
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_snow_fairy_side.png",
-        "bytes": 163955
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_side.png",
+        "bytes": 163257
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_snow_fairy_attack.png",
-        "bytes": 167886
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_attack.png",
+        "bytes": 167137
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_snow_fairy_cast.png",
-        "bytes": 175375
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_cast.png",
+        "bytes": 173394
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_snow_fairy_die.png",
-        "bytes": 169117
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_snow_fairy_die.png",
+        "bytes": 167144
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6102,
-    "vertices": 3547,
+    "triangles": 5232,
+    "vertices": 3216,
     "bones": 11,
     "materials": [
       "M_Toon",
@@ -86,8 +86,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6102,
-    "vertices": 3547,
+    "triangles": 5232,
+    "vertices": 3216,
     "bones": 11,
     "materials": [
       "M_Toon",

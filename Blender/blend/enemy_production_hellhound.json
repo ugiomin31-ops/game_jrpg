@@ -1,38 +1,38 @@
 {
   "id": "hellhound",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/ember.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:12Z",
+  "produced_at_utc": "2026-10-07T01:38:37Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
-      "bytes": 890588
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "bytes": 1250284
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_hellhound.blend",
-      "bytes": 254312
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_hellhound.blend",
+      "bytes": 477776
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_hellhound.png",
-        "bytes": 172739
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound.png",
+        "bytes": 154693
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_hellhound_side.png",
-        "bytes": 169562
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_side.png",
+        "bytes": 161860
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_hellhound_attack.png",
-        "bytes": 165431
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_attack.png",
+        "bytes": 154666
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_hellhound_cast.png",
-        "bytes": 167751
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_cast.png",
+        "bytes": 154780
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_hellhound_die.png",
-        "bytes": 160853
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_hellhound_die.png",
+        "bytes": 151459
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8506,
-    "vertices": 4639,
-    "bones": 12,
+    "triangles": 11796,
+    "vertices": 5964,
+    "bones": 15,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8506,
-    "vertices": 4639,
-    "bones": 12,
+    "triangles": 11796,
+    "vertices": 5964,
+    "bones": 15,
     "materials": [
       "M_Toon",
       "M_Emit"

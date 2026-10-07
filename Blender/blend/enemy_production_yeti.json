@@ -1,38 +1,38 @@
 {
   "id": "yeti",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/frost.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:08:41Z",
+  "produced_at_utc": "2026-10-07T01:51:24Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
-      "bytes": 702540
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+      "bytes": 926492
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_yeti.blend",
-      "bytes": 225382
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_yeti.blend",
+      "bytes": 456233
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_yeti.png",
-        "bytes": 185393
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti.png",
+        "bytes": 182141
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_yeti_side.png",
-        "bytes": 161355
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_side.png",
+        "bytes": 158997
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_yeti_attack.png",
-        "bytes": 179238
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_attack.png",
+        "bytes": 174330
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_yeti_cast.png",
-        "bytes": 181075
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_cast.png",
+        "bytes": 173561
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_yeti_die.png",
-        "bytes": 169520
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_die.png",
+        "bytes": 172044
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7350,
-    "vertices": 3907,
+    "triangles": 10996,
+    "vertices": 5540,
     "bones": 9,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7350,
-    "vertices": 3907,
+    "triangles": 10996,
+    "vertices": 5540,
     "bones": 9,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

@@ -1,38 +1,38 @@
 {
   "id": "scarecrow",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:21:54Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:53:33Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\scarecrow\\scarecrow.fbx",
-      "bytes": 684668
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/scarecrow/scarecrow.fbx",
+      "bytes": 692844
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_scarecrow.blend",
-      "bytes": 214434
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_scarecrow.blend",
+      "bytes": 219911
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_scarecrow.png",
-        "bytes": 167694
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow.png",
+        "bytes": 167172
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_scarecrow_side.png",
-        "bytes": 147522
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_side.png",
+        "bytes": 147666
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_scarecrow_attack.png",
-        "bytes": 160606
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_attack.png",
+        "bytes": 160104
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_scarecrow_cast.png",
-        "bytes": 164938
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_cast.png",
+        "bytes": 164264
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_scarecrow_die.png",
-        "bytes": 150437
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_scarecrow_die.png",
+        "bytes": 150171
       }
     ]
   },

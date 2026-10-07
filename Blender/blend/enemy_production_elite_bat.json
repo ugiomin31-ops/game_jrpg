@@ -1,38 +1,38 @@
 {
   "id": "elite_bat",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:19:09Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:44:51Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\elite_bat\\elite_bat.fbx",
-      "bytes": 666300
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_bat/elite_bat.fbx",
+      "bytes": 927804
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_elite_bat.blend",
-      "bytes": 203364
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_bat.blend",
+      "bytes": 361766
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_bat.png",
-        "bytes": 177937
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat.png",
+        "bytes": 148663
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_bat_side.png",
-        "bytes": 143167
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_side.png",
+        "bytes": 129579
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_bat_attack.png",
-        "bytes": 160720
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_attack.png",
+        "bytes": 144807
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_bat_cast.png",
-        "bytes": 164024
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_cast.png",
+        "bytes": 149222
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_bat_die.png",
-        "bytes": 147633
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_bat_die.png",
+        "bytes": 137755
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5888,
-    "vertices": 3286,
-    "bones": 9,
+    "triangles": 8394,
+    "vertices": 4347,
+    "bones": 11,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5888,
-    "vertices": 3286,
-    "bones": 9,
+    "triangles": 8394,
+    "vertices": 4347,
+    "bones": 11,
     "materials": [
       "M_Toon",
       "M_Emit"

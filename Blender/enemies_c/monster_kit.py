@@ -22,6 +22,8 @@ import bpy  # noqa: E402  (must precede bmesh when running as the bpy module)
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'enemies_a'))
 from creature_kit import Creature, CLIPS, Motion, A  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, '..', 'lib'))
+import creature_face as F  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 PREVIEWS = [('', 'Idle', 0, (70, 0, 25)), ('_side', 'Idle', 0, (80, 0, 90)), ('_attack', 'Attack', 10, (75, 0, 35)),
@@ -54,6 +56,17 @@ class Head:
     def normal(self, p):
         d = p - self.c
         return Vector((d.x / self.r.x ** 2, d.y / self.r.y ** 2, d.z / self.r.z ** 2)).normalized()
+
+    def bvh(self):
+        """Surface the painted face decals are projected onto (built once)."""
+        if getattr(self, '_bvh', None) is None:
+            self._bvh = F.ellipsoid_bvh(self.c, self.r)
+        return self._bvh
+
+    @property
+    def k(self):
+        """Decal offset scale relative to a hero head (radius 0.235 m)."""
+        return max(0.4, min(self.r.x, self.r.z) / 0.235)
 
 
 class Monster(Creature):
@@ -176,83 +189,52 @@ class Monster(Creature):
         return o
 
     # ------------------------------------------------------------ faces
+    # Faces are painted like the heroes' (creature_face.py): flat decals on the head, toon iris with a soft
+    # gradient, two tiny highlights. No bulging discs, ink rings or glowing irises.
     def anime_eye(self, bone, head, x, z, w, h, iris, iris_lo, side, angry=0.0, lash=True, glow=True,
-                  sclera='#fbf7ff', pupil='#160f24', tag='', lid_color=None, slit=False):
-        """Large anime eye on `head` (Head). side=+1 creature's left (+X), -1 right.
-        angry 0..1 slants a brow; lid_color draws a heavy upper lid (sleepy/menacing)."""
-        nm = f'eye{tag}{side:+d}'
-        p, n = head.point(x, z, 0.0)
-        self.disc(bone, nm + '_rim', p, n, (w * 1.16, 0.022, h * 1.1), INK, seg=14, rings=7)
-        p, n = head.point(x, z, 0.007)
-        self.disc(bone, nm + '_white', p, n, (w, 0.02, h), sclera, seg=14, rings=7)
-        imat = 'M_Emit' if glow else 'M_Toon'
-        p, n = head.point(x + side * w * 0.04, z - h * 0.06, 0.013)
-        self.disc(bone, nm + '_iris', p, n, (w * 0.8, 0.017, h * 0.86), iris, imat, seg=12, rings=6)
-        p, n = head.point(x + side * w * 0.04, z - h * 0.36, 0.019)
-        self.disc(bone, nm + '_iris_lo', p, n, (w * 0.6, 0.012, h * 0.42), iris_lo, imat, seg=10, rings=5)
-        p, n = head.point(x + side * w * 0.04, z - h * 0.02, 0.024)
-        self.disc(bone, nm + '_pupil', p, n, (w * (0.16 if slit else 0.38), 0.012, h * (0.62 if slit else 0.48)), pupil, seg=10, rings=5)
-        p, n = head.point(x - side * w * 0.3, z + h * 0.36, 0.03)
-        self.disc(bone, nm + '_shine', p, n, (w * 0.3, 0.009, h * 0.24), '#ffffff', seg=8, rings=4)
-        p, n = head.point(x + side * w * 0.3, z - h * 0.42, 0.03)
-        self.disc(bone, nm + '_shine2', p, n, (w * 0.15, 0.008, h * 0.11), '#ffffff', seg=6, rings=3)
-        if lash:
-            pts = []
-            for k in range(5):
-                t = k / 4
-                ang = math.radians(150 - 120 * t) if side > 0 else math.radians(30 + 120 * t)
-                px = x + math.cos(ang) * w * 1.08
-                pz = z + math.sin(ang) * h * 1.02
-                q, _ = head.point(px, pz, 0.018)
-                pts.append(tuple(q))
-            # outer corner flick
-            q, _ = head.point(x + side * w * 1.32, z + h * 0.62, 0.016)
-            pts.append(tuple(q))
-            self.tube(bone, nm + '_lash', pts, w * 0.13, INK, taper=0.4)
-        if lid_color:
-            p, n = head.point(x, z + h * 0.55, 0.026)
-            self.disc(bone, nm + '_lid', p, n, (w * 1.2, 0.012, h * 0.5), lid_color, seg=14, rings=6)
-        if angry:
-            a, _ = head.point(x - side * w * 1.0, z + h * (1.05 + 0.05 * angry), 0.02)
-            b, _ = head.point(x + side * w * 1.1, z + h * (1.15 + 0.55 * angry), 0.02)
-            self.tube(bone, nm + '_brow', [tuple(a), tuple(b)], w * 0.17, INK, taper=0.55)
+                  sclera='#fdfaf7', pupil=None, tag='', lid_color=None, slit=False):
+        """Hero-style eye on `head` (Head). w, h are half-sizes; side=+1 creature's left (+X).
+        angry 0..1 tilts a brow; lid_color paints a heavy upper lid. `glow` is ignored (irises never glow)."""
+        p, _ = head.point(x, z, 0.0)
+        n = head.normal(p)
+        parts = F.eye(f'eye{tag}{side:+d}', head.bvh(), p, n, w * 1.7, h * 1.7, iris, iris_lo, side=side, k=head.k,
+                      pupil=pupil, sclera=sclera, lash_weight=1.0 if lash else 0.6, slit=slit, angry=angry, lid=lid_color)
+        for o in parts:
+            self.add(bone, o)
 
     def eye_pair(self, bone, head, z, spacing, w, h, iris, iris_lo, **kw):
         for s in (-1, 1):
             self.anime_eye(bone, head, head.c.x + s * spacing, z, w, h, iris, iris_lo, s, **kw)
 
     def glow_eyes(self, bone, head, z, spacing, w, h, color, slant=0.0, tag=''):
-        """Menacing glowing slit eyes (helmets, skulls, elementals)."""
+        """Glowing slit eyes for helmets, skulls and elementals (flat, painted on)."""
         for s in (-1, 1):
-            p, n = head.point(head.c.x + s * spacing, z, 0.004)
-            self.disc(bone, f'gloweye{tag}{s:+d}', p, n, (w, 0.016, h), color, 'M_Emit', seg=12, rings=6, roll=-s * slant)
+            p, _ = head.point(head.c.x + s * spacing, z, 0.0)
+            for o in F.glow_eye(f'gloweye{tag}{s:+d}', head.bvh(), p, head.normal(p), w * 2, h * 2, color,
+                                slant=-s * slant, k=head.k):
+                self.add(bone, o)
 
-    def blush(self, bone, head, z, spacing, w=0.05, color='#ff8fa8'):
+    def blush(self, bone, head, z, spacing, w=0.05, color='#f29aa4'):
         for s in (-1, 1):
-            p, n = head.point(head.c.x + s * spacing, z, 0.006)
-            self.disc(bone, f'blush{s:+d}', p, n, (w, 0.008, w * 0.55), color, seg=12, rings=6)
+            p, _ = head.point(head.c.x + s * spacing, z, 0.0)
+            for o in F.blush(f'blush{s:+d}', head.bvh(), p, head.normal(p), w * 1.6, color, k=head.k):
+                self.add(bone, o)
 
-    def open_mouth(self, bone, head, z, w, h, fangs=None, tongue='#ff7f95', inner='#3b0f22', tag=''):
-        p, n = head.point(head.c.x, z, 0.004)
-        self.disc(bone, 'mouth' + tag, p, n, (w, 0.016, h), inner, seg=16, rings=8)
-        p, n = head.point(head.c.x, z - h * 0.42, 0.012)
-        self.disc(bone, 'tongue' + tag, p, n, (w * 0.62, 0.01, h * 0.38), tongue, seg=12, rings=6)
+    def open_mouth(self, bone, head, z, w, h, fangs=None, tongue='#e0707e', inner='#5a1a24', tag=''):
+        p, _ = head.point(head.c.x, z, 0.0)
+        for o in F.mouth_open('mouth' + tag, head.bvh(), p, head.normal(p), w * 2, h * 2, inner, tongue, k=head.k):
+            self.add(bone, o)
         if fangs:
             for s in (-1, 1):
-                a, _ = head.point(head.c.x + s * w * 0.55, z + h * 0.62, 0.012)
-                b, _ = head.point(head.c.x + s * w * 0.5, z + h * 0.05, 0.02)
-                self.spike(bone, f'fang{tag}{s:+d}', tuple(a), tuple(b), w * 0.2, fangs)
+                a, _ = head.point(head.c.x + s * w * 0.55, z + h * 0.62, 0.004)
+                b, _ = head.point(head.c.x + s * w * 0.5, z + h * 0.1, 0.01)
+                self.spike(bone, f'fang{tag}{s:+d}', tuple(a), tuple(b), w * 0.16, fangs)
 
     def cat_mouth(self, bone, head, z, w, color=INK, tag=''):
-        """Small 'w' mouth line."""
-        pts = []
-        for k in range(7):
-            t = k / 6
-            px = head.c.x + (t - 0.5) * 2 * w
-            pz = z - abs(math.sin(math.pi * t * 2)) * w * 0.35
-            q, _ = head.point(px, pz, 0.012)
-            pts.append(tuple(q))
-        self.tube(bone, 'wmouth' + tag, pts, w * 0.12, color)
+        """Small closed mouth line."""
+        p, _ = head.point(head.c.x, z, 0.0)
+        for o in F.mouth_line('wmouth' + tag, head.bvh(), p, head.normal(p), w * 2, color, k=head.k):
+            self.add(bone, o)
 
     # ------------------------------------------------------------ animation
     def animate(self, kind='biped', extra=None):
@@ -482,11 +464,16 @@ class Monster(Creature):
                         extra(a, clip, f, t, i, names)
         sizes = sorted(((sum(len(p.vertices) - 2 for p in o.data.polygons), o.name) for ps in self.parts.values() for o in ps), reverse=True)
         print('TRI_TOP ' + ', '.join(f'{n}:{t}' for t, n in sizes[:10]), flush=True)
-        body = A.skin(self.parts, rig)
+        body = self.skin(rig)
         return rig, body
+
+    def skin(self, rig):
+        """Join every part into the skinned Body (rigid one-bone parts). Sculpted kits override this."""
+        return A.skin(self.parts, rig)
 
     def finish(self, kind='biped', extra=None, previews=PREVIEWS):
         rig, body = self.animate(kind, extra)
+        A.volume_shade(body)  # same grounded, solid read as the heroes
         tris = sum(len(p.vertices) - 2 for p in body.data.polygons)
         if not all(name in bpy.data.actions for name in CLIPS):
             raise RuntimeError('Missing creature action')

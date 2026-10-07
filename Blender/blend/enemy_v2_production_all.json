@@ -54,7 +54,38 @@
     "normal": 10000,
     "elite": 14000
   },
-  "over_budget": [],
+  "over_budget": [
+    {
+      "id": "rhino_beetle",
+      "triangles": 10100,
+      "budget": 10000
+    },
+    {
+      "id": "yeti",
+      "triangles": 10996,
+      "budget": 10000
+    },
+    {
+      "id": "hellhound",
+      "triangles": 11796,
+      "budget": 10000
+    },
+    {
+      "id": "flame_elemental",
+      "triangles": 10836,
+      "budget": 10000
+    },
+    {
+      "id": "sand_scorpion",
+      "triangles": 10898,
+      "budget": 10000
+    },
+    {
+      "id": "lizardman",
+      "triangles": 12740,
+      "budget": 10000
+    }
+  ],
   "reports": [
     {
       "id": "horned_rabbit",
@@ -63,11 +94,10 @@
       "floors": "B1-B2",
       "role": "fast swarm",
       "generator": "enemies_c/verdant.py",
-      "triangles": 8426,
+      "triangles": 9542,
       "bones": 11,
       "materials": [
-        "M_Toon",
-        "M_Emit"
+        "M_Toon"
       ],
       "clips": {
         "Idle": [
@@ -100,8 +130,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
-        "bytes": 830524
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+        "bytes": 964636
       }
     },
     {
@@ -111,11 +141,10 @@
       "floors": "B2-B3",
       "role": "swarm / poison",
       "generator": "enemies_c/verdant.py",
-      "triangles": 5474,
-      "bones": 15,
+      "triangles": 8202,
+      "bones": 11,
       "materials": [
         "M_Toon",
-        "M_Emit",
         "M_Clear"
       ],
       "clips": {
@@ -150,7 +179,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
-        "bytes": 989868
+        "bytes": 919404
       }
     },
     {
@@ -160,11 +189,10 @@
       "floors": "B2-B3",
       "role": "debuffer (sleep, slow)",
       "generator": "enemies_c/verdant.py",
-      "triangles": 5824,
+      "triangles": 8610,
       "bones": 8,
       "materials": [
-        "M_Toon",
-        "M_Emit"
+        "M_Toon"
       ],
       "clips": {
         "Idle": [
@@ -198,7 +226,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
-        "bytes": 619420
+        "bytes": 776524
       }
     },
     {
@@ -208,11 +236,10 @@
       "floors": "B2-B3",
       "role": "tank",
       "generator": "enemies_c/verdant.py",
-      "triangles": 7462,
-      "bones": 12,
+      "triangles": 10100,
+      "bones": 10,
       "materials": [
-        "M_Toon",
-        "M_Emit"
+        "M_Toon"
       ],
       "clips": {
         "Idle": [
@@ -246,7 +273,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
-        "bytes": 861612
+        "bytes": 926060
       }
     },
     {
@@ -256,8 +283,8 @@
       "floors": "B3 FOE",
       "role": "elite tank",
       "generator": "enemies_c/verdant.py",
-      "triangles": 8050,
-      "bones": 12,
+      "triangles": 10244,
+      "bones": 10,
       "materials": [
         "M_Toon",
         "M_Emit"
@@ -294,7 +321,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
-        "bytes": 875468
+        "bytes": 934396
       }
     },
     {
@@ -304,7 +331,7 @@
       "floors": "B3",
       "role": "healer",
       "generator": "enemies_c/verdant.py",
-      "triangles": 5404,
+      "triangles": 4534,
       "bones": 13,
       "materials": [
         "M_Toon",
@@ -342,8 +369,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
-        "bytes": 878956
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+        "bytes": 868396
       }
     },
     {
@@ -353,11 +380,11 @@
       "floors": "B4-B5",
       "role": "debuffer (slow)",
       "generator": "enemies_c/frost.py",
-      "triangles": 6796,
+      "triangles": 8952,
       "bones": 11,
       "materials": [
         "M_Toon",
-        "M_Emit"
+        "M_Clear"
       ],
       "clips": {
         "Idle": [
@@ -391,7 +418,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
-        "bytes": 794988
+        "bytes": 921692
       }
     },
     {
@@ -401,7 +428,7 @@
       "floors": "B4-B6",
       "role": "healer / ice caster",
       "generator": "enemies_c/frost.py",
-      "triangles": 6102,
+      "triangles": 5232,
       "bones": 11,
       "materials": [
         "M_Toon",
@@ -439,8 +466,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
-        "bytes": 792156
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
+        "bytes": 780988
       }
     },
     {
@@ -450,11 +477,10 @@
       "floors": "B5-B6",
       "role": "bruiser (stun, enrage)",
       "generator": "enemies_c/frost.py",
-      "triangles": 7350,
+      "triangles": 10996,
       "bones": 9,
       "materials": [
-        "M_Toon",
-        "M_Emit"
+        "M_Toon"
       ],
       "clips": {
         "Idle": [
@@ -487,8 +513,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
-        "bytes": 702540
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+        "bytes": 926492
       }
     },
     {
@@ -498,7 +524,7 @@
       "floors": "B6 FOE",
       "role": "elite bruiser",
       "generator": "enemies_c/frost.py",
-      "triangles": 7790,
+      "triangles": 11276,
       "bones": 10,
       "materials": [
         "M_Toon",
@@ -536,8 +562,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
-        "bytes": 769788
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
+        "bytes": 991836
       }
     },
     {
@@ -547,7 +573,7 @@
       "floors": "B6",
       "role": "tank",
       "generator": "enemies_c/frost.py",
-      "triangles": 2930,
+      "triangles": 2798,
       "bones": 9,
       "materials": [
         "M_Clear",
@@ -585,8 +611,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
-        "bytes": 613148
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+        "bytes": 615596
       }
     },
     {
@@ -596,55 +622,7 @@
       "floors": "B7-B8",
       "role": "fast pack hunter",
       "generator": "enemies_c/ember.py",
-      "triangles": 8506,
-      "bones": 12,
-      "materials": [
-        "M_Toon",
-        "M_Emit"
-      ],
-      "clips": {
-        "Idle": [
-          1.0,
-          49.0
-        ],
-        "Run": [
-          1.0,
-          21.0
-        ],
-        "Attack": [
-          1.0,
-          26.0
-        ],
-        "Cast": [
-          1.0,
-          36.0
-        ],
-        "Hit": [
-          1.0,
-          13.0
-        ],
-        "Die": [
-          1.0,
-          31.0
-        ],
-        "Victory": [
-          1.0,
-          45.0
-        ]
-      },
-      "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
-        "bytes": 890588
-      }
-    },
-    {
-      "id": "elite_hellhound",
-      "name_ko": "오르트로스",
-      "biome": "ember_caverns",
-      "floors": "B8 FOE",
-      "role": "elite twin-headed hunter",
-      "generator": "enemies_c/ember.py",
-      "triangles": 12606,
+      "triangles": 11796,
       "bones": 15,
       "materials": [
         "M_Toon",
@@ -681,67 +659,19 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
-        "bytes": 1141916
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+        "bytes": 1250284
       }
     },
     {
-      "id": "flame_elemental",
-      "name_ko": "불꽃 정령",
+      "id": "elite_hellhound",
+      "name_ko": "오르트로스",
       "biome": "ember_caverns",
-      "floors": "B7-B9",
-      "role": "fire caster",
+      "floors": "B8 FOE",
+      "role": "elite twin-headed hunter",
       "generator": "enemies_c/ember.py",
-      "triangles": 5954,
-      "bones": 9,
-      "materials": [
-        "M_Emit",
-        "M_Toon"
-      ],
-      "clips": {
-        "Idle": [
-          1.0,
-          49.0
-        ],
-        "Run": [
-          1.0,
-          21.0
-        ],
-        "Attack": [
-          1.0,
-          26.0
-        ],
-        "Cast": [
-          1.0,
-          36.0
-        ],
-        "Hit": [
-          1.0,
-          13.0
-        ],
-        "Die": [
-          1.0,
-          31.0
-        ],
-        "Victory": [
-          1.0,
-          45.0
-        ]
-      },
-      "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
-        "bytes": 685804
-      }
-    },
-    {
-      "id": "sand_scorpion",
-      "name_ko": "모래 전갈",
-      "biome": "ember_caverns",
-      "floors": "B7-B9",
-      "role": "poison tank",
-      "generator": "enemies_c/ember.py",
-      "triangles": 8894,
-      "bones": 16,
+      "triangles": 13542,
+      "bones": 18,
       "materials": [
         "M_Toon",
         "M_Emit"
@@ -777,8 +707,103 @@
         ]
       },
       "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
+        "bytes": 1453260
+      }
+    },
+    {
+      "id": "flame_elemental",
+      "name_ko": "불꽃 정령",
+      "biome": "ember_caverns",
+      "floors": "B7-B9",
+      "role": "fire caster",
+      "generator": "enemies_c/ember.py",
+      "triangles": 10836,
+      "bones": 8,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
+        "bytes": 798492
+      }
+    },
+    {
+      "id": "sand_scorpion",
+      "name_ko": "모래 전갈",
+      "biome": "ember_caverns",
+      "floors": "B7-B9",
+      "role": "poison tank",
+      "generator": "enemies_c/ember.py",
+      "triangles": 10898,
+      "bones": 16,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
-        "bytes": 1103916
+        "bytes": 1239116
       }
     },
     {
@@ -788,7 +813,7 @@
       "floors": "B8-B9",
       "role": "warrior (bleed)",
       "generator": "enemies_c/ember.py",
-      "triangles": 7648,
+      "triangles": 12740,
       "bones": 14,
       "materials": [
         "M_Toon",
@@ -825,8 +850,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
-        "bytes": 977244
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+        "bytes": 1224076
       }
     },
     {
@@ -836,11 +861,10 @@
       "floors": "B8-B9",
       "role": "evasive flyer (AoE, blind)",
       "generator": "enemies_c/ember.py",
-      "triangles": 6642,
-      "bones": 10,
+      "triangles": 9268,
+      "bones": 9,
       "materials": [
-        "M_Toon",
-        "M_Emit"
+        "M_Toon"
       ],
       "clips": {
         "Idle": [
@@ -873,8 +897,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
-        "bytes": 741884
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+        "bytes": 855948
       }
     },
     {
@@ -884,8 +908,8 @@
       "floors": "B10-B12",
       "role": "evasive dark caster (sleep)",
       "generator": "enemies_c/crypt.py",
-      "triangles": 5426,
-      "bones": 7,
+      "triangles": 9848,
+      "bones": 8,
       "materials": [
         "M_Clear",
         "M_Toon",
@@ -922,8 +946,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
-        "bytes": 563468
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+        "bytes": 818860
       }
     },
     {
@@ -933,7 +957,7 @@
       "floors": "B10-B12",
       "role": "rare treasure ambusher",
       "generator": "enemies_c/crypt.py",
-      "triangles": 3784,
+      "triangles": 3176,
       "bones": 6,
       "materials": [
         "M_Toon",
@@ -971,7 +995,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
-        "bytes": 458092
+        "bytes": 449612
       }
     },
     {
@@ -981,7 +1005,7 @@
       "floors": "B12 FOE",
       "role": "elite ambusher",
       "generator": "enemies_c/crypt.py",
-      "triangles": 4826,
+      "triangles": 4218,
       "bones": 6,
       "materials": [
         "M_Toon",
@@ -1019,7 +1043,7 @@
       },
       "fbx": {
         "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
-        "bytes": 482188
+        "bytes": 473580
       }
     },
     {
@@ -1029,7 +1053,7 @@
       "floors": "B11-B12",
       "role": "heavy attacker",
       "generator": "enemies_c/crypt.py",
-      "triangles": 6000,
+      "triangles": 5868,
       "bones": 11,
       "materials": [
         "M_Toon",
@@ -1066,8 +1090,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
-        "bytes": 769148
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+        "bytes": 771996
       }
     },
     {
@@ -1077,7 +1101,7 @@
       "floors": "B11 FOE",
       "role": "elite heavy attacker",
       "generator": "enemies_c/crypt.py",
-      "triangles": 7396,
+      "triangles": 7264,
       "bones": 12,
       "materials": [
         "M_Toon",
@@ -1114,8 +1138,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
-        "bytes": 852748
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
+        "bytes": 855452
       }
     },
     {
@@ -1125,7 +1149,7 @@
       "floors": "B11-B12",
       "role": "summoner / dark caster",
       "generator": "enemies_c/crypt.py",
-      "triangles": 5064,
+      "triangles": 4932,
       "bones": 10,
       "materials": [
         "M_Toon",
@@ -1162,8 +1186,8 @@
         ]
       },
       "fbx": {
-        "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
-        "bytes": 708364
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+        "bytes": 710492
       }
     }
   ]

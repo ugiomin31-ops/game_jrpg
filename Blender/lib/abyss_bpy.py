@@ -120,6 +120,34 @@ def gradient(obj, bottom, top, axis=2):
     return obj
 
 
+def volume_shade(obj, floor=0.8, rise=0.55, under=0.16, skip=("M_Emit",)):
+    """Bake soft form shading into Col so a creature reads as a solid, grounded figure like the heroes:
+    the lower `rise` share of its height fades toward `floor` brightness, and surfaces facing down lose up
+    to `under`. Uses smooth vertex normals (no faceting); glowing parts (M_Emit) are left untouched."""
+    me = obj.data
+    attr = me.color_attributes.get("Col")
+    if attr is None or len(me.vertices) == 0:
+        return obj
+    mw = obj.matrix_world
+    nm = mw.to_3x3().inverted_safe().transposed()
+    wz = [(mw @ v.co).z for v in me.vertices]
+    wn = [(nm @ v.normal).normalized().z for v in me.vertices]
+    lo, hi = min(wz), max(wz)
+    span = max(hi - lo, 1e-6)
+    names = [m.name.split(".")[0] if m else "" for m in me.materials]
+    for p in me.polygons:
+        if names and names[p.material_index] in skip:
+            continue
+        for li in p.loop_indices:
+            vi = me.loops[li].vertex_index
+            t = min(1.0, (wz[vi] - lo) / span / rise)
+            t = t * t * (3 - 2 * t)
+            k = (floor + (1 - floor) * t) * (1 - under * max(0.0, -wn[vi]))
+            c = attr.data[li].color_srgb
+            attr.data[li].color_srgb = (c[0] * k, c[1] * k, c[2] * k, c[3])
+    return obj
+
+
 def _place(obj, loc, rot, scale):
     obj.location = loc
     obj.rotation_euler = Euler([math.radians(a) for a in rot])

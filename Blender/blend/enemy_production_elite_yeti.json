@@ -1,38 +1,38 @@
 {
   "id": "elite_yeti",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/frost.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:08:45Z",
+  "produced_at_utc": "2026-10-07T01:48:40Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
-      "bytes": 769788
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
+      "bytes": 991836
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_elite_yeti.blend",
-      "bytes": 236507
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_yeti.blend",
+      "bytes": 467572
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_yeti.png",
-        "bytes": 196194
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti.png",
+        "bytes": 192570
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_yeti_side.png",
-        "bytes": 163256
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_side.png",
+        "bytes": 159917
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_yeti_attack.png",
-        "bytes": 184496
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_attack.png",
+        "bytes": 181868
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_yeti_cast.png",
-        "bytes": 181689
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_cast.png",
+        "bytes": 175108
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_yeti_die.png",
-        "bytes": 171503
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_yeti_die.png",
+        "bytes": 171730
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7790,
-    "vertices": 4205,
+    "triangles": 11276,
+    "vertices": 5720,
     "bones": 10,
     "materials": [
       "M_Toon",
@@ -86,8 +86,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7790,
-    "vertices": 4205,
+    "triangles": 11276,
+    "vertices": 5720,
     "bones": 10,
     "materials": [
       "M_Toon",

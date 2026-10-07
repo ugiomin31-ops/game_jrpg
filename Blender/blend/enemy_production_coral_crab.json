@@ -1,38 +1,38 @@
 {
   "id": "coral_crab",
   "is_boss": false,
-  "generator": "/home/user/game_jrpg/Blender/enemies_a/coral_crab.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T00:20:21Z",
+  "produced_at_utc": "2026-10-07T01:52:44Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/coral_crab/coral_crab.fbx",
-      "bytes": 1257308
+      "bytes": 995724
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_coral_crab.blend",
-      "bytes": 328075
+      "bytes": 460434
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab.png",
-        "bytes": 318029
+        "bytes": 177693
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_side.png",
-        "bytes": 307223
+        "bytes": 171383
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_attack.png",
-        "bytes": 318894
+        "bytes": 176367
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_cast.png",
-        "bytes": 333591
+        "bytes": 187450
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_die.png",
-        "bytes": 306884
+        "bytes": 178842
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12516,
-    "vertices": 7148,
-    "bones": 17,
+    "triangles": 11216,
+    "vertices": 5830,
+    "bones": 11,
     "materials": [
       "M_Toon"
     ],
@@ -62,7 +62,7 @@
       ],
       "Cast": [
         0.0,
-        36.0
+        35.0
       ],
       "Hit": [
         0.0,
@@ -70,7 +70,7 @@
       ],
       "Die": [
         0.0,
-        32.0
+        30.0
       ],
       "Victory": [
         0.0,
@@ -84,9 +84,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12516,
-    "vertices": 7148,
-    "bones": 17,
+    "triangles": 11216,
+    "vertices": 5830,
+    "bones": 11,
     "materials": [
       "M_Toon"
     ],
@@ -105,7 +105,7 @@
       ],
       "Cast": [
         1.0,
-        37.0
+        36.0
       ],
       "Hit": [
         1.0,
@@ -113,7 +113,7 @@
       ],
       "Die": [
         1.0,
-        33.0
+        31.0
       ],
       "Victory": [
         1.0,

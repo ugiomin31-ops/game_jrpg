@@ -1,38 +1,38 @@
 {
   "id": "elite_ice_wolf",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\ice_wolf.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:19:41Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/beasts.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:37:34Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\elite_ice_wolf\\elite_ice_wolf.fbx",
-      "bytes": 1531164
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_ice_wolf/elite_ice_wolf.fbx",
+      "bytes": 1117180
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_elite_ice_wolf.blend",
-      "bytes": 347795
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_ice_wolf.blend",
+      "bytes": 444874
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_ice_wolf.png",
-        "bytes": 321638
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf.png",
+        "bytes": 159610
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_ice_wolf_side.png",
-        "bytes": 325443
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_side.png",
+        "bytes": 168958
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_ice_wolf_attack.png",
-        "bytes": 291482
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_attack.png",
+        "bytes": 160859
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_ice_wolf_cast.png",
-        "bytes": 313097
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_cast.png",
+        "bytes": 160644
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_ice_wolf_die.png",
-        "bytes": 302096
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_ice_wolf_die.png",
+        "bytes": 155385
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12812,
-    "vertices": 7016,
-    "bones": 22,
+    "triangles": 10048,
+    "vertices": 5044,
+    "bones": 14,
     "materials": [
       "M_Toon",
-      "M_Emit",
       "M_Clear"
     ],
     "clips": {
@@ -60,11 +59,11 @@
       ],
       "Attack": [
         0.0,
-        26.0
+        25.0
       ],
       "Cast": [
         0.0,
-        36.0
+        35.0
       ],
       "Hit": [
         0.0,
@@ -72,7 +71,7 @@
       ],
       "Die": [
         0.0,
-        32.0
+        30.0
       ],
       "Victory": [
         0.0,
@@ -86,12 +85,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 12812,
-    "vertices": 7016,
-    "bones": 22,
+    "triangles": 10048,
+    "vertices": 5044,
+    "bones": 14,
     "materials": [
       "M_Toon",
-      "M_Emit",
       "M_Clear"
     ],
     "clips": {
@@ -105,11 +103,11 @@
       ],
       "Attack": [
         1.0,
-        27.0
+        26.0
       ],
       "Cast": [
         1.0,
-        37.0
+        36.0
       ],
       "Hit": [
         1.0,
@@ -117,7 +115,7 @@
       ],
       "Die": [
         1.0,
-        33.0
+        31.0
       ],
       "Victory": [
         1.0,

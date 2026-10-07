@@ -1,38 +1,38 @@
 {
   "id": "dark_knight",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/crypt.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:44Z",
+  "produced_at_utc": "2026-10-07T01:53:28Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
-      "bytes": 769148
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+      "bytes": 771996
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_dark_knight.blend",
-      "bytes": 207505
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_dark_knight.blend",
+      "bytes": 210374
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_dark_knight.png",
-        "bytes": 182627
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight.png",
+        "bytes": 182035
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_dark_knight_side.png",
-        "bytes": 160121
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_side.png",
+        "bytes": 160113
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_dark_knight_attack.png",
-        "bytes": 171290
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_attack.png",
+        "bytes": 170863
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_dark_knight_cast.png",
-        "bytes": 173434
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_cast.png",
+        "bytes": 172465
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_dark_knight_die.png",
-        "bytes": 159728
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_dark_knight_die.png",
+        "bytes": 159367
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6000,
-    "vertices": 3268,
+    "triangles": 5868,
+    "vertices": 3218,
     "bones": 11,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6000,
-    "vertices": 3268,
+    "triangles": 5868,
+    "vertices": 3218,
     "bones": 11,
     "materials": [
       "M_Toon",

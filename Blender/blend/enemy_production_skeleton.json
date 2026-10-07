@@ -1,38 +1,38 @@
 {
   "id": "skeleton",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:22:00Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:53:23Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\skeleton\\skeleton.fbx",
-      "bytes": 864940
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx",
+      "bytes": 859804
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_skeleton.blend",
-      "bytes": 232353
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_skeleton.blend",
+      "bytes": 229651
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_skeleton.png",
-        "bytes": 187795
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton.png",
+        "bytes": 185556
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_skeleton_side.png",
-        "bytes": 157947
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_side.png",
+        "bytes": 157027
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_skeleton_attack.png",
-        "bytes": 167743
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_attack.png",
+        "bytes": 166279
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_skeleton_cast.png",
-        "bytes": 171418
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_cast.png",
+        "bytes": 168932
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_skeleton_die.png",
-        "bytes": 161748
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_skeleton_die.png",
+        "bytes": 160301
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8260,
-    "vertices": 4758,
+    "triangles": 7504,
+    "vertices": 4406,
     "bones": 12,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8260,
-    "vertices": 4758,
+    "triangles": 7504,
+    "vertices": 4406,
     "bones": 12,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

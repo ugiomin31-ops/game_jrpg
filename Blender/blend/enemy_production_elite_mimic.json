@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T00:21:37Z",
+  "produced_at_utc": "2026-10-07T01:53:50Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
-      "bytes": 482188
+      "bytes": 473580
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_mimic.blend",
-      "bytes": 177656
+      "bytes": 172943
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mimic.png",
-        "bytes": 205256
+        "bytes": 201979
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mimic_side.png",
-        "bytes": 165409
+        "bytes": 165158
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mimic_attack.png",
-        "bytes": 194397
+        "bytes": 192646
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mimic_cast.png",
-        "bytes": 202013
+        "bytes": 198692
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_mimic_die.png",
-        "bytes": 168752
+        "bytes": 166825
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 4826,
-    "vertices": 2633,
+    "triangles": 4218,
+    "vertices": 2413,
     "bones": 6,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 4826,
-    "vertices": 2633,
+    "triangles": 4218,
+    "vertices": 2413,
     "bones": 6,
     "materials": [
       "M_Toon",

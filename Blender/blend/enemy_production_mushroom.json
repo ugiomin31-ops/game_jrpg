@@ -1,38 +1,38 @@
 {
   "id": "mushroom",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:23:26Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:42:00Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\mushroom\\mushroom.fbx",
-      "bytes": 749916
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "bytes": 722460
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_mushroom.blend",
-      "bytes": 253335
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_mushroom.blend",
+      "bytes": 382161
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom.png",
-        "bytes": 179469
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom.png",
+        "bytes": 174096
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_side.png",
-        "bytes": 168063
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_side.png",
+        "bytes": 161932
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_attack.png",
-        "bytes": 175542
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_attack.png",
+        "bytes": 174989
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_cast.png",
-        "bytes": 170105
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_cast.png",
+        "bytes": 171299
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_die.png",
-        "bytes": 169556
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_die.png",
+        "bytes": 168220
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9840,
-    "vertices": 5352,
-    "bones": 9,
+    "triangles": 8880,
+    "vertices": 4446,
+    "bones": 8,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9840,
-    "vertices": 5352,
-    "bones": 9,
+    "triangles": 8880,
+    "vertices": 4446,
+    "bones": 8,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

@@ -93,7 +93,7 @@ rings = A.join([rings, ring2], "rings")
 eyes = []
 for s in (-1, 1):
     p, n = surf(trunk, (0, 0, HZ + 0.04), dir_from(s * 21, 0))
-    eyes += cute_eye(f"eye{s}", p, n, w=0.07, h=0.088, iris="#4fa83a", pupil="#2a1a10", depth=0.024)
+    eyes += cute_eye(f"eye{s}", p, n, w=0.07, h=0.088, iris="#4fa83a", pupil="#2a1a10", depth=0.024, surface=trunk)
 face = []
 for s in (-1, 1):
     p, n = surf(trunk, (0, 0, HZ - 0.035), dir_from(s * 36, 0))

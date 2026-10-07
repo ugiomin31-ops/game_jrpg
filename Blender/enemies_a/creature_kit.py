@@ -9,6 +9,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'lib'))
 import abyss_bpy as A
 import bpy
 from mathutils import Vector
+import creature_face as F
+from mathutils.bvhtree import BVHTree
 
 CLIPS = {'Idle': 48, 'Run': 20, 'Attack': 25, 'Cast': 35, 'Hit': 12, 'Die': 30, 'Victory': 44}
 
@@ -49,14 +51,34 @@ class Creature:
         return self.add(bone,o)
     def ring(self, bone, name, point, radius, tube, color, rot=(0,0,0), scale=(1,1,1), mat='M_Toon'):
         return self.add(bone,A.torus(name,R=radius,r=tube,loc=point,rot=rot,scale=scale,color=color,mat=mat,seg=24,minor=8))
-    def eyes(self, bone, point, spacing=.12, size=.065, iris='#ffce45', angry=False):
+    def eyes(self, bone, point, spacing=.12, size=.065, iris='#ffce45', angry=False, socket=False):
+        """Hero-style painted eyes (creature_face.py) projected onto the body built so far: white, toon iris
+        with a soft gradient, pupil, two tiny highlights, lash line. No dark socket, no glowing iris."""
         x,y,z=point
+        bpy.context.view_layer.update()
+        objs=[o for b,ps in self.parts.items() if b!=bone for o in ps if o.type=='MESH']
+        verts,polys=[],[]
+        for o in objs:
+            mw=o.matrix_world;base=len(verts)
+            verts+=[mw@v.co for v in o.data.vertices]
+            polys+=[[base+i for i in p.vertices] for p in o.data.polygons]
+        bvh=BVHTree.FromPolygons(verts,polys) if polys else None
+        k=max(.4,size/.04)
         for s in (-1,1):
-            self.orb(bone,f'eye_socket{s}',(x+s*spacing,y,z),(size*1.3,.024,size*1.5),'#211829',seg=16,rings=8)
-            self.orb(bone,f'iris{s}',(x+s*spacing,y-.024,z),(size*.77,.015,size*1.16),iris,'M_Emit',seg=16,rings=8)
-            self.orb(bone,f'eye_glint{s}',(x+s*spacing+size*.17,y-.039,z+size*.38),(size*.23,.009,size*.28),'#fff7e6',seg=10,rings=6)
-            if angry:
-                self.tube(bone,f'brow{s}',[(x+s*(spacing-size),y-.043,z+size*.7),(x+s*(spacing+size),y-.038,z+size*1.45)],.018,'#291e32')
+            c=Vector((x+s*spacing,y,z))
+            n=Vector((s*.28,-1,.05)).normalized()
+            hit=bvh.ray_cast(c+n*.6,-n,1.2) if bvh else (None,None,None,None)
+            if hit[0] is None:
+                surf,c=F.cap_bvh(c-n*.01,n,size*2.4),c-n*.01
+            else:
+                surf,c=bvh,hit[0]
+                n=hit[1] if hit[1].dot(n)>0 else -hit[1]
+            if socket:
+                parts=F.socket_eye(f'eye{s:+d}',surf,c,n,size*2.3,size*2.5,side=s,k=k,angry=.8 if angry else 0.0)
+            else:
+                parts=F.eye(f'eye{s:+d}',surf,c,n,size*2.2,size*2.6,iris,side=s,k=k,angry=.8 if angry else 0.0)
+            for o in parts:
+                self.add(bone,o)
     def mouth(self,bone,point,w=.08,fangs=False):
         x,y,z=point
         self.orb(bone,'mouth',(x,y,z),(w,.02,w*.65),'#451327',seg=16,rings=8)
@@ -152,6 +174,7 @@ class Creature:
         return rig,body
     def finish(self,kind='biped'):
         rig,body=self.animate(kind)
+        A.volume_shade(body)  # same grounded, solid read as the heroes
         tris=sum(len(p.vertices)-2 for p in body.data.polygons)
         if not all(name in bpy.data.actions for name in CLIPS):raise RuntimeError('Missing creature action')
         rig.animation_data.action=bpy.data.actions['Idle']

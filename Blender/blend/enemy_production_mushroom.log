@@ -1,18 +1,21 @@
-00:00.062  color_management | Using OCIO=C:\Users\User\Tools\Blender\5.2\datafiles\colormanagement\config.ocio
-00:04.609  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_mushroom.png'
-00:04.906  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_mushroom_side.png'
-00:05.047  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_mushroom_attack.png'
-00:05.218  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_mushroom_cast.png'
-00:05.500  render           | Saved: 'C:\Users\User\Desktop\game\Blender\preview\enemy_mushroom_die.png'
+TRI_TOP eyeball.001:440, eyeball:440
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+EGL Error (0x3009): EGL_BAD_MATCH: Arguments are inconsistent (for example, a valid context requires buffers not supplied by a valid surface).
+00:03.870  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_mushroom.png'
+00:04.028  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_mushroom_side.png'
+00:04.209  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_mushroom_attack.png'
+00:04.383  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_mushroom_cast.png'
+00:04.538  render           | Saved: '/home/user/game_jrpg/Blender/preview/enemy_mushroom_die.png'
 
-FBX export starting... 'C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies/mushroom/mushroom.fbx'
+FBX export starting... '/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx'
 (bpy.data.armatures['Rig'], 'POSE')
-export finished in 0.3641 sec.
+export finished in 0.1190 sec.
 Info: Saved as "enemy_mushroom.blend"
-ENEMY_EXPORT {"id": "mushroom", "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies/mushroom/mushroom.fbx", "triangles": 9840, "bones": ["root", "body", "head", "crest", "eyes", "arm.R", "leg.R", "arm.L", "leg.L"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "missing_clips": []}
-00:05.531  blend            | Read blend: "C:\Users\User\Desktop\game\Blender\blend\enemy_mushroom.blend"
+ENEMY_EXPORT {"id": "mushroom", "fbx": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx", "triangles": 8880, "bones": ["root", "body", "head", "eyes", "arm.R", "leg.R", "arm.L", "leg.L"], "dimensions": [0.933, 0.975, 0.867], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "materials": ["M_Toon"]}
+00:04.540  blend            | Read blend: "/home/user/game_jrpg/Blender/blend/enemy_mushroom.blend"
 FBX version: 7400
-ENEMY_PRODUCTION {"id": "mushroom", "is_boss": false, "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py", "blender_version": "5.2.1 LTS", "produced_at_utc": "2026-10-06T04:23:26Z", "files": {"fbx": {"path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\mushroom\\mushroom.fbx", "bytes": 749916}, "blend": {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_mushroom.blend", "bytes": 253335}, "previews": [{"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom.png", "bytes": 179469}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_side.png", "bytes": 168063}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_attack.png", "bytes": 175542}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_cast.png", "bytes": 170105}, {"path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_mushroom_die.png", "bytes": 169556}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 9840, "vertices": 5352, "bones": 9, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 9840, "vertices": 5352, "bones": 9, "materials": ["M_Toon", "M_Emit"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
-Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+ENEMY_PRODUCTION {"id": "mushroom", "is_boss": false, "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py", "blender_version": "5.2.2 LTS", "produced_at_utc": "2026-10-07T01:42:00Z", "files": {"fbx": {"path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx", "bytes": 722460}, "blend": {"path": "/home/user/game_jrpg/Blender/blend/enemy_mushroom.blend", "bytes": 382161}, "previews": [{"path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom.png", "bytes": 174096}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_side.png", "bytes": 161932}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_attack.png", "bytes": 174989}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_cast.png", "bytes": 171299}, {"path": "/home/user/game_jrpg/Blender/preview/enemy_mushroom_die.png", "bytes": 168220}]}, "saved_blend": {"objects": ["Body", "Rig"], "triangles": 8880, "vertices": 4446, "bones": 8, "materials": ["M_Toon"], "clips": {"Idle": [0.0, 48.0], "Run": [0.0, 20.0], "Attack": [0.0, 25.0], "Cast": [0.0, 35.0], "Hit": [0.0, 12.0], "Die": [0.0, 30.0], "Victory": [0.0, 44.0]}, "unweighted_vertices": 0}, "reimported_fbx": {"objects": ["Body", "Rig"], "triangles": 8880, "vertices": 4446, "bones": 8, "materials": ["M_Toon"], "clips": {"Idle": [1.0, 49.0], "Run": [1.0, 21.0], "Attack": [1.0, 26.0], "Cast": [1.0, 36.0], "Hit": [1.0, 13.0], "Die": [1.0, 31.0], "Victory": [1.0, 45.0]}, "unweighted_vertices": 0}}
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:34:58)
 
 Blender quit

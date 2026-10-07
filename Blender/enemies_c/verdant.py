@@ -74,7 +74,6 @@ def killer_bee(eid):
     p, n = h.point(0, .99, .0)
     c.disc('head', 'brow_stripe', p, n, (.17, .03, .05), blk)
     c.eye_pair('eyes', h, .875, .088, .062, .072, '#8a4a12', '#ffc85c', angry=.3)
-    c.blush('head', h, .8, .13, .035)
     c.cat_mouth('head', h, .78, .03)
     for s, side in ((-1, 'R'), (1, 'L')):
         c.bone('antenna.' + side, (s * .06, -.06, 1.02), 'head')
@@ -168,7 +167,6 @@ def rhino_beetle(eid):
     h = Head((0, -.29, .31), (.19, .14, .15))
     c.orb('head', 'beetle_head', tuple(h.c), tuple(h.r), dark if not el else '#26354a', seg=24, rings=12)
     c.eye_pair('eyes', h, .33, .095, .062, .074, '#ffcf2e', '#fff3a6', angry=.15 if not el else .45)
-    c.blush('head', h, .26, .14, .032)
     c.cat_mouth('head', h, .235, .03)
     horn = [(0, -.3, .43), (0, -.41, .49), (0, -.5, .61), (0, -.49, .76)]
     if el:

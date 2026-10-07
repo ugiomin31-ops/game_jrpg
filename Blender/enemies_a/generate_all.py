@@ -38,6 +38,12 @@ SOURCES = {
     **{eid: f'bosses/{eid}.py' for eid in ('boss', 'forest_guardian', 'frost_kraken', 'flame_sphinx')},
     **V2_SOURCES,
 }
+sys.path.insert(0, str(ROOT / 'Blender' / 'enemies_d'))
+import importlib.util  # noqa: E402
+_v3 = importlib.util.spec_from_file_location('roster_v3', str(ROOT / 'Blender' / 'enemies_d' / 'roster.py'))
+_v3m = importlib.util.module_from_spec(_v3)
+_v3.loader.exec_module(_v3m)
+SOURCES.update(_v3m.SOURCES)  # monster v3: sculpted bodies replace older generators
 
 
 def data_roster():

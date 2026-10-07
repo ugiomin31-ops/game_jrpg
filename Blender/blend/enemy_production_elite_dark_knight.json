@@ -1,38 +1,38 @@
 {
   "id": "elite_dark_knight",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/crypt.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/crypt.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:48Z",
+  "produced_at_utc": "2026-10-07T01:53:30Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
-      "bytes": 852748
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
+      "bytes": 855452
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_elite_dark_knight.blend",
-      "bytes": 228389
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_dark_knight.blend",
+      "bytes": 230517
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_dark_knight.png",
-        "bytes": 184378
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight.png",
+        "bytes": 183956
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_dark_knight_side.png",
-        "bytes": 158184
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_side.png",
+        "bytes": 157693
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_dark_knight_attack.png",
-        "bytes": 174770
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_attack.png",
+        "bytes": 174350
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_dark_knight_cast.png",
-        "bytes": 171733
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_cast.png",
+        "bytes": 170943
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_elite_dark_knight_die.png",
-        "bytes": 161067
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_dark_knight_die.png",
+        "bytes": 160625
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7396,
-    "vertices": 3986,
+    "triangles": 7264,
+    "vertices": 3936,
     "bones": 12,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7396,
-    "vertices": 3986,
+    "triangles": 7264,
+    "vertices": 3936,
     "bones": 12,
     "materials": [
       "M_Toon",

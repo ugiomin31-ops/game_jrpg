@@ -36,7 +36,6 @@ three pairs of short chunky legs with snow-boot feet (no fangs, extra eyes or lo
         c.orb('body', f'fur_tuft{k}', (.2 * math.cos(ang), .0 + .06 * math.sin(ang), .41 + .18 * math.sin(ang)),
               (.06, .05, .06), white)
     c.eye_pair('eyes', h, .415, .088, .062, .074, '#22c8ff', '#c6fbff')
-    c.blush('head', h, .345, .14, .038, '#ffb3c8')
     c.cat_mouth('head', h, .325, .03)
     c.orb('tail1', 'abdomen', (0, .27, .45), (.25, .27, .23), navy, seg=26, rings=14)
     c.orb('tail1', 'abdomen_frost', (0, .27, .55), (.2, .22, .13), '#3b6bb5')

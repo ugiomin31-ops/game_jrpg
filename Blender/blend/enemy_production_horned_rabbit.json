@@ -1,38 +1,38 @@
 {
   "id": "horned_rabbit",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/verdant.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:05:37Z",
+  "produced_at_utc": "2026-10-07T01:51:18Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
-      "bytes": 830524
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+      "bytes": 964636
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_horned_rabbit.blend",
-      "bytes": 245782
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_horned_rabbit.blend",
+      "bytes": 396879
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_horned_rabbit.png",
-        "bytes": 184131
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit.png",
+        "bytes": 171862
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_horned_rabbit_side.png",
-        "bytes": 166479
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_side.png",
+        "bytes": 162559
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_horned_rabbit_attack.png",
-        "bytes": 162839
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_attack.png",
+        "bytes": 167021
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_horned_rabbit_cast.png",
-        "bytes": 187688
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_cast.png",
+        "bytes": 171722
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_horned_rabbit_die.png",
-        "bytes": 168112
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_die.png",
+        "bytes": 165695
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8426,
-    "vertices": 4397,
+    "triangles": 9542,
+    "vertices": 4779,
     "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8426,
-    "vertices": 4397,
+    "triangles": 9542,
+    "vertices": 4779,
     "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

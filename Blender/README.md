@@ -61,6 +61,25 @@ python Blender/enemies_c/compose_sheet.py CELLS_DIR sheet.png      # PIL, 한글
 ```
 결과 증거는 `blend/enemy_v2_production_all.json`(예산: 일반 ≤10k, 엘리트 ≤14k tris). 새 id의 도감 아이콘은 `ui/render_icons.py -- Enemies/<id> ...`로 렌더한다.
 
+## 몬스터 v3 — 조각식 키트 (`enemies_d/`)
+
+일반·엘리트 몬스터 32종은 `enemies_d/sculpt_kit.py`의 `Sculpt`(v2 `Monster` 확장)로 만든다. 프리미티브를 붙이는 대신:
+
+1. `blob`/`limb`/`tuft`로 타원체 덩어리를 배치 → 메타볼로 **하나의 표면**으로 융합 → 복셀 리메시(기본 6.5 mm) → 스무딩 → 목표 삼각형 수로 데시메이트.
+2. 각 덩어리의 색(또는 위치 함수)을 부드럽게 섞어 칠하고, `paint`(부피 없는 색 덩어리)로 무늬·입·콧구멍을 그린다.
+3. 덩어리→본 영향으로 **부드러운 스킨 웨이트**(정점당 최대 3본)를 준다. 뿔·발톱·무기·날개막(`membrane`)은 단단한 부품.
+4. `eye`는 공막·홍채·동공·하이라이트 하나가 칠해진 실제 안구. 머리에 40 % 정도 묻고 눈썹 덩어리로 눈꺼풀을 만든다. 빛나지 않는다.
+5. Cycles로 **앰비언트 오클루전을 정점색에 굽는다**(주름·겨드랑이·턱밑이 어두워짐). 이어서 공통 `A.volume_shade`가 바닥 쪽을 살짝 어둡게 한다.
+
+```
+blender -b --factory-startup --python-exit-code 1 -P Blender/enemies_a/generate_all.py -- --asset ice_wolf
+```
+`enemies_d/roster.py`의 id는 `generate_all.py`에서 이전 생성기보다 우선한다(같은 본 이름·7클립 규약, 같은 FBX 재임포트 검증).
+파일: `beasts.py`(늑대·헬하운드·오르트로스), `plants.py`(슬라임·용암 슬라임·버섯·풀뿌리·만드라고라), `flyers.py`(박쥐 3종·불사조·드레이크 2종·킬러비·하피),
+`critters.py`(뿔토끼·설인 2종·펭귄 마법사·리자드맨), `bugs.py`(서리 거미·장수풍뎅이 2종·전갈·소라게 2종·해파리), `spirits.py`(원령·불꽃 정령).
+나머지(해골·기사·허수아비·골렘·미믹·리치·도깨비불·요정)는 단단한 소재나 인간형이라 v1/v2 생성기를 유지하고, 얼굴만 영웅과 같은 데칼 방식(`lib/creature_face.py`)으로 바꿨다.
+v3의 삼각형 수는 7–13.5k로 이전 예산(일반 ≤10k)보다 클 수 있다. 실제 기기 성능은 빌드에서 측정한다.
+
 ## CC0 몬스터 (Quaternius Ultimate Monsters · KayKit Skeletons)
 
 `enemies_cc0/`는 리깅·애니메이션된 CC0 몬스터(glTF, `third_party/quaternius_ultimate_monsters/`, `third_party/kaykit_skeletons/`)를
@@ -101,10 +120,10 @@ blender -b --factory-startup -P Blender/heroes/generate_anime.py -- archer
 
 ## 아트 디렉션
 
-- **몬스터는 징그럽지 않게** (사용자 지시, 2026-10-07): 가늘고 마디진 거미·곤충 다리, 여분의 작은 눈, 이빨 줄·송곳니·늘어진 혀,
-  어두운 구멍 속 빛나는 눈, 갈고리 발톱, 얼룩·반점·따개비 군집, 눈물 같은 요소를 피한다. 대신 짧고 통통한 다리와 둥근 발
-  (`Monster.stubby_leg`), 큰 애니 눈(`eye_pair`/`cute_eye`), 볼터치와 작은 미소, 둥근 손·집게를 쓴다. 보스는 위압감을 남겨도 된다.
-
+- **몬스터는 영웅과 같은 입체감으로** (사용자 지시, 2026-10-07): 귀엽게 만들 필요는 없다. 공(구체)에 얼굴을 붙인 형태, 크고 빛나는
+  애니 눈, 몸에서 튀어나온 스티커 같은 눈은 쓰지 않는다. 몸은 하나로 이어진 조각(가슴·허리·관절·근육 덩어리)으로, 눈은 작고 자연스럽게
+  소켓에 박고 눈썹/눈꺼풀 덩어리로 덮는다. 털·깃털은 덩어리(tuft)로 조형한다. 가는 마디 다리·여러 개의 눈은 여전히 피한다.
+  새 몬스터는 `enemies_d/sculpt_kit.py`(아래 "몬스터 v3")로 만든다.
 - 레퍼런스: 기존 2D 원화(치비 애니메 JRPG, 굵은 실루엣, 채도 높은 팔레트). 영웅은 2.5–3등신, 머리 큼, 큰 눈.
 - 툰 셰이딩 + 외곽선이 Unity에서 입혀지므로, Blender에서는 **실루엣과 색 구분**에 집중한다.
   면 하나에 한 색, 큰 형태 → 중간 디테일(벨트·장식·테두리) 순서. 금색 테두리, 보석 같은 발광 포인트로 상업 게임 느낌을 낸다.

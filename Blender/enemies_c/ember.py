@@ -137,7 +137,6 @@ def sand_scorpion(eid):
     c.orb('head', 'scorp_head', tuple(h.c), tuple(h.r), sand, seg=22, rings=12)
     c.orb('head', 'head_plate', (0, -.2, .4), (.15, .12, .05), plate)
     c.eye_pair('eyes', h, .335, .085, .058, .07, '#18c9b0', '#a9fff0', angry=.15)
-    c.blush('head', h, .27, .13, .03)
     c.cat_mouth('head', h, .25, .028)
     tail = [(0, .3, .3), (0, .4, .4), (0, .44, .55), (0, .41, .7), (0, .32, .8)]
     for k in range(4):

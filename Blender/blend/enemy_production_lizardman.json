@@ -1,38 +1,38 @@
 {
   "id": "lizardman",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/ember.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:06:28Z",
+  "produced_at_utc": "2026-10-07T01:51:29Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
-      "bytes": 977244
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+      "bytes": 1224076
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_lizardman.blend",
-      "bytes": 245594
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_lizardman.blend",
+      "bytes": 491146
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lizardman.png",
-        "bytes": 184948
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_lizardman.png",
+        "bytes": 174141
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lizardman_side.png",
-        "bytes": 169282
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_lizardman_side.png",
+        "bytes": 164093
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lizardman_attack.png",
-        "bytes": 171260
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_lizardman_attack.png",
+        "bytes": 162443
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lizardman_cast.png",
-        "bytes": 177294
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_lizardman_cast.png",
+        "bytes": 167279
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_lizardman_die.png",
-        "bytes": 167968
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_lizardman_die.png",
+        "bytes": 162178
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7648,
-    "vertices": 4242,
+    "triangles": 12740,
+    "vertices": 6444,
     "bones": 14,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7648,
-    "vertices": 4242,
+    "triangles": 12740,
+    "vertices": 6444,
     "bones": 14,
     "materials": [
       "M_Toon",

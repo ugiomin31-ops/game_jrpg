@@ -1,38 +1,38 @@
 {
   "id": "fire_drake",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:20:11Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:45:03Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\fire_drake\\fire_drake.fbx",
-      "bytes": 882364
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/fire_drake/fire_drake.fbx",
+      "bytes": 1201132
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_fire_drake.blend",
-      "bytes": 247488
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_fire_drake.blend",
+      "bytes": 482489
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_fire_drake.png",
-        "bytes": 182945
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_fire_drake.png",
+        "bytes": 171490
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_fire_drake_side.png",
-        "bytes": 166350
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_fire_drake_side.png",
+        "bytes": 159723
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_fire_drake_attack.png",
-        "bytes": 174493
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_fire_drake_attack.png",
+        "bytes": 171161
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_fire_drake_cast.png",
-        "bytes": 183283
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_fire_drake_cast.png",
+        "bytes": 165644
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_fire_drake_die.png",
-        "bytes": 153986
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_fire_drake_die.png",
+        "bytes": 157707
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9004,
-    "vertices": 4824,
-    "bones": 12,
+    "triangles": 11456,
+    "vertices": 5912,
+    "bones": 14,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9004,
-    "vertices": 4824,
-    "bones": 12,
+    "triangles": 11456,
+    "vertices": 5912,
+    "bones": 14,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

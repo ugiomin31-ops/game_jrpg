@@ -1,38 +1,38 @@
 {
   "id": "elite_skeleton",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:20:05Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:53:25Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\elite_skeleton\\elite_skeleton.fbx",
-      "bytes": 881068
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_skeleton/elite_skeleton.fbx",
+      "bytes": 876412
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_elite_skeleton.blend",
-      "bytes": 243889
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_elite_skeleton.blend",
+      "bytes": 240586
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_skeleton.png",
-        "bytes": 182334
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_skeleton.png",
+        "bytes": 180123
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_skeleton_side.png",
-        "bytes": 156072
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_skeleton_side.png",
+        "bytes": 155301
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_skeleton_attack.png",
-        "bytes": 168317
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_skeleton_attack.png",
+        "bytes": 167095
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_skeleton_cast.png",
-        "bytes": 169316
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_skeleton_cast.png",
+        "bytes": 168735
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_elite_skeleton_die.png",
-        "bytes": 155087
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_elite_skeleton_die.png",
+        "bytes": 154771
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9122,
-    "vertices": 5231,
+    "triangles": 8366,
+    "vertices": 4879,
     "bones": 12,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9122,
-    "vertices": 5231,
+    "triangles": 8366,
+    "vertices": 4879,
     "bones": 12,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

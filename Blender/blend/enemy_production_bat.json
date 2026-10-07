@@ -1,38 +1,38 @@
 {
   "id": "bat",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:18:45Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:44:47Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\bat\\bat.fbx",
-      "bytes": 632604
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/bat/bat.fbx",
+      "bytes": 922844
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_bat.blend",
-      "bytes": 182196
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_bat.blend",
+      "bytes": 356674
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_bat.png",
-        "bytes": 169601
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_bat.png",
+        "bytes": 148539
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_bat_side.png",
-        "bytes": 135301
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_side.png",
+        "bytes": 129300
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_bat_attack.png",
-        "bytes": 153229
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_attack.png",
+        "bytes": 144700
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_bat_cast.png",
-        "bytes": 159039
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_cast.png",
+        "bytes": 149166
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_bat_die.png",
-        "bytes": 143549
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_bat_die.png",
+        "bytes": 137527
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 4374,
-    "vertices": 2449,
-    "bones": 9,
+    "triangles": 8280,
+    "vertices": 4278,
+    "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 4374,
-    "vertices": 2449,
-    "bones": 9,
+    "triangles": 8280,
+    "vertices": 4278,
+    "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

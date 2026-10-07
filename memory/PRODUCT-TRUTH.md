@@ -19,11 +19,11 @@ Evidence class: directly inspected project code, production outputs and local ex
 - Geometry exceeds the original aspirational polygon budgets for several heroes/enemies/environment parts; no low-end performance claim is supported by this import check.
 - Checked: 2026-10-06.
 
-### Friendlier monster redesign — verified (Blender production; not yet Unity-imported) — 2026-10-07
+### Sculpted monster rebuild (v3) — verified (Blender production; not yet Unity-imported) — 2026-10-07
 
-- Eleven enemies were rebuilt to read cute instead of creepy (stubby round legs, big eyes, smiles; no spindly legs, extra eyes, fang rows, dark eye-holes, claws or speckle/barnacle clusters): sprout, coral_crab, elite_coral_crab, frost_spider, rhino_beetle, elite_rhino_beetle, sand_scorpion, killer_bee, mandragora, mimic, elite_mimic. Their bestiary icons were re-rendered.
-- Evidence: Blender 5.2.2 (Linux) runs of `Blender/enemies_a/generate_all.py -- --asset ID`; per-ID `Blender/blend/enemy_production_<id>.json` record the saved and re-imported FBX (Rig + one skinned Body, Col, 0 unweighted vertices, 7 clips); `enemy_v2_production_all.json` lists 23/23 v2 IDs within budget; before/after previews in `Blender/preview/`.
-- Unity has not yet re-imported these FBX files in this checkout; run `Abyss/Validate Production Content` after opening the project.
+- 32 regular/elite monsters were remodelled with the sculpted kit (`Blender/enemies_d/`): one fused organic surface per creature, smooth multi-bone weights, Cycles-baked ambient occlusion in the vertex colours, small modelled eyeballs in sockets (no glowing or sticker eyes). The other 15 (skeletons, knights, scarecrows, golems, mimics, lich, wisp, fairies) keep their v1/v2 geometry with hero-style painted faces (`Blender/lib/creature_face.py`). All 47 bestiary icons were re-rendered.
+- Evidence: Blender 5.2.2 (Linux) runs of `Blender/enemies_a/generate_all.py -- --asset ID` for all 47 ids; each `Blender/blend/enemy_production_<id>.json` records the saved and re-imported FBX (Rig + one skinned Body, Col, 0 unweighted vertices, 7 clips). Triangle counts are 7–13.5k (above the old ≤10k normal budget for several).
+- Unity has not yet re-imported these FBX files in this checkout; run `Abyss/Validate Production Content` after opening the project and check the toon shading in play mode.
 
 ### UI artwork — verified (production and local dungeon HUD rendering) — 2026-10-06
 

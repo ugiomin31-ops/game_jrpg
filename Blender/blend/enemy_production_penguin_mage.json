@@ -1,38 +1,38 @@
 {
   "id": "penguin_mage",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:21:36Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:48:44Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\penguin_mage\\penguin_mage.fbx",
-      "bytes": 759068
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/penguin_mage/penguin_mage.fbx",
+      "bytes": 937228
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_penguin_mage.blend",
-      "bytes": 197781
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_penguin_mage.blend",
+      "bytes": 414340
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_penguin_mage.png",
-        "bytes": 184619
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_penguin_mage.png",
+        "bytes": 178810
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_penguin_mage_side.png",
-        "bytes": 165135
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_penguin_mage_side.png",
+        "bytes": 164120
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_penguin_mage_attack.png",
-        "bytes": 167691
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_penguin_mage_attack.png",
+        "bytes": 167747
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_penguin_mage_cast.png",
-        "bytes": 174029
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_penguin_mage_cast.png",
+        "bytes": 167121
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_penguin_mage_die.png",
-        "bytes": 157179
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_penguin_mage_die.png",
+        "bytes": 163947
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5668,
-    "vertices": 3024,
-    "bones": 11,
+    "triangles": 10224,
+    "vertices": 5170,
+    "bones": 10,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 5668,
-    "vertices": 3024,
-    "bones": 11,
+    "triangles": 10224,
+    "vertices": 5170,
+    "bones": 10,
     "materials": [
       "M_Toon",
       "M_Emit"

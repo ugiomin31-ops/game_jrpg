@@ -1,38 +1,38 @@
 {
   "id": "sprout",
   "is_boss": false,
-  "generator": "/home/user/game_jrpg/Blender/enemies_a/sprout.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T00:18:44Z",
+  "produced_at_utc": "2026-10-07T01:40:46Z",
   "files": {
     "fbx": {
       "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
-      "bytes": 844524
+      "bytes": 838396
     },
     "blend": {
       "path": "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend",
-      "bytes": 287268
+      "bytes": 419140
     },
     "previews": [
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout.png",
-        "bytes": 325103
+        "bytes": 174466
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png",
-        "bytes": 284617
+        "bytes": 156447
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png",
-        "bytes": 295322
+        "bytes": 170655
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png",
-        "bytes": 303086
+        "bytes": 165923
       },
       {
         "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png",
-        "bytes": 287256
+        "bytes": 163598
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 10450,
-    "vertices": 5453,
-    "bones": 10,
+    "triangles": 10184,
+    "vertices": 5126,
+    "bones": 8,
     "materials": [
       "M_Toon"
     ],
@@ -58,11 +58,11 @@
       ],
       "Attack": [
         0.0,
-        26.0
+        25.0
       ],
       "Cast": [
         0.0,
-        36.0
+        35.0
       ],
       "Hit": [
         0.0,
@@ -70,7 +70,7 @@
       ],
       "Die": [
         0.0,
-        32.0
+        30.0
       ],
       "Victory": [
         0.0,
@@ -84,9 +84,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 10450,
-    "vertices": 5453,
-    "bones": 10,
+    "triangles": 10184,
+    "vertices": 5126,
+    "bones": 8,
     "materials": [
       "M_Toon"
     ],
@@ -101,11 +101,11 @@
       ],
       "Attack": [
         1.0,
-        27.0
+        26.0
       ],
       "Cast": [
         1.0,
-        37.0
+        36.0
       ],
       "Hit": [
         1.0,
@@ -113,7 +113,7 @@
       ],
       "Die": [
         1.0,
-        33.0
+        31.0
       ],
       "Victory": [
         1.0,

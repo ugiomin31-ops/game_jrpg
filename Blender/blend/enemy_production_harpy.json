@@ -1,38 +1,38 @@
 {
   "id": "harpy",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/ember.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:08:50Z",
+  "produced_at_utc": "2026-10-07T01:46:13Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
-      "bytes": 741884
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+      "bytes": 855948
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_harpy.blend",
-      "bytes": 222152
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_harpy.blend",
+      "bytes": 389160
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_harpy.png",
-        "bytes": 170778
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy.png",
+        "bytes": 147946
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_harpy_side.png",
-        "bytes": 146512
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_side.png",
+        "bytes": 136129
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_harpy_attack.png",
-        "bytes": 164718
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_attack.png",
+        "bytes": 148351
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_harpy_cast.png",
-        "bytes": 177194
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_cast.png",
+        "bytes": 147664
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_harpy_die.png",
-        "bytes": 151363
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_harpy_die.png",
+        "bytes": 142802
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6642,
-    "vertices": 3665,
-    "bones": 10,
+    "triangles": 9268,
+    "vertices": 4680,
+    "bones": 9,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 6642,
-    "vertices": 3665,
-    "bones": 10,
+    "triangles": 9268,
+    "vertices": 4680,
+    "bones": 9,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

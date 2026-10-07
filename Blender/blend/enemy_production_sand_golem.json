@@ -1,38 +1,38 @@
 {
   "id": "sand_golem",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_b\\ember_undead.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:24:13Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_b/ember_undead.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T01:53:40Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\sand_golem\\sand_golem.fbx",
-      "bytes": 711180
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_golem/sand_golem.fbx",
+      "bytes": 713900
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_sand_golem.blend",
-      "bytes": 236902
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_sand_golem.blend",
+      "bytes": 239736
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sand_golem.png",
-        "bytes": 196201
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_golem.png",
+        "bytes": 195915
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sand_golem_side.png",
-        "bytes": 163821
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_golem_side.png",
+        "bytes": 163023
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sand_golem_attack.png",
-        "bytes": 182045
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_golem_attack.png",
+        "bytes": 181344
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sand_golem_cast.png",
-        "bytes": 181547
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_golem_cast.png",
+        "bytes": 180643
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sand_golem_die.png",
-        "bytes": 166269
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sand_golem_die.png",
+        "bytes": 166092
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9520,
-    "vertices": 4908,
+    "triangles": 9300,
+    "vertices": 4946,
     "bones": 9,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9520,
-    "vertices": 4908,
+    "triangles": 9300,
+    "vertices": 4946,
     "bones": 9,
     "materials": [
       "M_Toon",

@@ -1,38 +1,38 @@
 {
   "id": "ice_golem",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/Blender/enemies_c/frost.py",
+  "generator": "/home/user/game_jrpg/Blender/enemies_c/frost.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-06T23:08:47Z",
+  "produced_at_utc": "2026-10-07T01:53:45Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
-      "bytes": 613148
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+      "bytes": 615596
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/Blender/blend/enemy_ice_golem.blend",
-      "bytes": 166470
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_ice_golem.blend",
+      "bytes": 168665
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_ice_golem.png",
-        "bytes": 192166
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem.png",
+        "bytes": 192012
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_ice_golem_side.png",
-        "bytes": 162906
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_side.png",
+        "bytes": 162596
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_ice_golem_attack.png",
-        "bytes": 186813
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_attack.png",
+        "bytes": 186233
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_ice_golem_cast.png",
-        "bytes": 173038
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_cast.png",
+        "bytes": 172339
       },
       {
-        "path": "/home/claude/game_jrpg/Blender/preview/enemy_ice_golem_die.png",
-        "bytes": 170746
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ice_golem_die.png",
+        "bytes": 170565
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 2930,
-    "vertices": 1579,
+    "triangles": 2798,
+    "vertices": 1529,
     "bones": 9,
     "materials": [
       "M_Clear",
@@ -86,8 +86,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 2930,
-    "vertices": 1579,
+    "triangles": 2798,
+    "vertices": 1529,
     "bones": 9,
     "materials": [
       "M_Clear",
