@@ -54,6 +54,11 @@ namespace Abyss.Runtime.Battle
         // Establishing shot: close enough that 1.3 m heroes and the monsters read on a landscape phone.
         static readonly Vector3 CameraHome = new Vector3(0f, 3.6f, -10.2f), CameraAim = new Vector3(1.4f, 1.05f, 0.6f);
         const float CameraFov = 42f;
+        // Preserve the phone's horizontal composition on narrower landscape tablets.
+        // A fixed vertical FOV otherwise crops the outer two heroes behind the HUD.
+        float FramingFov => UIRoot.TouchFirst && _camera != null
+            ? Mathf.Atan(Mathf.Tan(CameraFov * Mathf.Deg2Rad * .5f) * Mathf.Max(1f, (20f / 9f) / _camera.aspect)) * 2f * Mathf.Rad2Deg
+            : CameraFov;
         float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
@@ -681,7 +686,7 @@ namespace Abyss.Runtime.Battle
             }
             _cameraPosition = transform.TransformPoint(new Vector3(-7.8f, 1.5f, 5.2f));
             _cameraLook = transform.TransformPoint(new Vector3(0f, 1.3f, 2.2f));
-            _fov = 52f; SetCamera();
+            _fov = FramingFov + 10f; SetCamera();
             _cameraRate = 2.4f; Establishing(false);
             _flashAlpha = .6f; _flash.color = new Color(1, 1, 1, _flashAlpha);
             var names = new List<string>();
@@ -863,7 +868,7 @@ namespace Abyss.Runtime.Battle
         void Establishing(bool instant)
         {
             _cameraPosition = transform.TransformPoint(CameraHome);
-            _cameraLook = transform.TransformPoint(CameraAim); _fov = CameraFov;
+            _cameraLook = transform.TransformPoint(CameraAim); _fov = FramingFov;
             if (instant) SetCamera();
         }
         void ActiveShot(BattleDisplayUnit actor, BattleDisplayUnit target, bool ultimate)
@@ -876,7 +881,7 @@ namespace Abyss.Runtime.Battle
                 Mathf.Clamp(local.z, -3f, 3f) * .1f);
             _cameraPosition = transform.TransformPoint(CameraHome + emphasis);
             _cameraLook = transform.TransformPoint(CameraAim + emphasis);
-            _fov = ultimate ? CameraFov - 5f : CameraFov - 2f;
+            _fov = ultimate ? FramingFov - 5f : FramingFov - 2f;
         }
         void SetCamera()
         {

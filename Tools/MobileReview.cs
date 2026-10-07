@@ -105,7 +105,7 @@ public static class MobileReview
             Check("Dungeon turn button routes touch", app.State.Facing == GridPos.Rotate(facing, 1));
             await Tap(Find("지도")); await Frames(10);
             Check("Map opens by touch", UIRoot.Instance.Screens.Count == 1);
-            UIRoot.Instance.Screens.Clear(); await Frames(6);
+            UIRoot.Instance.Screens.Clear(); await Seconds(.25f);
             Capture("dungeon");
             await Frames(4);
             foreach (int floor in new[] { 3, 6, 9 })
@@ -124,7 +124,7 @@ public static class MobileReview
             app.State.Flags.Add(GameFlow.TipFlag("first_battle"));
             var setup = request.Setup;
             app.BeginBattle(setup);
-            await Frames(90);
+            await Seconds(3f);
             Capture("battle");
             var auto = Find("자동전투 OFF");
             Check("AUTO target is at least 44 pixels tall", auto.rect.height * UIRoot.Instance.Canvas.scaleFactor >= 43.9f);
