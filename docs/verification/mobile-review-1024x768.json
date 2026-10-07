@@ -1,9 +1,9 @@
 {
   "status": "complete",
   "unity": "6000.3.25f1",
-  "width": 915,
-  "height": 412,
-  "frame": 7590,
+  "width": 1024,
+  "height": 768,
+  "frame": 19939,
   "checks": [
     {
       "name": "Player loop advances",
