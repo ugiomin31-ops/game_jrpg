@@ -246,6 +246,8 @@ namespace Abyss.EditorTools
                 default:
                     throw new InvalidOperationException("Unsupported CI build target: " + target);
             }
+            // game-ci/cli only accepts a custom build method's run when the log carries this exact line.
+            Debug.Log("Build succeeded!");
         }
 
         [MenuItem("Abyss/Build iOS (Xcode project)")]
