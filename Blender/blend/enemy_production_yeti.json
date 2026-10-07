@@ -1,0 +1,125 @@
+{
+  "id": "yeti",
+  "is_boss": false,
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:33:18Z",
+  "files": {
+    "fbx": {
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+      "bytes": 930428
+    },
+    "blend": {
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_yeti.blend",
+      "bytes": 491745
+    },
+    "previews": [
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti.png",
+        "bytes": 181376
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_side.png",
+        "bytes": 158405
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_attack.png",
+        "bytes": 176749
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_cast.png",
+        "bytes": 174671
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_yeti_die.png",
+        "bytes": 163783
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 10996,
+    "vertices": 5540,
+    "bones": 9,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 10996,
+    "vertices": 5540,
+    "bones": 9,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

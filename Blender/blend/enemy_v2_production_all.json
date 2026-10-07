@@ -1,0 +1,1194 @@
+{
+  "roster": [
+    "horned_rabbit",
+    "killer_bee",
+    "mandragora",
+    "rhino_beetle",
+    "elite_rhino_beetle",
+    "pixie",
+    "frost_spider",
+    "snow_fairy",
+    "yeti",
+    "elite_yeti",
+    "ice_golem",
+    "hellhound",
+    "elite_hellhound",
+    "flame_elemental",
+    "sand_scorpion",
+    "lizardman",
+    "harpy",
+    "ghost",
+    "mimic",
+    "elite_mimic",
+    "dark_knight",
+    "elite_dark_knight",
+    "lich"
+  ],
+  "produced": [
+    "horned_rabbit",
+    "killer_bee",
+    "mandragora",
+    "rhino_beetle",
+    "elite_rhino_beetle",
+    "pixie",
+    "frost_spider",
+    "snow_fairy",
+    "yeti",
+    "elite_yeti",
+    "ice_golem",
+    "hellhound",
+    "elite_hellhound",
+    "flame_elemental",
+    "sand_scorpion",
+    "lizardman",
+    "harpy",
+    "ghost",
+    "mimic",
+    "elite_mimic",
+    "dark_knight",
+    "elite_dark_knight",
+    "lich"
+  ],
+  "failures": [],
+  "budget": {
+    "normal": 10000,
+    "elite": 14000
+  },
+  "over_budget": [
+    {
+      "id": "rhino_beetle",
+      "triangles": 10100,
+      "budget": 10000
+    },
+    {
+      "id": "yeti",
+      "triangles": 10996,
+      "budget": 10000
+    },
+    {
+      "id": "hellhound",
+      "triangles": 11796,
+      "budget": 10000
+    },
+    {
+      "id": "flame_elemental",
+      "triangles": 10836,
+      "budget": 10000
+    },
+    {
+      "id": "sand_scorpion",
+      "triangles": 10898,
+      "budget": 10000
+    },
+    {
+      "id": "lizardman",
+      "triangles": 12740,
+      "budget": 10000
+    }
+  ],
+  "reports": [
+    {
+      "id": "horned_rabbit",
+      "name_ko": "뿔토끼",
+      "biome": "verdant_ruins",
+      "floors": "B1-B2",
+      "role": "fast swarm",
+      "generator": "enemies_c/verdant.py",
+      "triangles": 9542,
+      "bones": 11,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+        "bytes": 964636
+      }
+    },
+    {
+      "id": "killer_bee",
+      "name_ko": "킬러비",
+      "biome": "verdant_ruins",
+      "floors": "B2-B3",
+      "role": "swarm / poison",
+      "generator": "enemies_c/verdant.py",
+      "triangles": 8202,
+      "bones": 11,
+      "materials": [
+        "M_Toon",
+        "M_Clear"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+        "bytes": 919404
+      }
+    },
+    {
+      "id": "mandragora",
+      "name_ko": "만드라고라",
+      "biome": "verdant_ruins",
+      "floors": "B2-B3",
+      "role": "debuffer (sleep, slow)",
+      "generator": "enemies_c/verdant.py",
+      "triangles": 8610,
+      "bones": 8,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
+        "bytes": 776524
+      }
+    },
+    {
+      "id": "rhino_beetle",
+      "name_ko": "장수풍뎅이",
+      "biome": "verdant_ruins",
+      "floors": "B2-B3",
+      "role": "tank",
+      "generator": "enemies_c/verdant.py",
+      "triangles": 10100,
+      "bones": 10,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+        "bytes": 926060
+      }
+    },
+    {
+      "id": "elite_rhino_beetle",
+      "name_ko": "강철 투구왕",
+      "biome": "verdant_ruins",
+      "floors": "B3 FOE",
+      "role": "elite tank",
+      "generator": "enemies_c/verdant.py",
+      "triangles": 10244,
+      "bones": 10,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
+        "bytes": 934396
+      }
+    },
+    {
+      "id": "pixie",
+      "name_ko": "숲의 요정",
+      "biome": "verdant_ruins",
+      "floors": "B3",
+      "role": "healer",
+      "generator": "enemies_c/verdant.py",
+      "triangles": 4534,
+      "bones": 13,
+      "materials": [
+        "M_Toon",
+        "M_Emit",
+        "M_Clear"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+        "bytes": 868396
+      }
+    },
+    {
+      "id": "frost_spider",
+      "name_ko": "서리 거미",
+      "biome": "frost_grotto",
+      "floors": "B4-B5",
+      "role": "debuffer (slow)",
+      "generator": "enemies_c/frost.py",
+      "triangles": 8952,
+      "bones": 11,
+      "materials": [
+        "M_Toon",
+        "M_Clear"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+        "bytes": 921692
+      }
+    },
+    {
+      "id": "snow_fairy",
+      "name_ko": "눈꽃 요정",
+      "biome": "frost_grotto",
+      "floors": "B4-B6",
+      "role": "healer / ice caster",
+      "generator": "enemies_c/frost.py",
+      "triangles": 5232,
+      "bones": 11,
+      "materials": [
+        "M_Toon",
+        "M_Clear",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
+        "bytes": 780988
+      }
+    },
+    {
+      "id": "yeti",
+      "name_ko": "꼬마 설인",
+      "biome": "frost_grotto",
+      "floors": "B5-B6",
+      "role": "bruiser (stun, enrage)",
+      "generator": "enemies_c/frost.py",
+      "triangles": 10996,
+      "bones": 9,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+        "bytes": 926492
+      }
+    },
+    {
+      "id": "elite_yeti",
+      "name_ko": "설산의 폭군",
+      "biome": "frost_grotto",
+      "floors": "B6 FOE",
+      "role": "elite bruiser",
+      "generator": "enemies_c/frost.py",
+      "triangles": 11276,
+      "bones": 10,
+      "materials": [
+        "M_Toon",
+        "M_Emit",
+        "M_Clear"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
+        "bytes": 991836
+      }
+    },
+    {
+      "id": "ice_golem",
+      "name_ko": "얼음 골렘",
+      "biome": "frost_grotto",
+      "floors": "B6",
+      "role": "tank",
+      "generator": "enemies_c/frost.py",
+      "triangles": 2798,
+      "bones": 9,
+      "materials": [
+        "M_Clear",
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+        "bytes": 615596
+      }
+    },
+    {
+      "id": "hellhound",
+      "name_ko": "헬하운드",
+      "biome": "ember_caverns",
+      "floors": "B7-B8",
+      "role": "fast pack hunter",
+      "generator": "enemies_c/ember.py",
+      "triangles": 11796,
+      "bones": 15,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+        "bytes": 1250284
+      }
+    },
+    {
+      "id": "elite_hellhound",
+      "name_ko": "오르트로스",
+      "biome": "ember_caverns",
+      "floors": "B8 FOE",
+      "role": "elite twin-headed hunter",
+      "generator": "enemies_c/ember.py",
+      "triangles": 13542,
+      "bones": 18,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
+        "bytes": 1453260
+      }
+    },
+    {
+      "id": "flame_elemental",
+      "name_ko": "불꽃 정령",
+      "biome": "ember_caverns",
+      "floors": "B7-B9",
+      "role": "fire caster",
+      "generator": "enemies_c/ember.py",
+      "triangles": 10836,
+      "bones": 8,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
+        "bytes": 798492
+      }
+    },
+    {
+      "id": "sand_scorpion",
+      "name_ko": "모래 전갈",
+      "biome": "ember_caverns",
+      "floors": "B7-B9",
+      "role": "poison tank",
+      "generator": "enemies_c/ember.py",
+      "triangles": 10898,
+      "bones": 16,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+        "bytes": 1239116
+      }
+    },
+    {
+      "id": "lizardman",
+      "name_ko": "리자드맨",
+      "biome": "ember_caverns",
+      "floors": "B8-B9",
+      "role": "warrior (bleed)",
+      "generator": "enemies_c/ember.py",
+      "triangles": 12740,
+      "bones": 14,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+        "bytes": 1224076
+      }
+    },
+    {
+      "id": "harpy",
+      "name_ko": "하피",
+      "biome": "ember_caverns",
+      "floors": "B8-B9",
+      "role": "evasive flyer (AoE, blind)",
+      "generator": "enemies_c/ember.py",
+      "triangles": 9268,
+      "bones": 9,
+      "materials": [
+        "M_Toon"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+        "bytes": 855948
+      }
+    },
+    {
+      "id": "ghost",
+      "name_ko": "원령",
+      "biome": "haunted_crypt",
+      "floors": "B10-B12",
+      "role": "evasive dark caster (sleep)",
+      "generator": "enemies_c/crypt.py",
+      "triangles": 9848,
+      "bones": 8,
+      "materials": [
+        "M_Clear",
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+        "bytes": 818860
+      }
+    },
+    {
+      "id": "mimic",
+      "name_ko": "미믹",
+      "biome": "haunted_crypt",
+      "floors": "B10-B12",
+      "role": "rare treasure ambusher",
+      "generator": "enemies_c/crypt.py",
+      "triangles": 3176,
+      "bones": 6,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+        "bytes": 449612
+      }
+    },
+    {
+      "id": "elite_mimic",
+      "name_ko": "판도라 상자",
+      "biome": "haunted_crypt",
+      "floors": "B12 FOE",
+      "role": "elite ambusher",
+      "generator": "enemies_c/crypt.py",
+      "triangles": 4218,
+      "bones": 6,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
+        "bytes": 473580
+      }
+    },
+    {
+      "id": "dark_knight",
+      "name_ko": "암흑 기사",
+      "biome": "haunted_crypt",
+      "floors": "B11-B12",
+      "role": "heavy attacker",
+      "generator": "enemies_c/crypt.py",
+      "triangles": 5868,
+      "bones": 11,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+        "bytes": 771996
+      }
+    },
+    {
+      "id": "elite_dark_knight",
+      "name_ko": "칠흑의 기사단장",
+      "biome": "haunted_crypt",
+      "floors": "B11 FOE",
+      "role": "elite heavy attacker",
+      "generator": "enemies_c/crypt.py",
+      "triangles": 7264,
+      "bones": 12,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
+        "bytes": 855452
+      }
+    },
+    {
+      "id": "lich",
+      "name_ko": "꼬마 리치",
+      "biome": "haunted_crypt",
+      "floors": "B11-B12",
+      "role": "summoner / dark caster",
+      "generator": "enemies_c/crypt.py",
+      "triangles": 4932,
+      "bones": 10,
+      "materials": [
+        "M_Toon",
+        "M_Emit"
+      ],
+      "clips": {
+        "Idle": [
+          1.0,
+          49.0
+        ],
+        "Run": [
+          1.0,
+          21.0
+        ],
+        "Attack": [
+          1.0,
+          26.0
+        ],
+        "Cast": [
+          1.0,
+          36.0
+        ],
+        "Hit": [
+          1.0,
+          13.0
+        ],
+        "Die": [
+          1.0,
+          31.0
+        ],
+        "Victory": [
+          1.0,
+          45.0
+        ]
+      },
+      "fbx": {
+        "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+        "bytes": 710492
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Abyss.Runtime.Art;
 using Abyss.Presentation.Audio;
+using Abyss.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -94,14 +95,16 @@ namespace Abyss.Runtime.World
             foreach (var model in party)
             {
                 string id = model.ModelId;
-                string weapon = app.State.Hero(id).Equipped("weapon");
+                var hero = app.State.Hero(id);
+                string weapon = hero.Equipped("weapon");
                 GameObject prefab = null;
                 if (!string.IsNullOrEmpty(weapon))
                 {
                     prefab = ArtLibrary.LoadPrefab(ArtLibrary.WeaponPath(weapon));
                     if (prefab == null) throw new InvalidOperationException("Missing equipped weapon: " + weapon);
                 }
-                model.Attach(id == "archer" ? "weapon.L" : "weapon.R", prefab);
+                GearDisplay.DressBody(model, GearDisplay.Rank(app.DB, hero.Equipped("armor")), GearDisplay.Rank(app.DB, hero.Equipped("accessory")));
+                GearDisplay.AttachWeapon(model, id == "archer" ? "weapon.L" : "weapon.R", prefab, GearDisplay.Rank(app.DB, weapon), weapon);
             }
         }
 
@@ -140,11 +143,13 @@ namespace Abyss.Runtime.World
             foreach (var service in services)
                 if (service.Label != null) service.Label.transform.rotation = app.MainCamera.transform.rotation;
             if (app.Screen != GameScreen.Town || app.Paused || app.UI.BlocksWorldInput) { party[0].Play("Idle"); return; }
+            UIRoot.Instance?.RequestTouchStick();
             Vector2 input = ReadMove();
             var forward = app.MainCamera.transform.forward; forward.y = 0; forward.Normalize();
             var right = app.MainCamera.transform.right; right.y = 0; right.Normalize();
             Vector3 motion = Vector3.ClampMagnitude(forward * input.y + right * input.x, 1f);
-            bool running = Keyboard.current?.leftShiftKey.isPressed ?? false;
+            // A fully deflected touch stick runs, like holding Shift.
+            bool running = (Keyboard.current?.leftShiftKey.isPressed ?? false) || UITouch.Stick.sqrMagnitude > 0.8f;
             float speed = running ? 5.5f : 3.5f;
             if (controller.isGrounded && verticalSpeed < 0) verticalSpeed = -2f;
             else verticalSpeed -= 20f * Time.deltaTime;
@@ -172,7 +177,7 @@ namespace Abyss.Runtime.World
             }
             UpdateNearest();
             bool confirm = (Keyboard.current?.eKey.wasPressedThisFrame ?? false) || (Keyboard.current?.spaceKey.wasPressedThisFrame ?? false) || (Gamepad.current?.buttonSouth.wasPressedThisFrame ?? false);
-            bool click = (Mouse.current?.leftButton.wasPressedThisFrame ?? false) && !(EventSystem.current?.IsPointerOverGameObject() ?? false);
+            bool click = ((Mouse.current?.leftButton.wasPressedThisFrame ?? false) && !(EventSystem.current?.IsPointerOverGameObject() ?? false)) || UITouch.Tapped;
             if (nearest != null && (confirm || click))
             {
                 nearest.Npc?.PlayOnce("Talk");
@@ -196,7 +201,7 @@ namespace Abyss.Runtime.World
             if (nearest != candidate)
             {
                 nearest = candidate;
-                if (nearest != null) app.Notify("E / 확인: " + (nearest.Label != null ? nearest.Label.text : nearest.Id));
+                if (nearest != null) app.Notify((UIInput.Device == UIInputDevice.Touch ? "탭하여 대화: " : "E / 확인: ") + (nearest.Label != null ? nearest.Label.text : nearest.Id));
             }
         }
         void FollowCamera(bool snap)
@@ -213,7 +218,7 @@ namespace Abyss.Runtime.World
         }
         static Vector2 ReadMove()
         {
-            Vector2 move = Gamepad.current?.leftStick.ReadValue() ?? Vector2.zero;
+            Vector2 move = (Gamepad.current?.leftStick.ReadValue() ?? Vector2.zero) + UITouch.Stick;
             var keyboard = Keyboard.current;
             if (keyboard != null)
             {

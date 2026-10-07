@@ -40,6 +40,10 @@ namespace Abyss.Presentation.Vfx
             public float delay, y, spin, rotation;
             public int count = 20, tiles = 1;
             public bool alpha, horizontal;
+            /// <summary>Particles keep the texture upright (no random spin): falling arrows, rain streaks.</summary>
+            public bool upright;
+            /// <summary>Billboard quads turn their +U axis along a projectile's screen-space travel direction.</summary>
+            public bool align;
             [NonSerialized] public Color tint;
         }
         sealed class Layer
@@ -64,12 +68,31 @@ namespace Abyss.Presentation.Vfx
             public Vector3 From, To, Offset;
             public Transform Follow;
             public bool HadFollow;
-            public float Age, Duration, TravelTime, Drain;
+            public float Age, Duration, TravelTime, Drain, Angle;
+            /// <summary>World floor height for ground layers (y &lt;= GroundLayerY), NaN when unset.</summary>
+            public float Ground;
             public Color Tint;
         }
 
         public static VfxLibrary Instance { get; private set; }
         public Camera Camera { get; set; }
+        /// <summary>Playback rate for every effect (battle speed; 0 pauses). Applies to particles too.</summary>
+        public float TimeScale
+        {
+            get => _timeScale;
+            set
+            {
+                value = Mathf.Max(0f, value);
+                if (Mathf.Approximately(value, _timeScale)) return;
+                _timeScale = value;
+                foreach (var effect in _effects)
+                    foreach (var layer in effect.Layers)
+                        if (layer.Particles != null) { var main = layer.Particles.main; main.simulationSpeed = value; }
+            }
+        }
+        float _timeScale = 1f;
+        /// <summary>Layers authored at or below this offset sit on the floor rather than hang from the anchor.</summary>
+        const float GroundLayerY = -.7f;
         readonly Dictionary<string, Recipe> _recipes = new Dictionary<string, Recipe>(StringComparer.Ordinal);
         readonly Dictionary<string, Stack<int>> _free = new Dictionary<string, Stack<int>>(StringComparer.Ordinal);
         readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>(StringComparer.Ordinal);
@@ -123,7 +146,12 @@ namespace Abyss.Presentation.Vfx
             }
         }
 
-        public VfxHandle Play(string key, Vector3 position, Color? tint = null, float scale = 1f, float duration = 0f, Transform follow = null)
+        /// <summary>
+        /// <paramref name="groundY"/> (world height of the floor under the anchor) pins ground layers to the floor
+        /// instead of offsetting them from <paramref name="position"/> by a scaled amount; NaN keeps the authored offset.
+        /// </summary>
+        public VfxHandle Play(string key, Vector3 position, Color? tint = null, float scale = 1f, float duration = 0f, Transform follow = null,
+            float groundY = float.NaN)
         {
             if (string.IsNullOrEmpty(key)) return default;
             if (!_recipes.TryGetValue(key, out var recipe)) throw new ArgumentException("Unknown VFX key: " + key, nameof(key));
@@ -132,7 +160,8 @@ namespace Abyss.Presentation.Vfx
             var effect = _effects[slot];
             effect.Generation++;
             effect.Active = true; effect.Ending = false; effect.Travel = false;
-            effect.Age = 0; effect.Drain = 0; effect.Follow = follow; effect.HadFollow = follow != null;
+            effect.Age = 0; effect.Drain = 0; effect.Angle = 0; effect.Ground = groundY;
+            effect.Follow = follow; effect.HadFollow = follow != null;
             effect.Offset = follow != null ? position - follow.position : Vector3.zero;
             effect.Duration = duration > 0 ? duration : recipe.loop ? float.PositiveInfinity : recipe.duration;
             effect.Tint = tint ?? Color.white;
@@ -160,6 +189,8 @@ namespace Abyss.Presentation.Vfx
             effect.From = from;
             effect.To = to;
             effect.TravelTime = Mathf.Max(.01f, duration);
+            Aim(effect, Camera != null ? Camera : UnityEngine.Camera.main, 0);
+            Tick(effect, 0);
             return handle;
         }
 
@@ -203,11 +234,12 @@ namespace Abyss.Presentation.Vfx
                 main.startLifetime = new ParticleSystem.MinMaxCurve(recipe.life * .7f, recipe.life);
                 main.startSize = new ParticleSystem.MinMaxCurve(recipe.size * .6f, recipe.size);
                 main.startSpeed = recipe.kind == "burst" ? new ParticleSystem.MinMaxCurve(recipe.speed * .4f, recipe.speed) : 0;
-                main.startRotation = new ParticleSystem.MinMaxCurve(-Mathf.PI, Mathf.PI);
+                main.startRotation = recipe.upright ? new ParticleSystem.MinMaxCurve(0) : new ParticleSystem.MinMaxCurve(-Mathf.PI, Mathf.PI);
                 main.gravityModifier = recipe.gravity;
                 main.simulationSpace = ParticleSystemSimulationSpace.Local;
                 main.maxParticles = Mathf.Clamp(Mathf.CeilToInt(recipe.rate * recipe.life * 3) + recipe.count * 2, 32, 512);
                 main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+                main.simulationSpeed = _timeScale;
                 var emission = ps.emission;
                 emission.enabled = recipe.kind == "emitter";
                 emission.rateOverTime = recipe.rate;
@@ -293,6 +325,7 @@ namespace Abyss.Presentation.Vfx
             if (resource == null) throw new InvalidOperationException("Missing VFX texture: " + texture);
             material = new Material(_shader) { name = "VFX " + key, mainTexture = resource };
             material.SetFloat("_DstBlend", (float)(alpha ? BlendMode.OneMinusSrcAlpha : BlendMode.One));
+            material.SetFloat("_Additive", alpha ? 0f : 1f);
             _materials.Add(key, material);
             return material;
         }
@@ -301,7 +334,7 @@ namespace Abyss.Presentation.Vfx
         {
             var camera = Camera != null ? Camera : UnityEngine.Camera.main;
             if (camera != null) _viewRotation = camera.transform.rotation;
-            float dt = Time.deltaTime;
+            float dt = Time.deltaTime * _timeScale;
             for (int i = 0; i < _effects.Count; i++)
             {
                 var e = _effects[i];
@@ -312,7 +345,8 @@ namespace Abyss.Presentation.Vfx
                 if (e.Travel)
                 {
                     float p = Mathf.Clamp01(e.Age / e.TravelTime);
-                    e.Root.transform.position = Vector3.Lerp(e.From, e.To, p) + Vector3.up * (Mathf.Sin(p * Mathf.PI) * Mathf.Min(.7f, Vector3.Distance(e.From, e.To) * .1f));
+                    e.Root.transform.position = TravelPoint(e, p);
+                    Aim(e, camera, p);
                 }
                 if (e.Age >= e.Duration && !e.Ending) End(e);
                 Tick(e, dt);
@@ -324,6 +358,17 @@ namespace Abyss.Presentation.Vfx
             }
         }
         Quaternion _viewRotation = Quaternion.identity;
+
+        static Vector3 TravelPoint(Effect e, float p) =>
+            Vector3.Lerp(e.From, e.To, p) + Vector3.up * (Mathf.Sin(p * Mathf.PI) * Mathf.Min(.7f, Vector3.Distance(e.From, e.To) * .1f));
+
+        /// <summary>Screen-space heading of a projectile at progress <paramref name="p"/>, for `align` layers.</summary>
+        static void Aim(Effect e, Camera camera, float p)
+        {
+            if (camera == null || p >= 1) return;
+            Vector3 a = camera.WorldToScreenPoint(TravelPoint(e, p)), b = camera.WorldToScreenPoint(TravelPoint(e, Mathf.Min(1, p + .05f)));
+            if ((b - a).sqrMagnitude > .01f) e.Angle = Mathf.Atan2(b.y - a.y, b.x - a.x) * Mathf.Rad2Deg;
+        }
 
         void Tick(Effect effect, float dt)
         {
@@ -338,6 +383,7 @@ namespace Abyss.Presentation.Vfx
                     layer.Transform.gameObject.SetActive(true);
                     layer.Transform.localPosition = new Vector3(0, r.y, 0);
                     var color = r.tint * effect.Tint;
+                    if (!float.IsNaN(effect.Ground) && r.y <= GroundLayerY) PlaceOnGround(effect, layer);
                     if (layer.Particles != null)
                     {
                         var main = layer.Particles.main; main.startColor = color;
@@ -350,9 +396,11 @@ namespace Abyss.Presentation.Vfx
                         layer.Trail.emitting = true;
                     }
                 }
+                if (effect.Follow != null && !float.IsNaN(effect.Ground) && r.y <= GroundLayerY) PlaceOnGround(effect, layer);
                 if (layer.Particles != null || layer.Trail != null) continue;
                 float p = effect.Recipe.loop && !effect.Ending ? Mathf.Repeat(elapsed / r.life, 1) : Mathf.Clamp01(elapsed / r.life);
-                float alpha = effect.Recipe.loop && !effect.Ending ? .65f + .2f * Mathf.Sin(elapsed * 3) : Mathf.Min(p * 10, 1) * (1 - p);
+                // Looping projectile bodies stay solid in flight; looping markers breathe.
+                float alpha = effect.Recipe.loop && !effect.Ending ? (effect.Travel ? 1 : .65f + .2f * Mathf.Sin(elapsed * 3)) : Mathf.Min(p * 10, 1) * (1 - p);
                 if (effect.Ending) alpha *= Mathf.Clamp01(effect.Drain / Mathf.Max(.01f, r.life));
                 Color tint = r.tint * effect.Tint; tint.a *= alpha;
                 layer.Properties.SetColor(TintId, tint);
@@ -364,7 +412,8 @@ namespace Abyss.Presentation.Vfx
                 float size = Mathf.Lerp(r.size, r.endSize > 0 ? r.endSize : r.size, p);
                 layer.Transform.localScale = new Vector3(size, r.height > 0 ? r.height : size, size);
                 if (r.kind == "ring") layer.Transform.localScale = Vector3.one * size;
-                layer.Transform.rotation = r.horizontal || r.kind == "ring" ? Quaternion.Euler(90, 0, r.rotation + elapsed * r.spin) : _viewRotation * Quaternion.Euler(0, 0, r.rotation + elapsed * r.spin);
+                float roll = r.rotation + elapsed * r.spin + (r.align ? effect.Angle : 0);
+                layer.Transform.rotation = r.horizontal || r.kind == "ring" ? Quaternion.Euler(90, 0, roll) : _viewRotation * Quaternion.Euler(0, 0, roll);
                 if (r.kind == "sphere") layer.Transform.rotation = Quaternion.Euler(0, elapsed * r.spin, 0);
                 if (layer.Orbit != null)
                 {
@@ -385,6 +434,13 @@ namespace Abyss.Presentation.Vfx
             }
         }
 
+        /// <summary>Floor layers keep the anchor's x/z but sit just above the floor, unscaled by the effect size.</summary>
+        static void PlaceOnGround(Effect effect, Layer layer)
+        {
+            var anchor = effect.Root.transform.position;
+            layer.Transform.position = new Vector3(anchor.x, effect.Ground + .02f, anchor.z);
+        }
+
         static void End(Effect effect)
         {
             effect.Ending = true;
@@ -392,6 +448,8 @@ namespace Abyss.Presentation.Vfx
             foreach (var layer in effect.Layers)
             {
                 if (!layer.Started) continue;
+                // An arrived projectile's body vanishes on contact; only its trail and sparks drain.
+                if (effect.Travel && layer.Particles == null && layer.Trail == null) { layer.Transform.gameObject.SetActive(false); continue; }
                 effect.Drain = Mathf.Max(effect.Drain, layer.Recipe.life);
                 if (layer.Particles != null) layer.Particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 if (layer.Trail != null) layer.Trail.emitting = false;

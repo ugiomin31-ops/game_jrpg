@@ -133,7 +133,7 @@ def skeleton(eid):
     c=Creature(eid);elite=eid.startswith('elite_');bone='#e8dbc0';dark='#322b33'
     c.bone('body',(0,0,.42));c.bone('head',(0,0,.91),'body');c.bone('eyes',(0,-.17,1.08),'head');c.bone('jaw',(0,-.11,.96),'head');c.bone('crest',(0,0,1.23),'head')
     c.orb('head','oversized_skull',(0,0,1.105),(.23,.19,.225),bone)
-    c.eyes('eyes',(0,-.179,1.10),.091,.058,'#ffce46',angry=True)
+    c.eyes('eyes',(0,-.179,1.10),.091,.058,'#ffce46',angry=True,socket=True)
     c.shape('head','nasal_hole',[(-.024,0),(0,.034),(.024,0),(0,-.013)],(0,-.200,1.027),dark,depth=.012)
     c.box('jaw','jaw_bone',(0,-.06,.949),(.27,.21,.083),bone,bevel=.024)
     for i in range(7):c.box('jaw',f'teeth{i}',((i-3)*.031,-.177,.983),(.022,.022,.043),'#fff0d4',bevel=.004)

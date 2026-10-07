@@ -20,8 +20,16 @@ namespace Abyss.UI
         [SerializeField] TextMeshProUGUI _label;
         [SerializeField] Image _icon;
         [SerializeField] bool _interactable = true;
-        bool _hover, _pressed, _focused;
+        bool _hover, _pressed, _focused, _repeated;
+        float _repeatAt;
         internal string DisabledReason { get; set; }
+
+        /// <summary>Seconds between repeated clicks while a pointer or finger is held on the button (0 = off).
+        /// The first repeat waits <see cref="UIInput.RepeatDelay"/>; a release after repeats does not click again.</summary>
+        public float HoldRepeat { get; set; }
+
+        /// <summary>Skips the confirm sound (buttons whose action plays its own sound, such as movement).</summary>
+        public bool Quiet { get; set; }
         bool ReducedMotion => UIRoot.Instance != null && UIRoot.Instance.ReducedMotion;
 
         /// <summary>Raised on click / submit while interactable.</summary>
@@ -78,6 +86,14 @@ namespace Abyss.UI
             ApplyState(true);
         }
 
+        /// <summary>Tall (thumb-sized) buttons get proportionally larger labels: 40 % of the height, 28–38 pt.</summary>
+        void OnRectTransformDimensionsChange()
+        {
+            if (_label == null) return;
+            float h = ((RectTransform)transform).rect.height;
+            _label.fontSizeMax = Mathf.Clamp(h * 0.4f, UITheme.SizeLabel, 38f);
+        }
+
         /// <summary>Activates the button as if clicked (press bounce, sound, event). Plays a buzzer when not interactable.</summary>
         public void Click()
         {
@@ -89,7 +105,7 @@ namespace Abyss.UI
                 Shake();
                 return;
             }
-            UISound.Play(UISoundId.Confirm);
+            if (!Quiet) UISound.Play(UISoundId.Confirm);
             UITween.Kill(_visual);
             _visual.localScale = Vector3.one * (ReducedMotion ? 1f : 0.97f);
             UITween.Scale(_visual, ReducedMotion ? 1f : Highlighted ? 1.015f : 1f, ReducedMotion ? 0f : 0.16f, UIEase.OutCubic);
@@ -160,7 +176,18 @@ namespace Abyss.UI
         {
             if (e.button != PointerEventData.InputButton.Left) return;
             _pressed = true;
+            _repeated = false;
+            _repeatAt = Time.unscaledTime + Mathf.Max(HoldRepeat, UIInput.RepeatDelay);
             ApplyState(false);
+        }
+
+        void Update()
+        {
+            if (HoldRepeat <= 0f || !_pressed || !_interactable || Time.unscaledTime < _repeatAt) return;
+            _repeatAt = Time.unscaledTime + HoldRepeat;
+            if (!UIInput.CanReceive(this)) return;
+            _repeated = true;
+            Click();
         }
 
         /// <inheritdoc/>
@@ -174,6 +201,7 @@ namespace Abyss.UI
         public void OnPointerClick(PointerEventData e)
         {
             if (e.button != PointerEventData.InputButton.Left) return;
+            if (_repeated) { _repeated = false; return; }
             if (!UIInput.CanReceive(this)) return;
             Click();
         }

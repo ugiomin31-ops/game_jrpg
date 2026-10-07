@@ -40,6 +40,15 @@
    [
     "sprout",
     "sprout"
+   ],
+   [
+    "horned_rabbit",
+    "horned_rabbit"
+   ],
+   [
+    "horned_rabbit",
+    "slime",
+    "sprout"
    ]
   ],
   "showcase_group": [
@@ -61,8 +70,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.06,
-  "min_encounter_steps": 8,
+  "encounter_rate": 0.12,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -199,6 +209,21 @@
     "jellyfish",
     "jellyfish",
     "penguin_mage"
+   ],
+   [
+    "frost_spider",
+    "jellyfish",
+    "jellyfish"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "coral_crab"
+   ],
+   [
+    "frost_spider",
+    "frost_spider",
+    "snow_fairy"
    ]
   ],
   "showcase_group": [
@@ -221,8 +246,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.07,
-  "min_encounter_steps": 6,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -421,6 +447,20 @@
     "phoenix",
     "magma_slime",
     "sand_golem"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "magma_slime"
+   ],
+   [
+    "flame_elemental",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "sand_scorpion",
+    "phoenix"
    ]
   ],
   "showcase_group": [
@@ -443,8 +483,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.075,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -643,6 +684,19 @@
    [
     "scarecrow",
     "skeleton"
+   ],
+   [
+    "ghost",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "mimic"
+   ],
+   [
+    "ghost",
+    "ghost",
+    "grave_bat"
    ]
   ],
   "showcase_group": [
@@ -666,8 +720,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.08,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -881,6 +936,25 @@
     "bat",
     "mushroom",
     "sprout"
+   ],
+   [
+    "killer_bee",
+    "killer_bee",
+    "horned_rabbit"
+   ],
+   [
+    "mandragora",
+    "mushroom",
+    "sprout"
+   ],
+   [
+    "rhino_beetle",
+    "bat"
+   ],
+   [
+    "horned_rabbit",
+    "horned_rabbit",
+    "killer_bee"
    ]
   ],
   "showcase_group": [
@@ -902,8 +976,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.07,
-  "min_encounter_steps": 6,
+  "encounter_rate": 0.11,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1028,7 +1103,7 @@
      ]
     ],
     "chase_range": 0,
-    "power": 2.05
+    "power": 1.4
    }
   ],
   "key_name": "덩굴 문 열쇠",
@@ -1106,6 +1181,27 @@
     "bat",
     "sprout",
     "sprout"
+   ],
+   [
+    "rhino_beetle",
+    "killer_bee",
+    "killer_bee"
+   ],
+   [
+    "pixie",
+    "mandragora",
+    "bat"
+   ],
+   [
+    "pixie",
+    "rhino_beetle",
+    "mushroom"
+   ],
+   [
+    "killer_bee",
+    "killer_bee",
+    "killer_bee",
+    "mandragora"
    ]
   ],
   "showcase_group": [
@@ -1131,8 +1227,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.07,
-  "min_encounter_steps": 6,
+  "encounter_rate": 0.11,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1236,7 +1333,7 @@
      ]
     ],
     "chase_range": 3,
-    "power": 2.1
+    "power": 1.5
    },
    {
     "id": "foe_b3_2",
@@ -1259,7 +1356,30 @@
      ]
     ],
     "chase_range": 0,
-    "power": 2.45
+    "power": 1.6
+   },
+   {
+    "id": "foe_b3_3",
+    "group": [
+     "elite_rhino_beetle",
+     "rhino_beetle"
+    ],
+    "spawn": [
+     1,
+     9
+    ],
+    "patrol": [
+     [
+      1,
+      9
+     ],
+     [
+      1,
+      10
+     ]
+    ],
+    "chase_range": 0,
+    "power": 1.6
    }
   ],
   "key_name": "고목 성소 열쇠",
@@ -1334,6 +1454,20 @@
     "ice_wolf",
     "ice_wolf",
     "ice_wolf"
+   ],
+   [
+    "yeti",
+    "frost_spider"
+   ],
+   [
+    "snow_fairy",
+    "ice_wolf",
+    "ice_wolf"
+   ],
+   [
+    "frost_spider",
+    "frost_spider",
+    "penguin_mage"
    ]
   ],
   "showcase_group": [
@@ -1356,8 +1490,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.075,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1594,6 +1729,21 @@
     "jellyfish",
     "penguin_mage",
     "penguin_mage"
+   ],
+   [
+    "ice_golem",
+    "snow_fairy",
+    "snow_fairy"
+   ],
+   [
+    "yeti",
+    "yeti",
+    "frost_spider"
+   ],
+   [
+    "ice_golem",
+    "ice_wolf",
+    "penguin_mage"
    ]
   ],
   "showcase_group": [
@@ -1619,8 +1769,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.075,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1772,6 +1923,29 @@
     ],
     "chase_range": 4,
     "power": 2.15
+   },
+   {
+    "id": "foe_b6_3",
+    "group": [
+     "elite_yeti",
+     "yeti"
+    ],
+    "spawn": [
+     10,
+     3
+    ],
+    "patrol": [
+     [
+      10,
+      3
+     ],
+     [
+      11,
+      3
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.45
    }
   ],
   "key_name": "산호 문 열쇠",
@@ -1852,6 +2026,21 @@
     "phoenix",
     "magma_slime",
     "magma_slime"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "flame_elemental"
+   ],
+   [
+    "lizardman",
+    "harpy",
+    "magma_slime"
+   ],
+   [
+    "harpy",
+    "harpy",
+    "sand_scorpion"
    ]
   ],
   "showcase_group": [
@@ -1874,8 +2063,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.08,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2037,6 +2227,29 @@
     ],
     "chase_range": 3,
     "power": 2.55
+   },
+   {
+    "id": "foe_b8_3",
+    "group": [
+     "elite_hellhound",
+     "hellhound"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ]
+    ],
+    "chase_range": 3,
+    "power": 2.2
    }
   ],
   "key_name": "협곡 문 열쇠",
@@ -2106,6 +2319,21 @@
     "sand_golem",
     "sand_golem",
     "phoenix"
+   ],
+   [
+    "lizardman",
+    "lizardman",
+    "phoenix"
+   ],
+   [
+    "harpy",
+    "fire_drake",
+    "flame_elemental"
+   ],
+   [
+    "sand_scorpion",
+    "lizardman",
+    "harpy"
    ]
   ],
   "showcase_group": [
@@ -2130,8 +2358,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.08,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2374,6 +2603,24 @@
     "skeleton",
     "scarecrow",
     "grave_bat"
+   ],
+   [
+    "dark_knight",
+    "ghost"
+   ],
+   [
+    "lich",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "mimic",
+    "wisp"
+   ],
+   [
+    "ghost",
+    "ghost",
+    "scarecrow"
    ]
   ],
   "showcase_group": [
@@ -2396,8 +2643,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.085,
+  "encounter_rate": 0.1,
   "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2581,6 +2829,29 @@
     ],
     "chase_range": 2,
     "power": 2.55
+   },
+   {
+    "id": "foe_b11_3",
+    "group": [
+     "elite_dark_knight",
+     "ghost"
+    ],
+    "spawn": [
+     3,
+     5
+    ],
+    "patrol": [
+     [
+      3,
+      5
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.3
    }
   ],
   "key_name": "납골당 열쇠",
@@ -2664,6 +2935,21 @@
     "grave_bat",
     "wisp",
     "wisp"
+   ],
+   [
+    "dark_knight",
+    "dark_knight",
+    "lich"
+   ],
+   [
+    "lich",
+    "ghost",
+    "ghost",
+    "wisp"
+   ],
+   [
+    "mimic",
+    "dark_knight"
    ]
   ],
   "showcase_group": [
@@ -2689,8 +2975,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.085,
+  "encounter_rate": 0.1,
   "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2862,6 +3149,24 @@
     ],
     "chase_range": 2,
     "power": 2.7
+   },
+   {
+    "id": "foe_b12_3",
+    "group": [
+     "elite_mimic"
+    ],
+    "spawn": [
+     4,
+     11
+    ],
+    "patrol": [
+     [
+      4,
+      11
+     ]
+    ],
+    "chase_range": 0,
+    "power": 2.2
    }
   ],
   "key_name": "옥좌의 열쇠",
@@ -2889,7 +3194,7 @@
     "text": "여명의 종을 울리는 줄이 이곳까지 내려와 있다. 그 끝은 옥좌에 묶여 있다."
    }
   ],
-  "boss_pre_text": "루멘의 종지기들인가. 늦었다.\n봉인 셋은 무너졌고, 마지막은 내 손 안에 있다.\n스승님도 막지 못한 것을, 너희가 막겠다고?",
+  "boss_pre_text": "루멘의 종지기들인가. 늦었다.\n봉인 셋을 되살렸다고? 소용없다. 마지막은 내 손 안에 있다.\n스승님도 막지 못한 것을, 너희가 막겠다고?",
   "boss_post_text": "…스승님… 따뜻하군요.\n저는 그저… 다시 만나고 싶었을 뿐입니다.\n종을… 울려 주시오.",
   "_file": "floor12_haunted_crypt_b12"
  }

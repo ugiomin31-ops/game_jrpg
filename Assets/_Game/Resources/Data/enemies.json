@@ -110,7 +110,7 @@
    "dot_resist"
   ],
   "level": 36,
-  "max_hp": 5600,
+  "max_hp": 12000,
   "max_mp": 0,
   "attack": 203,
   "magic": 216,
@@ -215,6 +215,65 @@
    1.0
   ],
   "_file": "coral_crab"
+ },
+ {
+  "id": "dark_knight",
+  "display_name": "암흑 기사",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 33,
+  "max_hp": 980,
+  "max_mp": 24,
+  "attack": 112,
+  "magic": 60,
+  "defense": 82,
+  "resistance": 50,
+  "speed": 30,
+  "evade": 0.05,
+  "break_shield": 4,
+  "weaknesses": [
+   8,
+   6
+  ],
+  "resistances": [
+   7,
+   1
+  ],
+  "experience_reward": 528,
+  "gold_reward": 240,
+  "drops": [
+   {
+    "id": "old_bone",
+    "chance": 0.2
+   },
+   {
+    "id": "abyss_crystal",
+    "chance": 0.05
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "berserker",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_cleave"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "dark_knight"
  },
  {
   "id": "elite_bat",
@@ -343,6 +402,71 @@
   "_file": "elite_coral_crab"
  },
  {
+  "id": "elite_dark_knight",
+  "display_name": "칠흑의 기사단장",
+  "rank": 1,
+  "is_boss": false,
+  "hit": 0.95,
+  "gimmicks": [
+   "cc_resist"
+  ],
+  "level": 35,
+  "max_hp": 2900,
+  "max_mp": 60,
+  "attack": 135,
+  "magic": 90,
+  "defense": 95,
+  "resistance": 65,
+  "speed": 36,
+  "evade": 0.05,
+  "break_shield": 6,
+  "weaknesses": [
+   8
+  ],
+  "resistances": [
+   7,
+   1
+  ],
+  "experience_reward": 3200,
+  "gold_reward": 2100,
+  "drops": [
+   {
+    "id": "abyss_crystal",
+    "chance": 0.6
+   },
+   {
+    "id": "old_bone",
+    "chance": 1.0
+   }
+  ],
+  "scale_mult": 1.35,
+  "actions_per_turn": 2,
+  "ai_profile": "berserker",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   2,
+   2,
+   1,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_cleave",
+   "sk_harden",
+   "sk_war_cry"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   0.55,
+   0.5,
+   0.7,
+   1.0
+  ],
+  "_file": "elite_dark_knight"
+ },
+ {
   "id": "elite_fire_drake",
   "display_name": "홍염 비룡",
   "rank": 1,
@@ -403,6 +527,68 @@
    1.0
   ],
   "_file": "elite_fire_drake"
+ },
+ {
+  "id": "elite_hellhound",
+  "display_name": "오르트로스",
+  "rank": 1,
+  "is_boss": false,
+  "hit": 0.95,
+  "gimmicks": [
+   "cc_resist"
+  ],
+  "level": 23,
+  "max_hp": 1900,
+  "max_mp": 30,
+  "attack": 96,
+  "magic": 80,
+  "defense": 50,
+  "resistance": 50,
+  "speed": 46,
+  "evade": 0.08,
+  "break_shield": 5,
+  "weaknesses": [
+   5
+  ],
+  "resistances": [
+   4
+  ],
+  "experience_reward": 2100,
+  "gold_reward": 1000,
+  "drops": [
+   {
+    "id": "ember_crystal",
+    "chance": 0.6
+   },
+   {
+    "id": "magma_core",
+    "chance": 1.0
+   }
+  ],
+  "scale_mult": 1.3,
+  "actions_per_turn": 2,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   2,
+   3,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_twin_bite",
+   "sk_fire_breath"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   0.55,
+   0.5,
+   1.0
+  ],
+  "_file": "elite_hellhound"
  },
  {
   "id": "elite_ice_wolf",
@@ -469,6 +655,71 @@
   "_file": "elite_ice_wolf"
  },
  {
+  "id": "elite_mimic",
+  "display_name": "판도라 상자",
+  "rank": 1,
+  "is_boss": false,
+  "hit": 0.95,
+  "gimmicks": [
+   "cc_resist"
+  ],
+  "level": 33,
+  "max_hp": 3400,
+  "max_mp": 60,
+  "attack": 150,
+  "magic": 120,
+  "defense": 90,
+  "resistance": 70,
+  "speed": 30,
+  "evade": 0.02,
+  "break_shield": 5,
+  "weaknesses": [
+   2,
+   6
+  ],
+  "resistances": [
+   7
+  ],
+  "experience_reward": 2600,
+  "gold_reward": 3000,
+  "drops": [
+   {
+    "id": "abyss_crystal",
+    "chance": 0.6
+   },
+   {
+    "id": "elixir",
+    "chance": 0.3
+   }
+  ],
+  "scale_mult": 1.3,
+  "actions_per_turn": 2,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   2,
+   2,
+   1,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "strong_attack",
+   "sk_dread_stare",
+   "sk_bleed_edge"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   0.7,
+   0.45,
+   1.0,
+   1.0
+  ],
+  "_file": "elite_mimic"
+ },
+ {
   "id": "elite_mushroom",
   "display_name": "독왕 버섯",
   "rank": 1,
@@ -533,6 +784,69 @@
    1.0
   ],
   "_file": "elite_mushroom"
+ },
+ {
+  "id": "elite_rhino_beetle",
+  "display_name": "강철 투구왕",
+  "rank": 1,
+  "is_boss": false,
+  "hit": 0.95,
+  "gimmicks": [
+   "cc_resist"
+  ],
+  "level": 9,
+  "max_hp": 980,
+  "max_mp": 40,
+  "attack": 50,
+  "magic": 30,
+  "defense": 52,
+  "resistance": 22,
+  "speed": 14,
+  "evade": 0.03,
+  "break_shield": 6,
+  "weaknesses": [
+   4
+  ],
+  "resistances": [
+   3,
+   1
+  ],
+  "experience_reward": 520,
+  "gold_reward": 300,
+  "drops": [
+   {
+    "id": "verdant_crystal",
+    "chance": 0.6
+   },
+   {
+    "id": "forest_fiber",
+    "chance": 1.0
+   }
+  ],
+  "scale_mult": 1.35,
+  "actions_per_turn": 1,
+  "ai_profile": "basic",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   1,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_harden",
+   "sk_titan_crash"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   0.6,
+   0.75,
+   1.0,
+   1.0
+  ],
+  "_file": "elite_rhino_beetle"
  },
  {
   "id": "elite_sand_golem",
@@ -731,6 +1045,68 @@
   "_file": "elite_skeleton"
  },
  {
+  "id": "elite_yeti",
+  "display_name": "설산의 폭군",
+  "rank": 1,
+  "is_boss": false,
+  "hit": 0.95,
+  "gimmicks": [
+   "cc_resist"
+  ],
+  "level": 16,
+  "max_hp": 1350,
+  "max_mp": 30,
+  "attack": 74,
+  "magic": 40,
+  "defense": 40,
+  "resistance": 30,
+  "speed": 26,
+  "evade": 0.03,
+  "break_shield": 5,
+  "weaknesses": [
+   4
+  ],
+  "resistances": [
+   5
+  ],
+  "experience_reward": 1050,
+  "gold_reward": 520,
+  "drops": [
+   {
+    "id": "frost_crystal",
+    "chance": 0.6
+   },
+   {
+    "id": "frost_fur",
+    "chance": 1.0
+   }
+  ],
+  "scale_mult": 1.35,
+  "actions_per_turn": 2,
+  "ai_profile": "berserker",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "stunning_slam",
+   "sk_war_cry"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   0.75,
+   0.85,
+   1.0,
+   1.0
+  ],
+  "_file": "elite_yeti"
+ },
+ {
   "id": "fire_drake",
   "display_name": "불꽃 드레이크",
   "rank": 0,
@@ -782,6 +1158,65 @@
    1.0
   ],
   "_file": "fire_drake"
+ },
+ {
+  "id": "flame_elemental",
+  "display_name": "불꽃 정령",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 21,
+  "max_hp": 340,
+  "max_mp": 50,
+  "attack": 50,
+  "magic": 78,
+  "defense": 30,
+  "resistance": 52,
+  "speed": 30,
+  "evade": 0.08,
+  "break_shield": 2,
+  "weaknesses": [
+   5
+  ],
+  "resistances": [
+   4
+  ],
+  "experience_reward": 320,
+  "gold_reward": 120,
+  "drops": [
+   {
+    "id": "magma_core",
+    "chance": 0.35
+   },
+   {
+    "id": "ether",
+    "chance": 0.06
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "caster",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   1,
+   3,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "fireball",
+   "sk_flame_wave"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "flame_elemental"
  },
  {
   "id": "flame_sphinx",
@@ -962,7 +1397,7 @@
   "level": 10,
   "max_hp": 3960,
   "max_mp": 40,
-  "attack": 101,
+  "attack": 85,
   "magic": 97,
   "defense": 25,
   "resistance": 27,
@@ -1139,6 +1574,115 @@
   "_file": "frost_kraken"
  },
  {
+  "id": "frost_spider",
+  "display_name": "서리 거미",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 12,
+  "max_hp": 220,
+  "max_mp": 12,
+  "attack": 44,
+  "magic": 40,
+  "defense": 24,
+  "resistance": 26,
+  "speed": 24,
+  "evade": 0.08,
+  "break_shield": 3,
+  "weaknesses": [
+   4
+  ],
+  "resistances": [
+   5
+  ],
+  "experience_reward": 105,
+  "gold_reward": 52,
+  "drops": [
+   {
+    "id": "frost_fur",
+    "chance": 0.35
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "basic",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_ice_lance"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "frost_spider"
+ },
+ {
+  "id": "ghost",
+  "display_name": "원령",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 29,
+  "max_hp": 520,
+  "max_mp": 40,
+  "attack": 60,
+  "magic": 86,
+  "defense": 30,
+  "resistance": 80,
+  "speed": 38,
+  "evade": 0.2,
+  "break_shield": 2,
+  "weaknesses": [
+   8
+  ],
+  "resistances": [
+   7,
+   3
+  ],
+  "experience_reward": 400,
+  "gold_reward": 190,
+  "drops": [
+   {
+    "id": "ghost_essence",
+    "chance": 0.4
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "caster",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   1,
+   1,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_dread_stare",
+   "sk_spirit_fire"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "ghost"
+ },
+ {
   "id": "grave_bat",
   "display_name": "무덤 박쥐",
   "rank": 0,
@@ -1161,7 +1705,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 246,
+  "experience_reward": 394,
   "gold_reward": 180,
   "drops": [
    {
@@ -1191,6 +1735,239 @@
    1.0
   ],
   "_file": "grave_bat"
+ },
+ {
+  "id": "harpy",
+  "display_name": "하피",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 25,
+  "max_hp": 420,
+  "max_mp": 36,
+  "attack": 76,
+  "magic": 60,
+  "defense": 34,
+  "resistance": 46,
+  "speed": 48,
+  "evade": 0.15,
+  "break_shield": 2,
+  "weaknesses": [
+   3,
+   5
+  ],
+  "resistances": [
+   4
+  ],
+  "experience_reward": 430,
+  "gold_reward": 155,
+  "drops": [
+   {
+    "id": "drake_scale",
+    "chance": 0.2
+   },
+   {
+    "id": "phoenix_feather",
+    "chance": 0.05
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   2,
+   1,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_piercing_gale",
+   "sk_screech"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "harpy"
+ },
+ {
+  "id": "hellhound",
+  "display_name": "헬하운드",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 20,
+  "max_hp": 360,
+  "max_mp": 12,
+  "attack": 68,
+  "magic": 52,
+  "defense": 32,
+  "resistance": 34,
+  "speed": 40,
+  "evade": 0.1,
+  "break_shield": 3,
+  "weaknesses": [
+   5
+  ],
+  "resistances": [
+   4
+  ],
+  "experience_reward": 290,
+  "gold_reward": 110,
+  "drops": [
+   {
+    "id": "drake_scale",
+    "chance": 0.25
+   },
+   {
+    "id": "magma_core",
+    "chance": 0.2
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_twin_bite",
+   "sk_fire_breath"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "hellhound"
+ },
+ {
+  "id": "horned_rabbit",
+  "display_name": "뿔토끼",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 3,
+  "max_hp": 100,
+  "max_mp": 8,
+  "attack": 24,
+  "magic": 12,
+  "defense": 10,
+  "resistance": 8,
+  "speed": 20,
+  "evade": 0.12,
+  "break_shield": 2,
+  "weaknesses": [
+   3
+  ],
+  "resistances": [],
+  "experience_reward": 15,
+  "gold_reward": 22,
+  "drops": [
+   {
+    "id": "forest_fiber",
+    "chance": 0.3
+   },
+   {
+    "id": "healing_potion",
+    "chance": 0.08
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   4,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "strong_attack"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "horned_rabbit"
+ },
+ {
+  "id": "ice_golem",
+  "display_name": "얼음 골렘",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 17,
+  "max_hp": 360,
+  "max_mp": 0,
+  "attack": 56,
+  "magic": 40,
+  "defense": 58,
+  "resistance": 30,
+  "speed": 12,
+  "evade": 0.02,
+  "break_shield": 5,
+  "weaknesses": [
+   4,
+   2
+  ],
+  "resistances": [
+   5,
+   3
+  ],
+  "experience_reward": 170,
+  "gold_reward": 75,
+  "drops": [
+   {
+    "id": "frost_crystal",
+    "chance": 0.05
+   },
+   {
+    "id": "coral_shard",
+    "chance": 0.3
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "basic",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_harden"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "ice_golem"
  },
  {
   "id": "ice_wolf",
@@ -1303,6 +2080,177 @@
   "_file": "jellyfish"
  },
  {
+  "id": "killer_bee",
+  "display_name": "킬러비",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 5,
+  "max_hp": 120,
+  "max_mp": 10,
+  "attack": 30,
+  "magic": 18,
+  "defense": 11,
+  "resistance": 12,
+  "speed": 28,
+  "evade": 0.15,
+  "break_shield": 2,
+  "weaknesses": [
+   4,
+   3
+  ],
+  "resistances": [],
+  "experience_reward": 50,
+  "gold_reward": 42,
+  "drops": [
+   {
+    "id": "forest_fiber",
+    "chance": 0.3
+   },
+   {
+    "id": "remedy",
+    "chance": 0.06
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_poison_arrow"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "killer_bee"
+ },
+ {
+  "id": "lich",
+  "display_name": "꼬마 리치",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 34,
+  "max_hp": 650,
+  "max_mp": 80,
+  "attack": 60,
+  "magic": 118,
+  "defense": 40,
+  "resistance": 90,
+  "speed": 36,
+  "evade": 0.08,
+  "break_shield": 3,
+  "weaknesses": [
+   8
+  ],
+  "resistances": [
+   7,
+   5
+  ],
+  "experience_reward": 544,
+  "gold_reward": 250,
+  "drops": [
+   {
+    "id": "ghost_essence",
+    "chance": 0.4
+   },
+   {
+    "id": "abyss_crystal",
+    "chance": 0.05
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "summoner",
+  "summons": [
+   "skeleton"
+  ],
+  "summon_limit": 1,
+  "skill_weights": [
+   1,
+   3,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_spirit_fire",
+   "sk_hex"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "lich"
+ },
+ {
+  "id": "lizardman",
+  "display_name": "리자드맨",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 24,
+  "max_hp": 500,
+  "max_mp": 21,
+  "attack": 80,
+  "magic": 45,
+  "defense": 48,
+  "resistance": 36,
+  "speed": 34,
+  "evade": 0.08,
+  "break_shield": 3,
+  "weaknesses": [
+   5
+  ],
+  "resistances": [
+   4
+  ],
+  "experience_reward": 450,
+  "gold_reward": 165,
+  "drops": [
+   {
+    "id": "drake_scale",
+    "chance": 0.35
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "basic",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_bleed_edge"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "lizardman"
+ },
+ {
   "id": "magma_slime",
   "display_name": "용암 슬라임",
   "rank": 0,
@@ -1356,6 +2304,126 @@
    1.0
   ],
   "_file": "magma_slime"
+ },
+ {
+  "id": "mandragora",
+  "display_name": "만드라고라",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 6,
+  "max_hp": 150,
+  "max_mp": 24,
+  "attack": 24,
+  "magic": 34,
+  "defense": 14,
+  "resistance": 22,
+  "speed": 13,
+  "evade": 0.05,
+  "break_shield": 3,
+  "weaknesses": [
+   4,
+   1
+  ],
+  "resistances": [
+   3
+  ],
+  "experience_reward": 58,
+  "gold_reward": 46,
+  "drops": [
+   {
+    "id": "forest_fiber",
+    "chance": 0.35
+   },
+   {
+    "id": "remedy",
+    "chance": 0.1
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "caster",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   1,
+   1,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_lullaby",
+   "sk_root_bind"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "mandragora"
+ },
+ {
+  "id": "mimic",
+  "display_name": "미믹",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 31,
+  "max_hp": 1050,
+  "max_mp": 20,
+  "attack": 118,
+  "magic": 70,
+  "defense": 84,
+  "resistance": 60,
+  "speed": 18,
+  "evade": 0.02,
+  "break_shield": 4,
+  "weaknesses": [
+   2,
+   6
+  ],
+  "resistances": [
+   7
+  ],
+  "experience_reward": 960,
+  "gold_reward": 500,
+  "drops": [
+   {
+    "id": "hi_potion",
+    "chance": 0.3
+   },
+   {
+    "id": "abyss_crystal",
+    "chance": 0.08
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 2,
+  "ai_profile": "aggressive",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   2,
+   2,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "strong_attack",
+   "sk_dread_stare"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "mimic"
  },
  {
   "id": "mushroom",
@@ -1529,6 +2597,119 @@
   "_file": "phoenix"
  },
  {
+  "id": "pixie",
+  "display_name": "숲의 요정",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 8,
+  "max_hp": 140,
+  "max_mp": 40,
+  "attack": 22,
+  "magic": 38,
+  "defense": 14,
+  "resistance": 30,
+  "speed": 26,
+  "evade": 0.12,
+  "break_shield": 2,
+  "weaknesses": [
+   3
+  ],
+  "resistances": [
+   8
+  ],
+  "experience_reward": 75,
+  "gold_reward": 55,
+  "drops": [
+   {
+    "id": "ether",
+    "chance": 0.08
+   },
+   {
+    "id": "verdant_crystal",
+    "chance": 0.05
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "support",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   2,
+   2,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "heal",
+   "holy_light"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "pixie"
+ },
+ {
+  "id": "rhino_beetle",
+  "display_name": "장수풍뎅이",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 7,
+  "max_hp": 210,
+  "max_mp": 0,
+  "attack": 33,
+  "magic": 15,
+  "defense": 36,
+  "resistance": 12,
+  "speed": 9,
+  "evade": 0.03,
+  "break_shield": 4,
+  "weaknesses": [
+   4
+  ],
+  "resistances": [
+   3,
+   1
+  ],
+  "experience_reward": 70,
+  "gold_reward": 50,
+  "drops": [
+   {
+    "id": "forest_fiber",
+    "chance": 0.4
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "basic",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_harden"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "rhino_beetle"
+ },
+ {
   "id": "sand_golem",
   "display_name": "모래 골렘",
   "rank": 0,
@@ -1583,6 +2764,65 @@
   "_file": "sand_golem"
  },
  {
+  "id": "sand_scorpion",
+  "display_name": "모래 전갈",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 22,
+  "max_hp": 470,
+  "max_mp": 10,
+  "attack": 74,
+  "magic": 40,
+  "defense": 62,
+  "resistance": 30,
+  "speed": 22,
+  "evade": 0.03,
+  "break_shield": 4,
+  "weaknesses": [
+   5,
+   2
+  ],
+  "resistances": [
+   3,
+   1
+  ],
+  "experience_reward": 390,
+  "gold_reward": 140,
+  "drops": [
+   {
+    "id": "golem_sandstone",
+    "chance": 0.3
+   },
+   {
+    "id": "remedy",
+    "chance": 0.08
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "basic",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "sk_poison_arrow"
+  ],
+  "archetype": "body_only",
+  "battle_row": 0,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "sand_scorpion"
+ },
+ {
   "id": "scarecrow",
   "display_name": "호박 허수아비",
   "rank": 0,
@@ -1605,7 +2845,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 282,
+  "experience_reward": 451,
   "gold_reward": 210,
   "drops": [
    {
@@ -1664,7 +2904,7 @@
    3,
    7
   ],
-  "experience_reward": 240,
+  "experience_reward": 384,
   "gold_reward": 185,
   "drops": [
    {
@@ -1753,6 +2993,65 @@
   "_file": "slime"
  },
  {
+  "id": "snow_fairy",
+  "display_name": "눈꽃 요정",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 13,
+  "max_hp": 200,
+  "max_mp": 45,
+  "attack": 30,
+  "magic": 52,
+  "defense": 18,
+  "resistance": 40,
+  "speed": 28,
+  "evade": 0.1,
+  "break_shield": 2,
+  "weaknesses": [
+   4
+  ],
+  "resistances": [
+   5
+  ],
+  "experience_reward": 115,
+  "gold_reward": 60,
+  "drops": [
+   {
+    "id": "ether",
+    "chance": 0.1
+   },
+   {
+    "id": "frost_crystal",
+    "chance": 0.04
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "support",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   1,
+   2,
+   2
+  ],
+  "skills": [
+   "basic_attack",
+   "heal",
+   "sk_ice_shard"
+  ],
+  "archetype": "flyer",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "snow_fairy"
+ },
+ {
   "id": "sprout",
   "display_name": "풀뿌리",
   "rank": 0,
@@ -1829,7 +3128,7 @@
    7,
    4
   ],
-  "experience_reward": 312,
+  "experience_reward": 499,
   "gold_reward": 230,
   "drops": [
    {
@@ -1865,5 +3164,58 @@
    1.0
   ],
   "_file": "wisp"
+ },
+ {
+  "id": "yeti",
+  "display_name": "꼬마 설인",
+  "rank": 0,
+  "is_boss": false,
+  "hit": 0.95,
+  "level": 16,
+  "max_hp": 330,
+  "max_mp": 12,
+  "attack": 60,
+  "magic": 30,
+  "defense": 30,
+  "resistance": 22,
+  "speed": 20,
+  "evade": 0.03,
+  "break_shield": 4,
+  "weaknesses": [
+   4
+  ],
+  "resistances": [
+   5
+  ],
+  "experience_reward": 160,
+  "gold_reward": 72,
+  "drops": [
+   {
+    "id": "frost_fur",
+    "chance": 0.45
+   }
+  ],
+  "scale_mult": 1.0,
+  "actions_per_turn": 1,
+  "ai_profile": "berserker",
+  "summons": [],
+  "summon_limit": 0,
+  "skill_weights": [
+   3,
+   1
+  ],
+  "skills": [
+   "basic_attack",
+   "stunning_slam"
+  ],
+  "archetype": "body_only",
+  "battle_row": 1,
+  "tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "_file": "yeti"
  }
 ]

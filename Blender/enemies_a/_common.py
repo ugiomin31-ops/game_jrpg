@@ -16,8 +16,9 @@ import math
 import os
 import sys
 
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\lib")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../lib'))
 import abyss_bpy as A  # noqa: E402
+import creature_face as F  # noqa: E402
 
 import bmesh  # noqa: E402
 import bpy  # noqa: E402
@@ -298,28 +299,19 @@ def aim(o, base, direction, roll=0.0):
 
 
 def cute_eye(name, loc, normal, w=0.07, h=0.09, iris="#2a3a8a", pupil="#121528", hl="#ffffff",
-             up=(0, 0, 1), depth=0.025, lid=None):
-    """Big anime eye on a surface: dark oval + iris lower half + 2 highlights (all outward along normal)."""
-    parts = []
-    base = A.sphere(name, r=1.0, scale=(w, depth, h), color=pupil, seg=20, rings=10)
-    parts.append(orient(base, loc, normal, up, offset=0.0))
-    if iris:
-        ir = A.sphere(name + "_iris", r=1.0, scale=(w * 0.72, depth * 0.7, h * 0.5), color=iris, seg=16, rings=8)
-        n = Vector(normal).normalized()
-        b = basis(n, up)
-        upv = b.col[2]
-        parts.append(orient(ir, Vector(loc) - upv * h * 0.38, n, up, offset=depth * 0.42))
+             up=(0, 0, 1), depth=0.025, lid=None, surface=None):
+    """Hero-style painted eye (Blender/lib/creature_face.py) centred on loc, facing `normal`.
+    w, h are half-sizes. `surface` (mesh object) is what the decal is projected onto; without it a gentle
+    cap is used. Returns a list of parts (no glowing iris, no bulging pupil)."""
     n = Vector(normal).normalized()
-    b = basis(n, up)
-    upv, side = b.col[2], b.col[0]
-    h1 = A.sphere(name + "_hl1", r=1.0, scale=(w * 0.32, depth * 0.6, h * 0.26), color=hl, seg=12, rings=6)
-    parts.append(orient(h1, Vector(loc) + upv * h * 0.38 - side * w * 0.28, n, up, offset=depth * 0.6))
-    h2 = A.sphere(name + "_hl2", r=1.0, scale=(w * 0.16, depth * 0.6, h * 0.13), color=hl, seg=10, rings=6)
-    parts.append(orient(h2, Vector(loc) - upv * h * 0.42 + side * w * 0.35, n, up, offset=depth * 0.6))
-    if lid:
-        ld = A.sphere(name + "_lid", r=1.0, scale=(w * 1.12, depth * 0.8, h * 0.3), color=lid, seg=16, rings=6)
-        parts.append(orient(ld, Vector(loc) + upv * h * 0.86, n, up, offset=depth * 0.3))
-    return parts
+    side = 1 if Vector(loc).x >= 0 else -1
+    if surface is not None:
+        bpy.context.view_layer.update()
+        bvh = F.object_bvh(surface)
+    else:
+        bvh = F.cap_bvh(Vector(loc) - n * 0.004, n, max(w, h) * 2)
+    return F.eye(name, bvh, loc, n, w * 1.8, h * 1.8, iris, side=side, k=max(0.4, max(w, h) / 0.045),
+                 pupil=pupil, lid=lid, up=up)
 
 
 def glow_eye(name, loc, normal, w=0.05, h=0.07, color="#ffe066", depth=0.02, up=(0, 0, 1)):
@@ -460,6 +452,7 @@ def finish(eid, rig, body, previews=True, extra=()):
     assert body.name == "Body", body.name
     mats = [m.name for m in body.data.materials]
     assert all(m in A.MATERIALS for m in mats), mats
+    A.volume_shade(body)  # same grounded, solid read as the heroes
     tris = count_tris(body)
     print(f"[enemies_a] {eid}: tris={tris} mats={mats} bones={len(rig.data.bones)}")
     path = A.export_fbx(f"Enemies/{eid}/{eid}.fbx", objects=[rig, body], animated=True)

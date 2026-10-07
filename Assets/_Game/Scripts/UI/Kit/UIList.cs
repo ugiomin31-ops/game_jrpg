@@ -47,15 +47,20 @@ namespace Abyss.UI
     /// Input is polled only while <see cref="Focused"/> and under the top <see cref="UIInput"/> layer.
     /// Cancel is NOT handled here (screens own it). Create with <see cref="UIFactory.List"/>.
     /// </summary>
-    public sealed class UIList : MonoBehaviour, IScrollHandler
+    public sealed class UIList : MonoBehaviour, IScrollHandler, IBeginDragHandler, IDragHandler
     {
         sealed class Row
         {
             public RectTransform Rect;
-            public Image Highlight, Icon;
+            public Image Card, Highlight, Icon;
             public TextMeshProUGUI Label, Reason, Cost;
             public UIListRowHandler Handler;
         }
+
+        static readonly Color RowCard = new Color(0.16f, 0.2f, 0.4f, 0.5f);
+        static readonly Color RowCardDisabled = new Color(0.1f, 0.11f, 0.2f, 0.4f);
+        /// <summary>Why a row is unavailable: soft coral, not alarm red (most reasons are just "not yet").</summary>
+        static readonly Color ReasonColor = new Color(1f, 0.62f, 0.55f);
 
         [SerializeField] float _rowHeight;
         [SerializeField] float _costWidth;
@@ -150,17 +155,23 @@ namespace Abyss.UI
             r.Handler = r.Rect.gameObject.AddComponent<UIListRowHandler>();
             r.Handler.List = this;
             r.Handler.Slot = i;
+            // Each row sits on its own soft card so lists read as tappable items, not loose text.
+            r.Card = UIFactory.Image(r.Rect, UISprites.PanelWhite, RowCard, "Card", borderScale: 1.6f);
+            r.Card.rectTransform.Stretch(0f, 2f, 0f, 2f);
             r.Highlight = UIFactory.Image(r.Rect, UISprites.RowHighlight, Color.white, "Highlight");
             r.Highlight.rectTransform.Stretch(-6f, 0f, 0f, 0f);
-            float iconSize = Mathf.Min(40f, _rowHeight - 14f);
+            // Tall (touch) rows get larger icons and text; desktop rows keep the original 40 px / 28 pt.
+            float iconSize = Mathf.Clamp(_rowHeight * 0.62f, 26f, 64f);
+            if (_rowHeight < 72f) iconSize = Mathf.Min(40f, _rowHeight - 14f);
+            float labelSize = _rowHeight >= 72f ? Mathf.Clamp(_rowHeight * 0.34f, UITheme.SizeLabel, 36f) : UITheme.SizeLabel;
             r.Icon = UIFactory.Icon(r.Rect, null, iconSize);
             r.Icon.rectTransform.Place(UIAnchor.Left, new Vector2(10f, 0f), new Vector2(iconSize, iconSize));
-            r.Label = UIFactory.Label(r.Rect, "", UITheme.SizeLabel, UIFont.Bold, UITheme.Text, TextAlignmentOptions.MidlineLeft, UITextFx.Shadow, "Label");
+            r.Label = UIFactory.Label(r.Rect, "", labelSize, UIFont.Bold, UITheme.Text, TextAlignmentOptions.MidlineLeft, UITextFx.Shadow, "Label");
             r.Label.overflowMode = TextOverflowModes.Ellipsis;
-            r.Reason = UIFactory.Label(r.Rect, "", UITheme.SizeCaption, UIFont.Bold, UITheme.Danger, TextAlignmentOptions.MidlineRight, UITextFx.Shadow, "Reason");
+            r.Reason = UIFactory.Label(r.Rect, "", _rowHeight >= 72f ? UITheme.SizeCaption + 3f : UITheme.SizeCaption, UIFont.Bold, ReasonColor, TextAlignmentOptions.MidlineRight, UITextFx.Shadow, "Reason");
             r.Reason.alignment = TextAlignmentOptions.MidlineLeft;
             r.Reason.overflowMode = TextOverflowModes.Ellipsis;
-            r.Cost = UIFactory.Label(r.Rect, "", UITheme.SizeLabel - 2f, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.MidlineRight, UITextFx.Shadow, "Cost");
+            r.Cost = UIFactory.Label(r.Rect, "", labelSize - 2f, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.MidlineRight, UITextFx.Shadow, "Cost");
             r.Cost.overflowMode = TextOverflowModes.Ellipsis;
             r.Cost.rectTransform.anchorMin = new Vector2(1f, 0f);
             r.Cost.rectTransform.anchorMax = new Vector2(1f, 1f);
@@ -272,6 +283,7 @@ namespace Abyss.UI
                 var it = _items[idx];
                 bool sel = idx == _selected;
                 r.Highlight.enabled = sel;
+                r.Card.color = it.Enabled ? RowCard : RowCardDisabled;
                 r.Highlight.color = _focused ? Color.white : new Color(0.75f, 0.8f, 1f, 0.45f);
                 bool icon = it.Icon != null;
                 r.Icon.sprite = it.Icon;
@@ -349,6 +361,22 @@ namespace Abyss.UI
             if (idx >= _items.Count || !UIInput.CanReceive(this)) return;
             Select(idx, false);
             Submit();
+        }
+
+        float _dragRows;
+
+        /// <inheritdoc/>
+        public void OnBeginDrag(PointerEventData e) => _dragRows = 0f;
+
+        /// <summary>Touch/mouse drag scrolls row by row (finger up = later rows), like a phone list.</summary>
+        public void OnDrag(PointerEventData e)
+        {
+            if (!UIInput.CanReceive(this) || _rowHeight <= 0f) return;
+            var canvas = GetComponentInParent<Canvas>();
+            float scale = canvas != null && canvas.scaleFactor > 0f ? canvas.scaleFactor : 1f;
+            _dragRows += e.delta.y / scale / _rowHeight;
+            while (_dragRows >= 1f) { _dragRows -= 1f; ScrollBy(1); }
+            while (_dragRows <= -1f) { _dragRows += 1f; ScrollBy(-1); }
         }
 
         /// <inheritdoc/>

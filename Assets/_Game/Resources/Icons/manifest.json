@@ -4,7 +4,7 @@
   "coverage": {
     "Heroes": 4,
     "NPCs": 8,
-    "Enemies": 28,
+    "Enemies": 51,
     "Gear": 48,
     "Items": 30,
     "Status": 22,
@@ -27,16 +27,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          0.0,
-          -4.4175944328308105,
-          0.9153326749801636
+          -0.023154526948928833,
+          -5.373669147491455,
+          1.5028791427612305
         ],
         "rotation": [
-          1.5707964897155762,
+          1.5707963705062866,
           -0.0,
           0.0
         ],
-        "ortho_scale": 0.7159429788589478
+        "ortho_scale": 0.4547754228115082
       }
     },
     {
@@ -54,16 +54,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          0.001077026128768921,
-          -4.520486831665039,
-          0.9115551710128784
+          -0.0002596154808998108,
+          -5.235339164733887,
+          1.421567440032959
         ],
         "rotation": [
-          1.5707964897155762,
+          1.5707963705062866,
           -0.0,
           0.0
         ],
-        "ortho_scale": 0.7729353904724121
+        "ortho_scale": 0.4252285659313202
       }
     },
     {
@@ -81,16 +81,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          0.0,
-          -5.188208103179932,
-          1.0326594114303589
+          -0.0026048272848129272,
+          -6.230762481689453,
+          1.6481600999832153
         ],
         "rotation": [
-          1.5707964897155762,
+          1.5707963705062866,
           -0.0,
           0.0
         ],
-        "ortho_scale": 0.8579199910163879
+        "ortho_scale": 0.7982853055000305
       }
     },
     {
@@ -108,16 +108,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          0.021865099668502808,
-          -4.548552513122559,
-          0.9144768714904785
+          -0.0004980564117431641,
+          -5.665866374969482,
+          1.557684063911438
         ],
         "rotation": [
-          1.5707964897155762,
+          1.5707963705062866,
           -0.0,
           0.0
         ],
-        "ortho_scale": 0.7168380618095398
+        "ortho_scale": 0.5655112862586975
       }
     },
     {
@@ -351,16 +351,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7584891319274902,
-          -5.486303329467773,
-          2.0234904289245605
+          1.6398001909255981,
+          -5.104154109954834,
+          2.1065073013305664
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.7429687976837158
+        "ortho_scale": 1.8163208961486816
       }
     },
     {
@@ -405,16 +405,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7012369632720947,
-          -5.2379608154296875,
-          1.5400906801223755
+          1.5362186431884766,
+          -4.760152816772461,
+          1.384077787399292
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.3390237092971802
+        "ortho_scale": 1.1921719312667847
       }
     },
     {
@@ -432,16 +432,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7620348930358887,
-          -5.497384071350098,
-          2.028841733932495
+          1.6398001909255981,
+          -5.104154109954834,
+          2.1065073013305664
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.7429686784744263
+        "ortho_scale": 1.8163208961486816
       }
     },
     {
@@ -459,16 +459,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.999645471572876,
-          -6.170487880706787,
-          1.7980481386184692
+          1.5863523483276367,
+          -4.916820526123047,
+          1.4154112339019775
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.4210048913955688
+        "ortho_scale": 1.1921720504760742
       }
     },
     {
@@ -486,16 +486,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          2.282217025756836,
-          -7.012409210205078,
-          2.186546802520752
+          1.9585895538330078,
+          -5.853537559509277,
+          1.7533488273620605
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.9180467128753662
+        "ortho_scale": 1.4914277791976929
       }
     },
     {
@@ -513,16 +513,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7706629037857056,
-          -5.424357891082764,
-          1.7264857292175293
+          1.6098302602767944,
+          -5.041226863861084,
+          1.4480563402175903
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.5799236297607422
+        "ortho_scale": 1.1267402172088623
       }
     },
     {
@@ -540,16 +540,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.5388319492340088,
-          -4.808849811553955,
-          1.5395222902297974
+          1.4602813720703125,
+          -4.56410551071167,
+          1.3931416273117065
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.3826336860656738
+        "ortho_scale": 1.1648362874984741
       }
     },
     {
@@ -567,9 +567,9 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.8099496364593506,
-          -5.756280422210693,
-          1.9053397178649902
+          1.803301215171814,
+          -5.735503673553467,
+          1.9011844396591187
         ],
         "rotation": [
           1.3825666904449463,
@@ -594,9 +594,9 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.859419345855713,
-          -5.890004634857178,
-          2.0645432472229004
+          1.8594194650650024,
+          -5.890005111694336,
+          2.0645434856414795
         ],
         "rotation": [
           1.3825666904449463,
@@ -648,16 +648,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7163100242614746,
-          -5.477521896362305,
-          1.830648422241211
+          1.7483677864074707,
+          -5.225207805633545,
+          1.565165638923645
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.7601795196533203
+        "ortho_scale": 1.3316320180892944
       }
     },
     {
@@ -756,16 +756,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7685469388961792,
-          -5.517734050750732,
-          2.0297768115997314
+          1.6398001909255981,
+          -5.104154109954834,
+          2.1065073013305664
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.7429686784744263
+        "ortho_scale": 1.8163208961486816
       }
     },
     {
@@ -783,16 +783,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7686413526535034,
-          -5.4180402755737305,
-          1.6747243404388428
+          1.6096876859664917,
+          -5.041272163391113,
+          1.4480563402175903
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.4648377895355225
+        "ortho_scale": 1.1267402172088623
       }
     },
     {
@@ -810,16 +810,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.5727864503860474,
-          -4.9149580001831055,
-          1.7807093858718872
+          1.1982778310775757,
+          -3.7446179389953613,
+          1.5774080753326416
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.4874145984649658
+        "ortho_scale": 1.0165365934371948
       }
     },
     {
@@ -837,16 +837,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.7678756713867188,
-          -5.368697643280029,
-          1.4495704174041748
+          1.319218397140503,
+          -4.036342144012451,
+          1.1495150327682495
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.4225146770477295
+        "ortho_scale": 1.0238515138626099
       }
     },
     {
@@ -864,16 +864,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.4116133451461792,
-          -4.411291599273682,
-          1.3439735174179077
+          1.4494246244430542,
+          -4.530177593231201,
+          1.3768473863601685
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.1181824207305908
+        "ortho_scale": 1.1431658267974854
       }
     },
     {
@@ -891,16 +891,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.590535044670105,
-          -5.093780040740967,
-          1.7554243803024292
+          1.5205352306365967,
+          -4.842039108276367,
+          1.6775180101394653
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.7356966733932495
+        "ortho_scale": 1.7158904075622559
       }
     },
     {
@@ -918,16 +918,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.723690152168274,
-          -5.356925964355469,
-          2.0819478034973145
+          1.3517858982086182,
+          -4.135167598724365,
+          1.9420208930969238
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.527626395225525
+        "ortho_scale": 1.1959798336029053
       }
     },
     {
@@ -945,9 +945,9 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.6906262636184692,
-          -5.413207054138184,
-          1.7747334241867065
+          1.6837005615234375,
+          -5.391563892364502,
+          1.7704046964645386
         ],
         "rotation": [
           1.3825666904449463,
@@ -974,7 +974,7 @@
         "position": [
           1.7060006856918335,
           -5.4105706214904785,
-          1.858585000038147
+          1.8585848808288574
         ],
         "rotation": [
           1.3825666904449463,
@@ -999,16 +999,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.5072481632232666,
-          -4.638587951660156,
-          1.5916111469268799
+          1.505009412765503,
+          -4.631591796875,
+          1.5902118682861328
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.525399923324585
+        "ortho_scale": 1.5254000425338745
       }
     },
     {
@@ -1026,16 +1026,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.3257945775985718,
-          -4.185985088348389,
-          1.1749210357666016
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.0860881805419922
+        "ortho_scale": 0.9646897315979004
       }
     },
     {
@@ -1053,16 +1053,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.655415654182434,
-          -5.443658828735352,
-          1.6008739471435547
+          1.4103232622146606,
+          -4.605034828186035,
+          1.4622853994369507
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.451163649559021
+        "ortho_scale": 1.3581037521362305
       }
     },
     {
@@ -1080,7 +1080,7 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.585904836654663,
+          1.5859049558639526,
           -5.025679588317871,
           2.0179145336151123
         ],
@@ -4330,6 +4330,627 @@
           0.0
         ],
         "ortho_scale": 1.1321600675582886
+      }
+    },
+    {
+      "id": "dark_knight",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/dark_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4230027198791504,
+          -4.4639387130737305,
+          1.539965033531189
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5413281917572021
+      }
+    },
+    {
+      "id": "elite_dark_knight",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_dark_knight/elite_dark_knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_dark_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5560036897659302,
+          -4.832511901855469,
+          1.6698862314224243
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.6674319505691528
+      }
+    },
+    {
+      "id": "elite_hellhound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_hellhound/elite_hellhound.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_hellhound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.613728404045105,
+          -5.145664215087891,
+          1.48603093624115
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.17348051071167
+      }
+    },
+    {
+      "id": "elite_mimic",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_mimic/elite_mimic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_mimic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2071266174316406,
+          -3.763303279876709,
+          1.1404320001602173
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9797567129135132
+      }
+    },
+    {
+      "id": "elite_rhino_beetle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_rhino_beetle/elite_rhino_beetle.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_rhino_beetle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4670629501342773,
+          -4.5846381187438965,
+          1.234238624572754
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.364490270614624
+      }
+    },
+    {
+      "id": "elite_yeti",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_yeti/elite_yeti.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/elite_yeti.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4716206789016724,
+          -4.746841907501221,
+          1.5259532928466797
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4064098596572876
+      }
+    },
+    {
+      "id": "flame_elemental",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/flame_elemental/flame_elemental.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/flame_elemental.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.19599449634552,
+          -3.8571343421936035,
+          1.592736840248108
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.203766107559204
+      }
+    },
+    {
+      "id": "frost_spider",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/frost_spider.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.3031904697418213,
+          -4.072596073150635,
+          1.157078504562378
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3205453157424927
+      }
+    },
+    {
+      "id": "ghost",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/ghost.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1285609006881714,
+          -3.744561195373535,
+          1.4353022575378418
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9881591796875
+      }
+    },
+    {
+      "id": "harpy",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/harpy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5300843715667725,
+          -4.692145347595215,
+          1.9494320154190063
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5053446292877197
+      }
+    },
+    {
+      "id": "hellhound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/hellhound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6961723566055298,
+          -5.273590087890625,
+          1.5289944410324097
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2075937986373901
+      }
+    },
+    {
+      "id": "horned_rabbit",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/horned_rabbit.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2077467441558838,
+          -3.707056760787964,
+          1.1778939962387085
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0453561544418335
+      }
+    },
+    {
+      "id": "ice_golem",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/ice_golem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7730402946472168,
+          -5.646645545959473,
+          1.775794267654419
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.564092993736267
+      }
+    },
+    {
+      "id": "killer_bee",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/killer_bee.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.230318546295166,
+          -3.6956777572631836,
+          1.800001859664917
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1062045097351074
+      }
+    },
+    {
+      "id": "lich",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/lich.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2674192190170288,
+          -3.9867677688598633,
+          1.4571261405944824
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2044674158096313
+      }
+    },
+    {
+      "id": "lizardman",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/lizardman.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.429289698600769,
+          -4.420030117034912,
+          1.4271398782730103
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3071662187576294
+      }
+    },
+    {
+      "id": "mandragora",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mandragora/mandragora.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/mandragora.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2103909254074097,
+          -3.898859739303589,
+          1.295091152191162
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2361210584640503
+      }
+    },
+    {
+      "id": "mimic",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/mimic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2045962810516357,
+          -3.7653634548187256,
+          1.0412724018096924
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8562734723091125
+      }
+    },
+    {
+      "id": "pixie",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/pixie.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2228362560272217,
+          -3.73136305809021,
+          1.4839015007019043
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.843192458152771
+      }
+    },
+    {
+      "id": "rhino_beetle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/rhino_beetle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4670629501342773,
+          -4.5846381187438965,
+          1.234238624572754
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.364490270614624
+      }
+    },
+    {
+      "id": "sand_scorpion",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/sand_scorpion.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6014113426208496,
+          -5.015002727508545,
+          1.4295731782913208
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2865325212478638
+      }
+    },
+    {
+      "id": "snow_fairy",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/snow_fairy/snow_fairy.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/snow_fairy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2733209133148193,
+          -3.905128002166748,
+          1.4401147365570068
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2766648530960083
+      }
+    },
+    {
+      "id": "yeti",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/yeti.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4161791801452637,
+          -4.55547571182251,
+          1.4220201969146729
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2560031414031982
       }
     }
   ]

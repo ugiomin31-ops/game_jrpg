@@ -4,6 +4,7 @@ using Abyss.Logic;
 using Abyss.Logic.Dungeon;
 using Abyss.Runtime.Art;
 using Abyss.Presentation.Audio;
+using Abyss.UI;
 using Abyss.Presentation.Vfx;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,12 +14,17 @@ namespace Abyss.Runtime.World
     public sealed class DungeonWorld : MonoBehaviour
     {
         const float CellSize = 4f;
+        // Biome dressing density (percent per wall face beside a walkable cell); see Dress().
+        const int OverlayChance = 18, DecorChance = 26;
         static readonly int TintId = Shader.PropertyToID("_Tint");
         static readonly Color FoeThreatColor = new Color(1f, 0.55f, 0.12f);
         static readonly Color FoeChaseColor = new Color(1f, 0.26f, 0.05f);
         static readonly Color FoeAlertColor = new Color(1.6f, 0.75f, 0.25f);
         static readonly Color FoeChaseBodyTint = new Color(1f, 0.82f, 0.7f);
         readonly Dictionary<GridPos, Transform> chests = new Dictionary<GridPos, Transform>();
+        // Props standing on a walkable cell (chest, lore stone, spring, key): they shrink away as the camera walks
+        // into them instead of filling the screen from the inside.
+        readonly List<(Transform Root, Vector3 Scale)> nearProps = new List<(Transform, Vector3)>();
         readonly Dictionary<GridPos, Transform> doors = new Dictionary<GridPos, Transform>();
         readonly Dictionary<GridPos, GameObject> keys = new Dictionary<GridPos, GameObject>();
         readonly Dictionary<string, CharacterModel> foes = new Dictionary<string, CharacterModel>();
@@ -53,7 +59,7 @@ namespace Abyss.Runtime.World
             this.app = app;
             this.run = run;
             tileset = run.Grid.Floor.Tileset;
-            app.Atmosphere.Apply(AtmospherePreset.ForTileset(tileset));
+            app.Atmosphere.Apply(AtmospherePreset.ForDungeon(tileset));
             app.Atmosphere.SetupCamera(app.MainCamera);
             app.MainCamera.fieldOfView = 65;
             var grid = run.Grid;
@@ -65,14 +71,17 @@ namespace Abyss.Runtime.World
                 int variant = (x * 17 + y * 31) % 3;
                 if (marker == '#')
                 {
-                    Spawn("wall_" + (char)('a' + variant), cell);
+                    // Walls buried among walls can never be seen: skip them (about a third of a floor's blocks).
+                    if (TouchesOpenCell(grid, cell)) Spawn("wall_" + (char)('a' + variant), cell);
                     continue;
                 }
-                Spawn("floor_" + (char)('a' + variant), cell);
+                // stairs_down carries its own opening into the floor; a floor tile would cap it.
+                if (marker != '>') Spawn("floor_" + (char)('a' + variant), cell);
                 switch (marker)
                 {
                     case 'T':
                         var chest = Spawn("chest", cell);
+                        AgainstWall(chest, grid, cell, 1.3f);
                         chests[cell] = EnvironmentProcessor.Find(chest.transform, "Lid");
                         break;
                     case 'L':
@@ -85,28 +94,31 @@ namespace Abyss.Runtime.World
                     case 'K':
                         var key = ArtLibrary.SpawnStatic(ArtLibrary.PropPath("Common", "key_item"), transform);
                         key.transform.position = Position(cell) + Vector3.up * 0.8f;
+                        AgainstWall(key, grid, cell, 1.1f);
                         keys[cell] = key;
                         break;
-                    case 'H': Spawn("spring", cell); break;
+                    case 'H': AgainstWall(Spawn("spring", cell), grid, cell, 1.1f); break;
                     case 'W': Spawn("warp", cell); break;
-                    case 'N': Spawn("lore_stone", cell); break;
+                    case 'N': AgainstWall(Spawn("lore_stone", cell), grid, cell, 1.35f); break;
                     case 'X': Spawn("trap", cell); break;
                     case 'B': Spawn("boss_gate", cell); break;
                 }
                 // Sparse side dressing keeps the centre of every walkable cell clear.
+                int torchFacing = -1;
                 if ((x * 13 + y * 7) % 9 == 0)
                 {
-                    for (int facing = 0; facing < 4; facing++)
+                    for (int facing = 0; facing < 4 && torchFacing < 0; facing++)
                     {
                         var adjacent = cell.Step((Facing)facing);
                         if (grid.Cell(adjacent) != '#') continue;
+                        torchFacing = facing;
                         Vector3 direction = Position(adjacent) - Position(cell);
                         var torch = Spawn("torch", cell);
                         torch.transform.position += direction.normalized * 1.7f;
                         torch.transform.rotation = Quaternion.LookRotation(-direction);
-                        break;
                     }
                 }
+                Dress(grid, cell, marker, torchFacing);
             }
             foreach (var foe in grid.Foes)
             {
@@ -177,10 +189,100 @@ namespace Abyss.Runtime.World
             return go.transform;
         }
 
+        static bool TouchesOpenCell(DungeonGrid grid, GridPos cell)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            for (int dx = -1; dx <= 1; dx++)
+                if (grid.Cell(new GridPos(cell.X + dx, cell.Y + dy)) != '#') return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Biome dressing, purely visual (no colliders) and deterministic per cell so a floor always looks the same.
+        /// For each wall face beside this walkable cell (except the torch's): sometimes an overlay_1/2 hung on that
+        /// wall face, and on plain floor cells at most one decor_1..6 standing against the wall, 1.45 m toward it and
+        /// 1 m to one side, which keeps both walking lines through the cell centre clear. Door, stair and boss cells
+        /// stay bare so their frames never clip.
+        /// </summary>
+        void Dress(DungeonGrid grid, GridPos cell, char marker, int torchFacing)
+        {
+            if (marker == 'L' || marker == 'B' || marker == '<' || marker == '>') return;
+            bool decorAllowed = marker == '.' || marker == 'S' || marker == 'E';
+            for (int facing = 0; facing < 4; facing++)
+            {
+                var wall = cell.Step((Facing)facing);
+                if (facing == torchFacing || grid.Cell(wall) != '#') continue;
+                Vector3 toWall = (Position(wall) - Position(cell)) / CellSize;
+                int hash = CellHash(cell.X, cell.Y, facing);
+                if (hash % 100 < OverlayChance)
+                {
+                    // Overlays are authored on a wall block's -Y (Unity +Z) face: turn that face toward this cell.
+                    var overlay = Spawn(hash % 2 == 0 ? "overlay_1" : "overlay_2", wall);
+                    overlay.transform.rotation = Quaternion.LookRotation(-toWall);
+                }
+                if (decorAllowed && hash / 100 % 100 < DecorChance)
+                {
+                    var decor = Spawn("decor_" + (1 + hash / 10000 % 6), cell);
+                    Vector3 side = Vector3.Cross(Vector3.up, toWall) * (((hash >> 20) & 1) == 0 ? -1f : 1f);
+                    decor.transform.position += toWall * 1.45f + side * 1f;
+                    decor.transform.rotation = Quaternion.LookRotation(-toWall) * Quaternion.Euler(0f, ((hash >> 21) % 5 - 2) * 12f, 0f);
+                    decorAllowed = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves a cell prop from the centre (where the camera walks) against one of the cell's walls, facing the
+        /// cell, and registers it for the near-camera fade. Open cells without a wall keep the prop centred.
+        /// </summary>
+        void AgainstWall(GameObject prop, DungeonGrid grid, GridPos cell, float offset)
+        {
+            int start = CellHash(cell.X, cell.Y, 7) % 4;
+            for (int i = 0; i < 4; i++)
+            {
+                int facing = (start + i) % 4;
+                if (grid.Cell(cell.Step((Facing)facing)) != '#') continue;
+                Vector3 toWall = (Position(cell.Step((Facing)facing)) - Position(cell)) / CellSize;
+                prop.transform.position += toWall * offset;
+                prop.transform.rotation = Quaternion.LookRotation(-toWall);
+                break;
+            }
+            nearProps.Add((prop.transform, prop.transform.localScale));
+        }
+
+        /// <summary>Shrinks cell props the camera is about to pass through (horizontal distance under ~1.6 m).</summary>
+        void FadeNearProps()
+        {
+            if (nearProps.Count == 0 || app == null) return;
+            Vector3 eye = app.MainCamera.transform.position;
+            for (int i = 0; i < nearProps.Count; i++)
+            {
+                var (root, scale) = nearProps[i];
+                if (root == null) continue;
+                Vector3 d = root.position - eye;
+                d.y = 0f;
+                float k = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.7f, 1.6f, d.magnitude));
+                root.localScale = scale * k; // scale only: activation belongs to progress (taken keys)
+            }
+        }
+
+        static int CellHash(int x, int y, int salt)
+        {
+            unchecked
+            {
+                uint h = (uint)x * 374761393u + (uint)y * 668265263u + (uint)salt * 2246822519u;
+                h = (h ^ (h >> 13)) * 1274126177u;
+                return (int)((h ^ (h >> 16)) & 0x7fffffff);
+            }
+        }
+
         GameObject Spawn(string piece, GridPos cell)
         {
             var go = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(tileset, piece), transform);
             go.transform.position = Position(cell);
+            // Cave / vault ceilings ride on floor pieces; they must not shadow the corridor from the sun.
+            foreach (var r in go.GetComponentsInChildren<MeshRenderer>())
+                if (r.name.StartsWith("Ceiling")) r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             var processed = EnvironmentProcessor.Process(go, app.Atmosphere.Current.TorchColor, 1.5f, 5.5f);
             lights.AddRange(processed.Lights);
             return go;
@@ -252,8 +354,33 @@ namespace Abyss.Runtime.World
             }
             foreach (var pair in foes) pair.Value.Play("Idle");
             camera.SetPositionAndRotation(destination, destinationRotation);
+            if (result.Effect == DungeonEffect.Treasure) yield return OpenChestLid();
             busy = false;
             app.HandleDungeonStep(result);
+        }
+
+        /// <summary>Swings open the lid of the chest that was just opened (closed lid, opened cell) with a gold burst.</summary>
+        IEnumerator OpenChestLid()
+        {
+            Transform lid = null;
+            foreach (var pair in chests)
+                if (pair.Value != null && run.Grid.Progress.OpenedChests.Contains(pair.Key) && Quaternion.Angle(pair.Value.localRotation, Quaternion.identity) < 1f)
+                    lid = pair.Value;
+            if (lid == null) yield break;
+            var vfx = VfxLibrary.Create();
+            vfx.Camera = app.MainCamera;
+            vfx.Play("buff", lid.position + Vector3.up * 0.2f, new Color(1f, 0.82f, 0.35f), 1.2f);
+            float duration = app.Preferences.ReducedMotion ? 0.05f : 0.42f;
+            for (float t = 0; t < duration; t += Time.deltaTime)
+            {
+                float k = Mathf.Clamp01(t / duration);
+                // Overshoot slightly past fully open, then settle.
+                float angle = -105f * (1f + 0.12f * Mathf.Sin(k * Mathf.PI)) * (1f - Mathf.Pow(1f - k, 3f));
+                lid.localRotation = Quaternion.Euler(angle, 0, 0);
+                yield return null;
+            }
+            lid.localRotation = Quaternion.Euler(-105, 0, 0);
+            yield return new WaitForSeconds(app.Preferences.ReducedMotion ? 0f : 0.15f);
         }
         void Update()
         {
@@ -277,6 +404,15 @@ namespace Abyss.Runtime.World
             else if ((keyboard?.rKey.wasPressedThisFrame ?? false) || (gamepad?.rightShoulder.wasPressedThisFrame ?? false)) Move(RelativeMove.Right);
             else if ((keyboard?.eKey.wasPressedThisFrame ?? false) || (keyboard?.spaceKey.wasPressedThisFrame ?? false) || (gamepad?.buttonSouth.wasPressedThisFrame ?? false)) Interact();
             else if ((keyboard?.periodKey.wasPressedThisFrame ?? false) || (gamepad?.buttonWest.wasPressedThisFrame ?? false)) WaitTurn();
+            else
+            {
+                // Touch: flick up/down to step forward/back, left/right to turn. No tap-to-interact: an empty
+                // interaction spends a turn, so stray taps would let foes advance; the HUD pad's 조사 button does it.
+                var swipe = UITouch.Swipe;
+                if (swipe.y > 0) Move(RelativeMove.Forward);
+                else if (swipe.y < 0) Move(RelativeMove.Back);
+                else if (swipe.x != 0) Turn(swipe.x);
+            }
         }
         static string SoundFor(DungeonEffect effect, bool moved)
         {
@@ -296,6 +432,7 @@ namespace Abyss.Runtime.World
         // Markers are children of FOE models: hidden with the model on defeat, destroyed with it. Scaled time freezes them while paused.
         void LateUpdate()
         {
+            FadeNearProps();
             if (foeMarkers.Count == 0 || app == null) return;
             bool reduced = app.Preferences.ReducedMotion;
             var view = app.MainCamera.transform;

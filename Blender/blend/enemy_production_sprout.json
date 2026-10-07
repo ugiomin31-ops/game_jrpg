@@ -1,38 +1,38 @@
 {
   "id": "sprout",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\sprout.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:22:12Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:32:59Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\sprout\\sprout.fbx",
-      "bytes": 807436
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
+      "bytes": 845196
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_sprout.blend",
-      "bytes": 271709
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_sprout.blend",
+      "bytes": 458795
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sprout.png",
-        "bytes": 323321
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout.png",
+        "bytes": 172304
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sprout_side.png",
-        "bytes": 294517
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_side.png",
+        "bytes": 155822
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sprout_attack.png",
-        "bytes": 290859
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_attack.png",
+        "bytes": 169623
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sprout_cast.png",
-        "bytes": 306913
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_cast.png",
+        "bytes": 166748
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_sprout_die.png",
-        "bytes": 279774
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_sprout_die.png",
+        "bytes": 155331
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9178,
-    "vertices": 5355,
-    "bones": 10,
+    "triangles": 10184,
+    "vertices": 5126,
+    "bones": 8,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -59,11 +58,11 @@
       ],
       "Attack": [
         0.0,
-        26.0
+        25.0
       ],
       "Cast": [
         0.0,
-        36.0
+        35.0
       ],
       "Hit": [
         0.0,
@@ -71,7 +70,7 @@
       ],
       "Die": [
         0.0,
-        32.0
+        30.0
       ],
       "Victory": [
         0.0,
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9178,
-    "vertices": 5355,
-    "bones": 10,
+    "triangles": 10184,
+    "vertices": 5126,
+    "bones": 8,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -103,11 +101,11 @@
       ],
       "Attack": [
         1.0,
-        27.0
+        26.0
       ],
       "Cast": [
         1.0,
-        37.0
+        36.0
       ],
       "Hit": [
         1.0,
@@ -115,7 +113,7 @@
       ],
       "Die": [
         1.0,
-        33.0
+        31.0
       ],
       "Victory": [
         1.0,

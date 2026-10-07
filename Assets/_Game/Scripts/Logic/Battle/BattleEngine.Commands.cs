@@ -154,9 +154,10 @@ namespace Abyss.Logic.Battle
             var heal = SuggestHeal(unit, usable, living);
             if (heal != null) return heal;
 
-            // 3. Ultimate.
-            foreach (var s in usable)
+            // 3. Ultimate (newest learned first: a later ultimate is the stronger one).
+            for (int i = usable.Count - 1; i >= 0; i--)
             {
+                var s = usable[i];
                 if (s.TpCost <= 0) continue;
                 var effect = SkillEffect(s);
                 if (effect == ActionEffect.Heal)

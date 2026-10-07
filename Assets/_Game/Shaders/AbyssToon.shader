@@ -3,6 +3,9 @@
 // Features: banded main light + soft secondary band, received shadows, additional lights (Forward+/cluster),
 // rim light, emission, world-space colour noise (breaks up flat environment colours), inverted-hull outline,
 // hit flash (_FlashColor.a) and dissolve (_Dissolve 0..1) driven from scripts via MaterialPropertyBlock.
+// Optional texture alpha cutout (_AlphaClip toggles keyword _ALPHATEST_ON, threshold _Cutoff) for textured heroes'
+// face layers, eyes and hair cards; with it off (the default) no pass reads the texture alpha. With _Cull Off the
+// back faces are lit with flipped normals and _OutlineZOffset pushes the outline hull behind single-layer cards.
 Shader "Abyss/Toon"
 {
     Properties
@@ -21,7 +24,10 @@ Shader "Abyss/Toon"
         _NoiseStrength ("World Noise Strength", Range(0,0.5)) = 0
         _NoiseScale ("World Noise Scale", Float) = 1.6
         _Alpha ("Alpha", Range(0,1)) = 1
+        [Toggle(_ALPHATEST_ON)] _AlphaClip ("Alpha Cutout (Base Map alpha)", Float) = 0
+        _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.5
         _OutlineWidth ("Outline Width", Range(0,0.05)) = 0.012
+        _OutlineZOffset ("Outline Z Offset (m, away from camera)", Range(0,0.1)) = 0
         _OutlineColor ("Outline Colour", Color) = (0.10,0.07,0.12,1)
         _FlashColor ("Flash Colour (a = amount)", Color) = (1,1,1,0)
         _Dissolve ("Dissolve", Range(0,1)) = 0
@@ -53,7 +59,10 @@ Shader "Abyss/Toon"
             half _NoiseStrength;
             float _NoiseScale;
             half _Alpha;
+            half _AlphaClip;
+            half _Cutoff;
             float _OutlineWidth;
+            float _OutlineZOffset;
             half4 _OutlineColor;
             half4 _FlashColor;
             half _Dissolve;
@@ -94,6 +103,14 @@ Shader "Abyss/Toon"
                 edge = 1.0 - saturate(d / 0.06);
             }
         }
+
+        // Texture alpha cutout; compiled out unless the material enables _ALPHATEST_ON.
+        void ClipAlpha(float2 uv, half vertexAlpha)
+        {
+            #if defined(_ALPHATEST_ON)
+                clip(SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv).a * vertexAlpha - _Cutoff);
+            #endif
+        }
         ENDHLSL
 
         Pass
@@ -116,6 +133,7 @@ Shader "Abyss/Toon"
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
@@ -169,13 +187,16 @@ Shader "Abyss/Toon"
                 return (shade + spec) * light.color * ao;
             }
 
-            half4 frag(Varyings i) : SV_Target
+            half4 frag(Varyings i, FRONT_FACE_TYPE facing : FRONT_FACE_SEMANTIC) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
                 half edge;
                 ClipDissolve(i.positionOS, edge);
 
                 half4 baseTex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, i.uv);
+                #if defined(_ALPHATEST_ON)
+                    clip(baseTex.a * i.color.a - _Cutoff);
+                #endif
                 half3 albedo = i.color.rgb * _BaseColor.rgb * baseTex.rgb;
                 if (_NoiseStrength > 0.001)
                 {
@@ -183,7 +204,8 @@ Shader "Abyss/Toon"
                     albedo *= 1.0 + (nz - 0.5) * 2.0 * _NoiseStrength;
                 }
 
-                half3 n = normalize(i.normalWS);
+                // Back faces only reach here with _Cull Off (hair cards, cloth): light them from their own side.
+                half3 n = normalize(i.normalWS) * IS_FRONT_VFACE(facing, 1.0, -1.0);
                 half3 viewDir = GetWorldSpaceNormalizeViewDir(i.positionWS);
 
                 InputData inputData = (InputData)0;
@@ -242,15 +264,23 @@ Shader "Abyss/Toon"
             #pragma fragment frag
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
 
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; UNITY_VERTEX_INPUT_INSTANCE_ID };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; half fogFactor : TEXCOORD1; half4 color : TEXCOORD2; };
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; half fogFactor : TEXCOORD1; half4 color : TEXCOORD2; float2 uv : TEXCOORD3; };
 
             Varyings vert(Attributes v)
             {
                 Varyings o = (Varyings)0;
                 UNITY_SETUP_INSTANCE_ID(v);
                 float4 cs = TransformObjectToHClip(v.positionOS.xyz);
+                if (_OutlineZOffset > 0.0)
+                {
+                    // Push the hull away from the camera (view space looks down -Z) so it never ties with the surface.
+                    float3 positionVS = TransformWorldToView(TransformObjectToWorld(v.positionOS.xyz));
+                    positionVS.z -= _OutlineZOffset;
+                    cs = TransformWViewToHClip(positionVS);
+                }
                 float3 nCS = mul((float3x3)UNITY_MATRIX_VP, TransformObjectToWorldNormal(v.normalOS));
                 // Screen-space constant width, clamped so distant objects don't get fat outlines.
                 float2 offset = normalize(nCS.xy + 1e-5) * _OutlineWidth * min(cs.w, 6.0);
@@ -260,6 +290,7 @@ Shader "Abyss/Toon"
                 o.positionOS = v.positionOS.xyz;
                 o.fogFactor = ComputeFogFactor(cs.z);
                 o.color = v.color;
+                o.uv = v.uv;
                 return o;
             }
 
@@ -268,6 +299,7 @@ Shader "Abyss/Toon"
                 half edge;
                 ClipDissolve(i.positionOS, edge);
                 clip(_OutlineWidth - 0.0001);
+                ClipAlpha(i.uv, i.color.a);
                 clip(_Alpha - 0.99);
                 half3 c = _OutlineColor.rgb * lerp(half3(1,1,1), i.color.rgb, 0.35);
                 return half4(MixFog(c, i.fogFactor), 1);
@@ -282,7 +314,7 @@ Shader "Abyss/Toon"
             ZWrite On
             ZTest LEqual
             ColorMask 0
-            Cull Back
+            Cull [_Cull]
 
             HLSLPROGRAM
             #pragma target 3.5
@@ -290,14 +322,15 @@ Shader "Abyss/Toon"
             #pragma fragment frag
             #pragma multi_compile_instancing
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
             float3 _LightDirection;
             float3 _LightPosition;
 
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; UNITY_VERTEX_INPUT_INSTANCE_ID };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; };
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; float2 uv : TEXCOORD1; half alpha : TEXCOORD2; };
 
             Varyings vert(Attributes v)
             {
@@ -314,6 +347,8 @@ Shader "Abyss/Toon"
                 cs = ApplyShadowClamping(cs);
                 o.positionCS = cs;
                 o.positionOS = v.positionOS.xyz;
+                o.uv = v.uv;
+                o.alpha = v.color.a;
                 return o;
             }
 
@@ -322,6 +357,7 @@ Shader "Abyss/Toon"
                 half edge;
                 ClipDissolve(i.positionOS, edge);
                 clip(_Alpha - 0.5);
+                ClipAlpha(i.uv, i.alpha);
                 return 0;
             }
             ENDHLSL
@@ -333,16 +369,18 @@ Shader "Abyss/Toon"
             Tags { "LightMode"="DepthOnly" }
             ZWrite On
             ColorMask R
+            Cull [_Cull]
 
             HLSLPROGRAM
             #pragma target 3.5
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            struct Attributes { float4 positionOS : POSITION; UNITY_VERTEX_INPUT_INSTANCE_ID };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; };
-            Varyings vert(Attributes v) { Varyings o; UNITY_SETUP_INSTANCE_ID(v); o.positionCS = TransformObjectToHClip(v.positionOS.xyz); o.positionOS = v.positionOS.xyz; return o; }
-            half frag(Varyings i) : SV_Target { half e; ClipDissolve(i.positionOS, e); clip(_Alpha - 0.5); return i.positionCS.z; }
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            struct Attributes { float4 positionOS : POSITION; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; float2 uv : TEXCOORD1; half alpha : TEXCOORD2; };
+            Varyings vert(Attributes v) { Varyings o; UNITY_SETUP_INSTANCE_ID(v); o.positionCS = TransformObjectToHClip(v.positionOS.xyz); o.positionOS = v.positionOS.xyz; o.uv = v.uv; o.alpha = v.color.a; return o; }
+            half frag(Varyings i) : SV_Target { half e; ClipDissolve(i.positionOS, e); clip(_Alpha - 0.5); ClipAlpha(i.uv, i.alpha); return i.positionCS.z; }
             ENDHLSL
         }
 
@@ -351,16 +389,22 @@ Shader "Abyss/Toon"
             Name "DepthNormals"
             Tags { "LightMode"="DepthNormals" }
             ZWrite On
+            Cull [_Cull]
 
             HLSLPROGRAM
             #pragma target 3.5
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; UNITY_VERTEX_INPUT_INSTANCE_ID };
-            struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 positionOS : TEXCOORD1; };
-            Varyings vert(Attributes v) { Varyings o; UNITY_SETUP_INSTANCE_ID(v); o.positionCS = TransformObjectToHClip(v.positionOS.xyz); o.normalWS = TransformObjectToWorldNormal(v.normalOS); o.positionOS = v.positionOS.xyz; return o; }
-            half4 frag(Varyings i) : SV_Target { half e; ClipDissolve(i.positionOS, e); clip(_Alpha - 0.5); return half4(NormalizeNormalPerPixel(i.normalWS), 0); }
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float3 positionOS : TEXCOORD1; float2 uv : TEXCOORD2; half alpha : TEXCOORD3; };
+            Varyings vert(Attributes v) { Varyings o; UNITY_SETUP_INSTANCE_ID(v); o.positionCS = TransformObjectToHClip(v.positionOS.xyz); o.normalWS = TransformObjectToWorldNormal(v.normalOS); o.positionOS = v.positionOS.xyz; o.uv = v.uv; o.alpha = v.color.a; return o; }
+            half4 frag(Varyings i, FRONT_FACE_TYPE facing : FRONT_FACE_SEMANTIC) : SV_Target
+            {
+                half e; ClipDissolve(i.positionOS, e); clip(_Alpha - 0.5); ClipAlpha(i.uv, i.alpha);
+                return half4(NormalizeNormalPerPixel(i.normalWS * IS_FRONT_VFACE(facing, 1.0, -1.0)), 0);
+            }
             ENDHLSL
         }
     }

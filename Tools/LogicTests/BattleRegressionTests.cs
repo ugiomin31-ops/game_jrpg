@@ -82,10 +82,10 @@ namespace Abyss.LogicTests
                 ExperienceReward = 100, GoldReward = 100,
             };
             var build = EnemyStats.Build(enemy, Difficulty.Hard);
-            Assert.Equal(120, build.MaxHp, "boss HP override agrees with BattleUnit.IsBoss");
+            Assert.Equal(135, build.MaxHp, "boss HP override agrees with BattleUnit.IsBoss");
             Assert.Equal(110, build.Attack, "boss attack override");
             Assert.Equal(110, build.Magic, "boss magic override");
-            Assert.Equal(110, build.ExperienceReward, "hard reward scale applied once");
+            Assert.Equal(100, build.ExperienceReward, "hard grants no bonus XP");
             Assert.Equal(120, build.GoldReward, "hard gold scale applied once");
         }
 

@@ -26,15 +26,20 @@ namespace Abyss.UI
         {
             Clear(); BuildHud(false); RefreshTown();
             var services = UIFactory.Panel(hud);
-            services.Rect.Place(UIAnchor.Right, new Vector2(-30, 30), new Vector2(390, 580));
-            UIFactory.Label(services.Rect, "마을 시설", 28, color: UITheme.GoldBright).Rt().TopStrip(50, 15, 20, 20);
+            bool compact = UIRoot.Compact;
+            float row = compact ? 64f : 52f, step = compact ? 71f : 60f;
+            services.Rect.Place(UIAnchor.Right, new Vector2(compact ? -22 : -30, compact ? 40 : 30), new Vector2(compact ? 400 : 390, 82 + TownIds.Length * step));
+            UIFactory.Label(services.Rect, "마을 시설", compact ? 30 : 28, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(50, 15, 20, 20);
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
                 var button = UIFactory.Button(services.Rect, T(TownTitles[i]), () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
-                button.Rt().TopStrip(52, 78 + i * 60, 20, 20);
+                button.Rt().TopStrip(row, 74 + i * step, 18, 18);
             }
-            UIFactory.Label(hud, "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start", 21, color: UITheme.TextDim)
+            string help = UIRoot.TouchFirst
+                ? "이동 · 화면을 누른 채 끌기    대화 · 시설 근처에서 탭    수첩 · 오른쪽 아래 버튼"
+                : "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start";
+            UIFactory.Label(hud, help, 21, color: UITheme.TextDim)
                 .Rt().BottomStrip(38, 212, 30, 470);
         }
         void RefreshTown()
@@ -201,7 +206,8 @@ namespace Abyss.UI
                     if (entry.HiddenWeaknesses > 0) weak.Add("?");
                     var drops = new List<string>();
                     if (entry.DropsRevealed) foreach (var drop in enemy.Drops) drops.Add($"{ItemName(drop.Id)} · {drop.Chance:P0}");
-                    details = $"{enemy.DisplayName} · Lv.{enemy.Level}\n{(entry.IsBoss ? "봉인의 수호자" : entry.IsElite ? "배회 강적" : "미궁의 마물")}\nHP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";
+                    string lore = app.DB.Text.TryGetValue("enemy_desc_" + enemy.Id, out var loreText) ? loreText + "\n" : "";
+                    details = $"{enemy.DisplayName} · Lv.{enemy.Level}\n{(entry.IsBoss ? "봉인의 수호자" : entry.IsElite ? "배회 강적" : "미궁의 마물")}\n{lore}HP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";
                 }
                 string description = details;
                 m.Add(title, () => UIModal.Alert(root.Modals, title, description), description, entry.Seen ? $"{entry.Kills}회" : "미발견", icon: entry.Seen ? UIArtwork.Enemy(enemy.Id) : null);

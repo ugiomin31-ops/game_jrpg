@@ -1,0 +1,223 @@
+[
+ {
+  "piece": "floor_a",
+  "tris": 724,
+  "objects": [
+   "floor_a"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/floor_a.fbx"
+ },
+ {
+  "piece": "floor_b",
+  "tris": 1370,
+  "objects": [
+   "floor_b"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/floor_b.fbx"
+ },
+ {
+  "piece": "floor_c",
+  "tris": 1540,
+  "objects": [
+   "floor_c"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/floor_c.fbx"
+ },
+ {
+  "piece": "wall_a",
+  "tris": 864,
+  "objects": [
+   "wall_a"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/wall_a.fbx"
+ },
+ {
+  "piece": "wall_b",
+  "tris": 3504,
+  "objects": [
+   "wall_b"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/wall_b.fbx"
+ },
+ {
+  "piece": "wall_c",
+  "tris": 4284,
+  "objects": [
+   "wall_c"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/wall_c.fbx"
+ },
+ {
+  "piece": "door",
+  "tris": 2616,
+  "objects": [
+   "door",
+   "Door"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/door.fbx"
+ },
+ {
+  "piece": "door_locked",
+  "tris": 2756,
+  "objects": [
+   "door_locked",
+   "Door",
+   "Lock"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/door_locked.fbx"
+ },
+ {
+  "piece": "stairs_down",
+  "tris": 1504,
+  "objects": [
+   "stairs_down"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/stairs_down.fbx"
+ },
+ {
+  "piece": "stairs_up",
+  "tris": 1390,
+  "objects": [
+   "stairs_up"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/stairs_up.fbx"
+ },
+ {
+  "piece": "chest",
+  "tris": 2600,
+  "objects": [
+   "chest",
+   "Lid"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/chest.fbx"
+ },
+ {
+  "piece": "lore_stone",
+  "tris": 1897,
+  "objects": [
+   "lore_stone"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/lore_stone.fbx"
+ },
+ {
+  "piece": "trap",
+  "tris": 646,
+  "objects": [
+   "trap",
+   "Spikes"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/trap.fbx"
+ },
+ {
+  "piece": "spring",
+  "tris": 2876,
+  "objects": [
+   "spring",
+   "LightAnchor_spring"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/spring.fbx"
+ },
+ {
+  "piece": "warp",
+  "tris": 476,
+  "objects": [
+   "warp",
+   "LightAnchor_warp",
+   "Spot_warp"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/warp.fbx"
+ },
+ {
+  "piece": "torch",
+  "tris": 386,
+  "objects": [
+   "torch",
+   "LightAnchor"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/torch.fbx"
+ },
+ {
+  "piece": "decor_1",
+  "tris": 288,
+  "objects": [
+   "decor_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_1.fbx"
+ },
+ {
+  "piece": "decor_2",
+  "tris": 448,
+  "objects": [
+   "decor_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_2.fbx"
+ },
+ {
+  "piece": "decor_3",
+  "tris": 316,
+  "objects": [
+   "decor_3"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_3.fbx"
+ },
+ {
+  "piece": "decor_4",
+  "tris": 448,
+  "objects": [
+   "decor_4"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_4.fbx"
+ },
+ {
+  "piece": "decor_5",
+  "tris": 129,
+  "objects": [
+   "decor_5"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_5.fbx"
+ },
+ {
+  "piece": "decor_6",
+  "tris": 932,
+  "objects": [
+   "decor_6"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/decor_6.fbx"
+ },
+ {
+  "piece": "overlay_1",
+  "tris": 676,
+  "objects": [
+   "overlay_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/overlay_1.fbx"
+ },
+ {
+  "piece": "overlay_2",
+  "tris": 360,
+  "objects": [
+   "overlay_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/overlay_2.fbx"
+ },
+ {
+  "piece": "boss_gate",
+  "tris": 3490,
+  "objects": [
+   "boss_gate",
+   "LightAnchor_gate_L",
+   "LightAnchor_gate_R",
+   "Spot_boss"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/boss_gate.fbx"
+ },
+ {
+  "piece": "foe_marker",
+  "tris": 824,
+  "objects": [
+   "foe_marker",
+   "Spot_foe"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/verdant_ruins/foe_marker.fbx"
+ }
+]

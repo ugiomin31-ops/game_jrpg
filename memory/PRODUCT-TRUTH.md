@@ -4,9 +4,10 @@ Evidence class: directly inspected project code, production outputs and local ex
 
 ## Implemented
 
-### Campaign content and turn-based rules — verified (local C# execution) — 2026-10-06
+### Campaign content and turn-based rules — verified (local C# execution) — 2026-10-07
 
-- Four playable classes: 검사, 마법사, 궁수, 성직자. Twelve fixed dungeon floors, four biome sets, three difficulty choices, 28 enemy definitions including four bosses, 69 skills, 48 equipment definitions, 30 items and 12 quests.
+- Four playable classes: 검사, 마법사, 궁수, 성직자. Twelve fixed dungeon floors, four biome sets, three difficulty choices, 51 enemy definitions including four bosses, 129 skills, 48 equipment definitions, 30 items and 12 quests.
+- 2026-10-07: the same `Scripts/Logic/` + `Tools/LogicTests/` sources compiled with the .NET 8 SDK (Newtonsoft.Json 13.0.3, `ABYSS_LOGIC_TESTS`) on Linux: 15/15 passed, including every encounter group on B1F–B12F.
 - Evidence: `Assets/_Game/Resources/Data/{heroes,dungeon,enemies,skills,equipment,items,quests}.json`; `Scripts/Logic/` under `Assets/_Game/`; actual `python Tools/logic_test.py` output: 11/11 passed, including encounter completion across all 12 floors, four battle regressions and six campaign regressions.
 - A natural Lv.1 Normal campaign entered B1F, saved/restored its unresolved encounter, executed nine real engine commands with 15 damage events, won and returned to town in a throwaway C# executable. This is not proof of a complete Unity/Windows playthrough.
 - Checked: 2026-10-06.
@@ -17,6 +18,12 @@ Evidence class: directly inspected project code, production outputs and local ex
 - Evidence: `Blender/`, `Blender/blend/enemy_production_all.json`, `Assets/_Game/Resources/Art/`; successful Unity `Abyss/Validate Production Content` menu invocation. Creature report records actual saved/reimported rig, Col vertex colors, weighted vertices and required clips for all 28 IDs.
 - Geometry exceeds the original aspirational polygon budgets for several heroes/enemies/environment parts; no low-end performance claim is supported by this import check.
 - Checked: 2026-10-06.
+
+### Sculpted monster rebuild (v3) — verified (Blender production; not yet Unity-imported) — 2026-10-07
+
+- 32 regular/elite monsters were remodelled with the sculpted kit (`Blender/enemies_d/`): one fused organic surface per creature, smooth multi-bone weights, Cycles-baked ambient occlusion in the vertex colours, small modelled eyeballs in sockets (no glowing or sticker eyes). The other 15 (skeletons, knights, scarecrows, golems, mimics, lich, wisp, fairies) keep their v1/v2 geometry with hero-style painted faces (`Blender/lib/creature_face.py`). All 47 bestiary icons were re-rendered.
+- Evidence: Blender 5.2.2 (Linux) runs of `Blender/enemies_a/generate_all.py -- --asset ID` for all 47 ids; each `Blender/blend/enemy_production_<id>.json` records the saved and re-imported FBX (Rig + one skinned Body, Col, 0 unweighted vertices, 7 clips). Triangle counts are 7–13.5k (above the old ≤10k normal budget for several).
+- Unity has not yet re-imported these FBX files in this checkout; run `Abyss/Validate Production Content` after opening the project and check the toon shading in play mode.
 
 ### UI artwork — verified (production and local dungeon HUD rendering) — 2026-10-06
 
@@ -56,14 +63,23 @@ Evidence class: directly inspected project code, production outputs and local ex
 
 ## Not implemented / not yet verified
 
+- Mobile: Android APK/AAB and iOS Xcode build menus, landscape/IL2CPP/ASTC settings, touch-sized dungeon pad (hold-to-walk, strafe), tappable minimap, tap-to-target battle cards, drag-scrolling lists and a battle speed option (1x/1.5x/2x) exist in code (2026-10-07). They compile against the real Unity 6000.3.25f1 engine/editor reference assemblies with ugui/TMP/InputSystem 1.20.0 built from package source (URP replaced by a member-level stub) for both the editor and an Android player define set (2026-10-07; this check found and fixed a `PointerEventData.eventSystem` compile error in `UITouch.cs` that had removed every `Abyss/*` menu). GitHub Actions run 37569388774 (unity-builder v6, Personal license from repository secrets) built both targets on 2026-10-07: a 126 MB Android APK published to release `phone-latest`, and a WebGL build (84 MB gzip data) pushed to `gh-pages`. The WebGL build was served locally and opened in headless Chromium emulating an Android phone (915x412): it reached the title screen and a tap on 새로운 모험 opened the difficulty screen. Headless Chromium raised an HTML audio 'no supported source' error (it lacks the AAC codec); sound on real phone browsers is unverified. The APK has not been installed on a device.
 - Standalone Windows build and native input/play verification have not yet completed. Do not call the deliverable release-ready or publish minimum specifications/FPS.
 - Natural Unity battle and the listed transactions/settings are verified above; full VFX/boss/ending and remaining service/settings scenarios are not yet verified. Code/source assets alone are not full scenario proof.
 - Store submission, approved publisher identity, price, release date and storefront app ID are not established by the project. Do not imply a published storefront.
 - English localization is not provided by the Korean text table. Do not list English as a supported UI/story language.
 - Multiplayer/cloud saves and platform achievements are not established features.
 - Third-party notices are collected separately; copyright ownership/IP clearance of the original campaign and compliance with the user's Unity subscription cannot be established from this checkout.
-- Checked: 2026-10-06.
+- Checked: 2026-10-07.
 
 ## Permanently excluded
 
 No permanent product exclusions have been confirmed in this conversation.
+
+### Phone-first UI, battle staging, VFX and balance pass — verified (headless phone-size web build) — 2026-10-07
+- Build e996880 (GitHub Actions) opened in headless Chromium emulating a 915x412 landscape phone: title (big bottom-left buttons, no quit), difficulty menu (back button top-left, card rows, no key hints), story, town (64-unit facility buttons), dungeon HUD (zoomed 9-cell minimap, chest/lore stone against the wall), battle (portrait turn order, closer camera, slim enemy plates, compact party cards), auto-battle (holy light pillar, warrior dash, enemy dash) and the result window (portraits, XP, gold) were observed.
+- Found and fixed afterwards (71bb863): hidden party-card names, story text taps ignored, duplicated action log line, clipped command description. Battle intro/victory camera and projectiles were not caught on screen (headless rendering is too slow to sample them); APK not installed on a device.
+
+### Motion, skill VFX, chest reveal and gear display pass — verified (headless phone-size web build) — 2026-10-07
+- Build dd82e41 served from GitHub Pages (https://ugiomin31-ops.github.io/game_jrpg/, Pages enabled by the user on gh-pages) opened in headless Chromium at 915x412: continue → town → B1F → random battle (heroes visibly hold enlarged sword/staff/bow/mace, Double Shot drew the bow and fired the arrow, auto battle, victory pose behind the result window) → chest at B1F (10,3) showed the loot reveal ("보물 상자를 열었다!", 행운의 부적 card, rays). No exceptions in the console.
+- Fixed afterwards (e4f72c5): reddish loot-card edge, revive burst played twice, victory spoils now icon slots. Hero/monster clips checked by FBX import (monsters: names and lengths unchanged; heroes: Attack/Cast/Idle/Victory longer, contact still 40 %/60 % normalised). Motion quality itself was not judged frame by frame (headless rendering too slow); APK not installed on a device.

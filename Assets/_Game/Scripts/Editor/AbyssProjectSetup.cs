@@ -26,6 +26,7 @@ namespace Abyss.EditorTools
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop play mode before preparing the project.");
             AbyssMaterials.EnsureAll();
+            TexturedMaterials.SyncAll(); // textured anime heroes: per-texture Abyss/Toon materials, also in batch builds
             EnsureMixer();
             EnsureVfxShader();
             Directory.CreateDirectory("Assets/_Game/Scenes");
@@ -133,6 +134,142 @@ namespace Abyss.EditorTools
             });
             if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Windows build failed: " + report.summary.result);
             Debug.Log($"Windows build: {report.summary.totalSize} bytes at {output}");
+        }
+
+        // ---- mobile ------------------------------------------------------------------------------------
+        // Requires the Android Build Support module (IL2CPP, OpenJDK, Android SDK & NDK) or iOS Build Support in Unity Hub.
+        // Batch: Unity -batchmode -quit -projectPath . -executeMethod Abyss.EditorTools.AbyssProjectSetup.BuildAndroid
+
+        /// <summary>Player settings shared by phones and tablets: landscape only, IL2CPP/ARM64, no forced desktop resolution.</summary>
+        static void ConfigureMobile()
+        {
+            PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
+            PlayerSettings.allowedAutorotateToLandscapeLeft = true;
+            PlayerSettings.allowedAutorotateToLandscapeRight = true;
+            PlayerSettings.allowedAutorotateToPortrait = false;
+            PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
+            PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+            PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS, ScriptingImplementation.IL2CPP);
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
+            PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
+            PlayerSettings.Android.preferredInstallLocation = AndroidPreferredInstallLocation.Auto;
+            PlayerSettings.Android.renderOutsideSafeArea = false;
+            PlayerSettings.iOS.targetOSVersionString = "15.0";
+            PlayerSettings.iOS.requiresFullScreen = true;
+            PlayerSettings.iOS.hideHomeButton = true;
+            EditorUserBuildSettings.androidBuildSubtarget = MobileTextureSubtarget.ASTC;
+        }
+
+        [MenuItem("Abyss/Build Android (APK)")]
+        public static void BuildAndroid() => BuildAndroidPlayer(false, "Build/Android/AbyssLabyrinth.apk");
+
+        [MenuItem("Abyss/Build Android (Google Play AAB)")]
+        public static void BuildAndroidBundle() => BuildAndroidPlayer(true, "Build/Android/AbyssLabyrinth.aab");
+
+        static void BuildAndroidPlayer(bool bundle, string output)
+        {
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Android, BuildTarget.Android))
+                throw new InvalidOperationException("Android Build Support (IL2CPP, OpenJDK, SDK & NDK) is not installed for this editor.");
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+            Prepare();
+            ValidateContent();
+            ConfigureMobile();
+            EditorUserBuildSettings.buildAppBundle = bundle;
+            Directory.CreateDirectory(Path.GetDirectoryName(output));
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { MainScenePath }, locationPathName = output,
+                target = BuildTarget.Android, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Android build failed: " + report.summary.result);
+            Debug.Log($"Android build: {report.summary.totalSize} bytes at {output}");
+        }
+
+        /// <summary>
+        /// Browser build that phones can open from a URL. Gzip with the JavaScript decompression fallback, because
+        /// static hosts such as GitHub Pages do not send Content-Encoding headers for Unity's .gz files.
+        /// </summary>
+        [MenuItem("Abyss/Build Web (WebGL)")]
+        public static void BuildWeb() => BuildWebPlayer("Build/Web");
+
+        static void BuildWebPlayer(string output)
+        {
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.WebGL, BuildTarget.WebGL))
+                throw new InvalidOperationException("Web Build Support is not installed for this editor.");
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
+            Prepare();
+            ValidateContent();
+            ConfigureMobile();
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+            PlayerSettings.WebGL.decompressionFallback = true;
+            PlayerSettings.WebGL.dataCaching = true;
+            PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
+            PlayerSettings.WebGL.nameFilesAsHashes = false;
+            PlayerSettings.WebGL.template = "APPLICATION:Default";
+            Directory.CreateDirectory(output);
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { MainScenePath }, locationPathName = output,
+                target = BuildTarget.WebGL, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("Web build failed: " + report.summary.result);
+            Debug.Log($"Web build: {report.summary.totalSize} bytes at {output} (serve the folder over http/https; index.html is the entry)");
+        }
+
+        /// <summary>
+        /// Entry point for GitHub Actions (game-ci/unity-builder buildMethod). The builder passes -buildTarget and
+        /// -customBuildPath; the output lands where the workflow uploads it from.
+        /// </summary>
+        public static void BuildFromCommandLine()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            string Arg(string name)
+            {
+                int i = Array.IndexOf(args, name);
+                return i >= 0 && i + 1 < args.Length ? args[i + 1] : null;
+            }
+            string target = Arg("-buildTarget") ?? Arg("-customBuildTarget") ?? "";
+            string path = Arg("-customBuildPath");
+            Debug.Log($"[Abyss CI] target={target} path={path}");
+            switch (target)
+            {
+                case "Android":
+                    bool bundle = path != null && path.EndsWith(".aab", StringComparison.OrdinalIgnoreCase);
+                    BuildAndroidPlayer(bundle, path ?? "build/Android/AbyssLabyrinth.apk");
+                    break;
+                case "WebGL":
+                    // The builder passes a folder (build/WebGL/<buildName>); index.html is written inside it.
+                    BuildWebPlayer(path == null ? "build/WebGL/Web" : path.TrimEnd('/', '\\'));
+                    break;
+                default:
+                    throw new InvalidOperationException("Unsupported CI build target: " + target);
+            }
+            // game-ci/cli only accepts a custom build method's run when the log carries this exact line.
+            Debug.Log("Build succeeded!");
+        }
+
+        [MenuItem("Abyss/Build iOS (Xcode project)")]
+        public static void BuildIos()
+        {
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.iOS, BuildTarget.iOS))
+                throw new InvalidOperationException("iOS Build Support is not installed for this editor.");
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
+                EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+            Prepare();
+            ValidateContent();
+            ConfigureMobile();
+            const string output = "Build/iOS";
+            Directory.CreateDirectory(output);
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { MainScenePath }, locationPathName = output,
+                target = BuildTarget.iOS, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("iOS build failed: " + report.summary.result);
+            Debug.Log($"iOS Xcode project: {output} (open in Xcode on a Mac to sign and run)");
         }
     }
 

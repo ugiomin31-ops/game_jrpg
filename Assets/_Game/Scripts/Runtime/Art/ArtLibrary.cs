@@ -19,6 +19,11 @@ namespace Abyss.Runtime.Art
         public static string PropPath(string category, string id) => $"Art/Props/{category}/{id}";
         public static string EnvPath(string tileset, string piece) => $"Art/Environment/{tileset}/{piece}";
         public const string TownPath = "Art/Town/town";
+        /// <summary>
+        /// Shared Unity-Humanoid takes (one clip per FBX, named by file: Idle, Run, Walk, Attack, Cast, Hit, Die,
+        /// Victory, Guard, Revive, Talk). Used by humanoid characters (VRoid/VRM, store or Mixamo models) that ship no takes of their own.
+        /// </summary>
+        public const string HumanoidAnimationsPath = "Art/HumanoidAnimations";
 
         public static GameObject LoadPrefab(string path)
         {
@@ -40,7 +45,22 @@ namespace Abyss.Runtime.Art
             return c;
         }
 
-        public static CharacterModel SpawnHero(string heroId, Transform parent = null) => SpawnCharacter(HeroPath(heroId), heroId, parent);
+        /// <summary>
+        /// Heroes stand at the chibi height the battle arena, town and monster sizes were laid out for. The textured
+        /// anime heroes are modelled at full height (~1.75 m), so they are scaled down uniformly (weapons follow).
+        /// </summary>
+        public const float HeroDisplayHeight = 1.3f;
+
+        public static CharacterModel SpawnHero(string heroId, Transform parent = null)
+        {
+            var model = SpawnCharacter(HeroPath(heroId), heroId, parent);
+            if (model.Height > HeroDisplayHeight * 1.12f)
+            {
+                model.transform.localScale *= HeroDisplayHeight / model.Height;
+                model.RecomputeBounds();
+            }
+            return model;
+        }
         public static CharacterModel SpawnNpc(string npcId, Transform parent = null) => SpawnCharacter(NpcPath(npcId), npcId, parent);
         public static CharacterModel SpawnEnemy(string enemyId, Transform parent = null) => SpawnCharacter(EnemyPath(enemyId), enemyId, parent);
 
@@ -54,8 +74,17 @@ namespace Abyss.Runtime.Art
             var visual = Object.Instantiate(prefab, root.transform, false).transform;
             visual.name = "Model";
             var model = root.AddComponent<CharacterModel>();
-            model.Setup(id, visual, LoadClips(path));
+            var clips = LoadClips(path);
+            var animator = visual.GetComponent<Animator>();
+            if (animator != null && animator.isHuman && !HasIdle(clips)) clips = LoadClips(HumanoidAnimationsPath);
+            model.Setup(id, visual, clips);
             return model;
+        }
+
+        static bool HasIdle(AnimationClip[] clips)
+        {
+            foreach (var clip in clips) if (clip != null && clip.name == "Idle") return true;
+            return false;
         }
 
         /// <summary>Instantiate a required static model (environment piece, prop, weapon).</summary>

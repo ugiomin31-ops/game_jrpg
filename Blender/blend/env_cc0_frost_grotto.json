@@ -1,0 +1,227 @@
+[
+ {
+  "piece": "floor_a",
+  "tris": 328,
+  "objects": [
+   "floor_a",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/floor_a.fbx"
+ },
+ {
+  "piece": "floor_b",
+  "tris": 272,
+  "objects": [
+   "floor_b",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/floor_b.fbx"
+ },
+ {
+  "piece": "floor_c",
+  "tris": 334,
+  "objects": [
+   "floor_c",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/floor_c.fbx"
+ },
+ {
+  "piece": "wall_a",
+  "tris": 932,
+  "objects": [
+   "wall_a"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/wall_a.fbx"
+ },
+ {
+  "piece": "wall_b",
+  "tris": 1412,
+  "objects": [
+   "wall_b"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/wall_b.fbx"
+ },
+ {
+  "piece": "wall_c",
+  "tris": 1244,
+  "objects": [
+   "wall_c"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/wall_c.fbx"
+ },
+ {
+  "piece": "door",
+  "tris": 1414,
+  "objects": [
+   "door",
+   "Door"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/door.fbx"
+ },
+ {
+  "piece": "door_locked",
+  "tris": 1554,
+  "objects": [
+   "door_locked",
+   "Door",
+   "Lock"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/door_locked.fbx"
+ },
+ {
+  "piece": "stairs_down",
+  "tris": 754,
+  "objects": [
+   "stairs_down",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/stairs_down.fbx"
+ },
+ {
+  "piece": "stairs_up",
+  "tris": 512,
+  "objects": [
+   "stairs_up"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/stairs_up.fbx"
+ },
+ {
+  "piece": "chest",
+  "tris": 1634,
+  "objects": [
+   "chest",
+   "Lid"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/chest.fbx"
+ },
+ {
+  "piece": "lore_stone",
+  "tris": 437,
+  "objects": [
+   "lore_stone"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/lore_stone.fbx"
+ },
+ {
+  "piece": "trap",
+  "tris": 646,
+  "objects": [
+   "trap",
+   "Spikes"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/trap.fbx"
+ },
+ {
+  "piece": "spring",
+  "tris": 1328,
+  "objects": [
+   "spring",
+   "LightAnchor_spring"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/spring.fbx"
+ },
+ {
+  "piece": "warp",
+  "tris": 476,
+  "objects": [
+   "warp",
+   "LightAnchor_warp",
+   "Spot_warp"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/warp.fbx"
+ },
+ {
+  "piece": "torch",
+  "tris": 434,
+  "objects": [
+   "torch",
+   "LightAnchor"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/torch.fbx"
+ },
+ {
+  "piece": "decor_1",
+  "tris": 108,
+  "objects": [
+   "decor_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/decor_1.fbx"
+ },
+ {
+  "piece": "decor_2",
+  "tris": 60,
+  "objects": [
+   "decor_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/decor_2.fbx"
+ },
+ {
+  "piece": "decor_3",
+  "tris": 294,
+  "objects": [
+   "decor_3"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/decor_3.fbx"
+ },
+ {
+  "piece": "decor_4",
+  "tris": 108,
+  "objects": [
+   "decor_4"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/decor_4.fbx"
+ },
+ {
+  "piece": "decor_5",
+  "tris": 598,
+  "objects": [
+   "decor_5"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/decor_5.fbx"
+ },
+ {
+  "piece": "decor_6",
+  "tris": 106,
+  "objects": [
+   "decor_6"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/decor_6.fbx"
+ },
+ {
+  "piece": "overlay_1",
+  "tris": 204,
+  "objects": [
+   "overlay_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/overlay_1.fbx"
+ },
+ {
+  "piece": "overlay_2",
+  "tris": 284,
+  "objects": [
+   "overlay_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/overlay_2.fbx"
+ },
+ {
+  "piece": "boss_gate",
+  "tris": 1602,
+  "objects": [
+   "boss_gate",
+   "LightAnchor_gate_L",
+   "LightAnchor_gate_R",
+   "Spot_boss"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/boss_gate.fbx"
+ },
+ {
+  "piece": "foe_marker",
+  "tris": 824,
+  "objects": [
+   "foe_marker",
+   "Spot_foe"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/frost_grotto/foe_marker.fbx"
+ }
+]

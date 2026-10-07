@@ -11,6 +11,11 @@ namespace Abyss.UI
     {
         DungeonGrid grid;
         GameState state;
+        /// <summary>
+        /// HUD minimap: when &gt; 0, draws a window this many cells across centred on the party (inside a RectMask2D)
+        /// instead of shrinking the whole floor into the panel, so corridors stay legible on a phone.
+        /// </summary>
+        public int Window;
         public void SetMap(DungeonGrid value, GameState current)
         { grid = value; state = current; raycastTarget = false; SetVerticesDirty(); }
         protected override void OnPopulateMesh(VertexHelper vh)
@@ -21,6 +26,12 @@ namespace Abyss.UI
             float unit = Mathf.Min(bounds.width / grid.Width, bounds.height / grid.Height);
             float left = bounds.center.x - grid.Width * unit * 0.5f;
             float top = bounds.center.y + grid.Height * unit * 0.5f;
+            if (Window > 0)
+            {
+                unit = Mathf.Min(bounds.width, bounds.height) / Window;
+                left = bounds.center.x - (state.Position.X + 0.5f) * unit;
+                top = bounds.center.y + (state.Position.Y + 0.5f) * unit;
+            }
             for (int y = 0; y < grid.Height; y++)
                 for (int x = 0; x < grid.Width; x++)
                 {

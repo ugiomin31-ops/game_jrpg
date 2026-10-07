@@ -79,8 +79,8 @@ namespace Abyss.Logic.Game
     /// <summary>Hero stats, skills, equipment and battle bookkeeping.</summary>
     public static class PartyStats
     {
-        /// <summary>XP needed to go from <paramref name="level"/> to the next: round(25 × L^1.6) + 25 (§1.1).</summary>
-        public static int XpToNext(int level) => RoundI(25.0 * Math.Pow(Math.Max(1, level), 1.6)) + 25;
+        /// <summary>XP needed to go from <paramref name="level"/> to the next: round(30 × L^1.75) + 25 (§1.1).</summary>
+        public static int XpToNext(int level) => RoundI(30.0 * Math.Pow(Math.Max(1, level), 1.75)) + 25;
 
         /// <summary>Total XP needed to reach <paramref name="level"/> from Lv1.</summary>
         public static int CumulativeXp(int level)
@@ -200,6 +200,8 @@ namespace Abyss.Logic.Game
                 ElementResists = new List<int>(stats.ElementResists),
                 StatusImmunities = new List<string>(stats.StatusImmunities),
                 WeaponId = hero.Equipped("weapon"),
+                ArmorId = hero.Equipped("armor"),
+                AccessoryId = hero.Equipped("accessory"),
                 Row = db.HeroOrder.IndexOf(heroId) == 0 ? 0 : 1,
             };
             if (hero.Hp > 0)

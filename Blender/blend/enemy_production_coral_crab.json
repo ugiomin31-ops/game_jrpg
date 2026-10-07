@@ -1,38 +1,38 @@
 {
   "id": "coral_crab",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\coral_crab.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:19:04Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:25:00Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\coral_crab\\coral_crab.fbx",
-      "bytes": 1205836
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/coral_crab/coral_crab.fbx",
+      "bytes": 1000716
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_coral_crab.blend",
-      "bytes": 295537
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_coral_crab.blend",
+      "bytes": 498678
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_coral_crab.png",
-        "bytes": 305711
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab.png",
+        "bytes": 174602
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_coral_crab_side.png",
-        "bytes": 293606
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_side.png",
+        "bytes": 171602
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_coral_crab_attack.png",
-        "bytes": 305467
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_attack.png",
+        "bytes": 174289
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_coral_crab_cast.png",
-        "bytes": 315180
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_cast.png",
+        "bytes": 177296
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_coral_crab_die.png",
-        "bytes": 297476
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_coral_crab_die.png",
+        "bytes": 178703
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9976,
-    "vertices": 5920,
-    "bones": 17,
+    "triangles": 11216,
+    "vertices": 5830,
+    "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -63,7 +62,7 @@
       ],
       "Cast": [
         0.0,
-        36.0
+        35.0
       ],
       "Hit": [
         0.0,
@@ -71,7 +70,7 @@
       ],
       "Die": [
         0.0,
-        32.0
+        30.0
       ],
       "Victory": [
         0.0,
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9976,
-    "vertices": 5920,
-    "bones": 17,
+    "triangles": 11216,
+    "vertices": 5830,
+    "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -107,7 +105,7 @@
       ],
       "Cast": [
         1.0,
-        37.0
+        36.0
       ],
       "Hit": [
         1.0,
@@ -115,7 +113,7 @@
       ],
       "Die": [
         1.0,
-        33.0
+        31.0
       ],
       "Victory": [
         1.0,

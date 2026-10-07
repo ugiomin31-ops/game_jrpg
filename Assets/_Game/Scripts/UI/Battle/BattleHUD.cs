@@ -27,6 +27,7 @@ namespace Abyss.UI.Battle
         {
             public string Label, Description, Reason;
             public bool Enabled = true;
+            public string TargetId;
             public Action Pick, Preview;
             public Sprite Icon;
         }
@@ -36,12 +37,16 @@ namespace Abyss.UI.Battle
         readonly StringBuilder _text = new StringBuilder();
         readonly Dictionary<string, Sprite> _statusArt = new Dictionary<string, Sprite>(StringComparer.Ordinal);
         readonly StringBuilder _targetText = new StringBuilder();
-        RectTransform _root, _party, _world, _menu, _rows, _detail, _cutin, _reward;
-        TMP_Text _order, _log, _title, _description, _cutinTitle, _cutinText, _rewardText;
-        UIButton _autoButton;
+        RectTransform _root, _party, _world, _menu, _rows, _detail, _cutin, _reward, _banner;
+        TMP_Text _order, _log, _title, _description, _cutinTitle, _cutinText, _rewardText, _bannerText;
+        UIButton _autoButton, _speedButton;
+        Action _toggleSpeed;
         ScrollRect _detailScroll;
         ScrollRect _rewardScroll;
         TMP_Text _menuHint, _rewardCounter;
+        RectTransform _announce, _announceBand;
+        TMP_Text _announceTitle, _announceSub;
+        CanvasGroup _announceGroup;
         BattleEngine _engine;
         GameDB _db;
         Camera _camera;
@@ -53,6 +58,18 @@ namespace Abyss.UI.Battle
         int _page, _focus, _openedFrame;
         bool _input, _auto;
         public bool Paused { get; set; }
+        /// <summary>Phones/tablets: taller command rows and buttons sized for a thumb.</summary>
+        static bool TouchUI => Application.isMobilePlatform || UITouch.Supported;
+        const int PerPage = 6;
+        /// <summary>Landscape phone (900-unit canvas): slimmer bars and cards so the arena stays visible.</summary>
+        static bool Compact => UIRoot.Compact;
+        static float RowHeight => Compact ? 62f : TouchUI ? 62f : 48f;
+        static float RowStep => Compact ? 68f : TouchUI ? 70f : 56f;
+        static float NavHeight => Compact ? 60f : TouchUI ? 62f : 46f;
+        static float MenuWidth => Compact ? 500f : 570f;
+        RectTransform _logPanel, _orderRow;
+        TMP_Text _roundLabel;
+        readonly List<(RectTransform Root, UIPortrait Face, Image Mark)> _orderChips = new List<(RectTransform, UIPortrait, Image)>();
         public bool CommandRootOpen => _input && _back == null && _reward == null;
 
         public void Initialize(Transform parent, Camera camera, GameDB db, Action<BattleCommand> submit,
@@ -63,29 +80,44 @@ namespace Abyss.UI.Battle
             foreach (var status in db.Statuses) _statusArt.Add(status.Key, UIArtwork.Status(status.Key));
             _root = UIFactory.Rect(parent, "Battle HUD").Stretch();
             _world = UIFactory.Rect(_root, "Enemy gauges").Stretch();
-            _party = UIFactory.Rect(_root, "Party").BottomStrip(210, 16, 28, 28);
+            _party = UIFactory.Rect(_root, "Party").BottomStrip(Compact ? 150 : 210, Compact ? 10 : 16, Compact ? 22 : 28, 28);
             var top = UIFactory.Panel(_root, UIPanelStyle.Glass, false);
-            top.Rect.TopStrip(84, 18, 32, 330);
-            _order = UIFactory.Label(top.transform, "", 23); _order.Rt().Stretch(22, 14, 22, 14);
+            top.Rect.TopStrip(Compact ? 64 : 84, Compact ? 12 : 18, Compact ? 22 : 32, Compact ? 440 : 500);
+            _order = UIFactory.Label(top.transform, "", Compact ? 25 : 23); _order.Rt().Stretch(22, Compact ? 8 : 14, 22, Compact ? 8 : 14);
             _order.overflowMode = TextOverflowModes.Ellipsis;
+            if (Compact)
+            {
+                // Phones: the turn order is a row of portraits (active one enlarged) instead of a line of names.
+                _order.gameObject.SetActive(false);
+                _roundLabel = UIFactory.Label(top.transform, "", 26, UIFont.Title, UITheme.GoldBright);
+                _roundLabel.Rt().Place(UIAnchor.Left, new Vector2(18, 0), new Vector2(110, 50));
+                _orderRow = UIFactory.Rect(top.transform, "Turn order");
+                _orderRow.Stretch(128, 0, 12, 0);
+            }
             _autoButton = UIFactory.Button(_root, "자동: OFF", ToggleAuto);
-            _autoButton.Rt().Place(UIAnchor.TopRight, new Vector2(-32, -26), new Vector2(260, 62));
+            _autoButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-22, -12) : new Vector2(-32, -26), Compact ? new Vector2(230, 64) : new Vector2(260, 62));
             var logPanel = UIFactory.Panel(_root, UIPanelStyle.Dark, false);
-            logPanel.Rect.TopStrip(52, 112, 220, 220);
-            _log = UIFactory.Label(logPanel.transform, "", 22, align: TextAlignmentOptions.Center);
-            _log.Rt().Stretch(10, 6, 10, 6);
+            _logPanel = logPanel.Rect;
+            if (Compact) logPanel.Rect.Place(UIAnchor.Top, new Vector2(0, -88), new Vector2(820, 48));
+            else logPanel.Rect.TopStrip(52, 112, 220, 220);
+            _log = UIFactory.Label(logPanel.transform, "", Compact ? 25 : 22, align: TextAlignmentOptions.Center);
+            _log.Rt().Stretch(10, 4, 10, 4);
             _log.overflowMode = TextOverflowModes.Ellipsis;
+            logPanel.gameObject.SetActive(false);
             var menu = UIFactory.Panel(_root, UIPanelStyle.Ornate);
-            _menu = menu.Rect.Place(UIAnchor.BottomRight, new Vector2(-32, 245), new Vector2(570, 510));
-            _title = UIFactory.Label(menu.transform, "", 29); _title.Rt().TopStrip(54, 16, 24, 24);
+            float menuHeight = Compact ? 74 + PerPage * RowStep + NavHeight + 30 : TouchUI ? 100 + PerPage * RowStep + NavHeight + 40 : 510;
+            _menu = menu.Rect.Place(UIAnchor.BottomRight, Compact ? new Vector2(-22, 170) : new Vector2(-32, 245), new Vector2(MenuWidth, menuHeight));
+            _title = UIFactory.Label(menu.transform, "", Compact ? 30 : 29, UIFont.Title, UITheme.GoldBright); _title.Rt().TopStrip(54, Compact ? 12 : 16, 24, 24);
             _menuHint = UIFactory.Label(menu.transform, "↑↓ 선택 · Q/E 페이지 · ←→ 상세", 18, color: UITheme.TextDim);
             _menuHint.Rt().TopStrip(25, 62, 24, 24);
-            _rows = UIFactory.Rect(menu.transform, "Choices").Stretch(22, 100, 22, 72);
+            _menuHint.gameObject.SetActive(!Compact);
+            _rows = UIFactory.Rect(menu.transform, "Choices").Stretch(22, Compact ? 70 : 100, 22, NavHeight + 26);
             var detail = UIFactory.Panel(_root, UIPanelStyle.Glass);
-            _detail = detail.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -178), new Vector2(1100, 100));
+            _detail = Compact ? detail.Rect.Place(UIAnchor.TopLeft, new Vector2(22, -86), new Vector2(760, 124))
+                : detail.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -178), new Vector2(1100, 100));
             _detailScroll = UIFactory.ScrollView(detail.transform, out var detailContent, name: "Command description");
             _detailScroll.Rt().Stretch(24, 12, 24, 12);
-            _description = UIFactory.Paragraph(detailContent, "", 23);
+            _description = UIFactory.Paragraph(detailContent, "", Compact ? 25 : 23);
             _description.overflowMode = TextOverflowModes.Overflow;
             var cutin = UIFactory.Panel(_root, UIPanelStyle.Ornate);
             _cutin = cutin.Rect.Place(UIAnchor.Center, Vector2.zero, new Vector2(1100, 255));
@@ -93,7 +125,66 @@ namespace Abyss.UI.Battle
             _cutinTitle.Rt().TopStrip(74, 26, 30, 30);
             _cutinText = UIFactory.Paragraph(cutin.transform, "", 29); _cutinText.Rt().Stretch(48, 108, 48, 22);
             _cutin.gameObject.SetActive(false);
+            var banner = UIFactory.Panel(_root, UIPanelStyle.Dark, false);
+            _banner = banner.Rect.Place(UIAnchor.Top, new Vector2(0, Compact ? -150 : -182), new Vector2(760, 74));
+            _bannerText = UIFactory.Label(banner.transform, "", 36, align: TextAlignmentOptions.Center);
+            _bannerText.Rt().Stretch(16, 6, 16, 6);
+            _bannerText.overflowMode = TextOverflowModes.Ellipsis;
+            _banner.gameObject.SetActive(false);
+            BuildAnnounce();
             Lock();
+        }
+
+        /// <summary>Centre-screen call-out for battle start / victory / defeat: a light band that opens, big title, subtitle.</summary>
+        void BuildAnnounce()
+        {
+            _announce = UIFactory.Rect(_root, "Announce");
+            _announce.anchorMin = new Vector2(0f, 0.5f); _announce.anchorMax = new Vector2(1f, 0.5f);
+            _announce.sizeDelta = new Vector2(0f, 250f); _announce.anchoredPosition = new Vector2(0f, 70f);
+            _announceGroup = _announce.gameObject.AddComponent<CanvasGroup>();
+            _announceGroup.blocksRaycasts = false; _announceGroup.interactable = false;
+            _announceBand = UIFactory.Rect(_announce, "Band");
+            _announceBand.anchorMin = Vector2.zero; _announceBand.anchorMax = Vector2.one; _announceBand.sizeDelta = Vector2.zero;
+            var band = UIFactory.Image(_announceBand, UISprites.White, new Color(0.02f, 0.03f, 0.1f, 0.78f), "Fill");
+            band.rectTransform.Stretch();
+            foreach (float y in new[] { 0f, 1f })
+            {
+                var line = UIFactory.Image(_announceBand, UISprites.GlowLine, UITheme.Gold, y == 0f ? "Bottom line" : "Top line");
+                line.rectTransform.anchorMin = new Vector2(0f, y); line.rectTransform.anchorMax = new Vector2(1f, y);
+                line.rectTransform.sizeDelta = new Vector2(0f, 6f); line.rectTransform.anchoredPosition = Vector2.zero;
+            }
+            _announceTitle = UIFactory.Label(_announce, "", 104, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Heavy, "Title");
+            _announceTitle.Rt().Stretch(40f, 12f, 40f, 72f);
+            _announceSub = UIFactory.Label(_announce, "", 34, UIFont.Bold, UITheme.Text, TextAlignmentOptions.Center, UITextFx.Outline, "Subtitle");
+            _announceSub.Rt().Stretch(40f, 182f, 40f, 14f);
+            _announce.gameObject.SetActive(false);
+        }
+
+        /// <summary>Plays the call-out: band opens (0.2 s), title punches in, holds, then fades. Returns the total time.</summary>
+        public float Announce(string title, string subtitle, Color accent, float hold = 1.1f)
+        {
+            if (_announce == null) return 0f;
+            UITween.Kill(_announce);
+            _announce.gameObject.SetActive(true);
+            _announce.SetAsLastSibling();
+            _announceTitle.text = title;
+            _announceTitle.color = Color.Lerp(UITheme.GoldBright, accent, 0.35f);
+            _announceSub.text = subtitle ?? "";
+            _announceGroup.alpha = 1f;
+            _announceBand.localScale = new Vector3(1f, 0f, 1f);
+            _announceTitle.transform.localScale = Vector3.one * 1.7f;
+            _announceTitle.alpha = 0f; _announceSub.alpha = 0f;
+            UITween.To(_announce, 0.22f, t => _announceBand.localScale = new Vector3(1f, t, 1f), UIEase.OutCubic);
+            UITween.To(_announce, 0.32f, t =>
+            {
+                _announceTitle.transform.localScale = Vector3.one * Mathf.Lerp(1.7f, 1f, t);
+                _announceTitle.alpha = t;
+            }, UIEase.OutBack, 0.12f);
+            UITween.To(_announce, 0.3f, t => _announceSub.alpha = t, UIEase.OutCubic, 0.32f);
+            float total = 0.45f + hold + 0.35f;
+            UITween.To(_announce, 0.35f, t => _announceGroup.alpha = 1f - t, UIEase.InQuad, 0.45f + hold)
+                .OnComplete(() => { if (_announce != null) _announce.gameObject.SetActive(false); });
+            return total;
         }
 
         public void AddUnit(BattleDisplayUnit unit)
@@ -101,8 +192,18 @@ namespace Abyss.UI.Battle
             var panel = UIFactory.Panel(unit.Side == BattleSide.Party ? _party : _world, UIPanelStyle.Glass, false);
             var card = new Card { Panel = panel, Unit = unit };
             if (unit.Side == BattleSide.Party)
-                panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(unit.Slot * 455, 0), new Vector2(435, 206));
-            else panel.Rect.sizeDelta = new Vector2(unit.Boss ? 320 : 210, 134);
+            {
+                if (Compact) panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(unit.Slot * 368, 0), new Vector2(356, 148));
+                else panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(unit.Slot * 455, 0), new Vector2(435, 206));
+            }
+            else panel.Rect.sizeDelta = Compact ? new Vector2(unit.Boss ? 300 : 210, 92) : new Vector2(unit.Boss ? 320 : 210, 134);
+            if (Compact) { AddCompactCard(unit, panel); return; }
+            // Tapping/clicking a unit's card picks it while a single target is being chosen.
+            string unitId = unit.Id;
+            var tap = panel.gameObject.AddComponent<Button>();
+            tap.transition = Selectable.Transition.None;
+            tap.navigation = new Navigation { mode = Navigation.Mode.None };
+            tap.onClick.AddListener(() => TapUnit(unitId));
             card.Name = UIFactory.Label(panel.transform, unit.Name, unit.Side == BattleSide.Party ? 23 : 21);
             card.Name.Rt().TopStrip(34, 8, unit.Side == BattleSide.Party ? 90 : 16, 16);
             card.Name.overflowMode = TextOverflowModes.Ellipsis;
@@ -142,6 +243,60 @@ namespace Abyss.UI.Battle
             _cards.Add(unit.Id, card); Sync(unit, true);
         }
 
+        /// <summary>
+        /// Phone cards. Party: portrait, name, HP bar with numbers, MP and TP side by side, status line (148 tall).
+        /// Enemy: slim name plate with HP bar, shield pips and weakness line (92 tall) so it covers less of the monster.
+        /// </summary>
+        void AddCompactCard(BattleDisplayUnit unit, UIPanel panel)
+        {
+            var card = new Card { Panel = panel, Unit = unit };
+            string unitId = unit.Id;
+            var tap = panel.gameObject.AddComponent<Button>();
+            tap.transition = Selectable.Transition.None;
+            tap.navigation = new Navigation { mode = Navigation.Mode.None };
+            tap.onClick.AddListener(() => TapUnit(unitId));
+            bool party = unit.Side == BattleSide.Party;
+            float w = panel.Rect.sizeDelta.x;
+            card.Name = UIFactory.Label(panel.transform, unit.Name, party ? 26 : 21, UIFont.Bold, party ? UITheme.GoldBright : Color.white);
+            card.Name.overflowMode = TextOverflowModes.Ellipsis;
+            if (party)
+            {
+                card.Portrait = UIFactory.Portrait(panel.transform, 62);
+                card.Portrait.Rt().Place(UIAnchor.TopLeft, new Vector2(8, -8), new Vector2(62, 62));
+                card.Portrait.SetSprite(UIArtwork.Hero(unit.DefId));
+                // TMP's ellipsis hides a line taller than its rect, so the name strip is a little taller than the type.
+                card.Name.Rt().TopStrip(38, 2, 80, 12);
+                card.Hp = UIFactory.Gauge(panel.transform, UIGaugeKind.Hp, w - 94, 14, UIGaugeText.Above);
+                card.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(80, -68), new Vector2(w - 94, 14));
+                float half = (w - 40) * 0.5f;
+                card.Mp = UIFactory.Gauge(panel.transform, UIGaugeKind.Mp, half, 9, UIGaugeText.Above);
+                card.Mp.Rt().Place(UIAnchor.TopLeft, new Vector2(14, -110), new Vector2(half, 9));
+                card.Tp = UIFactory.Gauge(panel.transform, UIGaugeKind.Tp, half, 9, UIGaugeText.Above);
+                card.Tp.Rt().Place(UIAnchor.TopLeft, new Vector2(26 + half, -110), new Vector2(half, 9));
+                card.Status = UIFactory.Label(panel.transform, "", 18);
+                card.Status.Rt().BottomStrip(26, 2, 12, 12);
+            }
+            else
+            {
+                card.Name.Rt().TopStrip(30, 4, 12, 12);
+                card.Hp = UIFactory.Gauge(panel.transform, UIGaugeKind.Hp, w - 24, 11, UIGaugeText.None);
+                card.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(12, -40), new Vector2(w - 24, 11));
+                card.Shield = UIFactory.Pips(panel.transform, unit.MaxShield, 15);
+                card.Shield.Rt().Place(UIAnchor.TopLeft, new Vector2(12, -58), new Vector2(w - 24, 15));
+                card.Status = UIFactory.Label(panel.transform, "", 17, UIFont.Bold, UITheme.GoldBright);
+                card.Status.Rt().BottomStrip(20, 2, 12, 12);
+            }
+            card.Status.overflowMode = TextOverflowModes.Ellipsis;
+            for (int i = 0; i < card.StatusIcons.Length; i++)
+            {
+                var icon = UIFactory.Icon(panel.transform, null, 24);
+                icon.rectTransform.Place(UIAnchor.TopLeft, new Vector2(10 + i * 28, 28), new Vector2(24, 24));
+                icon.enabled = false;
+                card.StatusIcons[i] = icon;
+            }
+            _cards.Add(unit.Id, card); Sync(unit, true);
+        }
+
         public void Sync(BattleDisplayUnit unit, bool instant = false)
         {
             if (!_cards.TryGetValue(unit.Id, out var card)) return;
@@ -170,6 +325,7 @@ namespace Abyss.UI.Battle
 
         public void ShowOrder(int round, IReadOnlyList<string> order, string active)
         {
+            if (_orderRow != null) { ShowOrderChips(round, order, active); return; }
             _text.Clear(); _text.Append("ROUND ").Append(round).Append("    ");
             foreach (string id in order)
             {
@@ -182,8 +338,55 @@ namespace Abyss.UI.Battle
             _order.text = _text.ToString();
         }
 
-        public void Log(string text) { _log.text = text; }
-        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? "자동: ON · Esc 취소" : "자동: OFF"); }
+        /// <summary>Action line under the turn order; hidden when empty and for round numbers (the order bar shows them).</summary>
+        void ShowOrderChips(int round, IReadOnlyList<string> order, string active)
+        {
+            _roundLabel.text = "R" + round;
+            int n = 0;
+            float x = 0f;
+            foreach (string id in order)
+            {
+                if (!_cards.TryGetValue(id, out var card) || !card.Unit.Alive) continue;
+                if (n == _orderChips.Count)
+                {
+                    var root = UIFactory.Rect(_orderRow, "Chip");
+                    root.anchorMin = root.anchorMax = new Vector2(0f, 0.5f);
+                    root.pivot = new Vector2(0f, 0.5f);
+                    var mark = UIFactory.Image(root, UISprites.Circle, Color.white, "Side");
+                    mark.rectTransform.Stretch(-3f, -3f, -3f, -3f);
+                    root.sizeDelta = new Vector2(56f, 56f);
+                    var face = UIFactory.Portrait(root, 56f);
+                    face.Rt().Place(UIAnchor.Center, Vector2.zero, new Vector2(56f, 56f));
+                    _orderChips.Add((root, face, mark));
+                }
+                var chip = _orderChips[n++];
+                bool now = id == active, party = card.Unit.Side == BattleSide.Party;
+                float scale = now ? 1f : 0.78f;
+                chip.Root.gameObject.SetActive(true);
+                chip.Root.localScale = new Vector3(scale, scale, 1f);
+                chip.Root.anchoredPosition = new Vector2(x, 0f);
+                x += 56f * scale + 8f;
+                chip.Face.SetSprite(party ? UIArtwork.Hero(card.Unit.DefId) : UIArtwork.Enemy(card.Unit.DefId));
+                chip.Mark.color = now ? UITheme.Dawn : party ? new Color(0.35f, 0.6f, 1f, 0.9f) : new Color(1f, 0.3f, 0.35f, 0.9f);
+            }
+            for (int i = n; i < _orderChips.Count; i++) _orderChips[i].Root.gameObject.SetActive(false);
+        }
+
+        public void Log(string text)
+        {
+            _log.text = text;
+            bool show = !string.IsNullOrEmpty(text) && !text.StartsWith("ROUND ");
+            if (_logPanel != null && _logPanel.gameObject.activeSelf != show) _logPanel.gameObject.SetActive(show);
+        }
+        /// <summary>Adds the battle-speed button (left of 자동) that cycles 1x / 1.5x / 2x.</summary>
+        public void EnableSpeedToggle(string label, Action toggle)
+        {
+            _toggleSpeed = toggle;
+            _speedButton = UIFactory.Button(_root, label, () => { if (!Paused) _toggleSpeed?.Invoke(); });
+            _speedButton.Rt().Place(UIAnchor.TopRight, Compact ? new Vector2(-266, -12) : new Vector2(-306, -26), Compact ? new Vector2(150, 64) : new Vector2(150, 62));
+        }
+        public void SetSpeedLabel(string label) { if (_speedButton != null) _speedButton.SetLabel(label); }
+        public void SetAuto(bool value) { _auto = value; _autoButton.SetLabel(value ? (TouchUI ? "자동: ON · 탭하여 해제" : "자동: ON · Esc 취소") : "자동: OFF"); }
         void ToggleAuto() { if (!Paused) _toggleAuto?.Invoke(); }
         public void Lock()
         {
@@ -197,6 +400,8 @@ namespace Abyss.UI.Battle
         {
             _engine = engine; _actor = engine.ActiveHero;
             if (_actor == null) { Lock(); return; }
+            // Choosing a command: the description panel takes the top-left; the last action line steps aside.
+            if (Compact && _logPanel != null) _logPanel.gameObject.SetActive(false);
             var options = engine.GetCommandOptions(_actor);
             BeginChoices(_actor.DisplayName + " · 행동", null);
             Add("공격", "장비 무기로 적 하나를 공격합니다.", options.CanAttack, null, () => Targets(BattleCommand.Attack(null)), icon: UIArtwork.Command("attack"));
@@ -252,6 +457,7 @@ namespace Abyss.UI.Battle
                     string id = target.Id;
                     Add(target.DisplayName, TargetDescription(id), true, null,
                         () => { command.TargetId = id; Commit(command); }, () => _preview?.Invoke(id), target.Side == BattleSide.Party ? UIArtwork.Hero(target.DefId) : UIArtwork.Enemy(target.DefId));
+                    _choices[_choices.Count - 1].TargetId = id;
                 }
             }
             else
@@ -262,6 +468,17 @@ namespace Abyss.UI.Battle
                     "reason_no_target", () => Commit(command), () => _preview?.Invoke(targets.Count == 1 ? targets[0].Id : null));
             }
             Render();
+        }
+        /// <summary>Card tap: first tap on an unfocused target focuses it (preview + details), the next tap confirms.</summary>
+        void TapUnit(string id)
+        {
+            if (!_input || Paused || _reward != null) return;
+            int index = _choices.FindIndex(c => c.TargetId == id);
+            if (index < 0) return;
+            int page = index / PerPage;
+            if (page != _page) { _page = page; Render(); }
+            if (_focus == index % PerPage) { UIInput.Consume(); Select(index); }
+            else { UISound.Play(UISoundId.Move); Focus(index % PerPage); }
         }
         string TargetDescription(string id)
         {
@@ -292,41 +509,41 @@ namespace Abyss.UI.Battle
         {
             foreach (var b in _buttons) { b.gameObject.SetActive(false); Destroy(b.gameObject); }
             _buttons.Clear();
-            int first = _page * 6;
-            for (int i = first; i < Math.Min(first + 6, _choices.Count); i++)
+            int first = _page * PerPage;
+            for (int i = first; i < Math.Min(first + PerPage, _choices.Count); i++)
             {
                 int index = i; var choice = _choices[i];
                 var button = UIFactory.Button(_rows, choice.Label, () => Select(index), choice.Icon);
                 button.Interactable = choice.Enabled;
                 button.DisabledReason = choice.Enabled ? null : Reason(choice.Reason);
-                button.Rt().Place(UIAnchor.TopLeft, new Vector2(0, -(i - first) * 56), new Vector2(526, 48));
+                button.Rt().Place(UIAnchor.TopLeft, new Vector2(0, -(i - first) * RowStep), new Vector2(MenuWidth - 44, RowHeight));
                 button.Hovered += () => Focus(index - first);
                 _buttons.Add(button);
             }
             var navigation = UIFactory.Button(_menu, "← 뒤로", () => _back?.Invoke());
-            navigation.Rt().Place(UIAnchor.BottomLeft, new Vector2(22, 14), new Vector2(160, 46));
+            navigation.Rt().Place(UIAnchor.BottomLeft, new Vector2(22, 14), new Vector2(160, NavHeight));
             navigation.Interactable = _back != null; _buttons.Add(navigation);
             var prev = UIFactory.Button(_menu, "◀", () => Page(-1));
-            prev.Rt().Place(UIAnchor.BottomLeft, new Vector2(200, 14), new Vector2(70, 46));
+            prev.Rt().Place(UIAnchor.BottomLeft, new Vector2(200, 14), new Vector2(TouchUI ? 110 : 70, NavHeight));
             prev.Interactable = _page > 0; _buttons.Add(prev);
-            var next = UIFactory.Button(_menu, (_page + 1) + "/" + Math.Max(1, (_choices.Count + 5) / 6) + " ▶", () => Page(1));
-            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-22, 14), new Vector2(180, 46));
-            next.Interactable = first + 6 < _choices.Count; _buttons.Add(next);
+            var next = UIFactory.Button(_menu, (_page + 1) + "/" + Math.Max(1, (_choices.Count + PerPage - 1) / PerPage) + " ▶", () => Page(1));
+            next.Rt().Place(UIAnchor.BottomRight, new Vector2(-22, 14), new Vector2(180, NavHeight));
+            next.Interactable = first + PerPage < _choices.Count; _buttons.Add(next);
             Focus(0);
             if (_choices.Count == 0) _description.text = "사용 가능한 항목이 없습니다. 뒤로 돌아가세요.";
         }
         void Page(int delta)
         {
-            int next = Mathf.Clamp(_page + delta, 0, Math.Max(0, (_choices.Count - 1) / 6));
+            int next = Mathf.Clamp(_page + delta, 0, Math.Max(0, (_choices.Count - 1) / PerPage));
             if (next == _page) return; _page = next; Render();
         }
         void Focus(int index)
         {
-            int count = Math.Min(6, _choices.Count - _page * 6);
+            int count = Math.Min(PerPage, _choices.Count - _page * PerPage);
             if (count <= 0) return;
             _focus = (index % count + count) % count;
             for (int i = 0; i < _buttons.Count; i++) _buttons[i].Focused = i == _focus;
-            var choice = _choices[_page * 6 + _focus];
+            var choice = _choices[_page * PerPage + _focus];
             _description.text = choice.Label + (choice.Enabled ? "" : " · 사용 불가: " + Reason(choice.Reason)) + "\n" + choice.Description;
             LayoutRebuilder.ForceRebuildLayoutImmediate(_detailScroll.content);
             _detailScroll.StopMovement();
@@ -369,21 +586,58 @@ namespace Abyss.UI.Battle
                 case Element.Dark: return "암흑"; case Element.Holy: return "신성"; default: return "무속성";
             }
         }
-        public void CutIn(string title, string text) { _cutinTitle.text = title; _cutinText.text = text; _cutin.gameObject.SetActive(true); }
+        public void CutIn(string title, string text)
+        {
+            _cutinTitle.text = title; _cutinText.text = text; _cutin.gameObject.SetActive(true);
+            SlideIn(_cutin, 520f, 0.2f);
+        }
+        /// <summary>Slides a centred/top panel in from the left with a fade (call-outs should arrive, not pop).</summary>
+        void SlideIn(RectTransform rt, float from, float duration)
+        {
+            if (!rt.TryGetComponent(out CanvasGroup group)) group = rt.gameObject.AddComponent<CanvasGroup>();
+            group.blocksRaycasts = false;
+            UITween.Kill(rt);
+            Vector2 home = rt.anchoredPosition; home.x = 0f;
+            rt.anchoredPosition = home - new Vector2(from, 0f);
+            group.alpha = 0f;
+            UITween.To(rt, duration, t => { rt.anchoredPosition = home - new Vector2(from * (1f - t), 0f); group.alpha = t; }, UIEase.OutCubic);
+        }
         public void HideCutIn() { _cutin.gameObject.SetActive(false); }
+        /// <summary>JRPG skill-name plate shown while a skill or item resolves (tinted by its element / light colour).</summary>
+        public void SkillBanner(string text, Color color)
+        {
+            if (_banner == null) return;
+            _bannerText.text = text; _bannerText.color = Color.Lerp(Color.white, color, .45f);
+            _banner.gameObject.SetActive(true);
+            // The banner names the skill; the log line above it would only repeat it.
+            if (_logPanel != null) _logPanel.gameObject.SetActive(false);
+            SlideIn(_banner, 260f, 0.18f);
+        }
+        public void HideSkillBanner() { if (_banner != null) _banner.gameObject.SetActive(false); }
         public void Rewards(BattleOutcome outcome, Abyss.Logic.Game.BattleReport report, Action confirmed)
         {
             Lock();
+            HideSkillBanner();
+            if (_logPanel != null) _logPanel.gameObject.SetActive(false);
             _autoButton.gameObject.SetActive(false);
+            if (_speedButton != null) _speedButton.gameObject.SetActive(false);
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
             UIFactory.Fill(_reward, new Color(0, 0, 0, .72f), raycast: true);
             var panel = UIFactory.Panel(_reward, UIPanelStyle.Ornate);
-            panel.Rect.Place(UIAnchor.Center, Vector2.zero, new Vector2(860, 640));
-            string heading = outcome.Result == BattleResult.Victory ? "승리" : outcome.Result == BattleResult.Defeat ? "패배" : "도주 성공";
-            UIFactory.Label(panel.transform, heading, 48, color: UITheme.GoldBright, align: TextAlignmentOptions.Center).Rt().TopStrip(72, 28, 24, 24);
-            UIFactory.Separator(panel.transform, 600).Rt().Place(UIAnchor.Top, new Vector2(0, -112), new Vector2(600, 24));
+            bool victory = outcome.Result == BattleResult.Victory;
+            var panelSize = Compact ? new Vector2(1180, 820) : new Vector2(1000, victory ? 800 : 640);
+            panel.Rect.Place(UIAnchor.Center, Vector2.zero, panelSize);
+            UITween.Kill(panel.Rect);
+            panel.Rect.localScale = Vector3.one * 0.86f;
+            UITween.Scale(panel.Rect, 1f, 0.25f, UIEase.OutBack);
+            string heading = victory ? "승리" : outcome.Result == BattleResult.Defeat ? "패배" : "도주 성공";
+            UIFactory.Label(panel.transform, heading, 56, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Glow).Rt().TopStrip(72, 24, 24, 24);
+            UIFactory.Separator(panel.transform, 600).Rt().Place(UIAnchor.Top, new Vector2(0, -104), new Vector2(600, 24));
+            float textTop = 135f;
+            if (victory) { BuildPartyResults(panel.transform, panelSize.x, report, outcome); textTop = 318f; }
+            if (victory && BuildDropIcons(panel.transform, report, textTop)) textTop += 104f;
             _rewardScroll = UIFactory.ScrollView(panel.transform, out var rewardContent, name: "Battle rewards");
-            _rewardScroll.Rt().Stretch(50, 145, 50, 160);
+            _rewardScroll.Rt().Stretch(50, textTop, 50, 160);
             _rewardText = UIFactory.Paragraph(rewardContent, "", 27);
             _rewardText.overflowMode = TextOverflowModes.Overflow;
             _rewardCounter = UIFactory.Label(panel.transform, "", 21, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
@@ -393,20 +647,9 @@ namespace Abyss.UI.Battle
             Action refresh = () =>
             {
                 _text.Clear();
-                if (outcome.Result == BattleResult.Victory)
-                {
-                    _text.Append("<b>전투 보상</b>\n생존 동료당  ").Append(report.Experience).Append(" XP\n획득 골드  ").Append(report.Gold).Append(" G\n");
-                    foreach (var card in _cards.Values)
-                    {
-                        if (card.Unit.Side != BattleSide.Party) continue;
-                        int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
-                        _text.Append(card.Unit.Name).Append(" · ");
-                        if (finalHp > 0) _text.Append('+').Append(report.Experience).Append(" XP");
-                        else _text.Append("0 XP · 전투불능");
-                        _text.Append('\n');
-                    }
-                }
-                else _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
+                // Victory XP and gold are shown with the portraits above the list; other outcomes get a line.
+                if (outcome.Result != BattleResult.Victory)
+                    _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
                 AppendProgression(report);
                 if (outcome.Result == BattleResult.Victory)
                 {
@@ -421,7 +664,8 @@ namespace Abyss.UI.Battle
                     _text.Append(name).Append(" ×").Append(drops[i].Value).Append('\n');
                 }
                 _rewardText.text = _text.ToString();
-                _rewardCounter.text = drops.Count > 10 ? $"전리품 {page + 1} / {(drops.Count + 9) / 10} · ↑↓ 상세 스크롤" : "↑↓ 상세 스크롤 · 확인하면 모험을 계속합니다.";
+                string scrollHint = TouchUI ? "위아래로 끌어 보기" : "↑↓ 상세 스크롤";
+                _rewardCounter.text = drops.Count > 10 ? $"전리품 {page + 1} / {(drops.Count + 9) / 10} · {scrollHint}" : scrollHint + " · 확인하면 모험을 계속합니다.";
                 LayoutRebuilder.ForceRebuildLayoutImmediate(_rewardScroll.content);
                 _rewardScroll.StopMovement();
                 _rewardScroll.verticalNormalizedPosition = 1f;
@@ -443,6 +687,56 @@ namespace Abyss.UI.Battle
             ok.Rt().Place(UIAnchor.Bottom, new Vector2(0, 26), new Vector2(350, 60));
             _buttons.Clear(); _buttons.Add(ok); _focus = 0; ok.Focused = true;
             _openedFrame = Time.frameCount;
+        }
+
+        /// <summary>Spoils as a centred row of item icons with counts that pop in one by one; false when nothing dropped.</summary>
+        bool BuildDropIcons(Transform panel, Abyss.Logic.Game.BattleReport report, float top)
+        {
+            var drops = new List<KeyValuePair<string, int>>(report.Drops);
+            if (drops.Count == 0) return false;
+            const float size = 88f, gap = 18f;
+            int shown = Math.Min(drops.Count, 9);
+            float x0 = -(shown * size + (shown - 1) * gap) / 2f + size / 2f;
+            for (int i = 0; i < shown; i++)
+            {
+                string id = drops[i].Key;
+                var slot = UIFactory.IconSlot(panel, size, _db.Items.ContainsKey(id) ? UIArtwork.Item(id) : UIArtwork.Gear(id));
+                slot.Rt().Place(UIAnchor.Top, new Vector2(0.5f, 1f), new Vector2(x0 + i * (size + gap), -top), new Vector2(size, size));
+                slot.SetCount(drops[i].Value);
+                slot.transform.localScale = Vector3.zero;
+                UITween.Scale(slot.transform, 1f, 0.32f, UIEase.OutBack, 0.35f + i * 0.08f);
+            }
+            return true;
+        }
+
+        /// <summary>Victory header: each hero's portrait with XP gained, LEVEL UP badges and the gold total.</summary>
+        void BuildPartyResults(Transform panel, float width, Abyss.Logic.Game.BattleReport report, BattleOutcome outcome)
+        {
+            var heroes = new List<Card>();
+            foreach (var card in _cards.Values) if (card.Unit.Side == BattleSide.Party) heroes.Add(card);
+            float column = (width - 100f) / Math.Max(1, heroes.Count);
+            for (int i = 0; i < heroes.Count; i++)
+            {
+                var card = heroes[i];
+                var slot = UIFactory.Rect(panel, "Result " + card.Unit.Name);
+                slot.Place(UIAnchor.TopLeft, new Vector2(50f + i * column, -130f), new Vector2(column, 150f));
+                var face = UIFactory.Portrait(slot, 84f);
+                face.Rt().Place(UIAnchor.Top, Vector2.zero, new Vector2(84f, 84f));
+                face.SetSprite(UIArtwork.Hero(card.Unit.DefId));
+                int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
+                var xp = UIFactory.Label(slot, finalHp > 0 ? $"+{report.Experience} XP" : "전투불능", 24, UIFont.Heavy,
+                    finalHp > 0 ? UITheme.Text : UITheme.TextDisabled, TextAlignmentOptions.Center, UITextFx.Outline);
+                xp.Rt().BottomStrip(34, 26, 0, 0);
+                Abyss.Logic.Game.LevelUpReport level = null;
+                foreach (var l in report.LevelUps) if (l.HeroId == card.Unit.DefId) level = l;
+                if (level == null) continue;
+                var badge = UIFactory.Label(slot, $"LEVEL UP!  Lv.{level.NewLevel}", 22, UIFont.Title, UITheme.Dawn, TextAlignmentOptions.Center, UITextFx.Glow);
+                badge.Rt().BottomStrip(28, 0, 0, 0);
+                badge.transform.localScale = Vector3.one * 1.6f;
+                UITween.Scale(badge.transform, 1f, 0.35f, UIEase.OutBack, 0.25f + i * 0.08f);
+            }
+            var gold = UIFactory.Label(panel, $"획득 골드  {report.Gold:N0} G", 30, UIFont.Heavy, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Outline);
+            gold.Rt().TopStrip(40, 276, 40, 40);
         }
 
         void AppendProgression(Abyss.Logic.Game.BattleReport report)
@@ -519,7 +813,8 @@ namespace Abyss.UI.Battle
                 ToggleAuto(); UIInput.Consume(); return;
             }
             if (!_input) return;
-            _menuHint.text = UIInput.Device == UIInputDevice.Gamepad ? "↑↓ 선택 · LB/RB 페이지 · ←→ 상세" : "↑↓ 선택 · Q/E 페이지 · ←→ 상세";
+            _menuHint.text = UIInput.Device == UIInputDevice.Gamepad ? "↑↓ 선택 · LB/RB 페이지 · ←→ 상세"
+                : UIInput.Device == UIInputDevice.Touch ? "탭하여 선택 · 적/아군 카드를 탭해도 대상 지정" : "↑↓ 선택 · Q/E 페이지 · ←→ 상세";
             int movement = UIInput.NavigateRows;
             if (movement != 0) { Focus(_focus + movement); UIInput.Consume(); }
             else if (UIInput.Navigate.x != 0)
@@ -531,7 +826,7 @@ namespace Abyss.UI.Battle
             else if (UIInput.TabNext || UIInput.TabPrev)
             { Page(UIInput.TabPrev ? -1 : 1); UIInput.Consume(); }
             else if (UIInput.Cancel && _back != null) { _back(); UIInput.Consume(); }
-            else if (UIInput.Confirm && _choices.Count > 0) { Select(_page * 6 + _focus); UIInput.Consume(); }
+            else if (UIInput.Confirm && _choices.Count > 0) { Select(_page * PerPage + _focus); UIInput.Consume(); }
         }
         void LateUpdate()
         {

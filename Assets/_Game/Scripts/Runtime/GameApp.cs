@@ -70,6 +70,12 @@ namespace Abyss.Runtime
         public void ApplyPreferences()
         {
             Preferences.Apply();
+            SavePreferences();
+        }
+
+        /// <summary>Persists preferences that need no re-apply (e.g. battle speed changed mid-battle).</summary>
+        public void SavePreferences()
+        {
             try { Preferences.Save(saveDirectory); }
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException) { Notify("설정 저장 실패: " + e.Message); }
         }
@@ -211,7 +217,8 @@ namespace Abyss.Runtime
             else { dungeonWorld.RefreshProgress(); UI.RefreshDungeon(); }
             if (result.Effect == DungeonEffect.Trap) NotifyTip("first_trap");
             NotifyVisibleFoe();
-            if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
+            if (result.Effect == DungeonEffect.Treasure && result.Treasure != null) UI.ShowLoot(result.Treasure);
+            else if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
             if (result.Battle != null)
             {
                 Save();
@@ -292,6 +299,11 @@ namespace Abyss.Runtime
         void OnApplicationQuit()
         {
             if (State != null && Screen != GameScreen.Title && Screen != GameScreen.Battle) Save();
+        }
+        // Phones rarely quit cleanly: the OS kills backgrounded apps, so autosave whenever the app is sent away.
+        void OnApplicationPause(bool paused)
+        {
+            if (paused && Application.isMobilePlatform) OnApplicationQuit();
         }
         void OnDestroy()
         {

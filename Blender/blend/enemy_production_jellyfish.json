@@ -1,38 +1,38 @@
 {
   "id": "jellyfish",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:21:19Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/bugs.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:29:48Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\jellyfish\\jellyfish.fbx",
-      "bytes": 840332
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/jellyfish/jellyfish.fbx",
+      "bytes": 786764
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_jellyfish.blend",
-      "bytes": 256328
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_jellyfish.blend",
+      "bytes": 431816
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_jellyfish.png",
-        "bytes": 178106
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish.png",
+        "bytes": 158809
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_jellyfish_side.png",
-        "bytes": 170807
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_side.png",
+        "bytes": 158764
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_jellyfish_attack.png",
-        "bytes": 164896
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_attack.png",
+        "bytes": 158094
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_jellyfish_cast.png",
-        "bytes": 170857
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_cast.png",
+        "bytes": 158272
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_jellyfish_die.png",
-        "bytes": 153883
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_jellyfish_die.png",
+        "bytes": 161744
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8000,
-    "vertices": 4300,
-    "bones": 12,
+    "triangles": 9168,
+    "vertices": 4588,
+    "bones": 9,
     "materials": [
       "M_Clear",
       "M_Emit",
@@ -86,9 +86,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8000,
-    "vertices": 4300,
-    "bones": 12,
+    "triangles": 9168,
+    "vertices": 4588,
+    "bones": 9,
     "materials": [
       "M_Clear",
       "M_Emit",

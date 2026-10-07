@@ -1,0 +1,125 @@
+{
+  "id": "horned_rabbit",
+  "is_boss": false,
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/critters.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:29:12Z",
+  "files": {
+    "fbx": {
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+      "bytes": 970380
+    },
+    "blend": {
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_horned_rabbit.blend",
+      "bytes": 442381
+    },
+    "previews": [
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit.png",
+        "bytes": 171444
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_side.png",
+        "bytes": 164565
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_attack.png",
+        "bytes": 169381
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_cast.png",
+        "bytes": 165607
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_horned_rabbit_die.png",
+        "bytes": 162084
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 9542,
+    "vertices": 4779,
+    "bones": 11,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 9542,
+    "vertices": 4779,
+    "bones": 11,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

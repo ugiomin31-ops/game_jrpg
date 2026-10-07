@@ -27,6 +27,7 @@ namespace Abyss.Runtime.Art
         float _dissolve;
         Color _tint = Color.white;
         Coroutine _flashRoutine;
+        Animator _humanoid;
 
         internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips)
         {
@@ -36,7 +37,8 @@ namespace Abyss.Runtime.Art
             _renderers.AddRange(GetComponentsInChildren<Renderer>(true));
             var animator = visual.GetComponent<Animator>();
             if (animator == null)
-                throw new System.InvalidOperationException("Missing Generic-rig Animator: " + id);
+                throw new System.InvalidOperationException("Missing Generic-rig or Humanoid Animator: " + id);
+            _humanoid = animator.isHuman ? animator : null;
             Anim = visual.gameObject.AddComponent<ClipAnimator>();
             Anim.Init(clips);
             RecomputeBounds();
@@ -62,7 +64,25 @@ namespace Abyss.Runtime.Art
         /// <summary>World point at the visual centre (impacts).</summary>
         public Vector3 CenterPoint => transform.position + Vector3.up * (Height * 0.55f);
 
-        public Transform FindBone(string boneName) => FindDeep(transform, boneName);
+        /// <summary>Projectile origin: the weapon socket (bow / staff hand) when the rig has one, else chest height.</summary>
+        public Vector3 MuzzlePoint(string socket)
+        {
+            var bone = FindBone(socket);
+            return bone != null ? bone.position : transform.position + Vector3.up * (Height * 0.7f);
+        }
+
+        /// <summary>
+        /// Finds a bone by name. Humanoid models (VRM, store, Mixamo) have no Blender "weapon.R"/"weapon.L" sockets,
+        /// so those map to the avatar's hands; grip offsets for such models are tuned per model.
+        /// </summary>
+        public Transform FindBone(string boneName)
+        {
+            var bone = FindDeep(transform, boneName);
+            if (bone != null || _humanoid == null) return bone;
+            if (boneName == "weapon.R") return _humanoid.GetBoneTransform(HumanBodyBones.RightHand);
+            if (boneName == "weapon.L") return _humanoid.GetBoneTransform(HumanBodyBones.LeftHand);
+            return null;
+        }
 
         static Transform FindDeep(Transform t, string n)
         {
