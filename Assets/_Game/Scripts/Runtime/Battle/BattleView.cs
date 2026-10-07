@@ -32,6 +32,7 @@ namespace Abyss.Runtime.Battle
         readonly Dictionary<string, int> _hitCounts = new Dictionary<string, int>();
         readonly Dictionary<string, int> _hitTotals = new Dictionary<string, int>();
         readonly HashSet<string> _impactTargets = new HashSet<string>();
+        readonly HashSet<string> _waveTargets = new HashSet<string>();
         readonly List<string> _order = new List<string>();
         readonly Dictionary<string, Color> _desiredAuras = new Dictionary<string, Color>();
         readonly List<string> _removedAuras = new List<string>();
@@ -53,11 +54,13 @@ namespace Abyss.Runtime.Battle
         // Establishing shot: close enough that 1.3 m heroes and the monsters read on a landscape phone.
         static readonly Vector3 CameraHome = new Vector3(0f, 3.6f, -10.2f), CameraAim = new Vector3(1.4f, 1.05f, 0.6f);
         const float CameraFov = 42f;
-        float _oldFov, _fov = 43, _shake, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength;
-        const float KnockLength = .24f;
-        int _round;
-        string _active;
-        bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced;
+        float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
+        // Recoil: out over KnockOut, settle home over the rest.
+        const float KnockLength = .25f, KnockOut = .05f;
+        int _round, _wave, _eventIndex;
+        string _active, _strikeClip;
+        IReadOnlyList<BattleEvent> _events;
+        bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced, _perHitProjectile, _flashed;
         AtmospherePreset _oldAtmosphere;
         bool Reduced => _app.Preferences != null && _app.Preferences.ReducedMotion;
         /// <summary>Battle pacing multiplier from settings (1x, 1.5x, 2x): scales waits, unit animation and action timers.</summary>
@@ -138,6 +141,7 @@ namespace Abyss.Runtime.Battle
             for (int i = 0; i < events.Count; i++)
             {
                 yield return Wait(0);
+                _events = events; _eventIndex = i;
                 yield return Present(events[i]);
                 if (_finished) yield break;
                 if (initial && events[i] is BattleStartEvent) yield return Reduced ? Wait(.35f) : Intro();
@@ -185,9 +189,12 @@ namespace Abyss.Runtime.Battle
                 case MissEvent e:
                     if (Find(e.TargetId, out var missed))
                     {
+                        bool strike = _action != null && e.SourceId == _action.ActorId;
+                        if (strike) yield return PrepareHit(missed);
                         _ui.Numbers.Spawn(missed.Model.HeadPoint, 0, UINumberStyle.Miss);
                         _impactTargets.Add(e.TargetId);
-                        PlaySound("sfx_miss"); yield return Wait(HitInterval());
+                        PlaySound("sfx_miss");
+                        yield return strike && NextHitJoinsWave() ? Wait(.03f) : Wait(HitInterval());
                     }
                     break;
                 case HealEvent e:
@@ -196,7 +203,7 @@ namespace Abyss.Runtime.Battle
                         healed.Hp = e.HpAfter; healed.MaxHp = e.MaxHp; Sync(healed);
                         _ui.Numbers.Spawn(healed.Model.HeadPoint, e.Amount, UINumberStyle.Heal);
                         _impactTargets.Add(e.TargetId);
-                        Effect("heal", healed.Model.CenterPoint, new Color(.35f, 1, .6f));
+                        Effect("heal", healed.Model.CenterPoint, new Color(.35f, 1, .6f), 1, 0, null, healed.Home.y);
                         PlaySound("sfx_heal"); yield return Wait(.25f);
                     }
                     break;
@@ -219,7 +226,7 @@ namespace Abyss.Runtime.Battle
                             Type = e.EffectType, Turns = e.Turns, Beneficial = e.Beneficial };
                         Sync(applied); Popup(e.UnitId, e.DisplayName, e.Beneficial ? new Color(.4f, 1, .75f) : new Color(1, .5f, .7f));
                         if (_impactTargets.Add(e.UnitId) && _action != null && _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx))
-                            Effect(_presentation.ImpactVfx, applied.Model.CenterPoint, PresentationColor(_action.Element));
+                            Impact(_presentation.ImpactVfx, applied, PresentationColor(_action.Element), !e.Beneficial);
                         PlaySound(e.Beneficial ? "sfx_buff" : StatusSound(e.EffectType)); yield return Wait(.16f);
                     }
                     break;
@@ -234,9 +241,10 @@ namespace Abyss.Runtime.Battle
                 case BreakEvent e:
                     if (Find(e.UnitId, out var broken))
                     {
-                        broken.Broken = true; Sync(broken); Popup(e.UnitId, "BREAK!", new Color(1, .75f, .2f));
-                        Effect("break", broken.Model.CenterPoint, new Color(1, .65f, .15f), 1.4f);
-                        PlaySound("sfx_critical"); if (!Reduced) _shake = .22f;
+                        broken.Broken = true; Sync(broken); Popup(e.UnitId, "BREAK!", new Color(1, .75f, .2f), 64f);
+                        Effect("break", HitPoint(broken), new Color(1, .65f, .15f), 1.4f * ImpactScale(broken) / 1.2f, 0, null, broken.Home.y);
+                        PlaySound("sfx_critical");
+                        if (!Reduced) { AddTrauma(.5f); _fovPunch = Mathf.Min(_fovPunch, -3f); ScreenFlash(new Color(1, .7f, .25f), .35f); }
                         yield return HitStop(.065f); yield return Wait(.28f);
                     }
                     break;
@@ -264,7 +272,7 @@ namespace Abyss.Runtime.Battle
                             revived.Model.Anim.PlayOnce("Revive", "Idle", 0f);
                         else revived.Model.Play("Idle", .25f);
                         Sync(revived);
-                        Effect("revive", revived.Model.CenterPoint, new Color(1, .9f, .55f));
+                        Effect("revive", revived.Model.CenterPoint, new Color(1, .9f, .55f), 1, 0, null, revived.Home.y);
                         Popup(e.UnitId, "부활", new Color(1, .95f, .6f)); PlaySound("sfx_revive");
                         yield return Wait(revived.Side == BattleSide.Party ? revived.Model.Anim.Length("Revive") : .4f);
                     }
@@ -280,7 +288,7 @@ namespace Abyss.Runtime.Battle
                     break;
                 case SummonEvent e:
                     var summon = Spawn(e.Unit); summon.Model.SetDissolve(1);
-                    Effect("summon", summon.Model.CenterPoint, new Color(.7f, .35f, 1), 1.2f);
+                    Effect("summon", summon.Model.CenterPoint, new Color(.7f, .35f, 1), 1.2f, 0, null, summon.Home.y);
                     _hud.Log(summon.Name + " 등장!"); PlaySound("sfx_dark");
                     yield return summon.Model.DissolveIn(Reduced ? .15f : .45f);
                     yield return Wait(.2f);
@@ -382,6 +390,7 @@ namespace Abyss.Runtime.Battle
         IEnumerator StartAction(ActionStartEvent e)
         {
             _action = e; _presentation = null; _hitCounts.Clear(); _hitTotals.Clear(); _impactTargets.Clear();
+            _waveTargets.Clear(); _wave = 0; _waveStop = 0; _strikeClip = null; _perHitProjectile = false; _flashed = false;
             if (!string.IsNullOrEmpty(e.PresentationId))
             {
                 if (!_app.DB.Presentations.TryGetValue(e.PresentationId, out _presentation))
@@ -399,6 +408,7 @@ namespace Abyss.Runtime.Battle
             if (grand && !Reduced) _dimTarget = e.IsUltimate ? .62f : .4f;
             if (e.IsUltimate)
             {
+                if (actor.Model.Anim.HasClip("Cast")) actor.Model.Anim.Play("Cast", .12f);
                 _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
                 string hero = actor.DefId == "archer" ? "ranger" : actor.DefId;
                 PlaySound("sfx_ultimate_" + hero);
@@ -425,8 +435,10 @@ namespace Abyss.Runtime.Battle
             bool approach = !Reduced && !cast && !rangedBasic && target != null && actor.Id != target.Id &&
                 ((_presentation != null && _presentation.Approach != "none") ||
                 (_presentation == null && e.Kind == ActionKind.Attack));
-            bool lunge = approach && _presentation != null && _presentation.Approach == "lunge";
+            // A lunge is the sweep of a group strike; a single-target strike closes the whole gap instead of swinging at air.
+            bool lunge = approach && _presentation != null && _presentation.Approach == "lunge" && e.Scope != Scope.Single;
             Vector3 destination = actor.Model.transform.position;
+            bool swung = false;
             if (approach)
             {
                 Vector3 direction = target.Model.transform.position - actor.Model.transform.position;
@@ -438,45 +450,70 @@ namespace Abyss.Runtime.Battle
                 if (direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
                 if (!lunge && travel > .01f)
                 {
-                    actor.Model.Play("Run", .07f);
-                    yield return Move(actor, destination, MovementTime(travel));
+                    actor.Model.Anim.Play("Run", .05f, false);
+                    float time = MovementTime(travel), lead = Mathf.Min(.1f, time);
+                    StartCoroutine(Move(actor, destination, time));
+                    yield return Wait(time - lead);
+                    // The wind-up overlaps the last strides so the blade lands as the feet plant.
+                    Swing(actor, clip, cast); swung = true;
+                    yield return Wait(lead);
                 }
             }
-            if (target != null && actor.Id != target.Id)
+            if (!swung && target != null && actor.Id != target.Id)
             {
                 Vector3 facing = target.Model.transform.position - actor.Model.transform.position; facing.y = 0;
                 if (facing.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(facing));
             }
-            actor.Model.Anim.PlayOnce(clip, "Idle", cast ? .12f : .07f);
-            _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = 0;
+            if (!swung) Swing(actor, clip, cast);
             Color tint = PresentationColor(e.Element);
             if (_presentation != null && !string.IsNullOrEmpty(_presentation.ChargeVfx))
-                _charge = Effect(_presentation.ChargeVfx, actor.Model.CenterPoint, tint, 1, _actionLength, actor.Model.transform);
+                _charge = Effect(_presentation.ChargeVfx, actor.Model.CenterPoint, tint, 1, _actionLength, actor.Model.transform, actor.Home.y);
             PlaySound(_presentation != null && !string.IsNullOrEmpty(_presentation.SfxCast) ? _presentation.SfxCast :
                 e.Kind == ActionKind.Item ? "sfx_item" : cast ? ElementSound(e.Element) : WeaponSound(actor));
             float contactTime = _actionLength * (cast ? .6f : .4f);
             // The authored Attack contacts at 40%; the lunge belongs to that strike, not a tiny Run.
             if (lunge) yield return Move(actor, destination, contactTime);
-            else yield return Wait(contactTime);
-            if (_presentation != null && !string.IsNullOrEmpty(_presentation.TravelVfx) && e.TargetIds != null)
+            else yield return Wait(Mathf.Max(0, contactTime - _actionElapsed));
+            bool projectile = _presentation != null && !string.IsNullOrEmpty(_presentation.TravelVfx) && e.TargetIds != null;
+            // Multi-hit shots send one projectile per hit; area spells keep a single opening volley under the big effect.
+            _perHitProjectile = projectile && e.HitCount > 1 && string.IsNullOrEmpty(_presentation.AreaVfx);
+            if (projectile && !_perHitProjectile)
             {
+                float longest = 0;
                 foreach (string id in e.TargetIds)
-                    if (Find(id, out var projectileTarget))
-                        TrackEffect(_vfx.Travel(_presentation.TravelVfx, actor.Model.CenterPoint, projectileTarget.Model.CenterPoint, Reduced ? .08f : .24f, tint));
-                yield return Wait(Reduced ? .08f : .24f);
+                    if (Find(id, out var projectileTarget)) longest = Mathf.Max(longest, Shoot(actor, projectileTarget, tint));
+                yield return Wait(longest);
             }
             if (grand) _dimTarget = Mathf.Min(_dimTarget, .2f);
             if (_presentation != null && !string.IsNullOrEmpty(_presentation.AreaVfx) && e.TargetIds != null && AreaCenter(e.TargetIds, out var center))
             {
                 // Field / group spells: one big effect over the whole target group, then the per-hit impacts.
-                Effect(_presentation.AreaVfx, center, tint, Mathf.Max(.1f, _presentation.AreaScale));
+                Effect(_presentation.AreaVfx, center, tint, Mathf.Max(.1f, _presentation.AreaScale), 0, null, center.y - .9f);
                 _dimTarget = Mathf.Min(_dimTarget, .12f);   // the effect itself plays over a near-full-bright arena
-                if (!Reduced && _presentation.ScreenFlash) { _flash.color = new Color(tint.r, tint.g, tint.b, .45f); _flashAlpha = .45f; }
-                if (!Reduced) _shake = Mathf.Max(_shake, _presentation.Shake * .6f);
+                if (!Reduced && _presentation.ScreenFlash) ScreenFlash(tint, .45f);
+                if (!Reduced) AddTrauma(_presentation.Shake * .6f);
                 float lead = Reduced ? Mathf.Min(.12f, _presentation.AreaWait) : _presentation.AreaWait;
                 if (lead > 0) yield return Wait(lead);
             }
         }
+        void Swing(BattleDisplayUnit actor, string clip, bool cast)
+        {
+            actor.Model.Anim.PlayOnce(clip, "Idle", cast ? .12f : .05f);
+            _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = 0; _strikeClip = clip;
+        }
+        /// <summary>Fires the presentation's projectile from the weapon socket at the target's hit point; returns its flight time.</summary>
+        float Shoot(BattleDisplayUnit actor, BattleDisplayUnit target, Color tint)
+        {
+            string key = _presentation.TravelVfx;
+            Vector3 from = actor.Model.MuzzlePoint(actor.DefId == "archer" ? "weapon.L" : "weapon.R"), to = HitPoint(target);
+            float time = Reduced ? .08f : TravelTime(key, Vector3.Distance(from, to));
+            TrackEffect(_vfx.Travel(key, from, to, time, tint));
+            return time;
+        }
+        static float TravelTime(string key, float distance) =>
+            key.StartsWith("orb", StringComparison.Ordinal) ? Mathf.Clamp(distance / 12f, .2f, .6f) :
+            key.StartsWith("bolt", StringComparison.Ordinal) ? Mathf.Clamp(distance / 16f, .16f, .36f) :
+            Mathf.Clamp(distance / 22f, .14f, .3f);
         /// <summary>Ground-level centre of the living targets (origin 0.9 m up, like CenterPoint). Allocation-free.</summary>
         bool AreaCenter(IReadOnlyList<string> ids, out Vector3 center)
         {
@@ -497,8 +534,8 @@ namespace Abyss.Runtime.Battle
             if (_action != null && (e.Kind == ActionKind.Skill || e.Kind == ActionKind.Item) &&
                 _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx))
                 foreach (string id in _action.TargetIds)
-                    if (_impactTargets.Add(id) && Find(id, out var affected))
-                        Effect(_presentation.ImpactVfx, affected.Model.CenterPoint, PresentationColor(_action.Element));
+                    if (_impactTargets.Add(id) && Find(id, out var affected) && Find(_action.ActorId, out var source))
+                        Impact(_presentation.ImpactVfx, affected, PresentationColor(_action.Element), affected.Side != source.Side);
             foreach (var pair in _hitCounts)
                 if (pair.Value > 1 && Find(pair.Key, out var hit)) _ui.Numbers.SpawnHits(hit.Model.HeadPoint, pair.Value, _hitTotals[pair.Key]);
             if (!_fleeSucceeded && Find(e.ActorId, out var actor) && actor.Alive)
@@ -507,25 +544,63 @@ namespace Abyss.Runtime.Battle
                 while (_actionElapsed < _actionLength) yield return null;
                 if ((actor.Model.transform.position - actor.Home).sqrMagnitude > .01f)
                 {
-                    Vector3 returning = actor.Home - actor.Model.transform.position; returning.y = 0;
-                    if (returning.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(returning));
-                    actor.Model.Play("Run", .08f);
-                    yield return Move(actor, actor.Home, Reduced ? 0 : MovementTime(returning.magnitude));
+                    // Hop back onto the mark still facing the foe: no about-turn, no jog.
+                    actor.Model.Play("Idle", .1f);
+                    yield return Move(actor, actor.Home, Reduced ? 0 : .3f, .4f);
                 }
-                actor.Model.Play("Idle", .12f);
+                else actor.Model.Play("Idle", .12f);
                 yield return Face(actor, actor.Facing);
             }
-            _action = null; _presentation = null; _actionLength = 0;
+            _action = null; _presentation = null; _actionLength = 0; _strikeClip = null; _perHitProjectile = false;
             Establishing(false); yield return Wait(.12f);
+        }
+        /// <summary>
+        /// Wave bookkeeping before a strike lands. Hits on fresh targets of a group action share a wave; a repeat target
+        /// opens the next one, which re-strikes from mid-swing and (multi-hit shots) looses another projectile.
+        /// </summary>
+        IEnumerator PrepareHit(BattleDisplayUnit target)
+        {
+            bool newWave = _action.Scope == Scope.Single || _waveTargets.Count == 0 || _waveTargets.Contains(target.Id);
+            if (newWave) { _waveTargets.Clear(); _wave++; _waveStop = 0; }
+            _waveTargets.Add(target.Id);
+            if (!Find(_action.ActorId, out var actor) || !actor.Alive) yield break;
+            if (newWave && _wave > 1 && _strikeClip == "Attack" && !Reduced)
+            {
+                float length = actor.Model.Anim.Length("Attack");
+                actor.Model.Anim.PlayFrom("Attack", .25f, .04f);
+                _actionLength = length; _actionElapsed = length * .25f;
+                yield return Wait(Mathf.Min(.1f, length * .15f));
+            }
+            if (_perHitProjectile) yield return Wait(Shoot(actor, target, PresentationColor(_action.Element)));
+        }
+        /// <summary>True when the next strike of this action lands on a target not yet hit in the current wave.</summary>
+        bool NextHitJoinsWave()
+        {
+            if (_action == null || _action.Scope == Scope.Single || _events == null) return false;
+            for (int i = _eventIndex + 1; i < _events.Count; i++)
+            {
+                switch (_events[i])
+                {
+                    case DamageEvent next: return next.StatusId == null && next.SourceId == _action.ActorId && !_waveTargets.Contains(next.TargetId);
+                    case MissEvent next: return next.SourceId == _action.ActorId && !_waveTargets.Contains(next.TargetId);
+                    case MpChangeEvent _: case TpChangeEvent _: case ShieldChangeEvent _: case StatusRemovedEvent _:
+                    case MessageEvent _: case WeaknessDiscoveredEvent _:
+                        continue;
+                    default: return false;
+                }
+            }
+            return false;
         }
         IEnumerator Damage(DamageEvent e)
         {
             if (!Find(e.TargetId, out var target)) yield break;
+            bool strike = _action != null && e.StatusId == null && e.SourceId == _action.ActorId;
+            if (strike) yield return PrepareHit(target);
             target.Hp = e.HpAfter; target.MaxHp = e.MaxHp; Sync(target);
             _impactTargets.Add(e.TargetId);
+            bool weak = e.ShowEffectiveness && e.Effectiveness == Effectiveness.Weak;
             _ui.Numbers.Spawn(target.Model.HeadPoint, e.Amount, e.Critical ? UINumberStyle.Critical : UINumberStyle.Damage,
-                e.ShowEffectiveness && e.Effectiveness == Effectiveness.Weak,
-                e.ShowEffectiveness && e.Effectiveness == Effectiveness.Resist);
+                weak, e.ShowEffectiveness && e.Effectiveness == Effectiveness.Resist);
             if (e.Absorbed > 0) Popup(e.TargetId, "흡수 " + e.Absorbed, new Color(.55f, .8f, 1));
             if (_action != null)
             {
@@ -534,28 +609,38 @@ namespace Abyss.Runtime.Battle
             }
             if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce("Hit", "Idle", .045f);
             Color tint = PresentationColor(e.Element);
-            if (e.Amount > 0) target.Model.Flash(tint, Reduced ? .2f : .12f);
+            if (e.Amount > 0) target.Model.Flash(e.Critical ? Color.white : tint, e.Critical ? .2f : Reduced ? .2f : .12f);
             // Recoil away from the attacker side; only from the home mark so it never fights a Move.
-            if (!Reduced && e.Amount > 0 && target.Alive && (target.Model.transform.position - target.Home).sqrMagnitude < .01f)
+            if (!Reduced && e.Amount > 0 && target.Alive && (target.KnockTime > 0 || (target.Model.transform.position - target.Home).sqrMagnitude < .01f))
             {
                 float push = Mathf.Clamp((_presentation != null ? _presentation.Shake : .25f) * .32f, .05f, .26f) * (e.Critical ? 1.5f : 1);
-                target.KnockAmount = Mathf.Max(target.KnockTime > 0 ? target.KnockAmount : 0, push * (target.Boss ? .35f : 1));
-                target.KnockTime = KnockLength;
+                bool knocked = target.KnockTime > 0;
+                float k = knocked ? KnockCurve(KnockLength - target.KnockTime) : 0;
+                target.KnockAmount = Mathf.Max(knocked ? target.KnockAmount : 0, push * (target.Boss ? .35f : 1));
+                // Re-hits continue outward from the current recoil instead of snapping home first.
+                target.KnockTime = KnockLength - KnockOut * (1 - Mathf.Sqrt(1 - Mathf.Clamp01(k)));
             }
             string impact = _presentation != null ? _presentation.ImpactVfx : "impact";
-            if (!string.IsNullOrEmpty(impact)) Effect(impact, target.Model.CenterPoint, tint, e.Critical ? 1.3f : 1);
+            if (!string.IsNullOrEmpty(impact))
+                Effect(impact, HitPoint(target), tint, ImpactScale(target) * (e.Critical ? 1.3f : 1), 0, null, target.Home.y);
             PlaySound(e.Critical ? "sfx_critical" : _presentation != null && !string.IsNullOrEmpty(_presentation.SfxImpact) ? _presentation.SfxImpact : "sfx_hit");
             if (!Reduced)
             {
-                _shake = Mathf.Max(_shake, (_presentation != null ? _presentation.Shake : .08f) * (e.Critical ? 1.4f : 1));
-                if (_presentation != null && _presentation.ScreenFlash) { _flash.color = new Color(tint.r, tint.g, tint.b, .3f); _flashAlpha = .3f; }
+                AddTrauma((_presentation != null ? _presentation.Shake : .08f) * (e.Critical ? 1.4f : 1));
+                if (strike) _fovPunch = Mathf.Min(_fovPunch, e.Critical ? -3f : -1.5f);
+                if (e.Critical) ScreenFlash(Color.white, .22f);
+                else if (strike && !_flashed && _presentation != null && _presentation.ScreenFlash) ScreenFlash(tint, .3f);
             }
-            // Let the recoil enter before freezing it; otherwise hit-stop freezes the untouched pose.
-            if (!Reduced && e.Amount > 0) yield return Wait(.035f);
+            if (strike) _flashed = true;
             float stop = _presentation != null ? _presentation.HitStop : .035f;
             if (e.Critical) stop *= 1.6f;
-            else if (e.ShowEffectiveness && e.Effectiveness == Effectiveness.Weak) stop *= 1.3f;
-            yield return HitStop(stop);
+            else if (weak) stop *= 1.3f;
+            _waveStop = Mathf.Max(_waveStop, stop);
+            // Group hits land together: stagger the rest of the wave, then freeze once for all of it.
+            if (strike && NextHitJoinsWave()) { yield return Wait(.03f); yield break; }
+            // Let the recoil enter before freezing it; otherwise hit-stop freezes the untouched pose.
+            if (!Reduced && e.Amount > 0) yield return Wait(KnockOut);
+            yield return HitStop(strike ? _waveStop : stop);
             yield return Wait(HitInterval());
         }
 
@@ -680,15 +765,20 @@ namespace Abyss.Runtime.Battle
             var desired = _desiredAuras; desired.Clear();
             if (unit.Alive)
             {
-                if (unit.Guarding) desired["guard"] = new Color(.45f, .75f, 1);
-                if (unit.Broken) desired["break"] = new Color(1, .65f, .15f);
+                if (unit.Guarding) desired["guard_loop"] = new Color(.45f, .75f, 1);
+                if (unit.Broken) desired["break_loop"] = new Color(1, .65f, .15f);
                 foreach (var status in unit.Statuses.Values)
                 {
-                    string key = status.Type == StatusEffectType.Barrier || status.Type == StatusEffectType.ManaShield || status.Type == StatusEffectType.Invincible ? "shield" :
-                        status.Beneficial ? "buff" : "debuff";
-                    if (_app.DB.Statuses.TryGetValue(status.Id, out var def) && def.Tint != null && def.Tint.Length >= 3)
-                        desired[key] = new Color(def.Tint[0], def.Tint[1], def.Tint[2]);
-                    else desired[key] = status.Beneficial ? new Color(.35f, 1, .65f) : new Color(.85f, .3f, .85f);
+                    if (status.Type == StatusEffectType.Barrier || status.Type == StatusEffectType.ManaShield || status.Type == StatusEffectType.Invincible)
+                    {
+                        if (_app.DB.Statuses.TryGetValue(status.Id, out var def) && def.Tint != null && def.Tint.Length >= 3)
+                            desired["shield"] = new Color(def.Tint[0], def.Tint[1], def.Tint[2]);
+                        else desired["shield"] = new Color(.55f, .85f, 1);
+                    }
+                    // Looping per-status glyph recipes carry their own colours.
+                    string key = "status_" + status.Id;
+                    if (!_vfx.Supports(key)) key = status.Beneficial ? "status_attack_up" : "status_attack_down";
+                    if (_vfx.Supports(key)) desired[key] = Color.white;
                 }
             }
             var remove = _removedAuras; remove.Clear();
@@ -697,11 +787,38 @@ namespace Abyss.Runtime.Battle
             foreach (string key in remove) handles.Remove(key);
             foreach (var pair in desired)
                 if (!handles.ContainsKey(pair.Key))
-                    handles.Add(pair.Key, Effect(pair.Key, unit.Model.CenterPoint, pair.Value, Mathf.Max(.7f, unit.Model.Radius * 1.4f), 36000, unit.Model.transform));
+                {
+                    // Stack several status glyph rings instead of orbiting them through each other.
+                    int stacked = 0;
+                    if (pair.Key.StartsWith("status_", StringComparison.Ordinal))
+                        foreach (string key in handles.Keys) if (key.StartsWith("status_", StringComparison.Ordinal)) stacked++;
+                    handles.Add(pair.Key, Effect(pair.Key, unit.Model.CenterPoint + Vector3.up * (stacked * .16f), pair.Value,
+                        Mathf.Max(.7f, unit.Model.Radius * 1.4f), 0, unit.Model.transform, unit.Home.y));
+                }
         }
-        VfxHandle Effect(string key, Vector3 position, Color tint, float scale = 1, float duration = 0, Transform follow = null)
+        VfxHandle Effect(string key, Vector3 position, Color tint, float scale = 1, float duration = 0, Transform follow = null, float ground = float.NaN)
         {
-            var handle = _vfx.Play(key, position, tint, scale, duration, follow); TrackEffect(handle); return handle;
+            var handle = _vfx.Play(key, position, tint, scale, duration, follow, ground); TrackEffect(handle); return handle;
+        }
+        /// <summary>Hostile impacts sit on the camera side of the body so sparks are not buried in large models.</summary>
+        void Impact(string key, BattleDisplayUnit unit, Color tint, bool hostile) =>
+            Effect(key, hostile ? HitPoint(unit) : unit.Model.CenterPoint, tint, ImpactScale(unit), 0, null, unit.Home.y);
+        Vector3 HitPoint(BattleDisplayUnit unit)
+        {
+            Vector3 center = unit.Model.CenterPoint;
+            return center + (_camera.transform.position - center).normalized * (unit.Model.Radius * .8f + .1f);
+        }
+        static float ImpactScale(BattleDisplayUnit unit) => Mathf.Clamp(unit.Model.Height / 1.3f, 1f, 2f) * 1.2f;
+        void AddTrauma(float shake) => _trauma = Mathf.Clamp01(_trauma + shake * 1.5f);
+        void ScreenFlash(Color color, float alpha)
+        {
+            _flash.color = new Color(color.r, color.g, color.b, alpha); _flashAlpha = alpha; _flashed = true;
+        }
+        /// <summary>Recoil displacement (0..1) at <paramref name="elapsed"/> seconds: quick ease-out, then a slower settle.</summary>
+        static float KnockCurve(float elapsed)
+        {
+            if (elapsed < KnockOut) { float t = elapsed / KnockOut; return 1 - (1 - t) * (1 - t); }
+            return 1 - Mathf.SmoothStep(0, 1, (elapsed - KnockOut) / (KnockLength - KnockOut));
         }
         void TrackEffect(VfxHandle handle)
         {
@@ -714,8 +831,8 @@ namespace Abyss.Runtime.Battle
             if (id == null) { unit = null; return false; }
             return _units.TryGetValue(id, out unit);
         }
-        void Popup(string id, string text, Color color)
-        { if (Find(id, out var unit)) _ui.Numbers.SpawnText(unit.Model.HeadPoint, text, color); }
+        void Popup(string id, string text, Color color, float size = 34f)
+        { if (Find(id, out var unit)) _ui.Numbers.SpawnText(unit.Model.HeadPoint, text, color, size); }
         void RefreshOrder() => _hud.ShowOrder(_round, _order, _active);
         void PreviewTarget(string id)
         {
@@ -746,29 +863,29 @@ namespace Abyss.Runtime.Battle
             _cameraBasePosition = _cameraPosition;
             _cameraBaseRotation = Quaternion.LookRotation(_cameraLook - _cameraPosition);
             _camera.transform.SetPositionAndRotation(_cameraBasePosition, _cameraBaseRotation);
-            _camera.fieldOfView = _fov;
+            _camera.fieldOfView = _fovBase = _fov; _fovPunch = 0;
         }
         void LateUpdate()
         {
             if (!_initialized || _restored || _camera == null) return;
             _hud.Paused = _app.Paused;
             foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed);
+            if (_vfx != null) _vfx.TimeScale = _app.Paused ? 0 : Speed;
             if (_app.Paused) return;
             if (!_hitstop && _actionLength > 0) _actionElapsed += Dt;
             if (Reduced)
             {
                 if (!_wasReduced) Establishing(true);
-                _shake = 0; _dimTarget = 0;
+                _trauma = 0; _fovPunch = 0; _dimTarget = 0;
                 if (_flashAlpha > 0) { _flashAlpha = 0; _flash.color = new Color(1, 1, 1, 0); }
             }
             foreach (var unit in _units.Values)
             {
                 if (unit.KnockTime <= 0) continue;
-                // Snap back on contact, ease home; frozen (held at full push) during hit-stop.
+                // Ease out on contact, settle home; frozen during hit-stop.
                 if (!_hitstop) unit.KnockTime = Mathf.Max(0, unit.KnockTime - Dt);
-                float k = unit.KnockTime / KnockLength;
                 Vector3 back = unit.Facing * Vector3.back;
-                unit.Model.transform.position = unit.Home + back * (unit.KnockAmount * k * k);
+                unit.Model.transform.position = unit.Home + back * (unit.KnockAmount * KnockCurve(KnockLength - unit.KnockTime));
             }
             if (_dim != null && !Mathf.Approximately(_dimAlpha, _dimTarget))
             {
@@ -778,16 +895,24 @@ namespace Abyss.Runtime.Battle
             _wasReduced = Reduced;
             float blend = 1 - Mathf.Exp(-Time.unscaledDeltaTime * _cameraRate);
             _cameraBasePosition = Vector3.Lerp(_cameraBasePosition, _cameraPosition, blend);
-            Vector3 position = _cameraBasePosition;
-            if (!Reduced && _shake > .001f)
-            {
-                position += new Vector3(Mathf.Sin(Time.unscaledTime * 93), Mathf.Cos(Time.unscaledTime * 81), 0) * _shake;
-                _shake = Mathf.MoveTowards(_shake, 0, Time.unscaledDeltaTime * 1.8f);
-            }
             Quaternion rotation = Quaternion.LookRotation(_cameraLook - _cameraBasePosition);
             _cameraBaseRotation = Quaternion.Slerp(_cameraBaseRotation, rotation, blend);
-            _camera.transform.SetPositionAndRotation(position, _cameraBaseRotation);
-            _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _fov, blend);
+            Vector3 position = _cameraBasePosition;
+            Quaternion view = _cameraBaseRotation;
+            if (!Reduced && _trauma > .001f)
+            {
+                // Camera-relative Perlin trauma; squared so light knocks stay subtle and big ones read.
+                float shake = _trauma * _trauma, time = Time.unscaledTime * 24f;
+                float x = Mathf.PerlinNoise(time, .5f) * 2 - 1, y = Mathf.PerlinNoise(.5f, time + 37f) * 2 - 1;
+                float roll = Mathf.PerlinNoise(time + 71f, 13.5f) * 2 - 1;
+                position += view * new Vector3(x, y, 0) * (shake * .22f);
+                view *= Quaternion.Euler(0, 0, roll * .6f * shake);
+                _trauma = Mathf.MoveTowards(_trauma, 0, Time.unscaledDeltaTime * 1.6f);
+            }
+            _camera.transform.SetPositionAndRotation(position, view);
+            _fovBase = Mathf.Lerp(_fovBase, _fov, blend);
+            _fovPunch = Mathf.Lerp(_fovPunch, 0, 1 - Mathf.Exp(-Time.unscaledDeltaTime * 9f));
+            _camera.fieldOfView = _fovBase + _fovPunch;
             if (_flashAlpha > 0)
             {
                 _flashAlpha = Mathf.MoveTowards(_flashAlpha, 0, Time.unscaledDeltaTime * 2.5f);
@@ -828,7 +953,8 @@ namespace Abyss.Runtime.Battle
             }
             model.rotation = facing;
         }
-        IEnumerator Move(BattleDisplayUnit unit, Vector3 destination, float seconds)
+        /// <summary>Out-quad move; <paramref name="arc"/> lifts the path into a hop.</summary>
+        IEnumerator Move(BattleDisplayUnit unit, Vector3 destination, float seconds, float arc = 0)
         {
             if (unit.KnockTime > 0) { unit.KnockTime = 0; unit.Model.transform.position = unit.Home; }
             Vector3 from = unit.Model.transform.position; float elapsed = 0;
@@ -837,13 +963,14 @@ namespace Abyss.Runtime.Battle
                 if (!_app.Paused)
                 {
                     elapsed += Dt;
-                    unit.Model.transform.position = Vector3.Lerp(from, destination, Mathf.SmoothStep(0, 1, elapsed / seconds));
+                    float t = Mathf.Clamp01(elapsed / seconds), k = 1 - (1 - t) * (1 - t);
+                    unit.Model.transform.position = Vector3.Lerp(from, destination, k) + Vector3.up * (Mathf.Sin(Mathf.PI * t) * arc);
                 }
                 yield return null;
             }
             unit.Model.transform.position = destination;
         }
-        static float MovementTime(float distance) => Mathf.Clamp(distance / 4.5f, .18f, .75f);
+        static float MovementTime(float distance) => Mathf.Clamp(distance / 10f, .22f, .36f);
         float HitInterval() => Mathf.Max(.12f, _presentation != null ? _presentation.HitInterval : .18f);
         static string ActionName(ActionKind kind)
         {
@@ -889,6 +1016,7 @@ namespace Abyss.Runtime.Battle
         {
             if (_restored) return; _restored = true;
             foreach (var effect in _effects) effect.Stop(); _effects.Clear(); _auras.Clear();
+            if (_vfx != null) _vfx.TimeScale = 1;
             if (_ui != null) { _ui.Numbers.Clear(); _ui.Dialog.Close(); }
             if (_flash != null) { _flash.gameObject.SetActive(false); Destroy(_flash.gameObject); }
             if (_dim != null) { _dim.gameObject.SetActive(false); Destroy(_dim.gameObject); }

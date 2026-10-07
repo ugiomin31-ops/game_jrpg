@@ -638,13 +638,16 @@ def main():
     jobs()
     skill_effects()
     statuses_and_environment()
+    # Hand-authored recipes (aligned projectiles, looping guard/BREAK markers) live beside this script.
+    for recipe in json.loads((ROOT/'Tools/vfx/effects_extra.json').read_text(encoding='utf-8'))['effects']:
+        EFFECTS[recipe['key']] = recipe
     required = {p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
                 for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()
     if missing:
         raise ValueError('Missing authored recipes: ' + ', '.join(sorted(missing)))
     allowed = {'kind', 'texture', 'color', 'life', 'size', 'endSize', 'height', 'speed', 'gravity', 'rate', 'radius',
-               'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright'}
+               'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright', 'align'}
     kinds = {'quad', 'orbit', 'burst', 'emitter', 'ring', 'sphere', 'trail', 'arc'}
     for recipe in EFFECTS.values():
         for item in recipe['layers']:

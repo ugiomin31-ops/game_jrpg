@@ -19,7 +19,7 @@ namespace Abyss.Runtime.Art
         float[] _weights, _fromWeights;
         int _current = -1;
         string _currentName, _queuedAfter, _pendingName, _pendingAfter;
-        float _fade, _fadeTime, _pendingFade;
+        float _fade, _fadeTime, _pendingFade, _pendingStart;
         float _speed = 1f;
         bool _ready;
 
@@ -80,7 +80,13 @@ namespace Abyss.Runtime.Art
         }
 
         /// <summary>Blend from the complete current pose. Missing named takes are content errors.</summary>
-        public void Play(string clip, float fade = 0.15f, bool restart = true, string then = null)
+        public void Play(string clip, float fade = 0.15f, bool restart = true, string then = null) => Begin(clip, fade, restart, then, 0f);
+
+        /// <summary>Restart a take part-way through (0..1), e.g. a follow-up strike that skips the wind-up.</summary>
+        public void PlayFrom(string clip, float normalizedStart, float fade = 0.05f, string then = "Idle") =>
+            Begin(clip, fade, true, then, Mathf.Clamp01(normalizedStart));
+
+        void Begin(string clip, float fade, bool restart, string then, float start)
         {
             if (!_ready) return;
             RequireClip(clip);
@@ -93,13 +99,13 @@ namespace Abyss.Runtime.Art
             {
                 // An unusually fast third restart waits for a lane instead of deleting a visible pose.
                 // Keep only the latest request; storage and the playable graph stay bounded.
-                _pendingName = clip; _pendingAfter = then; _pendingFade = fade;
+                _pendingName = clip; _pendingAfter = then; _pendingFade = fade; _pendingStart = start;
                 return;
             }
             Array.Copy(_weights, _fromWeights, _weights.Length);
             _current = slot; _currentName = clip; _queuedAfter = then;
             var playable = _playables[slot];
-            playable.SetTime(0); playable.SetDone(false); playable.SetSpeed(_speed);
+            playable.SetTime(start * _slotClips[slot].length); playable.SetDone(false); playable.SetSpeed(_speed);
             _fadeTime = Mathf.Max(0f, fade);
             float total = 0f;
             for (int i = 0; i < _fromWeights.Length; i++) total += _fromWeights[i];
@@ -150,7 +156,7 @@ namespace Abyss.Runtime.Art
             if (_pendingName != null && _fade >= 1f)
             {
                 string next = _pendingName, after = _pendingAfter;
-                Play(next, _pendingFade, true, after);
+                Begin(next, _pendingFade, true, after, _pendingStart);
             }
             else if (_queuedAfter != null && NormalizedTime >= 1f)
             {

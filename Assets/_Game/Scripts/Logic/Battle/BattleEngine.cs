@@ -733,6 +733,7 @@ namespace Abyss.Logic.Battle
             {
                 case ActionKind.Attack:
                     ev.Element = actor.AttackElement;
+                    ev.PresentationId = AttackPresentation(actor);
                     break;
                 case ActionKind.Skill:
                     ev.SkillId = action.Skill.Id;
@@ -752,6 +753,14 @@ namespace Abyss.Logic.Battle
                     break;
             }
             Emit(ev);
+        }
+
+        /// <summary>Per-hero basic attack staging (attack_warrior, attack_archer, ...), attack_enemy for monsters.</summary>
+        string AttackPresentation(BattleUnit actor)
+        {
+            string id = actor.Side == BattleSide.Enemy ? "attack_enemy" : "attack_" + actor.DefId;
+            if (_db.Presentations.ContainsKey(id)) return id;
+            return actor.Side == BattleSide.Party && _db.Presentations.ContainsKey("attack_party") ? "attack_party" : null;
         }
 
         void ApplyActionBleed(BattleUnit actor)
