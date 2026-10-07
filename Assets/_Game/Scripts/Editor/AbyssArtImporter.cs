@@ -291,6 +291,7 @@ namespace Abyss.EditorTools
         }
 
 
+        static void Make(string slot, bool env, Shader shader, System.Action<Material> setup)
         {
             string path = PathFor(slot, env);
             if (AssetDatabase.LoadAssetAtPath<Material>(path) != null) return;

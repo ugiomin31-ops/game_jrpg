@@ -9,7 +9,7 @@ import math
 import random
 import json
 sys.path.insert(0,os.path.dirname(__file__))
-from _common import MB,T,RX,RY,RZ,S,A,col_box,spot,empty,anchor,look_matrix,shot,SPOTS,ANCHORS,COLS
+from _common import MB,T,RX,RY,RZ,S,A,col_box,spot,empty,anchor,look_matrix,shot,shade,SPOTS,ANCHORS,COLS
 from mathutils import Vector
 import bpy
 
