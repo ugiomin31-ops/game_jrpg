@@ -617,12 +617,19 @@ namespace Abyss.UI.Battle
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
             UIFactory.Fill(_reward, new Color(0, 0, 0, .72f), raycast: true);
             var panel = UIFactory.Panel(_reward, UIPanelStyle.Ornate);
-            panel.Rect.Place(UIAnchor.Center, Vector2.zero, new Vector2(860, 640));
-            string heading = outcome.Result == BattleResult.Victory ? "승리" : outcome.Result == BattleResult.Defeat ? "패배" : "도주 성공";
-            UIFactory.Label(panel.transform, heading, 48, color: UITheme.GoldBright, align: TextAlignmentOptions.Center).Rt().TopStrip(72, 28, 24, 24);
-            UIFactory.Separator(panel.transform, 600).Rt().Place(UIAnchor.Top, new Vector2(0, -112), new Vector2(600, 24));
+            bool victory = outcome.Result == BattleResult.Victory;
+            var panelSize = Compact ? new Vector2(1180, 820) : new Vector2(1000, victory ? 800 : 640);
+            panel.Rect.Place(UIAnchor.Center, Vector2.zero, panelSize);
+            UITween.Kill(panel.Rect);
+            panel.Rect.localScale = Vector3.one * 0.86f;
+            UITween.Scale(panel.Rect, 1f, 0.25f, UIEase.OutBack);
+            string heading = victory ? "승리" : outcome.Result == BattleResult.Defeat ? "패배" : "도주 성공";
+            UIFactory.Label(panel.transform, heading, 56, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Glow).Rt().TopStrip(72, 24, 24, 24);
+            UIFactory.Separator(panel.transform, 600).Rt().Place(UIAnchor.Top, new Vector2(0, -104), new Vector2(600, 24));
+            float textTop = 135f;
+            if (victory) { BuildPartyResults(panel.transform, panelSize.x, report, outcome); textTop = 318f; }
             _rewardScroll = UIFactory.ScrollView(panel.transform, out var rewardContent, name: "Battle rewards");
-            _rewardScroll.Rt().Stretch(50, 145, 50, 160);
+            _rewardScroll.Rt().Stretch(50, textTop, 50, 160);
             _rewardText = UIFactory.Paragraph(rewardContent, "", 27);
             _rewardText.overflowMode = TextOverflowModes.Overflow;
             _rewardCounter = UIFactory.Label(panel.transform, "", 21, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
@@ -632,20 +639,9 @@ namespace Abyss.UI.Battle
             Action refresh = () =>
             {
                 _text.Clear();
-                if (outcome.Result == BattleResult.Victory)
-                {
-                    _text.Append("<b>전투 보상</b>\n생존 동료당  ").Append(report.Experience).Append(" XP\n획득 골드  ").Append(report.Gold).Append(" G\n");
-                    foreach (var card in _cards.Values)
-                    {
-                        if (card.Unit.Side != BattleSide.Party) continue;
-                        int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
-                        _text.Append(card.Unit.Name).Append(" · ");
-                        if (finalHp > 0) _text.Append('+').Append(report.Experience).Append(" XP");
-                        else _text.Append("0 XP · 전투불능");
-                        _text.Append('\n');
-                    }
-                }
-                else _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
+                // Victory XP and gold are shown with the portraits above the list; other outcomes get a line.
+                if (outcome.Result != BattleResult.Victory)
+                    _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
                 AppendProgression(report);
                 if (outcome.Result == BattleResult.Victory)
                 {
@@ -683,6 +679,36 @@ namespace Abyss.UI.Battle
             ok.Rt().Place(UIAnchor.Bottom, new Vector2(0, 26), new Vector2(350, 60));
             _buttons.Clear(); _buttons.Add(ok); _focus = 0; ok.Focused = true;
             _openedFrame = Time.frameCount;
+        }
+
+        /// <summary>Victory header: each hero's portrait with XP gained, LEVEL UP badges and the gold total.</summary>
+        void BuildPartyResults(Transform panel, float width, Abyss.Logic.Game.BattleReport report, BattleOutcome outcome)
+        {
+            var heroes = new List<Card>();
+            foreach (var card in _cards.Values) if (card.Unit.Side == BattleSide.Party) heroes.Add(card);
+            float column = (width - 100f) / Math.Max(1, heroes.Count);
+            for (int i = 0; i < heroes.Count; i++)
+            {
+                var card = heroes[i];
+                var slot = UIFactory.Rect(panel, "Result " + card.Unit.Name);
+                slot.Place(UIAnchor.TopLeft, new Vector2(50f + i * column, -130f), new Vector2(column, 150f));
+                var face = UIFactory.Portrait(slot, 84f);
+                face.Rt().Place(UIAnchor.Top, Vector2.zero, new Vector2(84f, 84f));
+                face.SetSprite(UIArtwork.Hero(card.Unit.DefId));
+                int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
+                var xp = UIFactory.Label(slot, finalHp > 0 ? $"+{report.Experience} XP" : "전투불능", 24, UIFont.Heavy,
+                    finalHp > 0 ? UITheme.Text : UITheme.TextDisabled, TextAlignmentOptions.Center, UITextFx.Outline);
+                xp.Rt().BottomStrip(34, 26, 0, 0);
+                Abyss.Logic.Game.LevelUpReport level = null;
+                foreach (var l in report.LevelUps) if (l.HeroId == card.Unit.DefId) level = l;
+                if (level == null) continue;
+                var badge = UIFactory.Label(slot, $"LEVEL UP!  Lv.{level.NewLevel}", 22, UIFont.Title, UITheme.Dawn, TextAlignmentOptions.Center, UITextFx.Glow);
+                badge.Rt().BottomStrip(28, 0, 0, 0);
+                badge.transform.localScale = Vector3.one * 1.6f;
+                UITween.Scale(badge.transform, 1f, 0.35f, UIEase.OutBack, 0.25f + i * 0.08f);
+            }
+            var gold = UIFactory.Label(panel, $"획득 골드  {report.Gold:N0} G", 30, UIFont.Heavy, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Outline);
+            gold.Rt().TopStrip(40, 276, 40, 40);
         }
 
         void AppendProgression(Abyss.Logic.Game.BattleReport report)
