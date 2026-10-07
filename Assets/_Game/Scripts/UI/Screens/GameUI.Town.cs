@@ -35,9 +35,9 @@ namespace Abyss.UI
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
-                var button = UIFactory.Button(services.Rect, T(TownTitles[i]) + "\n<size=20>" + hints[i] + "</size>",
+                var button = UIFactory.Button(services.Rect, (id == "elder" ? "촌장" : T(TownTitles[i])) + "\n<size=20>" + hints[i] + "</size>",
                     () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
-                button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -112 - (i / 2) * 102), new Vector2(196, 92));
+                button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -112 - (i / 2) * 102), new Vector2(196, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 92));
                 button.Label.textWrappingMode = TMPro.TextWrappingModes.Normal;
                 button.Label.fontSizeMax = 25;
                 if (id == "gate") button.Label.color = UITheme.DawnBright;

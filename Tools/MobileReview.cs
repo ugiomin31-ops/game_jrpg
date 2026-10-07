@@ -58,6 +58,7 @@ public static class MobileReview
             await Frames(24);
             Check("Phone layout and touch device", UIRoot.Compact && UITouch.Supported);
             Capture("town");
+            await Frames(4);
             var player = app.WorldRoot.GetComponentsInChildren<Abyss.Runtime.Art.CharacterModel>().First(x => x.ModelId == "warrior").transform;
             var origin = player.position;
             Vector2 start = new Vector2(Screen.width * .2f, Screen.height * .48f);
@@ -78,6 +79,7 @@ public static class MobileReview
             await Tap(Find(app.DB.T("inn_rest")));
             await Frames(12);
             Check("Purchase/rest asks for confirmation", UIRoot.Instance.Modals.Count == 1);
+            Capture("confirmation"); await Frames(4);
             int gold = app.State.Gold;
             await Tap(Find("취소"));
             await Frames(16);
@@ -98,7 +100,25 @@ public static class MobileReview
             app.Depart(0);
             await Frames(30);
             Check("Dungeon route opens", app.Screen == GameScreen.Dungeon);
+            var facing = app.State.Facing;
+            await Tap(Find("회전 ↻")); await Frames(20);
+            Check("Dungeon turn button routes touch", app.State.Facing == GridPos.Rotate(facing, 1));
+            await Tap(Find("지도")); await Frames(10);
+            Check("Map opens by touch", UIRoot.Instance.Screens.Count == 1);
+            UIRoot.Instance.Screens.Clear(); await Frames(6);
             Capture("dungeon");
+            await Frames(4);
+            foreach (int floor in new[] { 3, 6, 9 })
+            {
+                app.ReturnToTown();
+                app.State.SetDeepestFloor(app.DB, floor);
+                app.State.WarpsUnlocked.Add(floor);
+                app.State.Flags.Add("biome_" + floor / 3 + "_seen");
+                app.Depart(floor); await Frames(24);
+                Check("Biome loads: " + app.DB.Floors[floor].Tileset, app.Screen == GameScreen.Dungeon);
+                Capture(app.DB.Floors[floor].Tileset); await Frames(4);
+            }
+            app.ReturnToTown(); app.Depart(0); await Frames(24);
             var request = (DungeonBattleRequest)typeof(DungeonRun).GetMethod("StartBattle", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(app.Dungeon,
                 new object[] { BattleKind.Random, new List<string> { "slime", "slime" }, app.State.Position, app.State.Position, "", 1f });
             app.State.Flags.Add(GameFlow.TipFlag("first_battle"));
@@ -107,6 +127,7 @@ public static class MobileReview
             await Frames(90);
             Capture("battle");
             var auto = Find("자동전투 OFF");
+            Check("AUTO target is at least 44 pixels tall", auto.rect.height * UIRoot.Instance.Canvas.scaleFactor >= 43.9f);
             await Tap(auto);
             await Frames(8);
             Check("AUTO touch persists preference", app.Battle.Auto && app.Preferences.AutoBattle);
@@ -116,6 +137,7 @@ public static class MobileReview
             while (GameObject.Find("Battle result") == null && Time.frameCount < deadline) await Frames(12);
             Check("AUTO reaches battle result", GameObject.Find("Battle result") != null);
             Capture("battle-result");
+            await Frames(4);
             Check("AUTO remains enabled after combat", app.Preferences.AutoBattle);
             await Tap(Find("모험 계속"));
             await Frames(30);

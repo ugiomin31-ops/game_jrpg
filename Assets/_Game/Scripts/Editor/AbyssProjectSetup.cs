@@ -27,6 +27,7 @@ namespace Abyss.EditorTools
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop play mode before preparing the project.");
             AbyssMaterials.EnsureAll();
             TexturedMaterials.SyncAll(); // textured anime heroes: per-texture Abyss/Toon materials, also in batch builds
+            AbyssMaterials.ApplyPolish();
             EnsureMixer();
             EnsureVfxShader();
             Directory.CreateDirectory("Assets/_Game/Scenes");

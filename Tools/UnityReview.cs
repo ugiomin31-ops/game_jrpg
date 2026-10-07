@@ -88,7 +88,7 @@ public static class UnityReview
                 var bounds = renderers[0].bounds;
                 foreach (var renderer in renderers) bounds.Encapsulate(renderer.bounds);
                 camera.orthographicSize = Mathf.Max(bounds.extents.y, bounds.extents.x) * 1.22f;
-                camera.transform.position = bounds.center + new Vector3(0, bounds.extents.y * .15f, Mathf.Max(4, bounds.size.magnitude * 2));
+                camera.transform.position = bounds.center + (category == "equipment" ? new Vector3(.65f, .28f, 1f).normalized * Mathf.Max(4, bounds.size.magnitude * 2) : new Vector3(0, bounds.extents.y * .15f, Mathf.Max(4, bounds.size.magnitude * 2)));
                 camera.transform.LookAt(bounds.center);
                 camera.Render();
                 RenderTexture.active = rt;

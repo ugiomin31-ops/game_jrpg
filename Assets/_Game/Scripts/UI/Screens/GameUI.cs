@@ -298,7 +298,7 @@ namespace Abyss.UI
                 mapHit.navigation = new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.None };
                 mapHit.onClick.AddListener(() => { if (!BlocksWorldInput) OpenMapFromHud(); });
                 var camp = UIFactory.Button(hud, "캠프", () => { if (!BlocksWorldInput) ShowPause(); }, UIArtwork.Command("camp"));
-                camp.Rt().Place(UIAnchor.TopRight, new Vector2(-30, -312), new Vector2(335, touch ? 84 : 64));
+                camp.Rt().Place(UIAnchor.TopRight, new Vector2(-30, -312), new Vector2(335, touch ? UIRoot.TouchTargetHeight : 64));
                 // 3x3 pad: strafe / forward / strafe, turn / search / turn, wait / back / map.
                 // Thumb-sized on touch screens (~7 mm tall on a phone); movement repeats while held.
                 Vector2 cell = touch ? new Vector2(170, 108) : new Vector2(124, 62);
@@ -319,7 +319,7 @@ namespace Abyss.UI
             else
             {
                 var menu = UIFactory.Button(hud, "모험 수첩", ShowPause);
-                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, touch ? 96 : 76));
+                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, touch ? UIRoot.TouchTargetHeight : 76));
                 padPanel = menu.Rt();
             }
             RefreshVitals();

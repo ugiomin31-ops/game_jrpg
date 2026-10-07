@@ -694,7 +694,7 @@ namespace Abyss.UI.Battle
             previous.gameObject.SetActive(drops.Count > 6); next.gameObject.SetActive(drops.Count > 6);
             refresh();
             UIFactory.Label(panel.Rect, TouchUI ? "전리품을 탭하면 상세 보기 · 기록은 끌어서 스크롤" : "↑↓ 기록 스크롤 · Q/E 또는 LB/RB 전리품 페이지",
-                21, color: UITheme.TextDim).Rt().BottomStrip(34, 82, 36, 36);
+                21, color: UITheme.TextDim).Rt().BottomStrip(34, TouchUI ? 48 : 82, 36, TouchUI ? 380 : 36);
             bool answered = false;
             float acceptAfter = Time.unscaledTime + 0.4f;
             var ok = UIFactory.Button(panel.Rect, "모험 계속", () =>
