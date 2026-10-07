@@ -92,7 +92,7 @@ public static class MobileReview
             var execute = Find("실행").GetComponent<UIButton>();
             execute.Click(); execute.Click();
             Check("Immediate duplicate submit rejected", accepted == 0);
-            await Frames(28);
+            await Seconds(.5f);
             await Tap(Find("실행"));
             await Frames(16);
             Check("Confirmed action executes once", accepted == 1);
@@ -139,6 +139,7 @@ public static class MobileReview
             Capture("battle-result");
             await Frames(4);
             Check("AUTO remains enabled after combat", app.Preferences.AutoBattle);
+            await Seconds(.5f);
             await Tap(Find("모험 계속"));
             await Frames(30);
             Check("Result acknowledgement returns to dungeon", app.Screen == GameScreen.Dungeon);
@@ -185,6 +186,11 @@ public static class MobileReview
     static void MoveTouch(Vector2 point) => InputSystem.QueueStateEvent(touch, new TouchState { touchId = finger, phase = UnityEngine.InputSystem.TouchPhase.Moved, position = point });
     static void EndTouch(Vector2 point) => InputSystem.QueueStateEvent(touch, new TouchState { touchId = finger, phase = UnityEngine.InputSystem.TouchPhase.Ended, position = point });
     static void Capture(string name) => ScreenCapture.CaptureScreenshot($"Review/{name}-{Screen.width}x{Screen.height}.png");
+    static async Task Seconds(float seconds)
+    {
+        float until = Time.unscaledTime + seconds;
+        while (Time.unscaledTime < until) await Frames(1);
+    }
     static Task Frames(int count)
     {
         var task = new TaskCompletionSource<bool>();
