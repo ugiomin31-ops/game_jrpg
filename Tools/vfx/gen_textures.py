@@ -1629,6 +1629,111 @@ def plus():
     save("plus", a, inner * HOT + TINT * 0.6)
 
 
+# ----------------------------------------------------------------------------- skill signature shapes
+
+def lance():
+    """Long spear of light/ice (1:4, point up): white-hot fuller, faceted diamond head, flared guard, tapering tail."""
+    w, h = 128, 512
+    head = [(0.0, 0.995), (0.62, 0.62), (0.3, 0.5), (0.0, 0.47), (-0.3, 0.5), (-0.62, 0.62)]
+    head_lit = [(0.0, 0.995), (0.62, 0.62), (0.3, 0.5), (0.0, 0.47)]
+    guard = [(-0.95, 0.47), (-0.3, 0.44), (0.3, 0.44), (0.95, 0.47), (0.55, 0.38), (0.0, 0.4), (-0.55, 0.38)]
+    shaft = [(-0.16, 0.45), (0.16, 0.45), (0.1, -0.9), (0.0, -0.995), (-0.1, -0.9)]
+    fuller = [(-0.05, 0.9), (0.05, 0.9), (0.04, -0.75), (0.0, -0.85), (-0.04, -0.75)]
+    hm, hl, gm, sm, fm = (poly_mask(w, h, [p]) for p in (head, head_lit, guard, shaft, fuller))
+    whole = np.maximum.reduce([hm, gm, sm])
+    a = np.maximum.reduce([fm * CORE, hl * CORE, hm * MID, gm * MID, sm * MID, halo(whole, 4, DIM, 0.5)])
+    save("lance", a, np.maximum(fm, hl * 0.7) * HOT + gm * 0.6 + TINT * 0.35)
+
+
+def crow():
+    """Crow silhouette with spread wings for ALPHA blending: ink body, shadow-tone feathers, bright eye."""
+    w = 128
+    img, d, ss = canvas(w)
+    wing_l = [(-0.08, 0.05), (-0.45, 0.4), (-0.95, 0.55), (-0.8, 0.38), (-0.9, 0.3), (-0.72, 0.18), (-0.82, 0.08),
+              (-0.6, 0.0), (-0.66, -0.1), (-0.3, -0.08)]
+    wing_r = [(-x, y) for x, y in wing_l]
+    body = [(-0.14, 0.12), (0.0, 0.2), (0.14, 0.12), (0.12, -0.4), (0.26, -0.72), (0.0, -0.58), (-0.26, -0.72), (-0.12, -0.4)]
+    for poly in (wing_l, wing_r, body):
+        d.polygon(px(poly, w, w, ss), fill=255)
+    disc(d, w, w, ss, 0.0, 0.26, 0.2)
+    d.polygon(px([(0.0, 0.48), (-0.07, 0.3), (0.07, 0.3)], w, w, ss), fill=255)    # beak
+    a = to_alpha(img, w)
+    u, v = grid(w)
+    eye = np.exp(-(((u - 0.06) / 0.04) ** 2 + ((v - 0.29) / 0.04) ** 2))
+    feather = 0.32 + 0.12 * sstep(0.0, 0.6, np.abs(u)) * sstep(0.0, 0.4, v)
+    outline = halo(a, 1.2, 1.0, 0.9)
+    save("crow", np.maximum(a, outline * 0.9), np.clip(np.where(a > 0.5, feather, 0.1) + eye * 0.8, 0, 1))
+
+
+def eye():
+    """Evil eye: almond outline with a burning iris, slit pupil and short radiating lashes (dread / hawk eye)."""
+    w = 128
+    u, v = grid(w)
+    lid = np.abs(v) - 0.42 * np.clip(1 - (u / 0.92) ** 2, 0, 1) ** 0.75
+    almond = sstep(0.03, -0.03, lid)
+    rim = sstep(0.06, 0.0, np.abs(lid + 0.0)) * (np.abs(u) < 0.95)
+    r = np.sqrt(u * u + v * v)
+    iris = sstep(0.34, 0.3, r) * almond
+    pupil = sstep(0.08, 0.05, np.abs(u) * (1 + 0.0)) * sstep(0.3, 0.26, r)
+    lashes = poly_mask(w, w, [rot(ray(0.36, 0.07), math.pi / 2 + k * 0.36, 0.22 * k, 0.4 - 0.05 * abs(k))
+                              for k in (-2, -1, 0, 1, 2)])
+    a = np.maximum.reduce([rim * CORE, np.clip(iris - pupil, 0, 1) * CORE, almond * DIM, lashes * MID,
+                           halo(np.maximum(rim, lashes), 2.5, DIM, 0.5)])
+    save("eye", a, np.clip(iris - pupil, 0, 1) * HOT * 0.9 + rim * 0.6 + TINT * 0.4)
+
+
+def reticle():
+    """Lock-on reticle: double ring with a gap, four inward ticks, centre diamond (hunter mark / snipe)."""
+    w = 128
+    u, v = grid(w)
+    r = np.sqrt(u * u + v * v)
+    th = np.arctan2(v, u)
+    gaps = sstep(0.12, 0.2, np.abs(np.sin(2 * th)))      # breaks at the four tick positions
+    ring1 = sstep(0.05, 0.02, np.abs(r - 0.78)) * gaps
+    ring2 = sstep(0.025, 0.01, np.abs(r - 0.6))
+    ticks = poly_mask(w, w, [rot([(0.92, 0.05), (0.92, -0.05), (0.5, 0.0)], k * math.pi / 2) for k in range(4)])
+    dia = poly_mask(w, w, [[(0, 0.14), (0.14, 0), (0, -0.14), (-0.14, 0)]])
+    lines = np.maximum.reduce([ring1, ticks, dia])
+    a = np.maximum.reduce([lines * CORE, ring2 * MID, halo(lines, 2.0, DIM, 0.5)])
+    save("reticle", a, np.maximum(ticks, dia) * HOT + TINT * 0.45)
+
+
+def crest():
+    """Heraldic shield crest: solid rim, mid face, white-hot cross emblem (protect / iron wall)."""
+    w = 128
+    def shield(s):
+        pts = [(-0.78 * s, 0.82 * s), (0.0, 0.92 * s), (0.78 * s, 0.82 * s)]
+        for k in range(1, 13):
+            t = k / 12
+            x = 0.78 * s * (1 - t ** 1.8)
+            y = 0.82 * s - (0.82 * s + 0.95 * s) * t
+            pts.append((x, y))
+        pts += [(-x, y) for x, y in pts[3:][::-1]]
+        return pts
+    outer = poly_mask(w, w, [shield(1.0)])
+    inner = poly_mask(w, w, [shield(0.78)])
+    emblem = poly_mask(w, w, [[(-0.09, 0.6), (0.09, 0.6), (0.09, 0.18), (0.42, 0.18), (0.42, 0.02), (0.09, 0.02),
+                               (0.09, -0.55), (-0.09, -0.55), (-0.09, 0.02), (-0.42, 0.02), (-0.42, 0.18), (-0.09, 0.18)]])
+    rimband = np.clip(outer - inner, 0, 1)
+    a = np.maximum.reduce([rimband * CORE, inner * DIM * 1.4, emblem * CORE, halo(outer, 3, DIM, 0.5)])
+    save("crest", np.clip(a, 0, 1), emblem * HOT + rimband * 0.55 + TINT * 0.3)
+
+
+def soundwave():
+    """Sonic boom: three concentric arc pairs radiating left and right from a bright centre (screech / roar)."""
+    w = 128
+    u, v = grid(w)
+    r = np.sqrt(u * u + v * v)
+    th = np.abs(np.arctan2(v, np.abs(u)))                 # 0 on the horizontal axis
+    cone = sstep(0.95, 0.7, th)
+    arcs = np.zeros_like(r)
+    for k, rr in enumerate((0.38, 0.62, 0.86)):
+        arcs = np.maximum(arcs, sstep(0.05 - k * 0.008, 0.015, np.abs(r - rr)) * cone)
+    core = sstep(0.16, 0.12, r)
+    a = np.maximum.reduce([arcs * CORE, core * CORE, halo(arcs, 2.0, DIM, 0.5)])
+    save("soundwave", a, core * HOT + TINT * 0.5)
+
+
 # ----------------------------------------------------------------------------- preview sheet
 
 def preview():
@@ -1659,7 +1764,7 @@ def main():
                lambda: chevron("arrow_up", True), lambda: chevron("arrow_down", False), droplet, bubble,
                lambda: text_glyph("zzz", zzz), lambda: text_glyph("note", note), lambda: text_glyph("hymn", hymn, outline=False),
                lambda: text_glyph("silence", silence), lambda: text_glyph("anger", anger), lambda: text_glyph("blind", blind),
-               sword, plus, tornado):
+               sword, plus, tornado, lance, crow, eye, reticle, crest, soundwave):
         fn()
     if not ONLY:
         preview()

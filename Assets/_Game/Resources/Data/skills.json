@@ -451,7 +451,7 @@
   "extra_statuses": [
    "defense_up"
   ],
-  "presentation": "pr_buff_self",
+  "presentation": "pr_abyss_wall",
   "_file": "sk_abyss_wall"
  },
  {
@@ -497,7 +497,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "defense_down",
-  "presentation": "poison_spore",
+  "presentation": "pr_acid_spit",
   "_file": "sk_acid_spit"
  },
  {
@@ -565,7 +565,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "slow",
-  "presentation": "pr_ice_all",
+  "presentation": "pr_blizzard",
   "_file": "sk_blizzard"
  },
  {
@@ -587,7 +587,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "holy_light",
+  "presentation": "pr_c_banish",
   "_file": "sk_c_banish"
  },
  {
@@ -702,7 +702,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "speed_up",
-  "presentation": "pr_c_single_buff",
+  "presentation": "pr_c_haste",
   "_file": "sk_c_haste"
  },
  {
@@ -750,7 +750,7 @@
   "extra_statuses": [
    "magic_up"
   ],
-  "presentation": "pr_buff_party",
+  "presentation": "pr_c_hymn_swift",
   "_file": "sk_c_hymn_swift"
  },
  {
@@ -796,7 +796,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "defense_up",
-  "presentation": "pr_c_single_buff",
+  "presentation": "pr_c_protect",
   "_file": "sk_c_protect"
  },
  {
@@ -819,7 +819,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "defense_up",
-  "presentation": "pr_buff_party",
+  "presentation": "pr_c_protect_all",
   "_file": "sk_c_protect_all"
  },
  {
@@ -908,7 +908,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_thunder",
+  "presentation": "pr_chain_spark",
   "_file": "sk_chain_spark"
  },
  {
@@ -952,7 +952,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_arrow_all",
+  "presentation": "pr_crow_swarm",
   "_file": "sk_crow_swarm"
  },
  {
@@ -997,7 +997,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "silence",
-  "presentation": "pr_debuff",
+  "presentation": "pr_curse_screech",
   "_file": "sk_curse_screech"
  },
  {
@@ -1042,7 +1042,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "sleep",
-  "presentation": "pr_debuff",
+  "presentation": "pr_dread_stare",
   "_file": "sk_dread_stare"
  },
  {
@@ -1134,7 +1134,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "freeze",
-  "presentation": "pr_ice_all",
+  "presentation": "pr_freezing_tide",
   "_file": "sk_freezing_tide"
  },
  {
@@ -1179,7 +1179,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "heal",
+  "presentation": "pr_greater_heal",
   "_file": "sk_greater_heal"
  },
  {
@@ -1202,7 +1202,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "defense_up_l",
-  "presentation": "pr_buff_self",
+  "presentation": "pr_harden",
   "_file": "sk_harden"
  },
  {
@@ -1224,7 +1224,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "sleep",
   "bonus_vs_status_mult": 1.5,
-  "presentation": "pr_slash_all",
+  "presentation": "pr_harvest_reap",
   "_file": "sk_harvest_reap"
  },
  {
@@ -1292,7 +1292,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "defense_down",
-  "presentation": "pr_debuff",
+  "presentation": "pr_hunter_mark",
   "_file": "sk_hunter_mark"
  },
  {
@@ -1338,7 +1338,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "freeze",
-  "presentation": "pr_ice",
+  "presentation": "pr_ice_shard",
   "_file": "sk_ice_shard"
  },
  {
@@ -1361,7 +1361,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "burn",
-  "presentation": "pr_fire_all",
+  "presentation": "pr_inferno",
   "_file": "sk_inferno"
  },
  {
@@ -1384,7 +1384,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "blind",
-  "presentation": "pr_debuff",
+  "presentation": "pr_ink_cloud",
   "_file": "sk_ink_cloud"
  },
  {
@@ -1407,7 +1407,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "defense_up_l",
-  "presentation": "pr_buff_party",
+  "presentation": "pr_w_iron_wall",
   "_file": "sk_iron_wall"
  },
  {
@@ -1430,7 +1430,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "sleep",
-  "presentation": "pr_debuff",
+  "presentation": "pr_lullaby",
   "_file": "sk_lullaby"
  },
  {
@@ -1799,7 +1799,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "regen",
-  "presentation": "pr_buff_self",
+  "presentation": "pr_photosynthesis",
   "_file": "sk_photosynthesis"
  },
  {
@@ -1821,7 +1821,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_arrow_all",
+  "presentation": "pr_a_piercing_gale",
   "_file": "sk_piercing_gale"
  },
  {
@@ -1870,7 +1870,7 @@
   "extra_statuses": [
    "defense_up"
   ],
-  "presentation": "pr_buff_self",
+  "presentation": "pr_w_provoke",
   "_file": "sk_provoke"
  },
  {
@@ -1892,7 +1892,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_heal_all",
+  "presentation": "pr_rebirth_flame",
   "_file": "sk_rebirth_flame"
  },
  {
@@ -1937,7 +1937,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "silence",
-  "presentation": "pr_debuff",
+  "presentation": "pr_riddle_silence",
   "_file": "sk_riddle_silence"
  },
  {
@@ -1986,7 +1986,7 @@
   "extra_statuses": [
    "barrier"
   ],
-  "presentation": "pr_buff_party",
+  "presentation": "pr_c_sanctuary",
   "_file": "sk_sanctuary"
  },
  {
@@ -2032,7 +2032,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "blind",
-  "presentation": "pr_debuff",
+  "presentation": "pr_screech",
   "_file": "sk_screech"
  },
  {
@@ -2078,7 +2078,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "burn",
-  "presentation": "pr_fire_all",
+  "presentation": "pr_solar_flare",
   "_file": "sk_solar_flare"
  },
  {
@@ -2100,7 +2100,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "sleep",
   "bonus_vs_status_mult": 1.5,
-  "presentation": "pr_dark_all",
+  "presentation": "pr_soul_reap",
   "_file": "sk_soul_reap"
  },
  {
@@ -2122,7 +2122,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_dark",
+  "presentation": "pr_spirit_fire",
   "_file": "sk_spirit_fire"
  },
  {
@@ -2148,7 +2148,7 @@
   "extra_statuses": [
    "defense_up"
   ],
-  "presentation": "pr_buff_self",
+  "presentation": "pr_sun_aegis",
   "_file": "sk_sun_aegis"
  },
  {
@@ -2170,7 +2170,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_breath",
+  "presentation": "pr_sun_judgment",
   "_file": "sk_sun_judgment"
  },
  {
@@ -2261,7 +2261,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "poison_strong",
-  "presentation": "poison_spore",
+  "presentation": "pr_toxic_cloud",
   "_file": "sk_toxic_cloud"
  },
  {
@@ -2306,7 +2306,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_root",
+  "presentation": "pr_vine_lash",
   "_file": "sk_vine_lash"
  },
  {
@@ -2328,7 +2328,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_dark",
+  "presentation": "pr_void_lance",
   "_file": "sk_void_lance"
  },
  {
@@ -2700,7 +2700,7 @@
   "extra_statuses": [
    "speed_up"
   ],
-  "presentation": "pr_buff_party",
+  "presentation": "pr_w_war_cry",
   "_file": "sk_war_cry"
  },
  {
