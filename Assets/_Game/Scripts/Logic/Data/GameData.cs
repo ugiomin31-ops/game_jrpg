@@ -211,6 +211,8 @@ namespace Abyss.Logic
         public string Overlay;
         public float EncounterRate;
         public int MinEncounterSteps;
+        /// <summary>Steps since the last battle after which a random encounter is guaranteed (pity timer); 0 or less disables it.</summary>
+        public int MaxEncounterSteps = 18;
         public List<TreasureDef> Treasures = new List<TreasureDef>();
         public List<EventDef> Events = new List<EventDef>();
         public List<FoeDef> Foes = new List<FoeDef>();

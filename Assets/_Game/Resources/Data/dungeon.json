@@ -70,8 +70,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.06,
-  "min_encounter_steps": 8,
+  "encounter_rate": 0.12,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -245,8 +246,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.07,
-  "min_encounter_steps": 6,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -481,8 +483,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.075,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -717,8 +720,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.08,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -972,8 +976,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.07,
-  "min_encounter_steps": 6,
+  "encounter_rate": 0.11,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1098,7 +1103,7 @@
      ]
     ],
     "chase_range": 0,
-    "power": 2.05
+    "power": 1.4
    }
   ],
   "key_name": "덩굴 문 열쇠",
@@ -1222,8 +1227,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.07,
-  "min_encounter_steps": 6,
+  "encounter_rate": 0.11,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1327,7 +1333,7 @@
      ]
     ],
     "chase_range": 3,
-    "power": 2.1
+    "power": 1.5
    },
    {
     "id": "foe_b3_2",
@@ -1350,7 +1356,7 @@
      ]
     ],
     "chase_range": 0,
-    "power": 2.45
+    "power": 1.6
    },
    {
     "id": "foe_b3_3",
@@ -1373,7 +1379,7 @@
      ]
     ],
     "chase_range": 0,
-    "power": 2.4
+    "power": 1.6
    }
   ],
   "key_name": "고목 성소 열쇠",
@@ -1484,8 +1490,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.075,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -1762,8 +1769,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.075,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2055,8 +2063,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.08,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2349,8 +2358,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.08,
-  "min_encounter_steps": 5,
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2633,8 +2643,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.085,
+  "encounter_rate": 0.1,
   "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -2964,8 +2975,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.085,
+  "encounter_rate": 0.1,
   "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
   "treasures": [
    {
     "cell": [
@@ -3182,7 +3194,7 @@
     "text": "여명의 종을 울리는 줄이 이곳까지 내려와 있다. 그 끝은 옥좌에 묶여 있다."
    }
   ],
-  "boss_pre_text": "루멘의 종지기들인가. 늦었다.\n봉인 셋은 무너졌고, 마지막은 내 손 안에 있다.\n스승님도 막지 못한 것을, 너희가 막겠다고?",
+  "boss_pre_text": "루멘의 종지기들인가. 늦었다.\n봉인 셋을 되살렸다고? 소용없다. 마지막은 내 손 안에 있다.\n스승님도 막지 못한 것을, 너희가 막겠다고?",
   "boss_post_text": "…스승님… 따뜻하군요.\n저는 그저… 다시 만나고 싶었을 뿐입니다.\n종을… 울려 주시오.",
   "_file": "floor12_haunted_crypt_b12"
  }

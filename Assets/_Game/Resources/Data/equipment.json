@@ -87,7 +87,7 @@
  },
  {
   "id": "acc_eagle_eye",
-  "display_name": "매의 눈",
+  "display_name": "독수리 눈 부적",
   "description": "먼 곳의 급소까지 보이게 한다.",
   "slot": "accessory",
   "classes": [],
@@ -503,8 +503,8 @@
  },
  {
   "id": "bow_composite",
-  "display_name": "합성 석궁",
-  "description": "여러 재료를 겹쳐 힘과 정확도를 높인 석궁입니다.",
+  "display_name": "합성 활",
+  "description": "여러 재료를 겹쳐 힘과 정확도를 높인 합성 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -530,8 +530,8 @@
  },
  {
   "id": "bow_gale",
-  "display_name": "질풍 석궁",
-  "description": "바람처럼 빠르게 겨눌 수 있는 질풍의 석궁입니다.",
+  "display_name": "질풍의 활",
+  "description": "바람처럼 빠르게 시위를 당길 수 있는 질풍의 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -557,8 +557,8 @@
  },
  {
   "id": "bow_hunter",
-  "display_name": "사냥꾼의 석궁",
-  "description": "사냥꾼이 즐겨 쓰는 균형 잡힌 석궁입니다.",
+  "display_name": "사냥꾼의 활",
+  "description": "사냥꾼이 즐겨 쓰는 균형 잡힌 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -584,8 +584,8 @@
  },
  {
   "id": "bow_short",
-  "display_name": "경석궁",
-  "description": "가볍고 다루기 쉬운 입문용 석궁입니다.",
+  "display_name": "짧은 활",
+  "description": "가볍고 다루기 쉬운 입문용 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -611,8 +611,8 @@
  },
  {
   "id": "bow_star",
-  "display_name": "유성 석궁",
-  "description": "유성처럼 정확한 화살을 쏘는 봉인의 석궁입니다.",
+  "display_name": "유성의 활",
+  "description": "유성처럼 정확한 화살을 쏘는 봉인의 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -700,7 +700,7 @@
  },
  {
   "id": "garb_ranger",
-  "display_name": "레인저 조끼",
+  "display_name": "숲지기 조끼",
   "description": "숲의 탐색자를 위한 질긴 가죽 조끼입니다.",
   "slot": "armor",
   "classes": [

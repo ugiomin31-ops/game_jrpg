@@ -110,7 +110,7 @@
    "dot_resist"
   ],
   "level": 36,
-  "max_hp": 5600,
+  "max_hp": 12000,
   "max_mp": 0,
   "attack": 203,
   "magic": 216,
@@ -240,7 +240,7 @@
    7,
    1
   ],
-  "experience_reward": 330,
+  "experience_reward": 528,
   "gold_reward": 240,
   "drops": [
    {
@@ -1397,7 +1397,7 @@
   "level": 10,
   "max_hp": 3960,
   "max_mp": 40,
-  "attack": 101,
+  "attack": 85,
   "magic": 97,
   "defense": 25,
   "resistance": 27,
@@ -1649,7 +1649,7 @@
    7,
    3
   ],
-  "experience_reward": 250,
+  "experience_reward": 400,
   "gold_reward": 190,
   "drops": [
    {
@@ -1705,7 +1705,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 246,
+  "experience_reward": 394,
   "gold_reward": 180,
   "drops": [
    {
@@ -2158,7 +2158,7 @@
    7,
    5
   ],
-  "experience_reward": 340,
+  "experience_reward": 544,
   "gold_reward": 250,
   "drops": [
    {
@@ -2388,7 +2388,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 600,
+  "experience_reward": 960,
   "gold_reward": 500,
   "drops": [
    {
@@ -2845,7 +2845,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 282,
+  "experience_reward": 451,
   "gold_reward": 210,
   "drops": [
    {
@@ -2904,7 +2904,7 @@
    3,
    7
   ],
-  "experience_reward": 240,
+  "experience_reward": 384,
   "gold_reward": 185,
   "drops": [
    {
@@ -3128,7 +3128,7 @@
    7,
    4
   ],
-  "experience_reward": 312,
+  "experience_reward": 499,
   "gold_reward": 230,
   "drops": [
    {

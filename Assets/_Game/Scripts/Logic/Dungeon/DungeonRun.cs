@@ -121,7 +121,7 @@ namespace Abyss.Logic.Dungeon
             ApplyCell(result, true);
             if (caught >= 0) result.Battle = StartFoe(caught, from);
             else if (result.Effect == DungeonEffect.None && State.DungeonEncounterSteps >= Grid.Floor.MinEncounterSteps
-                && NextFloat() < Grid.Floor.EncounterRate)
+                && (EncounterGuaranteed() || NextFloat() < Grid.Floor.EncounterRate))
             {
                 int count = 0;
                 foreach (var group in Grid.Floor.EncounterGroups) if (group.Count > 0) count++;
@@ -155,6 +155,8 @@ namespace Abyss.Logic.Dungeon
             if (caught >= 0) result.Battle = StartFoe(caught, State.Position);
             return result;
         }
+        /// <summary>Pity timer: a random battle is forced once <see cref="FloorDef.MaxEncounterSteps"/> steps pass without one.</summary>
+        bool EncounterGuaranteed() => Grid.Floor.MaxEncounterSteps > 0 && State.DungeonEncounterSteps >= Grid.Floor.MaxEncounterSteps;
         DungeonStepResult Result() => new DungeonStepResult { From = State.Position, To = State.Position };
         DungeonStepResult OpenDoor(GridPos at, DungeonStepResult result)
         {

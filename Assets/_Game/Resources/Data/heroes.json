@@ -284,7 +284,7 @@
   "skills": [
    "basic_attack",
    "fireball",
-   "heal"
+   "sk_m_spark"
   ],
   "learnset": [
    {
@@ -293,10 +293,6 @@
    },
    {
     "level": 1,
-    "skill": "heal"
-   },
-   {
-    "level": 2,
     "skill": "sk_m_spark"
    },
    {
@@ -394,7 +390,7 @@
   "id": "warrior",
   "display_name": "검사",
   "max_hp": 165,
-  "max_mp": 18,
+  "max_mp": 24,
   "attack": 22,
   "magic": 8,
   "defense": 17,
@@ -404,7 +400,7 @@
   "evade": 0.03,
   "crit": 0.05,
   "hp_growth": 14.0,
-  "mp_growth": 1.6,
+  "mp_growth": 2.2,
   "atk_growth": 2.6,
   "mag_growth": 0.6,
   "def_growth": 2.0,
@@ -433,6 +429,10 @@
     "skill": "stunning_slam"
    },
    {
+    "level": 4,
+    "skill": "sk_provoke"
+   },
+   {
     "level": 5,
     "skill": "sk_w_rally"
    },
@@ -447,10 +447,6 @@
    {
     "level": 8,
     "skill": "ult_heaven_rend"
-   },
-   {
-    "level": 10,
-    "skill": "sk_provoke"
    },
    {
     "level": 11,
