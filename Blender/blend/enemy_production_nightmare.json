@@ -1,38 +1,38 @@
 {
   "id": "nightmare",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:43:36Z",
+  "produced_at_utc": "2026-10-08T09:01:43Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/nightmare/nightmare.fbx",
-      "bytes": 1093388
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Assets/_Game/Resources/Art/Enemies/nightmare/nightmare.fbx",
+      "bytes": 1002364
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_nightmare.blend",
-      "bytes": 536327
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/blend/enemy_nightmare.blend",
+      "bytes": 382216
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_nightmare.png",
-        "bytes": 154516
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare.png",
+        "bytes": 152523
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_nightmare_side.png",
-        "bytes": 168312
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_side.png",
+        "bytes": 166648
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_nightmare_attack.png",
-        "bytes": 164810
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_attack.png",
+        "bytes": 164909
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_nightmare_cast.png",
-        "bytes": 155031
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_cast.png",
+        "bytes": 155900
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_nightmare_die.png",
-        "bytes": 154532
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_die.png",
+        "bytes": 158066
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 14424,
-    "vertices": 7334,
-    "bones": 12,
+    "triangles": 7660,
+    "vertices": 3904,
+    "bones": 13,
     "materials": [
       "M_Toon",
       "M_Emit"
@@ -85,9 +85,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 14424,
-    "vertices": 7334,
-    "bones": 12,
+    "triangles": 7660,
+    "vertices": 3904,
+    "bones": 13,
     "materials": [
       "M_Toon",
       "M_Emit"

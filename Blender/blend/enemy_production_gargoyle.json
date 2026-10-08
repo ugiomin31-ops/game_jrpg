@@ -1,38 +1,38 @@
 {
   "id": "gargoyle",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:44:50Z",
+  "produced_at_utc": "2026-10-08T09:03:22Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/gargoyle/gargoyle.fbx",
-      "bytes": 1265036
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Assets/_Game/Resources/Art/Enemies/gargoyle/gargoyle.fbx",
+      "bytes": 1112716
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_gargoyle.blend",
-      "bytes": 546632
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/blend/enemy_gargoyle.blend",
+      "bytes": 407777
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle.png",
-        "bytes": 160757
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_gargoyle.png",
+        "bytes": 162262
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_side.png",
-        "bytes": 146914
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_gargoyle_side.png",
+        "bytes": 145807
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_attack.png",
-        "bytes": 153277
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_gargoyle_attack.png",
+        "bytes": 156847
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_cast.png",
-        "bytes": 154325
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_gargoyle_cast.png",
+        "bytes": 157695
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_die.png",
-        "bytes": 142755
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_gargoyle_die.png",
+        "bytes": 147099
       }
     ]
   },
@@ -41,11 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 11692,
-    "vertices": 6038,
+    "triangles": 7152,
+    "vertices": 3794,
     "bones": 15,
     "materials": [
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -84,11 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 11692,
-    "vertices": 6038,
+    "triangles": 7152,
+    "vertices": 3794,
     "bones": 15,
     "materials": [
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
