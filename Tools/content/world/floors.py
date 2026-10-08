@@ -19,9 +19,11 @@ LOOK = {
 SIZES = {1: 21, 2: 23, 3: 23, 4: 25, 5: 27, 6: 27, 7: 27}
 SUPERBOSS_FLOOR = {31: 'forest_guardian_ex', 32: 'frost_kraken_ex', 33: 'flame_sphinx_ex', 34: 'boss_ex', 35: 'leviathan_ex'}
 
-# Random battles a main-path party fights per floor (pacing): with ~0.5 s per step and ~65 s per battle plus
-# fixed fights, a fully explored floor lands at 20-25 minutes. Encounter rate is derived from these.
-TARGET_BATTLES = {1: 11, 2: 12, 3: 12, 4: 13, 5: 13, 6: 14, 7: 12}
+# Random battles a main-path party fights per floor (pacing): ~0.5 s per walked step and ~65 s per battle plus
+# ~1.5 min per event/FOE fight put a well-explored floor at 20-25 minutes (boss floors +5). The encounter rate is
+# derived from these and the floor's walk length; build_world.py --pace prints the estimate.
+TARGET_BATTLES = {1: 11, 2: 11, 3: 11, 4: 11, 5: 11, 6: 11, 7: 10}
+WALK_FACTOR = 1.25   # steps actually walked per exploration step (turning back, detours, revisits)
 MIN_STEPS = 6
 
 # Mid-boss (floor 3) and FOE groups per chapter: (group, power).
@@ -307,7 +309,7 @@ def build_floors(spec, enemies, originals):
         ncells = sorted(cells('N'), key=lambda p: dist.get(p, 999))
         lore_stones = [dict(cell=list(p), text=t) for p, t in zip(ncells, lore)]
         # ---- pacing
-        steps = solver.exploration_steps(rows, coverage=0.85)
+        steps = int(solver.exploration_steps(rows, coverage=0.85) * WALK_FACTOR)
         battles = TARGET_BATTLES[c]
         per = max(MIN_STEPS + 6, steps / battles)
         rate = round(1.0 / max(4.0, per - MIN_STEPS), 3)

@@ -35,7 +35,7 @@ def xp_to_next(level):
 
 # Kills of matching level per hero level (lower = faster levelling). Interpolated by level; tuned with the
 # campaign simulation (Tools/content/build_world.py --levels) so the party tracks each chapter's level range.
-KILLS_PER_LEVEL = [(1, 9), (6, 14), (12, 21), (24, 31), (34, 38), (44, 41), (54, 41), (64, 47), (72, 54)]
+KILLS_PER_LEVEL = [(1, 9), (6, 14), (12, 21), (24, 31), (34, 37), (44, 37), (54, 37), (64, 45), (72, 54)]
 
 
 def kills_per_level(level):
@@ -209,8 +209,8 @@ VARIANT_CFG = {
                         weaknesses=[], resistances=[], break_shield=8, gimmicks=['cc_immune', 'dot_resist'],
                         skills=['basic_attack', 'sk_acid_spit'], skill_weights=[3, 1],
                         drops=D(('metal_gel', 1.0), ('seed_swift', 0.15), ('enhance_stone_hi', 0.3), ('acc_exp_charm', 0.02))),
-    'gold_slime': dict(level=15, ratio={'max_hp': 0.7, 'defense': 3.0}, gold=1, ai_profile='runner', evade=0.25,
-                       set={'gold_reward': 2500, 'speed': 90, 'experience_reward': 120},
+    'gold_slime': dict(level=8, ratio={'max_hp': 0.7, 'defense': 3.0}, gold=1, ai_profile='runner', evade=0.25,
+                       set={'gold_reward': 1500, 'speed': 90, 'experience_reward': 90},
                        weaknesses=[4], resistances=[2, 3], break_shield=4, gimmicks=['cc_resist'],
                        skills=['basic_attack', 'sk_acid_spit'], skill_weights=[3, 1],
                        drops=D(('slime_gel', 1.0), ('enhance_stone', 0.3), ('acc_gold_charm', 0.03), ('sword_iron', 0.05))),

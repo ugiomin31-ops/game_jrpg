@@ -4,6 +4,7 @@
     python3 Tools/content/build_world.py --check    # build and validate only (no writes)
     python3 Tools/content/build_world.py --maps     # print every floor map
     python3 Tools/content/build_world.py --levels   # main-path level simulation per floor
+    python3 Tools/content/build_world.py --pace     # real-time estimate per floor (encounter pacing)
     python3 Tools/content/build_world.py --sheet out.png   # coloured contact sheet of all floor maps
 
 Deterministic: same inputs -> byte-identical outputs. Sources: Tools/content/spec.py (fixed ids) and
@@ -246,6 +247,27 @@ def level_sim(floors, enemy_rows, verbose=True):
     return out
 
 
+# ------------------------------------------------------------------ pacing estimate
+def pace(floors, verbose=True):
+    """Real-time estimate per floor: 0.5 s per walked step, 65 s per random battle, 100 s per event/FOE fight,
+    6 min for a boss, 8 s per chest/lore stone."""
+    total = 0.0
+    out = []
+    for f in floors:
+        steps = solver.exploration_steps(f['rows'], 0.85) * W_floors.WALK_FACTOR
+        per = min(f['min_encounter_steps'] + 1.0 / f['encounter_rate'], f['max_encounter_steps'])
+        battles = steps / per
+        fixed = (len(f['events']) + len(f['foes'])) * 100 + (360 if f['boss_group'] else 0) + (len(f['treasures']) + len(f['lore_stones'])) * 8
+        minutes = (steps * 0.5 + battles * 65 + fixed) / 60.0
+        total += minutes
+        out.append((f['floor_label'], int(steps), battles, minutes))
+        if verbose:
+            print('%-5s walk %4d steps  %4.1f random battles  ~%4.1f min' % (f['floor_label'], steps, battles, minutes))
+    if verbose:
+        print('total ~%.1f h (main story %.1f h)' % (total / 60, sum(m for *_, m in out[:30]) / 60))
+    return out
+
+
 # ------------------------------------------------------------------ contact sheet
 COLORS = {'#': (24, 26, 36), '.': (70, 86, 112), 'S': (120, 220, 120), '<': (240, 200, 90), '>': (255, 160, 40),
           'W': (90, 150, 255), 'T': (230, 190, 60), 'E': (220, 70, 70), 'B': (255, 30, 90), 'L': (170, 110, 40),
@@ -323,6 +345,8 @@ def main(argv):
             print('\n'.join(f['rows']))
     if '--levels' in argv:
         level_sim(floors, enemy_rows)
+    if '--pace' in argv:
+        pace(floors)
     if '--sheet' in argv:
         contact_sheet(floors, argv[argv.index('--sheet') + 1])
     if problems:

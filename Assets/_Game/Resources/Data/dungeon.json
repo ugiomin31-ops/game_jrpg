@@ -87,9 +87,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.036,
+  "encounter_rate": 0.028,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 74,
+  "max_encounter_steps": 93,
   "treasures": [
    {
     "cell": [
@@ -302,9 +302,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.036,
+  "encounter_rate": 0.028,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 74,
+  "max_encounter_steps": 92,
   "treasures": [
    {
     "cell": [
@@ -586,9 +586,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.036,
+  "encounter_rate": 0.028,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 74,
+  "max_encounter_steps": 92,
   "treasures": [
    {
     "cell": [
@@ -888,9 +888,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.036,
+  "encounter_rate": 0.028,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 74,
+  "max_encounter_steps": 93,
   "treasures": [
    {
     "cell": [
@@ -1181,9 +1181,9 @@
    1.0
   ],
   "overlay": "vines",
-  "encounter_rate": 0.036,
+  "encounter_rate": 0.028,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 74,
+  "max_encounter_steps": 93,
   "treasures": [
    {
     "cell": [
@@ -1442,9 +1442,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.032,
+  "encounter_rate": 0.022,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 82,
+  "max_encounter_steps": 112,
   "treasures": [
    {
     "cell": [
@@ -1731,9 +1731,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.031,
+  "encounter_rate": 0.022,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 84,
+  "max_encounter_steps": 114,
   "treasures": [
    {
     "cell": [
@@ -2043,9 +2043,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.033,
+  "encounter_rate": 0.023,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 81,
+  "max_encounter_steps": 110,
   "treasures": [
    {
     "cell": [
@@ -2414,9 +2414,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.032,
+  "encounter_rate": 0.022,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 82,
+  "max_encounter_steps": 111,
   "treasures": [
    {
     "cell": [
@@ -2770,9 +2770,9 @@
    1.0
   ],
   "overlay": "icicles",
-  "encounter_rate": 0.033,
+  "encounter_rate": 0.023,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 81,
+  "max_encounter_steps": 110,
   "treasures": [
    {
     "cell": [
@@ -3092,9 +3092,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.032,
+  "encounter_rate": 0.022,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 82,
+  "max_encounter_steps": 111,
   "treasures": [
    {
     "cell": [
@@ -3410,9 +3410,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.032,
+  "encounter_rate": 0.022,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 83,
+  "max_encounter_steps": 113,
   "treasures": [
    {
     "cell": [
@@ -3774,9 +3774,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.032,
+  "encounter_rate": 0.023,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 81,
+  "max_encounter_steps": 111,
   "treasures": [
    {
     "cell": [
@@ -4152,9 +4152,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.033,
+  "encounter_rate": 0.023,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 80,
+  "max_encounter_steps": 109,
   "treasures": [
    {
     "cell": [
@@ -4529,9 +4529,9 @@
    1.0
   ],
   "overlay": "stalactites",
-  "encounter_rate": 0.032,
+  "encounter_rate": 0.023,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 81,
+  "max_encounter_steps": 111,
   "treasures": [
    {
     "cell": [
@@ -4872,9 +4872,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.028,
+  "encounter_rate": 0.018,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 91,
+  "max_encounter_steps": 134,
   "treasures": [
    {
     "cell": [
@@ -5204,9 +5204,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.028,
+  "encounter_rate": 0.018,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 91,
+  "max_encounter_steps": 134,
   "treasures": [
    {
     "cell": [
@@ -5570,9 +5570,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.028,
+  "encounter_rate": 0.018,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 91,
+  "max_encounter_steps": 134,
   "treasures": [
    {
     "cell": [
@@ -5963,9 +5963,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.03,
+  "encounter_rate": 0.019,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 87,
+  "max_encounter_steps": 128,
   "treasures": [
    {
     "cell": [
@@ -6366,9 +6366,9 @@
    1.0
   ],
   "overlay": "cobwebs",
-  "encounter_rate": 0.029,
+  "encounter_rate": 0.019,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 89,
+  "max_encounter_steps": 132,
   "treasures": [
    {
     "cell": [
@@ -6736,9 +6736,9 @@
    1.0
   ],
   "overlay": "tidewater",
-  "encounter_rate": 0.024,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 106,
+  "max_encounter_steps": 157,
   "treasures": [
    {
     "cell": [
@@ -7054,9 +7054,9 @@
    1.0
   ],
   "overlay": "tidewater",
-  "encounter_rate": 0.024,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 106,
+  "max_encounter_steps": 156,
   "treasures": [
    {
     "cell": [
@@ -7450,9 +7450,9 @@
    1.0
   ],
   "overlay": "tidewater",
-  "encounter_rate": 0.023,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 109,
+  "max_encounter_steps": 160,
   "treasures": [
    {
     "cell": [
@@ -7850,9 +7850,9 @@
    1.0
   ],
   "overlay": "tidewater",
-  "encounter_rate": 0.023,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 107,
+  "max_encounter_steps": 159,
   "treasures": [
    {
     "cell": [
@@ -8263,9 +8263,9 @@
    1.0
   ],
   "overlay": "tidewater",
-  "encounter_rate": 0.024,
+  "encounter_rate": 0.016,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 104,
+  "max_encounter_steps": 154,
   "treasures": [
    {
     "cell": [
@@ -8631,9 +8631,9 @@
    1.0
   ],
   "overlay": "voidglow",
-  "encounter_rate": 0.026,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 99,
+  "max_encounter_steps": 157,
   "treasures": [
    {
     "cell": [
@@ -8972,9 +8972,9 @@
    1.0
   ],
   "overlay": "voidglow",
-  "encounter_rate": 0.026,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 98,
+  "max_encounter_steps": 156,
   "treasures": [
    {
     "cell": [
@@ -9347,9 +9347,9 @@
    1.0
   ],
   "overlay": "voidglow",
-  "encounter_rate": 0.025,
+  "encounter_rate": 0.015,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 102,
+  "max_encounter_steps": 161,
   "treasures": [
    {
     "cell": [
@@ -9743,9 +9743,9 @@
    1.0
   ],
   "overlay": "voidglow",
-  "encounter_rate": 0.026,
+  "encounter_rate": 0.016,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 97,
+  "max_encounter_steps": 154,
   "treasures": [
    {
     "cell": [
@@ -10131,9 +10131,9 @@
    1.0
   ],
   "overlay": "voidglow",
-  "encounter_rate": 0.026,
+  "encounter_rate": 0.016,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 97,
+  "max_encounter_steps": 154,
   "treasures": [
    {
     "cell": [
@@ -10500,9 +10500,9 @@
    1.0
   ],
   "overlay": "trialfire",
-  "encounter_rate": 0.022,
+  "encounter_rate": 0.014,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 115,
+  "max_encounter_steps": 172,
   "treasures": [
    {
     "cell": [
@@ -10825,9 +10825,9 @@
    1.0
   ],
   "overlay": "trialfire",
-  "encounter_rate": 0.022,
+  "encounter_rate": 0.014,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 112,
+  "max_encounter_steps": 169,
   "treasures": [
    {
     "cell": [
@@ -11234,9 +11234,9 @@
    1.0
   ],
   "overlay": "trialfire",
-  "encounter_rate": 0.021,
+  "encounter_rate": 0.014,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 117,
+  "max_encounter_steps": 176,
   "treasures": [
    {
     "cell": [
@@ -11613,9 +11613,9 @@
    1.0
   ],
   "overlay": "trialfire",
-  "encounter_rate": 0.022,
+  "encounter_rate": 0.014,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 114,
+  "max_encounter_steps": 170,
   "treasures": [
    {
     "cell": [
@@ -12013,9 +12013,9 @@
    1.0
   ],
   "overlay": "trialfire",
-  "encounter_rate": 0.021,
+  "encounter_rate": 0.014,
   "min_encounter_steps": 6,
-  "max_encounter_steps": 116,
+  "max_encounter_steps": 174,
   "treasures": [
    {
     "cell": [

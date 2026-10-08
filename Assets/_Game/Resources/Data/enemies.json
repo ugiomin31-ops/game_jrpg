@@ -146,7 +146,7 @@
    7,
    5
   ],
-  "experience_reward": 20617,
+  "experience_reward": 22845,
   "gold_reward": 4200,
   "drops": [
    {
@@ -336,7 +336,7 @@
    7,
    1
   ],
-  "experience_reward": 562,
+  "experience_reward": 609,
   "gold_reward": 173,
   "drops": [
    {
@@ -583,7 +583,7 @@
    7,
    1
   ],
-  "experience_reward": 3457,
+  "experience_reward": 3719,
   "gold_reward": 1080,
   "drops": [
    {
@@ -667,7 +667,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 2636,
+  "experience_reward": 2701,
   "gold_reward": 899,
   "drops": [
    {
@@ -749,7 +749,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 2183,
+  "experience_reward": 2210,
   "gold_reward": 769,
   "drops": [
    {
@@ -916,7 +916,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 3837,
+  "experience_reward": 4220,
   "gold_reward": 1158,
   "drops": [
    {
@@ -1170,7 +1170,7 @@
    3,
    4
   ],
-  "experience_reward": 2365,
+  "experience_reward": 2406,
   "gold_reward": 821,
   "drops": [
    {
@@ -1253,7 +1253,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 3709,
+  "experience_reward": 4050,
   "gold_reward": 1132,
   "drops": [
    {
@@ -1339,7 +1339,7 @@
    3,
    7
   ],
-  "experience_reward": 3209,
+  "experience_reward": 3400,
   "gold_reward": 1028,
   "drops": [
    {
@@ -1504,7 +1504,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 362,
+  "experience_reward": 371,
   "gold_reward": 124,
   "drops": [
    {
@@ -1577,7 +1577,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 237,
+  "experience_reward": 239,
   "gold_reward": 85,
   "drops": [
    {
@@ -1716,7 +1716,7 @@
    4,
    8
   ],
-  "experience_reward": 13435,
+  "experience_reward": 13907,
   "gold_reward": 3300,
   "drops": [
    {
@@ -2010,7 +2010,7 @@
    5,
    3
   ],
-  "experience_reward": 8490,
+  "experience_reward": 8516,
   "gold_reward": 2400,
   "drops": [
    {
@@ -2173,7 +2173,7 @@
    7,
    3
   ],
-  "experience_reward": 338,
+  "experience_reward": 350,
   "gold_reward": 113,
   "drops": [
    {
@@ -2249,7 +2249,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 398,
+  "experience_reward": 418,
   "gold_reward": 129,
   "drops": [
    {
@@ -2323,7 +2323,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 297,
+  "experience_reward": 303,
   "gold_reward": 102,
   "drops": [
    {
@@ -2402,7 +2402,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 244,
+  "experience_reward": 246,
   "gold_reward": 88,
   "drops": [
    {
@@ -2854,7 +2854,7 @@
    7,
    5
   ],
-  "experience_reward": 474,
+  "experience_reward": 518,
   "gold_reward": 145,
   "drops": [
    {
@@ -2935,7 +2935,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 297,
+  "experience_reward": 303,
   "gold_reward": 103,
   "drops": [
    {
@@ -3008,7 +3008,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 246,
+  "experience_reward": 247,
   "gold_reward": 89,
   "drops": [
    {
@@ -3164,7 +3164,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 576,
+  "experience_reward": 610,
   "gold_reward": 184,
   "drops": [
    {
@@ -3393,7 +3393,7 @@
   "resistances": [
    4
   ],
-  "experience_reward": 298,
+  "experience_reward": 303,
   "gold_reward": 103,
   "drops": [
    {
@@ -3620,7 +3620,7 @@
    3,
    4
   ],
-  "experience_reward": 303,
+  "experience_reward": 307,
   "gold_reward": 107,
   "drops": [
    {
@@ -3695,7 +3695,7 @@
    3,
    1
   ],
-  "experience_reward": 273,
+  "experience_reward": 277,
   "gold_reward": 96,
   "drops": [
    {
@@ -3773,7 +3773,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 500,
+  "experience_reward": 534,
   "gold_reward": 158,
   "drops": [
    {
@@ -3852,7 +3852,7 @@
    3,
    7
   ],
-  "experience_reward": 365,
+  "experience_reward": 377,
   "gold_reward": 122,
   "drops": [
    {
@@ -4148,7 +4148,7 @@
    7,
    4
   ],
-  "experience_reward": 522,
+  "experience_reward": 570,
   "gold_reward": 159,
   "drops": [
    {
@@ -4350,13 +4350,13 @@
   "rank": 0,
   "is_boss": false,
   "hit": 0.95,
-  "level": 15,
-  "max_hp": 227,
+  "level": 8,
+  "max_hp": 139,
   "max_mp": 0,
-  "attack": 52,
-  "magic": 48,
-  "defense": 77,
-  "resistance": 38,
+  "attack": 35,
+  "magic": 31,
+  "defense": 50,
+  "resistance": 22,
   "speed": 90,
   "evade": 0.25,
   "break_shield": 4,
@@ -4367,8 +4367,8 @@
    2,
    3
   ],
-  "experience_reward": 120,
-  "gold_reward": 2500,
+  "experience_reward": 90,
+  "gold_reward": 1500,
   "drops": [
    {
     "id": "slime_gel",
@@ -4820,7 +4820,7 @@
    3,
    1
   ],
-  "experience_reward": 308,
+  "experience_reward": 312,
   "gold_reward": 108,
   "drops": [
    {
@@ -4897,7 +4897,7 @@
    4,
    7
   ],
-  "experience_reward": 346,
+  "experience_reward": 352,
   "gold_reward": 119,
   "drops": [
    {
@@ -4975,7 +4975,7 @@
    4,
    3
   ],
-  "experience_reward": 340,
+  "experience_reward": 349,
   "gold_reward": 116,
   "drops": [
    {
@@ -5053,7 +5053,7 @@
    7,
    5
   ],
-  "experience_reward": 423,
+  "experience_reward": 448,
   "gold_reward": 135,
   "drops": [
    {
@@ -5131,7 +5131,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 330,
+  "experience_reward": 344,
   "gold_reward": 109,
   "drops": [
    {
@@ -5210,7 +5210,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 528,
+  "experience_reward": 563,
   "gold_reward": 167,
   "drops": [
    {
@@ -5287,7 +5287,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 438,
+  "experience_reward": 474,
   "gold_reward": 135,
   "drops": [
    {
@@ -5365,7 +5365,7 @@
    6,
    5
   ],
-  "experience_reward": 573,
+  "experience_reward": 635,
   "gold_reward": 165,
   "drops": [
    {
@@ -5442,7 +5442,7 @@
   "resistances": [
    3
   ],
-  "experience_reward": 590,
+  "experience_reward": 653,
   "gold_reward": 164,
   "drops": [
    {
@@ -5519,7 +5519,7 @@
   "resistances": [
    6
   ],
-  "experience_reward": 578,
+  "experience_reward": 640,
   "gold_reward": 156,
   "drops": [
    {
@@ -5598,7 +5598,7 @@
    3,
    1
   ],
-  "experience_reward": 693,
+  "experience_reward": 768,
   "gold_reward": 182,
   "drops": [
    {
@@ -5675,7 +5675,7 @@
    5,
    4
   ],
-  "experience_reward": 782,
+  "experience_reward": 866,
   "gold_reward": 202,
   "drops": [
    {
@@ -5753,7 +5753,7 @@
    2,
    3
   ],
-  "experience_reward": 2754,
+  "experience_reward": 3052,
   "gold_reward": 4000,
   "drops": [
    {
@@ -5845,7 +5845,7 @@
    7,
    4
   ],
-  "experience_reward": 827,
+  "experience_reward": 904,
   "gold_reward": 210,
   "drops": [
    {
@@ -5922,7 +5922,7 @@
    7,
    1
   ],
-  "experience_reward": 1038,
+  "experience_reward": 1096,
   "gold_reward": 265,
   "drops": [
    {
@@ -6001,7 +6001,7 @@
   "resistances": [
    7
   ],
-  "experience_reward": 729,
+  "experience_reward": 792,
   "gold_reward": 186,
   "drops": [
    {
@@ -6079,7 +6079,7 @@
    3,
    1
   ],
-  "experience_reward": 767,
+  "experience_reward": 819,
   "gold_reward": 196,
   "drops": [
    {
@@ -6159,7 +6159,7 @@
    7,
    3
   ],
-  "experience_reward": 713,
+  "experience_reward": 765,
   "gold_reward": 182,
   "drops": [
    {
@@ -6237,7 +6237,7 @@
    7,
    5
   ],
-  "experience_reward": 960,
+  "experience_reward": 990,
   "gold_reward": 248,
   "drops": [
    {
@@ -6323,7 +6323,7 @@
    5,
    7
   ],
-  "experience_reward": 912,
+  "experience_reward": 936,
   "gold_reward": 238,
   "drops": [
    {
@@ -6403,7 +6403,7 @@
    4,
    7
   ],
-  "experience_reward": 903,
+  "experience_reward": 921,
   "gold_reward": 237,
   "drops": [
    {
@@ -6536,7 +6536,7 @@
   "defense": 89,
   "resistance": 79,
   "speed": 41,
-  "experience_reward": 487,
+  "experience_reward": 539,
   "gold_reward": 143,
   "_file": "puffer"
  },
@@ -6614,7 +6614,7 @@
   "defense": 124,
   "resistance": 79,
   "speed": 32,
-  "experience_reward": 444,
+  "experience_reward": 492,
   "gold_reward": 130,
   "_file": "sea_urchin"
  },
@@ -6691,7 +6691,7 @@
   "defense": 108,
   "resistance": 95,
   "speed": 47,
-  "experience_reward": 601,
+  "experience_reward": 666,
   "gold_reward": 170,
   "_file": "merfolk_guard"
  },
@@ -6768,7 +6768,7 @@
   "defense": 75,
   "resistance": 106,
   "speed": 47,
-  "experience_reward": 593,
+  "experience_reward": 658,
   "gold_reward": 168,
   "_file": "angler"
  },
@@ -6845,7 +6845,7 @@
   "defense": 160,
   "resistance": 135,
   "speed": 29,
-  "experience_reward": 930,
+  "experience_reward": 1031,
   "gold_reward": 255,
   "_file": "giant_clam"
  },
@@ -6925,7 +6925,7 @@
   "defense": 82,
   "resistance": 139,
   "speed": 57,
-  "experience_reward": 643,
+  "experience_reward": 712,
   "gold_reward": 174,
   "_file": "siren"
  },
@@ -7002,7 +7002,7 @@
   "defense": 106,
   "resistance": 107,
   "speed": 55,
-  "experience_reward": 774,
+  "experience_reward": 858,
   "gold_reward": 206,
   "_file": "sea_serpent"
  },
@@ -7081,7 +7081,7 @@
   "defense": 147,
   "resistance": 123,
   "speed": 41,
-  "experience_reward": 1032,
+  "experience_reward": 1144,
   "gold_reward": 270,
   "_file": "temple_guardian"
  },
@@ -7169,7 +7169,7 @@
   "defense": 121,
   "resistance": 109,
   "speed": 46,
-  "experience_reward": 2921,
+  "experience_reward": 3237,
   "gold_reward": 815,
   "_file": "drowned_knight"
  },
@@ -7258,7 +7258,7 @@
   "defense": 112,
   "resistance": 164,
   "speed": 54,
-  "experience_reward": 3507,
+  "experience_reward": 3886,
   "gold_reward": 905,
   "_file": "naga_priestess"
  },
@@ -7346,7 +7346,7 @@
   "defense": 164,
   "resistance": 139,
   "speed": 35,
-  "experience_reward": 3666,
+  "experience_reward": 4062,
   "gold_reward": 990,
   "_file": "turtle_titan"
  },
@@ -7423,7 +7423,7 @@
   "defense": 94,
   "resistance": 160,
   "speed": 53,
-  "experience_reward": 708,
+  "experience_reward": 779,
   "gold_reward": 180,
   "_file": "void_eye"
  },
@@ -7501,7 +7501,7 @@
   "defense": 109,
   "resistance": 123,
   "speed": 43,
-  "experience_reward": 882,
+  "experience_reward": 964,
   "gold_reward": 225,
   "_file": "chaos_spawn"
  },
@@ -7578,7 +7578,7 @@
   "defense": 127,
   "resistance": 130,
   "speed": 64,
-  "experience_reward": 927,
+  "experience_reward": 1000,
   "gold_reward": 236,
   "_file": "shadow_beast"
  },
@@ -7657,7 +7657,7 @@
   "defense": 178,
   "resistance": 130,
   "speed": 56,
-  "experience_reward": 822,
+  "experience_reward": 887,
   "gold_reward": 209,
   "_file": "gargoyle"
  },
@@ -7734,7 +7734,7 @@
   "defense": 134,
   "resistance": 167,
   "speed": 71,
-  "experience_reward": 925,
+  "experience_reward": 987,
   "gold_reward": 236,
   "_file": "nightmare"
  },
@@ -7813,7 +7813,7 @@
   "defense": 137,
   "resistance": 156,
   "speed": 64,
-  "experience_reward": 927,
+  "experience_reward": 984,
   "gold_reward": 237,
   "_file": "doppelganger"
  },
@@ -7891,7 +7891,7 @@
   "defense": 158,
   "resistance": 147,
   "speed": 44,
-  "experience_reward": 1276,
+  "experience_reward": 1339,
   "gold_reward": 326,
   "_file": "abyss_worm"
  },
@@ -7978,7 +7978,7 @@
   "defense": 144,
   "resistance": 163,
   "speed": 65,
-  "experience_reward": 4224,
+  "experience_reward": 4533,
   "gold_reward": 1077,
   "_file": "fallen_angel"
  },
@@ -8064,7 +8064,7 @@
   "defense": 144,
   "resistance": 197,
   "speed": 71,
-  "experience_reward": 4379,
+  "experience_reward": 4597,
   "gold_reward": 1119,
   "_file": "void_reaper"
  },
@@ -8152,7 +8152,7 @@
   "defense": 199,
   "resistance": 171,
   "speed": 49,
-  "experience_reward": 4968,
+  "experience_reward": 5271,
   "gold_reward": 1267,
   "_file": "crystal_horror"
  },
@@ -8299,7 +8299,7 @@
   "defense": 136,
   "resistance": 153,
   "speed": 59,
-  "experience_reward": 30463,
+  "experience_reward": 33525,
   "gold_reward": 5100,
   "_file": "leviathan"
  },
@@ -8462,7 +8462,7 @@
   "defense": 189,
   "resistance": 215,
   "speed": 73,
-  "experience_reward": 37318,
+  "experience_reward": 38734,
   "gold_reward": 6000,
   "_file": "abyss_lord"
  },
@@ -8556,7 +8556,7 @@
    5,
    2
   ],
-  "experience_reward": 28230,
+  "experience_reward": 29126,
   "gold_reward": 6090,
   "drops": [
    {
@@ -8697,7 +8697,7 @@
    5,
    3
   ],
-  "experience_reward": 28471,
+  "experience_reward": 29207,
   "gold_reward": 6180,
   "drops": [
    {
@@ -8840,7 +8840,7 @@
    4,
    8
   ],
-  "experience_reward": 28712,
+  "experience_reward": 29292,
   "gold_reward": 6270,
   "drops": [
    {
@@ -8991,7 +8991,7 @@
    7,
    5
   ],
-  "experience_reward": 28953,
+  "experience_reward": 29382,
   "gold_reward": 6360,
   "drops": [
    {
@@ -9183,7 +9183,7 @@
   "defense": 195,
   "resistance": 222,
   "speed": 71,
-  "experience_reward": 31140,
+  "experience_reward": 31441,
   "gold_reward": 6450,
   "_file": "leviathan_ex"
  },
