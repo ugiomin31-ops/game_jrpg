@@ -34,8 +34,8 @@ namespace Abyss.LogicTests
             Assert.True(Enhancement.CostOf(iron, 10) == null, "no step past +10");
             Assert.Equal(Enhancement.StoneHigh, Enhancement.CostOf(db.Equipment["sword_runic"], 0).StoneId, "T5 uses the high stone");
             Assert.Equal(Enhancement.StoneAbyss, Enhancement.CostOf(db.Equipment["sword_tidal"], 0).StoneId, "T6 uses the abyss stone");
-            Assert.Equal("무쇠 장검 +3", Enhancement.DisplayName(iron, 3), "displayed name");
-            Assert.Equal("무쇠 장검", Enhancement.DisplayName(iron, 0), "+0 has no suffix");
+            Assert.Equal(iron.DisplayName + " +3", Enhancement.DisplayName(iron, 3), "displayed name");
+            Assert.Equal(iron.DisplayName, Enhancement.DisplayName(iron, 0), "+0 has no suffix");
         }
 
         [LogicTest]
@@ -176,20 +176,21 @@ namespace Abyss.LogicTests
         public static void ShopTierFollowsChaptersAndLegendariesAreNeverSold()
         {
             var db = TestMain.DB;
-            Assert.Equal(1, TownServices.ChapterOfFloor(0), "B1F chapter 1");
-            Assert.Equal(1, TownServices.ChapterOfFloor(4), "B5F chapter 1");
-            Assert.Equal(2, TownServices.ChapterOfFloor(5), "B6F chapter 2");
-            Assert.Equal(6, TownServices.ChapterOfFloor(29), "B30F chapter 6");
-            Assert.Equal(7, TownServices.ChapterOfFloor(30), "postgame");
+            // Shop tiers advance every two zones: zones 1-2 = tier 1 ... zones 11-12 = tier 6, the red gate = tier 7.
+            Assert.Equal(1, TownServices.ChapterOfFloor(0), "1-1 tier 1");
+            Assert.Equal(1, TownServices.ChapterOfFloor(5), "2-3 tier 1");
+            Assert.Equal(2, TownServices.ChapterOfFloor(6), "3-1 tier 2");
+            Assert.Equal(6, TownServices.ChapterOfFloor(35), "12-3 tier 6");
+            Assert.Equal(7, TownServices.ChapterOfFloor(36), "postgame");
             Assert.Equal(7, TownServices.ChapterOfFloor(99), "capped");
             var state = GameState.NewGame(db, Difficulty.Normal);
             state.Gold = 1000000;
             Assert.Equal(1, TownServices.ShopTier(state), "start");
             Assert.Equal("tier_locked", TownServices.BuyEquipment(db, state, "sword_runic").Reason, "T5 locked in chapter 1");
-            state.DeepestFloor = 15;
-            Assert.Equal(4, TownServices.ShopTier(state), "chapter 4");
-            Assert.True(TownServices.BuyEquipment(db, state, "sword_runic").Success, "T5 sold in chapter 4");
-            Assert.Equal("tier_locked", TownServices.BuyEquipment(db, state, "sword_tidal").Reason, "T6 needs chapter 5");
+            state.DeepestFloor = 18;
+            Assert.Equal(4, TownServices.ShopTier(state), "zone 7 opens tier 4");
+            Assert.True(TownServices.BuyEquipment(db, state, "sword_runic").Success, "T5 sold from zone 7");
+            Assert.Equal("tier_locked", TownServices.BuyEquipment(db, state, "sword_tidal").Reason, "T6 needs zone 9");
             state.DeepestFloor = 0;
             state.Flags.Add(GameFlow.FlagCleared);
             Assert.Equal(7, TownServices.ShopTier(state), "clearing opens the postgame shop");

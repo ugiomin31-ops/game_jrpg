@@ -128,10 +128,10 @@ ZONE_POOLS = {
              elite=['void_reaper', 'crystal_horror', 'fallen_angel']),
 }
 RARE_BY_ZONE = {'gold_slime': [2, 3], 'metal_slime': [4, 5, 6], 'golden_mimic': [9, 10, 11]}
-# Equipment tier (GEAR_LINES index + 1) sold and found per zone. The guild market unlocks tier t when the party
-# first reaches zone TIER_UNLOCK_ZONE[t] (C#: GameFlow.ShopTierUnlockFloor).
+# Equipment tier (GEAR_LINES index + 1) found per zone. The guild market sells tier t from zone TIER_UNLOCK_ZONE[t]
+# (C#: TownServices.ChapterOfFloor, one market tier per two zones; gear_items.py TIER_SHOP); T8 is never sold.
 TIER_OF_ZONE = {1: 1, 2: 1, 3: 2, 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 5, 10: 5, 11: 6, 12: 7, 13: 8}
-TIER_UNLOCK_ZONE = {1: 1, 2: 3, 3: 5, 4: 7, 5: 9, 6: 11, 7: 12, 8: 13}
+TIER_UNLOCK_ZONE = {1: 1, 2: 1, 3: 3, 4: 5, 5: 7, 6: 9, 7: 11}
 
 # New cute hunter-genre monsters built in Blender (enemies_h/). Look notes keep the user's direction: cute and
 # charming (big eyes, round shapes, chibi), never gross or creepy. 'replace_model' lists ZONE_VARIANTS / existing ids

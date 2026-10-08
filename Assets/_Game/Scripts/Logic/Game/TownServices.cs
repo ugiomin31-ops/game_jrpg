@@ -71,7 +71,7 @@ namespace Abyss.Logic.Game
         public int HiddenWeaknesses;
         /// <summary>Drops are public after the first kill.</summary>
         public bool DropsRevealed;
-        /// <summary>Story chapter the species is listed under (1-6, 7 = 시련의 회랑); see <see cref="TownServices.BestiaryChapters"/>.</summary>
+        /// <summary>Bestiary chapter the species is listed under (1-6 = zone pairs 1-2 .. 11-12, 7 = 붉은 게이트); see <see cref="TownServices.BestiaryChapters"/>.</summary>
         public int Chapter;
         /// <summary>Floor labels ("B12F") where the species can be met (encounter groups, FOEs, events, boss group), ascending.</summary>
         public List<string> Habitat = new List<string>();
@@ -430,7 +430,7 @@ namespace Abyss.Logic.Game
         {
             var chapters = new Dictionary<string, int>(StringComparer.Ordinal);
             foreach (var enemy in db.Enemies.Values)
-                if (habitats.TryGetValue(enemy.Id, out var floors) && floors.Count > 0) chapters[enemy.Id] = GameFlow.ChapterOf(floors[0]);
+                if (habitats.TryGetValue(enemy.Id, out var floors) && floors.Count > 0) chapters[enemy.Id] = ChapterOfFloor(floors[0]);
             var met = new Dictionary<string, int>(chapters, StringComparer.Ordinal);
             foreach (var enemy in db.Enemies.Values)
             {
@@ -464,8 +464,8 @@ namespace Abyss.Logic.Game
             return Math.Min(7, chapter);
         }
 
-        /// <summary>Party level at which chapters 2-7 begin (chapter 1 starts at level 1).</summary>
-        static readonly int[] ChapterLevelEntries = { 12, 24, 34, 44, 54, 64 };
+        /// <summary>Party level at which bestiary chapters 2-7 begin (zones 3, 5, 7, 9, 11 and the red gate; chapter 1 starts at level 1).</summary>
+        static readonly int[] ChapterLevelEntries = { 11, 22, 33, 44, 55, 66 };
 
         /// <summary>
         /// Milestones: species with kills (12 / 25 / 40 / 60 / 80 / 100 of 108), then every boss defeated. Rewards use

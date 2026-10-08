@@ -68,18 +68,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.078,
-   0.098,
-   0.168,
+   0.11,
+   0.13,
+   0.15,
    1.0
   ],
   "ambient_particle_tint": [
-   1.0,
-   1.0,
+   0.84,
+   0.9,
    1.0,
    1.0
   ],
-  "overlay": "vines",
+  "overlay": "",
   "encounter_rate": 0.043,
   "min_encounter_steps": 6,
   "max_encounter_steps": 65,
@@ -256,18 +256,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.078,
-   0.098,
-   0.168,
+   0.11,
+   0.13,
+   0.15,
    1.0
   ],
   "ambient_particle_tint": [
-   1.0,
-   1.0,
+   0.84,
+   0.9,
    1.0,
    1.0
   ],
-  "overlay": "vines",
+  "overlay": "",
   "encounter_rate": 0.043,
   "min_encounter_steps": 6,
   "max_encounter_steps": 65,
@@ -487,18 +487,18 @@
    "subway_bat_lord"
   ],
   "fog_color": [
-   0.078,
-   0.098,
-   0.168,
+   0.11,
+   0.13,
+   0.15,
    1.0
   ],
   "ambient_particle_tint": [
-   1.0,
-   1.0,
+   0.84,
+   0.9,
    1.0,
    1.0
   ],
-  "overlay": "vines",
+  "overlay": "",
   "encounter_rate": 0.044,
   "min_encounter_steps": 6,
   "max_encounter_steps": 63,
@@ -1646,18 +1646,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.17,
-   0.08,
-   0.05,
+   0.16,
+   0.11,
+   0.09,
    1.0
   ],
   "ambient_particle_tint": [
    1.0,
-   0.62,
-   0.3,
+   0.81,
+   0.54,
    1.0
   ],
-  "overlay": "stalactites",
+  "overlay": "",
   "encounter_rate": 0.041,
   "min_encounter_steps": 6,
   "max_encounter_steps": 67,
@@ -1941,18 +1941,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.17,
-   0.08,
-   0.05,
+   0.16,
+   0.11,
+   0.09,
    1.0
   ],
   "ambient_particle_tint": [
    1.0,
-   0.62,
-   0.3,
+   0.81,
+   0.54,
    1.0
   ],
-  "overlay": "stalactites",
+  "overlay": "",
   "encounter_rate": 0.036,
   "min_encounter_steps": 6,
   "max_encounter_steps": 74,
@@ -2312,18 +2312,18 @@
    "scrap_colossus"
   ],
   "fog_color": [
-   0.17,
-   0.08,
-   0.05,
+   0.16,
+   0.11,
+   0.09,
    1.0
   ],
   "ambient_particle_tint": [
    1.0,
-   0.62,
-   0.3,
+   0.81,
+   0.54,
    1.0
   ],
-  "overlay": "stalactites",
+  "overlay": "",
   "encounter_rate": 0.04,
   "min_encounter_steps": 6,
   "max_encounter_steps": 69,
@@ -3643,18 +3643,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.06,
-   0.12,
+   0.08,
+   0.1,
    0.2,
    1.0
   ],
   "ambient_particle_tint": [
-   0.7,
-   0.88,
+   0.62,
+   0.9,
    1.0,
    1.0
   ],
-  "overlay": "icicles",
+  "overlay": "",
   "encounter_rate": 0.036,
   "min_encounter_steps": 6,
   "max_encounter_steps": 74,
@@ -3959,18 +3959,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.06,
-   0.12,
+   0.08,
+   0.1,
    0.2,
    1.0
   ],
   "ambient_particle_tint": [
-   0.7,
-   0.88,
+   0.62,
+   0.9,
    1.0,
    1.0
   ],
-  "overlay": "icicles",
+  "overlay": "",
   "encounter_rate": 0.034,
   "min_encounter_steps": 6,
   "max_encounter_steps": 78,
@@ -4346,18 +4346,18 @@
    "crystal_cave_lord"
   ],
   "fog_color": [
-   0.06,
-   0.12,
+   0.08,
+   0.1,
    0.2,
    1.0
   ],
   "ambient_particle_tint": [
-   0.7,
-   0.88,
+   0.62,
+   0.9,
    1.0,
    1.0
   ],
-  "overlay": "icicles",
+  "overlay": "",
   "encounter_rate": 0.032,
   "min_encounter_steps": 6,
   "max_encounter_steps": 81,
@@ -5711,18 +5711,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.09,
-   0.07,
-   0.14,
+   0.1,
+   0.11,
+   0.2,
    1.0
   ],
   "ambient_particle_tint": [
-   0.62,
    1.0,
-   0.8,
+   0.85,
+   0.6,
    1.0
   ],
-  "overlay": "cobwebs",
+  "overlay": "",
   "encounter_rate": 0.06,
   "min_encounter_steps": 6,
   "max_encounter_steps": 50,
@@ -6005,18 +6005,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.09,
-   0.07,
-   0.14,
+   0.1,
+   0.11,
+   0.2,
    1.0
   ],
   "ambient_particle_tint": [
-   0.62,
    1.0,
-   0.8,
+   0.85,
+   0.6,
    1.0
   ],
-  "overlay": "cobwebs",
+  "overlay": "",
   "encounter_rate": 0.056,
   "min_encounter_steps": 6,
   "max_encounter_steps": 52,
@@ -6385,18 +6385,18 @@
    "festival_pumpkin_king"
   ],
   "fog_color": [
-   0.09,
-   0.07,
-   0.14,
+   0.1,
+   0.11,
+   0.2,
    1.0
   ],
   "ambient_particle_tint": [
-   0.62,
    1.0,
-   0.8,
+   0.85,
+   0.6,
    1.0
   ],
-  "overlay": "cobwebs",
+  "overlay": "",
   "encounter_rate": 0.056,
   "min_encounter_steps": 6,
   "max_encounter_steps": 52,
@@ -7725,18 +7725,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.06,
-   0.12,
-   0.2,
+   0.58,
+   0.76,
+   0.74,
    1.0
   ],
   "ambient_particle_tint": [
-   0.7,
-   0.88,
+   0.85,
    1.0,
+   0.95,
    1.0
   ],
-  "overlay": "icicles",
+  "overlay": "",
   "encounter_rate": 0.045,
   "min_encounter_steps": 6,
   "max_encounter_steps": 62,
@@ -8062,18 +8062,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.06,
-   0.12,
-   0.2,
+   0.58,
+   0.76,
+   0.74,
    1.0
   ],
   "ambient_particle_tint": [
-   0.7,
-   0.88,
+   0.85,
    1.0,
+   0.95,
    1.0
   ],
-  "overlay": "icicles",
+  "overlay": "",
   "encounter_rate": 0.048,
   "min_encounter_steps": 6,
   "max_encounter_steps": 59,
@@ -8479,18 +8479,18 @@
    "plague_lich"
   ],
   "fog_color": [
-   0.06,
-   0.12,
-   0.2,
+   0.58,
+   0.76,
+   0.74,
    1.0
   ],
   "ambient_particle_tint": [
-   0.7,
-   0.88,
+   0.85,
    1.0,
+   0.95,
    1.0
   ],
-  "overlay": "icicles",
+  "overlay": "",
   "encounter_rate": 0.045,
   "min_encounter_steps": 6,
   "max_encounter_steps": 62,
@@ -9952,18 +9952,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.09,
-   0.07,
    0.14,
+   0.16,
+   0.26,
    1.0
   ],
   "ambient_particle_tint": [
-   0.62,
    1.0,
-   0.8,
+   0.7,
+   0.45,
    1.0
   ],
-  "overlay": "cobwebs",
+  "overlay": "",
   "encounter_rate": 0.021,
   "min_encounter_steps": 6,
   "max_encounter_steps": 119,
@@ -10289,18 +10289,18 @@
   ],
   "boss_group": [],
   "fog_color": [
-   0.09,
-   0.07,
    0.14,
+   0.16,
+   0.26,
    1.0
   ],
   "ambient_particle_tint": [
-   0.62,
    1.0,
-   0.8,
+   0.7,
+   0.45,
    1.0
   ],
-  "overlay": "cobwebs",
+  "overlay": "",
   "encounter_rate": 0.021,
   "min_encounter_steps": 6,
   "max_encounter_steps": 119,
@@ -10709,18 +10709,18 @@
    "abyss_herald"
   ],
   "fog_color": [
-   0.09,
-   0.07,
    0.14,
+   0.16,
+   0.26,
    1.0
   ],
   "ambient_particle_tint": [
-   0.62,
    1.0,
-   0.8,
+   0.7,
+   0.45,
    1.0
   ],
-  "overlay": "cobwebs",
+  "overlay": "",
   "encounter_rate": 0.021,
   "min_encounter_steps": 6,
   "max_encounter_steps": 119,

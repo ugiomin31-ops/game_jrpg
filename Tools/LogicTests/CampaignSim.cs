@@ -1,5 +1,6 @@
-// Campaign party model for balance simulations: heroes at a chapter's level, wearing the best gear the data offers
-// for that chapter (chosen by rule from equipment.json, never by id) and carrying the chapter's consumables.
+// Campaign party model for balance simulations: the four starting hunters at a zone's level, wearing the best gear the
+// guild market offers in that zone (chosen by rule from equipment.json, never by id) and carrying its consumables.
+// "Chapter" below is the zone (1-12, 13 = the red gate); the market tier advances every two zones (MarketTier).
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace Abyss.LogicTests
 {
     public static class CampaignSim
     {
-        public const int FloorsPerChapter = 5;
+        public const int FloorsPerChapter = GameFlow.FloorsPerChapter;
 
         /// <summary>Chapter (1-based) of a floor index.</summary>
         public static int Chapter(int floorIndex) => floorIndex / FloorsPerChapter + 1;
 
-        /// <summary>Main-path party level on a floor: the chapter's range spread over its five floors.</summary>
+        /// <summary>Main-path party level on a floor: the zone's range spread over its three floors.</summary>
         public static int FloorLevel(int floorIndex)
         {
             int c = Math.Min(SpecIds.ChapterLevels.Length, Chapter(floorIndex));
@@ -25,7 +26,10 @@ namespace Abyss.LogicTests
             return (int)Math.Round(lo + (hi - lo) * (k + 0.5) / FloorsPerChapter, MidpointRounding.AwayFromZero);
         }
 
-        /// <summary>Level the party fights a chapter boss at (one below the chapter's exit level).</summary>
+        /// <summary>Guild market tier (shop_tier) open in a zone: one tier per two zones, 7 for the red gate.</summary>
+        public static int MarketTier(int zone) => Math.Min(TownServices.MaxChapter, (zone + 1) / 2);
+
+        /// <summary>Level the party fights a zone boss at (one below the zone's exit level).</summary>
         public static int BossLevel(int chapter) => SpecIds.ChapterLevels[chapter - 1][1] - 1;
 
         /// <summary>
@@ -38,7 +42,7 @@ namespace Abyss.LogicTests
             foreach (var piece in db.Equipment.Values)
             {
                 if (SpecIds.JobWeapons.Contains(piece.Id)) continue;
-                bool sold = piece.ShopTier >= 1 && piece.ShopTier <= chapter;
+                bool sold = piece.ShopTier >= 1 && piece.ShopTier <= MarketTier(chapter);
                 bool legend = legendary && piece.Rarity >= 3;
                 if (sold || legend) yield return piece;
             }
@@ -57,7 +61,7 @@ namespace Abyss.LogicTests
             ItemDef best = null;
             foreach (var item in db.Items.Values)
             {
-                if (item.ItemType != type || item.ShopTier < 1 || item.ShopTier > chapter) continue;
+                if (item.ItemType != type || item.ShopTier < 1 || item.ShopTier > MarketTier(chapter)) continue;
                 if (item.Target != "single_ally" || item.HealAmount >= 5000) continue; // no full-party / full-heal elixirs
                 if (best == null || item.HealAmount + item.Power * 100 > best.HealAmount + best.Power * 100
                     || (item.HealAmount + item.Power * 100 == best.HealAmount + best.Power * 100 && item.Price > best.Price)) best = item;
@@ -66,7 +70,7 @@ namespace Abyss.LogicTests
         }
 
         /// <summary>
-        /// Forging level of the expected player per chapter (index = chapter - 1), applied to every worn piece.
+        /// Forging level of the expected player per market tier (index = MarketTier(zone) - 1), applied to every worn piece.
         /// Derived from the game's economy (estimated from Resources/Data: random fights, events, FOEs, bosses, chests and quest
         /// rewards; enhance stones from drops and from the shop at 80 / 450 / 1600 gold from chapter 1 / 3 / 5):
         /// - gold earned through each chapter: 16k, 56k, 125k, 247k, 427k, 711k, 1.25M;
@@ -81,10 +85,10 @@ namespace Abyss.LogicTests
 
         /// <summary>
         /// Job a player has reached in <paramref name="chapter"/> at <paramref name="level"/>: each class change in jobs.json
-        /// order (the first listed branch) once its level (RequiredLevel: 15 advanced, 40 top) is reached AND the chapter boss
-        /// it requires (RequiredBoss: the Ch1 boss for the advanced job, the Ch4 boss for the top job) was defeated before this
-        /// chapter's fights, i.e. that boss's chapter is earlier than <paramref name="chapter"/>. Random, FOE and boss fights
-        /// of a chapter all use the same gate, so the expected party is advanced from chapter 2, top from chapter 5.
+        /// order (the first listed branch) once its level (RequiredLevel: 12 advanced, 36 top) is reached AND the zone boss
+        /// it requires (RequiredBoss: the zone 2 boss for the advanced job, the zone 7 boss for the top job) was defeated before
+        /// this zone's fights, i.e. that boss's zone is earlier than <paramref name="chapter"/>. Random, FOE and boss fights
+        /// of a zone all use the same gate, so the expected party is advanced from zone 3, top from zone 8.
         /// </summary>
         static void Promote(GameDB db, HeroState hero, int chapter)
         {
@@ -109,7 +113,7 @@ namespace Abyss.LogicTests
             var state = GameState.NewGame(db, difficulty);
             state.Inventory.Clear();
             var pool = Available(db, chapter, legendary).ToList();
-            if (jobs) pool.AddRange(db.Equipment.Values.Where(p => SpecIds.JobWeapons.Contains(p.Id) && p.Tier <= chapter + 1));
+            if (jobs) pool.AddRange(db.Equipment.Values.Where(p => SpecIds.JobWeapons.Contains(p.Id) && p.Tier <= MarketTier(chapter) + 1));
             foreach (var hero in state.Party)
             {
                 hero.Level = level;

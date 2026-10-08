@@ -740,8 +740,10 @@ def build_superbosses(rows, spec):
 NORMAL_HP = {1: 2.0, 2: 2.0, 3: 2.45, 4: 2.45, 5: 2.0, 6: 2.0, 7: 2.25, 8: 2.25, 9: 2.0, 10: 2.0, 11: 2.2, 12: 2.2, 13: 1.9}
 ELITE_HP = 1.25
 BOSS_TUNE = {
-    'forest_guardian': (0.96, 1.69), 'frost_kraken': (1.43, 0.85), 'flame_sphinx': (1.518, 1.045), 'boss': (0.81, 0.7776),
-    'leviathan': (1.42, 0.99), 'abyss_lord': (0.975, 0.8736),
+    'subway_bat_lord': (1.0, 2.3), 'forest_guardian': (0.96, 1.8), 'scrap_colossus': (1.5, 1.85),
+    'frost_kraken': (1.5, 0.82), 'crystal_cave_lord': (1.4, 2.02), 'flame_sphinx': (1.65, 1.05),
+    'festival_pumpkin_king': (1.25, 1.85), 'boss': (1.316, 1.15), 'plague_lich': (1.2, 2.0),
+    'leviathan': (1.2, 0.95), 'abyss_herald': (1.3, 1.4), 'abyss_lord': (0.975, 0.8736),
     'forest_guardian_ex': (2.5, 1.45), 'frost_kraken_ex': (1.425, 0.858), 'flame_sphinx_ex': (1.2, 0.99),
     'boss_ex': (1.3, 0.84), 'leviathan_ex': (1.125, 0.94), 'abyss_lord_ex': (1.1385, 0.744),
 }

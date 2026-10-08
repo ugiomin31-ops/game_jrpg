@@ -66,7 +66,7 @@ namespace Abyss.LogicTests
 
             var victorious = GameState.NewGame(db, Difficulty.Normal);
             victorious.DeepestFloor = quest.UnlockFloor;
-            victorious.Flags.Add(GameFlow.BossFlag(3));
+            victorious.Flags.Add(GameFlow.BossFlag(6));   // the sphinx guards the C-rank gate (zone 6)
             victorious = SaveCodec.Deserialize(SaveCodec.Serialize(victorious), db);
             Assert.True(QuestLog.Accept(db, victorious, quest.Id).Success, "late acceptance after saved victory");
             Assert.Equal(QuestBoardState.Complete, QuestLog.BoardState(victorious, quest), "one-shot objective remains complete");

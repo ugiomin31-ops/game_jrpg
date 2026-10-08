@@ -76,10 +76,10 @@ namespace Abyss.LogicTests
             Assert.Equal("warrior", warrior.Job, "new heroes start in their base job");
             var options = JobService.Options(db, state, warrior);
             Assert.True(options.Select(o => o.Job.Id).SequenceEqual(new[] { "knight", "berserker" }), "warrior branches to knight and berserker");
-            SetLevel(db, warrior, 14);
-            Assert.Equal("job_level", JobService.Check(db, state, warrior, "knight").Reason, "Lv14 is too low");
-            SetLevel(db, warrior, 15);
-            Assert.Equal("job_boss", JobService.Check(db, state, warrior, "knight").Reason, "chapter 1 boss not yet defeated");
+            SetLevel(db, warrior, 11);
+            Assert.Equal("job_level", JobService.Check(db, state, warrior, "knight").Reason, "Lv11 is too low");
+            SetLevel(db, warrior, 12);
+            Assert.Equal("job_boss", JobService.Check(db, state, warrior, "knight").Reason, "E-rank gate boss not yet defeated");
             state.BestiaryOf("forest_guardian").Kills = 1;
             Assert.Equal("job_item", JobService.Check(db, state, warrior, "knight").Reason, "no medal");
             var fail = JobService.ChangeJob(db, state, "h_dohyun", "knight");
@@ -101,16 +101,16 @@ namespace Abyss.LogicTests
             Assert.True(JobService.Options(db, state, warrior).Select(o => o.Job.Id).SequenceEqual(new[] { "paladin" }), "knight leads to paladin");
 
             var paladin = JobService.Check(db, state, warrior, "paladin");
-            Assert.Equal("job_level", paladin.Reason, "master needs Lv40");
+            Assert.Equal("job_level", paladin.Reason, "master needs Lv36");
             Assert.Equal(3, paladin.Requirements.Count, "level, boss and seal lines");
             Assert.True(paladin.Requirements.All(r => !r.Met), "none met yet");
-            Qualify(db, state, warrior, 40, "boss", "master_seal");
+            Qualify(db, state, warrior, 36, "festival_pumpkin_king", "master_seal");
             Assert.True(JobService.ChangeJob(db, state, "h_dohyun", "paladin").Success, "master change");
             Assert.Equal(0, state.ItemCount("master_seal"), "seal consumed");
 
             // A flag set by story/quest scripts counts as the boss defeat as well.
             var mage = state.Hero("h_seoa");
-            SetLevel(db, mage, 15);
+            SetLevel(db, mage, 12);
             state.AddItem("job_medal", 1);
             state.Bestiary.Remove("forest_guardian");
             Assert.Equal("job_boss", JobService.Check(db, state, mage, "warlock").Reason, "boss gate without kill");
@@ -169,19 +169,19 @@ namespace Abyss.LogicTests
             Assert.True(preview.SequenceEqual(cleric.LearnedSkills.Except(before)), "preview lists exactly the new skills");
             Assert.True(PartyStats.BuildCombatSpec(db, state, "h_yuna").Skills.Contains("ult_jb_priest"), "job ultimate usable in battle");
 
-            Qualify(db, state, cleric, 40, "boss", "master_seal");
+            Qualify(db, state, cleric, 36, "festival_pumpkin_king", "master_seal");
             var priestSkills = new List<string>(cleric.LearnedSkills);
             Assert.True(JobService.ChangeJob(db, state, "h_yuna", "saint").Success, "promote to saint");
             Assert.True(priestSkills.All(cleric.LearnedSkills.Contains), "advanced job skills survive the master change");
-            Assert.True(cleric.LearnedSkills.Contains("ult_jb_saint"), "master signature at Lv40");
+            Assert.True(cleric.LearnedSkills.Contains("ult_jb_saint"), "master signature at Lv36");
             Assert.True(!cleric.LearnedSkills.Contains("jb_sa_angel_song") || GameState.LevelCap >= 56, "Lv56 skill waits for its level");
             Assert.True(!cleric.LearnedSkills.Any(s => s.StartsWith("jb_ex_")), "sibling job skills are not learned");
 
             // Levelling while in the job learns the job's later skills.
             var mage = state.Hero("h_seoa");
-            Qualify(db, state, mage, 15, "forest_guardian", "job_medal");
-            Assert.True(JobService.ChangeJob(db, state, "h_seoa", "elementalist").Success, "promote at Lv15");
-            Assert.True(!mage.LearnedSkills.Contains("jb_el_eruption"), "Lv29 skill not yet");
+            Qualify(db, state, mage, 12, "forest_guardian", "job_medal");
+            Assert.True(JobService.ChangeJob(db, state, "h_seoa", "elementalist").Success, "promote at Lv12");
+            Assert.True(!mage.LearnedSkills.Contains("jb_el_eruption"), "later job skill not yet");
             var report = PartyStats.AwardXp(db, mage, PartyStats.CumulativeXp(30));
             Assert.True(report != null && report.NewSkills.Contains("jb_el_eruption") && report.NewSkills.Contains("ult_jb_elementalist"), "level-up report lists new job skills");
             Assert.True(PartyStats.UpcomingSkills(db, mage).Count == 0 || PartyStats.UpcomingSkills(db, mage).All(r => r.Level > mage.Level), "upcoming list only shows higher levels");
@@ -208,11 +208,11 @@ namespace Abyss.LogicTests
                 try { PartyStats.PreviewEquipment(db, warrior, "weapon", "test_aegis"); } catch (ArgumentException) { threw = true; }
                 Assert.True(threw, "preview rejects a job-locked piece");
 
-                Qualify(db, state, warrior, 15, "forest_guardian", "job_medal");
+                Qualify(db, state, warrior, 12, "forest_guardian", "job_medal");
                 Assert.True(JobService.ChangeJob(db, state, "h_dohyun", "knight").Success, "become a knight");
                 Assert.True(PartyStats.Equip(db, state, "h_dohyun", "test_aegis").Success, "knight wears the knight weapon");
                 Assert.True(!PartyStats.CanEquip(db, warrior, "test_avenger"), "knight cannot wear the paladin weapon yet");
-                Qualify(db, state, warrior, 40, "boss", "master_seal");
+                Qualify(db, state, warrior, 36, "festival_pumpkin_king", "master_seal");
                 Assert.True(JobService.ChangeJob(db, state, "h_dohyun", "paladin").Success, "become a paladin");
                 Assert.Equal("test_aegis", warrior.Equipped("weapon"), "a paladin keeps the knight weapon (job path)");
                 Assert.True(PartyStats.Equip(db, state, "h_dohyun", "test_avenger").Success, "paladin wears the paladin weapon");

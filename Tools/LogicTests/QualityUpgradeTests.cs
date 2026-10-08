@@ -226,7 +226,7 @@ namespace Abyss.LogicTests
             Assert.Equal(4, db.HeroOrder.Select(id => db.ClassOf(id)).Distinct().Count(), "the starting party covers the four classes");
             foreach (var cls in new[] { "warrior", "mage", "archer", "cleric" })
                 Assert.Equal(5, db.Heroes.Values.Count(h => h.Class == cls), "five hunters per class: " + cls);
-            Assert.Equal(35, db.Floors.Count, "six chapters of five floors plus the five-floor trial corridor");
+            Assert.Equal(39, db.Floors.Count, "twelve zones of three floors plus the three-floor red gate");
             foreach (var skill in db.Skills.Values)
             {
                 Assert.True(skill.MpCost >= 0 && skill.TpCost >= 0 && skill.HitCount > 0, "valid skill costs/hits " + skill.Id);
@@ -255,8 +255,10 @@ namespace Abyss.LogicTests
                     foreach (var id in t.Contents.Items.Keys.Concat(t.Contents.Equipment.Keys))
                         Assert.True(db.Items.ContainsKey(id) || db.Equipment.ContainsKey(id) || SpecIds.Items.Contains(id) || SpecIds.Equipment.Contains(id), "treasure id " + id);
             }
+            // A model is another row's art (palette variant) or a standalone enemy FBX (Resources/Art/Enemies/<model>/).
+            string art = System.IO.Path.Combine(Environment.GetEnvironmentVariable("ABYSS_DATA_DIR") ?? "", "..", "Art", "Enemies");
             foreach (var enemy in db.Enemies.Values)
-                Assert.True(string.IsNullOrEmpty(enemy.Model) || db.Enemies.ContainsKey(enemy.Model), "variant model " + enemy.Id);
+                Assert.True(string.IsNullOrEmpty(enemy.Model) || db.Enemies.ContainsKey(enemy.Model) || System.IO.File.Exists(System.IO.Path.Combine(art, enemy.Model, enemy.Model + ".fbx")), "variant model " + enemy.Id);
         }
 
         [LogicTest]

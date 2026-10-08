@@ -18,6 +18,15 @@ MOOD = {
     'voidglow': dict(fog_color=[0.12, 0.05, 0.2, 1.0], ambient_particle_tint=[0.78, 0.5, 1.0, 1.0]),
     'trialfire': dict(fog_color=[0.2, 0.13, 0.05, 1.0], ambient_particle_tint=[1.0, 0.85, 0.45, 1.0]),
 }
+# The hunter-world places have their own kits and Atmosphere presets: their fog and dust colours, and no template overlay.
+TILESET_LOOK = {
+    'subway': dict(fog_color=[0.11, 0.13, 0.15, 1.0], ambient_particle_tint=[0.84, 0.9, 1.0, 1.0]),
+    'factory': dict(fog_color=[0.16, 0.11, 0.09, 1.0], ambient_particle_tint=[1.0, 0.81, 0.54, 1.0]),
+    'cave': dict(fog_color=[0.08, 0.1, 0.2, 1.0], ambient_particle_tint=[0.62, 0.9, 1.0, 1.0]),
+    'school': dict(fog_color=[0.1, 0.11, 0.2, 1.0], ambient_particle_tint=[1.0, 0.85, 0.6, 1.0]),
+    'hospital': dict(fog_color=[0.58, 0.76, 0.74, 1.0], ambient_particle_tint=[0.85, 1.0, 0.95, 1.0]),
+    'guild_street': dict(fog_color=[0.14, 0.16, 0.26, 1.0], ambient_particle_tint=[1.0, 0.7, 0.45, 1.0]),
+}
 TEMPLATE_OF_ZONE = {1: 'B1F', 2: 'B1F', 3: 'B7F', 4: 'B4F', 5: 'B4F', 6: 'B7F', 7: 'B10F', 8: 'B10F', 9: 'B4F',
                     10: 'B4F', 11: 'B10F', 12: 'B10F', 13: 'B7F'}
 PLACEHOLDER_KEY = '카드키'
@@ -332,7 +341,7 @@ def build_floors(spec, enemies, originals):
         battles = TARGET_BATTLES[zone]
         per = max(MIN_STEPS + 6, steps / battles)
         rate = round(1.0 / max(4.0, per - MIN_STEPS), 3)
-        look = MOOD.get(ch['overlay'], {})
+        look = MOOD.get(ch['overlay']) or TILESET_LOOK.get(ch['tileset'], {})
         row = {
             'id': '%s_%d' % (ch['id'], k),
             'floor_label': floor_label(zone, k),
@@ -346,7 +355,7 @@ def build_floors(spec, enemies, originals):
             'boss_group': boss_group,
             'fog_color': list(look.get('fog_color', tmpl['fog_color'])),
             'ambient_particle_tint': list(look.get('ambient_particle_tint', tmpl['ambient_particle_tint'])),
-            'overlay': ch['overlay'] or tmpl['overlay'],
+            'overlay': ch['overlay'] or ('' if ch['tileset'] in TILESET_LOOK else tmpl['overlay']),
             'encounter_rate': rate,
             'min_encounter_steps': MIN_STEPS,
             'max_encounter_steps': int(round(per * 2.2)),

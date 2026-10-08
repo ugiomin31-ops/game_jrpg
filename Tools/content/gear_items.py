@@ -11,8 +11,8 @@ Tier curve (CONTENT_20H_PLAN, CHAPTERS in spec.py). The level is the party level
     T5 ch4 (Lv34-44)       T6 ch5 (Lv44-54)      T7 ch6 (Lv54-64)  T8 postgame legendary (Lv64-70, craft only)
 T1-T4 keep the authored numbers. T5..T8 are the line's T4 integer stats x 1.30 / 1.60 / 1.95 / 2.40, which keeps
 the weapon at 40-50 % of the wielder's total attack/magic (see --table) so +10 enhancement (+100 % of the piece)
-stays meaningful without making level growth irrelevant. Shop tier = gear tier t (1..7): the guild market sells tier t
-from the zone spec.TIER_UNLOCK_ZONE[t] on (C#: GameFlow.ShopTierUnlockFloor); T8 is never sold.
+stays meaningful without making level growth irrelevant. Shop tier = guild market tier (TIER_SHOP): the market sells gear tier t
+from the zone spec.TIER_UNLOCK_ZONE[t] on (C#: TownServices.ChapterOfFloor); T8 is never sold.
 """
 import json
 import math
@@ -25,7 +25,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import spec  # noqa: E402
 
 INT_STATS = ('atk', 'mag', 'def', 'res', 'spd', 'hp', 'mp')
-TIER_SHOP = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 0}   # shop_tier = tier number (see spec.TIER_UNLOCK_ZONE)
+# shop_tier = guild market tier (C# TownServices.ChapterOfFloor: one tier per two zones, 7 = the red gate).
+# T1-T2 sell from zone 1, T3 zone 3, T4 zone 5, T5 zone 7, T6 zone 9, T7 zone 11; T8 legendaries are never sold.
+TIER_SHOP = {1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 0}
 TIER_FACTOR = {5: 1.30, 6: 1.60, 7: 1.95, 8: 2.40}
 TIER_PRICE = {5: 1.95, 6: 3.3, 7: 5.5}
 TIER_LEVEL = {1: 4, 2: 9, 3: 18, 4: 29, 5: 39, 6: 49, 7: 59, 8: 67}
