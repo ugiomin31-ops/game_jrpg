@@ -65,24 +65,68 @@ namespace Abyss.LogicTests
             return best?.Id;
         }
 
-        /// <summary>A Normal-difficulty campaign state with the party at <paramref name="level"/> and chapter gear/items.</summary>
-        public static GameState Party(GameDB db, int level, int chapter, bool legendary = false, Difficulty difficulty = Difficulty.Normal)
+        /// <summary>
+        /// Forging level of the expected player per chapter (index = chapter - 1), applied to every worn piece.
+        /// Derived from the game's economy (estimated from Resources/Data: random fights, events, FOEs, bosses, chests and quest
+        /// rewards; enhance stones from drops and from the shop at 80 / 450 / 1600 gold from chapter 1 / 3 / 5):
+        /// - gold earned through each chapter: 16k, 56k, 125k, 247k, 427k, 711k, 1.25M;
+        /// - the player spends at most 25 % of that gold on forging and buys the stones it lacks at the shop;
+        /// - all 12 worn pieces (3 slots x 4 heroes, no shared ids, the expensive case) go to the same level;
+        /// - +L costs TierGold[tier] x L(L+1)/2 gold per piece and 1 + (l-1)/3 stones per step l (Enhancement.CostOf).
+        /// The highest level that fits the budget for the tier worn in each chapter (T2, T3, T4, T5, T6, T7, T7) is 3, 4, 3, 4, 3, 4, 6.
+        /// The dips at chapters 3 and 5 are the stone grades: hi stones cost 450 and abyss stones 1600 each in the shop.
+        /// Superbosses are the exception: the postgame player forges legendary pieces to +10 (Enhancement.MaxLevel) on purpose.
+        /// </summary>
+        public static readonly int[] ExpectedForge = { 3, 4, 3, 4, 3, 4, 6 };
+
+        /// <summary>
+        /// Job a player has reached in <paramref name="chapter"/> at <paramref name="level"/>: each class change in jobs.json
+        /// order (the first listed branch) once its level (RequiredLevel: 15 advanced, 40 top) is reached AND the chapter boss
+        /// it requires (RequiredBoss: the Ch1 boss for the advanced job, the Ch4 boss for the top job) was defeated before this
+        /// chapter's fights, i.e. that boss's chapter is earlier than <paramref name="chapter"/>. Random, FOE and boss fights
+        /// of a chapter all use the same gate, so the expected party is advanced from chapter 2, top from chapter 5.
+        /// </summary>
+        static void Promote(GameDB db, HeroState hero, int chapter)
+        {
+            for (var next = JobService.NextJobs(db, hero); next.Count > 0; next = JobService.NextJobs(db, hero))
+            {
+                var job = next[0];
+                bool bossDone = string.IsNullOrEmpty(job.RequiredBoss) || Array.IndexOf(SpecIds.ChapterBosses, job.RequiredBoss) + 1 < chapter;
+                if (job.RequiredLevel > hero.Level || !bossDone) return;
+                hero.Job = job.Id;
+            }
+        }
+
+        /// <summary>
+        /// A campaign state with the party at <paramref name="level"/> and chapter gear/items. The default is the under-prepared
+        /// player: base jobs, no forging. <paramref name="jobs"/> adds the class changes (see <see cref="Promote"/>) and the job
+        /// signature weapons a promoted hero can craft (tier up to the chapter's sold tier, like the shop); <paramref name="forge"/>
+        /// sets every worn piece to that enhancement level.
+        /// </summary>
+        public static GameState Party(GameDB db, int level, int chapter, bool legendary = false, Difficulty difficulty = Difficulty.Normal,
+            bool jobs = false, int forge = 0)
         {
             var state = GameState.NewGame(db, difficulty);
             state.Inventory.Clear();
             var pool = Available(db, chapter, legendary).ToList();
+            if (jobs) pool.AddRange(db.Equipment.Values.Where(p => SpecIds.JobWeapons.Contains(p.Id) && p.Tier <= chapter + 1));
             foreach (var hero in state.Party)
             {
                 hero.Level = level;
+                if (jobs) Promote(db, hero, chapter);
                 var def = db.Heroes[hero.Id];
                 foreach (string slot in GameState.EquipSlots)
                 {
-                    var best = pool.Where(p => p.Slot == slot && PartyStats.AllowsClass(p, hero.Id))
+                    var best = pool.Where(p => p.Slot == slot && PartyStats.AllowsClass(p, hero.Id) && (!jobs || PartyStats.AllowsJob(db, p, hero)))
                         .OrderByDescending(p => Score(def, p)).ThenBy(p => p.Id, StringComparer.Ordinal).FirstOrDefault();
                     if (best != null) hero.Equipment[slot] = best.Id;
                 }
                 hero.Hp = -1; hero.Mp = -1;
             }
+            if (forge > 0)
+                foreach (var hero in state.Party)
+                    foreach (string slot in GameState.EquipSlots)
+                        if (hero.Equipped(slot) != "") state.Enhancements[hero.Equipped(slot)] = Math.Min(Enhancement.MaxLevel, forge);
             foreach (var (type, count) in new[] { (ItemType.Healing, 6), (ItemType.MpRestore, 3), (ItemType.Revive, 2), (ItemType.Cure, 2) })
             {
                 string id = BestItem(db, chapter, type);

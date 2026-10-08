@@ -208,6 +208,7 @@ namespace Abyss.UI
                 m.Add(T("party"), ShowParty, "동료의 능력치, 장비와 습득한 기술을 확인합니다.", icon: UIArtwork.Command("party"));
                 m.Add(T("cmd_item"), ShowFieldItems, inBattle ? T("battle_unavailable") : T("camp_hint"), enabled: !inBattle, reason: T("battle_unavailable"), icon: UIArtwork.Command("item"));
                 m.Add("의뢰 수첩", () => ShowQuests(false));
+                m.Add("마물 도감", ShowBestiary, "발견한 마물과 장별 토벌 기록, 도감 달성 보상을 확인합니다.");
                 m.Add(T("tool_map"), ShowMap, T("map_hint"), icon: UIArtwork.Command("map"));
                 m.Add(T("save"), () => ShowSlots(true), inBattle ? "전투가 끝난 뒤 저장할 수 있습니다. 전투 이전의 자동 저장은 유지됩니다." : "현재 모험을 저장합니다.", enabled: !inBattle, reason: T("battle_unavailable"));
                 m.Add("저장 불러오기", () => ShowSlots(false));
