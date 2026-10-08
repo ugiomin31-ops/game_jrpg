@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T09:05:21Z",
+  "produced_at_utc": "2026-10-08T09:14:37Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Assets/_Game/Resources/Art/Enemies/void_eye/void_eye.fbx",
-      "bytes": 838060
+      "bytes": 848636
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/blend/enemy_void_eye.blend",
-      "bytes": 361028
+      "bytes": 366484
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye.png",
-        "bytes": 171886
+        "bytes": 167588
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_side.png",
-        "bytes": 169542
+        "bytes": 165041
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_attack.png",
-        "bytes": 171807
+        "bytes": 166941
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_cast.png",
-        "bytes": 173616
+        "bytes": 168853
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_die.png",
-        "bytes": 161142
+        "bytes": 157222
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7272,
-    "vertices": 3676,
+    "triangles": 7784,
+    "vertices": 3932,
     "bones": 10,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7272,
-    "vertices": 3676,
+    "triangles": 7784,
+    "vertices": 3932,
     "bones": 10,
     "materials": [
       "M_Toon",

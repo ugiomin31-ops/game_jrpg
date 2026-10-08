@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T09:05:41Z",
+  "produced_at_utc": "2026-10-08T09:14:46Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Assets/_Game/Resources/Art/Enemies/abyss_worm/abyss_worm.fbx",
-      "bytes": 562908
+      "bytes": 558492
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/blend/enemy_abyss_worm.blend",
-      "bytes": 345853
+      "bytes": 342621
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm.png",
-        "bytes": 168045
+        "bytes": 167962
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_side.png",
-        "bytes": 170369
+        "bytes": 170974
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_attack.png",
-        "bytes": 168995
+        "bytes": 166911
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_cast.png",
-        "bytes": 168248
+        "bytes": 165557
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_die.png",
-        "bytes": 159384
+        "bytes": 155754
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7600,
-    "vertices": 3834,
+    "triangles": 7540,
+    "vertices": 3798,
     "bones": 5,
     "materials": [
       "M_Toon"
@@ -84,8 +84,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7600,
-    "vertices": 3834,
+    "triangles": 7540,
+    "vertices": 3798,
     "bones": 5,
     "materials": [
       "M_Toon"
