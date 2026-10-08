@@ -321,21 +321,32 @@ def _tongue(c, bone, name, base, direction, length, r, outer, inner, seg=10):
         c.add(bone, ob)
 
 
+def _crescent_pts(R=0.05, n=8):
+    """Crescent moon outline in the (x, z) plane: an outer arc on the left and a shallower inner arc back."""
+    outer = [(R * math.cos(math.radians(a)), R * math.sin(math.radians(a))) for a in range(90, 271, 180 // n)]
+    inner = [(0.45 * R + 0.75 * R * math.cos(math.radians(a)), 0.75 * R * math.sin(math.radians(a)))
+             for a in range(270, 89, -180 // n)]
+    return outer + inner
+
+
 def nightmare(eid):
-    """나이트메어 — a dream steed: a sturdy star-speckled indigo horse with muscular legs and hooves, a long arching
-    neck, a crescent-curved horn, and a mane and tail of violet star-flame with small glints of star-gems."""
-    c = Sculpt(eid, tris=4800, ao=0.4)
-    coat, belly, lift, hoof, muzzle, eyec = '#6c62c4', '#4a4294', '#9a8ee8', '#5a4f9a', '#a89cf0', '#b8a8ff'
-    fl_out, fl_in = '#7a3cff', '#ffb8ff'
+    """나이트메어 — a dream steed: a sturdy star-speckled violet horse with a lighter belly and muzzle, muscular legs
+    ending in tapered hooves with flame-wisps at the fetlocks, a long crescent horn and a forelock of star-flame, a
+    flowing mane of violet-to-pink flame ribbons along the crest, a long flowing flame tail, and a saddle blanket
+    with gold crescent emblems on each flank."""
+    c = Sculpt(eid, tris=3000, ao=0.4)
+    coat, belly, muzzle_c, hoof, eyec = '#8478d8', '#c4bcf4', '#dcd4ff', '#5a4fa8', '#b8a8ff'
+    blanket, gold = '#a0408e', '#e8b84c'
+    fl_out, fl_in = '#b064ff', '#ffd6ff'
 
-    def hide(p):   # darker underside, lighter top
-        return lerp_col(belly, coat, min(1.0, max(0.0, 0.5 + (p.z - 0.62) * 2.2)))
+    def hide(p):   # lighter belly, a pale muzzle, violet elsewhere
+        under = min(1.0, max(0.0, (0.66 - p.z) * 4.0))
+        nose = min(1.0, max(0.0, (-0.6 - p.y) * 5.0)) if p.z < 1.12 else 0.0
+        return lerp_col(lerp_col(coat, belly, under), muzzle_c, nose)
 
-    def stars(p, n, col):   # fine star speckles and a moonlit top
-        if noise.noise(p * 26 + Vector((1.3, 0.2, 2.5))) > 0.5 and n.z > -0.4:
-            return lerp_col(col, '#e8e0ff', 0.95)
-        if n.z > 0.55:
-            return lerp_col(col, lift, 0.35)
+    def stars(p, n, col):   # soft, larger star speckles that still read at battle distance
+        if noise.noise(p * 11 + Vector((1.3, 0.2, 2.5))) > 0.42 and n.z > -0.5:
+            return lerp_col(col, '#f2ecff', 0.8)
         return col
     c.post = stars
     c.bone('body', (0, 0.05, 0.7))
@@ -347,12 +358,12 @@ def nightmare(eid):
     c.blob('body', (0, 0.3, 0.74), (0.15, 0.13, 0.17), hide)
     c.blob('body', (0, -0.15, 0.9), (0.13, 0.13, 0.1), hide)
     c.blob('body', (0, 0.02, 0.52), (0.14, 0.24, 0.07), hide)
-    # long arching neck and a long head with a soft muzzle
+    # arching neck and a long head with a pale muzzle
     c.limb(['body', 'body', 'head', 'head'], [(0, -0.22, 0.84), (0, -0.3, 0.98), (0, -0.37, 1.1), (0, -0.42, 1.2)],
            [0.15, 0.125, 0.105, 0.09], hide)
     c.blob('head', (0, -0.45, 1.2), (0.085, 0.095, 0.09), hide)
     c.limb('head', [(0, -0.5, 1.17), (0, -0.6, 1.1), (0, -0.72, 1.06)], [0.07, 0.058, 0.05], hide)
-    c.blob('head', (0, -0.77, 1.04), (0.055, 0.06, 0.05), muzzle)
+    c.blob('head', (0, -0.77, 1.04), (0.055, 0.06, 0.05), hide)
     c.limb('jaw', [(0, -0.6, 1.06), (0, -0.68, 1.03), (0, -0.73, 1.04)], [0.048, 0.042, 0.04], hide)
     c.blob('eyes', (0, -0.52, 1.25), (0.075, 0.04, 0.03), hide)                                    # brow
     for s in (-1, 1):
@@ -362,118 +373,120 @@ def nightmare(eid):
         c.blob('ear.' + ('L' if s > 0 else 'R'), (s * 0.05, -0.44, 1.31), (0.022, 0.014, 0.055), hide, rot=(0, -s * 12, 0))
     # crescent horn arcing forward over the brow
     horn(c, 'head', 'horn', (0, -0.56, 1.28), (0, -0.64, 1.38), (0, -0.54, 1.45), 0.022, '#eee6ff', '#b898ff')
-    # four legs: forearms and gaskins with real muscle, slim cannons, round fetlocks, dark violet hooves
+    # saddle blanket (colour over the back) with a gold crescent emblem on each flank
+    c.paint((0, 0.0, 0.84), (0.2, 0.3, 0.05), blanket, weight=1.2)
+    for s in (-1, 1):
+        c.add('body', A.extrude_shape(f'crest{s:+d}', _crescent_pts(0.065), depth=0.014, loc=(s * 0.178, 0.0, 0.74),
+                                      rot=(0, 0, 90), color=gold, mat='M_Toon'))
+    # four legs: muscular forearms and gaskins, slim cannons, tapered hooves with flat soles, fetlock flame-wisps
     for s, side in ((-1, 'R'), (1, 'L')):
         x = s * 0.1
         c.bone('leg.F' + side, (x, -0.22, 0.66), 'body')
         c.blob('leg.F' + side, (x, -0.22, 0.6), (0.09, 0.1, 0.13), hide)
         c.limb('leg.F' + side, [(x, -0.23, 0.5), (x, -0.235, 0.36), (x, -0.24, 0.16)], [0.06, 0.042, 0.034], hide)
-        c.blob('leg.F' + side, (x, -0.24, 0.13), (0.04, 0.044, 0.034), hide)
-        c.blob('leg.F' + side, (x, -0.25, 0.04), (0.058, 0.062, 0.05), hoof)
+        c.blob('leg.F' + side, (x, -0.24, 0.13), (0.04, 0.044, 0.034), hide)                    # fetlock
+        c.add('leg.F' + side, A.cyl('hoof_F' + side, r=0.046, depth=0.07, loc=(x, -0.25, 0.035), r2=0.035, color=hoof,
+                                   mat='M_Toon', seg=12))
+        _tongue(c, 'leg.F' + side, 'fetlock_F' + side, (x, -0.25, 0.1), (0, 0.5, -1), 0.11, 0.03, fl_out, fl_in, seg=8)
         c.bone('leg.B' + side, (x * 1.1, 0.3, 0.7), 'body')
         c.blob('leg.B' + side, (x * 1.1, 0.3, 0.62), (0.1, 0.13, 0.14), hide)
         c.limb('leg.B' + side, [(x, 0.33, 0.52), (x, 0.36, 0.34), (x, 0.335, 0.12)], [0.062, 0.046, 0.034], hide)
-        c.blob('leg.B' + side, (x, 0.34, 0.31), (0.05, 0.055, 0.05), hide)
-        c.blob('leg.B' + side, (x, 0.335, 0.11), (0.04, 0.044, 0.034), hide)
-        c.blob('leg.B' + side, (x, 0.33, 0.04), (0.058, 0.062, 0.05), hoof)
-    # flame mane along the crest of the neck, flame tail streaming back and down, a few star-gem glints
-    for j in range(7):
-        t = j / 6
-        base = Vector((0, -0.4, 1.22)).lerp(Vector((0, -0.2, 0.98)), t) + Vector(((j % 2 - 0.5) * 0.03, 0.0, 0.02))
-        _tongue(c, 'flame_mane', f'mane{j}', tuple(base), (0.0, 0.5, 1.0), 0.3 - 0.09 * t, 0.06 - 0.012 * t, fl_out, fl_in)
-    # the tail fans out and streams back and down, each tongue at its own angle so the fan reads from the side too
-    for k, (dx, dz, L) in enumerate(((-0.12, -0.2, 0.5), (-0.05, -0.45, 0.6), (0.05, -0.7, 0.56), (0.12, -0.35, 0.46))):
-        _tongue(c, 'flame_tail', f'tail_flame{k}', (dx * 0.4, 0.4, 0.8), (dx * 1.6, 0.7, dz), L, 0.075, fl_out, fl_in)
-    for k, p in enumerate(((-0.22, -0.4, 1.36), (0.2, -0.46, 1.34), (0.0, -0.1, 1.42))):
+        c.blob('leg.B' + side, (x, 0.34, 0.31), (0.05, 0.055, 0.05), hide)                      # hock
+        c.blob('leg.B' + side, (x, 0.335, 0.11), (0.04, 0.044, 0.034), hide)                    # fetlock
+        c.add('leg.B' + side, A.cyl('hoof_B' + side, r=0.046, depth=0.07, loc=(x, 0.33, 0.035), r2=0.035, color=hoof,
+                                   mat='M_Toon', seg=12))
+        _tongue(c, 'leg.B' + side, 'fetlock_B' + side, (x, 0.33, 0.1), (0, 0.5, -1), 0.11, 0.03, fl_out, fl_in, seg=8)
+    # mane: eight star-flame ribbons down the whole neck crest, violet at the poll fading to pink at the withers
+    for j in range(10):
+        t = j / 9
+        base = Vector((0, -0.42, 1.2)).lerp(Vector((0, -0.2, 0.98)), t)
+        outer, inner = lerp_col(fl_out, '#ff70e0', t), lerp_col('#e0c0ff', '#fff0ff', t)
+        side = 1 if j % 2 else -1     # alternate sides so the ribbons separate into flowing tongues
+        _tongue(c, 'flame_mane', f'mane{j}', tuple(base + Vector((side * 0.03, 0.0, 0.0))),
+                (side * 0.45, 0.9, 0.35 - 0.2 * t), (0.5 if j % 3 else 0.36) - 0.1 * t,
+                0.1 - 0.02 * t, outer, inner, seg=8)
+    # forelock: two ribbons falling forward over the brow
+    for s in (-1, 1):
+        _tongue(c, 'flame_mane', f'forelock{s:+d}', (s * 0.02, -0.5, 1.3), (s * 0.25, -0.85, -0.35), 0.2, 0.035,
+                fl_out, fl_in, seg=8)
+    # long flame tail streaming back and down, fanned so it reads from the front three-quarter view
+    for k, (dx, dz, L) in enumerate(((-0.14, -0.15, 0.8), (-0.07, -0.45, 0.9), (0.0, -0.7, 0.86),
+                                     (0.07, -0.5, 0.92), (0.14, -0.2, 0.78))):
+        _tongue(c, 'flame_tail', f'tail_flame{k}', (dx * 0.4, 0.4, 0.8), (dx * 1.8, 0.7, dz), L, 0.08, fl_out, fl_in, seg=8)
+    for k, p in enumerate(((-0.22, -0.44, 1.36), (0.2, -0.5, 1.34), (0.0, -0.1, 1.42))):
         c.gem('flame_mane', f'star{k}', p, (0, 0, 1), 0.02, 0.075, '#f4e8ff', '#9a70ff', mat='M_Emit', sides=4)
     return c.finish('quad')
 
 
 # ---------------------------------------------------------------------------------------------- doppelganger
-def _mirror_post(centre=(0.0, -0.07, 1.2), radii=(0.105, 0.075, 0.135)):
-    """post-paint for the polished mirror mask: a sky-bright upper face over a dark reflection, with a crescent crack
-    and a fine second hairline; the rest of the body keeps its cloth colours."""
-    def f(p, n, col):
-        d = Vector(((p.x - centre[0]) / radii[0], (p.y - centre[1]) / radii[1], (p.z - centre[2]) / radii[2])).length
-        if d > 1.08 or p.y > -0.02:
-            return col
-        glass = lerp_col('#3e3478', '#f0f2ff', max(0.0, min(1.0, (n.z + 0.25) / 0.7)))
-        rx, rz = p.x - 0.03, p.z - 1.25
-        r = math.hypot(rx, rz)
-        ang = math.degrees(math.atan2(rz, rx))
-        if abs(r - 0.07) < 0.0085 and -40 < ang < 110:
-            return rgba('#120c24')
-        if abs(r - 0.095) < 0.005 and -10 < ang < 60:
-            return rgba('#ffffff')
-        return glass
-    return f
-
-
 def doppelganger(eid):
-    """도플갱어 — a mirror-mask phantom duelist that copies the heroes: a slim figure in a flowing two-tone cloak
-    (violet and teal, lavender lining) whose hem carries the four heroes' colours, a polished glass mask with a cracked
-    crescent over a violet hood, a rapier of silver-glass, and mirror-glass motes orbiting it."""
+    """도플갱어 — a mirror-mask phantom duelist that copies the heroes: a heroic, slim-waisted figure in a long
+    high-collared violet coat with gold trim, three flowing coat-tails sculpted into the body, a porcelain mirror mask
+    with one glowing crescent crack and a violet hood with a plume, a gold belt set with the four heroes' gems, a
+    gold pauldron, and a rapier with a cup guard; mirror-glass motes orbit it."""
     c = Sculpt(eid, tris=5600, ao=0.4)
-    c.post = _mirror_post()
-    coat, bodice, lining, glove, boot, glass = '#8a6ae6', '#5a4aa8', '#e0d8ff', '#4a3f8a', '#5a4aa8', '#e6e8ff'
+    violet, lav_hi, gold, dark_v = '#8a64e0', '#d2c4f8', '#e0b04a', '#5a3fb0'
+    legs, boot, glove, porcelain = '#5a4aa8', '#6a50b8', '#4a3a92', '#d8d0f4'
+    glass, tail_c = '#e6e8ff', '#7a58d4'
 
-    def cloth(p):   # two-tone cloak: teal on one side, violet on the other
-        return lerp_col('#3aa8b0', coat, min(1.0, max(0.0, 0.5 + p.x * 2.4)))
-    c.bone('body', (0, 0, 0.62)); c.bone('head', (0, -0.01, 1.1), 'body'); c.bone('eyes', (0, -0.12, 1.2), 'head')
-    c.bone('cape', (0, 0.06, 1.0), 'body')
-    # torso and sleeves of the coat
-    c.blob('body', (0, 0, 0.94), (0.14, 0.095, 0.12), bodice)
-    c.blob('body', (0, 0.0, 0.78), (0.12, 0.09, 0.09), bodice)
-    c.blob('body', (0, 0.0, 0.66), (0.13, 0.1, 0.07), bodice)
-    c.blob('body', (0, -0.1, 0.86), (0.05, 0.02, 0.15), lining)                          # open front panel
+    def hem(p):   # coat-tails: solid violet, with a lavender edge only at the very hem
+        return lerp_col(tail_c, lav_hi, min(0.6, max(0.0, (0.2 - p.z) * 5.0)))
+
+    def face(p):  # porcelain at the front of the head, violet hood at the back
+        return lerp_col(porcelain, violet, min(1.0, max(0.0, (p.y + 0.02) / 0.05)))
+    c.bone('body', (0, 0, 0.62)); c.bone('head', (0, -0.01, 1.1), 'body')
+    c.bone('tail1', (0, 0.04, 0.62), 'body'); c.bone('tail2', (0.12, 0.02, 0.62), 'body'); c.bone('tail3', (-0.12, 0.02, 0.62), 'body')
+    # heroic torso: broad shoulders, tapered waist, long coat skirt
+    c.blob('body', (0, 0, 0.98), (0.15, 0.1, 0.12), violet)
+    c.blob('body', (0, 0, 0.8), (0.11, 0.085, 0.09), violet)
+    c.blob('body', (0, 0, 0.66), (0.135, 0.095, 0.08), violet)
     for s in (-1, 1):
-        c.blob('body', (s * 0.16, 0.0, 1.0), (0.07, 0.07, 0.065), coat)                # broad shoulders
-    # the cloak: one flat panel on the cape bone (it sways with the bone), flaring from the shoulders to a scalloped
-    # hem. Teal on one side, violet on the other; the hem carries the four heroes' colours: warrior, archer, mage, cleric
-    outline = [(-0.2, 0.98), (0.2, 0.98), (0.3, 0.6), (0.42, 0.24), (0.3, 0.12), (0.16, 0.2), (0.0, 0.1), (-0.16, 0.2),
-               (-0.3, 0.12), (-0.42, 0.24), (-0.3, 0.6)]
-    cl = A.extrude_shape('cloak', outline, depth=0.035, loc=(0, 0.13, 0), color=coat)
-    attr = cl.data.color_attributes['Col']
-    hero = ('#c0622e', '#4fae5a', '#358ed4', '#e88aa8')
-    for loop in cl.data.loops:
-        v = cl.data.vertices[loop.vertex_index].co
-        col = lerp_col('#3aa8b0', coat, min(1.0, max(0.0, 0.5 + v.x * 2.4)))
-        if v.z < 0.26:
-            col = hero[min(3, max(0, int((v.x + 0.32) / 0.16)))]
-        attr.data[loop.index].color_srgb = rgba(col)
-    c.add('cape', cl)
-    # head: a violet hood over the skull, the glass mask, carved eye slots and two flowing hood ribbons
-    c.blob('head', (0, 0.01, 1.2), (0.095, 0.1, 0.11), coat)
-    c.blob('head', (0, 0.03, 1.27), (0.1, 0.085, 0.07), coat)
-    c.blob('head', (0, -0.07, 1.2), (0.1, 0.07, 0.125), glass)
-    for s in (-1, 1):
-        c.blob('head', (s * 0.042, -0.12, 1.2), (0.03, 0.03, 0.03), '#000000', negative=True)
-        c.eye('eyes', (s * 0.042, -0.135, 1.2), (s * 0.15, -1, 0.0), 0.02, '#b48cff', sclera='#f4f0ff', pupil='#120c24')
-        c.tuft('head', (s * 0.07, 0.08, 1.2), (s * 0.12, 0.3, -1), 0.26, 0.03, cloth)   # hood ribbons falling to the shoulders
-    c.limb('head', [(0, 0, 1.0), (0, -0.005, 1.08)], [0.05, 0.045], bodice)
-    # arms: slim sleeves with lining cuffs and dark gloves
+        c.blob('body', (s * 0.18, 0, 1.0), (0.07, 0.07, 0.07), violet)
+    c.blob('body', (0, 0, 0.74), (0.12, 0.09, 0.03), gold)                                   # gold belt band
+    c.blob('body', (0, 0, 0.5), (0.125, 0.09, 0.08), violet)                                 # coat skirt
+    for k in range(8):                                                                       # high gold collar ring
+        a = TAU * k / 8
+        c.blob('body', (math.cos(a) * 0.075, math.sin(a) * 0.065, 1.02), (0.03, 0.03, 0.04), gold)
+    for z in (0.92, 0.84):                                                                   # gold buttons down the front
+        c.blob('body', (0, -0.1, z), (0.013, 0.013, 0.013), gold)
+    # three coat-tails sculpted into the body and weighted to the spine (centre) and hips (sides)
+    for bone, x0, x1, y0, y1 in (('tail1', 0.0, 0.0, 0.06, 0.22), ('tail2', 0.1, 0.19, 0.04, 0.18),
+                                 ('tail3', -0.1, -0.19, 0.04, 0.18)):
+        for k in range(8):   # a dense run of flattened masses: one continuous cloth-like tail per bone
+            t = k / 7
+            p = (x0 + (x1 - x0) * t, y0 + (y1 - y0) * t, 0.58 - 0.3 * t)
+            w = 0.055 + 0.02 * t
+            c.blob(bone, p, (w, 0.03, 0.09), hem)
+    # head: porcelain mask over the skull, a violet hood behind it and a plume rising from the crown
+    c.blob('head', (0, -0.01, 1.2), (0.1, 0.095, 0.12), face)
+    c.blob('head', (0, 0.035, 1.25), (0.1, 0.085, 0.09), violet)
+    # one glowing crescent crack across the mask (emissive, a single line)
+    crack = [tuple(ellipsoid_point((0, -0.01, 1.2), (0.1, 0.095, 0.12),
+                                   Vector((0.07 * math.cos(math.radians(a)) / 0.1, -1.0,
+                                           (1.2 + 0.07 * math.sin(math.radians(a)) - 1.2) / 0.12)), out=0.004)[0])
+             for a in range(-40, 121, 10)]
+    c.tube('head', 'mask_crack', crack, 0.009, '#f0e0ff', mat='M_Emit')
+    c.add('head', A.torus('circlet', R=0.088, r=0.013, loc=(0, -0.01, 1.27), scale=(1.05, 1.0, 1.0), color=gold, seg=24, minor=8))
+    # arms: sleeves, gold cuffs and dark gloves; legs in leggings with boots and gold cuffs
     for s, side in ((-1, 'R'), (1, 'L')):
         c.bone('arm.' + side, (s * 0.14, 0, 0.95), 'body')
-        c.limb('arm.' + side, [(s * 0.15, 0, 0.96), (s * 0.21, -0.03, 0.82), (s * 0.24, -0.06, 0.7)], [0.05, 0.04, 0.035], cloth)
-        c.paint((s * 0.245, -0.07, 0.7), (0.03, 0.03, 0.03), lining, weight=1.5)
-        c.blob('arm.' + side, (s * 0.25, -0.08, 0.66), (0.033, 0.034, 0.04), glove)
-        # legs in dark leggings with boots
-        c.bone('leg.' + side, (s * 0.075, 0, 0.6), 'body')
-        c.limb('leg.' + side, [(s * 0.075, 0, 0.6), (s * 0.085, -0.01, 0.36), (s * 0.085, 0.0, 0.1)], [0.06, 0.045, 0.04], bodice)
-        c.blob('leg.' + side, (s * 0.085, -0.035, 0.06), (0.045, 0.075, 0.042), boot)
-    # glass shards on the shoulders
-    for s, side in ((-1, 'R'), (1, 'L')):
-        for j in range(2):
-            c.gem('body', f'shard{side}{j}', (s * (0.16 + 0.03 * j), 0.0, 1.06 + 0.03 * j), (s * 0.5, 0.1, 1.0), 0.018,
-                  0.1 - 0.03 * j, glass, '#8e82d0', mat='M_Clear', sides=4)
-    # rapier in the right hand: grip, guard, a long thin silver-glass blade pointing forward and up
-    hand = Vector((-0.255, -0.085, 0.64))
+        c.limb('arm.' + side, [(s * 0.18, 0, 0.98), (s * 0.23, -0.03, 0.83), (s * 0.26, -0.07, 0.7)], [0.055, 0.045, 0.04], violet)
+        c.paint((s * 0.265, -0.09, 0.67), (0.035, 0.035, 0.035), gold, weight=1.6)
+        c.blob('arm.' + side, (s * 0.27, -0.1, 0.64), (0.04, 0.04, 0.045), glove)
+        c.bone('leg.' + side, (s * 0.085, 0, 0.6), 'body')
+        c.limb('leg.' + side, [(s * 0.085, 0, 0.6), (s * 0.09, -0.01, 0.34), (s * 0.09, 0, 0.1)], [0.06, 0.045, 0.04], legs)
+        c.blob('leg.' + side, (s * 0.09, -0.035, 0.06), (0.05, 0.085, 0.05), boot)
+        c.paint((s * 0.09, -0.06, 0.13), (0.055, 0.035, 0.02), gold, weight=1.6)              # boot cuff
+    # one gold pauldron on the left shoulder
+    c.add('body', dome('pauldron', (0.2, 0.0, 1.07), (0.085, 0.085, 0.05), cut=-0.25, color=gold))
+    # rapier in the right hand: grip, cup guard, a long thin silver blade pointing forward and up
+    hand = Vector((-0.27, -0.09, 0.66))
     d = Vector((0.12, -0.9, 0.34)).normalized()
     c.bone('weapon.R', tuple(hand), 'arm.R')
-    c.tube('weapon.R', 'grip', [tuple(hand - d * 0.1), tuple(hand)], 0.012, '#3a2c5c')
-    perp = d.cross(Vector((0, 0, 1))).normalized() * 0.05
-    c.tube('weapon.R', 'guard', [tuple(hand + perp), tuple(hand - perp)], 0.009, '#d8ccff')
-    blade(c, 'weapon.R', 'rapier', tuple(hand), 0.72, 0.024, glass, edge='#a58cff', depth=0.008, axis=tuple(d), tip_len=0.3)
+    c.tube('weapon.R', 'grip', [tuple(hand - d * 0.1), tuple(hand)], 0.012, dark_v)
+    c.disc('weapon.R', 'guard', tuple(hand), d, (0.06, 0.018, 0.06), gold)
+    c.disc('weapon.R', 'cup', tuple(hand + d * 0.03), d, (0.04, 0.02, 0.04), gold)
+    blade(c, 'weapon.R', 'rapier', tuple(hand), 0.72, 0.022, '#e8e4ff', edge='#c8a8ff', depth=0.008, axis=tuple(d), tip_len=0.3)
     # mirror-glass motes orbiting on a spinning bone, plus three small violet embers
     c.bone('orbit', (0, 0, 1.0), 'body')
     for k in range(6):
@@ -484,6 +497,9 @@ def doppelganger(eid):
         a = TAU * k / 3 + 1.1
         c.gem('orbit', f'ember{k}', (math.cos(a) * 0.24, math.sin(a) * 0.24, 1.36 - 0.1 * k), (0, 0, 1), 0.012, 0.04,
               '#f4e8ff', '#8a50ff', mat='M_Emit', sides=4)
+    # belt gems: one in each hero's colour (warrior, archer, mage, cleric)
+    for k, (col, dark) in enumerate((('#c0622e', '#7a3a1c'), ('#4fae5a', '#2a6a34'), ('#358ed4', '#1f5a94'), ('#e88aa8', '#9a4a68'))):
+        c.gem('body', f'belt_gem{k}', (-0.075 + 0.05 * k, -0.115, 0.745), (0, -1, 0.1), 0.014, 0.03, col, dark, mat='M_Toon', sides=5)
     c.arm_limit = (80, 30)
     return c.finish('biped')
 

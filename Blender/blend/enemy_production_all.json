@@ -76,8 +76,7 @@
     "abyss_lord"
   ],
   "rebuilt_ids": [
-    "doppelganger",
-    "gargoyle"
+    "nightmare"
   ],
   "produced_ids": [
     "gargoyle",
@@ -306,36 +305,36 @@
       "is_boss": false,
       "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/enemies_e/abyss.py",
       "blender_version": "5.2.2 LTS",
-      "produced_at_utc": "2026-10-08T09:01:43Z",
+      "produced_at_utc": "2026-10-08T09:13:06Z",
       "files": {
         "fbx": {
           "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Assets/_Game/Resources/Art/Enemies/nightmare/nightmare.fbx",
-          "bytes": 1002364
+          "bytes": 969836
         },
         "blend": {
           "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/blend/enemy_nightmare.blend",
-          "bytes": 382216
+          "bytes": 346175
         },
         "previews": [
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare.png",
-            "bytes": 152523
+            "bytes": 155593
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_side.png",
-            "bytes": 166648
+            "bytes": 170937
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_attack.png",
-            "bytes": 164909
+            "bytes": 166184
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_cast.png",
-            "bytes": 155900
+            "bytes": 157617
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_die.png",
-            "bytes": 158066
+            "bytes": 157847
           }
         ]
       },
@@ -344,8 +343,8 @@
           "Body",
           "Rig"
         ],
-        "triangles": 7660,
-        "vertices": 3904,
+        "triangles": 7092,
+        "vertices": 3672,
         "bones": 13,
         "materials": [
           "M_Toon",
@@ -388,8 +387,8 @@
           "Body",
           "Rig"
         ],
-        "triangles": 7660,
-        "vertices": 3904,
+        "triangles": 7092,
+        "vertices": 3672,
         "bones": 13,
         "materials": [
           "M_Toon",
@@ -433,36 +432,36 @@
       "is_boss": false,
       "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/enemies_e/abyss.py",
       "blender_version": "5.2.2 LTS",
-      "produced_at_utc": "2026-10-08T09:03:13Z",
+      "produced_at_utc": "2026-10-08T09:12:29Z",
       "files": {
         "fbx": {
           "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Assets/_Game/Resources/Art/Enemies/doppelganger/doppelganger.fbx",
-          "bytes": 887676
+          "bytes": 954508
         },
         "blend": {
           "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/blend/enemy_doppelganger.blend",
-          "bytes": 368393
+          "bytes": 394706
         },
         "previews": [
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger.png",
-            "bytes": 164608
+            "bytes": 162113
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_side.png",
-            "bytes": 153829
+            "bytes": 154873
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_attack.png",
-            "bytes": 157968
+            "bytes": 155065
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_cast.png",
-            "bytes": 163755
+            "bytes": 158609
           },
           {
             "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_die.png",
-            "bytes": 161207
+            "bytes": 158266
           }
         ]
       },
@@ -471,13 +470,13 @@
           "Body",
           "Rig"
         ],
-        "triangles": 6800,
-        "vertices": 3472,
-        "bones": 11,
+        "triangles": 7216,
+        "vertices": 3680,
+        "bones": 12,
         "materials": [
           "M_Toon",
-          "M_Clear",
-          "M_Emit"
+          "M_Emit",
+          "M_Clear"
         ],
         "clips": {
           "Idle": [
@@ -516,13 +515,13 @@
           "Body",
           "Rig"
         ],
-        "triangles": 6800,
-        "vertices": 3472,
-        "bones": 11,
+        "triangles": 7216,
+        "vertices": 3680,
+        "bones": 12,
         "materials": [
           "M_Toon",
-          "M_Clear",
-          "M_Emit"
+          "M_Emit",
+          "M_Clear"
         ],
         "clips": {
           "Idle": [

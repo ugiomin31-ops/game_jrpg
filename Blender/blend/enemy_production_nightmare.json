@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T09:01:43Z",
+  "produced_at_utc": "2026-10-08T09:13:06Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Assets/_Game/Resources/Art/Enemies/nightmare/nightmare.fbx",
-      "bytes": 1002364
+      "bytes": 969836
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/blend/enemy_nightmare.blend",
-      "bytes": 382216
+      "bytes": 346175
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare.png",
-        "bytes": 152523
+        "bytes": 155593
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_side.png",
-        "bytes": 166648
+        "bytes": 170937
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_attack.png",
-        "bytes": 164909
+        "bytes": 166184
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_cast.png",
-        "bytes": 155900
+        "bytes": 157617
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_nightmare_die.png",
-        "bytes": 158066
+        "bytes": 157847
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7660,
-    "vertices": 3904,
+    "triangles": 7092,
+    "vertices": 3672,
     "bones": 13,
     "materials": [
       "M_Toon",
@@ -85,8 +85,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7660,
-    "vertices": 3904,
+    "triangles": 7092,
+    "vertices": 3672,
     "bones": 13,
     "materials": [
       "M_Toon",
