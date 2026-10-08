@@ -120,7 +120,7 @@
   "status_immunities": [],
   "price": 5200,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_berserk_ring",
@@ -157,7 +157,7 @@
   ],
   "price": 3000,
   "sell_price": -1,
-  "shop_tier": 3,
+  "shop_tier": 4,
   "craft_materials": {
    "magma_core": 2,
    "drake_scale": 1
@@ -226,7 +226,7 @@
   "status_immunities": [],
   "price": 3000,
   "sell_price": -1,
-  "shop_tier": 3,
+  "shop_tier": 4,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_counter_charm",
@@ -305,7 +305,7 @@
   ],
   "price": 5200,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_curse_ward",
@@ -342,7 +342,7 @@
   "status_immunities": [],
   "price": 8500,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "scale_blue": 3,
    "temple_stone": 3
@@ -446,7 +446,7 @@
   "status_immunities": [],
   "price": 3000,
   "sell_price": -1,
-  "shop_tier": 3,
+  "shop_tier": 4,
   "craft_materials": {
    "golem_sandstone": 3,
    "magma_core": 2
@@ -484,7 +484,7 @@
   "status_immunities": [],
   "price": 1500,
   "sell_price": -1,
-  "shop_tier": 2,
+  "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_exp_charm",
@@ -555,7 +555,7 @@
   ],
   "price": 1500,
   "sell_price": -1,
-  "shop_tier": 2,
+  "shop_tier": 3,
   "craft_materials": {
    "frost_fur": 2,
    "jelly_core": 1
@@ -626,7 +626,7 @@
   "status_immunities": [],
   "price": 1500,
   "sell_price": -1,
-  "shop_tier": 2,
+  "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_gold_charm",
@@ -732,7 +732,7 @@
   "status_immunities": [],
   "price": 5200,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "ghost_essence": 3,
    "old_bone": 3
@@ -770,7 +770,7 @@
   "status_immunities": [],
   "price": 600,
   "sell_price": -1,
-  "shop_tier": 1,
+  "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_iron_bangle",
@@ -881,7 +881,7 @@
   "status_immunities": [],
   "price": 3000,
   "sell_price": -1,
-  "shop_tier": 3,
+  "shop_tier": 4,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_life_pendant",
@@ -944,7 +944,7 @@
   "status_immunities": [],
   "price": 5200,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "ghost_essence": 3,
    "jelly_core": 3
@@ -983,7 +983,7 @@
   "status_immunities": [],
   "price": 600,
   "sell_price": -1,
-  "shop_tier": 1,
+  "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_mind_ring",
@@ -1021,7 +1021,7 @@
   ],
   "price": 3000,
   "sell_price": -1,
-  "shop_tier": 3,
+  "shop_tier": 4,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_paralyze_ward",
@@ -1084,7 +1084,7 @@
   "status_immunities": [],
   "price": 8500,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "pearl": 3,
    "siren_feather": 2
@@ -1238,7 +1238,7 @@
   ],
   "price": 1500,
   "sell_price": -1,
-  "shop_tier": 2,
+  "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_silence_ward",
@@ -1276,7 +1276,7 @@
   ],
   "price": 5200,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_sleep_ward",
@@ -1311,7 +1311,7 @@
   "status_immunities": [],
   "price": 5200,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_sniper_scope",
@@ -1384,7 +1384,7 @@
   "status_immunities": [],
   "price": 3000,
   "sell_price": -1,
-  "shop_tier": 3,
+  "shop_tier": 4,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_spirit_pendant",
@@ -1419,7 +1419,7 @@
   "status_immunities": [],
   "price": 1500,
   "sell_price": -1,
-  "shop_tier": 2,
+  "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
   "_file": "acc_swift_anklet",
@@ -1456,7 +1456,7 @@
   "status_immunities": [],
   "price": 1500,
   "sell_price": -1,
-  "shop_tier": 2,
+  "shop_tier": 3,
   "craft_materials": {
    "jelly_core": 3,
    "coral_shard": 2
@@ -1494,7 +1494,7 @@
   "status_immunities": [],
   "price": 8500,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "gargoyle_horn": 2,
    "temple_stone": 3
@@ -1688,7 +1688,7 @@
   "status_immunities": [],
   "price": 4500,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "ghost_essence": 4,
    "cursed_straw": 2,
@@ -1759,7 +1759,7 @@
   "status_immunities": [],
   "price": 7600,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "pearl": 4,
    "scale_blue": 3,
@@ -1800,7 +1800,7 @@
   "status_immunities": [],
   "price": 12650,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "void_shard": 4,
    "shadow_pelt": 3,
@@ -2146,7 +2146,7 @@
   "status_immunities": [],
   "price": 8750,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "temple_stone": 4,
    "siren_feather": 3,
@@ -2180,7 +2180,7 @@
   "status_immunities": [],
   "price": 14600,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "gargoyle_horn": 4,
    "fallen_feather": 3,
@@ -2214,7 +2214,7 @@
   "status_immunities": [],
   "price": 5150,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "cursed_straw": 4,
    "old_bone": 2,
@@ -2373,7 +2373,7 @@
   "status_immunities": [],
   "price": 7250,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "temple_stone": 4,
    "siren_feather": 3,
@@ -2414,7 +2414,7 @@
   "status_immunities": [],
   "price": 12100,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "gargoyle_horn": 4,
    "fallen_feather": 3,
@@ -2485,7 +2485,7 @@
   "status_immunities": [],
   "price": 4300,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "old_bone": 4,
    "ghost_essence": 2,
@@ -2628,7 +2628,7 @@
   "status_immunities": [],
   "price": 14300,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "fallen_feather": 4,
    "void_shard": 3,
@@ -2662,7 +2662,7 @@
   "status_immunities": [],
   "price": 8600,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "siren_feather": 4,
    "pearl": 3,
@@ -2736,7 +2736,7 @@
   "status_immunities": [],
   "price": 5050,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "old_bone": 4,
    "ghost_essence": 2,
@@ -3034,7 +3034,7 @@
   "status_immunities": [],
   "price": 6950,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "scale_blue": 4,
    "temple_stone": 3,
@@ -3138,7 +3138,7 @@
   "status_immunities": [],
   "price": 4100,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "cursed_straw": 4,
    "old_bone": 2,
@@ -3180,7 +3180,7 @@
   "status_immunities": [],
   "price": 11550,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "shadow_pelt": 4,
    "gargoyle_horn": 3,
@@ -3298,7 +3298,7 @@
   "status_immunities": [],
   "price": 5350,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "ghost_essence": 4,
    "cursed_straw": 2,
@@ -3332,7 +3332,7 @@
   "status_immunities": [],
   "price": 9100,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "scale_blue": 4,
    "temple_stone": 3,
@@ -3601,7 +3601,7 @@
   "status_immunities": [],
   "price": 15100,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "shadow_pelt": 4,
    "gargoyle_horn": 3,
@@ -3938,7 +3938,7 @@
   "status_immunities": [],
   "price": 5250,
   "sell_price": -1,
-  "shop_tier": 4,
+  "shop_tier": 5,
   "craft_materials": {
    "old_bone": 4,
    "ghost_essence": 2,
@@ -3972,7 +3972,7 @@
   "status_immunities": [],
   "price": 8900,
   "sell_price": -1,
-  "shop_tier": 5,
+  "shop_tier": 6,
   "craft_materials": {
    "pearl": 4,
    "scale_blue": 3,
@@ -4006,7 +4006,7 @@
   "status_immunities": [],
   "price": 14850,
   "sell_price": -1,
-  "shop_tier": 6,
+  "shop_tier": 7,
   "craft_materials": {
    "void_shard": 4,
    "shadow_pelt": 3,

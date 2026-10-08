@@ -96,16 +96,16 @@ ZONE_VARIANTS = [
 # level range (normal = rank 0 random encounters, elite = FOE / mid-boss). A monster appears in one zone only,
 # except the postgame (13), which mixes the strongest of every gate.
 ZONE_POOLS = {
-    1: dict(normal=['sewer_slime', 'slime', 'horned_rabbit', 'tunnel_bat', 'bat', 'killer_bee'],
+    1: dict(normal=['sewer_slime', 'slime', 'sewer_rat', 'horned_rabbit', 'tunnel_bat', 'bat', 'killer_bee'],
             elite=['elite_bat', 'elite_mushroom']),
-    2: dict(normal=['sprout', 'mushroom', 'mandragora', 'rhino_beetle', 'pixie', 'poison_mushroom'],
+    2: dict(normal=['goblin', 'goblin_shaman', 'sprout', 'mushroom', 'mandragora', 'rhino_beetle', 'pixie', 'poison_mushroom'],
             elite=['elite_rhino_beetle', 'elite_mushroom']),
     3: dict(normal=['scrap_golem', 'oil_slime', 'spark_wisp', 'iron_beetle', 'magma_slime', 'sand_scorpion'],
             elite=['elite_sand_golem']),
     4: dict(normal=['jellyfish', 'frost_spider', 'coral_crab', 'snow_fairy', 'penguin_mage', 'ice_wolf', 'yeti',
                     'ice_golem', 'ice_slime', 'snow_rabbit', 'frost_bee'],
             elite=['elite_ice_wolf', 'elite_yeti', 'elite_coral_crab']),
-    5: dict(normal=['crystal_slime', 'cave_spider', 'sand_golem', 'lizardman', 'grave_bat', 'flame_elemental'],
+    5: dict(normal=['crystal_slime', 'cave_spider', 'cave_mole', 'sand_golem', 'lizardman', 'grave_bat', 'flame_elemental'],
             elite=['elite_hellhound', 'elite_sand_golem']),
     6: dict(normal=['hellhound', 'phoenix', 'harpy', 'fire_drake', 'ember_bee', 'lava_beetle', 'flame_wisp',
                     'crimson_scorpion'],
@@ -119,8 +119,8 @@ ZONE_POOLS = {
     10: dict(normal=['puffer', 'sea_urchin', 'deep_jelly', 'merfolk_guard', 'angler', 'giant_clam', 'siren',
                      'sea_serpent', 'coral_golem', 'temple_guardian', 'tide_drake'],
              elite=['turtle_titan', 'naga_priestess', 'drowned_knight']),
-    11: dict(normal=['street_hound', 'shadow_beast', 'gargoyle', 'nightmare', 'doppelganger', 'void_eye'],
-             elite=['crystal_horror', 'fallen_angel']),
+    11: dict(normal=['street_hound', 'orc', 'shadow_beast', 'gargoyle', 'nightmare', 'doppelganger', 'void_eye'],
+             elite=['high_orc', 'crystal_horror', 'fallen_angel']),
     12: dict(normal=['void_wisp', 'chaos_spawn', 'shadow_hound', 'abyss_crab', 'void_knight', 'abyss_worm',
                      'elder_lich'],
              elite=['void_reaper', 'fallen_angel']),
@@ -152,6 +152,11 @@ HUNTER_MONSTERS = [
     ('high_orc', '하이 오크', 11, 'body_only', 1, 'elite: armoured orc chief with a red cape, scarred, two-handed '
      'cleaver, still chibi', []),
 ]
+# Battle data template of each hunter monster with its own row (stats shape, row, size): the variant builder copies
+# the base row, re-levels it into the monster's zone and sets 'model' to the hunter monster's own id. Monsters with a
+# non-empty replace list have no row of their own: they only become the model of those rows.
+HUNTER_MONSTER_BASE = {'goblin': 'horned_rabbit', 'goblin_shaman': 'pixie', 'sewer_rat': 'horned_rabbit',
+                       'cave_mole': 'lizardman', 'orc': 'dark_knight', 'high_orc': 'elite_dark_knight'}
 # ------------------------------------------------------------------ jobs
 # Advanced job: Lv 15 and the Ch1 boss defeated, pay a 전직의 증표 (job_medal). Master job: Lv 40, the Ch4
 # boss defeated, pay a 마스터의 인장 (master_seal). A job keeps the hero (face, hair, learned skills); the

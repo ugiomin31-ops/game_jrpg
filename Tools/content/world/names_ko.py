@@ -145,10 +145,17 @@ ENEMIES = {
     'elite_sand_golem': dict(display_name='철광 거인'),
     # zone monsters (spec.ZONE_VARIANTS)
     'subway_bat_lord': dict(display_name='지하철 박쥐 군주'),
+    # hunter monsters with their own models (spec.HUNTER_MONSTERS)
+    'goblin': dict(display_name='고블린'),
+    'goblin_shaman': dict(display_name='고블린 주술사'),
+    'sewer_rat': dict(display_name='땅굴쥐'),
+    'cave_mole': dict(display_name='굴착 두더지'),
+    'orc': dict(display_name='오크 전사'),
+    'high_orc': dict(display_name='하이 오크'),
     'sewer_slime': dict(display_name='하수구 슬라임'),
     'tunnel_bat': dict(display_name='터널 박쥐'),
     'scrap_colossus': dict(display_name='고철 거상'),
-    'scrap_golem': dict(display_name='고철 골렘'),
+    'scrap_golem': dict(display_name='고철 로봇'),
     'oil_slime': dict(display_name='기름 슬라임'),
     'spark_wisp': dict(display_name='전기 도깨비불'),
     'iron_beetle': dict(display_name='강철 풍뎅이'),
@@ -161,7 +168,7 @@ ENEMIES = {
     'plague_lich': dict(display_name='역병의 리치'),
     'pill_slime': dict(display_name='알약 슬라임'),
     'syringe_bee': dict(display_name='주사벌'),
-    'bandage_ghost': dict(display_name='붕대 유령'),
+    'bandage_ghost': dict(display_name='붕대 미라'),
     'abyss_herald': dict(display_name='심연의 사도'),
     'street_hound': dict(display_name='거리의 사냥개'),
 }

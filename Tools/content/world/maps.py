@@ -1,10 +1,17 @@
-"""Deterministic dungeon floor layouts for the 35-floor campaign.
+"""Deterministic dungeon floor layouts for the campaign (13 zones x 3 floors).
 
-A floor is carved on a node lattice (odd coordinates). The lattice is split into zones (2x2 .. 3x3) that are
-chained start -> stairs through single gate corridors; some gates are locked doors whose key lies in an earlier
-zone. Inside a zone a randomised spanning tree plus a few extra edges gives corridors with loops, and small
-rooms break the corridor rhythm. Dead ends receive the floor's points of interest: up/down stairs, warp,
-treasure, keys, lore stones, a spring; vaults are dead ends behind a locked door; events guard treasure.
+A floor is carved on a node lattice (odd coordinates). The lattice is split into zones that are chained
+start -> stairs through single gate corridors; some gates are locked doors whose key lies in an earlier zone.
+Dead ends receive the floor's points of interest: up/down stairs, warp, treasure, keys, lore stones, a spring;
+vaults are dead ends behind a locked door; events guard treasure.
+
+Layout styles (zone 'style' in spec.CHAPTERS) differ in structure, not colour:
+- maze: randomised spanning tree plus a few loops, small rooms (the original generator, used by the gates).
+- tunnels: long straight parallel E-W tunnels joined by a few short cross passages, one platform room.
+- aisles: a regular grid of long vertical aisles and bays, many loops, two big halls.
+- cave: a winding random walk per zone with wide chambers and uneven, branching passages.
+- halls: one or two long central corridors with small pockets (classrooms, wards) off both sides, one door each.
+- streets: a Manhattan grid of streets around solid blocks, with two plazas and cul-de-sacs.
 
 Grid symbols (DungeonGrid.Markers): # wall . floor S start < up > down W warp T treasure E event battle
 B boss L locked door K key X trap H spring N lore stone.
@@ -13,6 +20,7 @@ import random
 from collections import deque
 
 DIRS = ((1, 0), (-1, 0), (0, 1), (0, -1))
+STYLES = ('maze', 'tunnels', 'aisles', 'cave', 'halls', 'streets')
 
 
 class FloorSpec:
@@ -20,7 +28,7 @@ class FloorSpec:
 
     def __init__(self, size, zones, seed, locked_gates=1, vaults=1, treasures=6, lore=2, traps=2, events=1,
                  foes=1, boss=False, spring=False, warp=False, midboss=False, rooms=2, loop_chance=0.14,
-                 down_stairs=True):
+                 down_stairs=True, style='maze'):
         self.size = size
         self.zones = zones
         self.seed = seed
@@ -38,6 +46,7 @@ class FloorSpec:
         self.rooms = rooms
         self.loop_chance = loop_chance
         self.down_stairs = down_stairs
+        self.style = style
 
 
 class Layout:
@@ -165,7 +174,13 @@ class _DSU:
 
 
 def carve(spec):
-    """Carve corridors/rooms. Returns (layout, gates) where gates[k] is the cell between chain zone k and k+1."""
+    """Carve corridors/rooms. Returns (layout, gates, rng); gates[k] is the cell between chain zone k and k+1."""
+    if spec.style in (None, 'maze'):
+        return _carve_maze(spec)
+    return _carve_styled(spec)
+
+
+def _carve_maze(spec):
     rng = random.Random(spec.seed)
     W = H = spec.size
     L = Layout(W, H)
@@ -244,6 +259,279 @@ def carve(spec):
         a, b = rng.choice(cands)
         link(a, b)
         gates.append((a[0] + b[0] + 1, a[1] + b[1] + 1))
+    L.chain = chain
+    L.zone_fn = zone
+    L.node_cell = cell
+    L.nodes = nodes
+    L.nw, L.nh = nw, nh
+    return L, gates, rng
+
+
+# ------------------------------------------------------------------ styled layouts
+# A style returns the open node set plus how the generic carver should join them: base priority per edge (lower
+# is linked first, so 0 makes straight lines), loop chance per spare edge, banned edges (single doors) and room
+# blocks (fully open, all inner edges forced). Zones, gates, locks and features are shared with the maze.
+
+def _block(i0, j0, w, h, nw, nh):
+    return [(i, j) for i in range(i0, i0 + w) for j in range(j0, j0 + h) if 0 <= i < nw and 0 <= j < nh]
+
+
+def _one_zone(zone, nodes):
+    return len({zone(i, j) for i, j in nodes}) == 1
+
+
+def _style_tunnels(nw, nh, rng, zone, xb, yb):
+    open_ = {(i, j) for j in range(0, nh, 2) for i in range(nw)}   # parallel E-W tunnels on even node rows
+    for j in range(1, nh - 1, 2):                                   # cross passages on the gap rows
+        for band in xb:
+            for _ in range(1 + (1 if rng.random() < 0.35 else 0)):
+                open_.add((rng.choice(list(band)), j))
+    rooms = []
+    for _ in range(12):                                             # one platform spanning two tunnels
+        if rooms or nh < 5 or rng.random() > 0.7:
+            break
+        i0, j0 = rng.randrange(0, nw - 1), 2 * rng.randrange(0, (nh - 1) // 2)
+        block = _block(i0, j0, 2, 3, nw, nh)
+        if len(block) == 6 and _one_zone(zone, block):
+            rooms.append(block)
+            open_ |= set(block)
+    return dict(open=open_, base=lambda a, b: 0.0 if a[1] == b[1] else 1.5,
+                loop=lambda a, b: 0.0 if a[1] == b[1] else 0.3, banned=set(), rooms=rooms)
+
+
+def _style_aisles(nw, nh, rng, zone, xb, yb):
+    open_ = {(i, j) for i in range(nw) for j in range(nh) if i % 2 == 0 or j % 4 == 0}
+    rooms = []
+    for _ in range(2):                                              # two big halls cut into the grid
+        for _try in range(30):
+            i0, j0 = rng.randrange(0, nw - 2), rng.randrange(0, nh - 2)
+            block = _block(i0, j0, 3, 3, nw, nh)
+            if len(block) == 9 and _one_zone(zone, block) and not any(set(block) & set(r) for r in rooms):
+                rooms.append(block)
+                open_ |= set(block)
+                break
+    return dict(open=open_, base=lambda a, b: 0.0 if a[0] == b[0] else 0.8,
+                loop=lambda a, b: 0.25 if a[0] == b[0] else 0.35, banned=set(), rooms=rooms)
+
+
+def _path_into(open_, node, members):
+    """Nodes (inside `members`) that join `node` to the open set by the shortest walk; empty if already open."""
+    if node in open_:
+        return set()
+    prev = {node: None}
+    q = deque([node])
+    while q:
+        p = q.popleft()
+        for dx, dy in DIRS:
+            n = (p[0] + dx, p[1] + dy)
+            if n not in members or n in prev:
+                continue
+            if n in open_:
+                out = set()
+                cur = p
+                while cur is not None:
+                    out.add(cur)
+                    cur = prev[cur]
+                return out
+            prev[n] = p
+            q.append(n)
+    return {node}
+
+
+def _style_cave(nw, nh, rng, zone, xb, yb):
+    open_ = set()
+    by_zone = {}
+    for i in range(nw):
+        for j in range(nh):
+            by_zone.setdefault(zone(i, j), []).append((i, j))
+    for z in sorted(by_zone):                                       # one winding walk per zone keeps it connected
+        members = set(by_zone[z])
+        target = int(len(members) * 0.6)
+        cur = sorted(members)[rng.randrange(len(members))]
+        mine = {cur}
+        d = DIRS[rng.randrange(4)]
+        steps = 0
+        while len(mine) < target and steps < 4000:
+            steps += 1
+            if rng.random() < 0.3:
+                d = DIRS[rng.randrange(4)]
+            nxt = (cur[0] + d[0], cur[1] + d[1])
+            if nxt not in members:
+                d = DIRS[rng.randrange(4)]
+                continue
+            cur = nxt
+            mine.add(cur)
+            if rng.random() < 0.18:                                 # wide chamber around this step
+                for dx, dy in DIRS:
+                    q = (cur[0] + dx, cur[1] + dy)
+                    if q in members:
+                        mine.add(q)
+        open_ |= mine
+    # Chain neighbours must touch: open a boundary pair per zone pair, joined to each zone's walk by a short path.
+    for z in sorted(by_zone)[:-1]:
+        pairs = [(p, q) for p in sorted(by_zone[z]) for q in ((p[0] + 1, p[1]), (p[0], p[1] + 1), (p[0] - 1, p[1]),
+                 (p[0], p[1] - 1)) if 0 <= q[0] < nw and 0 <= q[1] < nh and zone(*q) == z + 1]
+        if not pairs:
+            continue
+        p, q = pairs[rng.randrange(len(pairs))]
+        for node, zz in ((p, z), (q, z + 1)):
+            open_ |= _path_into(open_, node, {r for r in by_zone[zz]})
+        open_ |= {p, q}
+
+    def deg(p):
+        return sum(1 for dx, dy in DIRS if (p[0] + dx, p[1] + dy) in open_)
+
+    def chamber(a, b):
+        return deg(a) >= 3 and deg(b) >= 3
+
+    return dict(open=open_, base=lambda a, b: 0.0 if chamber(a, b) else 1.0,
+                loop=lambda a, b: 0.8 if chamber(a, b) else 0.12, banned=set(), rooms=[])
+
+
+def _style_halls(nw, nh, rng, zone, xb, yb):
+    """One or two spines (long corridors) across the zone strip; pockets off both sides, one door each."""
+    spines = [nh // 2] if nh <= 9 else [nh // 3, (2 * nh) // 3]
+    open_ = {(i, r) for r in spines for i in range(nw)}
+    if len(spines) == 2:
+        for band in xb:                                             # a crossover in every zone
+            cols = [i for i in band if 1 <= i <= nw - 2]
+            if cols:
+                i = rng.choice(cols)
+                open_ |= {(i, j) for j in range(spines[0], spines[1] + 1)}
+    wide = rng.random() < 0.5
+    w, step = (2, 3) if wide else (1, 2)
+    banned = set()
+    for k, r in enumerate(spines):
+        up = spines[k - 1] + 2 if k > 0 else 0
+        down = spines[k + 1] - 2 if k + 1 < len(spines) else nh - 1
+        for i in range(1, nw - 1, step):
+            if i + w - 1 > nw - 2:
+                break
+            for side in (-1, 1):
+                if rng.random() < 0.2:
+                    continue
+                cells_ = []
+                for dd in (1, 2):
+                    j = r + side * dd
+                    if (side < 0 and j < up) or (side > 0 and j > down) or not (0 <= j < nh):
+                        break
+                    cells_ += [(x, j) for x in range(i, i + w)]
+                if not cells_ or any(p in open_ for p in cells_) or not _one_zone(zone, cells_ + [(i, r)]):
+                    continue
+                open_ |= set(cells_)
+                for x in range(i + 1, i + w):                       # one door per pocket
+                    banned.add(frozenset({(x, r), (x, r + side)}))
+    spine_rows = set(spines)
+    return dict(open=open_, base=lambda a, b: 0.0 if (a[1] == b[1] and a[1] in spine_rows) else 0.6,
+                loop=lambda a, b: 0.04, banned=banned, rooms=[])
+
+
+def _style_streets(nw, nh, rng, zone, xb, yb):
+    open_ = {(i, j) for i in range(nw) for j in range(nh) if i % 3 == 0 or j % 3 == 0}
+    blocks = [(i0, j0) for i0 in range(1, nw - 1, 3) for j0 in range(1, nh - 1, 3)]
+    rng.shuffle(blocks)
+    rooms = []
+    for i0, j0 in blocks:                                           # two plazas: open solid blocks
+        if len(rooms) == 2:
+            break
+        block = _block(i0, j0, 2, 2, nw, nh)
+        if len(block) == 4 and _one_zone(zone, block):
+            rooms.append(block)
+            open_ |= set(block)
+    return dict(open=open_, base=lambda a, b: 0.0, loop=lambda a, b: 0.3, banned=set(), rooms=rooms)
+
+
+STYLE_FN = {'tunnels': _style_tunnels, 'aisles': _style_aisles, 'cave': _style_cave,
+            'halls': _style_halls, 'streets': _style_streets}
+
+
+def _carve_styled(spec):
+    rng = random.Random(spec.seed)
+    W = H = spec.size
+    L = Layout(W, H)
+    nw, nh = (W - 1) // 2, (H - 1) // 2
+    zx, zy = spec.zones
+    xb, yb = _bands(nw, zx), _bands(nh, zy)
+    chain = _zone_chain(zx, zy, rng)
+    zindex = {z: k for k, z in enumerate(chain)}
+
+    def zone(i, j):
+        bx = next(k for k, r in enumerate(xb) if i in r)
+        by = next(k for k, r in enumerate(yb) if j in r)
+        return zindex[(bx, by)]
+
+    def cell(i, j):
+        return (2 * i + 1, 2 * j + 1)
+
+    nodes = [(i, j) for j in range(nh) for i in range(nw)]
+    for i, j in nodes:
+        L.zone_of[cell(i, j)] = zone(i, j)
+    plan = STYLE_FN[spec.style](nw, nh, rng, zone, xb, yb)
+    open_, banned, rooms = plan['open'], plan['banned'], plan['rooms']
+    forced = set()
+    for block in rooms:
+        bs = set(block)
+        for a in block:
+            for dx, dy in ((1, 0), (0, 1)):
+                b = (a[0] + dx, a[1] + dy)
+                if b in bs:
+                    forced.add(frozenset({a, b}))
+    for p in open_:
+        L.set(cell(*p), '.')
+    for block in rooms:
+        for a in block:
+            for dx, dy in ((1, 0), (0, 1)):
+                b = (a[0] + dx, a[1] + dy)
+                if b in set(block):
+                    L.set((cell(*a)[0] + dx, cell(*a)[1] + dy), '.')
+
+    def mid(a, b):
+        return (a[0] + b[0] + 1, a[1] + b[1] + 1)
+
+    def link(a, b):
+        L.set(mid(a, b), '.')
+
+    edges = []
+    for p in sorted(open_):
+        for q in ((p[0] + 1, p[1]), (p[0], p[1] + 1)):
+            if q in open_ and zone(*p) == zone(*q) and frozenset({p, q}) not in banned:
+                edges.append((p, q))
+    noise = {e: rng.random() * 0.6 for e in edges}
+    base, loop_p = plan['base'], plan['loop']
+    edges.sort(key=lambda e: (-1.0 if frozenset(e) in forced else base(*e)) + noise[e])
+    dsu = _DSU()
+    spare = []
+    for a, b in edges:
+        if dsu.union(a, b):
+            link(a, b)
+        else:
+            spare.append((a, b))
+    for a, b in spare:
+        p = 1.0 if frozenset({a, b}) in forced else loop_p(a, b)
+        if L.get(mid(a, b)) == '#' and rng.random() < p:
+            link(a, b)
+    for z in range(len(chain)):
+        roots = {dsu.find(p) for p in open_ if zone(*p) == z}
+        if len(roots) != 1:
+            raise ValueError('zone %d is not one piece' % z)
+    gates = []
+    for k in range(len(chain) - 1):
+        cands = []
+        for p in sorted(open_):
+            if zone(*p) != k:
+                continue
+            for dx, dy in DIRS:
+                q = (p[0] + dx, p[1] + dy)
+                if q in open_ and zone(*q) == k + 1:
+                    cands.append((p, q))
+        if not cands:
+            raise ValueError('no gate between zones %d and %d' % (k, k + 1))
+        a, b = cands[rng.randrange(len(cands))]
+        link(a, b)
+        gates.append(mid(a, b))
+    L.rooms = [(2 * min(p[0] for p in r) + 1, 2 * min(p[1] for p in r) + 1,
+                2 * (max(p[0] for p in r) - min(p[0] for p in r)) + 1,
+                2 * (max(p[1] for p in r) - min(p[1] for p in r)) + 1) for r in rooms]
     L.chain = chain
     L.zone_fn = zone
     L.node_cell = cell

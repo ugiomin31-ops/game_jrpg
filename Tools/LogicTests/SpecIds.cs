@@ -48,19 +48,25 @@ namespace Abyss.LogicTests
             "staff_hex", "staff_prism", "sword_aegis", "sword_conqueror", "sword_holy_avenger",
             "sword_ravager",
         };
-        /// <summary>Party level range (enter, leave) of chapters 1-7 (7 = trial corridor).</summary>
+        /// <summary>Party level range (enter, leave) of zones 1-13 (13 = postgame red gate).</summary>
         public static readonly int[][] ChapterLevels =
         {
-            new[] { 1, 12 },
-            new[] { 12, 24 },
-            new[] { 24, 34 },
-            new[] { 34, 44 },
-            new[] { 44, 54 },
-            new[] { 54, 64 },
-            new[] { 64, 70 },
+            new[] { 1, 6 },
+            new[] { 6, 11 },
+            new[] { 11, 17 },
+            new[] { 17, 22 },
+            new[] { 22, 28 },
+            new[] { 28, 33 },
+            new[] { 33, 39 },
+            new[] { 39, 44 },
+            new[] { 44, 50 },
+            new[] { 50, 55 },
+            new[] { 55, 60 },
+            new[] { 60, 66 },
+            new[] { 66, 70 },
         };
-        /// <summary>Chapter boss ids, chapters 1-7.</summary>
-        public static readonly string[] ChapterBosses = { "forest_guardian", "frost_kraken", "flame_sphinx", "boss", "leviathan", "abyss_lord", "abyss_lord_ex" };
+        /// <summary>Zone boss ids, zones 1-13.</summary>
+        public static readonly string[] ChapterBosses = { "subway_bat_lord", "forest_guardian", "scrap_colossus", "frost_kraken", "crystal_cave_lord", "flame_sphinx", "festival_pumpkin_king", "boss", "plague_lich", "leviathan", "abyss_herald", "abyss_lord", "abyss_lord_ex" };
         public const int LevelCap = 70;
     }
 }

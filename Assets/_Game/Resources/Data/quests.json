@@ -1,8 +1,8 @@
 [
  {
   "id": "q_slime_cull",
-  "title": "슬라임 소탕",
-  "description": "유적 입구의 슬라임이 늘고 있어요. 8마리만 정리해 주세요.",
+  "title": "선로 슬라임 정리",
+  "description": "지하철 선로에 슬라임이 늘고 있어요. 8마리만 정리해 주세요.",
   "kind": "kill",
   "target_id": "slime",
   "count": 8,
@@ -14,9 +14,38 @@
   "_file": "q_slime_cull"
  },
  {
+  "id": "q_missing_shoe",
+  "title": "잃어버린 신발 한 짝",
+  "description": "분실물 보관함에 아이 신발 한 짝이 남아 있대요. 선로 터널 2층까지 가서 찾아봐 주세요.",
+  "kind": "explore",
+  "target_id": "subway_2",
+  "count": 1,
+  "reward_gold": 200,
+  "reward_items": {
+   "healing_potion": 2
+  },
+  "unlock_floor": 0,
+  "_file": "q_missing_shoe"
+ },
+ {
+  "id": "q_bat_lord",
+  "title": "지하철 박쥐 군주 토벌",
+  "description": "변전실의 박쥐 군주가 전력을 빨아먹고 있어요. 쓰러뜨려 주세요.",
+  "kind": "boss",
+  "target_id": "subway_bat_lord",
+  "count": 1,
+  "reward_gold": 400,
+  "reward_items": {
+   "enhance_stone": 1,
+   "ether": 2
+  },
+  "unlock_floor": 2,
+  "_file": "q_bat_lord"
+ },
+ {
   "id": "q_forest_fiber",
   "title": "덩굴 섬유 납품",
-  "description": "대장간에서 질긴 덩굴 섬유 4개가 필요하대요.",
+  "description": "장비 공방에서 질긴 덩굴 섬유 4개가 필요하대요.",
   "kind": "collect",
   "target_id": "forest_fiber",
   "count": 4,
@@ -24,8 +53,22 @@
   "reward_items": {
    "remedy": 2
   },
-  "unlock_floor": 0,
+  "unlock_floor": 3,
   "_file": "q_forest_fiber"
+ },
+ {
+  "id": "q_job_medal_1",
+  "title": "각성 시험 · 숲의 사냥꾼",
+  "description": "길드의 첫 번째 각성 시험이에요. 숲에서 만드라고라 8마리를 잡아 오세요. 통과하면 각성의 증표를 드려요.",
+  "kind": "kill",
+  "target_id": "mandragora",
+  "count": 8,
+  "reward_gold": 600,
+  "reward_items": {
+   "job_medal": 1
+  },
+  "unlock_floor": 3,
+  "_file": "q_job_medal_1"
  },
  {
   "id": "q_toxic_king",
@@ -38,51 +81,8 @@
   "reward_items": {
    "acc_antidote_ring": 1
   },
-  "unlock_floor": 1,
+  "unlock_floor": 4,
   "_file": "q_toxic_king"
- },
- {
-  "id": "q_bee_swarm",
-  "title": "벌집 정리",
-  "description": "살인벌이 유적 천장에 벌집을 지었어요. 10마리를 처치하면 마을 꿀단지가 무사할 거예요.",
-  "kind": "kill",
-  "target_id": "killer_bee",
-  "count": 10,
-  "reward_gold": 500,
-  "reward_items": {
-   "ether": 2,
-   "enhance_stone": 1
-  },
-  "unlock_floor": 1,
-  "_file": "q_bee_swarm"
- },
- {
-  "id": "q_beetle_vault",
-  "title": "갑충왕의 보물고",
-  "description": "뿌리 내린 석실의 보물고를 지키는 투구 갑충을 몰아내 주세요. 보물고는 여러분 몫이에요.",
-  "kind": "foe",
-  "target_id": "elite_rhino_beetle",
-  "count": 1,
-  "reward_gold": 900,
-  "reward_items": {
-   "enhance_stone": 2
-  },
-  "unlock_floor": 2,
-  "_file": "q_beetle_vault"
- },
- {
-  "id": "q_gold_slime",
-  "title": "금빛 소문",
-  "description": "금화처럼 반짝이는 슬라임을 봤다는 사람이 있어요! 한 마리만 잡아 주시면 사례할게요.",
-  "kind": "kill",
-  "target_id": "gold_slime",
-  "count": 1,
-  "reward_gold": 300,
-  "reward_items": {
-   "acc_iron_bangle": 1
-  },
-  "unlock_floor": 2,
-  "_file": "q_gold_slime"
  },
  {
   "id": "q_guardian",
@@ -96,21 +96,78 @@
    "hi_potion": 3,
    "enhance_stone": 2
   },
-  "unlock_floor": 3,
+  "unlock_floor": 5,
   "_file": "q_guardian"
+ },
+ {
+  "id": "q_job_medal_2",
+  "title": "각성 시험 · 고철 사냥",
+  "description": "두 번째 시험은 실전이에요. 폐공장의 고철 골렘 6마리를 쓰러뜨리세요. 각성의 증표가 걸려 있어요.",
+  "kind": "kill",
+  "target_id": "scrap_golem",
+  "count": 6,
+  "reward_gold": 900,
+  "reward_items": {
+   "job_medal": 1
+  },
+  "unlock_floor": 6,
+  "_file": "q_job_medal_2"
+ },
+ {
+  "id": "q_smuggler_ledger",
+  "title": "밀수 장부를 찾아라",
+  "description": "마석 창고 어딘가에 밀수 장부가 숨겨져 있대요. 창고 2층까지 가서 찾아봐 주세요.",
+  "kind": "explore",
+  "target_id": "factory_2",
+  "count": 1,
+  "reward_gold": 800,
+  "reward_items": {
+   "enhance_stone": 2
+  },
+  "unlock_floor": 6,
+  "_file": "q_smuggler_ledger"
+ },
+ {
+  "id": "q_golem_breaker",
+  "title": "철광 거인 토벌",
+  "description": "폐공장 라인을 막고 있는 철광 거인을 무너뜨려 주세요.",
+  "kind": "foe",
+  "target_id": "elite_sand_golem",
+  "count": 1,
+  "reward_gold": 4000,
+  "reward_items": {
+   "ember_crystal": 1
+  },
+  "unlock_floor": 7,
+  "_file": "q_golem_breaker"
+ },
+ {
+  "id": "q_scrap_boss",
+  "title": "고철 거상 토벌",
+  "description": "공장 한가운데의 고철 거상을 쓰러뜨려 주세요. 기계 몇 대가 그 몸에 깔려 있어요.",
+  "kind": "boss",
+  "target_id": "scrap_colossus",
+  "count": 1,
+  "reward_gold": 2500,
+  "reward_items": {
+   "enhance_stone": 3,
+   "seed_guard": 1
+  },
+  "unlock_floor": 8,
+  "_file": "q_scrap_boss"
  },
  {
   "id": "q_frost_survey",
   "title": "빙결 수로 조사",
-  "description": "B7F 빙결의 수로까지 내려가 길을 확인해 주세요.",
+  "description": "얼음 창고 2층까지 내려가 길을 확인해 주세요.",
   "kind": "explore",
-  "target_id": "frost_2",
+  "target_id": "gate_d_2",
   "count": 1,
   "reward_gold": 800,
   "reward_items": {
    "ether": 3
   },
-  "unlock_floor": 5,
+  "unlock_floor": 9,
   "_file": "q_frost_survey"
  },
  {
@@ -124,27 +181,13 @@
   "reward_items": {
    "hi_potion": 3
   },
-  "unlock_floor": 5,
+  "unlock_floor": 9,
   "_file": "q_wolf_hunt"
- },
- {
-  "id": "q_job_medal_1",
-  "title": "전직 시험 · 사냥꾼의 길",
-  "description": "길드의 첫 번째 전직 시험이에요. 설원 뿔토끼 8마리를 잡아 오세요. 통과하면 전직의 증표를 드려요.",
-  "kind": "kill",
-  "target_id": "snow_rabbit",
-  "count": 8,
-  "reward_gold": 600,
-  "reward_items": {
-   "job_medal": 1
-  },
-  "unlock_floor": 5,
-  "_file": "q_job_medal_1"
  },
  {
   "id": "q_crab_king",
   "title": "거대 집게 토벌",
-  "description": "수로를 막고 있는 거대 산호 집게를 치워 주세요.",
+  "description": "통로를 막고 있는 거대 산호 집게를 치워 주세요.",
   "kind": "foe",
   "target_id": "elite_coral_crab",
   "count": 1,
@@ -152,27 +195,13 @@
   "reward_items": {
    "phoenix_feather": 2
   },
-  "unlock_floor": 6,
+  "unlock_floor": 9,
   "_file": "q_crab_king"
  },
  {
-  "id": "q_job_medal_2",
-  "title": "전직 시험 · 우두머리",
-  "description": "두 번째 시험은 실전이에요. 서리 늑대 무리의 우두머리를 쓰러뜨리세요. 전직의 증표가 걸려 있어요.",
-  "kind": "foe",
-  "target_id": "elite_ice_wolf",
-  "count": 1,
-  "reward_gold": 900,
-  "reward_items": {
-   "job_medal": 1
-  },
-  "unlock_floor": 6,
-  "_file": "q_job_medal_2"
- },
- {
   "id": "q_job_medal_3",
-  "title": "전직 시험 · 서리의 기억",
-  "description": "세 번째 시험은 인내예요. 서리 털가죽 6장을 모아 오세요. 증표를 만드는 데 쓰인대요.",
+  "title": "각성 시험 · 서리의 기억",
+  "description": "세 번째 시험은 인내예요. 서리 털가죽 6장을 모아 오세요. 각성의 증표를 만드는 데 쓰인대요.",
   "kind": "collect",
   "target_id": "frost_fur",
   "count": 6,
@@ -180,42 +209,13 @@
   "reward_items": {
    "job_medal": 1
   },
-  "unlock_floor": 7,
+  "unlock_floor": 10,
   "_file": "q_job_medal_3"
- },
- {
-  "id": "q_yeti_tyrant",
-  "title": "설산의 폭군",
-  "description": "설원의 굴 보물고 앞에서 버티는 거대 설인을 쓰러뜨려 주세요.",
-  "kind": "foe",
-  "target_id": "elite_yeti",
-  "count": 1,
-  "reward_gold": 2200,
-  "reward_items": {
-   "enhance_stone": 2,
-   "seed_guard": 1
-  },
-  "unlock_floor": 7,
-  "_file": "q_yeti_tyrant"
- },
- {
-  "id": "q_dawn_letter",
-  "title": "산호 속 편지",
-  "description": "산호 빙벽 어딘가에 아이가 쓴 편지가 끼워져 있대요. B9F까지 가서 찾아봐 주세요.",
-  "kind": "explore",
-  "target_id": "frost_4",
-  "count": 1,
-  "reward_gold": 1500,
-  "reward_items": {
-   "acc_life_pendant": 1
-  },
-  "unlock_floor": 7,
-  "_file": "q_dawn_letter"
  },
  {
   "id": "q_kraken",
   "title": "여왕의 자장가",
-  "description": "빙해의 여왕이 다시 노래하도록, 그녀를 괴롭히는 속삭임을 끊어 주세요.",
+  "description": "빙해의 여왕이 다시 노래하도록, 그녀를 재우는 자장가를 끊어 주세요.",
   "kind": "boss",
   "target_id": "frost_kraken",
   "count": 1,
@@ -224,13 +224,70 @@
    "hi_ether": 2,
    "enhance_stone": 3
   },
-  "unlock_floor": 8,
+  "unlock_floor": 11,
   "_file": "q_kraken"
+ },
+ {
+  "id": "q_crystal_slime",
+  "title": "수정 슬라임 정화",
+  "description": "맥 주변에서 수정 가루를 먹고 자란 슬라임이 늘고 있어요. 10마리를 정리해 주세요.",
+  "kind": "kill",
+  "target_id": "crystal_slime",
+  "count": 10,
+  "reward_gold": 2000,
+  "reward_items": {
+   "ether": 3
+  },
+  "unlock_floor": 12,
+  "_file": "q_crystal_slime"
+ },
+ {
+  "id": "q_vein_letter",
+  "title": "수정 속 편지",
+  "description": "맥 통로 2층의 수정 속에 아이가 쓴 편지가 갇혀 있대요. 찾아서 가져다주세요.",
+  "kind": "explore",
+  "target_id": "cave_2",
+  "count": 1,
+  "reward_gold": 1500,
+  "reward_items": {
+   "acc_life_pendant": 1
+  },
+  "unlock_floor": 12,
+  "_file": "q_vein_letter"
+ },
+ {
+  "id": "q_hellhound",
+  "title": "오르트로스 퇴치",
+  "description": "맥 통로를 배회하는 쌍두 사냥개 오르트로스를 처치해 주세요.",
+  "kind": "foe",
+  "target_id": "elite_hellhound",
+  "count": 1,
+  "reward_gold": 3000,
+  "reward_items": {
+   "enhance_stone": 2
+  },
+  "unlock_floor": 13,
+  "_file": "q_hellhound"
+ },
+ {
+  "id": "q_crystal_lord",
+  "title": "수정 동굴의 주인 토벌",
+  "description": "게이트 맥의 중심을 붙잡고 있는 수정 동굴의 주인을 쓰러뜨려 주세요.",
+  "kind": "boss",
+  "target_id": "crystal_cave_lord",
+  "count": 1,
+  "reward_gold": 4000,
+  "reward_items": {
+   "enhance_stone_hi": 1,
+   "seed_magic": 1
+  },
+  "unlock_floor": 14,
+  "_file": "q_crystal_lord"
  },
  {
   "id": "q_drake_scales",
   "title": "드레이크 비늘 납품",
-  "description": "내열 갑옷 연구에 드레이크 비늘 5장이 필요합니다.",
+  "description": "내열 장비 연구에 드레이크 비늘 5장이 필요합니다.",
   "kind": "collect",
   "target_id": "drake_scale",
   "count": 5,
@@ -238,13 +295,13 @@
   "reward_items": {
    "mega_potion": 2
   },
-  "unlock_floor": 10,
+  "unlock_floor": 15,
   "_file": "q_drake_scales"
  },
  {
   "id": "q_ember_bees",
   "title": "불티 사냥",
-  "description": "화염벌이 날아다니며 마을 창고에 불티를 옮겨요. 10마리를 처치해 주세요.",
+  "description": "화염벌이 사막 캠프의 장비에 불티를 옮기고 있어요. 10마리를 처치해 주세요.",
   "kind": "kill",
   "target_id": "ember_bee",
   "count": 10,
@@ -253,55 +310,13 @@
    "fire_bomb": 2,
    "ice_bomb": 2
   },
-  "unlock_floor": 10,
+  "unlock_floor": 15,
   "_file": "q_ember_bees"
- },
- {
-  "id": "q_hellhound",
-  "title": "쌍두견 퇴치",
-  "description": "용암 협곡을 배회하는 쌍두 사냥개를 처치해 주세요.",
-  "kind": "foe",
-  "target_id": "elite_hellhound",
-  "count": 1,
-  "reward_gold": 3000,
-  "reward_items": {
-   "enhance_stone": 2
-  },
-  "unlock_floor": 11,
-  "_file": "q_hellhound"
- },
- {
-  "id": "q_golem_breaker",
-  "title": "사막의 거상 토벌",
-  "description": "사암 석굴의 보물고를 지키는 거상을 무너뜨려 주세요.",
-  "kind": "foe",
-  "target_id": "elite_sand_golem",
-  "count": 1,
-  "reward_gold": 4000,
-  "reward_items": {
-   "ember_crystal": 1
-  },
-  "unlock_floor": 12,
-  "_file": "q_golem_breaker"
- },
- {
-  "id": "q_metal_slime",
-  "title": "은빛 도망자",
-  "description": "쇠처럼 단단한 은빛 슬라임이 나타났대요. 잡기만 하면 엄청난 경험이 된다나요? 행운을 빌어요!",
-  "kind": "kill",
-  "target_id": "metal_slime",
-  "count": 1,
-  "reward_gold": 2000,
-  "reward_items": {
-   "seed_swift": 1
-  },
-  "unlock_floor": 12,
-  "_file": "q_metal_slime"
  },
  {
   "id": "q_drake_king",
   "title": "홍염 비룡 사냥",
-  "description": "불사조의 둥지 근처를 나는 홍염 비룡을 떨어뜨려 주세요.",
+  "description": "용암 협곡을 나는 홍염 비룡을 떨어뜨려 주세요.",
   "kind": "foe",
   "target_id": "elite_fire_drake",
   "count": 1,
@@ -310,13 +325,13 @@
    "enhance_stone_hi": 1,
    "acc_burn_ward": 1
   },
-  "unlock_floor": 13,
+  "unlock_floor": 16,
   "_file": "q_drake_king"
  },
  {
   "id": "q_sphinx",
   "title": "태양의 수수께끼",
-  "description": "태양의 제단의 스핑크스를 진정시켜 주세요.",
+  "description": "불꽃 신전 제단의 스핑크스를 진정시켜 주세요.",
   "kind": "boss",
   "target_id": "flame_sphinx",
   "count": 1,
@@ -325,13 +340,71 @@
    "hi_ether": 3,
    "enhance_stone_hi": 1
   },
-  "unlock_floor": 13,
+  "unlock_floor": 17,
   "_file": "q_sphinx"
  },
  {
+  "id": "q_lament",
+  "title": "교실 도깨비불 정화",
+  "description": "교실 복도를 떠다니는 도깨비불 8개를 잠재워 주세요. 밤마다 음악실 피아노 소리가 난대요.",
+  "kind": "kill",
+  "target_id": "wisp",
+  "count": 8,
+  "reward_gold": 6000,
+  "reward_items": {
+   "abyss_crystal": 1,
+   "elixir": 1
+  },
+  "unlock_floor": 18,
+  "_file": "q_lament"
+ },
+ {
+  "id": "q_locker_mimic",
+  "title": "사물함 미믹 소탕",
+  "description": "사물함으로 위장한 미믹이 학생들을 놀라게 하고 있어요. 8마리를 처치해 주세요. 열지 말고 부수세요!",
+  "kind": "kill",
+  "target_id": "locker_mimic",
+  "count": 8,
+  "reward_gold": 5000,
+  "reward_items": {
+   "acc_sleep_ward": 1
+  },
+  "unlock_floor": 18,
+  "_file": "q_locker_mimic"
+ },
+ {
+  "id": "q_master_seal_1",
+  "title": "초월 시험 · 축제 허수아비",
+  "description": "초월의 인장을 원하나요? 첫 시험은 교정의 허수아비 대장을 쓰러뜨리는 거예요.",
+  "kind": "foe",
+  "target_id": "elite_scarecrow",
+  "count": 1,
+  "reward_gold": 7000,
+  "reward_items": {
+   "master_seal": 1
+  },
+  "unlock_floor": 19,
+  "_file": "q_master_seal_1"
+ },
+ {
+  "id": "q_pumpkin_king",
+  "title": "호박 왕 토벌",
+  "description": "축제 무대의 호박 왕을 쓰러뜨려 주세요. 교문 밖에서 학생들이 기다리고 있어요.",
+  "kind": "boss",
+  "target_id": "festival_pumpkin_king",
+  "count": 1,
+  "reward_gold": 8000,
+  "reward_items": {
+   "enhance_stone_hi": 2,
+   "seed_power": 1
+  },
+  "unlock_floor": 20,
+  "_file": "q_pumpkin_king"
+ },
+ {
   "id": "q_bone_collector",
-  "title": "뼈 수집가",
-  "description": "묘소 기사들의 오래된 뼈 6개를 모아 주세요. 정중히 안치하겠습니다.",
+  "title": "묘소 유품 수집",
+  "description": "묘소 기사들의 오래된 유골 6개를 모아 주세요. 정중히 안치하겠습니다.",
   "kind": "collect",
   "target_id": "old_bone",
   "count": 6,
@@ -339,7 +412,7 @@
   "reward_items": {
    "elixir": 1
   },
-  "unlock_floor": 15,
+  "unlock_floor": 21,
   "_file": "q_bone_collector"
  },
  {
@@ -353,72 +426,27 @@
   "reward_items": {
    "abyss_crystal": 1
   },
-  "unlock_floor": 15,
+  "unlock_floor": 22,
   "_file": "q_general"
  },
  {
-  "id": "q_lament",
-  "title": "통곡의 납골당 정화",
-  "description": "도깨비불 8개를 잠재워 납골당의 통곡을 멈춰 주세요.",
-  "kind": "kill",
-  "target_id": "wisp",
-  "count": 8,
-  "reward_gold": 6000,
-  "reward_items": {
-   "abyss_crystal": 1,
-   "elixir": 1
-  },
-  "unlock_floor": 16,
-  "_file": "q_lament"
- },
- {
-  "id": "q_scarecrow_king",
-  "title": "허수아비 왕",
-  "description": "시든 호밀 밭의 허수아비 왕을 베어 주세요. 까마귀들이 마을까지 날아와요.",
-  "kind": "foe",
-  "target_id": "elite_scarecrow",
-  "count": 1,
-  "reward_gold": 7000,
-  "reward_items": {
-   "enhance_stone_hi": 1,
-   "acc_sleep_ward": 1
-  },
-  "unlock_floor": 16,
-  "_file": "q_scarecrow_king"
- },
- {
-  "id": "q_knight_commander",
-  "title": "칠흑의 기사단장",
-  "description": "허수아비 밭 보물고를 지키는 기사단장에게 마지막 명령을 내려 주세요. \"이제 쉬어라.\"",
-  "kind": "foe",
-  "target_id": "elite_dark_knight",
-  "count": 1,
+  "id": "q_master_seal_2",
+  "title": "초월 시험 · 망자의 정수",
+  "description": "두 번째 시험이에요. 묘소의 망령에게서 정수를 6개 모아 오세요. 인장의 재료가 된답니다.",
+  "kind": "collect",
+  "target_id": "ghost_essence",
+  "count": 6,
   "reward_gold": 8000,
   "reward_items": {
-   "enhance_stone_hi": 2,
-   "seed_power": 1
+   "master_seal": 1
   },
-  "unlock_floor": 17,
-  "_file": "q_knight_commander"
- },
- {
-  "id": "q_pandora",
-  "title": "판도라의 상자",
-  "description": "납골당 깊은 곳의 거대한 미믹을 처치해 주세요. 열지 말고 부수세요!",
-  "kind": "foe",
-  "target_id": "elite_mimic",
-  "count": 1,
-  "reward_gold": 9000,
-  "reward_items": {
-   "acc_curse_ward": 1
-  },
-  "unlock_floor": 18,
-  "_file": "q_pandora"
+  "unlock_floor": 22,
+  "_file": "q_master_seal_2"
  },
  {
   "id": "q_herald",
-  "title": "심연의 전령",
-  "description": "옥좌에 앉은 전령을 막아 주세요. 루멘 님의 제자였다는 소문이… 사실일까요?",
+  "title": "심연의 전령 모르데인",
+  "description": "묘소 심부의 전령을 막아 주세요. 한때 S급이었던 헌터라고 해요. 그의 이름을 되찾아 주세요.",
   "kind": "boss",
   "target_id": "boss",
   "count": 1,
@@ -427,56 +455,56 @@
    "elixir": 2,
    "enhance_stone_hi": 2
   },
-  "unlock_floor": 18,
+  "unlock_floor": 23,
   "_file": "q_herald"
  },
  {
-  "id": "q_master_seal_1",
-  "title": "인장 시험 · 녹슨 맹세",
-  "description": "마스터의 인장을 원하나요? 첫 시험은 신전의 익사한 기사를 쉬게 하는 것이에요.",
-  "kind": "foe",
-  "target_id": "drowned_knight",
-  "count": 1,
-  "reward_gold": 8000,
-  "reward_items": {
-   "master_seal": 1
-  },
-  "unlock_floor": 20,
-  "_file": "q_master_seal_1"
- },
- {
-  "id": "q_sunken_bell",
-  "title": "물속의 종소리",
-  "description": "종의 줄이 신전의 정원까지 이어져 있대요. B23F 거북의 정원까지 내려가 확인해 주세요.",
-  "kind": "explore",
-  "target_id": "sunken_3",
-  "count": 1,
+  "id": "q_pill_slime",
+  "title": "알약 슬라임 정리",
+  "description": "병동 약 상자에서 알약 슬라임이 쏟아져 나와요. 10마리를 정리해 주세요.",
+  "kind": "kill",
+  "target_id": "pill_slime",
+  "count": 10,
   "reward_gold": 6000,
   "reward_items": {
-   "x_potion": 3,
-   "acc_regen_ring": 1
+   "panacea": 1
   },
-  "unlock_floor": 20,
-  "_file": "q_sunken_bell"
+  "unlock_floor": 24,
+  "_file": "q_pill_slime"
  },
  {
-  "id": "q_master_seal_2",
-  "title": "인장 시험 · 진주의 무게",
-  "description": "두 번째 시험이에요. 신전의 진주 8개를 모아 오세요. 인장의 재료가 된답니다.",
-  "kind": "collect",
-  "target_id": "pearl",
-  "count": 8,
-  "reward_gold": 8000,
+  "id": "q_master_seal_3",
+  "title": "초월 시험 · 해골의 행진",
+  "description": "마지막 시험이에요. 병원 복도의 해골 장군을 쓰러뜨리세요.",
+  "kind": "foe",
+  "target_id": "elite_skeleton",
+  "count": 1,
+  "reward_gold": 9000,
   "reward_items": {
    "master_seal": 1
   },
-  "unlock_floor": 21,
-  "_file": "q_master_seal_2"
+  "unlock_floor": 25,
+  "_file": "q_master_seal_3"
+ },
+ {
+  "id": "q_plague_lich",
+  "title": "역병의 리치 토벌",
+  "description": "격리 병동의 역병 리치를 쓰러뜨려 주세요. 환자들이 기다리고 있어요.",
+  "kind": "boss",
+  "target_id": "plague_lich",
+  "count": 1,
+  "reward_gold": 10000,
+  "reward_items": {
+   "megalixir": 1,
+   "enhance_stone_hi": 2
+  },
+  "unlock_floor": 26,
+  "_file": "q_plague_lich"
  },
  {
   "id": "q_siren_song",
   "title": "노래를 멈춰라",
-  "description": "세이렌의 노래에 잠든 탐험가가 셋이나 돼요. 세이렌 8마리를 처치해 주세요.",
+  "description": "세이렌의 노래에 잠든 구조대원이 셋이나 돼요. 세이렌 8마리를 처치해 주세요.",
   "kind": "kill",
   "target_id": "siren",
   "count": 8,
@@ -485,27 +513,28 @@
    "panacea": 3,
    "acc_sleep_ward": 1
   },
-  "unlock_floor": 21,
+  "unlock_floor": 27,
   "_file": "q_siren_song"
  },
  {
-  "id": "q_master_seal_3",
-  "title": "인장 시험 · 나가의 찬가",
-  "description": "마지막 시험이에요. 진주 왕관의 나가 사제를 쓰러뜨리세요.",
-  "kind": "foe",
-  "target_id": "naga_priestess",
-  "count": 1,
-  "reward_gold": 10000,
+  "id": "q_pearl_collect",
+  "title": "진주 회수",
+  "description": "잠긴 참배로의 진주 8개를 모아 오세요. 장비 공방에서 쓸 재료래요.",
+  "kind": "collect",
+  "target_id": "pearl",
+  "count": 8,
+  "reward_gold": 8000,
   "reward_items": {
-   "master_seal": 1
+   "enhance_stone_hi": 1,
+   "acc_regen_ring": 1
   },
-  "unlock_floor": 22,
-  "_file": "q_master_seal_3"
+  "unlock_floor": 27,
+  "_file": "q_pearl_collect"
  },
  {
   "id": "q_turtle",
   "title": "정원의 거북",
-  "description": "거북의 정원 보물고 앞에서 잠든 타이탄을 깨워 쓰러뜨려 주세요. 등의 사원에 보물이 있대요.",
+  "description": "거북 타이탄을 깨워 쓰러뜨려 주세요. 등의 사원에 보물이 있대요.",
   "kind": "foe",
   "target_id": "turtle_titan",
   "count": 1,
@@ -514,27 +543,13 @@
    "enhance_stone_hi": 2,
    "seed_life": 1
   },
-  "unlock_floor": 22,
+  "unlock_floor": 28,
   "_file": "q_turtle"
  },
  {
-  "id": "q_golden_mimic",
-  "title": "황금 상자",
-  "description": "신전에 금빛 보물 상자가 돌아다닌대요. …돌아다닌다고요? 아무튼 잡아 주세요!",
-  "kind": "kill",
-  "target_id": "golden_mimic",
-  "count": 1,
-  "reward_gold": 15000,
-  "reward_items": {
-   "seed_magic": 1
-  },
-  "unlock_floor": 22,
-  "_file": "q_golden_mimic"
- },
- {
   "id": "q_leviathan",
-  "title": "바다의 뚜껑",
-  "description": "신전 가장 깊은 곳의 레비아탄이 길을 막고 있어요. 종의 줄은 그 너머로 이어져요.",
+  "title": "바다의 수문",
+  "description": "신전 가장 깊은 곳의 레비아탄이 수문을 막고 있어요. 쓰러뜨려 주세요.",
   "kind": "boss",
   "target_id": "leviathan",
   "count": 1,
@@ -543,13 +558,71 @@
    "megalixir": 1,
    "enhance_stone_abyss": 1
   },
-  "unlock_floor": 23,
+  "unlock_floor": 29,
   "_file": "q_leviathan"
+ },
+ {
+  "id": "q_street_hounds",
+  "title": "거리의 사냥개 퇴치",
+  "description": "길드 거리를 떠도는 사냥개 무리를 10마리 처치해 주세요. 구조견 콩이를 닮은 녀석도 있어요.",
+  "kind": "kill",
+  "target_id": "street_hound",
+  "count": 10,
+  "reward_gold": 12000,
+  "reward_items": {
+   "x_potion": 2
+  },
+  "unlock_floor": 30,
+  "_file": "q_street_hounds"
+ },
+ {
+  "id": "q_street_scout",
+  "title": "차이슬의 정찰",
+  "description": "상가 골목 2층까지 들어가 몬스터의 이동 경로를 확인해 주세요.",
+  "kind": "explore",
+  "target_id": "guild_street_2",
+  "count": 1,
+  "reward_gold": 12000,
+  "reward_items": {
+   "x_potion": 3,
+   "acc_eagle_eye": 1
+  },
+  "unlock_floor": 30,
+  "_file": "q_street_scout"
+ },
+ {
+  "id": "q_gargoyle_horn",
+  "title": "가고일의 뿔",
+  "description": "가고일 뿔 5개를 모아 오세요. 방어구를 강화하는 데 쓰인대요.",
+  "kind": "collect",
+  "target_id": "gargoyle_horn",
+  "count": 5,
+  "reward_gold": 14000,
+  "reward_items": {
+   "enhance_stone_hi": 2
+  },
+  "unlock_floor": 31,
+  "_file": "q_gargoyle_horn"
+ },
+ {
+  "id": "q_abyss_herald",
+  "title": "심연의 사도 토벌",
+  "description": "길드 본부 앞 광장을 짓밟은 심연의 사도를 쓰러뜨려 주세요. 간판을 되찾읍시다.",
+  "kind": "boss",
+  "target_id": "abyss_herald",
+  "count": 1,
+  "reward_gold": 16000,
+  "reward_items": {
+   "megalixir": 1,
+   "enhance_stone_abyss": 1
+  },
+  "unlock_floor": 32,
+  "_file": "q_abyss_herald"
  },
  {
   "id": "q_void_shards",
   "title": "공허의 결정 회수",
-  "description": "대장간에서 공허의 파편 10개를 원해요. 브론 씨 말로는 \"망치가 떨리는 재료\"래요.",
+  "description": "장비 공방에서 공허의 파편 10개를 원해요. 곽 장인 말로는 \"망치가 떨리는 재료\"래요.",
   "kind": "collect",
   "target_id": "void_shard",
   "count": 10,
@@ -557,72 +630,27 @@
   "reward_items": {
    "enhance_stone_abyss": 2
   },
-  "unlock_floor": 25,
+  "unlock_floor": 33,
   "_file": "q_void_shards"
  },
  {
-  "id": "q_shadow_hunt",
-  "title": "그림자 사냥",
-  "description": "그림자 짐승 10마리를 처치해 주세요. 등불을 든 사람 앞에서는 길을 비킨대요.",
+  "id": "q_void_wisps",
+  "title": "공허의 도깨비불 소탕",
+  "description": "공허의 도깨비불 10마리를 처치해 주세요. 시선만으로 마법을 봉한대요. 눈을 피하세요!",
   "kind": "kill",
-  "target_id": "shadow_beast",
+  "target_id": "void_wisp",
   "count": 10,
   "reward_gold": 15000,
   "reward_items": {
-   "x_potion": 4,
-   "acc_tp_crest": 1
+   "x_potion": 4
   },
-  "unlock_floor": 25,
-  "_file": "q_shadow_hunt"
- },
- {
-  "id": "q_lamp_oil",
-  "title": "등불 기름",
-  "description": "수정 협곡 아래에서 종소리가 들린대요. B28F까지 내려가 루멘 님의 흔적을 찾아 주세요.",
-  "kind": "explore",
-  "target_id": "abyss_3",
-  "count": 1,
-  "reward_gold": 12000,
-  "reward_items": {
-   "max_ether": 3
-  },
-  "unlock_floor": 25,
-  "_file": "q_lamp_oil"
- },
- {
-  "id": "q_fallen_angel",
-  "title": "떨어진 날개",
-  "description": "그림자 숲의 타락 천사를 쉬게 해 주세요. 한때 군주를 막으러 내려왔던 이래요.",
-  "kind": "foe",
-  "target_id": "fallen_angel",
-  "count": 1,
-  "reward_gold": 18000,
-  "reward_items": {
-   "enhance_stone_abyss": 2,
-   "acc_holy_amulet": 1
-  },
-  "unlock_floor": 26,
-  "_file": "q_fallen_angel"
- },
- {
-  "id": "q_crystal_horror",
-  "title": "소원의 괴수",
-  "description": "수정 협곡의 보물고를 지키는 수정 괴수를 부숴 주세요.",
-  "kind": "foe",
-  "target_id": "crystal_horror",
-  "count": 1,
-  "reward_gold": 20000,
-  "reward_items": {
-   "seed_guard": 1,
-   "enhance_stone_abyss": 1
-  },
-  "unlock_floor": 27,
-  "_file": "q_crystal_horror"
+  "unlock_floor": 33,
+  "_file": "q_void_wisps"
  },
  {
   "id": "q_reaper",
   "title": "사신의 낫",
-  "description": "거울의 회랑을 떠도는 공허의 사신을 쓰러뜨려 주세요.",
+  "description": "공허의 회랑을 떠도는 공허의 사신을 쓰러뜨려 주세요.",
   "kind": "foe",
   "target_id": "void_reaper",
   "count": 1,
@@ -631,13 +659,13 @@
    "seed_mind": 1,
    "acc_curse_ward": 1
   },
-  "unlock_floor": 27,
+  "unlock_floor": 34,
   "_file": "q_reaper"
  },
  {
-  "id": "q_village_dawn",
-  "title": "마을 사람 모두의 의뢰",
-  "description": "의뢰인: 여명의 마을 사람 모두. 내용: 아침을 돌려주세요. 보상: 모두가 조금씩 모았어요.",
+  "id": "q_last_dawn",
+  "title": "새벽을 돌려주세요",
+  "description": "의뢰인: 새벽 길드 전원. 내용: 아침을 돌려주세요. 보상은 모두가 조금씩 모았어요.",
   "kind": "boss",
   "target_id": "abyss_lord",
   "count": 1,
@@ -645,13 +673,13 @@
   "reward_items": {
    "megalixir": 2
   },
-  "unlock_floor": 28,
-  "_file": "q_village_dawn"
+  "unlock_floor": 35,
+  "_file": "q_last_dawn"
  },
  {
   "id": "q_trial_emblems",
-  "title": "회랑의 문장",
-  "description": "시련의 문장 10개를 모아 오세요. 회랑을 걷는 자의 증표래요.",
+  "title": "붉은 문장 수집",
+  "description": "붉은 게이트에서 되살아난 보스들의 문장 10개를 모아 오세요. 헌터의 증거래요.",
   "kind": "collect",
   "target_id": "trial_emblem",
   "count": 10,
@@ -660,13 +688,13 @@
    "megalixir": 2,
    "enhance_stone_abyss": 3
   },
-  "unlock_floor": 30,
+  "unlock_floor": 36,
   "_file": "q_trial_emblems"
  },
  {
   "id": "q_ex_forest",
   "title": "현상 수배 · 금빛 고목",
-  "description": "시련의 회랑 제1문의 금빛 고목 수호자를 쓰러뜨려 주세요.",
+  "description": "붉은 게이트 제1문의 금빛 고목 수호자를 쓰러뜨려 주세요.",
   "kind": "kill",
   "target_id": "forest_guardian_ex",
   "count": 1,
@@ -674,41 +702,13 @@
   "reward_items": {
    "seed_life": 2
   },
-  "unlock_floor": 30,
+  "unlock_floor": 36,
   "_file": "q_ex_forest"
- },
- {
-  "id": "q_ex_kraken",
-  "title": "현상 수배 · 진짜 바다의 노래",
-  "description": "제2문의 크라켄 여왕을 쓰러뜨려 주세요. 이번엔 자장가가 아니래요.",
-  "kind": "kill",
-  "target_id": "frost_kraken_ex",
-  "count": 1,
-  "reward_gold": 45000,
-  "reward_items": {
-   "seed_mind": 2
-  },
-  "unlock_floor": 31,
-  "_file": "q_ex_kraken"
- },
- {
-  "id": "q_ex_sphinx",
-  "title": "현상 수배 · 마지막 일출",
-  "description": "제3문의 스핑크스를 쓰러뜨려 주세요. 태양을 떨어뜨린대요.",
-  "kind": "kill",
-  "target_id": "flame_sphinx_ex",
-  "count": 1,
-  "reward_gold": 50000,
-  "reward_items": {
-   "seed_magic": 2
-  },
-  "unlock_floor": 32,
-  "_file": "q_ex_sphinx"
  },
  {
   "id": "q_ex_herald",
   "title": "현상 수배 · 제자의 메아리",
-  "description": "제4문의 모르데인을 쓰러뜨려 주세요. 이번엔 자기 힘으로 싸운대요.",
+  "description": "제2문 너머의 모르데인 메아리를 쓰러뜨려 주세요. 이번엔 자기 힘으로 싸운대요.",
   "kind": "kill",
   "target_id": "boss_ex",
   "count": 1,
@@ -716,27 +716,13 @@
   "reward_items": {
    "seed_guard": 2
   },
-  "unlock_floor": 33,
+  "unlock_floor": 37,
   "_file": "q_ex_herald"
- },
- {
-  "id": "q_ex_leviathan",
-  "title": "현상 수배 · 풀려난 바다",
-  "description": "회랑 끝의 레비아탄을 쓰러뜨려 주세요.",
-  "kind": "kill",
-  "target_id": "leviathan_ex",
-  "count": 1,
-  "reward_gold": 60000,
-  "reward_items": {
-   "seed_swift": 2
-  },
-  "unlock_floor": 34,
-  "_file": "q_ex_leviathan"
  },
  {
   "id": "q_ex_lord",
   "title": "현상 수배 · 마지막 그림자",
-  "description": "회랑의 끝, 심연의 마지막 그림자를 쓰러뜨려 주세요. 길드 역사상 최고 현상금이에요.",
+  "description": "붉은 옥좌의 심연의 군주 · 진을 쓰러뜨려 주세요. 길드 역사상 최고 현상금이에요.",
   "kind": "boss",
   "target_id": "abyss_lord_ex",
   "count": 1,
@@ -745,7 +731,7 @@
    "seed_power": 2,
    "megalixir": 3
   },
-  "unlock_floor": 34,
+  "unlock_floor": 38,
   "_file": "q_ex_lord"
  }
 ]
