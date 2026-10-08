@@ -244,7 +244,7 @@
  {
   "id": "acc_crystal_crown",
   "display_name": "수정 왕관",
-  "description": "네 봉인의 결정과 군주의 왕관을 녹여 만든 왕관. 모든 능력치가 오른다.",
+  "description": "게이트 마석과 심연 군주의 왕관 조각을 녹여 만든 왕관. 모든 능력치가 오른다.",
   "slot": "accessory",
   "classes": [],
   "atk": 18,
@@ -609,7 +609,7 @@
  {
   "id": "acc_gold_charm",
   "display_name": "황금 부적",
-  "description": "금화 냄새를 맡는 부적. 전투에서 얻는 골드가 25 % 늘어난다(파티 합산, 최대 +100 %).",
+  "description": "금화 냄새를 맡는 부적. 전투에서 얻는 보상 금액이 25 % 늘어난다(파티 합산, 최대 +100 %).",
   "slot": "accessory",
   "classes": [],
   "atk": 0,
@@ -645,7 +645,7 @@
  {
   "id": "acc_guardian_ring",
   "display_name": "수호의 반지",
-  "description": "봉인의 힘을 담은 반지.",
+  "description": "길드 수호의 힘을 담은 반지.",
   "slot": "accessory",
   "classes": [],
   "atk": 0,
@@ -680,7 +680,7 @@
  {
   "id": "acc_hero_emblem",
   "display_name": "영웅의 문장",
-  "description": "네 봉인의 결정을 모은 증표.",
+  "description": "네 개의 게이트 마석을 모은 증표. 모든 능력치가 오른다.",
   "slot": "accessory",
   "classes": [],
   "atk": 12,
@@ -1543,8 +1543,8 @@
  },
  {
   "id": "armor_chain",
-  "display_name": "사슬 갑옷",
-  "description": "움직임을 크게 방해하지 않는 사슬 갑옷입니다.",
+  "display_name": "방검 조끼",
+  "description": "움직임을 크게 방해하지 않는 기본 방검 조끼입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1573,8 +1573,8 @@
  },
  {
   "id": "armor_dawn",
-  "display_name": "여명의 갑주",
-  "description": "봉인의 결정을 품은 최상급 여명의 갑주입니다.",
+  "display_name": "새벽 길드 아머",
+  "description": "새벽 길드의 문장이 새겨진 최상급 방어구입니다. 게이트 마석으로 덧댔다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1608,8 +1608,8 @@
  },
  {
   "id": "armor_dragon",
-  "display_name": "용린 갑옷",
-  "description": "드레이크의 단단한 비늘로 보강한 갑옷입니다.",
+  "display_name": "드레이크 비늘 아머",
+  "description": "드레이크의 단단한 비늘로 보강한 방어구입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1638,8 +1638,8 @@
  },
  {
   "id": "armor_plate",
-  "display_name": "판금 갑옷",
-  "description": "두꺼운 판금으로 전위를 지키는 갑옷입니다.",
+  "display_name": "택티컬 아머",
+  "description": "두꺼운 판으로 전위를 지키는 방어구입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1668,8 +1668,8 @@
  },
  {
   "id": "armor_rune",
-  "display_name": "룬 판금 갑옷",
-  "description": "룬으로 강화한 판금. 묘소의 저주를 튕겨 낸다.",
+  "display_name": "마석 강화 아머",
+  "description": "마석 각인으로 강화한 판금 방어구. 게이트의 저주를 튕겨 낸다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1709,8 +1709,8 @@
  },
  {
   "id": "armor_scale",
-  "display_name": "비늘 갑옷",
-  "description": "겹친 금속 비늘이 몸을 보호하는 갑옷입니다.",
+  "display_name": "경량 택티컬 아머",
+  "description": "겹친 금속 판이 몸을 보호하는 경량 방어구입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1739,8 +1739,8 @@
  },
  {
   "id": "armor_tidal",
-  "display_name": "해류의 갑주",
-  "description": "신전 수호병의 비늘 갑주. 물결처럼 가볍게 움직인다.",
+  "display_name": "심해 수호 아머",
+  "description": "A급 신전 수호병의 비늘 방어구. 물결처럼 가볍게 움직인다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1780,8 +1780,8 @@
  },
  {
   "id": "armor_void",
-  "display_name": "공허의 갑주",
-  "description": "심연의 결정으로 덧댄 갑주. 빛을 삼키는 듯 어둡다.",
+  "display_name": "공허 아머",
+  "description": "심연의 결정으로 덧댄 방어구. 빛을 삼키는 듯 어둡다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -1821,8 +1821,8 @@
  },
  {
   "id": "bow_composite",
-  "display_name": "합성 활",
-  "description": "여러 재료를 겹쳐 힘과 정확도를 높인 합성 활입니다.",
+  "display_name": "합성 컴파운드 보우",
+  "description": "여러 재료를 겹쳐 힘과 정확도를 높인 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -1851,8 +1851,8 @@
  },
  {
   "id": "bow_gale",
-  "display_name": "질풍의 활",
-  "description": "바람처럼 빠르게 시위를 당길 수 있는 질풍의 활입니다.",
+  "display_name": "질풍 리커브 보우",
+  "description": "바람처럼 빠르게 시위를 당길 수 있는 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -1918,7 +1918,7 @@
  },
  {
   "id": "bow_hunter",
-  "display_name": "사냥꾼의 활",
+  "display_name": "사냥꾼 컴파운드 보우",
   "description": "사냥꾼이 즐겨 쓰는 균형 잡힌 활입니다.",
   "slot": "weapon",
   "classes": [
@@ -2021,8 +2021,8 @@
  },
  {
   "id": "bow_short",
-  "display_name": "짧은 활",
-  "description": "가볍고 다루기 쉬운 입문용 활입니다.",
+  "display_name": "양궁용 리커브 보우",
+  "description": "가볍고 다루기 쉬운 입문용 리커브 보우입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -2051,8 +2051,8 @@
  },
  {
   "id": "bow_star",
-  "display_name": "유성의 활",
-  "description": "유성처럼 정확한 화살을 쏘는 봉인의 활입니다.",
+  "display_name": "유성 보우",
+  "description": "유성처럼 정확한 화살을 쏘는 게이트 마석 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -2126,7 +2126,7 @@
  },
  {
   "id": "bow_tide",
-  "display_name": "조류의 활",
+  "display_name": "심해 보우",
   "description": "지느러미처럼 펼쳐진 활채가 물살을 가르듯 화살을 보낸다.",
   "slot": "weapon",
   "classes": [
@@ -2160,7 +2160,7 @@
  },
  {
   "id": "bow_void",
-  "display_name": "공허의 활",
+  "display_name": "공허 보우",
   "description": "가시 돋친 검은 활. 보랏빛 맥동이 화살에 실린다.",
   "slot": "weapon",
   "classes": [
@@ -2194,7 +2194,7 @@
  },
  {
   "id": "bow_wraith",
-  "display_name": "망령의 활",
+  "display_name": "사슬 장식 보우",
   "description": "사슬에 묶인 뼈 활. 시위를 당기면 원혼이 울부짖는다.",
   "slot": "weapon",
   "classes": [
@@ -2228,8 +2228,8 @@
  },
  {
   "id": "garb_dawn",
-  "display_name": "여명의 경갑",
-  "description": "여명의 힘으로 회피와 기동성을 높인 경갑입니다.",
+  "display_name": "새벽 재킷",
+  "description": "새벽 길드 문장이 달린 최상급 재킷입니다. 회피와 기동성이 높다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2263,8 +2263,8 @@
  },
  {
   "id": "garb_leather",
-  "display_name": "가죽 경갑",
-  "description": "궁수의 움직임을 살리는 가벼운 가죽 경갑입니다.",
+  "display_name": "헌터 재킷",
+  "description": "헌터 입문 세트의 가죽 재킷. 움직임을 살리는 가벼운 재킷입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2293,8 +2293,8 @@
  },
  {
   "id": "garb_ranger",
-  "display_name": "숲지기 조끼",
-  "description": "숲의 탐색자를 위한 질긴 가죽 조끼입니다.",
+  "display_name": "레인저 재킷",
+  "description": "탐색 헌터를 위한 질긴 가죽 조끼입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2323,8 +2323,8 @@
  },
  {
   "id": "garb_shadow",
-  "display_name": "그림자 가죽옷",
-  "description": "그림자처럼 몸을 숨기기 좋은 유연한 가죽옷입니다.",
+  "display_name": "그림자 가죽 재킷",
+  "description": "그림자처럼 몸을 숨기기 좋은 유연한 가죽 재킷입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2353,8 +2353,8 @@
  },
  {
   "id": "garb_tide",
-  "display_name": "조류의 경갑",
-  "description": "물고기 비늘을 엮은 경갑. 물속에서도 몸이 가볍다.",
+  "display_name": "심해 재킷",
+  "description": "물고기 비늘을 엮은 재킷. 물속에서도 몸이 가볍다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2394,8 +2394,8 @@
  },
  {
   "id": "garb_void",
-  "display_name": "공허의 경갑",
-  "description": "그림자 짐승의 가죽으로 만든 경갑. 발소리가 사라진다.",
+  "display_name": "공허 재킷",
+  "description": "그림자 짐승의 가죽으로 만든 재킷. 발소리가 사라진다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2435,8 +2435,8 @@
  },
  {
   "id": "garb_wind",
-  "display_name": "바람의 경갑",
-  "description": "바람처럼 가볍게 움직일 수 있는 경갑입니다.",
+  "display_name": "바람막이 재킷",
+  "description": "바람처럼 가볍게 움직일 수 있는 재킷입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2465,8 +2465,8 @@
  },
  {
   "id": "garb_wraith",
-  "display_name": "망령의 경갑",
-  "description": "안개처럼 흐릿한 가죽 경갑. 적의 눈을 속인다.",
+  "display_name": "안개 위장 재킷",
+  "description": "안개처럼 흐릿한 가죽 재킷. 적의 눈을 속인다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -2537,7 +2537,7 @@
  {
   "id": "mace_dawn",
   "display_name": "새벽의 홀",
-  "description": "마지막 봉인을 밝히는 새벽의 홀입니다.",
+  "description": "마지막 게이트를 밝히는 새벽의 홀입니다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -2716,8 +2716,8 @@
  },
  {
   "id": "mace_requiem",
-  "display_name": "진혼의 종퇴",
-  "description": "해골 추가 달린 쇠종. 울릴 때마다 망자가 잠든다.",
+  "display_name": "진혼의 쇠추 망치",
+  "description": "쇠추가 달린 망치. 휘두를 때마다 망령이 가라앉는다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -2818,8 +2818,8 @@
  },
  {
   "id": "mace_silver",
-  "display_name": "은빛 메이스",
-  "description": "은빛 머리 장식에 기도를 담은 메이스입니다.",
+  "display_name": "의료용 메이스",
+  "description": "은빛 머리 장식이 달린 응급 구조용 메이스입니다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -2885,8 +2885,8 @@
  },
  {
   "id": "mace_wood",
-  "display_name": "나무 메이스",
-  "description": "초보 성직자를 위한 소박한 나무 메이스입니다.",
+  "display_name": "구급 지팡이",
+  "description": "초보 응급 구조원을 위한 소박한 나무 지팡이. 상처에 대는 것만으로도 든든하다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -2915,8 +2915,8 @@
  },
  {
   "id": "robe_cloth",
-  "display_name": "무명 로브",
-  "description": "마법사와 성직자가 함께 입는 소박한 로브입니다.",
+  "display_name": "입문용 마력 코트",
+  "description": "마법사와 힐러가 함께 입는 소박한 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -2946,8 +2946,8 @@
  },
  {
   "id": "robe_dawn",
-  "display_name": "여명의 법의",
-  "description": "봉인의 힘이 착용자를 감싸는 여명의 법의입니다.",
+  "display_name": "새벽 마력 코트",
+  "description": "새벽 길드의 빛을 수놓은 최상급 마력 코트입니다. 마력이 새벽처럼 퍼진다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -2982,8 +2982,8 @@
  },
  {
   "id": "robe_mystic",
-  "display_name": "신비의 로브",
-  "description": "신비한 문양이 마법 방어를 높여 주는 로브입니다.",
+  "display_name": "전술 마력 코트",
+  "description": "문양이 마법 방어를 높여 주는 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -3013,8 +3013,8 @@
  },
  {
   "id": "robe_pearl",
-  "display_name": "진주빛 법의",
-  "description": "진주 가루로 물들인 비단 법의. 마력이 잔잔히 흐른다.",
+  "display_name": "진주빛 마력 코트",
+  "description": "진주 가루로 물들인 비단 코트. 마력이 잔잔히 흐른다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -3055,8 +3055,8 @@
  },
  {
   "id": "robe_sage",
-  "display_name": "현자의 법의",
-  "description": "현자의 지식으로 짜인 고급 마법 법의입니다.",
+  "display_name": "현자 마력 코트",
+  "description": "현자의 지식으로 짜인 고급 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -3086,8 +3086,8 @@
  },
  {
   "id": "robe_silk",
-  "display_name": "비단 로브",
-  "description": "마력의 흐름을 돕는 부드러운 비단 로브입니다.",
+  "display_name": "마력 코트",
+  "description": "마력의 흐름을 돕는 부드러운 실크 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -3117,8 +3117,8 @@
  },
  {
   "id": "robe_spirit",
-  "display_name": "영혼의 법의",
-  "description": "망자의 영혼을 달래는 주문이 수놓인 법의.",
+  "display_name": "정화 마력 코트",
+  "description": "망자의 기운을 달래는 주문이 수놓인 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -3159,8 +3159,8 @@
  },
  {
   "id": "robe_void",
-  "display_name": "공허의 법의",
-  "description": "공허의 실로 짠 법의. 입은 이의 마력을 깊게 끌어낸다.",
+  "display_name": "공허 마력 코트",
+  "description": "공허의 실로 짠 마력 코트. 입은 이의 마력을 깊게 끌어낸다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -3278,8 +3278,8 @@
  },
  {
   "id": "staff_bone",
-  "display_name": "망자의 해골 지팡이",
-  "description": "뿔 달린 해골이 초록 영혼불을 품은 지팡이.",
+  "display_name": "뼈 장식 완드",
+  "description": "뿔 달린 뼈 장식이 초록 불꽃을 품은 완드. 망자의 힘을 빌린다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3312,8 +3312,8 @@
  },
  {
   "id": "staff_coral",
-  "display_name": "산호 지팡이",
-  "description": "진주를 품은 산호 가지가 바닷물의 마력을 모은다.",
+  "display_name": "산호 마력 완드",
+  "description": "산호 가지가 바닷물의 마력을 모은다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3346,8 +3346,8 @@
  },
  {
   "id": "staff_crystal",
-  "display_name": "수정 지팡이",
-  "description": "맑은 수정이 마력을 모아 주는 지팡이입니다.",
+  "display_name": "마석 완드",
+  "description": "맑은 마석이 마력을 모아 주는 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3415,8 +3415,8 @@
  },
  {
   "id": "staff_oak",
-  "display_name": "참나무 지팡이",
-  "description": "원소 마법의 기초를 익히는 참나무 지팡이입니다.",
+  "display_name": "연습용 마력 완드",
+  "description": "원소 마법의 기초를 익히는 나무 완드. 헌터 교육원 지급품이다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3486,8 +3486,8 @@
  },
  {
   "id": "staff_ruby",
-  "display_name": "홍옥 지팡이",
-  "description": "붉은 홍옥이 강한 마력을 이끌어 내는 지팡이입니다.",
+  "display_name": "홍염 마력 완드",
+  "description": "붉은 홍옥이 강한 마력을 이끌어 내는 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3516,8 +3516,8 @@
  },
  {
   "id": "staff_sage",
-  "display_name": "현자의 지팡이",
-  "description": "현자의 지혜가 깃든 마법 지팡이입니다.",
+  "display_name": "전술 마력 완드",
+  "description": "마법의 흐름을 정리해 주는 전술용 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3546,8 +3546,8 @@
  },
  {
   "id": "staff_starlight",
-  "display_name": "성광의 지팡이",
-  "description": "별빛과 봉인의 결정을 엮은 최상급 지팡이입니다.",
+  "display_name": "성광 마력 완드",
+  "description": "별빛과 네 원소의 마석을 엮은 최상급 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3581,8 +3581,8 @@
  },
  {
   "id": "staff_void",
-  "display_name": "공허의 지팡이",
-  "description": "두 고리 사이에 공허의 구슬이 떠 있는 검은 지팡이.",
+  "display_name": "공허 마력 완드",
+  "description": "두 고리 사이에 공허의 구슬이 떠 있는 검은 완드.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -3653,8 +3653,8 @@
  },
  {
   "id": "sword_bronze",
-  "display_name": "청동 장검",
-  "description": "처음 미궁에 들어서는 검사를 위한 청동 장검입니다.",
+  "display_name": "쇠파이프",
+  "description": "길가에서 주운 쇠파이프. 헌터 첫날의 무기로는 충분하다. 든든하진 않아도 없는 것보단 낫다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -3720,8 +3720,8 @@
  },
  {
   "id": "sword_dawn",
-  "display_name": "여명검",
-  "description": "봉인의 힘을 담아 어둠을 가르는 여명의 검입니다.",
+  "display_name": "새벽검",
+  "description": "새벽 길드의 문장을 새긴 최상급 검. 어둠을 가르는 첫 빛처럼 날이 선다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -3755,7 +3755,7 @@
  },
  {
   "id": "sword_flamberge",
-  "display_name": "플람베르주",
+  "display_name": "웨이브 블레이드",
   "description": "물결치는 칼날이 적의 급소를 노리는 검입니다.",
   "slot": "weapon",
   "classes": [
@@ -3822,8 +3822,8 @@
  },
  {
   "id": "sword_iron",
-  "display_name": "무쇠 장검",
-  "description": "단단한 무쇠로 벼린 실용적인 장검입니다.",
+  "display_name": "삼단봉",
+  "description": "휴대성이 좋은 삼단봉. 손목 스냅으로 빠르게 휘두를 수 있다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -3852,8 +3852,8 @@
  },
  {
   "id": "sword_knight",
-  "display_name": "기사의 검",
-  "description": "기사단의 문장이 새겨진 믿음직한 검입니다.",
+  "display_name": "강철 사냥 단검",
+  "description": "사냥 헌터들이 즐겨 쓰는 강철 단검. 날이 짧아 다루기 쉽다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -3918,8 +3918,8 @@
  },
  {
   "id": "sword_runic",
-  "display_name": "룬 브레이드",
-  "description": "묘소의 대장장이가 푸른 룬을 새겨 넣은 장검. 칼날이 망자의 기척에 반응한다.",
+  "display_name": "마석 각인 블레이드",
+  "description": "게이트 마석 가루로 각인한 장검. 칼날이 게이트의 기운에 반응한다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -3952,8 +3952,8 @@
  },
  {
   "id": "sword_tidal",
-  "display_name": "해류의 곡도",
-  "description": "가라앉은 신전의 조류를 닮은 곡도. 칼등에 파도 문양이 빛난다.",
+  "display_name": "심해 곡도",
+  "description": "A급 신전의 물결을 닮은 곡도. 칼등에 파도 문양이 빛난다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -3986,7 +3986,7 @@
  },
  {
   "id": "sword_void",
-  "display_name": "공허의 검",
+  "display_name": "공허 절단검",
   "description": "심연의 핵에서 벼린 검은 칼날. 갈라진 틈으로 보랏빛이 새어 나온다.",
   "slot": "weapon",
   "classes": [

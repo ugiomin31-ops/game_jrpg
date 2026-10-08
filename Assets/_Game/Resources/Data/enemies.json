@@ -1146,7 +1146,7 @@
  },
  {
   "id": "elite_sand_golem",
-  "display_name": "사막의 거상",
+  "display_name": "철광 거인",
   "rank": 1,
   "is_boss": false,
   "hit": 0.95,
@@ -3905,7 +3905,7 @@
  },
  {
   "id": "slime",
-  "display_name": "숲 슬라임",
+  "display_name": "점액 슬라임",
   "rank": 0,
   "is_boss": false,
   "hit": 0.95,

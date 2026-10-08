@@ -1,8 +1,8 @@
 [
  {
   "id": "abyss_crystal",
-  "display_name": "심연의 결정",
-  "description": "마지막 봉인에서 새어 나온 검은 결정.",
+  "display_name": "심연 마석",
+  "description": "마지막 게이트에서 새어 나온 검은 마석.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -73,7 +73,7 @@
  },
  {
   "id": "camp_tent",
-  "display_name": "야영 텐트",
+  "display_name": "구조 텐트",
   "description": "전투 밖에서만 사용. 아군 전원의 HP와 MP를 모두 회복합니다(쓰러진 동료 제외).",
   "item_type": 0,
   "heal_amount": 9999,
@@ -111,7 +111,7 @@
  },
  {
   "id": "cursed_straw",
-  "display_name": "저주받은 짚",
+  "display_name": "허수아비 짚",
   "description": "원한이 스민 허수아비의 짚.",
   "item_type": 7,
   "heal_amount": 0,
@@ -147,7 +147,7 @@
  },
  {
   "id": "elixir",
-  "display_name": "엘릭서",
+  "display_name": "전원 회복 앰플",
   "description": "아군 전원의 HP를 모두 회복합니다.",
   "item_type": 0,
   "heal_amount": 9999,
@@ -165,8 +165,8 @@
  },
  {
   "id": "ember_crystal",
-  "display_name": "홍염의 결정",
-  "description": "태양의 봉인 조각. 손에 쥐면 따뜻하다.",
+  "display_name": "홍염 마석",
+  "description": "C급 사막 게이트의 마석. 손에 쥐면 따뜻하다.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -237,7 +237,7 @@
  },
  {
   "id": "ether",
-  "display_name": "마나 물약",
+  "display_name": "마나 포션",
   "description": "아군 한 명의 MP를 30 회복합니다.",
   "item_type": 1,
   "heal_amount": 0,
@@ -309,8 +309,8 @@
  },
  {
   "id": "frost_crystal",
-  "display_name": "빙결의 결정",
-  "description": "바다의 봉인 조각. 결코 녹지 않는다.",
+  "display_name": "빙결 마석",
+  "description": "D급 얼음 동굴의 마석. 결코 녹지 않는다.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -381,8 +381,8 @@
  },
  {
   "id": "golem_sandstone",
-  "display_name": "골렘 사암",
-  "description": "마력이 깃든 단단한 사암.",
+  "display_name": "골렘 코어 파편",
+  "description": "마력이 깃든 단단한 골렘 코어 조각.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -399,7 +399,7 @@
  },
  {
   "id": "guard_tonic",
-  "display_name": "수호의 영약",
+  "display_name": "방어 부스트 드링크",
   "description": "아군 전원의 방어력을 3턴 동안 높입니다.",
   "item_type": 8,
   "heal_amount": 0,
@@ -417,7 +417,7 @@
  },
  {
   "id": "healing_potion",
-  "display_name": "회복약",
+  "display_name": "회복 포션(하급)",
   "description": "아군 한 명의 HP를 60 회복합니다.",
   "item_type": 0,
   "heal_amount": 60,
@@ -435,7 +435,7 @@
  },
  {
   "id": "hi_ether",
-  "display_name": "고급 마나 물약",
+  "display_name": "마나 포션(중급)",
   "description": "아군 한 명의 MP를 90 회복합니다.",
   "item_type": 1,
   "heal_amount": 0,
@@ -453,7 +453,7 @@
  },
  {
   "id": "hi_potion",
-  "display_name": "고급 회복약",
+  "display_name": "회복 포션(중급)",
   "description": "아군 한 명의 HP를 250 회복합니다.",
   "item_type": 0,
   "heal_amount": 250,
@@ -525,8 +525,8 @@
  },
  {
   "id": "job_medal",
-  "display_name": "전직의 증표",
-  "description": "길드가 인정한 모험가에게 주는 증표. 1차 전직에 필요합니다. 팔 수 없습니다.",
+  "display_name": "각성의 증표",
+  "description": "길드가 인정한 헌터에게 주는 증표. 1차 각성에 필요합니다. 팔 수 없습니다.",
   "item_type": 10,
   "heal_amount": 0,
   "max_stack": 9,
@@ -579,7 +579,7 @@
  },
  {
   "id": "magic_tonic",
-  "display_name": "마력의 영약",
+  "display_name": "마력 부스트 드링크",
   "description": "아군 전원의 마력을 3턴 동안 높입니다.",
   "item_type": 8,
   "heal_amount": 0,
@@ -615,8 +615,8 @@
  },
  {
   "id": "master_seal",
-  "display_name": "마스터의 인장",
-  "description": "한 길을 끝까지 걸은 자의 인장. 2차 전직에 필요합니다. 팔 수 없습니다.",
+  "display_name": "초월의 인장",
+  "description": "한 길을 끝까지 걸은 헌터의 인장. 2차 각성에 필요합니다. 팔 수 없습니다.",
   "item_type": 10,
   "heal_amount": 0,
   "max_stack": 9,
@@ -633,7 +633,7 @@
  },
  {
   "id": "max_ether",
-  "display_name": "맥스 에테르",
+  "display_name": "마나 포션(상급)",
   "description": "아군 한 명의 MP를 모두 회복합니다.",
   "item_type": 1,
   "heal_amount": 0,
@@ -651,7 +651,7 @@
  },
  {
   "id": "mega_potion",
-  "display_name": "특제 회복약",
+  "display_name": "회복 포션(상급)",
   "description": "아군 한 명의 HP를 600 회복합니다.",
   "item_type": 0,
   "heal_amount": 600,
@@ -669,7 +669,7 @@
  },
  {
   "id": "megalixir",
-  "display_name": "메가엘릭서",
+  "display_name": "전원 회복 키트",
   "description": "아군 전원의 HP와 MP를 모두 회복합니다.",
   "item_type": 0,
   "heal_amount": 9999,
@@ -706,8 +706,8 @@
  },
  {
   "id": "old_bone",
-  "display_name": "오래된 뼈",
-  "description": "묘소 기사의 단단한 뼈.",
+  "display_name": "오래된 유골",
+  "description": "묘소 기사의 단단한 뼈. 정중히 안치해 주세요.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -760,7 +760,7 @@
  },
  {
   "id": "phoenix_feather",
-  "display_name": "불사조의 깃털",
+  "display_name": "소생 앰플",
   "description": "쓰러진 아군을 HP 30%로 되살립니다.",
   "item_type": 3,
   "heal_amount": 0,
@@ -778,7 +778,7 @@
  },
  {
   "id": "phoenix_plume",
-  "display_name": "불사조의 꼬리깃",
+  "display_name": "소생 앰플(상급)",
   "description": "쓰러진 아군 한 명을 HP 100 %로 되살립니다.",
   "item_type": 3,
   "heal_amount": 0,
@@ -796,7 +796,7 @@
  },
  {
   "id": "power_tonic",
-  "display_name": "투지의 영약",
+  "display_name": "공격 부스트 드링크",
   "description": "아군 전원의 공격력을 3턴 동안 높입니다.",
   "item_type": 8,
   "heal_amount": 0,
@@ -832,8 +832,8 @@
  },
  {
   "id": "return_stone",
-  "display_name": "귀환의 돌",
-  "description": "전투 밖에서 사용하면 마을로 돌아갑니다.",
+  "display_name": "게이트 탈출 비콘",
+  "description": "전투 밖에서 사용하면 길드로 돌아갑니다.",
   "item_type": 4,
   "heal_amount": 0,
   "max_stack": 9,
@@ -1054,7 +1054,7 @@
  },
  {
   "id": "speed_tonic",
-  "display_name": "신속의 영약",
+  "display_name": "속도 부스트 드링크",
   "description": "아군 전원의 속도를 3턴 동안 높입니다.",
   "item_type": 8,
   "heal_amount": 0,
@@ -1108,8 +1108,8 @@
  },
  {
   "id": "trial_emblem",
-  "display_name": "시련의 문장",
-  "description": "시련의 회랑에서 진 보스를 쓰러뜨린 증거.",
+  "display_name": "붉은 게이트 문장",
+  "description": "붉은 게이트에서 쓰러뜨린 보스의 메아리를 증명하는 문장.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -1126,8 +1126,8 @@
  },
  {
   "id": "verdant_crystal",
-  "display_name": "신록의 결정",
-  "description": "숲의 봉인 조각. 생명력이 깃들어 있다.",
+  "display_name": "신록 마석",
+  "description": "E급 숲 게이트의 마석. 생명력이 깃들어 있다.",
   "item_type": 7,
   "heal_amount": 0,
   "max_stack": 99,
@@ -1162,7 +1162,7 @@
  },
  {
   "id": "x_potion",
-  "display_name": "엑스 포션",
+  "display_name": "회복 포션(특급)",
   "description": "아군 한 명의 HP를 2000 회복합니다.",
   "item_type": 0,
   "heal_amount": 2000,
