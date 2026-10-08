@@ -1,38 +1,38 @@
 {
   "id": "doppelganger",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T04:00:01Z",
+  "produced_at_utc": "2026-10-08T09:12:29Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/doppelganger/doppelganger.fbx",
-      "bytes": 785580
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Assets/_Game/Resources/Art/Enemies/doppelganger/doppelganger.fbx",
+      "bytes": 954508
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_doppelganger.blend",
-      "bytes": 440722
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/blend/enemy_doppelganger.blend",
+      "bytes": 394706
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger.png",
-        "bytes": 173625
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger.png",
+        "bytes": 162113
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_side.png",
-        "bytes": 155937
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_side.png",
+        "bytes": 154873
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_attack.png",
-        "bytes": 168028
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_attack.png",
+        "bytes": 155065
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_cast.png",
-        "bytes": 155136
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_cast.png",
+        "bytes": 158609
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_die.png",
-        "bytes": 152374
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a46e049421e2efe03/Blender/preview/enemy_doppelganger_die.png",
+        "bytes": 158266
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9368,
-    "vertices": 4716,
-    "bones": 8,
+    "triangles": 7216,
+    "vertices": 3680,
+    "bones": 12,
     "materials": [
       "M_Toon",
       "M_Emit",
@@ -86,9 +86,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 9368,
-    "vertices": 4716,
-    "bones": 8,
+    "triangles": 7216,
+    "vertices": 3680,
+    "bones": 12,
     "materials": [
       "M_Toon",
       "M_Emit",

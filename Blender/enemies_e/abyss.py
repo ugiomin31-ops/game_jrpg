@@ -216,198 +216,290 @@ def chaos_spawn(eid):
 
 
 # ---------------------------------------------------------------------------------------------- gargoyle
-def gargoyle(eid):
-    """가고일 — a crouching cathedral gargoyle come to life: weathered grey-violet stone with moss in the creases,
-    a muscular hunched torso, a snarling horned head with a beaked brow, stone bat wings on finger ribs, clawed
-    feet and a spade-tipped tail."""
-    from flyers import bat_wing
-    c = Sculpt(eid, tris=10000, ao=0.65)
-    base_stone = stone_col('#a6a2b2', '#6e6a80', None, 3.0)
-
-    def stone(p):   # weathered stone with fine dark cracks
-        if abs(noise.noise(p * 7 + Vector((0.3, 1.1, 2.0)))) < 0.025:
-            return '#3a3646'
-        return base_stone(p)
-    dark, claw = '#3e3c4c', '#2a2832'
-    c.bone('body', (0, 0, 0.95)); c.bone('head', (0, -0.08, 1.16), 'body'); c.bone('eyes', (0, -0.2, 1.23), 'head')
-    c.bone('jaw', (0, -0.17, 1.13), 'head')
-    c.blob('body', (0, 0.0, 1.02), (0.17, 0.13, 0.14), stone)
-    c.blob('body', (0, -0.04, 0.9), (0.13, 0.11, 0.1), stone)
-    c.blob('body', (0, 0.02, 0.8), (0.12, 0.1, 0.07), stone)
-    c.blob('body', (0, -0.1, 1.0), (0.13, 0.05, 0.08), stone)                                      # pecs
-    for s in (-1, 1):
-        c.blob('body', (s * 0.15, 0, 1.08), (0.08, 0.08, 0.07), stone)
-    c.paint((0, -0.15, 0.9), (0.06, 0.02, 0.008), dark, weight=1.3)
-    # head: heavy brow, short muzzle, snarling jaw, horns sweeping back, pointed ears
-    c.blob('head', (0, -0.1, 1.22), (0.1, 0.1, 0.085), stone)
-    c.limb('head', [(0, -0.17, 1.2), (0, -0.24, 1.18)], [0.06, 0.045], stone)
-    c.blob('eyes', (0, -0.19, 1.27), (0.09, 0.04, 0.025), stone)                                   # brow ridge
-    for s in (-1, 1):
-        c.eye('eyes', (s * 0.045, -0.19, 1.24), (s * 0.35, -1, 0.0), 0.022, '#ff8a3a', slit=True, sclera='#e8dcc0')
-        horn(c, 'head', f'horn{s}', (s * 0.06, -0.08, 1.3), (s * 0.15, 0.0, 1.42), (s * 0.12, 0.12, 1.46), 0.03, '#4a4658', '#cfc6d8')
-        c.bone('ear.' + ('L' if s > 0 else 'R'), (s * 0.09, -0.06, 1.25), 'head')
-        c.blob('ear.' + ('L' if s > 0 else 'R'), (s * 0.13, -0.05, 1.27), (0.05, 0.012, 0.025), stone, rot=(0, -s * 25, s * 20))
-    c.limb('jaw', [(0, -0.12, 1.13), (0, -0.2, 1.12), (0, -0.25, 1.13)], [0.05, 0.04, 0.03], stone)
-    c.paint((0, -0.24, 1.15), (0.04, 0.03, 0.006), '#1a1420', weight=1.6)
-    for s in (-1, 1):
-        spine(c, 'jaw', f'tusk{s}', (s * 0.03, -0.24, 1.135), (s * 0.15, -0.3, 1), 0.05, 0.011, '#e8e0d0', tip='#ffffff', seg=6)
-        spine(c, 'head', f'fang{s}', (s * 0.02, -0.25, 1.165), (0, -0.2, -1), 0.03, 0.007, '#e8e0d0', seg=6)
-    # arms and legs
-    for s, side in ((-1, 'R'), (1, 'L')):
-        c.bone('arm.' + side, (s * 0.17, -0.02, 1.08), 'body')
-        c.limb('arm.' + side, [(s * 0.18, -0.02, 1.08), (s * 0.24, -0.06, 0.95), (s * 0.24, -0.13, 0.85)], [0.06, 0.05, 0.045], stone)
-        c.blob('arm.' + side, (s * 0.24, -0.16, 0.82), (0.05, 0.05, 0.045), stone)
-        for j in range(3):
-            spine(c, 'arm.' + side, f'claw{side}{j}', (s * 0.24 + (j - 1) * 0.025, -0.19, 0.8), (0, -0.6, -1), 0.05, 0.01, claw, seg=6)
-        c.bone('leg.' + side, (s * 0.09, 0.02, 0.8), 'body')
-        c.blob('leg.' + side, (s * 0.11, -0.02, 0.72), (0.075, 0.1, 0.08), stone)                  # haunch
-        c.limb('leg.' + side, [(s * 0.11, -0.04, 0.66), (s * 0.12, -0.1, 0.56), (s * 0.12, 0.0, 0.48), (s * 0.12, -0.02, 0.4)],
-               [0.055, 0.045, 0.035, 0.035], stone)
-        c.blob('leg.' + side, (s * 0.12, -0.06, 0.39), (0.045, 0.07, 0.025), stone)
-        for j in range(3):
-            spine(c, 'leg.' + side, f'talon{side}{j}', (s * 0.12 + (j - 1) * 0.025, -0.11, 0.39), (0, -1, -0.5), 0.04, 0.01, claw, seg=6)
-        c.bone('wing.' + side, (s * 0.1, 0.08, 1.1), 'body')
-        tips = [(s * 0.68, 0.12, 1.42), (s * 0.78, 0.14, 1.1), (s * 0.6, 0.16, 0.84)]
-        bat_wing(c, 'wing.' + side, s, (s * 0.1, 0.09, 1.1), (s * 0.42, 0.11, 1.3), tips, (s * 0.1, 0.12, 0.86),
-                 (s * 0.3, 0.12, 1.08), '#8a8698', '#7a7490', '#4a4458', r=0.04)
-    # tail with a spade tip
-    c.bone('tail1', (0, 0.1, 0.82), 'body'); c.bone('tail2', (0, 0.26, 0.66), 'tail1')
-    c.limb(['tail1', 'tail1', 'tail2'], [(0, 0.08, 0.84), (0, 0.22, 0.72), (0.04, 0.32, 0.56), (0.06, 0.4, 0.46)], [0.05, 0.04, 0.03, 0.02], stone)
-    sp = A.extrude_shape('tail_spade', [(0, 0), (0.05, 0.05), (0.03, 0.06), (0, 0.13), (-0.03, 0.06), (-0.05, 0.05)], depth=0.02,
-                         color='#5c5a6c')
-    sp.rotation_mode = 'QUATERNION'
-    sp.rotation_quaternion = Vector((0.15, 0.5, -0.6)).to_track_quat('Z', 'Y')
-    sp.location = (0.06, 0.4, 0.46)
-    c.add('tail2', sp)
-    c.post = _moss(0.7)
-    return c.finish('fly')
-
-
-def _moss(up):
+def _patina(up=0.6, seed=0.0):
+    """post-paint for weathered stone: moss on up-facing ledges, verdigris-teal patina in patches."""
     def f(p, n, col):
         k = (n.z - up) / (1 - up)
-        if k <= 0 or noise.noise(p * 9) < 0.35:
-            return col
-        return lerp_col(col, '#6f8a5a', min(0.6, 1.2 * k))
+        if k > 0:
+            m = 0.5 + 0.5 * noise.noise(p * 7 + Vector((seed, 0.0, 1.0)))
+            col = lerp_col(col, '#6f9a5a', min(0.7, 1.5 * k * m))
+        if noise.noise(p * 5 + Vector((4.0, 2.0, seed))) > 0.5:
+            col = lerp_col(col, '#4fb3a8', 0.4)
+        return col
     return f
 
 
-# ---------------------------------------------------------------------------------------------- nightmare
-def nightmare(eid):
-    """나이트메어 — a black war-horse of bad dreams: a deep-chested ink-black body with a violet sheen, slender
-    legs on dark hooves wreathed in violet fire, a long head with a flaring nostril and a cold red eye, and a
-    mane and tail of tall violet flame."""
-    c = Sculpt(eid, tris=10000, ao=0.55)
-    coat, sheen, hoof = '#16121e', '#3a2c52', '#0a080c'
+def gargoyle(eid):
+    """가고일 — a friendly-tough stone-dragon gargoyle: a chunky carved body in lavender-grey stone with a bold chest
+    plate and a ridge of stone spines, moss and teal patina in the creases, a glowing rune crack on the plate, a broad
+    blunt head with small horns and round amber eyes, and big bat wings with a teal-lit membrane and bone fingers."""
+    from flyers import bat_wing
+    c = Sculpt(eid, tris=5000, ao=0.4)
+    c.post = _patina(0.6)
+    base_stone = stone_col('#c2bcdc', '#7a769e', None, 3.0)
 
-    def hide(p):
-        return lerp_col(sheen, coat, 0.5 + (0.75 - p.z) * 3.0 + 0.3 * noise.noise(p * 6))
-    c.bone('body', (0, 0.05, 0.66))
-    c.bone('head', (0, -0.36, 0.98), 'body'); c.bone('eyes', (0, -0.5, 1.16), 'head'); c.bone('jaw', (0, -0.6, 1.0), 'head')
-    # barrel, deep chest and round haunches
-    c.blob('body', (0, -0.2, 0.68), (0.165, 0.18, 0.2), hide)
-    c.blob('body', (0, 0.02, 0.68), (0.155, 0.25, 0.17), hide)
-    c.blob('body', (0, 0.26, 0.7), (0.17, 0.16, 0.175), hide)
-    c.blob('body', (0, 0.33, 0.78), (0.12, 0.1, 0.09), hide)
-    c.blob('body', (0, -0.3, 0.6), (0.1, 0.06, 0.1), hide)                                          # breast
-    # neck arching up to the head
-    c.limb(['body', 'body', 'head', 'head'], [(0, -0.24, 0.78), (0, -0.32, 0.92), (0, -0.37, 1.04), (0, -0.41, 1.12)],
-           [0.135, 0.115, 0.095, 0.08], hide)
-    c.blob('head', (0, -0.43, 1.150), (0.07, 0.08, 0.07), hide)
-    c.limb('head', [(0, -0.47, 1.130), (0, -0.56, 1.060), (0, -0.62, 1.000)], [0.06, 0.05, 0.045], hide)
-    c.blob('head', (0, -0.645, 0.985), (0.045, 0.035, 0.04), '#2a2232')                            # muzzle
+    def stone(p):   # weathered stone with fine cracks
+        if abs(noise.noise(p * 6 + Vector((0.3, 1.1, 2.0)))) < 0.03:
+            return '#5c5880'
+        return base_stone(p)
+    plate, dark, claw, ridge, glow = '#cfcae4', '#5a5680', '#2e2c40', '#8c86ae', '#5ef2e0'
+    c.bone('body', (0, 0, 0.98)); c.bone('head', (0, -0.1, 1.22), 'body'); c.bone('eyes', (0, -0.23, 1.27), 'head')
+    c.bone('jaw', (0, -0.2, 1.14), 'head')
+    # body: barrel chest, heavy belly, hips, shoulder balls
+    c.blob('body', (0, -0.01, 1.02), (0.23, 0.18, 0.23), stone)
+    c.blob('body', (0, 0.02, 0.84), (0.2, 0.17, 0.15), stone)
+    c.blob('body', (0, 0.05, 0.72), (0.15, 0.13, 0.09), stone)
+    c.blob('body', (0, -0.04, 1.15), (0.18, 0.14, 0.1), stone)
     for s in (-1, 1):
-        c.paint((s * 0.022, -0.675, 0.990), (0.01, 0.012, 0.012), '#5a1a2a', weight=2.0)          # flared nostrils
-        c.blob('eyes', (s * 0.05, -0.47, 1.200), (0.03, 0.04, 0.015), coat, rot=(0, s * 20, 0))
-        c.eye('eyes', (s * 0.058, -0.48, 1.175), (s * 0.85, -0.5, 0.05), 0.022, '#e0303a', sclera='#2a1a22', pupil='#1a0a0a')
-        c.bone('ear.' + ('L' if s > 0 else 'R'), (s * 0.04, -0.4, 1.210), 'head')
-        c.blob('ear.' + ('L' if s > 0 else 'R'), (s * 0.045, -0.4, 1.250), (0.02, 0.015, 0.05), hide, rot=(0, -s * 10, 0))
-        horn(c, 'head', f'horn{s}', (s * 0.03, -0.45, 1.210), (s * 0.06, -0.42, 1.320), (s * 0.04, -0.33, 1.380), 0.016, '#2a2236', '#a070e0')
-    c.paint((0, -0.62, 0.965), (0.04, 0.03, 0.006), '#08060a', weight=1.5)                         # mouth line
-    # legs
+        c.blob('body', (s * 0.19, 0.0, 1.1), (0.11, 0.11, 0.11), stone)
+    # a lighter stone chest plate with a glowing rune crack
+    PC, PR = (0, -0.17, 1.03), (0.19, 0.085, 0.18)
+    c.add('body', dome('chest_plate', PC, PR, cut=-0.25, color=plate))
+    rune = [tuple(ellipsoid_point(PC, PR, Vector(d), out=0.012)[0])
+            for d in ((-0.6, -1, 0.7), (-0.25, -1, 0.05), (0.2, -1, 0.6), (0.52, -1, -0.05))]
+    c.tube('body', 'rune_chest', rune, 0.012, glow, mat='M_Emit')
+    # a crest of stone spines down the back
+    for k in range(5):
+        spine(c, 'body', f'ridge{k}', (0, 0.12 + 0.01 * k, 1.2 - k * 0.1), (0, 0.6, 1), 0.075 - 0.008 * k, 0.03 - 0.002 * k,
+              ridge, tip=plate)
+    # head: broad skull, short snout, closed snarl with two little fangs
+    c.blob('head', (0, -0.1, 1.24), (0.14, 0.13, 0.13), stone)
+    c.limb('head', [(0, -0.12, 1.2), (0, -0.2, 1.18), (0, -0.25, 1.17)], [0.07, 0.06, 0.05], stone)
+    c.blob('head', (0, -0.27, 1.16), (0.055, 0.045, 0.045), stone)
+    c.limb('jaw', [(0, -0.14, 1.14), (0, -0.2, 1.13), (0, -0.25, 1.14)], [0.05, 0.042, 0.035], stone)
+    c.paint((0, -0.27, 1.13), (0.04, 0.02, 0.008), '#2a2638', weight=1.6)
+    for s in (-1, 1):
+        side = 'L' if s > 0 else 'R'
+        c.blob('eyes', (s * 0.065, -0.2, 1.27), (0.05, 0.035, 0.03), stone)                     # brow ridge
+        c.paint((s * 0.035, -0.3, 1.18), (0.012, 0.012, 0.012), dark, weight=2)                  # nostrils
+        spine(c, 'jaw', f'fang{s}', (s * 0.035, -0.25, 1.15), (s * 0.1, -0.1, 1), 0.035, 0.009, '#f2ecdc', tip='#ffffff', seg=6)
+        c.eye('eyes', (s * 0.07, -0.225, 1.24), (s * 0.2, -1, 0.1), 0.032, '#ffb84a', sclera='#f4efe0')
+        horn(c, 'head', f'horn{s}', (s * 0.08, -0.04, 1.32), (s * 0.13, 0.02, 1.42), (s * 0.12, 0.12, 1.44), 0.026, '#d8d2e6', '#8c86ae')
+        c.bone('ear.' + side, (s * 0.1, -0.07, 1.27), 'head')
+        c.blob('ear.' + side, (s * 0.13, -0.06, 1.28), (0.05, 0.012, 0.025), stone, rot=(0, -s * 25, s * 20))
+    # arms with fists and claws, stubby legs with talons
     for s, side in ((-1, 'R'), (1, 'L')):
-        x = s * 0.09
-        c.bone('leg.F' + side, (x, -0.22, 0.62), 'body')
-        c.blob('leg.F' + side, (x, -0.22, 0.56), (0.07, 0.09, 0.11), hide)
-        c.limb('leg.F' + side, [(x, -0.23, 0.48), (x, -0.25, 0.33), (x, -0.23, 0.17), (x, -0.235, 0.08)], [0.055, 0.04, 0.032, 0.036], hide)
-        c.blob('leg.F' + side, (x, -0.245, 0.035), (0.045, 0.05, 0.04), hoof)
-        c.bone('leg.B' + side, (x, 0.28, 0.66), 'body')
-        c.blob('leg.B' + side, (x * 1.15, 0.28, 0.58), (0.075, 0.12, 0.14), hide)
-        c.limb('leg.B' + side, [(x * 1.1, 0.3, 0.46), (x, 0.36, 0.3), (x, 0.3, 0.17), (x, 0.305, 0.08)], [0.06, 0.04, 0.032, 0.036], hide)
-        c.blob('leg.B' + side, (x, 0.305, 0.035), (0.045, 0.05, 0.04), hoof)
-        for k, (b, y) in enumerate((('leg.F' + side, -0.25), ('leg.B' + side, 0.3))):
-            c.flame(b, f'hoof_fire{side}{k}', (x, y + 0.02, 0.05), 0.16, 0.045, outer='#8a3aff', inner='#ff9af0', lean=(0, 0.06))
-    # flame mane (on the head, so it rides the neck) and tail
-    for j in range(7):
-        t = j / 6
-        p = Vector((0, -0.42, 1.22)).lerp(Vector((0, -0.22, 0.84)), t)
-        b = 'head' if t < 0.5 else 'body'
-        for side_x in (-0.022, 0.022):
-            c.flame(b, f'flame_mane{j}{side_x}', tuple(p + Vector((side_x * (1 + j % 2), 0.04, 0))), 0.3 - 0.08 * t, 0.055,
-                    outer='#8a3aff', inner='#ffb0f8', lean=(side_x * 3, 0.2, 0))
-    c.bone('flame_tail', (0, 0.38, 0.76), 'body')
-    c.flame('flame_tail', 'tail_flame', (0, 0.38, 0.76), 0.46, 0.085, outer='#8a3aff', inner='#ffb0f8', lean=(0, 0.25))
-    c.flame('flame_tail', 'tail_flame2', (0.03, 0.37, 0.74), 0.34, 0.06, outer='#6a2ae0', inner='#ff9af0', lean=(0.06, 0.2))
+        c.bone('arm.' + side, (s * 0.18, -0.02, 1.1), 'body')
+        c.limb('arm.' + side, [(s * 0.19, -0.02, 1.1), (s * 0.26, -0.06, 0.95), (s * 0.27, -0.12, 0.8)], [0.075, 0.065, 0.055], stone)
+        c.blob('arm.' + side, (s * 0.27, -0.16, 0.75), (0.065, 0.065, 0.06), stone)
+        for j in range(3):
+            spine(c, 'arm.' + side, f'claw{side}{j}', (s * 0.27 + (j - 1) * 0.03, -0.2, 0.72), (0, -0.6, -1), 0.045, 0.011, claw, seg=6)
+        c.bone('leg.' + side, (s * 0.12, 0.0, 0.85), 'body')
+        c.blob('leg.' + side, (s * 0.13, 0.0, 0.8), (0.085, 0.1, 0.09), stone)
+        c.limb('leg.' + side, [(s * 0.13, -0.02, 0.74), (s * 0.14, -0.06, 0.6), (s * 0.13, -0.08, 0.5)], [0.075, 0.06, 0.055], stone)
+        c.blob('leg.' + side, (s * 0.13, -0.11, 0.46), (0.07, 0.11, 0.05), stone)
+        for j in range(3):
+            spine(c, 'leg.' + side, f'talon{side}{j}', (s * 0.13 + (j - 1) * 0.03, -0.17, 0.44), (0, -1, -0.4), 0.045, 0.011, claw, seg=6)
+        # big bat wing: four-point membrane with teal-lit scalloped edge
+        c.bone('wing.' + side, (s * 0.12, 0.07, 1.14), 'body')
+        bat_wing(c, 'wing.' + side, s, (s * 0.14, 0.08, 1.14), (s * 0.6, 0.12, 1.3),
+                 [(s * 0.98, 0.14, 1.32), (s * 1.06, 0.16, 1.02), (s * 0.82, 0.18, 0.74)], (s * 0.14, 0.14, 0.78),
+                 (s * 0.36, 0.13, 1.0), '#a8a2c8', '#5a80a8', '#9ff5e6', r=0.045)
+    # tail with a spade tip
+    c.bone('tail1', (0, 0.14, 0.82), 'body'); c.bone('tail2', (0, 0.3, 0.66), 'tail1')
+    c.limb(['tail1', 'tail1', 'tail2'], [(0, 0.12, 0.84), (0, 0.24, 0.74), (0.02, 0.34, 0.6), (0.04, 0.42, 0.5)],
+           [0.07, 0.05, 0.035, 0.025], stone)
+    sp = A.extrude_shape('tail_spade', [(0, 0), (0.07, 0.06), (0.04, 0.08), (0, 0.16), (-0.04, 0.08), (-0.07, 0.06)], depth=0.025,
+                         color=ridge)
+    sp.rotation_mode = 'QUATERNION'
+    sp.rotation_quaternion = Vector((0.15, 0.5, -0.6)).to_track_quat('Z', 'Y')
+    sp.location = (0.05, 0.44, 0.48)
+    c.add('tail2', sp)
+    return c.finish('fly')
+
+
+# ---------------------------------------------------------------------------------------------- nightmare
+def _tongue(c, bone, name, base, direction, length, r, outer, inner, seg=10):
+    """Two-layer violet star-flame tongue aimed along direction (it can stream back or hang), emissive."""
+    prof = [(0.0, -r * 0.4), (r * 0.8, 0.0), (r, length * 0.18), (r * 0.7, length * 0.5), (r * 0.25, length * 0.82), (0.0, length)]
+    q = Vector(direction).normalized().to_track_quat('Z', 'Y')
+    for nm, pr, col in ((name, prof, outer), (name + '_in', [(x * 0.55, z * 0.72) for x, z in prof], inner)):
+        ob = A.lathe(nm, pr, color=col, mat='M_Emit', seg=seg)
+        ob.rotation_mode = 'QUATERNION'
+        ob.rotation_quaternion = q
+        ob.location = tuple(base)
+        c.add(bone, ob)
+
+
+def _crescent_pts(R=0.05, n=8):
+    """Crescent moon outline in the (x, z) plane: an outer arc on the left and a shallower inner arc back."""
+    outer = [(R * math.cos(math.radians(a)), R * math.sin(math.radians(a))) for a in range(90, 271, 180 // n)]
+    inner = [(0.45 * R + 0.75 * R * math.cos(math.radians(a)), 0.75 * R * math.sin(math.radians(a)))
+             for a in range(270, 89, -180 // n)]
+    return outer + inner
+
+
+def nightmare(eid):
+    """나이트메어 — a dream steed: a sturdy star-speckled violet horse with a lighter belly and muzzle, muscular legs
+    ending in tapered hooves with flame-wisps at the fetlocks, a long crescent horn and a forelock of star-flame, a
+    flowing mane of violet-to-pink flame ribbons along the crest, a long flowing flame tail, and a saddle blanket
+    with gold crescent emblems on each flank."""
+    c = Sculpt(eid, tris=3000, ao=0.4)
+    coat, belly, muzzle_c, hoof, eyec = '#8478d8', '#c4bcf4', '#dcd4ff', '#5a4fa8', '#b8a8ff'
+    blanket, gold = '#a0408e', '#e8b84c'
+    fl_out, fl_in = '#b064ff', '#ffd6ff'
+
+    def hide(p):   # lighter belly, a pale muzzle, violet elsewhere
+        under = min(1.0, max(0.0, (0.66 - p.z) * 4.0))
+        nose = min(1.0, max(0.0, (-0.6 - p.y) * 5.0)) if p.z < 1.12 else 0.0
+        return lerp_col(lerp_col(coat, belly, under), muzzle_c, nose)
+
+    def stars(p, n, col):   # soft, larger star speckles that still read at battle distance
+        if noise.noise(p * 11 + Vector((1.3, 0.2, 2.5))) > 0.42 and n.z > -0.5:
+            return lerp_col(col, '#f2ecff', 0.8)
+        return col
+    c.post = stars
+    c.bone('body', (0, 0.05, 0.7))
+    c.bone('head', (0, -0.36, 1.0), 'body'); c.bone('eyes', (0, -0.52, 1.2), 'head'); c.bone('jaw', (0, -0.6, 1.02), 'head')
+    c.bone('flame_mane', (0, -0.3, 1.0), 'body'); c.bone('flame_tail', (0, 0.4, 0.8), 'body')
+    # barrel, deep chest, round croup, withers and belly
+    c.blob('body', (0, -0.22, 0.7), (0.16, 0.14, 0.2), hide)
+    c.blob('body', (0, 0.0, 0.7), (0.165, 0.27, 0.19), hide)
+    c.blob('body', (0, 0.3, 0.74), (0.15, 0.13, 0.17), hide)
+    c.blob('body', (0, -0.15, 0.9), (0.13, 0.13, 0.1), hide)
+    c.blob('body', (0, 0.02, 0.52), (0.14, 0.24, 0.07), hide)
+    # arching neck and a long head with a pale muzzle
+    c.limb(['body', 'body', 'head', 'head'], [(0, -0.22, 0.84), (0, -0.3, 0.98), (0, -0.37, 1.1), (0, -0.42, 1.2)],
+           [0.15, 0.125, 0.105, 0.09], hide)
+    c.blob('head', (0, -0.45, 1.2), (0.085, 0.095, 0.09), hide)
+    c.limb('head', [(0, -0.5, 1.17), (0, -0.6, 1.1), (0, -0.72, 1.06)], [0.07, 0.058, 0.05], hide)
+    c.blob('head', (0, -0.77, 1.04), (0.055, 0.06, 0.05), hide)
+    c.limb('jaw', [(0, -0.6, 1.06), (0, -0.68, 1.03), (0, -0.73, 1.04)], [0.048, 0.042, 0.04], hide)
+    c.blob('eyes', (0, -0.52, 1.25), (0.075, 0.04, 0.03), hide)                                    # brow
+    for s in (-1, 1):
+        c.paint((s * 0.025, -0.8, 1.04), (0.01, 0.012, 0.01), '#2a1a48', weight=2.0)             # nostril
+        c.eye('eyes', (s * 0.055, -0.56, 1.205), (s * 0.4, -1, 0.1), 0.022, eyec, sclera='#f1edff', pupil='#1a1230')
+        c.bone('ear.' + ('L' if s > 0 else 'R'), (s * 0.04, -0.44, 1.27), 'head')
+        c.blob('ear.' + ('L' if s > 0 else 'R'), (s * 0.05, -0.44, 1.31), (0.022, 0.014, 0.055), hide, rot=(0, -s * 12, 0))
+    # crescent horn arcing forward over the brow
+    horn(c, 'head', 'horn', (0, -0.56, 1.28), (0, -0.64, 1.38), (0, -0.54, 1.45), 0.022, '#eee6ff', '#b898ff')
+    # saddle blanket (colour over the back) with a gold crescent emblem on each flank
+    c.paint((0, 0.0, 0.84), (0.2, 0.3, 0.05), blanket, weight=1.2)
+    for s in (-1, 1):
+        c.add('body', A.extrude_shape(f'crest{s:+d}', _crescent_pts(0.065), depth=0.014, loc=(s * 0.178, 0.0, 0.74),
+                                      rot=(0, 0, 90), color=gold, mat='M_Toon'))
+    # four legs: muscular forearms and gaskins, slim cannons, tapered hooves with flat soles, fetlock flame-wisps
+    for s, side in ((-1, 'R'), (1, 'L')):
+        x = s * 0.1
+        c.bone('leg.F' + side, (x, -0.22, 0.66), 'body')
+        c.blob('leg.F' + side, (x, -0.22, 0.6), (0.09, 0.1, 0.13), hide)
+        c.limb('leg.F' + side, [(x, -0.23, 0.5), (x, -0.235, 0.36), (x, -0.24, 0.16)], [0.06, 0.042, 0.034], hide)
+        c.blob('leg.F' + side, (x, -0.24, 0.13), (0.04, 0.044, 0.034), hide)                    # fetlock
+        c.add('leg.F' + side, A.cyl('hoof_F' + side, r=0.046, depth=0.07, loc=(x, -0.25, 0.035), r2=0.035, color=hoof,
+                                   mat='M_Toon', seg=12))
+        _tongue(c, 'leg.F' + side, 'fetlock_F' + side, (x, -0.25, 0.1), (0, 0.5, -1), 0.11, 0.03, fl_out, fl_in, seg=8)
+        c.bone('leg.B' + side, (x * 1.1, 0.3, 0.7), 'body')
+        c.blob('leg.B' + side, (x * 1.1, 0.3, 0.62), (0.1, 0.13, 0.14), hide)
+        c.limb('leg.B' + side, [(x, 0.33, 0.52), (x, 0.36, 0.34), (x, 0.335, 0.12)], [0.062, 0.046, 0.034], hide)
+        c.blob('leg.B' + side, (x, 0.34, 0.31), (0.05, 0.055, 0.05), hide)                      # hock
+        c.blob('leg.B' + side, (x, 0.335, 0.11), (0.04, 0.044, 0.034), hide)                    # fetlock
+        c.add('leg.B' + side, A.cyl('hoof_B' + side, r=0.046, depth=0.07, loc=(x, 0.33, 0.035), r2=0.035, color=hoof,
+                                   mat='M_Toon', seg=12))
+        _tongue(c, 'leg.B' + side, 'fetlock_B' + side, (x, 0.33, 0.1), (0, 0.5, -1), 0.11, 0.03, fl_out, fl_in, seg=8)
+    # mane: eight star-flame ribbons down the whole neck crest, violet at the poll fading to pink at the withers
+    for j in range(10):
+        t = j / 9
+        base = Vector((0, -0.42, 1.2)).lerp(Vector((0, -0.2, 0.98)), t)
+        outer, inner = lerp_col(fl_out, '#ff70e0', t), lerp_col('#e0c0ff', '#fff0ff', t)
+        side = 1 if j % 2 else -1     # alternate sides so the ribbons separate into flowing tongues
+        _tongue(c, 'flame_mane', f'mane{j}', tuple(base + Vector((side * 0.03, 0.0, 0.0))),
+                (side * 0.45, 0.9, 0.35 - 0.2 * t), (0.5 if j % 3 else 0.36) - 0.1 * t,
+                0.1 - 0.02 * t, outer, inner, seg=8)
+    # forelock: two ribbons falling forward over the brow
+    for s in (-1, 1):
+        _tongue(c, 'flame_mane', f'forelock{s:+d}', (s * 0.02, -0.5, 1.3), (s * 0.25, -0.85, -0.35), 0.2, 0.035,
+                fl_out, fl_in, seg=8)
+    # long flame tail streaming back and down, fanned so it reads from the front three-quarter view
+    for k, (dx, dz, L) in enumerate(((-0.14, -0.15, 0.8), (-0.07, -0.45, 0.9), (0.0, -0.7, 0.86),
+                                     (0.07, -0.5, 0.92), (0.14, -0.2, 0.78))):
+        _tongue(c, 'flame_tail', f'tail_flame{k}', (dx * 0.4, 0.4, 0.8), (dx * 1.8, 0.7, dz), L, 0.08, fl_out, fl_in, seg=8)
+    for k, p in enumerate(((-0.22, -0.44, 1.36), (0.2, -0.5, 1.34), (0.0, -0.1, 1.42))):
+        c.gem('flame_mane', f'star{k}', p, (0, 0, 1), 0.02, 0.075, '#f4e8ff', '#9a70ff', mat='M_Emit', sides=4)
     return c.finish('quad')
 
 
 # ---------------------------------------------------------------------------------------------- doppelganger
-def mirror_post(crack_scale=2.6, tint='#b8b0d8'):
-    """post-paint for living mirror-glass: a sky-bright top and dark lower reflection split by a soft horizon,
-    a violet tint, and a web of dark cracks with pale chipped edges."""
-    def f(p, n, col):
-        h = n.z
-        sky = lerp_col('#e8ecff', '#9fb2e8', 1 - h) if h > -0.05 else lerp_col('#3a3456', '#16122a', -h)
-        base = lerp_col(sky, tint, 0.35)
-        q = abs(noise.noise(p * crack_scale + Vector((1.7, 0.3, 2.2))))
-        r = abs(noise.noise(p * crack_scale * 1.7 + Vector((4.1, 2.0, 0.6))))
-        if q < 0.045 or r < 0.02:
-            return rgba('#120c1e')
-        if q < 0.075 or r < 0.032:
-            return rgba('#ffffff')
-        return lerp_col(base, col, 0.25)
-    return f
-
-
 def doppelganger(eid):
-    """도플갱어 — a faceless humanoid of living mirror-glass: a slender, elegant body whose surface reflects a bright
-    sky above and darkness below, split by a web of cracks; a smooth blank egg of a face with one shard broken
-    out of it showing the violet void inside, splinters of glass drifting round its shoulders and a long glass
-    blade grown from its right forearm."""
-    c = Sculpt(eid, tris=9000, ao=0.45)
-    c.post = mirror_post()
-    glass = '#c8c4e0'
-    c.bone('body', (0, 0, 0.62)); c.bone('head', (0, -0.01, 1.04), 'body')
-    c.blob('body', (0, 0, 0.9), (0.16, 0.1, 0.11), glass)
-    c.blob('body', (0, -0.02, 0.92), (0.12, 0.07, 0.07), glass)                                  # chest
-    c.blob('body', (0, 0.0, 0.76), (0.1, 0.075, 0.09), glass)
-    c.blob('body', (0, 0.0, 0.62), (0.13, 0.09, 0.08), glass)
+    """도플갱어 — a mirror-mask phantom duelist that copies the heroes: a heroic, slim-waisted figure in a long
+    high-collared violet coat with gold trim, three flowing coat-tails sculpted into the body, a porcelain mirror mask
+    with one glowing crescent crack and a violet hood with a plume, a gold belt set with the four heroes' gems, a
+    gold pauldron, and a rapier with a cup guard; mirror-glass motes orbit it."""
+    c = Sculpt(eid, tris=5600, ao=0.4)
+    violet, lav_hi, gold, dark_v = '#8a64e0', '#d2c4f8', '#e0b04a', '#5a3fb0'
+    legs, boot, glove, porcelain = '#5a4aa8', '#6a50b8', '#4a3a92', '#d8d0f4'
+    glass, tail_c = '#e6e8ff', '#7a58d4'
+
+    def hem(p):   # coat-tails: solid violet, with a lavender edge only at the very hem
+        return lerp_col(tail_c, lav_hi, min(0.6, max(0.0, (0.2 - p.z) * 5.0)))
+
+    def face(p):  # porcelain at the front of the head, violet hood at the back
+        return lerp_col(porcelain, violet, min(1.0, max(0.0, (p.y + 0.02) / 0.05)))
+    c.bone('body', (0, 0, 0.62)); c.bone('head', (0, -0.01, 1.1), 'body')
+    c.bone('tail1', (0, 0.04, 0.62), 'body'); c.bone('tail2', (0.12, 0.02, 0.62), 'body'); c.bone('tail3', (-0.12, 0.02, 0.62), 'body')
+    # heroic torso: broad shoulders, tapered waist, long coat skirt
+    c.blob('body', (0, 0, 0.98), (0.15, 0.1, 0.12), violet)
+    c.blob('body', (0, 0, 0.8), (0.11, 0.085, 0.09), violet)
+    c.blob('body', (0, 0, 0.66), (0.135, 0.095, 0.08), violet)
     for s in (-1, 1):
-        c.blob('body', (s * 0.15, 0, 0.95), (0.06, 0.06, 0.055), glass)
-    c.limb('head', [(0, 0, 0.98), (0, -0.01, 1.05)], [0.035, 0.035], glass)
-    c.blob('head', (0, -0.015, 1.15), (0.09, 0.095, 0.115), glass)                                  # blank egg face
-    c.blob('head', (0, -0.015, 1.15), (0.03, 0.04, 0.035), '#000000', negative=True)
-    c.add('head', A.sphere('void_hole', r=0.034, loc=(0.03, -0.085, 1.17), scale=(1, 0.5, 1.2), color='#5a2a9a', mat='M_Emit', seg=12, rings=7))
+        c.blob('body', (s * 0.18, 0, 1.0), (0.07, 0.07, 0.07), violet)
+    c.blob('body', (0, 0, 0.74), (0.12, 0.09, 0.03), gold)                                   # gold belt band
+    c.blob('body', (0, 0, 0.5), (0.125, 0.09, 0.08), violet)                                 # coat skirt
+    for k in range(8):                                                                       # high gold collar ring
+        a = TAU * k / 8
+        c.blob('body', (math.cos(a) * 0.075, math.sin(a) * 0.065, 1.02), (0.03, 0.03, 0.04), gold)
+    for z in (0.92, 0.84):                                                                   # gold buttons down the front
+        c.blob('body', (0, -0.1, z), (0.013, 0.013, 0.013), gold)
+    # three coat-tails sculpted into the body and weighted to the spine (centre) and hips (sides)
+    for bone, x0, x1, y0, y1 in (('tail1', 0.0, 0.0, 0.06, 0.22), ('tail2', 0.1, 0.19, 0.04, 0.18),
+                                 ('tail3', -0.1, -0.19, 0.04, 0.18)):
+        for k in range(8):   # a dense run of flattened masses: one continuous cloth-like tail per bone
+            t = k / 7
+            p = (x0 + (x1 - x0) * t, y0 + (y1 - y0) * t, 0.58 - 0.3 * t)
+            w = 0.055 + 0.02 * t
+            c.blob(bone, p, (w, 0.03, 0.09), hem)
+    # head: porcelain mask over the skull, a violet hood behind it and a plume rising from the crown
+    c.blob('head', (0, -0.01, 1.2), (0.1, 0.095, 0.12), face)
+    c.blob('head', (0, 0.035, 1.25), (0.1, 0.085, 0.09), violet)
+    # one glowing crescent crack across the mask (emissive, a single line)
+    crack = [tuple(ellipsoid_point((0, -0.01, 1.2), (0.1, 0.095, 0.12),
+                                   Vector((0.07 * math.cos(math.radians(a)) / 0.1, -1.0,
+                                           (1.2 + 0.07 * math.sin(math.radians(a)) - 1.2) / 0.12)), out=0.004)[0])
+             for a in range(-40, 121, 10)]
+    c.tube('head', 'mask_crack', crack, 0.009, '#f0e0ff', mat='M_Emit')
+    c.add('head', A.torus('circlet', R=0.088, r=0.013, loc=(0, -0.01, 1.27), scale=(1.05, 1.0, 1.0), color=gold, seg=24, minor=8))
+    # arms: sleeves, gold cuffs and dark gloves; legs in leggings with boots and gold cuffs
     for s, side in ((-1, 'R'), (1, 'L')):
-        c.bone('arm.' + side, (s * 0.14, 0, 0.94), 'body')
-        c.limb('arm.' + side, [(s * 0.16, 0, 0.94), (s * 0.22, -0.02, 0.8), (s * 0.25, -0.06, 0.66)], [0.048, 0.04, 0.034], glass)
-        c.blob('arm.' + side, (s * 0.26, -0.08, 0.62), (0.034, 0.03, 0.045), glass)
-        c.bone('leg.' + side, (s * 0.075, 0, 0.58), 'body')
-        c.limb('leg.' + side, [(s * 0.075, 0, 0.58), (s * 0.085, -0.01, 0.34), (s * 0.085, 0.01, 0.08)], [0.068, 0.05, 0.04], glass)
-        c.blob('leg.' + side, (s * 0.085, -0.04, 0.035), (0.045, 0.08, 0.03), glass)
-        for j in range(3):   # shards jutting from the shoulder and forearm
-            c.gem('arm.' + side, f'shoulder_shard{side}{j}', (s * (0.15 + 0.03 * j), 0.02, 1.0 - 0.02 * j), (s * 0.5, 0.3 + 0.2 * j, 1),
-                  0.025, 0.14 - 0.03 * j, '#f4f6ff', '#9a90d0', mat='M_Clear', sides=4)
-        c.gem('arm.' + side, f'forearm_shard{side}', (s * 0.24, 0.0, 0.74), (s * 0.6, 0.8, 0.2), 0.02, 0.1, '#f4f6ff', '#9a90d0',
-              mat='M_Clear', sides=4)
-    # glass blade grown from the right forearm
-    c.bone('weapon.R', (-0.25, -0.08, 0.63), 'arm.R')
-    c.gem('weapon.R', 'arm_blade', (-0.25, -0.09, 0.62), (0, -0.25, -1), 0.03, 0.42, '#f0f4ff', '#8a80c0', mat='M_Clear', sides=4)
-    # glass splinters drifting round the shoulders and head
-    for k, (p, d, h) in enumerate((((0.22, 0.06, 1.08), (0.4, 0.3, 1), 0.09), ((-0.2, 0.08, 1.12), (-0.5, 0.2, 1), 0.08),
-                                   ((0.14, 0.1, 1.28), (0.2, 0.2, 1), 0.07), ((-0.12, 0.12, 1.3), (-0.3, 0.1, 1), 0.06),
-                                   ((0.0, 0.16, 1.2), (0, 0.6, 1), 0.07))):
-        c.gem('head' if p[2] > 1.15 else 'body', f'splinter{k}', p, d, 0.02, h, '#f4f6ff', '#9a90d0', mat='M_Clear', sides=4)
+        c.bone('arm.' + side, (s * 0.14, 0, 0.95), 'body')
+        c.limb('arm.' + side, [(s * 0.18, 0, 0.98), (s * 0.23, -0.03, 0.83), (s * 0.26, -0.07, 0.7)], [0.055, 0.045, 0.04], violet)
+        c.paint((s * 0.265, -0.09, 0.67), (0.035, 0.035, 0.035), gold, weight=1.6)
+        c.blob('arm.' + side, (s * 0.27, -0.1, 0.64), (0.04, 0.04, 0.045), glove)
+        c.bone('leg.' + side, (s * 0.085, 0, 0.6), 'body')
+        c.limb('leg.' + side, [(s * 0.085, 0, 0.6), (s * 0.09, -0.01, 0.34), (s * 0.09, 0, 0.1)], [0.06, 0.045, 0.04], legs)
+        c.blob('leg.' + side, (s * 0.09, -0.035, 0.06), (0.05, 0.085, 0.05), boot)
+        c.paint((s * 0.09, -0.06, 0.13), (0.055, 0.035, 0.02), gold, weight=1.6)              # boot cuff
+    # one gold pauldron on the left shoulder
+    c.add('body', dome('pauldron', (0.2, 0.0, 1.07), (0.085, 0.085, 0.05), cut=-0.25, color=gold))
+    # rapier in the right hand: grip, cup guard, a long thin silver blade pointing forward and up
+    hand = Vector((-0.27, -0.09, 0.66))
+    d = Vector((0.12, -0.9, 0.34)).normalized()
+    c.bone('weapon.R', tuple(hand), 'arm.R')
+    c.tube('weapon.R', 'grip', [tuple(hand - d * 0.1), tuple(hand)], 0.012, dark_v)
+    c.disc('weapon.R', 'guard', tuple(hand), d, (0.06, 0.018, 0.06), gold)
+    c.disc('weapon.R', 'cup', tuple(hand + d * 0.03), d, (0.04, 0.02, 0.04), gold)
+    blade(c, 'weapon.R', 'rapier', tuple(hand), 0.72, 0.022, '#e8e4ff', edge='#c8a8ff', depth=0.008, axis=tuple(d), tip_len=0.3)
+    # mirror-glass motes orbiting on a spinning bone, plus three small violet embers
+    c.bone('orbit', (0, 0, 1.0), 'body')
+    for k in range(6):
+        a = TAU * k / 6 + 0.3
+        p = (math.cos(a) * 0.34, math.sin(a) * 0.34, 1.02 + 0.22 * math.sin(a * 2.0))
+        c.gem('orbit', f'mote{k}', p, (math.cos(a), math.sin(a), 0.35), 0.02, 0.085, glass, '#8e82d0', mat='M_Clear', sides=4)
+    for k in range(3):
+        a = TAU * k / 3 + 1.1
+        c.gem('orbit', f'ember{k}', (math.cos(a) * 0.24, math.sin(a) * 0.24, 1.36 - 0.1 * k), (0, 0, 1), 0.012, 0.04,
+              '#f4e8ff', '#8a50ff', mat='M_Emit', sides=4)
+    # belt gems: one in each hero's colour (warrior, archer, mage, cleric)
+    for k, (col, dark) in enumerate((('#c0622e', '#7a3a1c'), ('#4fae5a', '#2a6a34'), ('#358ed4', '#1f5a94'), ('#e88aa8', '#9a4a68'))):
+        c.gem('body', f'belt_gem{k}', (-0.075 + 0.05 * k, -0.115, 0.745), (0, -1, 0.1), 0.014, 0.03, col, dark, mat='M_Toon', sides=5)
     c.arm_limit = (80, 30)
     return c.finish('biped')
 
