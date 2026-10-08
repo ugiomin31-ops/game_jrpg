@@ -291,7 +291,7 @@ def build_equipment():
             tier_of[ident] = t
     tier_of.update(EXISTING_ACC_TIER)
     for ident, row in rows.items():
-        row.setdefault('tier', tier_of[ident])
+        row.setdefault('tier', tier_of.get(ident, 0))
         row['tier'] = tier_of.get(ident, row['tier'])
         row.setdefault('jobs', [])
     for line, ids in spec.GEAR_LINES.items():

@@ -62,7 +62,25 @@ namespace Abyss.Runtime.Art
             return model;
         }
         public static CharacterModel SpawnNpc(string npcId, Transform parent = null) => SpawnCharacter(NpcPath(npcId), npcId, parent);
-        public static CharacterModel SpawnEnemy(string enemyId, Transform parent = null) => SpawnCharacter(EnemyPath(enemyId), enemyId, parent);
+        /// <summary>Instantiate an enemy by its art model id (no palette; see the <see cref="Abyss.Logic.GameDB"/> overload).</summary>
+        public static CharacterModel SpawnEnemy(string modelId, Transform parent = null) => SpawnCharacter(EnemyPath(modelId), modelId, parent);
+
+        /// <summary>
+        /// Instantiate an enemy row: the model comes from its "model" field (palette variants reuse a base enemy's FBX)
+        /// and its "tint" multiplies the toon colours (<see cref="Abyss.Logic.ArtVariants"/>).
+        /// </summary>
+        public static CharacterModel SpawnEnemy(Abyss.Logic.GameDB db, string enemyId, Transform parent = null)
+        {
+            string modelId = Abyss.Logic.ArtVariants.EnemyModel(db, enemyId);
+            var model = SpawnCharacter(EnemyPath(modelId), modelId, parent);
+            model.gameObject.name = enemyId;
+            var tint = Abyss.Logic.ArtVariants.EnemyTint(db, enemyId);
+            if (tint != null) model.SetPalette(ToColor(tint));
+            return model;
+        }
+
+        /// <summary>RGBA array (see ArtVariants.Normalise) as a Unity colour.</summary>
+        public static Color ToColor(float[] rgba) => new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
 
         /// <summary>Instantiate an animated character. The returned root faces +Z, feet at y=0.</summary>
         public static CharacterModel SpawnCharacter(string path, string id, Transform parent = null)

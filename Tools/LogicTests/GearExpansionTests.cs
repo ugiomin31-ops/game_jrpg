@@ -46,7 +46,7 @@ namespace Abyss.LogicTests
             var warrior = state.Hero("warrior");
             string weapon = warrior.Equipped("weapon");
             int before = PartyStats.EffectiveStats(db, warrior).Stats.Attack;
-            Assert.Equal("missing_materials", Enhancement.Enhance(db, state, weapon).Reason, "needs stones");
+            Assert.Equal("missing_stones", Enhancement.Enhance(db, state, weapon).Reason, "needs stones");
             Assert.Equal("not_owned", Enhancement.Enhance(db, state, "sword_void").Reason, "only owned pieces");
             state.AddItem(Enhancement.Stone, 30);
             state.Gold = 100000;

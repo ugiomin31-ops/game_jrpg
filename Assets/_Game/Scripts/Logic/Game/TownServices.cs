@@ -150,9 +150,9 @@ namespace Abyss.Logic.Game
             return output;
         }
 
-        /// <summary>Sell value of one item: explicit sell_price, else half the price.</summary>
+        /// <summary>Sell value of one item: explicit sell_price, else half the price; key items are never sold.</summary>
         public static int ItemSellValue(GameDB db, string itemId) =>
-            db.Items.TryGetValue(itemId, out var item) ? (item.SellPrice > 0 ? item.SellPrice : item.Price / 2) : 0;
+            db.Items.TryGetValue(itemId, out var item) && item.ItemType != ItemType.Key ? (item.SellPrice > 0 ? item.SellPrice : item.Price / 2) : 0;
 
         /// <summary>Sell value of one equipment piece: explicit sell_price (≥ 0), else half the price.</summary>
         public static int EquipmentSellValue(GameDB db, string equipmentId) =>

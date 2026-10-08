@@ -113,7 +113,7 @@ namespace Abyss.Logic.Game
 
         /// <summary>
         /// Raises an owned piece by one level (never fails once paid). Reasons: unknown_equipment, not_owned, max_enhance,
-        /// missing_materials, not_enough_gold. Worn copies keep their HP/MP within the new maxima.
+        /// missing_stones, not_enough_gold. Worn copies keep their HP/MP within the new maxima.
         /// </summary>
         public static ServiceResult Enhance(GameDB db, GameState state, string equipmentId)
         {
@@ -122,7 +122,7 @@ namespace Abyss.Logic.Game
             int level = LevelOf(state, equipmentId);
             var cost = CostOf(piece, level);
             if (cost == null) return ServiceResult.Fail("max_enhance");
-            if (state.ItemCount(cost.StoneId) < cost.Stones) return ServiceResult.Fail("missing_materials");
+            if (state.ItemCount(cost.StoneId) < cost.Stones) return ServiceResult.Fail("missing_stones");
             if (state.Gold < cost.Gold) return ServiceResult.Fail("not_enough_gold");
             state.RemoveItem(cost.StoneId, cost.Stones);
             state.Gold -= cost.Gold;

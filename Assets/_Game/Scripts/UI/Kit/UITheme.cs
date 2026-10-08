@@ -103,6 +103,9 @@ namespace Abyss.UI
 
         public static Color RarityColor(int rarity) => rarity >= 3 ? GoldBright : rarity == 2 ? Epic : rarity == 1 ? Rare : TextDim;
         public static string RarityName(int rarity) => rarity >= 3 ? "전설" : rarity == 2 ? "영웅" : rarity == 1 ? "희귀" : "일반";
+        /// <summary>Loot / bag category of an item: 재료, 씨앗 (permanent stat seed), 중요 물품 (key item) or 소모품.</summary>
+        public static string ItemCategory(Abyss.Logic.ItemType type) =>
+            type == Abyss.Logic.ItemType.Material ? "재료" : type == Abyss.Logic.ItemType.Seed ? "씨앗" : type == Abyss.Logic.ItemType.Key ? "중요 물품" : "소모품";
 
         // ---- sizes (reference resolution 1920×1080) -------------------------------------------------
         /// <summary>Small captions, tags, key hints.</summary>

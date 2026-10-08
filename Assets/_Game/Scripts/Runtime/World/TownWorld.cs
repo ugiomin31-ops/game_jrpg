@@ -97,14 +97,8 @@ namespace Abyss.Runtime.World
                 string id = model.ModelId;
                 var hero = app.State.Hero(id);
                 string weapon = hero.Equipped("weapon");
-                GameObject prefab = null;
-                if (!string.IsNullOrEmpty(weapon))
-                {
-                    prefab = ArtLibrary.LoadPrefab(ArtLibrary.WeaponPath(weapon));
-                    if (prefab == null) throw new InvalidOperationException("Missing equipped weapon: " + weapon);
-                }
                 GearDisplay.DressBody(model, GearDisplay.Rank(app.DB, hero.Equipped("armor")), GearDisplay.Rank(app.DB, hero.Equipped("accessory")));
-                GearDisplay.AttachWeapon(model, id == "archer" ? "weapon.L" : "weapon.R", prefab, GearDisplay.Rank(app.DB, weapon), weapon);
+                GearDisplay.AttachWeapon(app.DB, model, id == "archer" ? "weapon.L" : "weapon.R", weapon);
             }
         }
 

@@ -60,6 +60,25 @@ namespace Abyss.Runtime.Art
             }
         }
 
+        /// <summary>Weapon prefab of an equipment row: its "model" field (palette variants reuse another FBX), else its id.</summary>
+        public static GameObject LoadWeapon(GameDB db, string weaponId)
+        {
+            if (string.IsNullOrEmpty(weaponId)) return null;
+            string path = ArtLibrary.WeaponPath(ArtVariants.GearModel(db, weaponId));
+            var prefab = ArtLibrary.LoadPrefab(path);
+            if (prefab == null) throw new System.InvalidOperationException("Missing equipped weapon art: " + path);
+            return prefab;
+        }
+
+        /// <summary>Attaches an equipment row's weapon (or clears the socket): model + palette tint from the data, rank dressing.</summary>
+        public static GameObject AttachWeapon(GameDB db, CharacterModel model, string socket, string weaponId)
+        {
+            var weapon = AttachWeapon(model, socket, LoadWeapon(db, weaponId), Rank(db, weaponId), weaponId);
+            var tint = ArtVariants.GearTint(db, weaponId);
+            if (weapon != null && tint != null) model.SetAttachmentTint(weapon, ArtLibrary.ToColor(tint));
+            return weapon;
+        }
+
         /// <summary>Attaches the weapon (or clears the socket) and dresses it for its rank.</summary>
         public static GameObject AttachWeapon(CharacterModel model, string socket, GameObject prefab, int rank, string weaponId = null)
         {

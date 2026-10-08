@@ -828,7 +828,7 @@ namespace Abyss.UI.Battle
                     string name = _db.Items.TryGetValue(id, out var item) ? item.DisplayName : _db.Equipment[id].DisplayName;
                     var label = UIFactory.Label(card.Rect, name, 23, color: UITheme.Text);
                     label.Rt().TopStrip(36, 12, 82, 16); label.overflowMode = TextOverflowModes.Ellipsis;
-                    string category = item != null ? item.ItemType == ItemType.Material ? "재료" : "소모품" : "장비";
+                    string category = item != null ? UITheme.ItemCategory(item.ItemType) : "장비";
                     UIFactory.Label(card.Rect, $"{UITheme.RarityName(rarity)} · {category}   ×{drops[i].Value}", 20, color: accent).Rt().BottomStrip(30, 12, 82, 16);
                     // Every card can reveal its complete name and description, even if the grid title is truncated.
                     var hit = card.gameObject.AddComponent<UnityEngine.UI.Button>();
