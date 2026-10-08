@@ -1,4 +1,5 @@
-// Full simulated battles (AUTO heroes vs enemy AI) over every floor's encounter groups.
+// Full simulated battles (AUTO heroes vs enemy AI) over every floor's encounter groups, party at the floor's
+// main-path level with chapter gear (CampaignSim).
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,6 @@ namespace Abyss.LogicTests
 {
     public static class BattleSimTests
     {
-        static readonly int[] FloorLevels = { 3, 5, 7, 10, 12, 14, 18, 21, 24, 28, 31, 34 };
-
         [LogicTest]
         public static void EveryEncounterGroupCompletes()
         {
@@ -19,7 +18,8 @@ namespace Abyss.LogicTests
             var summary = new List<string>();
             foreach (var floor in db.Floors)
             {
-                int level = FloorLevels[floor.Index];
+                int level = CampaignSim.FloorLevel(floor.Index);
+                var party = CampaignSim.Party(db, level, CampaignSim.Chapter(floor.Index));
                 int floorWins = 0, floorBattles = 0;
                 var groups = new List<List<string>>(floor.EncounterGroups);
                 if (floor.ShowcaseGroup.Count > 0) groups.Add(floor.ShowcaseGroup);
@@ -27,7 +27,7 @@ namespace Abyss.LogicTests
                 {
                     for (int seed = 1; seed <= 3; seed++)
                     {
-                        var engine = new BattleEngine(db, BattleTestUtil.Setup(level, group, seed * 7919 + battles));
+                        var engine = new BattleEngine(db, Abyss.Logic.Game.PartyStats.BuildBattleSetup(db, party, BattleKind.Random, group, 1f, floor.Id, seed * 7919 + battles));
                         BattleTestUtil.RunAuto(engine);
                         Assert.True(engine.State == BattleEngineState.Ended, $"{floor.FloorLabel} {string.Join(",", group)} ended");
                         battles++; floorBattles++;

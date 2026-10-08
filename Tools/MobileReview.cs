@@ -108,15 +108,16 @@ public static class MobileReview
             UIRoot.Instance.Screens.Clear(); await Seconds(.25f);
             Capture("dungeon");
             await Frames(4);
-            foreach (int floor in new[] { 3, 6, 9 })
+            // First floor of chapters 2-7 (chapters 5-7 reuse a kit with their own mood: capture them by floor id).
+            for (int floor = GameFlow.FloorsPerChapter; floor < app.DB.Floors.Count; floor += GameFlow.FloorsPerChapter)
             {
                 app.ReturnToTown();
                 app.State.SetDeepestFloor(app.DB, floor);
                 app.State.WarpsUnlocked.Add(floor);
-                app.State.Flags.Add("biome_" + floor / 3 + "_seen");
+                app.State.Flags.Add("biome_" + floor / GameFlow.FloorsPerChapter + "_seen");
                 app.Depart(floor); await Frames(24);
-                Check("Biome loads: " + app.DB.Floors[floor].Tileset, app.Screen == GameScreen.Dungeon);
-                Capture(app.DB.Floors[floor].Tileset); await Frames(4);
+                Check("Biome loads: " + app.DB.Floors[floor].Id, app.Screen == GameScreen.Dungeon);
+                Capture(floor < 4 * GameFlow.FloorsPerChapter ? app.DB.Floors[floor].Tileset : app.DB.Floors[floor].Id); await Frames(4);
             }
             app.ReturnToTown(); app.Depart(0); await Frames(24);
             var request = (DungeonBattleRequest)typeof(DungeonRun).GetMethod("StartBattle", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(app.Dungeon,

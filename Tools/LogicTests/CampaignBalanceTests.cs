@@ -58,13 +58,18 @@ namespace Abyss.LogicTests
             foreach (var kv in randomByChapter.OrderBy(kv => kv.Key))
                 Console.WriteLine($"  chapter {kv.Key}: random {kv.Value}  boss {(bossByChapter.TryGetValue(kv.Key, out var b) ? b.ToString() : "-")}");
 
-            // Targets that hold with the shipped gear tiers (chapters 1-4; later chapters depend on the T5-T8 gear rows).
-            for (int c = 1; c <= 4; c++)
+            // Targets: random fights are won in a few rounds everywhere; a chapter boss is winnable at its level (with some
+            // risk) whenever the data has that chapter's gear tier (a weapon with shop_tier == chapter), i.e. the party is equipped as designed.
+            foreach (var kv in randomByChapter)
             {
-                var r = randomByChapter[c];
-                Assert.True(r.WinRate >= 0.9, $"chapter {c} random fights are won ({r})");
-                Assert.True(r.AvgRounds >= 2 && r.AvgRounds <= 7, $"chapter {c} random fights take a few rounds ({r})");
-                Assert.True(bossByChapter[c].WinRate >= 0.25, $"chapter {c} boss is winnable at its level ({bossByChapter[c]})");
+                Assert.True(kv.Value.WinRate >= 0.9, $"chapter {kv.Key} random fights are won ({kv.Value})");
+                Assert.True(kv.Value.AvgRounds >= 2.5 && kv.Value.AvgRounds <= 6, $"chapter {kv.Key} random fights take a few rounds ({kv.Value})");
+            }
+            foreach (var kv in bossByChapter)
+            {
+                bool geared = db.Equipment.Values.Any(p => p.ShopTier == kv.Key && p.Slot == "weapon");
+                Console.WriteLine($"  chapter {kv.Key} boss {(geared ? "checked" : "not checked: no tier-" + kv.Key + " gear rows yet")}");
+                if (geared) Assert.True(kv.Value.WinRate >= 0.25 && kv.Value.WinRate < 1, $"chapter {kv.Key} boss is winnable with some risk ({kv.Value})");
             }
         }
 

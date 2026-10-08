@@ -44,6 +44,7 @@ namespace Abyss.LogicTests
         {
             var engine = new BattleEngine(TestMain.DB, BattleTestUtil.Setup(38, new[] { "slime" }, 3, heroes: new[] { "warrior" }));
             engine.Start(); engine.ActiveHero.Tp = 100;
+            engine.Enemies[0].Hp = Math.Min(engine.Enemies[0].Hp, 40); // a nearly beaten slime: one attack finishes it
             var cmd = engine.SuggestCommand(engine.ActiveHero);
             Assert.Equal(CommandKind.Attack, cmd.Kind, "free finishing attack instead of spending TP on overkill");
             Accepted(engine, cmd);
@@ -170,11 +171,12 @@ namespace Abyss.LogicTests
             {
                 Assert.True(enemy.Drops.Count >= 4, enemy.Id + " has varied loot");
                 Assert.True(enemy.Drops.Any(d => d.Chance == 1), enemy.Id + " leaves a guaranteed spoil");
-                Assert.True(enemy.Drops.Any(d => db.Equipment.TryGetValue(d.Id, out var gear) && gear.Rarity > 0), enemy.Id + " can drop rare gear");
+                // Gear the expansion plan fixes (Tools/content/spec.py) counts as rare before its rows exist.
+                Assert.True(enemy.Drops.Any(d => db.Equipment.TryGetValue(d.Id, out var gear) ? gear.Rarity > 0 : SpecIds.Equipment.Contains(d.Id)), enemy.Id + " can drop rare gear");
                 Assert.Equal(enemy.Drops.Count, enemy.Drops.Select(d => d.Id).Distinct().Count(), enemy.Id + " has no duplicate roll rows");
                 foreach (var drop in enemy.Drops)
                 {
-                    Assert.True(db.Items.ContainsKey(drop.Id) || db.Equipment.ContainsKey(drop.Id), "valid loot id " + drop.Id);
+                    Assert.True(db.Items.ContainsKey(drop.Id) || db.Equipment.ContainsKey(drop.Id) || SpecIds.Items.Contains(drop.Id) || SpecIds.Equipment.Contains(drop.Id), "valid loot id " + drop.Id);
                     Assert.True(drop.Chance > 0 && drop.Chance <= 1, "valid loot probability");
                 }
             }
@@ -221,7 +223,7 @@ namespace Abyss.LogicTests
         {
             var db = TestMain.DB;
             Assert.Equal(4, db.Heroes.Count, "four distinct party roles");
-            Assert.Equal(12, db.Floors.Count, "complete twelve-floor campaign");
+            Assert.Equal(35, db.Floors.Count, "six chapters of five floors plus the five-floor trial corridor");
             foreach (var skill in db.Skills.Values)
             {
                 Assert.True(skill.MpCost >= 0 && skill.TpCost >= 0 && skill.HitCount > 0, "valid skill costs/hits " + skill.Id);
@@ -243,8 +245,15 @@ namespace Abyss.LogicTests
                 }
             }
             foreach (var floor in db.Floors)
-                foreach (var group in floor.EncounterGroups)
-                    foreach (var id in group) Assert.True(db.Enemies.ContainsKey(id), "floor encounter " + id);
+            {
+                foreach (var group in floor.EncounterGroups.Concat(floor.Events.Select(e => e.Group)).Concat(floor.Foes.Select(f => f.Group)).Append(floor.BossGroup))
+                    foreach (var id in group) Assert.True(db.Enemies.ContainsKey(id), "floor enemy " + id);
+                foreach (var t in floor.Treasures)
+                    foreach (var id in t.Contents.Items.Keys.Concat(t.Contents.Equipment.Keys))
+                        Assert.True(db.Items.ContainsKey(id) || db.Equipment.ContainsKey(id) || SpecIds.Items.Contains(id) || SpecIds.Equipment.Contains(id), "treasure id " + id);
+            }
+            foreach (var enemy in db.Enemies.Values)
+                Assert.True(string.IsNullOrEmpty(enemy.Model) || db.Enemies.ContainsKey(enemy.Model), "variant model " + enemy.Id);
         }
 
         [LogicTest]
