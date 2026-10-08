@@ -273,6 +273,12 @@ def main():
     actual = {family: sum(row[0] == family for row in rows) for family in expected}
     if actual != expected:
         raise ValueError(f'Catalogue does not cover the data: {actual} != {expected}')
+    # Enemies named on the command line that have no enemies.json row yet (new hunter monsters) render from their FBX.
+    known = {(family, ident) for family, ident, _, _ in rows}
+    for name in sorted(selection):
+        family, _, ident = name.partition('/')
+        if family == 'Enemies' and (family, ident) not in known and (ART / f'Enemies/{ident}/{ident}.fbx').is_file():
+            rows.append(('Enemies', ident, ART / f'Enemies/{ident}/{ident}.fbx', None))
     missing = [f'{family}/{ident}: {source}' for family, ident, source, _ in rows
                if (not selection or family + '/' + ident in selection) and not source.is_file()]
     if missing:
