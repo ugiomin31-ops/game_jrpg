@@ -130,10 +130,10 @@
    "dot_resist"
   ],
   "level": 45,
-  "max_hp": 23887,
+  "max_hp": 14332,
   "max_mp": 0,
-  "attack": 174,
-  "magic": 186,
+  "attack": 208,
+  "magic": 223,
   "defense": 95,
   "resistance": 107,
   "speed": 47,
@@ -8322,6 +8322,7 @@
   ],
   "resistances": [
    7,
+   1,
    3
   ],
   "drops": [
@@ -8455,11 +8456,11 @@
     "line": "빛이… 어째서 꺼지지 않는가! 좋다, 모든 것을 무(無)로 되돌리겠다!"
    }
   ],
-  "max_hp": 41056,
-  "attack": 275,
-  "magic": 260,
-  "defense": 174,
-  "resistance": 198,
+  "max_hp": 6349,
+  "attack": 407,
+  "magic": 385,
+  "defense": 189,
+  "resistance": 215,
   "speed": 73,
   "experience_reward": 38734,
   "gold_reward": 6000,
@@ -9205,6 +9206,7 @@
   ],
   "resistances": [
    7,
+   1,
    3
   ],
   "drops": [
@@ -9329,8 +9331,8 @@
   "max_hp": 75590,
   "attack": 418,
   "magic": 395,
-  "defense": 203,
-  "resistance": 232,
+  "defense": 221,
+  "resistance": 252,
   "speed": 79,
   "experience_reward": 39566,
   "gold_reward": 6630,

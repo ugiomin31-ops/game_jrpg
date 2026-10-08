@@ -80,13 +80,21 @@ namespace Abyss.LogicTests
         public static readonly int[] ExpectedForge = { 3, 4, 3, 4, 3, 4, 6 };
 
         /// <summary>
-        /// Job a player has reached at <paramref name="level"/>: each class change in jobs.json order (the first listed branch),
-        /// the advanced job at Lv 15 and that branch's top job at Lv 40 (JobService.NextJobs, RequiredLevel).
+        /// Job a player has reached in <paramref name="chapter"/> at <paramref name="level"/>: each class change in jobs.json
+        /// order (the first listed branch) once its level (RequiredLevel: 15 advanced, 40 top) is reached AND the chapter boss
+        /// it requires (RequiredBoss: the Ch1 boss for the advanced job, the Ch4 boss for the top job) was defeated before this
+        /// chapter's fights, i.e. that boss's chapter is earlier than <paramref name="chapter"/>. Random, FOE and boss fights
+        /// of a chapter all use the same gate, so the expected party is advanced from chapter 2, top from chapter 5.
         /// </summary>
-        static void Promote(GameDB db, HeroState hero)
+        static void Promote(GameDB db, HeroState hero, int chapter)
         {
-            for (var next = JobService.NextJobs(db, hero); next.Count > 0 && next[0].RequiredLevel <= hero.Level; next = JobService.NextJobs(db, hero))
-                hero.Job = next[0].Id;
+            for (var next = JobService.NextJobs(db, hero); next.Count > 0; next = JobService.NextJobs(db, hero))
+            {
+                var job = next[0];
+                bool bossDone = string.IsNullOrEmpty(job.RequiredBoss) || Array.IndexOf(SpecIds.ChapterBosses, job.RequiredBoss) + 1 < chapter;
+                if (job.RequiredLevel > hero.Level || !bossDone) return;
+                hero.Job = job.Id;
+            }
         }
 
         /// <summary>
@@ -105,7 +113,7 @@ namespace Abyss.LogicTests
             foreach (var hero in state.Party)
             {
                 hero.Level = level;
-                if (jobs) Promote(db, hero);
+                if (jobs) Promote(db, hero, chapter);
                 var def = db.Heroes[hero.Id];
                 foreach (string slot in GameState.EquipSlots)
                 {

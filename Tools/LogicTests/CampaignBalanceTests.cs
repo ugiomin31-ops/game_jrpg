@@ -114,19 +114,22 @@ namespace Abyss.LogicTests
             int foesOver60 = expected.Foes.Count(f => f.WinRate >= 0.6);
             Assert.True(foesOver60 * 3 >= expected.Foes.Count * 2, $"expected: FOEs are mostly won at 60% or more ({foesOver60} of {expected.Foes.Count} floors)");
             double? prevRounds = null;
-            for (int c = 1; c <= 6; c++)
+            for (int c = 1; c <= 5; c++)
             {
                 var boss = expected.Boss[c];
-                double hi = c == 1 ? 0.90 : 0.85;
-                // Chapters 4 and 6 are a known deviation: the expected party wins ~100% against them while the under-prepared
-                // party keeps its 25% floor, and no offense value satisfies both (see the report). Only the floor is asserted there.
-                if (c == 4 || c == 6) Assert.True(boss.WinRate >= 0.55, $"expected: chapter {c} boss is at least 55% ({boss})");
-                else Assert.True(boss.WinRate >= 0.55 && boss.WinRate <= hi, $"expected: chapter {c} boss is 55-{hi * 100:0}% ({boss})");
+                Assert.True(boss.WinRate >= 0.55 && boss.WinRate <= 0.85, $"expected: chapter {c} boss is 55-85% ({boss})");
                 // Boss fights lengthen chapter to chapter: no drop of more than two rounds, no jump of more than three.
                 if (prevRounds is double p)
                     Assert.True(boss.AvgRounds >= p - 2.0 && boss.AvgRounds <= p + 3.0, $"expected: chapter {c} boss rounds rise smoothly ({boss}, previous {p:0.0}r)");
                 prevRounds = boss.AvgRounds;
             }
+            // OPEN TARGET, not met: the final boss (chapter 6) is won ~98% by the expected party, and no offense or HP value
+            // gives 55-75% while keeping the under-prepared floor (see the report). Only a floor is asserted until that is decided.
+            Assert.True(expected.Boss[6].WinRate >= 0.55, $"expected: chapter 6 final boss is at least 55% ({expected.Boss[6]})");
+            // The under-prepared curve must not invert sharply: a chapter's boss is not much easier than the previous one.
+            for (int c = 2; c <= 6; c++)
+                Assert.True(under.Boss[c].WinRate <= under.Boss[c - 1].WinRate + 0.25,
+                    $"under-prepared: chapter {c} boss is not much easier than chapter {c - 1} ({under.Boss[c]} vs {under.Boss[c - 1]})");
             foreach (var (id, r) in expected.Superbosses)
                 Assert.True(r.WinRate >= 0.25 && r.WinRate <= 0.75, $"expected: superboss {id} is won 25-75% of the time ({r})");
         }
