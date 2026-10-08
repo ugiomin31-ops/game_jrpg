@@ -71,8 +71,35 @@ namespace Abyss.Logic.Game
         public int HiddenWeaknesses;
         /// <summary>Drops are public after the first kill.</summary>
         public bool DropsRevealed;
+        /// <summary>Story chapter the species is listed under (1-6, 7 = 시련의 회랑); see <see cref="TownServices.BestiaryChapters"/>.</summary>
+        public int Chapter;
+        /// <summary>Floor labels ("B12F") where the species can be met (encounter groups, FOEs, events, boss group), ascending.</summary>
+        public List<string> Habitat = new List<string>();
         public bool IsBoss => Enemy.IsBoss;
         public bool IsElite => Enemy.Rank > 0 && !Enemy.IsBoss;
+    }
+
+    /// <summary>One bestiary completion milestone: species with kills (or every boss) and the reward for reaching it.</summary>
+    public sealed class BestiaryMilestoneRow
+    {
+        /// <summary>0-based position in <see cref="TownServices.BestiaryMilestones"/>; the argument of <see cref="TownServices.ClaimBestiaryReward"/>.</summary>
+        public int Index;
+        /// <summary>Species needed (0 for the all-bosses milestone).</summary>
+        public int Threshold;
+        public bool AllBosses;
+        /// <summary>"토벌 25종" or "모든 보스 토벌".</summary>
+        public string Label = "";
+        /// <summary>Reward summary, e.g. "1,000 G  ·  상급 강화석 ×2".</summary>
+        public string RewardText = "";
+        public int Gold;
+        /// <summary>Item or equipment ids and counts granted with the gold.</summary>
+        public IReadOnlyList<(string Id, int Count)> Items = Array.Empty<(string, int)>();
+        /// <summary>Species killed (or bosses killed) so far.</summary>
+        public int Progress;
+        /// <summary>Progress needed.</summary>
+        public int Goal;
+        public bool Reached;
+        public bool Claimed;
     }
 
     /// <summary>Town service rules. Every mutating call returns a <see cref="ServiceResult"/>; failures change nothing.</summary>
@@ -324,9 +351,14 @@ namespace Abyss.Logic.Game
 
         // ------------------------------------------------------------------ bestiary
 
-        /// <summary>Every enemy: non-bosses first, then level, rank, id.</summary>
+        /// <summary>
+        /// Every enemy: non-bosses first, then level, rank, id. Chapter and habitat come from the floors
+        /// (see <see cref="BestiaryChapters"/>).
+        /// </summary>
         public static List<BestiaryRow> BestiaryRows(GameDB db, GameState state)
         {
+            var habitats = BestiaryHabitats(db);
+            var chapters = BestiaryChapters(db, habitats);
             var output = new List<BestiaryRow>();
             foreach (var enemy in db.Enemies.Values)
             {
@@ -338,6 +370,9 @@ namespace Abyss.Logic.Game
                         if (enemy.Weaknesses.Contains(element) && !row.RevealedWeaknesses.Contains(element)) row.RevealedWeaknesses.Add(element);
                 row.HiddenWeaknesses = enemy.Weaknesses.Count - row.RevealedWeaknesses.Count;
                 row.DropsRevealed = row.Kills > 0;
+                row.Chapter = chapters[enemy.Id];
+                if (habitats.TryGetValue(enemy.Id, out var floors))
+                    foreach (int index in floors) row.Habitat.Add(db.Floors[index].FloorLabel);
                 output.Add(row);
             }
             output.Sort((a, b) =>
@@ -348,6 +383,176 @@ namespace Abyss.Logic.Game
                 return string.CompareOrdinal(a.Enemy.Id, b.Enemy.Id);
             });
             return output;
+        }
+
+        /// <summary>
+        /// Floor indices (ascending, unique) where each enemy id can be met: encounter groups, FOE groups, event groups
+        /// and the floor's boss group. Showcase groups are display only and do not count.
+        /// </summary>
+        public static Dictionary<string, List<int>> BestiaryHabitats(GameDB db)
+        {
+            var output = new Dictionary<string, List<int>>(StringComparer.Ordinal);
+            for (int index = 0; index < db.Floors.Count; index++)
+            {
+                var floor = db.Floors[index];
+                var ids = new List<string>();
+                foreach (var group in floor.EncounterGroups) ids.AddRange(group);
+                foreach (var foe in floor.Foes) ids.AddRange(foe.Group);
+                foreach (var ev in floor.Events) ids.AddRange(ev.Group);
+                ids.AddRange(floor.BossGroup);
+                foreach (string id in ids)
+                {
+                    if (!db.Enemies.ContainsKey(id)) continue;
+                    if (!output.TryGetValue(id, out var list)) output[id] = list = new List<int>();
+                    if (list.Count == 0 || list[list.Count - 1] != index) list.Add(index);
+                }
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Chapter per enemy id (1-6 main, 7 = 시련의 회랑). Rule: (1) the chapter of the first floor the species appears on
+        /// (5 floors per chapter, <see cref="GameFlow.ChapterOf"/>); (2) a species that appears nowhere (summons only)
+        /// takes the earliest chapter of an enemy that summons it (one hop, via Summons or boss phase summons);
+        /// (3) otherwise the chapter of the party level band it is met at (<see cref="LevelChapter"/>).
+        /// </summary>
+        public static Dictionary<string, int> BestiaryChapters(GameDB db, Dictionary<string, List<int>> habitats)
+        {
+            var chapters = new Dictionary<string, int>(StringComparer.Ordinal);
+            foreach (var enemy in db.Enemies.Values)
+                if (habitats.TryGetValue(enemy.Id, out var floors) && floors.Count > 0) chapters[enemy.Id] = GameFlow.ChapterOf(floors[0]);
+            var met = new Dictionary<string, int>(chapters, StringComparer.Ordinal);
+            foreach (var enemy in db.Enemies.Values)
+            {
+                if (chapters.ContainsKey(enemy.Id)) continue;
+                int best = 0;
+                foreach (var summoner in db.Enemies.Values)
+                {
+                    if (!met.TryGetValue(summoner.Id, out int chapter) || !Summons(summoner, enemy.Id)) continue;
+                    if (best == 0 || chapter < best) best = chapter;
+                }
+                chapters[enemy.Id] = best > 0 ? best : LevelChapter(enemy.Level);
+            }
+            return chapters;
+        }
+
+        /// <summary>Whether <paramref name="summoner"/> can call <paramref name="enemyId"/> (own summons or a boss phase summon).</summary>
+        static bool Summons(EnemyDef summoner, string enemyId)
+        {
+            if (summoner.Summons != null && summoner.Summons.Contains(enemyId)) return true;
+            if (summoner.Phases == null) return false;
+            foreach (var phase in summoner.Phases)
+                if (phase?.Summon != null && phase.Summon.Contains(enemyId)) return true;
+            return false;
+        }
+
+        /// <summary>Chapter whose party level band (<see cref="ChapterLevelEntries"/>) contains <paramref name="level"/>.</summary>
+        public static int LevelChapter(int level)
+        {
+            int chapter = 1;
+            foreach (int entry in ChapterLevelEntries) if (level >= entry) chapter++;
+            return Math.Min(7, chapter);
+        }
+
+        /// <summary>Party level at which chapters 2-7 begin (chapter 1 starts at level 1).</summary>
+        static readonly int[] ChapterLevelEntries = { 12, 24, 34, 44, 54, 64 };
+
+        /// <summary>
+        /// Milestones: species with kills (12 / 25 / 40 / 60 / 80 / 100 of 108), then every boss defeated. Rewards use
+        /// existing items and equipment only; the top accessory is epic (rarity 2), no legendary or tier-8 gear.
+        /// </summary>
+        static readonly BestiaryMilestoneDef[] BestiaryMilestoneDefs =
+        {
+            Milestone(10, 300, ("enhance_stone", 3)),
+            Milestone(25, 1000, ("enhance_stone_hi", 2)),
+            Milestone(40, 2500, ("seed_life", 1), ("mega_potion", 2)),
+            Milestone(60, 5000, ("enhance_stone_hi", 4), ("seed_power", 1)),
+            Milestone(80, 8000, ("enhance_stone_abyss", 2), ("phoenix_plume", 2)),
+            Milestone(100, 12000, ("seed_magic", 1), ("seed_mind", 1), ("x_potion", 3)),
+            new BestiaryMilestoneDef { AllBosses = true, Gold = 20000, Items = new[] { ("acc_regen_ring", 1) } },
+        };
+
+        static BestiaryMilestoneDef Milestone(int threshold, int gold, params (string Id, int Count)[] items) =>
+            new BestiaryMilestoneDef { Threshold = threshold, Gold = gold, Items = items };
+
+        sealed class BestiaryMilestoneDef
+        {
+            public int Threshold;
+            public bool AllBosses;
+            public int Gold;
+            public (string Id, int Count)[] Items = Array.Empty<(string, int)>();
+        }
+
+        /// <summary>Flag that records a claimed milestone: "bestiary_reward_&lt;n&gt;", n = 1-based milestone number.</summary>
+        public static string BestiaryRewardFlag(int index) => "bestiary_reward_" + (index + 1);
+
+        /// <summary>Milestone rows in order, with progress, reached and claimed state.</summary>
+        public static List<BestiaryMilestoneRow> BestiaryMilestones(GameDB db, GameState state)
+        {
+            int killedSpecies = 0, bosses = 0, bossesKilled = 0;
+            foreach (var enemy in db.Enemies.Values)
+            {
+                bool killed = BestiaryKilled(state, enemy.Id);
+                if (killed) killedSpecies++;
+                if (enemy.IsBoss)
+                {
+                    bosses++;
+                    if (killed) bossesKilled++;
+                }
+            }
+            var output = new List<BestiaryMilestoneRow>();
+            for (int i = 0; i < BestiaryMilestoneDefs.Length; i++)
+            {
+                var def = BestiaryMilestoneDefs[i];
+                var row = new BestiaryMilestoneRow
+                {
+                    Index = i, Threshold = def.Threshold, AllBosses = def.AllBosses, Gold = def.Gold, Items = def.Items,
+                    Label = def.AllBosses ? "모든 보스 토벌" : $"토벌 {def.Threshold}종",
+                    RewardText = BestiaryRewardText(db, def),
+                    Progress = def.AllBosses ? bossesKilled : killedSpecies,
+                    Goal = def.AllBosses ? bosses : def.Threshold,
+                    Claimed = state.Flags.Contains(BestiaryRewardFlag(i)),
+                };
+                row.Reached = bosses > 0 && row.Progress >= row.Goal;
+                output.Add(row);
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Grants milestone <paramref name="index"/> (0-based, see <see cref="BestiaryMilestones"/>): gold and items, then
+        /// the flag. Atomic. Failure reasons: invalid_milestone, already_claimed, not_reached.
+        /// </summary>
+        public static ServiceResult ClaimBestiaryReward(GameDB db, GameState state, int index)
+        {
+            if (index < 0 || index >= BestiaryMilestoneDefs.Length) return ServiceResult.Fail("invalid_milestone");
+            string flag = BestiaryRewardFlag(index);
+            if (state.Flags.Contains(flag)) return ServiceResult.Fail("already_claimed");
+            var milestone = BestiaryMilestones(db, state)[index];
+            if (!milestone.Reached) return ServiceResult.Fail("not_reached");
+            var def = BestiaryMilestoneDefs[index];
+            state.Gold += def.Gold;
+            foreach (var item in def.Items) state.AddContent(db, item.Id, item.Count);
+            state.Flags.Add(flag);
+            QuestLog.Refresh(db, state);
+            var result = ServiceResult.Ok("bestiary_reward_claimed", milestone.RewardText);
+            result.GoldDelta = def.Gold;
+            return result;
+        }
+
+        static bool BestiaryKilled(GameState state, string enemyId) => state.Bestiary.TryGetValue(enemyId, out var entry) && entry != null && entry.Kills > 0;
+
+        static string BestiaryRewardText(GameDB db, BestiaryMilestoneDef def)
+        {
+            var parts = new List<string>();
+            if (def.Gold > 0) parts.Add(def.Gold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + " G");
+            foreach (var item in def.Items)
+            {
+                string name = db.Items.TryGetValue(item.Id, out var consumable) ? consumable.DisplayName
+                    : db.Equipment.TryGetValue(item.Id, out var piece) ? piece.DisplayName : item.Id;
+                parts.Add(name + " ×" + item.Count);
+            }
+            return string.Join("  ·  ", parts);
         }
 
         // ------------------------------------------------------------------ depart

@@ -178,9 +178,9 @@ namespace Abyss.UI
                 UIInput.Consume();
             }
         }
-        public void Add(string label, Action action, string description = "", string cost = null, bool enabled = true, string reason = null, Sprite icon = null)
+        public void Add(string label, Action action, string description = "", string cost = null, bool enabled = true, string reason = null, Sprite icon = null, Color? labelColor = null)
         {
-            rows.Add(new UIListItem(label, cost, enabled, reason, icon, tag: action) { Description = description });
+            rows.Add(new UIListItem(label, cost, enabled, reason, icon, tag: action) { Description = description, LabelColor = labelColor });
         }
         protected override void OnFocus() { if (list != null) { list.Focused = true; Refresh(); } }
         protected override void OnBlur() { if (list != null) list.Focused = false; }
