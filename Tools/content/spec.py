@@ -92,6 +92,47 @@ ZONE_VARIANTS = [
     ('street_hound', '거리의 사냥개', 'hellhound', (0.6, 0.6, 0.7), 11, 0, 'pack'),
 ]
 
+# Monster pools per zone (existing ids + ZONE_VARIANTS). The world builder re-levels every monster into its zone's
+# level range (normal = rank 0 random encounters, elite = FOE / mid-boss). A monster appears in one zone only,
+# except the postgame (13), which mixes the strongest of every gate.
+ZONE_POOLS = {
+    1: dict(normal=['sewer_slime', 'slime', 'horned_rabbit', 'tunnel_bat', 'bat', 'killer_bee'],
+            elite=['elite_bat', 'elite_mushroom']),
+    2: dict(normal=['sprout', 'mushroom', 'mandragora', 'rhino_beetle', 'pixie', 'poison_mushroom'],
+            elite=['elite_rhino_beetle', 'elite_mushroom']),
+    3: dict(normal=['scrap_golem', 'oil_slime', 'spark_wisp', 'iron_beetle', 'magma_slime', 'sand_scorpion'],
+            elite=['elite_sand_golem']),
+    4: dict(normal=['jellyfish', 'frost_spider', 'coral_crab', 'snow_fairy', 'penguin_mage', 'ice_wolf', 'yeti',
+                    'ice_golem', 'ice_slime', 'snow_rabbit', 'frost_bee'],
+            elite=['elite_ice_wolf', 'elite_yeti', 'elite_coral_crab']),
+    5: dict(normal=['crystal_slime', 'cave_spider', 'sand_golem', 'lizardman', 'grave_bat', 'flame_elemental'],
+            elite=['elite_hellhound', 'elite_sand_golem']),
+    6: dict(normal=['hellhound', 'phoenix', 'harpy', 'fire_drake', 'ember_bee', 'lava_beetle', 'flame_wisp',
+                    'crimson_scorpion'],
+            elite=['elite_fire_drake', 'elite_hellhound']),
+    7: dict(normal=['school_ghost', 'locker_mimic', 'dark_pixie', 'scarecrow', 'wisp', 'ghost_mushroom', 'mimic'],
+            elite=['elite_mimic', 'elite_scarecrow']),
+    8: dict(normal=['skeleton', 'skeleton_mage', 'ghost', 'dark_knight', 'lich', 'crypt_hound'],
+            elite=['elite_skeleton', 'elite_dark_knight']),
+    9: dict(normal=['pill_slime', 'syringe_bee', 'bandage_ghost', 'phantom', 'storm_harpy', 'swamp_lizardman'],
+            elite=['elite_skeleton', 'drowned_knight']),
+    10: dict(normal=['puffer', 'sea_urchin', 'deep_jelly', 'merfolk_guard', 'angler', 'giant_clam', 'siren',
+                     'sea_serpent', 'coral_golem', 'temple_guardian', 'tide_drake'],
+             elite=['turtle_titan', 'naga_priestess', 'drowned_knight']),
+    11: dict(normal=['street_hound', 'shadow_beast', 'gargoyle', 'nightmare', 'doppelganger', 'void_eye'],
+             elite=['crystal_horror', 'fallen_angel']),
+    12: dict(normal=['void_wisp', 'chaos_spawn', 'shadow_hound', 'abyss_crab', 'void_knight', 'abyss_worm',
+                     'elder_lich'],
+             elite=['void_reaper', 'fallen_angel']),
+    13: dict(normal=['chaos_yeti', 'inferno_phoenix', 'elder_lich', 'void_knight', 'abyss_worm'],
+             elite=['void_reaper', 'crystal_horror', 'fallen_angel']),
+}
+RARE_BY_ZONE = {'gold_slime': [2, 3], 'metal_slime': [4, 5, 6], 'golden_mimic': [9, 10, 11]}
+# Equipment tier (GEAR_LINES index + 1) sold and found per zone. The guild market unlocks tier t when the party
+# first reaches zone TIER_UNLOCK_ZONE[t] (C#: GameFlow.ShopTierUnlockFloor).
+TIER_OF_ZONE = {1: 1, 2: 1, 3: 2, 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 5, 10: 5, 11: 6, 12: 7, 13: 8}
+TIER_UNLOCK_ZONE = {1: 1, 2: 3, 3: 5, 4: 7, 5: 9, 6: 11, 7: 12, 8: 13}
+
 # New cute hunter-genre monsters built in Blender (enemies_h/). Look notes keep the user's direction: cute and
 # charming (big eyes, round shapes, chibi), never gross or creepy. 'replace_model' lists ZONE_VARIANTS / existing ids
 # whose "model" switches to this new model once the preview is approved.
