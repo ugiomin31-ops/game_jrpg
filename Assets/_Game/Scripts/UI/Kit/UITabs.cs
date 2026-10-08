@@ -106,10 +106,9 @@ namespace Abyss.UI
             {
                 var (bg, label) = _tabs[i];
                 bool on = i == _index;
-                bg.sprite = UISprites.PanelWhite;
-                bg.color = on ? UITheme.SurfaceSelected : UITheme.SurfaceRaised;
-                label.color = on ? UITheme.DawnBright : UITheme.TextDim;
-                float h = _height;
+                bg.sprite = on ? UISprites.TabActive : UISprites.TabInactive;
+                label.color = on ? UITheme.GoldBright : UITheme.TextDim;
+                float h = on ? _height + 6f : _height;
                 UITween.Kill(bg.rectTransform);
                 if (instant || !Application.isPlaying || (UIRoot.Instance != null && UIRoot.Instance.ReducedMotion)) bg.rectTransform.sizeDelta = new Vector2(_tabWidth, h);
                 else

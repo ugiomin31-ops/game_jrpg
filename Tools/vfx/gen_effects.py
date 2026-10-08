@@ -1292,7 +1292,11 @@ def signature_impacts():
     effect('heal_bloom', 'Heal: leaf seal blooms under the ally, green petals and crosses rise, soft pillar, sparkles',
            seal('magic_circle_b', 'E0FFE8', 2.4, life=1.2, spin=40, end=2.8),
            emitter('petal', 'E8FFE8', 14, 1.2, .2, 1.6, .7, y=FLOOR), emitter('plus', 'E8FFF0', 12, .9, .26, 1.6, .6, y=-.6),
-           pillar('C8FFE0', 1.0, 3.4, 1.0, delay=.05), embers('F0FFF4', 16, 1.2, 1.0, delay=.1, gravity=-.2), duration=1.4)
+           pillar('C8FFE0', 1.0, 3.4, 1.0, delay=.05), embers('F0FFF4', 16, 1.2, 1.0, delay=.1, gravity=-.2),
+           # petals spiral up around the body and a soft bloom wraps it, so a single-target heal reads at a glance
+           layer('orbit', 'petal', 'F0FFF0', life=1.2, size=.28, radius=.75, spin=260, count=7, y=-.5),
+           glint('F0FFF4', 1.0, 2.6, .55, delay=.12, y=.1, texture='glow'),
+           glint('FFFFFF', .4, 1.8, .3, delay=.3, y=.6, texture='star8'), duration=1.4)
     effect('greater_heal', 'Greater heal: wide blessing seal, tall heaven pillar, a bloom of petals and leaves spirals up, '
            'small wings of light and a radiant glow',
            seal('magic_circle_f', 'E0FFE8', 3.2, life=1.6, spin=30, end=3.6), ground_ring('E8FFF0', .5, 3.6, .6),
@@ -1539,21 +1543,6 @@ def widen(recipe, factor):
                     item[field] = round(item[field] * factor) if field == 'count' else round(item[field] * factor, 2)
 
 
-def readable_impacts(recipe):
-    """Keep the authored elemental shapes and timings, but expose the actor beneath hot billboard cores.
-    Floor telegraphs, projectiles, directional slash/arrow silhouettes and ultimate coverage stay authored.
-    Dense bursts use fewer small particles so phones spend less fill on overlapping glints.
-    """
-    for item in recipe['layers']:
-        if item['kind'] == 'quad' and not item.get('horizontal') and item['texture'] in (
-                'glow', 'glow_hard', 'hit_flash', 'star4', 'sunburst'):
-            for field in ('size', 'endSize'):
-                if field in item:
-                    item[field] = round(item[field] * .82, 3)
-        if item['kind'] == 'burst' and item.get('count', 0) >= 24:
-            item['count'] = max(18, round(item['count'] * .8))
-
-
 def main():
     battle_effects()
     ultimates()
@@ -1570,8 +1559,6 @@ def main():
         grow(EFFECTS[key], factor)
     for key, factor in WIDEN.items():
         widen(EFFECTS[key], factor)
-    for recipe in EFFECTS.values():
-        readable_impacts(recipe)
     required = {p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
                 for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()

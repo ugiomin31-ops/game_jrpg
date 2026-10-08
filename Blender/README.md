@@ -35,6 +35,7 @@ blender -b --factory-startup -P Blender/<group>/<script>.py
    - 액션 이름(정확히): `Idle`(루프), `Run`(루프), `Attack`, `Cast`, `Hit`, `Die`, `Victory`. 영웅/NPC는 `Walk`(루프)도 추가.
      비행형의 `Idle`/`Run`은 공중 정지 비행.
    - 타이밍 규약: `Attack`은 **40 %** 지점이 타격 순간, `Cast`는 **60 %** 지점이 발동 순간. `Die`는 마지막 프레임 자세 유지(눕거나 무너짐).
+   - 텍스처 영웅은 선택 클립 `Skill`(36f, 18f 타격 = 50 %)과 `Ultimate`(66f, 28f까지 제자리 기 모으기, 44f 타격)도 만든다. `motion.py`의 `HeroMotion.skill/ultimate`, 스타일(전사·궁수·마법사·사제)별로 다르다.
    - 30 fps. Idle 40–60f, Run 16–24f, Attack 18–30f, Cast 30–40f, Hit 10–14f, Die 24–36f, Victory 36–48f.
    - FBX take 이름 `Rig|Idle` → Unity 클립 `Idle`. `Idle/Run/Walk/Fly/Float/Hover/BattleIdle/*Loop`는 자동 루프.
 5. **무기 소켓**: 영웅 리그에 `weapon.R`(오른손 무기)와 `weapon.L`(왼손: 활·방패) 본. 본 head = 손잡이, tail = 무기가 뻗는 방향.

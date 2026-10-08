@@ -29,7 +29,9 @@ def motion_proof(H, actions, prefix, color_type="VERTEX"):
     sc = bpy.context.scene
     size = 384
     frames_by_clip = dict(Guard=(0, 3, 6, 9, 12, 15, 18, 21, 24, 28, 32, 36),
-                          Revive=(0, 4, 10, 15, 19, 24, 29, 34, 39, 49, 55, 60))
+                          Revive=(0, 4, 10, 15, 19, 24, 29, 34, 39, 49, 55, 60),
+                          Skill=(0, 5, 9, 11, 13, 15, 16, 17, 18, 23, 29, 36),
+                          Ultimate=(0, 8, 18, 28, 32, 36, 40, 42, 44, 52, 58, 66))
     evidence = {}
     # Record the actual evaluated poses before adding any proof-only geometry.
     def snapshot(clip, frame):
@@ -150,7 +152,7 @@ def produce(name, builder, npc=False):
     report = dict(id=name, category='NPCs' if npc else 'Characters', triangles=H.tris(),
                   bounds=bounds(H.body), bones=[b.name for b in H.rig.data.bones],
                   clips={n: dict(frames=list(a.frame_range), fps=30) for n, a in actions.items()},
-                  contact=dict(Attack=.4, Cast=.6), sockets={})
+                  contact=dict(Attack=.4, Cast=.6, Skill=.5, Ultimate=44 / 66), sockets={})
     for s in ('R', 'L'):
         b = H.rig.data.bones['weapon.' + s]
         report['sockets']['weapon.' + s] = dict(head=list(b.head_local), tail=list(b.tail_local), parent=b.parent.name)
@@ -176,7 +178,7 @@ def produce(name, builder, npc=False):
             clip = report['clips'][n]
             clip.update(take='Rig|' + n, seconds=(act.frame_range[1] - act.frame_range[0]) / 30,
                         loop=bool(act['loop']), authored_keyframes=list(act['authored_keyframes']))
-            for prop in ('hold_normalized', 'recovery_normalized', 'start_pose', 'end_pose'):
+            for prop in ('hold_normalized', 'recovery_normalized', 'resume_normalized', 'start_pose', 'end_pose'):
                 if prop in act:
                     value = act[prop]
                     clip[prop] = list(value) if prop == 'hold_normalized' else value

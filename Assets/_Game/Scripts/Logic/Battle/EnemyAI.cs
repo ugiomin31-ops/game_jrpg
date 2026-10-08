@@ -33,6 +33,9 @@ namespace Abyss.Logic.Battle
         const double HardAggressiveChance = 0.4;
         const double SupportHealBelow = 0.6;
         const double SummonChance = 0.35;
+        /// <summary>Rare-monster profile: each turn it may run away (no rewards); otherwise it acts like "basic".</summary>
+        public const string RunnerProfile = "runner";
+        public const double RunnerFleeChance = 0.4;
 
         struct Option
         {
@@ -229,7 +232,7 @@ namespace Abyss.Logic.Battle
         internal static List<BattleUnit> Fallen(List<BattleUnit> units)
         {
             var r = new List<BattleUnit>();
-            foreach (var u in units) if (!u.IsAlive && !u.Summoned) r.Add(u);
+            foreach (var u in units) if (!u.IsAlive && !u.Summoned && !u.Escaped) r.Add(u);
             return r;
         }
 

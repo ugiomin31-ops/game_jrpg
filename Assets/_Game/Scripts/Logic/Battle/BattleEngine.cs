@@ -300,6 +300,17 @@ namespace Abyss.Logic.Battle
         void EnemyTurn(BattleUnit actor)
         {
             CheckPhases();
+            if (actor.AiProfile == EnemyAI.RunnerProfile && actor.CanAct && _rng.Randf() < EnemyAI.RunnerFleeChance)
+            {
+                // Rare monsters bolt: they leave the field without counting as defeated (no EXP, gold or drops).
+                actor.Escaped = true;
+                Msg("enemy_fled", actor.DisplayName);
+                actor.Hp = 0;
+                OnUnitDown(actor);
+                if (CheckOutcome()) return;
+                FinishTurn(actor, false);
+                return;
+            }
             int count = Math.Max(1, actor.ActionsPerTurn);
             for (int i = 0; i < count; i++)
             {
@@ -383,6 +394,25 @@ namespace Abyss.Logic.Battle
                     if (healed > 0)
                         Emit(new HealEvent { TargetId = actor.Id, SourceId = tick.status.SourceId, Amount = healed, StatusId = tick.status.Id, HpAfter = actor.Hp, MaxHp = actor.MaxHp });
                 }
+            }
+            ApplyGearRegen(actor);
+        }
+
+        /// <summary>Equipment regeneration (regen ring, mana spring...): after status ticks, only while standing.</summary>
+        void ApplyGearRegen(BattleUnit actor)
+        {
+            if (!actor.IsAlive || actor.Side != BattleSide.Party) return;
+            if (actor.HpRegenRatio > 0.0 && actor.Hp < actor.MaxHp)
+            {
+                int healed = actor.Heal(Gd.RoundI(Math.Max(1, Gd.RoundI(actor.MaxHp * actor.HpRegenRatio)) * actor.HealingReceivedScale));
+                if (healed > 0)
+                    Emit(new HealEvent { TargetId = actor.Id, SourceId = actor.Id, Amount = healed, HpAfter = actor.Hp, MaxHp = actor.MaxHp });
+            }
+            if (actor.MpRegenPerTurn > 0 && actor.Mp < actor.MaxMp)
+            {
+                int before = actor.Mp;
+                actor.Mp = Math.Min(actor.MaxMp, actor.Mp + actor.MpRegenPerTurn);
+                Emit(new MpChangeEvent { UnitId = actor.Id, Mp = actor.Mp, MaxMp = actor.MaxMp, Delta = actor.Mp - before });
             }
         }
 
@@ -956,6 +986,12 @@ namespace Abyss.Logic.Battle
                 int applied = target.Heal(amount);
                 if (applied > 0)
                     Emit(new HealEvent { TargetId = target.Id, SourceId = actor.Id, Amount = applied, HpAfter = target.Hp, MaxHp = target.MaxHp });
+                if (action.Item != null && action.Item.MpAmount > 0 && target.Mp < target.MaxMp)
+                {
+                    int before = target.Mp;
+                    target.Mp = Math.Min(target.MaxMp, target.Mp + action.Item.MpAmount);
+                    Emit(new MpChangeEvent { UnitId = target.Id, Mp = target.Mp, MaxMp = target.MaxMp, Delta = target.Mp - before });
+                }
             }
             ApplyPayloadStatuses(actor, targets, action.Skill, true);
         }
@@ -1186,8 +1222,15 @@ namespace Abyss.Logic.Battle
         bool CheckOutcome()
         {
             if (!_active) return true;
-            if (!EnemyAI.AnyLiving(_enemies)) { EndBattle(BattleResult.Victory); return true; }
+            if (!EnemyAI.AnyLiving(_enemies)) { EndBattle(AnyDefeated() ? BattleResult.Victory : BattleResult.Fled); return true; }
             if (!EnemyAI.AnyLiving(_party)) { EndBattle(BattleResult.Defeat); return true; }
+            return false;
+        }
+
+        /// <summary>False only when every enemy ran away (the party "wins" nothing and the battle counts as fled).</summary>
+        bool AnyDefeated()
+        {
+            foreach (var e in _enemies) if (!e.Escaped) return true;
             return false;
         }
 
@@ -1214,7 +1257,7 @@ namespace Abyss.Logic.Battle
             _drops.Clear();
             foreach (var e in _enemies)
             {
-                if (e.Summoned) continue;
+                if (e.Summoned || e.Escaped) continue;
                 foreach (var row in e.Drops)
                 {
                     if (_rng.Randf() < Gd.Clamp(Gd.D(row.Chance), 0.0, 1.0))
@@ -1233,7 +1276,7 @@ namespace Abyss.Logic.Battle
             {
                 foreach (var e in _enemies)
                 {
-                    if (e.Summoned) continue;
+                    if (e.Summoned || e.Escaped) continue;
                     o.Experience += Math.Max(0, e.ExperienceReward);
                     o.Gold += Math.Max(0, e.GoldReward);
                 }
@@ -1243,7 +1286,7 @@ namespace Abyss.Logic.Battle
             foreach (var e in _enemies)
             {
                 if (!o.SeenEnemies.Contains(e.DefId)) o.SeenEnemies.Add(e.DefId);
-                if (!e.Summoned && !e.IsAlive) o.DefeatedEnemies.Add(e.DefId);
+                if (!e.Summoned && !e.Escaped && !e.IsAlive) o.DefeatedEnemies.Add(e.DefId);
             }
             foreach (var h in _party)
             {

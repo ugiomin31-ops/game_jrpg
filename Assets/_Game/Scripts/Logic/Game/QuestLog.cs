@@ -141,7 +141,7 @@ namespace Abyss.Logic.Game
         {
             int victories = 0;
             for (int i = 0; i < db.Floors.Count; i++)
-                if (db.Floors[i].BossGroup.Contains(enemyId) && state.Flags.Contains(GameFlow.BossFlag(i / 3 + 1)))
+                if (db.Floors[i].BossGroup.Contains(enemyId) && state.Flags.Contains(GameFlow.BossFlag(GameFlow.ChapterOf(i))))
                     victories++;
             return victories;
         }

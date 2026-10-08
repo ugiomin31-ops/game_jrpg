@@ -21,6 +21,8 @@ namespace Abyss.Runtime.World
         }
         readonly List<ServiceSpot> services = new List<ServiceSpot>();
         readonly List<CharacterModel> party = new List<CharacterModel>();
+        /// <summary>Resource path each party model was spawned from (job outfit or base hero), parallel to <see cref="party"/>.</summary>
+        readonly List<string> partyPaths = new List<string>();
         GameApp app;
         CharacterController controller;
         Transform player;
@@ -72,12 +74,21 @@ namespace Abyss.Runtime.World
             var spawn = RequireSpot(layout, "spawn");
             foreach (string id in app.DB.HeroOrder)
             {
-                var model = ArtLibrary.SpawnHero(id, transform);
+                string job = title ? null : app.State?.Hero(id)?.Job;
+                var model = ArtLibrary.SpawnHero(id, transform, job);
                 model.transform.SetPositionAndRotation(spawn.position - spawn.forward * party.Count * 0.9f, spawn.rotation);
                 model.Play("Idle");
                 party.Add(model);
+                partyPaths.Add(ArtLibrary.HeroModelPath(id, job));
             }
             RefreshEquipment();
+            AttachController();
+            heading = player.forward;
+            FollowCamera(true);
+        }
+
+        void AttachController()
+        {
             player = party[0].transform;
             player.gameObject.layer = 8;
             controller = player.gameObject.AddComponent<CharacterController>();
@@ -86,8 +97,31 @@ namespace Abyss.Runtime.World
             controller.center = Vector3.up * 0.7f;
             controller.stepOffset = 0.24f;
             controller.slopeLimit = 45;
-            heading = player.forward;
-            FollowCamera(true);
+        }
+
+        /// <summary>After a class change: swaps each hero whose job outfit differs from the spawned model, in place.</summary>
+        public void RefreshJobModels()
+        {
+            if (title) return;
+            bool changed = false;
+            for (int i = 0; i < party.Count; i++)
+            {
+                var old = party[i];
+                var hero = app.State.Hero(old.ModelId);
+                if (hero == null) continue;
+                string path = ArtLibrary.HeroModelPath(old.ModelId, hero.Job);
+                if (path == partyPaths[i]) continue;
+                var model = ArtLibrary.SpawnHero(old.ModelId, transform, hero.Job);
+                model.transform.SetPositionAndRotation(old.transform.position, old.transform.rotation);
+                model.Play("Idle");
+                party[i] = model;
+                partyPaths[i] = path;
+                old.gameObject.SetActive(false);
+                Destroy(old.gameObject);
+                if (i == 0) AttachController();
+                changed = true;
+            }
+            if (changed) RefreshEquipment();
         }
 
         public void RefreshEquipment()
@@ -97,14 +131,8 @@ namespace Abyss.Runtime.World
                 string id = model.ModelId;
                 var hero = app.State.Hero(id);
                 string weapon = hero.Equipped("weapon");
-                GameObject prefab = null;
-                if (!string.IsNullOrEmpty(weapon))
-                {
-                    prefab = ArtLibrary.LoadPrefab(ArtLibrary.WeaponPath(weapon));
-                    if (prefab == null) throw new InvalidOperationException("Missing equipped weapon: " + weapon);
-                }
                 GearDisplay.DressBody(model, GearDisplay.Rank(app.DB, hero.Equipped("armor")), GearDisplay.Rank(app.DB, hero.Equipped("accessory")));
-                GearDisplay.AttachWeapon(model, id == "archer" ? "weapon.L" : "weapon.R", prefab, GearDisplay.Rank(app.DB, weapon), weapon);
+                GearDisplay.AttachWeapon(app.DB, model, id == "archer" ? "weapon.L" : "weapon.R", weapon);
             }
         }
 

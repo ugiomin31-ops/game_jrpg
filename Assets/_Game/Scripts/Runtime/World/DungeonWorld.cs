@@ -59,7 +59,7 @@ namespace Abyss.Runtime.World
             this.app = app;
             this.run = run;
             tileset = run.Grid.Floor.Tileset;
-            app.Atmosphere.Apply(AtmospherePreset.ForDungeon(tileset));
+            app.Atmosphere.Apply(AtmospherePreset.ForFloor(run.Grid.Floor));
             app.Atmosphere.SetupCamera(app.MainCamera);
             app.MainCamera.fieldOfView = 65;
             var grid = run.Grid;
@@ -123,7 +123,7 @@ namespace Abyss.Runtime.World
             foreach (var foe in grid.Foes)
             {
                 if (!foe.Alive || foe.Group.Count == 0) continue;
-                var model = ArtLibrary.SpawnEnemy(foe.Group[0], transform);
+                var model = ArtLibrary.SpawnEnemy(app.DB, foe.Group[0], transform);
                 model.transform.position = Position(foe.Position);
                 model.Play("Idle");
                 foes[foe.Id] = model;
@@ -134,7 +134,7 @@ namespace Abyss.Runtime.World
             RefreshProgress();
             var vfx = VfxLibrary.Create();
             vfx.Camera = app.MainCamera;
-            ambient = vfx.Play("environment_" + tileset, app.MainCamera.transform.position, Color.white, follow: app.MainCamera.transform);
+            ambient = vfx.Play("environment_" + tileset, app.MainCamera.transform.position, AtmospherePreset.ParticleTint(run.Grid.Floor), follow: app.MainCamera.transform);
         }
 
         void CreateMarkerAssets()

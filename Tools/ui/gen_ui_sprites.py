@@ -1,4 +1,4 @@
-"""Generate the Abyss UI kit sprites (navy glass + gold filigree) into Assets/_Game/Resources/UI.
+"""Generate the Abyss UI kit sprites (midnight glass, cut corners, champagne-gold hairlines) into Assets/_Game/Resources/UI.
 
 Usage: python Tools/ui/gen_ui_sprites.py
 Also writes deterministic Unity Sprite import metadata with nine-slice borders, and the
@@ -104,15 +104,17 @@ def save(name, img, border=None):
 
 
 # ---------------------------------------------------------------- palette
-NAVY = hexc("#121a3d", 0.90)
-NAVY_DEEP = hexc("#0a0f26", 0.94)
-INDIGO_GLOW = hexc("#6f84ee", 0.38)
-EDGE_DARK = hexc("#03050d", 0.95)
-GOLD_HI = hexc("#f6e2a6")
-GOLD = hexc("#d6b062")
-GOLD_LO = hexc("#8f6a2c")
+# Midnight glass with champagne-gold hairlines and cut (chamfered) corners: the modern console-JRPG
+# frame language (Trails / Star Rail / Octopath menus) instead of soft rounded web cards.
+NAVY = hexc("#141d46", 0.93)
+NAVY_DEEP = hexc("#0a0f28", 0.95)
+INDIGO_GLOW = hexc("#7088ff", 0.30)
+EDGE_DARK = hexc("#02040c", 0.95)
+GOLD_HI = hexc("#fbebbd")
+GOLD = hexc("#dcb76a")
+GOLD_LO = hexc("#9a7536")
 DAWN = hexc("#ffb15c")
-DAWN_HI = hexc("#ffe0a8")
+DAWN_HI = hexc("#ffe3b0")
 
 
 def gold_grad(h, w, top=0, bottom=None):
@@ -120,71 +122,68 @@ def gold_grad(h, w, top=0, bottom=None):
     return vgrad(h, w, GOLD_HI, GOLD_LO, top / h, bottom / h)
 
 
+def chamfer(w, h, cuts, inset=0.0):
+    """Anti-aliased octagon coverage. cuts = (tl, tr, br, bl) corner cut lengths in px; the inset keeps
+    every edge (including the diagonals) parallel, so stacked insets give even hairline borders."""
+    k = 0.41421356  # tan(22.5 deg): diagonal offset for an even inset along 45-degree cuts
+    x0, y0, x1, y1 = inset, inset, w - inset, h - inset
+    tl, tr, br, bl = (max(0.0, c - inset * k) for c in cuts)
+    pts = [(x0 + tl, y0), (x1 - tr, y0), (x1, y0 + tr), (x1, y1 - br), (x1 - br, y1), (x0 + bl, y1), (x0, y1 - bl), (x0, y0 + tl)]
+    if x1 <= x0 or y1 <= y0:
+        return np.zeros((h, w), np.float32)
+    im = Image.new("L", (w * SS, h * SS), 0)
+    ImageDraw.Draw(im).polygon([(x * SS, y * SS) for x, y in pts], fill=255)
+    return np.clip(downsample(im, w, h), 0, 1)
+
+
+def cline(w, h, cuts, inset, width):
+    return np.clip(chamfer(w, h, cuts, inset) - chamfer(w, h, cuts, inset + width), 0, 1)
+
+
+def poly(w, h, pts):
+    im = Image.new("L", (w * SS, h * SS), 0)
+    ImageDraw.Draw(im).polygon([(x * SS, y * SS) for x, y in pts], fill=255)
+    return downsample(im, w, h)
+
+
+def diamond_at(w, h, x, y, r):
+    return poly(w, h, [(x, y - r), (x + r, y), (x, y + r), (x - r, y)])
+
+
 # ---------------------------------------------------------------- panels
-def glass_base(w, h, r, fill=NAVY, glow=INDIGO_GLOW, corners=(True, True, True, True)):
+def glass_base(w, h, cuts, fill_top=hexc("#18224f", 0.93), fill_bottom=hexc("#0b1029", 0.95), glow=INDIGO_GLOW):
     img = blank(w, h)
-    body = rrect(w, h, r, 0, corners)
-    img = over(img, layer(fill, body))
-    # soft inner glow hugging the edge
-    inner = rrect(w, h, r, 5, corners)
-    rim = np.clip(body - blur(inner, 5), 0, 1) * body
-    img = over(img, layer(glow, rim))
-    # top glass sheen inside the border band
-    sheen = vgrad(h, w, hexc("#ffffff", 0.07), hexc("#ffffff", 0.0), 0.0, 0.45)
-    img = over(img, layer(sheen, rrect(w, h, r, 2, corners)))
-    img = over(img, layer(EDGE_DARK, stroke(w, h, r, 0, 1.0, corners)))
+    body = chamfer(w, h, cuts)
+    img = over(img, layer(vgrad(h, w, fill_top, fill_bottom), body))
+    # cool light pooling just inside the frame, strongest along the top edge
+    rim = np.clip(body - blur(chamfer(w, h, cuts, 6), 6), 0, 1) * body
+    img = over(img, layer(vgrad(h, w, glow, glow * np.array([1, 1, 1, 0.35], np.float32)), rim))
+    sheen = vgrad(h, w, hexc("#ffffff", 0.08), hexc("#ffffff", 0.0), 0.0, 0.4)
+    img = over(img, layer(sheen, chamfer(w, h, cuts, 2)))
+    img = over(img, layer(EDGE_DARK, cline(w, h, cuts, 0, 1.0)))
     return img
+
+
+def cut_ticks(w, h, cuts, inset):
+    """Solid gold triangles filling the cut corners just outside the hairline (reads as a crisp frame accent)."""
+    m = np.zeros((h, w), np.float32)
+    tl, tr, br, bl = cuts
+    a = inset
+    if tl > 6: m = np.maximum(m, poly(w, h, [(a, a), (a + tl * 0.62, a), (a, a + tl * 0.62)]))
+    if tr > 6: m = np.maximum(m, poly(w, h, [(w - a, a), (w - a - tr * 0.62, a), (w - a, a + tr * 0.62)]))
+    if br > 6: m = np.maximum(m, poly(w, h, [(w - a, h - a), (w - a - br * 0.62, h - a), (w - a, h - a - br * 0.62)]))
+    if bl > 6: m = np.maximum(m, poly(w, h, [(a, h - a), (a + bl * 0.62, h - a), (a, h - a - bl * 0.62)]))
+    return m
 
 
 def panel_glass():
     w = h = 96
-    img = glass_base(w, h, 14)
-    img = over(img, layer(gold_grad(h, w), stroke(w, h, 14, 3, 1.4)))
+    cuts = (14, 4, 14, 4)
+    img = glass_base(w, h, cuts)
+    img = over(img, layer(gold_grad(h, w) * np.array([1, 1, 1, 0.9], np.float32), cline(w, h, cuts, 2.5, 1.2)))
+    img = over(img, layer(hexc("#dcb76a", 0.18), cline(w, h, cuts, 6, 1.0)))
+    img = over(img, layer(GOLD, cut_ticks(w, h, cuts, 0.5)))
     save("panel_glass", img, (26, 26, 26, 26))
-
-
-def corner_ornament(size, r):
-    """Gold filigree for the top-left corner of a panel with corner radius r.
-    Returns (gold coverage, gem coverage), both size x size."""
-    s = SS
-    yy, xx = np.mgrid[0:size, 0:size]
-    # heavy bracket hugging the rounded frame, arms 28px long
-    bracket = stroke(size * 2, size * 2, r, 2.2, 2.6)[:size, :size] * ((xx < 28) & (yy < 28))
-    im = Image.new("L", (size * s, size * s), 0)
-    d = ImageDraw.Draw(im)
-
-    def P(x, y):
-        return (x * s, y * s)
-
-    lw = int(1.4 * s)
-    # scroll curls at the end of each arm, curling inward
-    d.arc([P(25, 3), P(35, 13)], 90, 360, fill=255, width=lw)
-    d.arc([P(3, 25), P(13, 35)], 180, 450, fill=255, width=lw)
-    d.ellipse([P(28.6, 6.6), P(31.4, 9.4)], fill=255)
-    d.ellipse([P(6.6, 28.6), P(9.4, 31.4)], fill=255)
-    # inner sweep joining the curls behind the jewel
-    d.arc([P(9, 9), P(37, 37)], 180, 270, fill=255, width=int(1.1 * s))
-    # jewel setting
-    c, rr = 11.5, 7.5
-    d.polygon([P(c, c - rr), P(c + rr, c), P(c, c + rr), P(c - rr, c)], fill=255)
-    for (x, y) in ((21.0, 21.0), (16, 26.5), (26.5, 16)):
-        d.ellipse([P(x - 1.2, y - 1.2), P(x + 1.2, y + 1.2)], fill=255)
-    gold = np.maximum(bracket, downsample(im, size, size))
-    gm = Image.new("L", (size * s, size * s), 0)
-    rg = 4.2
-    ImageDraw.Draw(gm).polygon([P(c, c - rg), P(c + rg, c), P(c, c + rg), P(c - rg, c)], fill=255)
-    return gold, downsample(gm, size, size)
-
-
-def stamp_corners(mask_tl, w, h):
-    """Place the TL corner mask in all four corners (mirrored)."""
-    n = mask_tl.shape[0]
-    m = np.zeros((h, w), np.float32)
-    m[:n, :n] = np.maximum(m[:n, :n], mask_tl)
-    m[:n, w - n:] = np.maximum(m[:n, w - n:], mask_tl[:, ::-1])
-    m[h - n:, :n] = np.maximum(m[h - n:, :n], mask_tl[::-1, :])
-    m[h - n:, w - n:] = np.maximum(m[h - n:, w - n:], mask_tl[::-1, ::-1])
-    return m
 
 
 def gold_mask_layer(mask, w, h):
@@ -198,130 +197,139 @@ def gold_mask_layer(mask, w, h):
 
 
 def panel_ornate():
+    """Window frame: double gold hairline, cut corners carrying a jewel, and short gold rails that frame the
+    top and bottom edges (all inside the 46 px 9-slice corners, so they never stretch)."""
     w = h = 128
-    r = 12
-    img = glass_base(w, h, r, fill=hexc("#111836", 0.92))
-    img = over(img, layer(gold_grad(h, w), stroke(w, h, r, 3, 1.3)))
-    img = over(img, layer(hexc("#d6b062", 0.35), stroke(w, h, r - 3, 7, 1.0)))
-    gold, gem = corner_ornament(42, r)
-    img = over(img, gold_mask_layer(stamp_corners(gold, w, h), w, h))
-    gem = stamp_corners(gem, w, h)
-    img = over(img, layer(hexc("#ff8a3d"), gem))
-    img = over(img, layer(hexc("#fff4e0", 0.9), gem * (np.roll(gem, 2, 0) < 0.5)))
+    cuts = (20, 20, 20, 20)
+    img = glass_base(w, h, cuts, fill_top=hexc("#19235a", 0.94), fill_bottom=hexc("#0a0e27", 0.96))
+    img = over(img, layer(gold_grad(h, w), cline(w, h, cuts, 3, 1.4)))
+    img = over(img, layer(hexc("#dcb76a", 0.30), cline(w, h, cuts, 8, 1.0)))
+    orn = np.zeros((h, w), np.float32)
+    gem = np.zeros((h, w), np.float32)
+    for cx, cy in ((9.5, 9.5), (w - 9.5, 9.5), (w - 9.5, h - 9.5), (9.5, h - 9.5)):
+        orn = np.maximum(orn, diamond_at(w, h, cx, cy, 7.5))
+        gem = np.maximum(gem, diamond_at(w, h, cx, cy, 4.0))
+    # rails: thick gold strokes along the first part of each straight edge, tapering into the hairline
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32) + 0.5
+    for y in (1.5, h - 1.5):
+        rail = (np.abs(yy - y) <= 1.4) & (((xx > 22) & (xx < 42)) | ((xx > w - 42) & (xx < w - 22)))
+        orn = np.maximum(orn, rail.astype(np.float32))
+    for x in (1.5, w - 1.5):
+        rail = (np.abs(xx - x) <= 1.4) & (((yy > 22) & (yy < 42)) | ((yy > h - 42) & (yy < h - 22)))
+        orn = np.maximum(orn, rail.astype(np.float32))
+    img = over(img, gold_mask_layer(blur(orn, 0.4), w, h))
+    img = over(img, layer(vgrad(h, w, hexc("#ffd7a0"), hexc("#ff8a3d")), gem))
+    img = over(img, layer(hexc("#fff4e0", 0.85), gem * (np.roll(gem, 2, 0) < 0.5)))
     save("panel_ornate", img, (46, 46, 46, 46))
 
 
 def panel_plain():
     w = h = 64
-    save("panel_white", layer(hexc("#ffffff"), rrect(w, h, 12)), (20, 20, 20, 20))
-    save("panel_outline", layer(hexc("#ffffff"), stroke(w, h, 12, 0, 2)), (20, 20, 20, 20))
-    save("panel_small", layer(hexc("#ffffff"), rrect(32, 32, 6)), (10, 10, 10, 10))
+    cuts = (10, 3, 10, 3)
+    save("panel_white", layer(hexc("#ffffff"), chamfer(w, h, cuts)), (20, 20, 20, 20))
+    save("panel_outline", layer(hexc("#ffffff"), cline(w, h, cuts, 0, 2)), (20, 20, 20, 20))
+    save("panel_small", layer(hexc("#ffffff"), chamfer(32, 32, (6, 2, 6, 2))), (10, 10, 10, 10))
 
 
 def panel_shadow():
     w = h = 128
-    m = blur(rrect(w, h, 20, 28), 10)
+    m = blur(chamfer(w, h, (20, 6, 20, 6), 28), 10)
     save("panel_shadow", layer(hexc("#000000", 0.85), m), (52, 52, 52, 52))
 
 
 def tooltip():
     w = h = 64
-    img = glass_base(w, h, 8, fill=hexc("#090d22", 0.96), glow=hexc("#5a6fd6", 0.30))
-    img = over(img, layer(hexc("#d6b062", 0.85), stroke(w, h, 8, 2, 1.0)))
+    cuts = (8, 2, 8, 2)
+    img = glass_base(w, h, cuts, fill_top=hexc("#121a40", 0.97), fill_bottom=hexc("#080c22", 0.97), glow=hexc("#5a6fd6", 0.28))
+    img = over(img, layer(hexc("#dcb76a", 0.85), cline(w, h, cuts, 2, 1.0)))
     save("tooltip", img, (18, 18, 18, 18))
 
 
 def slot():
     w = h = 80
-    r = 10
+    cuts = (12, 3, 12, 3)
     img = blank(w, h)
-    body = rrect(w, h, r)
-    img = over(img, layer(hexc("#070a1a", 0.92), body))
-    # inner shadow from top (recessed)
-    inner = np.clip(body - np.roll(rrect(w, h, r, 3), 3, 0), 0, 1)
+    body = chamfer(w, h, cuts)
+    img = over(img, layer(vgrad(h, w, hexc("#05081a", 0.94), hexc("#0d1434", 0.94)), body))
+    inner = np.clip(body - np.roll(chamfer(w, h, cuts, 3), 3, 0), 0, 1)
     img = over(img, layer(hexc("#000000", 0.7), blur(inner, 3) * body))
-    img = over(img, layer(hexc("#4b5aa8", 0.25), np.clip(body - blur(rrect(w, h, r, 6), 6), 0, 1) * body))
-    img = over(img, layer(gold_grad(h, w) * np.array([1, 1, 1, 0.75], np.float32), stroke(w, h, r, 1, 1.2)))
+    img = over(img, layer(hexc("#4b5aa8", 0.22), np.clip(body - blur(chamfer(w, h, cuts, 6), 6), 0, 1) * body))
+    img = over(img, layer(gold_grad(h, w) * np.array([1, 1, 1, 0.7], np.float32), cline(w, h, cuts, 1, 1.1)))
     save("slot", img, (24, 24, 24, 24))
 
 
 # ---------------------------------------------------------------- buttons
-def corner_brackets(w, h, inset=4.5, arm=9.0, thick=1.6):
-    """Small L-shaped filigree in each corner (inside the 24 px 9-slice corners, so they never stretch)."""
-    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32) + 0.5
-    m = np.zeros((h, w), np.float32)
-    for cx, sx in ((inset, 1), (w - inset, -1)):
-        for cy, sy in ((inset, 1), (h - inset, -1)):
-            dx, dy = (xx - cx) * sx, (yy - cy) * sy
-            horiz = (dx >= 0) & (dx <= arm) & (np.abs(dy) <= thick / 2)
-            vert = (dy >= 0) & (dy <= arm * 0.7) & (np.abs(dx) <= thick / 2)
-            m = np.maximum(m, (horiz | vert).astype(np.float32))
-    return blur(m, 0.5)
+BTN_CUTS = (12, 3, 12, 3)
 
 
-def button(name, top, bottom, line, line_w, glow=None, sheen=0.12, inner_shadow=False, brackets=None):
-    w, h, r = 96, 64, 12
+def button(name, top, bottom, line, line_w, glow=None, sheen=0.12, inner_shadow=False, accent=None, ticks=None):
+    w, h = 96, 64
+    cuts = BTN_CUTS
     img = blank(w, h)
-    body = rrect(w, h, r)
+    body = chamfer(w, h, cuts)
     img = over(img, layer(vgrad(h, w, top, bottom), body))
-    # soft indigo light pooling along the bottom edge gives the face some depth
-    pool = np.clip(body - blur(rrect(w, h, r, 4), 6), 0, 1) * body
-    img = over(img, layer(vgrad(h, w, hexc("#7f93ff", 0.0), hexc("#7f93ff", 0.28), 0.4, 1.0), pool))
+    pool = np.clip(body - blur(chamfer(w, h, cuts, 4), 6), 0, 1) * body
+    img = over(img, layer(vgrad(h, w, hexc("#8ea0ff", 0.0), hexc("#8ea0ff", 0.24), 0.4, 1.0), pool))
     if glow is not None:
-        img = over(img, layer(glow, np.clip(body - blur(rrect(w, h, r, 6), 7), 0, 1) * body))
+        img = over(img, layer(glow, np.clip(body - blur(chamfer(w, h, cuts, 6), 8), 0, 1) * body))
     if inner_shadow:
-        sh = np.clip(body - np.roll(rrect(w, h, r, 2), 4, 0), 0, 1)
+        sh = np.clip(body - np.roll(chamfer(w, h, cuts, 2), 4, 0), 0, 1)
         img = over(img, layer(hexc("#000000", 0.55), blur(sh, 2) * body))
     if sheen > 0:
-        # glass gloss: bright upper band with a crisp lower edge at 46 % height
-        gloss = rrect(w, h, r, 2.5)
-        gloss[int(h * 0.46):, :] *= 0.0
-        img = over(img, layer(vgrad(h, w, hexc("#ffffff", sheen * 1.6), hexc("#ffffff", sheen * 0.35), 0.0, 0.46), gloss))
-    img = over(img, layer(EDGE_DARK, stroke(w, h, r, 0, 1.0)))
-    img = over(img, layer(line, stroke(w, h, r, 1.5, line_w)))
-    img = over(img, layer(hexc("#ffffff", 0.16), stroke(w, h, r, 3.6, 0.8)))
-    if brackets is not None:
-        img = over(img, layer(brackets, corner_brackets(w, h)))
+        gloss = chamfer(w, h, cuts, 2.5)
+        gloss[int(h * 0.48):, :] *= 0.0
+        img = over(img, layer(vgrad(h, w, hexc("#ffffff", sheen * 1.4), hexc("#ffffff", sheen * 0.3), 0.0, 0.48), gloss))
+    img = over(img, layer(EDGE_DARK, cline(w, h, cuts, 0, 1.0)))
+    img = over(img, layer(line, cline(w, h, cuts, 1.5, line_w)))
+    img = over(img, layer(hexc("#ffffff", 0.12), cline(w, h, cuts, 1.5 + line_w + 1.2, 0.8)))
+    if accent is not None:
+        # short vertical accent bar on the left edge: the selection language of console JRPG menus
+        bar = np.zeros((h, w), np.float32)
+        bar[16:h - 16, 5:8] = 1
+        img = over(img, layer(accent, blur(bar, 0.5)))
+    if ticks is not None:
+        img = over(img, layer(ticks, cut_ticks(w, h, cuts, 0.5)))
     save(name, img, (24, 24, 24, 24))
 
 
 def buttons():
     gold = gold_grad(64, 96)
-    button("btn_normal", hexc("#34418a", 0.97), hexc("#10153a", 0.97), gold * np.array([1, 1, 1, 0.9], np.float32), 1.5,
-           brackets=hexc("#f3d996", 0.85))
+    button("btn_normal", hexc("#25307a", 0.97), hexc("#0d1236", 0.97), gold * np.array([1, 1, 1, 0.85], np.float32), 1.3,
+           accent=hexc("#dcb76a", 0.35), ticks=hexc("#dcb76a", 0.9))
     dawn = vgrad(64, 96, DAWN_HI, DAWN)
-    button("btn_hover", hexc("#4656a8", 0.98), hexc("#1a2258", 0.98), dawn, 2.2, glow=hexc("#ffb15c", 0.4), sheen=0.16,
-           brackets=hexc("#fff0c8", 1.0))
-    button("btn_pressed", hexc("#0f1433", 0.97), hexc("#1c2558", 0.97), vgrad(64, 96, GOLD, DAWN), 1.8,
-           sheen=0.0, inner_shadow=True, brackets=hexc("#ffcf86", 0.9))
-    button("btn_disabled", hexc("#24262f", 0.85), hexc("#15161c", 0.85), hexc("#5a5e6c", 0.75), 1.0, sheen=0.05)
+    button("btn_hover", hexc("#4458b8", 0.98), hexc("#1a2462", 0.98), dawn, 2.0, glow=hexc("#ffb15c", 0.38), sheen=0.16,
+           accent=hexc("#ffe3b0", 1.0), ticks=hexc("#ffe3b0", 1.0))
+    button("btn_pressed", hexc("#0e1436", 0.97), hexc("#1e2a66", 0.97), vgrad(64, 96, GOLD, DAWN), 1.7,
+           sheen=0.0, inner_shadow=True, accent=hexc("#ffb15c", 1.0), ticks=hexc("#ffcf86", 0.9))
+    button("btn_disabled", hexc("#22252f", 0.85), hexc("#14161c", 0.85), hexc("#5a5e6c", 0.7), 1.0, sheen=0.04)
 
 
 def focus_glow():
     w = h = 128
-    ring = stroke(w, h, 16, 22, 3.0)
+    cuts = (34, 25, 34, 25)  # matches the button cut once the 22 px glow margin is added
+    ring = cline(w, h, cuts, 22, 3.0)
     glow = np.clip(blur(ring, 8) * 2.2, 0, 1)
     img = layer(hexc("#ff9a3c", 0.85), glow)
-    img = over(img, layer(hexc("#ffd9a0", 1.0), stroke(w, h, 16, 22.5, 1.6)))
+    img = over(img, layer(hexc("#ffdcaa", 1.0), cline(w, h, cuts, 22.5, 1.6)))
     save("focus_glow", img, (48, 48, 48, 48))
 
 
 def tabs():
-    w, h, r = 96, 56, 12
-    corners = (True, True, False, False)
-    body = rrect(w, h, r, 0, corners)
-    act = layer(vgrad(h, w, hexc("#3a4790", 0.97), hexc("#18204c", 0.97)), body)
+    w, h = 96, 56
+    cuts = (12, 12, 0, 0)
+    body = chamfer(w, h, cuts)
+    act = layer(vgrad(h, w, hexc("#3b4ca4", 0.97), hexc("#16205a", 0.97)), body)
     act = over(act, layer(vgrad(h, w, hexc("#ffffff", 0.16), hexc("#ffffff", 0), 0, 0.5), body))
-    act = over(act, layer(EDGE_DARK, stroke(w, h, r, 0, 1.0, corners)))
-    act = over(act, layer(gold_grad(h, w), stroke(w, h, r, 1.5, 1.4, corners)))
+    act = over(act, layer(EDGE_DARK, cline(w, h, cuts, 0, 1.0)))
+    act = over(act, layer(gold_grad(h, w), cline(w, h, cuts, 1.5, 1.3)))
     underline = np.zeros((h, w), np.float32)
-    underline[h - 4:h - 1, 6:w - 6] = 1
-    act = over(act, layer(hexc("#ffb15c", 0.9), blur(underline, 1.5) * 1.5))
-    act = over(act, layer(hexc("#ffe0a8"), underline * 0.9))
+    underline[h - 5:h - 1, 4:w - 4] = 1
+    act = over(act, layer(hexc("#ffb15c", 0.9), blur(underline, 2.0) * 1.6))
+    act = over(act, layer(hexc("#ffe3b0"), underline * 0.95))
     save("tab_active", act, (24, 6, 24, 20))
-    ina = layer(vgrad(h, w, hexc("#1a2048", 0.85), hexc("#0f1430", 0.85)), body)
-    ina = over(ina, layer(EDGE_DARK, stroke(w, h, r, 0, 1.0, corners)))
-    ina = over(ina, layer(hexc("#5b6596", 0.6), stroke(w, h, r, 1.5, 1.0, corners)))
+    ina = layer(vgrad(h, w, hexc("#18204e", 0.82), hexc("#0d1230", 0.82)), body)
+    ina = over(ina, layer(EDGE_DARK, cline(w, h, cuts, 0, 1.0)))
+    ina = over(ina, layer(hexc("#5b6aa6", 0.55), cline(w, h, cuts, 1.5, 1.0)))
     save("tab_inactive", ina, (24, 6, 24, 20))
 
 
@@ -370,55 +378,53 @@ def bars():
 
 # ---------------------------------------------------------------- portrait
 def portrait():
+    """Slim double gold ring with a jewel at the base and three small studs, like a console JRPG party face."""
     s = 160
     c = s / 2
-    ring_o, ring_i = 78, 69
-    outer = ellipse(s, s, c, c, ring_o)
-    inner = ellipse(s, s, c, c, ring_i)
-    ring = np.clip(outer - inner, 0, 1)
-    img = layer(hexc("#000000", 0.6), np.clip(blur(outer, 2) - inner, 0, 1))
-    img = over(img, layer(vgrad(s, s, GOLD_HI, GOLD_LO), ring))
-    # engraved groove
-    groove = np.clip(ellipse(s, s, c, c, 74.4) - ellipse(s, s, c, c, 73.2), 0, 1)
-    img = over(img, layer(hexc("#5a3f16", 0.8), groove))
-    img = over(img, layer(hexc("#000000", 0.85), np.clip(inner - ellipse(s, s, c, c, ring_i - 1.5), 0, 1)))
-    # four jewels on the ring
-    im = Image.new("L", (s * SS, s * SS), 0)
-    d = ImageDraw.Draw(im)
-    for (x, y) in ((c, c - 73.5), (c + 73.5, c), (c, c + 73.5), (c - 73.5, c)):
-        rr = 7
-        d.polygon([((x) * SS, (y - rr) * SS), ((x + rr) * SS, y * SS), (x * SS, (y + rr) * SS), ((x - rr) * SS, y * SS)],
-                  fill=255)
-    jew = downsample(im, s, s)
-    img = over(img, layer(hexc("#000000", 0.7), blur(jew, 1.5)))
-    img = over(img, layer(vgrad(s, s, GOLD_HI, GOLD), jew))
+    ring_i = 69
+    img = layer(hexc("#000000", 0.55), np.clip(blur(ellipse(s, s, c, c, 79), 2.5) - ellipse(s, s, c, c, ring_i), 0, 1))
+    band = np.clip(ellipse(s, s, c, c, 77.5) - ellipse(s, s, c, c, ring_i), 0, 1)
+    img = over(img, layer(vgrad(s, s, hexc("#1a2252", 0.96), hexc("#090d24", 0.96)), band))
+    outer = np.clip(ellipse(s, s, c, c, 77.5) - ellipse(s, s, c, c, 75.6), 0, 1)
+    inner = np.clip(ellipse(s, s, c, c, ring_i + 1.8) - ellipse(s, s, c, c, ring_i), 0, 1)
+    img = over(img, layer(vgrad(s, s, GOLD_HI, GOLD_LO), np.maximum(outer, inner)))
+    img = over(img, layer(hexc("#000000", 0.8), np.clip(ellipse(s, s, c, c, ring_i) - ellipse(s, s, c, c, ring_i - 1.4), 0, 1)))
+    studs = np.zeros((s, s), np.float32)
+    for (x, y) in ((c, c - 73.5), (c + 73.5, c), (c - 73.5, c)):
+        studs = np.maximum(studs, diamond_at(s, s, x, y, 4.5))
+    img = over(img, gold_mask_layer(studs, s, s))
+    jewel_set = diamond_at(s, s, c, c + 73.5, 9.5)
+    jewel = diamond_at(s, s, c, c + 73.5, 5.5)
+    img = over(img, gold_mask_layer(jewel_set, s, s))
+    img = over(img, layer(vgrad(s, s, hexc("#ffd7a0"), hexc("#ff7f36")), jewel))
+    img = over(img, layer(hexc("#ffffff", 0.8), jewel * (np.roll(jewel, 2, 0) < 0.5)))
     save("portrait_frame", img)
     save("portrait_mask", layer(hexc("#ffffff"), ellipse(s, s, c, c, ring_i + 0.5)))
     yy, xx = np.mgrid[0:s, 0:s]
     dist = np.sqrt((xx - c) ** 2 + (yy - c * 0.8) ** 2) / ring_i
     t = np.clip(dist, 0, 1)[..., None]
-    col = hexc("#3a4a9a") * (1 - t) + hexc("#0b1028") * t
+    col = hexc("#3d4fa8") * (1 - t) + hexc("#0b1028") * t
     bg = layer(col, ellipse(s, s, c, c, ring_i + 0.5))
     save("portrait_bg", bg)
 
 
 # ---------------------------------------------------------------- ornaments
 def separator():
+    """Hairline with a hollow centre diamond flanked by two studs; fades out toward both ends."""
     w, h = 512, 24
     cy = h / 2
-    im = Image.new("L", (w * SS, h * SS), 0)
-    d = ImageDraw.Draw(im)
-    d.line([(8 * SS, cy * SS), ((w - 8) * SS, cy * SS)], fill=255, width=int(1.4 * SS))
     cx = w / 2
-    for (x, rr) in ((cx, 7.5), (cx - 22, 3), (cx + 22, 3)):
-        d.polygon([(x * SS, (cy - rr) * SS), ((x + rr) * SS, cy * SS), (x * SS, (cy + rr) * SS), ((x - rr) * SS, cy * SS)], fill=255)
-    d.arc([((cx - 15) * SS, (cy - 8) * SS), ((cx - 1) * SS, (cy + 8) * SS)], 100, 260, fill=255, width=int(1.2 * SS))
-    d.arc([((cx + 1) * SS, (cy - 8) * SS), ((cx + 15) * SS, (cy + 8) * SS)], -80, 80, fill=255, width=int(1.2 * SS))
-    m = downsample(im, w, h)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32) + 0.5
+    line = ((np.abs(yy - cy) <= 0.7) & (np.abs(xx - cx) > 16)).astype(np.float32)
+    m = blur(line, 0.4)
+    m = np.maximum(m, np.clip(diamond_at(w, h, cx, cy, 8) - diamond_at(w, h, cx, cy, 5.6), 0, 1))
+    m = np.maximum(m, diamond_at(w, h, cx, cy, 2.6))
+    for x in (cx - 26, cx + 26):
+        m = np.maximum(m, diamond_at(w, h, x, cy, 2.8))
     x = np.abs(np.linspace(-1, 1, w))
-    fade = np.clip((1 - x) / 0.55, 0, 1) ** 1.4
+    fade = np.clip((1 - x) / 0.6, 0, 1) ** 1.3
     m = m * fade[None, :]
-    img = layer(hexc("#ffb15c", 0.35), blur(m, 2.5))
+    img = layer(hexc("#ffb15c", 0.30), blur(m, 2.5))
     img = over(img, layer(vgrad(h, w, GOLD_HI, GOLD), m))
     save("separator", img)
 
@@ -426,28 +432,25 @@ def separator():
     save("glow_line", layer(hexc("#ffffff"), gl.astype(np.float32)))
 
 
+
 def cursor():
+    """Sleek double chevron (pointing right) with a warm glow."""
     s = 48
-    im = Image.new("L", (s * SS, s * SS), 0)
-    d = ImageDraw.Draw(im)
-    pts = [(10, 10), (40, 24), (10, 38), (17, 24)]
-    d.polygon([(x * SS, y * SS) for x, y in pts], fill=255)
-    m = downsample(im, s, s)
-    img = layer(hexc("#ff8a2a", 0.75), np.clip(blur(m, 4) * 1.6, 0, 1))
-    img = over(img, layer(hexc("#1a0c04", 0.95), np.clip(blur(m, 0.9) * 3, 0, 1)))
+    m = np.maximum(poly(s, s, [(8, 11), (22, 24), (8, 37), (13, 24)]), poly(s, s, [(20, 9), (40, 24), (20, 39), (27, 24)]))
+    img = layer(hexc("#ff8a2a", 0.7), np.clip(blur(m, 4) * 1.6, 0, 1))
+    img = over(img, layer(hexc("#1a0c04", 0.9), np.clip(blur(m, 0.9) * 3, 0, 1)))
     img = over(img, layer(vgrad(s, s, DAWN_HI, hexc("#ff9b3d"), 0.25, 0.8), m))
     hl = np.clip(m - np.roll(m, 2, 0), 0, 1)
     img = over(img, layer(hexc("#ffffff", 0.7), hl))
     save("cursor_arrow", img)
 
     s = 32
-    im = Image.new("L", (s * SS, s * SS), 0)
-    ImageDraw.Draw(im).polygon([(6 * SS, 9 * SS), (26 * SS, 9 * SS), (16 * SS, 24 * SS)], fill=255)
-    m = downsample(im, s, s)
+    m = poly(s, s, [(6, 9), (16, 15), (26, 9), (16, 24)])
     img = layer(hexc("#ff9a3c", 0.7), np.clip(blur(m, 3) * 1.5, 0, 1))
     img = over(img, layer(hexc("#1a0c04", 0.9), np.clip(blur(m, 0.8) * 3, 0, 1)))
     img = over(img, layer(vgrad(s, s, DAWN_HI, hexc("#ffa040"), 0.3, 0.75), m))
     save("arrow_down", img)
+
 
 
 def ribbon():
@@ -524,18 +527,17 @@ def overlays():
 
 
 def nameplate():
-    w, h, r = 256, 52, 10
-    body = rrect(w, h, r)
-    img = layer(hgrad(h, w, hexc("#3a3170", 0.97), hexc("#161a42", 0.97)), body)
-    img = over(img, layer(vgrad(h, w, hexc("#ffffff", 0.14), hexc("#ffffff", 0), 0, 0.5), rrect(w, h, r, 2)))
-    img = over(img, layer(EDGE_DARK, stroke(w, h, r, 0, 1.0)))
-    img = over(img, layer(gold_grad(h, w), stroke(w, h, r, 2, 1.5)))
-    jew = np.zeros((h, w), np.float32)
-    im = Image.new("L", (w * SS, h * SS), 0)
-    ImageDraw.Draw(im).polygon([(14 * SS, (h / 2 - 6) * SS), (20 * SS, h / 2 * SS), (14 * SS, (h / 2 + 6) * SS), (8 * SS, h / 2 * SS)], fill=255)
-    jew = downsample(im, w, h)
-    img = over(img, gold_mask_layer(jew, w, h))
+    w, h = 256, 52
+    cuts = (12, 3, 18, 3)
+    body = chamfer(w, h, cuts)
+    img = layer(hgrad(h, w, hexc("#3a3a8c", 0.97), hexc("#141a48", 0.97)), body)
+    img = over(img, layer(vgrad(h, w, hexc("#ffffff", 0.14), hexc("#ffffff", 0), 0, 0.5), chamfer(w, h, cuts, 2)))
+    img = over(img, layer(EDGE_DARK, cline(w, h, cuts, 0, 1.0)))
+    img = over(img, layer(gold_grad(h, w), cline(w, h, cuts, 2, 1.4)))
+    img = over(img, layer(GOLD, cut_ticks(w, h, cuts, 0.5)))
+    img = over(img, gold_mask_layer(diamond_at(w, h, 16, h / 2, 6), w, h))
     save("nameplate", img, (30, 20, 20, 20))
+
 
 
 def keycap():

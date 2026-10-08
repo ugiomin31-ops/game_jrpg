@@ -35,6 +35,7 @@ namespace Abyss.UI
         public void Initialize(GameApp owner)
         {
             app = owner;
+            UIArtwork.HeroJob = id => app.State?.Hero(id)?.Job;
             root = UIRoot.Create();
             root.ReducedMotion = app.Preferences.ReducedMotion;
             Content = UIFactory.Rect(root.Hud, "Game Content").Stretch();
@@ -58,8 +59,9 @@ namespace Abyss.UI
         }
         string T(string key, string fallback = null) => app.DB.Text.TryGetValue(key, out var value) ? value : fallback ?? "정보를 확인할 수 없습니다.";
         string HeroName(string id) => app.DB.Heroes.TryGetValue(id, out var d) ? d.DisplayName : "동료";
-        string ItemName(string id) => app.DB.Items.TryGetValue(id, out var d) ? d.DisplayName : app.DB.Equipment.TryGetValue(id, out var e) ? e.DisplayName : "물품";
-        string EquipmentName(string id) => app.DB.Equipment.TryGetValue(id, out var e) ? e.DisplayName : T("slot_none");
+        string ItemName(string id) => app.DB.Items.TryGetValue(id, out var d) ? d.DisplayName : app.DB.Equipment.ContainsKey(id) ? EquipmentName(id) : "물품";
+        /// <summary>Equipment name with its smithy enhancement ("무쇠 장검 +3").</summary>
+        string EquipmentName(string id) => app.DB.Equipment.TryGetValue(id ?? "", out var e) ? Enhancement.DisplayName(e, Enhancement.LevelOf(app.State, id)) : T("slot_none");
         string DifficultyName(Difficulty d) => T(d == Difficulty.Easy ? "difficulty_easy" : d == Difficulty.Hard ? "difficulty_hard" : "difficulty_normal");
         void Confirm(string title, string message, Action action) => UIModal.Confirm(root.Modals, title, message, yes => { if (yes) action(); }, defaultYes: false);
         void Execute(ServiceResult result, GameMenuScreen screen = null)
@@ -94,11 +96,10 @@ namespace Abyss.UI
                 foreach (var kv in contents.Items)
                 {
                     app.DB.Items.TryGetValue(kv.Key, out var item);
-                    bool material = item != null && item.ItemType == ItemType.Material;
                     entries.Add(new UILootEntry
                     {
                         Icon = UIArtwork.Item(kv.Key), Name = ItemName(kv.Key), Count = kv.Value,
-                        Tag = UITheme.RarityName(item?.Rarity ?? 0) + (material ? " · 재료" : " · 소모품"), Accent = UITheme.RarityColor(item?.Rarity ?? 0),
+                        Tag = UITheme.RarityName(item?.Rarity ?? 0) + " · " + UITheme.ItemCategory(item?.ItemType ?? ItemType.Healing), Accent = UITheme.RarityColor(item?.Rarity ?? 0),
                     });
                 }
             }
@@ -350,7 +351,8 @@ namespace Abyss.UI
             foreach (var h in heroHud)
             {
                 var stats = PartyStats.EffectiveStats(app.DB, h.Hero);
-                h.Name.text = $"{HeroName(h.Hero.Id)}  Lv.{h.Hero.Level}";
+                h.Name.text = $"{HeroLabel(h.Hero)}  Lv.{h.Hero.Level}";
+                if (h.Portrait != null) h.Portrait.SetSprite(UIArtwork.Hero(h.Hero.Id));
                 h.Hp.SetValue(h.Hero.Hp, stats.MaxHp); h.Mp.SetValue(h.Hero.Mp, stats.MaxMp);
                 var status = new List<string>();
                 if (h.Hero.Hp <= 0) status.Add(T("knocked_out"));

@@ -210,7 +210,7 @@ namespace Abyss.EditorTools
     [InitializeOnLoad]
     public static class AbyssMaterials
     {
-        static AbyssMaterials() { EditorApplication.delayCall += () => { EnsureAll(); TexturedMaterials.SyncAll(); ApplyPolish(); }; }
+        static AbyssMaterials() { EditorApplication.delayCall += () => { EnsureAll(); TexturedMaterials.SyncAll(); RestoreToonLook(); }; }
 
         public static string PathFor(string slot, bool env) =>
             $"{AbyssArtImporter.MaterialDir}/{slot}{(env ? "_Env" : "_Char")}.mat";
@@ -227,14 +227,14 @@ namespace Abyss.EditorTools
             {
                 Make("M_Toon", env, shader, m =>
                 {
-                    m.SetFloat("_OutlineWidth", env ? 0.002f : 0.0055f);
-                    m.SetFloat("_NoiseStrength", env ? 0.065f : 0f);
-                    m.SetFloat("_RimStrength", env ? 0.08f : 0.22f);
+                    m.SetFloat("_OutlineWidth", env ? 0.004f : 0.011f);
+                    m.SetFloat("_NoiseStrength", env ? 0.10f : 0f);
+                    m.SetFloat("_RimStrength", env ? 0.12f : 0.35f);
                 });
                 Make("M_Emit", env, shader, m =>
                 {
-                    m.SetFloat("_EmissionStrength", 1.1f);
-                    m.SetFloat("_OutlineWidth", env ? 0f : 0.003f);
+                    m.SetFloat("_EmissionStrength", 1.6f);
+                    m.SetFloat("_OutlineWidth", env ? 0f : 0.006f);
                     m.SetFloat("_RimStrength", 0.2f);
                 });
                 Make("M_Clear", env, shader, m =>
@@ -252,44 +252,49 @@ namespace Abyss.EditorTools
             }
         }
 
-        /// <summary>Refresh generated shared materials so existing projects receive the same art direction as fresh imports.</summary>
-        [MenuItem("Abyss/Apply Art Polish")]
-        public static void ApplyPolish()
+        /// <summary>
+        /// Undoes the toned-down "Apply Art Polish" pass (thin outlines, weak rim, soft shadow bands) on projects that
+        /// already ran it. Only values that still equal that pass's exact output are reset, so hand tuning survives.
+        /// </summary>
+        [MenuItem("Abyss/Restore Toon Look")]
+        public static void RestoreToonLook()
         {
             foreach (bool env in new[] { false, true })
             {
-                Tune(Get("M_Toon", env), "_OutlineWidth", env ? .002f : .0055f);
-                Tune(Get("M_Toon", env), "_NoiseStrength", env ? .065f : 0f);
-                Tune(Get("M_Toon", env), "_RimStrength", env ? .08f : .22f);
-                Tune(Get("M_Emit", env), "_EmissionStrength", 1.1f);
-                Tune(Get("M_Emit", env), "_OutlineWidth", env ? 0f : .003f);
-                foreach (string slot in SlotNamesForPolish)
+                var toon = Get("M_Toon", env); var emit = Get("M_Emit", env);
+                Revert(toon, "_OutlineWidth", env ? .002f : .0055f, env ? .004f : .011f);
+                Revert(toon, "_NoiseStrength", .065f, .10f, env);
+                Revert(toon, "_RimStrength", env ? .08f : .22f, env ? .12f : .35f);
+                Revert(emit, "_EmissionStrength", 1.1f, 1.6f);
+                Revert(emit, "_OutlineWidth", .003f, .006f, !env);
+                foreach (var m in new[] { toon, emit, Get("M_Clear", env) })
                 {
-                    Tune(Get(slot, env), "_ShadowSoftness", .12f);
-                    Tune(Get(slot, env), "_MidBand", .16f);
-                    Tune(Get(slot, env), "_Specular", slot == "M_Clear" ? .35f : .08f);
+                    Revert(m, "_ShadowSoftness", .12f, .06f);
+                    Revert(m, "_MidBand", .16f, .25f);
                 }
+                Revert(toon, "_Specular", .08f, .12f);
+                Revert(emit, "_Specular", .08f, .12f);
+                Revert(Get("M_Clear", env), "_Specular", .35f, .5f);
             }
+            if (!AssetDatabase.IsValidFolder(AbyssArtImporter.ArtRoot.TrimEnd('/'))) return;
             foreach (string guid in AssetDatabase.FindAssets("t:Material", new[] { AbyssArtImporter.ArtRoot.TrimEnd('/') }))
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 if (!path.Contains("_mat/")) continue;
                 var m = AssetDatabase.LoadAssetAtPath<Material>(path);
                 if (m == null || m.shader.name != "Abyss/Toon") continue;
-                // Preserve custom outlines; migrate only the previous generated default.
-                if (Mathf.Approximately(m.GetFloat("_OutlineWidth"), .011f)) Tune(m, "_OutlineWidth", .003f);
-                Tune(m, "_ShadowSoftness", .12f);
-                Tune(m, "_RimStrength", .18f);
+                Revert(m, "_OutlineWidth", .003f, .011f);
+                Revert(m, "_ShadowSoftness", .12f, .06f);
+                Revert(m, "_RimStrength", .18f, .35f);
             }
         }
-        static readonly string[] SlotNamesForPolish = { "M_Toon", "M_Emit", "M_Clear" };
-        static void Tune(Material material, string property, float value)
-        {
-            if (material == null || Mathf.Approximately(material.GetFloat(property), value)) return;
-            material.SetFloat(property, value);
-            EditorUtility.SetDirty(material);
-        }
 
+        static void Revert(Material m, string property, float polished, float original, bool apply = true)
+        {
+            if (!apply || m == null || !m.HasProperty(property) || !Mathf.Approximately(m.GetFloat(property), polished)) return;
+            m.SetFloat(property, original);
+            EditorUtility.SetDirty(m);
+        }
 
         static void Make(string slot, bool env, Shader shader, System.Action<Material> setup)
         {
@@ -442,7 +447,7 @@ namespace Abyss.EditorTools
             bool decal = IsDecal(name);
             // Character defaults of M_Toon_Char; the textures carry painted shading, so no toon specular blob
             // except on cloth.
-            m.SetFloat("_OutlineWidth", decal ? 0f : 0.003f);
+            m.SetFloat("_OutlineWidth", decal ? 0f : 0.011f);
             m.SetFloat("_RimStrength", 0.35f);
             m.SetFloat("_NoiseStrength", 0f);
             m.SetFloat("_Specular", HasSuffix(name, "_CLOTH") ? 0.12f : 0f);

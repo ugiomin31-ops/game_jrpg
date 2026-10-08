@@ -38,29 +38,76 @@ namespace Abyss.Runtime.World
                     p.SunIntensity = 1.0f; p.SunColor = new Color(1f, 0.6f, 0.38f);
                     p.AmbientSky = new Color(0.55f, 0.32f, 0.24f); p.AmbientEquator = new Color(0.42f, 0.22f, 0.15f); p.AmbientGround = new Color(0.36f, 0.12f, 0.05f);
                     p.FogColor = new Color(0.24f, 0.08f, 0.04f); p.FogStart = 6; p.FogEnd = 36; p.BackgroundColor = new Color(0.12f, 0.04f, 0.02f);
-                    p.Bloom = .65f; p.BloomThreshold = 1.15f; p.Saturation = 18; p.Temperature = 20;
+                    p.Bloom = 1.45f; p.BloomThreshold = 0.9f; p.Saturation = 18; p.Temperature = 20;
                     break;
                 case "frost_grotto":
                     p.SunIntensity = 1.15f; p.SunColor = new Color(0.78f, 0.9f, 1f);
                     p.AmbientSky = new Color(0.55f, 0.7f, 0.95f); p.AmbientEquator = new Color(0.36f, 0.5f, 0.7f); p.AmbientGround = new Color(0.45f, 0.55f, 0.7f);
                     p.FogColor = new Color(0.42f, 0.58f, 0.75f); p.FogStart = 7; p.FogEnd = 40; p.BackgroundColor = new Color(0.3f, 0.45f, 0.62f);
-                    p.Bloom = .55f; p.BloomThreshold = 1.1f; p.Saturation = 6; p.Temperature = -16;
+                    p.Bloom = 1.15f; p.Saturation = 6; p.Temperature = -16;
                     break;
                 case "haunted_crypt":
                     p.SunIntensity = 0.6f; p.SunColor = new Color(0.55f, 0.55f, 0.9f);
                     p.AmbientSky = new Color(0.3f, 0.26f, 0.48f); p.AmbientEquator = new Color(0.18f, 0.16f, 0.28f); p.AmbientGround = new Color(0.08f, 0.06f, 0.12f);
                     p.FogColor = new Color(0.05f, 0.04f, 0.09f); p.FogStart = 4; p.FogEnd = 26; p.BackgroundColor = new Color(0.02f, 0.02f, 0.05f);
-                    p.Bloom = .6f; p.BloomThreshold = 1.1f; p.Saturation = 0; p.Vignette = 0.38f; p.Temperature = -10;
+                    p.Bloom = 1.3f; p.Saturation = 0; p.Vignette = 0.38f; p.Temperature = -10;
                     break;
                 case "verdant_ruins":
                     p.SunIntensity = 1.4f; p.SunColor = new Color(1f, 0.94f, 0.8f);
                     p.AmbientSky = new Color(0.62f, 0.75f, 0.8f); p.AmbientEquator = new Color(0.42f, 0.52f, 0.4f); p.AmbientGround = new Color(0.22f, 0.26f, 0.16f);
                     p.FogColor = new Color(0.6f, 0.74f, 0.76f); p.FogStart = 14; p.FogEnd = 60; p.BackgroundColor = new Color(0.55f, 0.75f, 0.85f);
-                    p.Bloom = .45f; p.Saturation = 12; p.Temperature = 6; p.Vignette = 0.2f;
+                    p.Bloom = 0.7f; p.Saturation = 20; p.Temperature = 6; p.Vignette = 0.2f;
                     break;
             }
             return p;
         }
+
+        /// <summary>
+        /// Floor look: the tileset preset (first-person or battle arena), then a region mood when the floor's overlay
+        /// names one. Chapters 5-7 reuse the frost / crypt / ember kits, so these moods make them read as new places:
+        /// tidewater = 가라앉은 신전 (sea-green underwater haze), voidglow = 심연의 핵 (violet glow, no sun),
+        /// trialfire = 시련의 회랑 (golden ember haze). The floor's fog_color tints the fog in every mood.
+        /// Other overlay names (vines, icicles, stalactites, cobwebs) keep the tileset look unchanged.
+        /// </summary>
+        public static AtmospherePreset ForFloor(Abyss.Logic.FloorDef floor, bool battle = false)
+        {
+            var p = battle ? ForTileset(floor.Tileset) : ForDungeon(floor.Tileset);
+            switch (floor.Overlay)
+            {
+                case "tidewater":
+                    p.SunColor = new Color(0.55f, 0.95f, 0.9f); p.SunIntensity = 0.85f; p.SunEuler = new Vector3(75, 10, 0);
+                    p.AmbientSky = new Color(0.25f, 0.6f, 0.62f); p.AmbientEquator = new Color(0.14f, 0.38f, 0.42f); p.AmbientGround = new Color(0.06f, 0.18f, 0.22f);
+                    p.ColorFilter = new Color(0.82f, 1f, 0.96f); p.Saturation = 10; p.Temperature = -22; p.Bloom = 1.25f; p.Vignette = 0.34f;
+                    p.TorchColor = new Color(0.45f, 1f, 0.9f);
+                    break;
+                case "voidglow":
+                    p.SunColor = new Color(0.7f, 0.45f, 1f); p.SunIntensity = 0.45f;
+                    p.AmbientSky = new Color(0.36f, 0.2f, 0.55f); p.AmbientEquator = new Color(0.2f, 0.1f, 0.32f); p.AmbientGround = new Color(0.12f, 0.03f, 0.16f);
+                    p.ColorFilter = new Color(0.92f, 0.82f, 1f); p.Saturation = 14; p.Contrast = 20; p.Bloom = 1.6f; p.BloomThreshold = 0.85f; p.Vignette = 0.42f;
+                    p.TorchColor = new Color(0.75f, 0.45f, 1f);
+                    break;
+                case "trialfire":
+                    p.SunColor = new Color(1f, 0.82f, 0.5f); p.SunIntensity = 1.1f;
+                    p.AmbientSky = new Color(0.62f, 0.45f, 0.28f); p.AmbientEquator = new Color(0.42f, 0.3f, 0.16f); p.AmbientGround = new Color(0.25f, 0.14f, 0.05f);
+                    p.ColorFilter = new Color(1f, 0.93f, 0.8f); p.Saturation = 8; p.Bloom = 1.5f; p.Temperature = 12;
+                    p.TorchColor = new Color(1f, 0.85f, 0.45f);
+                    break;
+                default:
+                    return p;
+            }
+            if (floor.FogColor != null && floor.FogColor.Length >= 3)
+            {
+                p.FogColor = new Color(floor.FogColor[0], floor.FogColor[1], floor.FogColor[2]);
+                p.BackgroundColor = p.FogColor * 0.6f;
+            }
+            return p;
+        }
+
+        /// <summary>Ambient particle tint of a floor (white when the data omits it).</summary>
+        public static Color ParticleTint(Abyss.Logic.FloorDef floor) =>
+            floor.AmbientParticleTint != null && floor.AmbientParticleTint.Length >= 3
+                ? new Color(floor.AmbientParticleTint[0], floor.AmbientParticleTint[1], floor.AmbientParticleTint[2], floor.AmbientParticleTint.Length > 3 ? floor.AmbientParticleTint[3] : 1f)
+                : Color.white;
 
         public static AtmospherePreset ForTileset(string tileset)
         {
@@ -80,7 +127,7 @@ namespace Abyss.Runtime.World
                         SunColor = new Color(0.75f, 0.88f, 1f), SunIntensity = 1.1f, SunEuler = new Vector3(60, 20, 0),
                         AmbientSky = new Color(0.5f, 0.65f, 0.9f), AmbientEquator = new Color(0.3f, 0.42f, 0.6f), AmbientGround = new Color(0.15f, 0.2f, 0.3f),
                         FogColor = new Color(0.12f, 0.2f, 0.32f), FogStart = 14, FogEnd = 50, BackgroundColor = new Color(0.07f, 0.12f, 0.22f),
-                        Bloom = .6f, BloomThreshold = 1.1f, Saturation = 10, Temperature = -14, TorchColor = new Color(0.55f, 0.85f, 1f),
+                        Bloom = 1.1f, Saturation = 10, Temperature = -14, TorchColor = new Color(0.55f, 0.85f, 1f),
                     };
                 case "ember_caverns":
                     return new AtmospherePreset
@@ -88,7 +135,7 @@ namespace Abyss.Runtime.World
                         SunColor = new Color(1f, 0.62f, 0.38f), SunIntensity = 1.15f, SunEuler = new Vector3(48, 140, 0),
                         AmbientSky = new Color(0.6f, 0.38f, 0.3f), AmbientEquator = new Color(0.42f, 0.24f, 0.18f), AmbientGround = new Color(0.3f, 0.1f, 0.05f),
                         FogColor = new Color(0.25f, 0.09f, 0.05f), FogStart = 14, FogEnd = 48, BackgroundColor = new Color(0.16f, 0.05f, 0.03f),
-                        Bloom = .6f, BloomThreshold = 1.15f, Saturation = 12, Temperature = 18, TorchColor = new Color(1f, 0.55f, 0.25f),
+                        Bloom = 1.25f, Saturation = 16, Temperature = 18, TorchColor = new Color(1f, 0.55f, 0.25f),
                     };
                 case "haunted_crypt":
                     return new AtmospherePreset
@@ -96,7 +143,7 @@ namespace Abyss.Runtime.World
                         SunColor = new Color(0.62f, 0.6f, 0.95f), SunIntensity = 0.75f, SunEuler = new Vector3(65, -60, 0),
                         AmbientSky = new Color(0.36f, 0.32f, 0.55f), AmbientEquator = new Color(0.22f, 0.2f, 0.34f), AmbientGround = new Color(0.1f, 0.08f, 0.14f),
                         FogColor = new Color(0.07f, 0.06f, 0.13f), FogStart = 10, FogEnd = 42, BackgroundColor = new Color(0.03f, 0.03f, 0.07f),
-                        Bloom = .55f, BloomThreshold = 1.1f, Saturation = 4, Temperature = -8, TorchColor = new Color(0.6f, 0.9f, 0.85f),
+                        Bloom = 1.2f, Saturation = 4, Temperature = -8, TorchColor = new Color(0.6f, 0.9f, 0.85f),
                     };
                 case "town_night":
                     return new AtmospherePreset
@@ -104,15 +151,15 @@ namespace Abyss.Runtime.World
                         SunColor = new Color(0.58f, 0.66f, 1f), SunIntensity = 0.7f, SunEuler = new Vector3(42, -50, 0),
                         AmbientSky = new Color(0.32f, 0.36f, 0.62f), AmbientEquator = new Color(0.24f, 0.24f, 0.4f), AmbientGround = new Color(0.12f, 0.1f, 0.14f),
                         FogColor = new Color(0.1f, 0.11f, 0.22f), FogStart = 30, FogEnd = 110, BackgroundColor = new Color(0.06f, 0.07f, 0.16f),
-                        Bloom = .55f, BloomThreshold = 1.1f, Saturation = 8, Temperature = -6, TorchColor = new Color(1f, 0.72f, 0.42f),
+                        Bloom = 1.0f, Saturation = 8, Temperature = -6, TorchColor = new Color(1f, 0.72f, 0.42f),
                     };
                 case "town_dawn":
                     return new AtmospherePreset
                     {
-                        SunColor = new Color(1f, 0.92f, 0.8f), SunIntensity = 1.15f, SunEuler = new Vector3(18, 70, 0),
-                        AmbientSky = new Color(.64f, .72f, .8f), AmbientEquator = new Color(.42f, .5f, .56f), AmbientGround = new Color(.2f, .22f, .26f),
-                        FogColor = new Color(.61f, .72f, .75f), FogStart = 40, FogEnd = 140, BackgroundColor = new Color(.66f, .77f, .86f),
-                        Bloom = .45f, BloomThreshold = 1.2f, Saturation = 5, Temperature = 4, TorchColor = new Color(1f, 0.8f, 0.55f),
+                        SunColor = new Color(1f, 0.78f, 0.55f), SunIntensity = 1.4f, SunEuler = new Vector3(18, 70, 0),
+                        AmbientSky = new Color(0.75f, 0.62f, 0.68f), AmbientEquator = new Color(0.55f, 0.45f, 0.45f), AmbientGround = new Color(0.2f, 0.16f, 0.16f),
+                        FogColor = new Color(0.85f, 0.6f, 0.5f), FogStart = 40, FogEnd = 140, BackgroundColor = new Color(0.9f, 0.62f, 0.5f),
+                        Bloom = 1.1f, Saturation = 14, Temperature = 10, TorchColor = new Color(1f, 0.8f, 0.55f),
                     };
                 default:
                     return new AtmospherePreset();

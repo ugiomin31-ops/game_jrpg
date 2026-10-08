@@ -54,6 +54,9 @@ namespace Abyss.Logic.Battle
         public double Evade { get; private set; }
         /// <summary>Element of a plain attack (0 = none).</summary>
         public int AttackElement { get; private set; }
+        /// <summary>Gear regeneration at the end of each own turn (party units): ratio of max HP, flat MP.</summary>
+        public double HpRegenRatio { get; private set; }
+        public int MpRegenPerTurn { get; private set; }
 
         public int MaxShield { get; private set; }
         public int Shield { get; internal set; }
@@ -67,6 +70,8 @@ namespace Abyss.Logic.Battle
         public bool Summoned { get; internal set; }
         public string SummonerId { get; internal set; } = "";
         public bool Enraged { get; internal set; }
+        /// <summary>Ran away (runner AI): out of the fight, but neither defeated nor rewarded.</summary>
+        public bool Escaped { get; internal set; }
         public int ExperienceReward { get; private set; }
         public int GoldReward { get; private set; }
 
@@ -128,6 +133,10 @@ namespace Abyss.Logic.Battle
             foreach (int e in spec.ElementResists) u._resistances.Add(e);
             foreach (var s in spec.StatusImmunities) u._immunities.Add(s);
             u.MaxTp = MaxTpValue;
+            u.AttackElement = Math.Max(0, spec.AttackElement);
+            u.HpRegenRatio = Gd.Clamp(Gd.D(spec.HpRegen), 0.0, 1.0);
+            u.MpRegenPerTurn = Math.Max(0, spec.MpRegen);
+            if (u.Hp > 0) u.Tp = Gd.Clamp(spec.TpStart, 0, u.MaxTp);
             return u;
         }
 

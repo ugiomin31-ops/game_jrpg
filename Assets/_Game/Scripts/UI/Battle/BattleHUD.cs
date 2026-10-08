@@ -44,6 +44,7 @@ namespace Abyss.UI.Battle
         ScrollRect _detailScroll;
         ScrollRect _rewardScroll;
         TMP_Text _menuHint, _rewardCounter;
+        readonly List<Image> _bannerWash = new List<Image>();
         RectTransform _announce, _announceBand;
         TMP_Text _announceTitle, _announceSub;
         CanvasGroup _announceGroup;
@@ -127,7 +128,23 @@ namespace Abyss.UI.Battle
             _cutin.gameObject.SetActive(false);
             var banner = UIFactory.Panel(_root, UIPanelStyle.Dark, false);
             _banner = banner.Rect.Place(UIAnchor.Top, new Vector2(0, Compact ? -150 : -182), new Vector2(760, 74));
-            _bannerText = UIFactory.Label(banner.transform, "", 36, align: TextAlignmentOptions.Center);
+            // Element wash from both ends towards the centre, with glowing rails, so the skill name reads as a call-out.
+            foreach (float side in new[] { 1f, -1f })
+            {
+                var wash = UIFactory.Image(banner.transform, UISprites.GradientH, Color.clear, "Wash");
+                wash.rectTransform.anchorMin = new Vector2(side > 0 ? 0f : .5f, 0f); wash.rectTransform.anchorMax = new Vector2(side > 0 ? .5f : 1f, 1f);
+                wash.rectTransform.offsetMin = wash.rectTransform.offsetMax = Vector2.zero;
+                wash.rectTransform.localScale = new Vector3(-side, 1f, 1f);
+                _bannerWash.Add(wash);
+            }
+            foreach (float y in new[] { 0f, 1f })
+            {
+                var rail = UIFactory.Image(banner.transform, UISprites.GlowLine, UITheme.Gold, "Rail");
+                rail.rectTransform.anchorMin = new Vector2(0f, y); rail.rectTransform.anchorMax = new Vector2(1f, y);
+                rail.rectTransform.sizeDelta = new Vector2(0f, 5f); rail.rectTransform.anchoredPosition = Vector2.zero;
+                _bannerWash.Add(rail);
+            }
+            _bannerText = UIFactory.Label(banner.transform, "", 40, UIFont.Title, align: TextAlignmentOptions.Center, fx: UITextFx.Heavy);
             _bannerText.Rt().Stretch(16, 6, 16, 6);
             _bannerText.overflowMode = TextOverflowModes.Ellipsis;
             _banner.gameObject.SetActive(false);
@@ -421,11 +438,19 @@ namespace Abyss.UI.Battle
             {
                 if (option.IsUltimate != ultimate) continue;
                 var captured = option;
-                Add(option.DisplayName + "  MP " + option.MpCost + " / TP " + option.TpCost,
+                Add(option.DisplayName + CostTag(option.MpCost, option.TpCost),
                     option.Skill.Description + "\n" + ElementName((int)option.Skill.Element) + " · " + RuleName(option.Target) + " · " + option.Skill.HitCount + "회",
                     option.Usable, option.ReasonKey, () => Targets(BattleCommand.Skill(captured.Id), RememberChoices(() => Skills(ultimate, returnToCommands))), icon: UIArtwork.Element(option.Skill.Element));
             }
             Render();
+        }
+        /// <summary>Cost chip after a skill name: MP in blue, TP in amber, smaller than the name (nothing when free).</summary>
+        static string CostTag(int mp, int tp)
+        {
+            string tag = "";
+            if (mp > 0) tag += "  <size=78%><color=#7fc0ff>MP " + mp + "</color></size>";
+            if (tp > 0) tag += "  <size=78%><color=#ffd35a>TP " + tp + "</color></size>";
+            return tag;
         }
         void Items() => Items(null);
         void Items(Action back)
@@ -602,12 +627,128 @@ namespace Abyss.UI.Battle
             group.alpha = 0f;
             UITween.To(rt, duration, t => { rt.anchoredPosition = home - new Vector2(from * (1f - t), 0f); group.alpha = t; }, UIEase.OutCubic);
         }
-        public void HideCutIn() { _cutin.gameObject.SetActive(false); }
+        public void HideCutIn()
+        {
+            _cutin.gameObject.SetActive(false);
+            if (_ult == null || !_ult.gameObject.activeSelf) return;
+            UITween.Kill(_ult);
+            UITween.To(_ult, .16f, t => _ultGroup.alpha = 1f - t, UIEase.InQuad)
+                .OnComplete(() => { if (_ult != null) _ult.gameObject.SetActive(false); });
+        }
+
+        RectTransform _ult, _ultBand, _ultFace, _ultText;
+        CanvasGroup _ultGroup;
+        Image _ultFlash, _ultTint, _ultFaceImage, _ultEdgeTop, _ultEdgeBottom;
+        TMP_Text _ultActor, _ultSkill;
+        readonly List<RectTransform> _ultLines = new List<RectTransform>();
+
+        /// <summary>
+        /// Persona / Star Rail style ultimate call-out: a dark band snaps open across the screen, the hero's face
+        /// slides in on the left over speed lines in the element colour, and the skill name punches in on the right.
+        /// </summary>
+        void BuildUltimate()
+        {
+            _ult = UIFactory.Rect(_root, "Ultimate cut-in").Stretch();
+            _ultGroup = _ult.gameObject.AddComponent<CanvasGroup>();
+            _ultGroup.blocksRaycasts = false; _ultGroup.interactable = false;
+            _ultFlash = UIFactory.Image(_ult, UISprites.White, Color.clear, "Flash");
+            _ultFlash.rectTransform.Stretch();
+            _ultBand = UIFactory.Rect(_ult, "Band");
+            _ultBand.anchorMin = new Vector2(0f, .5f); _ultBand.anchorMax = new Vector2(1f, .5f);
+            _ultBand.sizeDelta = new Vector2(0f, Compact ? 260f : 320f); _ultBand.anchoredPosition = new Vector2(0f, 40f);
+            _ultBand.gameObject.AddComponent<RectMask2D>();
+            UIFactory.Image(_ultBand, UISprites.White, new Color(.02f, .03f, .09f, .9f), "Fill").rectTransform.Stretch();
+            // Element tint strongest behind the face, fading out towards the skill name.
+            _ultTint = UIFactory.Image(_ultBand, UISprites.GradientH, Color.white, "Tint");
+            _ultTint.rectTransform.Stretch();
+            _ultTint.rectTransform.localScale = new Vector3(-1f, 1f, 1f);
+            var random = new System.Random(7);
+            for (int i = 0; i < 16; i++)
+            {
+                var line = UIFactory.Image(_ultBand, UISprites.White, Color.white, "Speed line").rectTransform;
+                line.anchorMin = line.anchorMax = new Vector2(.5f, .5f);
+                line.sizeDelta = new Vector2(240f + (float)random.NextDouble() * 520f, 2f + (float)random.NextDouble() * 4f);
+                line.anchoredPosition = new Vector2(0f, ((float)random.NextDouble() - .5f) * _ultBand.sizeDelta.y * .95f);
+                _ultLines.Add(line);
+            }
+            float face = Compact ? 520f : 640f;
+            _ultFace = UIFactory.Rect(_ultBand, "Face");
+            _ultFace.anchorMin = _ultFace.anchorMax = new Vector2(0f, .5f);
+            _ultFace.sizeDelta = new Vector2(face, face);
+            _ultFaceImage = UIFactory.Image(_ultFace, null, Color.white, "Portrait");
+            _ultFaceImage.rectTransform.Stretch();
+            _ultFaceImage.preserveAspect = true;
+            _ultText = UIFactory.Rect(_ultBand, "Text");
+            _ultText.anchorMin = new Vector2(.36f, 0f); _ultText.anchorMax = new Vector2(1f, 1f);
+            _ultText.offsetMin = new Vector2(0f, 0f); _ultText.offsetMax = new Vector2(-60f, 0f);
+            _ultActor = UIFactory.Label(_ultText, "", Compact ? 30 : 34, UIFont.Bold, UITheme.Text, TextAlignmentOptions.BottomRight, UITextFx.Outline, "Actor");
+            _ultActor.Rt().Stretch(0f, 0f, 0f, _ultBand.sizeDelta.y * .6f);
+            _ultSkill = UIFactory.Label(_ultText, "", Compact ? 74 : 92, UIFont.Title, UITheme.GoldBright, TextAlignmentOptions.TopRight, UITextFx.Glow, "Skill");
+            _ultSkill.Rt().Stretch(0f, _ultBand.sizeDelta.y * .42f, 0f, 0f);
+            _ultSkill.enableAutoSizing = true; _ultSkill.fontSizeMin = 40; _ultSkill.fontSizeMax = _ultSkill.fontSize;
+            _ultEdgeTop = Edge(1f); _ultEdgeBottom = Edge(0f);
+            _ult.gameObject.SetActive(false);
+
+            Image Edge(float y)
+            {
+                var edge = UIFactory.Image(_ult, UISprites.GlowLine, UITheme.Gold, y > .5f ? "Top edge" : "Bottom edge");
+                edge.rectTransform.anchorMin = new Vector2(0f, .5f); edge.rectTransform.anchorMax = new Vector2(1f, .5f);
+                edge.rectTransform.sizeDelta = new Vector2(0f, 8f);
+                edge.rectTransform.anchoredPosition = new Vector2(0f, 40f + (y - .5f) * _ultBand.sizeDelta.y);
+                return edge;
+            }
+        }
+
+        /// <summary>Plays the hero ultimate call-out; <see cref="HideCutIn"/> fades it out.</summary>
+        public void UltimateCutIn(string heroId, string actor, string skill, Color accent)
+        {
+            if (_ult == null) BuildUltimate();
+            UITween.Kill(_ult);
+            _ult.gameObject.SetActive(true);
+            _ult.SetAsLastSibling();
+            _ultGroup.alpha = 1f;
+            _ultFaceImage.sprite = UIArtwork.Hero(heroId);
+            _ultActor.text = actor;
+            _ultSkill.text = skill;
+            _ultSkill.color = Color.Lerp(UITheme.GoldBright, accent, .25f);
+            _ultTint.color = new Color(accent.r, accent.g, accent.b, .55f);
+            _ultEdgeTop.color = _ultEdgeBottom.color = Color.Lerp(UITheme.Gold, accent, .5f);
+            Color lineColor = Color.Lerp(Color.white, accent, .4f);
+            float width = _root.rect.width > 0f ? _root.rect.width : 2000f;
+            float faceX = Compact ? 250f : 330f;
+            // Band snaps open from a line, with a white-hot flash behind it.
+            _ultBand.localScale = new Vector3(1f, 0f, 1f);
+            _ultEdgeTop.rectTransform.localScale = _ultEdgeBottom.rectTransform.localScale = new Vector3(0f, 1f, 1f);
+            UITween.To(_ult, .14f, t => _ultBand.localScale = new Vector3(1f, t, 1f), UIEase.OutCubic);
+            UITween.To(_ult, .22f, t => _ultEdgeTop.rectTransform.localScale = _ultEdgeBottom.rectTransform.localScale = new Vector3(t, 1f, 1f), UIEase.OutCubic);
+            UITween.To(_ult, .3f, t => _ultFlash.color = new Color(1f, 1f, 1f, .45f * (1f - t)), UIEase.OutQuad);
+            // Face slides in from the left, then keeps drifting so the shot never freezes.
+            _ultFace.anchoredPosition = new Vector2(-_ultFace.sizeDelta.x * .5f, -50f);
+            UITween.To(_ult, .24f, t => _ultFace.anchoredPosition = new Vector2(Mathf.Lerp(-_ultFace.sizeDelta.x * .5f, faceX, t), -50f), UIEase.OutCubic, .04f)
+                .OnComplete(() => UITween.To(_ult, 1.2f, t => _ultFace.anchoredPosition = new Vector2(faceX + 40f * t, -50f), UIEase.Linear));
+            // Name lines punch in from the right.
+            _ultText.anchoredPosition = new Vector2(500f, 0f);
+            _ultSkill.transform.localScale = Vector3.one * 1.35f;
+            _ultSkill.alpha = 0f; _ultActor.alpha = 0f;
+            UITween.To(_ult, .22f, t => { _ultText.anchoredPosition = new Vector2(500f * (1f - t), 0f); _ultActor.alpha = t; }, UIEase.OutCubic, .1f);
+            UITween.To(_ult, .26f, t => { _ultSkill.transform.localScale = Vector3.one * Mathf.Lerp(1.35f, 1f, t); _ultSkill.alpha = t; }, UIEase.OutBack, .16f);
+            for (int i = 0; i < _ultLines.Count; i++)
+            {
+                var line = _ultLines[i];
+                var image = line.GetComponent<Image>();
+                image.color = new Color(lineColor.r, lineColor.g, lineColor.b, .18f + .3f * ((i * 37) % 10) / 10f);
+                float y = line.anchoredPosition.y, span = width * .5f + line.sizeDelta.x;
+                line.anchoredPosition = new Vector2(span, y);
+                UITween.To(_ult, .32f + (i % 4) * .06f, t => line.anchoredPosition = new Vector2(Mathf.Lerp(span, -span, t), y), UIEase.Linear, (i % 8) * .07f);
+            }
+        }
         /// <summary>JRPG skill-name plate shown while a skill or item resolves (tinted by its element / light colour).</summary>
         public void SkillBanner(string text, Color color)
         {
             if (_banner == null) return;
-            _bannerText.text = text; _bannerText.color = Color.Lerp(Color.white, color, .45f);
+            _bannerText.text = text; _bannerText.color = Color.Lerp(Color.white, color, .3f);
+            for (int i = 0; i < _bannerWash.Count; i++)
+                _bannerWash[i].color = i < 2 ? new Color(color.r, color.g, color.b, .5f) : Color.Lerp(UITheme.Gold, color, .5f);
             _banner.gameObject.SetActive(true);
             // The banner names the skill; the log line above it would only repeat it.
             if (_logPanel != null) _logPanel.gameObject.SetActive(false);
@@ -622,7 +763,7 @@ namespace Abyss.UI.Battle
             if (_speedButton != null) _speedButton.gameObject.SetActive(false);
             _reward = UIFactory.Rect(_root, "Battle result").Stretch();
             UIFactory.Fill(_reward, UITheme.Ink.WithAlpha(0.8f), raycast: true);
-            var panel = UIFactory.Panel(_reward, name: "Result dashboard");
+            var panel = UIFactory.Panel(_reward, UIPanelStyle.Ornate, name: "Result dashboard");
             bool victory = outcome.Result == BattleResult.Victory;
             var panelSize = new Vector2(1240, 800);
             panel.Rect.Place(UIAnchor.Center, Vector2.zero, panelSize);
@@ -630,14 +771,19 @@ namespace Abyss.UI.Battle
             panel.Rect.localScale = Vector3.one * (reduced ? 1f : 0.98f);
             UITween.Scale(panel.Rect, 1f, reduced ? 0f : 0.2f, UIEase.OutCubic);
             string heading = victory ? "전투 승리" : outcome.Result == BattleResult.Defeat ? "다시 준비할 시간" : "전투에서 벗어났습니다";
-            UIFactory.Label(panel.Rect, heading, 44, UIFont.Bold, victory ? UITheme.DawnBright : UITheme.Text,
-                fx: UITextFx.Plain).Rt().TopStrip(62, 22, 36, 36);
-            UIFactory.Label(panel.Rect, victory ? $"획득 골드  {report.Gold:N0} G   ·   생존 동료 EXP +{report.Experience:N0}" : "전투 결과와 탐험 기록을 확인하세요.",
-                25, color: UITheme.TextDim).Rt().TopStrip(38, 86, 36, 36);
+            // Victory plate: ribbon band + glowing title, the beat every console JRPG lands before the spoils.
+            var ribbon = UIFactory.Image(panel.Rect, UISprites.Ribbon, Color.white, "Title ribbon");
+            ribbon.rectTransform.Place(UIAnchor.Top, new Vector2(0, -8), new Vector2(760, 92));
+            UIFactory.Label(panel.Rect, heading, 52, UIFont.Title, victory ? UITheme.GoldBright : UITheme.Text, TextAlignmentOptions.Center,
+                victory ? UITextFx.Glow : UITextFx.Outline).Rt().TopStrip(72, 18, 36, 36);
+            UIFactory.Label(panel.Rect, victory
+                    ? $"{UITheme.Tag(UITheme.GoldBright)}{report.Gold:N0} G</color>   <size=20>획득 골드</size>        {UITheme.Tag(UITheme.Positive)}EXP +{report.Experience:N0}</color>   <size=20>생존 동료</size>"
+                    : "전투 결과와 탐험 기록을 확인하세요.",
+                26, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.Center).Rt().TopStrip(36, 96, 36, 36);
             if (victory) BuildPartyResults(panel.Rect, panelSize.x, report, outcome);
             var growth = UIFactory.Panel(panel.Rect, UIPanelStyle.Dark, false, "Progression card");
             growth.Rect.Place(UIAnchor.TopLeft, new Vector2(32, -260), new Vector2(444, 426));
-            UIFactory.Label(growth.Rect, "성장과 탐험 기록", 27, color: UITheme.Text).Rt().TopStrip(46, 12, 22, 22);
+            UIFactory.Label(growth.Rect, "성장과 탐험 기록", 27, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(46, 12, 22, 22);
             _rewardScroll = UIFactory.ScrollView(growth.Rect, out var rewardContent, name: "Result progression");
             _rewardScroll.Rt().Stretch(22, 70, 22, 20);
             _text.Clear();
@@ -649,7 +795,7 @@ namespace Abyss.UI.Battle
 
             var loot = UIFactory.Panel(panel.Rect, UIPanelStyle.Dark, false, "Loot collection");
             loot.Rect.Place(UIAnchor.TopRight, new Vector2(-32, -260), new Vector2(714, 426));
-            UIFactory.Label(loot.Rect, "획득한 전리품", 27, color: UITheme.Text).Rt().TopStrip(46, 12, 22, 22);
+            UIFactory.Label(loot.Rect, "획득한 전리품", 27, UIFont.Title, UITheme.GoldBright).Rt().TopStrip(46, 12, 22, 22);
             var drops = new List<KeyValuePair<string, int>>(report.Drops);
             drops.Sort((a, b) => { int rarity = DropRarity(b.Key).CompareTo(DropRarity(a.Key)); return rarity != 0 ? rarity : string.CompareOrdinal(a.Key, b.Key); });
             var cards = UIFactory.Rect(loot.Rect, "Loot page").Stretch(18, 70, 18, 48);
@@ -670,12 +816,19 @@ namespace Abyss.UI.Battle
                     card.Rect.Place(UIAnchor.TopLeft, new Vector2((index % 2) * 342, -(index / 2) * 100), new Vector2(330, 90));
                     var stripe = UIFactory.Image(card.Rect, UISprites.PanelWhite, accent, "Rarity stripe");
                     stripe.Rt().Place(UIAnchor.Left, new Vector2(0, 0), new Vector2(4, 70));
+                    if (rarity > 0)
+                    {
+                        // Rare and better drops glow in their rarity colour so the eye finds them first.
+                        var halo = UIFactory.Image(card.Rect, UISprites.SoftRadial, accent.WithAlpha(0.22f + 0.1f * rarity), "Rarity glow");
+                        halo.rectTransform.Place(UIAnchor.Left, new Vector2(-6, 0), new Vector2(110, 110));
+                        UIFactory.Image(card.Rect, UISprites.PanelOutline, accent.WithAlpha(0.75f), "Rarity edge").rectTransform.Stretch();
+                    }
                     var icon = UIFactory.Icon(card.Rect, _db.Items.ContainsKey(id) ? UIArtwork.Item(id) : UIArtwork.Gear(id), 54);
                     icon.Rt().Place(UIAnchor.Left, new Vector2(14, 0), new Vector2(54, 54));
                     string name = _db.Items.TryGetValue(id, out var item) ? item.DisplayName : _db.Equipment[id].DisplayName;
                     var label = UIFactory.Label(card.Rect, name, 23, color: UITheme.Text);
                     label.Rt().TopStrip(36, 12, 82, 16); label.overflowMode = TextOverflowModes.Ellipsis;
-                    string category = item != null ? item.ItemType == ItemType.Material ? "재료" : "소모품" : "장비";
+                    string category = item != null ? UITheme.ItemCategory(item.ItemType) : "장비";
                     UIFactory.Label(card.Rect, $"{UITheme.RarityName(rarity)} · {category}   ×{drops[i].Value}", 20, color: accent).Rt().BottomStrip(30, 12, 82, 16);
                     // Every card can reveal its complete name and description, even if the grid title is truncated.
                     var hit = card.gameObject.AddComponent<UnityEngine.UI.Button>();
@@ -683,6 +836,17 @@ namespace Abyss.UI.Battle
                     hit.navigation = new Navigation { mode = Navigation.Mode.None };
                     string description = item != null ? item.Description : _db.Equipment[id].Description;
                     hit.onClick.AddListener(() => { if (!Paused) UIModal.Alert(UIRoot.Instance.Modals, name, $"{UITheme.RarityName(rarity)} · {category}\n\n{description}"); });
+                    if (!reduced)
+                    {
+                        // Spoils drop in one after another (rare ones with a bigger pop) instead of appearing as a sheet.
+                        var group = card.gameObject.AddComponent<CanvasGroup>();
+                        group.alpha = 0f;
+                        var rt = card.Rect;
+                        float from = rarity > 0 ? 1.25f : 1.1f;
+                        rt.localScale = Vector3.one * from;
+                        UITween.To(rt, .22f, t => { group.alpha = t; rt.localScale = Vector3.one * Mathf.Lerp(from, 1f, t); },
+                            rarity > 0 ? UIEase.OutBack : UIEase.OutCubic, .25f + index * .08f);
+                    }
                 }
                 _rewardCounter.text = drops.Count == 0 ? "보상 없음" : $"{page + 1} / {Math.Max(1, (drops.Count + 5) / 6)}   ·   {drops.Count}종 획득";
             };
@@ -722,7 +886,8 @@ namespace Abyss.UI.Battle
                 face.SetSprite(UIArtwork.Hero(card.Unit.DefId));
                 UIFactory.Label(slot, card.Unit.Name, 24).Rt().TopStrip(32, 12, 88, 12);
                 int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
-                string summary = finalHp > 0 ? $"EXP +{report.Experience:N0}" : "전투불능 · EXP 없음";
+                int heroXp = report.ExperienceByHero.TryGetValue(card.Unit.DefId, out int gained) ? gained : report.Experience;
+                string summary = finalHp > 0 ? $"EXP +{heroXp:N0}" : "전투불능 · EXP 없음";
                 foreach (var level in report.LevelUps) if (level.HeroId == card.Unit.DefId) summary = $"Lv.{level.OldLevel} → {level.NewLevel}  성장!";
                 var label = UIFactory.Label(slot, summary, 20, color: finalHp > 0 ? UITheme.Positive : UITheme.TextDisabled);
                 label.Rt().BottomStrip(36, 12, 88, 12); label.overflowMode = TextOverflowModes.Ellipsis;

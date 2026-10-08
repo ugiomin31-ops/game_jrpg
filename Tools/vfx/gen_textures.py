@@ -676,23 +676,28 @@ def smoke_sheet():
     def frame(i, t):
         grow = 0.45 + 0.55 * (1 - (1 - min(1, t * 1.8)) ** 2.5)
         hf = np.full_like(u, -1.0)
-        lit = np.zeros_like(u, dtype=bool)
+        lit = np.zeros_like(u)
+        # Warp the sample grid with low-frequency noise so ball outlines billow instead of reading as circles.
+        wu = u + (nsample(nz, (u + 1) * 18 + i * 2.1, (v + 1) * 18) - 0.5) * 0.12
+        wv = v + (nsample(nz, (u + 1) * 18 + 40, (v + 1) * 18 + i * 1.7) - 0.5) * 0.12
         for bx, by, br in balls:
             cx, cy = bx * (0.8 + 0.45 * t), by * (0.8 + 0.45 * t) + 0.1 * t
             rr = br * grow
-            d2 = (u - cx) ** 2 + (v - cy) ** 2
+            d2 = (wu - cx) ** 2 + (wv - cy) ** 2
             hgt = np.sqrt(np.clip(rr * rr - d2, 0, None))
             hgt = np.where(d2 < rr * rr, hgt + bx * -0.3 + by * 0.3, -1)   # larger balls sit in front
             top = hgt > hf
-            nrm = ((u - cx) / rr) * light[0] + ((v - cy) / rr) * light[1] + np.sqrt(np.clip(1 - d2 / (rr * rr), 0, 1)) * light[2]
-            lit = np.where(top, nrm > 0.32, lit)
+            nrm = ((wu - cx) / rr) * light[0] + ((wv - cy) / rr) * light[1] + np.sqrt(np.clip(1 - d2 / (rr * rr), 0, 1)) * light[2]
+            # three tones (lit / mid / shadow) with a soft 2 px step, like anime smoke
+            tone = 0.42 + 0.26 * sstep(0.02, 0.1, nrm) + 0.27 * sstep(0.42, 0.5, nrm)
+            lit = np.where(top, tone, lit)
             hf = np.maximum(hf, hgt)
         inside = sstep(-0.01, 0.01, hf)
         n = nsample(nz, (u + 1) * 32 + i * 5.3, (v + 1) * 32 - i * 3.1)
         dissolve = sstep(0.0, 0.06, n - (max(0.0, t - 0.5) / 0.5) * 0.85)
         a = inside * dissolve
         a = np.maximum(a * CORE, halo(a, 1.4, MID, 0.9) * (t < 0.8))
-        shade = np.where(lit, 0.9, 0.42)
+        shade = gauss_blur(lit, 0.8)
         a *= sstep(0.99, 0.93, np.maximum(np.abs(u), np.abs(v)))
         return a, shade
 
@@ -1576,26 +1581,41 @@ def blind(d, w, ss):
 
 
 def tornado():
-    """Whirlwind funnel (1:2, narrow foot at the bottom): wrapping wind bands with white leading edges."""
+    """Whirlwind funnel (1:2, narrow foot at the bottom): torn, tapering wind ribbons of uneven width that
+    wrap the funnel, thicker and brighter at the silhouette, with gaps showing through (no barber-pole stripes)."""
     w, h = 256, 512
     u, v = grid(w, h)
     t = (v + 1) * 0.5                                     # 0 at the foot .. 1 at the top
-    half = 0.16 + 0.78 * t ** 1.35                        # funnel half-width
+    half = 0.14 + 0.80 * t ** 1.4                         # funnel half-width
     x = u / half                                          # -1..1 across the funnel
-    inside = sstep(1.04, 0.96, np.abs(x)) * sstep(1.0, 0.95, t)
-    n = tile_noise(128, 2.4, 97)
-    wob = nsample(n, x * 3 + 31, t * 9) - 0.5
-    # Bands wrap around the funnel: phase follows the visible arc (asin of x) plus a climb with height.
+    inside = sstep(1.06, 0.94, np.abs(x)) * sstep(1.0, 0.9, t)
     arc = np.arcsin(np.clip(x, -1, 1))
-    s1 = 0.5 + 0.5 * np.cos(arc * 1.4 + t * 46 + wob * 1.6)
-    s2 = 0.5 + 0.5 * np.cos(arc * 2.1 + t * 71 + 1.3 + wob * 2.4)
-    edge = np.maximum(sstep(0.93, 0.96, s1), sstep(0.965, 0.985, s2) * sstep(0.15, 0.4, t))
-    band = np.maximum(sstep(0.7, 0.74, s1), sstep(0.86, 0.9, s2))
-    body = sstep(0.25, 0.3, s1)
-    rim = sstep(0.82, 0.95, np.abs(x)) * sstep(1.02, 0.96, np.abs(x))
-    a = np.maximum.reduce([edge * CORE, band * MID, body * DIM, rim * MID]) * inside
-    a *= sstep(0.0, 0.12, t)                              # foot dissolves into the ground
-    save("tornado", a, edge * HOT + TINT * 0.4)
+    n1, n2 = tile_noise(128, 2.6, 97), tile_noise(128, 1.8, 41)
+    wob = nsample(n1, x * 2.2 + 31, t * 6) - 0.5
+    a = np.zeros_like(u)
+    hot = np.zeros_like(u)
+    # Each ribbon: its own climb rate, phase and life span along the height, so ribbons start and end raggedly.
+    rng = np.random.default_rng(7)
+    for i in range(9):
+        climb = rng.uniform(26, 44)
+        phase = rng.uniform(0, math.tau)
+        start, end = rng.uniform(0.0, 0.35), rng.uniform(0.6, 1.0)
+        width = rng.uniform(0.05, 0.13)
+        s = 0.5 + 0.5 * np.cos(arc * 1.2 + t * climb + phase + wob * 2.0)
+        span = sstep(start, start + 0.12, t) * sstep(end, end - 0.15, t)
+        # ribbon thickness varies along its length (tapered, torn)
+        thick = width * (0.45 + 0.9 * nsample(n2, t * 7 + i * 13.1, i * 3.7))
+        rib = sstep(1 - thick, 1 - thick * 0.55, s) * span
+        lead = sstep(1 - thick * 0.35, 1 - thick * 0.15, s) * span
+        a = np.maximum(a, np.maximum(rib * MID, lead * CORE))
+        hot = np.maximum(hot, lead)
+    # translucent core of the funnel and a brighter silhouette where the ribbons pile up edge-on
+    rim = sstep(0.78, 0.97, np.abs(x)) * sstep(1.05, 0.97, np.abs(x)) * (0.6 + 0.4 * nsample(n1, t * 10, x * 2))
+    body = sstep(0.2, 0.6, nsample(n2, x * 1.5 + 7, t * 4 - 3)) * 0.6
+    a = np.maximum.reduce([a, rim * MID, body * DIM]) * inside
+    a *= sstep(0.0, 0.14, t)                              # foot dissolves into the ground
+    save("tornado", a, hot * HOT + TINT * 0.4)
+
 
 def sword():
     """Giant holy sword (point down, 1:2): white fuller, colour blade, winged guard, gem pommel."""
