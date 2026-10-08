@@ -349,7 +349,7 @@ namespace Abyss.Runtime.Battle
         BattleDisplayUnit Spawn(UnitSnapshot snapshot)
         {
             var unit = new BattleDisplayUnit(); unit.Apply(snapshot);
-            unit.Model = snapshot.Side == BattleSide.Party ? ArtLibrary.SpawnHero(snapshot.DefId, transform, _app.State?.Hero(snapshot.DefId)?.Job) : ArtLibrary.SpawnEnemy(snapshot.DefId, transform);
+            unit.Model = snapshot.Side == BattleSide.Party ? ArtLibrary.SpawnHero(snapshot.DefId, transform, _app.State?.Hero(snapshot.DefId)?.Job) : ArtLibrary.SpawnEnemy(_app.DB, snapshot.DefId, transform);
             if (snapshot.Side == BattleSide.Enemy)
             {
                 var def = _app.DB.Enemies[snapshot.DefId];
@@ -387,12 +387,9 @@ namespace Abyss.Runtime.Battle
                 GearDisplay.DressBody(unit.Model, GearDisplay.Rank(_app.DB, spec.ArmorId), GearDisplay.Rank(_app.DB, spec.AccessoryId));
                 if (!string.IsNullOrEmpty(spec.WeaponId))
                 {
-                    string path = ArtLibrary.WeaponPath(spec.WeaponId);
-                    var weapon = ArtLibrary.LoadPrefab(path);
-                    if (weapon == null) throw new InvalidOperationException("Missing equipped weapon art: " + path);
                     string socket = snapshot.DefId == "archer" ? "weapon.L" : "weapon.R";
                     if (unit.Model.FindBone(socket) == null) throw new InvalidOperationException("Missing weapon socket: " + snapshot.DefId + "/" + socket);
-                    GearDisplay.AttachWeapon(unit.Model, socket, weapon, GearDisplay.Rank(_app.DB, spec.WeaponId), spec.WeaponId);
+                    GearDisplay.AttachWeapon(_app.DB, unit.Model, socket, spec.WeaponId);
                 }
             }
             if (!unit.Alive) unit.Model.Play("Die");

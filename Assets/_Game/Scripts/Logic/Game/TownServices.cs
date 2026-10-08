@@ -111,8 +111,20 @@ namespace Abyss.Logic.Game
 
         // ------------------------------------------------------------------ shop
 
-        /// <summary>Unlocked shop tier 1..4: +1 per biome reached (B4, B7, B10).</summary>
-        public static int ShopTier(GameState state) => Math.Max(1, Math.Min(4, state.DeepestFloor / 3 + 1));
+        /// <summary>Floors per chapter (Tools/content/spec.py CHAPTERS: 6 chapters of 5 floors, then the postgame).</summary>
+        public const int FloorsPerChapter = 5;
+        /// <summary>Highest chapter / shop tier (7 = postgame 시련의 회랑).</summary>
+        public const int MaxChapter = 7;
+
+        /// <summary>Chapter 1..7 of a floor index (B1F-B5F = 1, ..., B31F+ = 7).</summary>
+        public static int ChapterOfFloor(int floorIndex) => Math.Max(1, Math.Min(MaxChapter, floorIndex / FloorsPerChapter + 1));
+
+        /// <summary>
+        /// Unlocked shop tier = chapter reached (1..7); clearing the game opens tier 7. Equipment tiers T1-T2 sell at 1, T3 at 2 ...
+        /// T7 at 6; T8 legendaries are never sold.
+        /// </summary>
+        public static int ShopTier(GameState state) =>
+            state.Flags.Contains(GameFlow.FlagCleared) ? MaxChapter : ChapterOfFloor(state.DeepestFloor);
 
         /// <summary>
         /// Every item and equipment piece the shop ever sells (shop_tier ≥ 1, price &gt; 0), sorted by tier, price, id;
@@ -138,9 +150,9 @@ namespace Abyss.Logic.Game
             return output;
         }
 
-        /// <summary>Sell value of one item: explicit sell_price, else half the price.</summary>
+        /// <summary>Sell value of one item: explicit sell_price, else half the price; key items are never sold.</summary>
         public static int ItemSellValue(GameDB db, string itemId) =>
-            db.Items.TryGetValue(itemId, out var item) ? (item.SellPrice > 0 ? item.SellPrice : item.Price / 2) : 0;
+            db.Items.TryGetValue(itemId, out var item) && item.ItemType != ItemType.Key ? (item.SellPrice > 0 ? item.SellPrice : item.Price / 2) : 0;
 
         /// <summary>Sell value of one equipment piece: explicit sell_price (≥ 0), else half the price.</summary>
         public static int EquipmentSellValue(GameDB db, string equipmentId) =>

@@ -87,7 +87,7 @@ namespace Abyss.UI
                 bool allowed = PartyStats.CanEquip(app.DB, hero, id);
                 string refusal = PartyStats.CanEquip(app.DB, hero.Id, id) ? T("cannot_equip_job", "다른 직업 전용 장비") : T("cannot_equip_class");
                 string details = (allowed ? GearComparison(hero, slot, piece) + "\n\n" : "") + EquipmentDescription(piece);
-                m.Add(piece.DisplayName, () => Confirm("장비 변경", details + "\n\n이 장비를 장착할까요?", () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m)), details, allowed ? GearVerdict(hero, slot, piece) : "직업 제한", mutable && allowed, !mutable ? T("battle_unavailable") : refusal, UIArtwork.Gear(id));
+                m.Add(EquipmentName(id), () => Confirm("장비 변경", details + "\n\n이 장비를 장착할까요?", () => ExecuteEquipment(PartyStats.Equip(app.DB, app.State, hero.Id, equipment.Id), m)), details, allowed ? GearVerdict(hero, slot, piece) : "직업 제한", mutable && allowed, !mutable ? T("battle_unavailable") : refusal, UIArtwork.Gear(id));
             }
             if (candidates == 0) AddInformation(m, T("no_candidates"), T("no_candidates"));
         });
@@ -147,8 +147,24 @@ namespace Abyss.UI
             var jobs = new List<string>();
             if (piece.Jobs != null) foreach (string id in piece.Jobs) jobs.Add(app.DB.Jobs.TryGetValue(id, out var job) ? job.DisplayName : id);
             string jobLine = jobs.Count == 0 ? "" : $"\n전용 직업 · {string.Join(" · ", jobs)}";
-            return $"{UITheme.Tag(UITheme.RarityColor(piece.Rarity))}{UITheme.RarityName(piece.Rarity)}</color> · {piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}{jobLine}\n" + EquipmentDelta(piece, null)
+            int level = Enhancement.LevelOf(app.State, piece.Id);
+            string tier = piece.Tier > 0 ? $" · T{piece.Tier}" : "";
+            string enhance = level > 0 ? $"\n강화 +{level} (기본 능력치 +{level * 10}%)" : "";
+            return $"{UITheme.Tag(UITheme.RarityColor(piece.Rarity))}{UITheme.RarityName(piece.Rarity)}</color>{tier} · {piece.Description}\n\n{T("slot_" + piece.Slot)} · {(names.Count == 0 ? "모든 직업" : string.Join(" · ", names))}{jobLine}{enhance}\n" + EquipmentDelta(piece, level)
+                + GearEffects(piece)
                 + $"\n\n{T("resist_label")} · {Elements(piece.ElementResists)}\n{T("immune_label")} · {StatusNames(piece.StatusImmunities)}";
+        }
+        /// <summary>Special gear effects (attack element, regeneration, starting TP, EXP / gold bonus) as extra lines.</summary>
+        string GearEffects(EquipmentDef piece)
+        {
+            var lines = new List<string>();
+            if (piece.Element != Element.None) lines.Add($"평타 속성 · {T("element_" + (int)piece.Element)}");
+            if (piece.HpRegen > 0f) lines.Add($"매 턴 HP {piece.HpRegen * 100:0.#}% 회복");
+            if (piece.MpRegen > 0) lines.Add($"매 턴 MP {piece.MpRegen} 회복");
+            if (piece.TpStart > 0) lines.Add($"전투 시작 시 TP {piece.TpStart}");
+            if (piece.ExpBonus > 0f) lines.Add($"획득 경험치 +{piece.ExpBonus * 100:0}%");
+            if (piece.GoldBonus > 0f) lines.Add($"획득 골드 +{piece.GoldBonus * 100:0}% (파티 합산 최대 +100%)");
+            return lines.Count == 0 ? "" : "\n" + string.Join("\n", lines);
         }
         string GearVerdict(HeroState hero, string slot, EquipmentDef piece)
         {
@@ -171,7 +187,7 @@ namespace Abyss.UI
             var after = PartyStats.PreviewEquipment(app.DB, hero, slot, piece?.Id);
             var a = before.Stats; var z = after.Stats;
             var lines = new List<string> { $"<b>{HeroName(hero.Id)} · {GearVerdict(hero, slot, piece)}</b>",
-                "현재 · " + EquipmentName(hero.Equipped(slot)), "선택 · " + (piece?.DisplayName ?? T("slot_none")), "", "<b>능력치     현재 → 변경 (차이)</b>" };
+                "현재 · " + EquipmentName(hero.Equipped(slot)), "선택 · " + (piece == null ? T("slot_none") : EquipmentName(piece.Id)), "", "<b>능력치     현재 → 변경 (차이)</b>" };
             ComparisonLine(lines, T("stat_hp"), a.MaxHp, z.MaxHp);
             ComparisonLine(lines, T("stat_mp"), a.MaxMp, z.MaxMp);
             ComparisonLine(lines, T("stat_atk"), a.Attack, z.Attack);
@@ -202,19 +218,21 @@ namespace Abyss.UI
             return string.Join("\n\n", lines);
         }
 
-        string EquipmentDelta(EquipmentDef piece, EquipmentDef current)
+        /// <summary>The piece's stats at an enhancement level as "+N" lines.</summary>
+        string EquipmentDelta(EquipmentDef piece, int level)
         {
             var lines = new List<string>();
-            AddDelta(lines, T("stat_hp"), piece.Hp - (current?.Hp ?? 0));
-            AddDelta(lines, T("stat_mp"), piece.Mp - (current?.Mp ?? 0));
-            AddDelta(lines, T("stat_atk"), piece.Atk - (current?.Atk ?? 0));
-            AddDelta(lines, T("stat_mag"), piece.Mag - (current?.Mag ?? 0));
-            AddDelta(lines, T("stat_def"), piece.Def - (current?.Def ?? 0));
-            AddDelta(lines, T("stat_res"), piece.Res - (current?.Res ?? 0));
-            AddDelta(lines, T("stat_spd"), piece.Spd - (current?.Spd ?? 0));
-            AddPercentDelta(lines, T("stat_hit"), piece.Hit - (current?.Hit ?? 0));
-            AddPercentDelta(lines, T("stat_evade"), piece.Evade - (current?.Evade ?? 0));
-            AddPercentDelta(lines, T("stat_crit"), piece.Crit - (current?.Crit ?? 0));
+            var stats = Enhancement.Stats(piece, level);
+            AddDelta(lines, T("stat_hp"), stats.MaxHp);
+            AddDelta(lines, T("stat_mp"), stats.MaxMp);
+            AddDelta(lines, T("stat_atk"), stats.Attack);
+            AddDelta(lines, T("stat_mag"), stats.Magic);
+            AddDelta(lines, T("stat_def"), stats.Defense);
+            AddDelta(lines, T("stat_res"), stats.Resistance);
+            AddDelta(lines, T("stat_spd"), stats.Speed);
+            AddPercentDelta(lines, T("stat_hit"), piece.Hit);
+            AddPercentDelta(lines, T("stat_evade"), piece.Evade);
+            AddPercentDelta(lines, T("stat_crit"), piece.Crit);
             return lines.Count == 0 ? T("no_change") : string.Join("\n", lines);
         }
         static void AddDelta(List<string> lines, string name, int delta) { if (delta != 0) lines.Add($"{name} {delta:+0;-0;0}"); }
@@ -226,14 +244,15 @@ namespace Abyss.UI
             {
                 string id = key;
                 if (app.State.ItemCount(id) <= 0 || !app.DB.Items.TryGetValue(id, out var item)) continue;
-                bool usable = item.ItemType == ItemType.Healing || item.ItemType == ItemType.MpRestore || item.ItemType == ItemType.Revive || item.ItemType == ItemType.Cure || (item.ItemType == ItemType.EscapeDungeon && app.Screen == GameScreen.Dungeon);
+                bool usable = item.ItemType == ItemType.Healing || item.ItemType == ItemType.MpRestore || item.ItemType == ItemType.Revive || item.ItemType == ItemType.Cure || item.ItemType == ItemType.Seed || (item.ItemType == ItemType.EscapeDungeon && app.Screen == GameScreen.Dungeon);
+                string usage = item.ItemType == ItemType.Material ? T("materials") : item.ItemType == ItemType.Key ? "중요 물품 · 전직할 때 사용합니다." : item.Target == "all_allies" ? T("target_allies") : T("target_ally");
                 bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
                 m.Add(item.DisplayName, () =>
                 {
                     if (item.ItemType == ItemType.EscapeDungeon) Confirm(T("return_stone"), "귀환의 돌을 사용하고 마을로 돌아갈까요?", () => UseFieldItem(id, null, m));
                     else if (item.Target == "all_allies") Confirm("아이템 사용", $"{item.DisplayName} 1개를 전체 동료에게 사용할까요?\n{item.Description}", () => UseFieldItem(id, null, m));
                     else ShowItemTargets(id, m);
-                }, item.Description + "\n\n" + (item.ItemType == ItemType.Material ? T("materials") : item.Target == "all_allies" ? T("target_allies") : T("target_ally")), $"×{app.State.ItemCount(id)}", usable && mutable, !mutable ? T("battle_unavailable") : T("item_unavailable"), UIArtwork.Item(id));
+                }, item.Description + "\n\n" + usage, $"×{app.State.ItemCount(id)}", usable && mutable, !mutable ? T("battle_unavailable") : T("item_unavailable"), UIArtwork.Item(id));
             }
         });
         void ShowItemTargets(string itemId, GameMenuScreen inventory) => Menu(ItemName(itemId), "아이템을 사용할 동료를 선택하세요.", m =>
@@ -248,7 +267,8 @@ namespace Abyss.UI
         {
             var result = GameFlow.UseFieldItem(app.DB, app.State, itemId, heroId, app.Screen == GameScreen.Dungeon);
             if (!result.Success) { UIModal.Alert(root.Modals, ItemName(itemId), T(result.TextKey)); return; }
-            Notify(app.DB.T(result.TextKey, ItemName(itemId)));
+            bool seed = app.DB.Items.TryGetValue(itemId, out var used) && used.ItemType == ItemType.Seed && heroId != null;
+            Notify(seed ? app.DB.T("seed_used", HeroName(heroId)) : app.DB.T(result.TextKey, ItemName(itemId)));
             if (result.ReturnToTown) { app.ReturnToTown(); return; }
             targets?.Close(); inventory.Refresh(); RefreshVitals();
         }

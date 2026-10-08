@@ -123,7 +123,7 @@ namespace Abyss.Runtime.World
             foreach (var foe in grid.Foes)
             {
                 if (!foe.Alive || foe.Group.Count == 0) continue;
-                var model = ArtLibrary.SpawnEnemy(foe.Group[0], transform);
+                var model = ArtLibrary.SpawnEnemy(app.DB, foe.Group[0], transform);
                 model.transform.position = Position(foe.Position);
                 model.Play("Idle");
                 foes[foe.Id] = model;

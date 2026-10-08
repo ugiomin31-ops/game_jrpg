@@ -26,6 +26,8 @@ namespace Abyss.Runtime.Art
         Color _flash = new Color(1, 1, 1, 0);
         float _dissolve;
         Color _tint = Color.white;
+        Color _palette = Color.white;
+        readonly Dictionary<Renderer, Color> _rendererTint = new Dictionary<Renderer, Color>();
         Coroutine _flashRoutine;
         Animator _humanoid;
 
@@ -101,7 +103,7 @@ namespace Abyss.Runtime.Art
             if (_attachments.TryGetValue(socket, out var old) && old != null)
             {
                 for (int i = _renderers.Count - 1; i >= 0; i--)
-                    if (_renderers[i] == null || _renderers[i].transform.IsChildOf(old.transform)) _renderers.RemoveAt(i);
+                    if (_renderers[i] == null || _renderers[i].transform.IsChildOf(old.transform)) { _rendererTint.Remove(_renderers[i]); _renderers.RemoveAt(i); }
                 old.SetActive(false);
                 Destroy(old);
             }
@@ -121,7 +123,22 @@ namespace Abyss.Runtime.Art
             return go;
         }
 
+        /// <summary>Temporary state colour (e.g. a chasing FOE); multiplies with the palette.</summary>
         public void SetTint(Color c) { _tint = c; ApplyBlock(); }
+
+        /// <summary>
+        /// Permanent palette-variant colour (data "tint": a variant reuses a base model recoloured). Multiplies the
+        /// toon _BaseColor together with <see cref="SetTint"/>, so hit flash and dissolve keep working on top.
+        /// </summary>
+        public void SetPalette(Color c) { _palette = c; ApplyBlock(); }
+
+        /// <summary>Palette colour of one attachment (a tinted weapon variant); multiplies with the body colour.</summary>
+        public void SetAttachmentTint(GameObject attachment, Color c)
+        {
+            if (attachment == null) return;
+            foreach (var r in attachment.GetComponentsInChildren<Renderer>(true)) _rendererTint[r] = c;
+            ApplyBlock();
+        }
 
         public void SetDissolve(float amount) { _dissolve = Mathf.Clamp01(amount); ApplyBlock(); }
 
@@ -169,7 +186,7 @@ namespace Abyss.Runtime.Art
                 r.GetPropertyBlock(_mpb);
                 _mpb.SetColor(FlashId, _flash);
                 _mpb.SetFloat(DissolveId, _dissolve);
-                _mpb.SetColor(BaseColorId, _tint);
+                _mpb.SetColor(BaseColorId, _rendererTint.TryGetValue(r, out var own) ? _tint * _palette * own : _tint * _palette);
                 r.SetPropertyBlock(_mpb);
             }
         }

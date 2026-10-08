@@ -23,6 +23,10 @@ namespace Abyss.Logic
         public string ArmorId, AccessoryId;                       // for presentation (gear aura)
         public int Row;                                           // 0 front, 1 back (if formation is used)
         public Dictionary<string, int> Statuses = new Dictionary<string, int>(); // statuses carried into battle (status id -> turns left), e.g. trap poison
+        public int AttackElement;                                 // weapon element of plain attacks (0 = none)
+        public float HpRegen;                                     // gear: ratio of max HP regained at the end of each own turn
+        public int MpRegen;                                       // gear: MP regained at the end of each own turn
+        public int TpStart;                                       // gear: TP at battle start
     }
 
     public sealed class BattleSetup

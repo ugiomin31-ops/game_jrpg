@@ -1,6 +1,9 @@
 """Render production FBX geometry to transparent Unity sprites (no surrogate art).
 Run: C:/Users/User/Tools/Blender/blender.exe -b --factory-startup -P Blender/ui/render_icons.py
 Optional: -- Heroes/warrior Gear/sword_bronze (only render selected entries).
+Palette variants: a data row's optional "model" names the FBX to shoot (default: its own id) and "tint" (RGBA)
+multiplies that model's vertex colours (sRGB), matching the runtime _BaseColor multiply. Enemies are tinted only when
+"model" differs from the id (own-model elites already bake their colours), equipment/items whenever "tint" is set.
 """
 import json
 import math
@@ -23,26 +26,64 @@ COMMANDS = ('attack', 'skill', 'ultimate', 'item', 'guard', 'flee', 'auto', 'gol
 NPCS = ('innkeeper', 'shopkeeper', 'smith', 'guild_clerk', 'elder', 'villager_a', 'villager_b', 'villager_c')
 
 
+def data_rows(name):
+    return json.loads((ROOT / 'Assets/_Game/Resources/Data' / (name + '.json')).read_text(encoding='utf-8'))
+
+
 def data_ids(name):
-    return [row['id'] for row in json.loads((ROOT / 'Assets/_Game/Resources/Data' / (name + '.json')).read_text(encoding='utf-8'))]
+    return [row['id'] for row in data_rows(name)]
+
+
+def variant(row, family):
+    """(model id, RGBA tint or None) of a data row; see the module docstring."""
+    model = row.get('model') or row['id']
+    tint = row.get('tint')
+    if family == 'Enemies' and model == row['id']:
+        tint = None
+    if tint is not None:
+        tint = (list(tint) + [1.0, 1.0, 1.0, 1.0])[:4]
+        if all(abs(c - 1.0) < 1e-4 for c in tint):
+            tint = None
+    return model, tint
 
 
 def catalog():
+    """(family, id, source FBX, tint or None) for every production sprite."""
     rows = []
     def add(family, ids, source):
         for ident in ids:
-            rows.append((family, ident, ART / source(ident)))
+            rows.append((family, ident, ART / source(ident), None))
+    def add_rows(family, table, source):
+        for row in data_rows(table):
+            model, tint = variant(row, family)
+            rows.append((family, row['id'], ART / source(row, model), tint))
     heroes = data_ids('heroes')
     # Promoted job outfits (jobs.json rows that are not a base hero) get portraits framed like the heroes.
     add('Heroes', heroes + [j for j in data_ids('jobs') if j not in heroes], lambda i: f'Characters/{i}/{i}.fbx')
     add('NPCs', NPCS, lambda i: f'NPCs/{i}/{i}.fbx')
-    add('Enemies', data_ids('enemies'), lambda i: f'Enemies/{i}/{i}.fbx')
-    add('Gear', data_ids('equipment'), lambda i: f'Weapons/{i}.fbx' if i.startswith(('sword_', 'staff_', 'bow_', 'mace_')) else f'Props/Equipment/{i}.fbx')
-    add('Items', data_ids('items'), lambda i: f'Props/Items/{i}.fbx')
+    add_rows('Enemies', 'enemies', lambda row, m: f'Enemies/{m}/{m}.fbx')
+    add_rows('Gear', 'equipment', lambda row, m: f'Weapons/{m}.fbx' if row.get('slot') == 'weapon' else f'Props/Equipment/{m}.fbx')
+    add_rows('Items', 'items', lambda row, m: f'Props/Items/{m}.fbx')
     add('Status', data_ids('statuses'), lambda i: f'Props/Status/{i}.fbx')
     add('Elements', ELEMENTS, lambda i: f'Props/Elements/{i}.fbx')
     add('UI', COMMANDS, lambda i: f'Props/UI/{i}.fbx')
     return rows
+
+
+def expected_coverage():
+    """Sprite count per family, computed from the data tables (no hard-coded totals)."""
+    return {'Heroes': len(set(data_ids('heroes')) | set(data_ids('jobs'))), 'NPCs': len(NPCS), 'Enemies': len(data_ids('enemies')),
+            'Gear': len(data_ids('equipment')), 'Items': len(data_ids('items')), 'Status': len(data_ids('statuses')),
+            'Elements': len(ELEMENTS), 'UI': len(COMMANDS)}
+
+
+def apply_tint(meshes, tint):
+    """Multiply every mesh's Col (sRGB) by the variant tint; image-textured materials get the tint as their colour."""
+    for obj in meshes:
+        col = obj.data.color_attributes['Col']
+        for item in col.data:
+            c = item.color_srgb
+            item.color_srgb = (c[0] * tint[0], c[1] * tint[1], c[2] * tint[2], c[3] * tint[3])
 
 
 def textured_shading(meshes):
@@ -117,7 +158,7 @@ def cel_portrait(scene, output):
     bpy.data.images.remove(image)
 
 
-def render(family, ident, source):
+def render(family, ident, source, tint=None):
     if not source.is_file():
         raise FileNotFoundError(source)
     # Reset all scene and data blocks per asset; animation takes are not loaded.
@@ -132,6 +173,8 @@ def render(family, ident, source):
     meshes = [obj for obj in scene.objects if obj.type == 'MESH' and not obj.hide_render]
     if not meshes or any('Col' not in obj.data.color_attributes for obj in meshes):
         raise ValueError(f'{source}: missing production mesh or Col colors')
+    if tint is not None:
+        apply_tint(meshes, tint)
     deps = bpy.context.evaluated_depsgraph_get()
     points = []
     for obj in meshes:
@@ -160,7 +203,7 @@ def render(family, ident, source):
         head_hi = Vector(tuple(max(p[a] for p in framed) for a in range(3)))
         center = (head_lo + head_hi) / 2
     direction = Vector((.18, -1, .03)).normalized() if portrait and hi.z - lo.z > 1.45 else Vector((0, -1, 0)) if portrait or family in ('Status', 'Elements', 'UI') else Vector((.32, -1, .20)).normalized()
-    flat_weapon = family == 'Gear' and ident.startswith(('sword_', 'bow_'))
+    flat_weapon = family == 'Gear' and source.stem.startswith(('sword_', 'bow_'))
     if flat_weapon:
         # Authored sword flats and bow curves lie in YZ: -Y is the edge, not the display face.
         direction = Vector((1, -.18, .08)).normalized()
@@ -218,7 +261,7 @@ def render(family, ident, source):
     if cel:
         cel_portrait(scene, output)
     texture_meta(output, sprite=True)
-    record = dict(id=ident, family=family, source=source.relative_to(ROOT).as_posix(), output=output.relative_to(ROOT).as_posix(), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
+    record = dict(id=ident, family=family, source=source.relative_to(ROOT).as_posix(), **({'tint': tint} if tint is not None else {}), output=output.relative_to(ROOT).as_posix(), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
     print('ARTWORK_RENDERED ' + family + '/' + ident, flush=True)
     return record
 
@@ -226,21 +269,24 @@ def render(family, ident, source):
 def main():
     selection = set(sys.argv[sys.argv.index('--') + 1:]) if '--' in sys.argv else set()
     rows = catalog()
-    expected = {'Heroes': 20, 'NPCs': 8, 'Enemies': 51, 'Gear': 48, 'Items': 30, 'Status': 22, 'Elements': 8, 'UI': 12}
-    # A selective render (-- Heroes/knight ...) only requires the coverage of the families it touches.
-    families = [f for f in expected if not selection or any(item.startswith(f + '/') for item in selection)]
-    actual = {family: sum(row[0] == family for row in rows) for family in families}
-    if actual != {family: expected[family] for family in families}:
-        raise ValueError(f'Production data coverage changed: {actual}')
+    expected = expected_coverage()
+    actual = {family: sum(row[0] == family for row in rows) for family in expected}
+    if actual != expected:
+        raise ValueError(f'Catalogue does not cover the data: {actual} != {expected}')
+    missing = [f'{family}/{ident}: {source}' for family, ident, source, _ in rows
+               if (not selection or family + '/' + ident in selection) and not source.is_file()]
+    if missing:
+        raise FileNotFoundError('Missing source FBX:\n' + '\n'.join(missing))
     manifest_path = OUTPUT / 'manifest.json'
     prior = json.loads(manifest_path.read_text(encoding='utf-8'))['assets'] if selection and manifest_path.exists() else []
     records = {(row['family'], row['id']): row for row in prior}
-    for family, ident, source in rows:
+    for family, ident, source, tint in rows:
         if selection and family + '/' + ident not in selection:
             continue
-        records[family, ident] = render(family, ident, source)
+        records[family, ident] = render(family, ident, source, tint)
         manifest = dict(generator='Blender/ui/render_icons.py', command='C:/Users/User/Tools/Blender/blender.exe -b --factory-startup -P Blender/ui/render_icons.py', coverage={f: sum(r['family'] == f for r in records.values()) for f in expected}, assets=list(records.values()))
-        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        # CRLF like the committed manifest (authored on Windows).
+        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\r\n')
     print('ARTWORK_COMPLETE ' + str(len(records)), flush=True)
 
 

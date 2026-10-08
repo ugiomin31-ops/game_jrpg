@@ -75,9 +75,9 @@ public static class UnityReview
             rows.Add(new { path, triangles, renderers = renderers.Length, clips });
         }
         foreach (var id in db.Heroes.Keys) Require(ArtLibrary.HeroPath(id), problems);
-        foreach (var id in db.Enemies.Keys) Require(ArtLibrary.EnemyPath(id), problems);
-        foreach (var id in db.Equipment.Keys)
-            Require(ArtLibrary.Exists(ArtLibrary.WeaponPath(id)) ? ArtLibrary.WeaponPath(id) : ArtLibrary.PropPath("Equipment", id), problems);
+        foreach (var id in db.Enemies.Keys) Require(ArtLibrary.EnemyPath(ArtVariants.EnemyModel(db, id)), problems);
+        foreach (var model in db.Equipment.Keys.Select(id => ArtVariants.GearModel(db, id)).Distinct())
+            Require(ArtLibrary.Exists(ArtLibrary.WeaponPath(model)) ? ArtLibrary.WeaponPath(model) : ArtLibrary.PropPath("Equipment", model), problems);
         foreach (var biome in db.Floors.Select(f => f.Tileset).Distinct()) Require(ArtLibrary.EnvPath(biome, "arena"), problems);
         Require(ArtLibrary.TownPath, problems);
         var report = new { unity = Application.unityVersion, models = rows.Count, heroes = db.Heroes.Count, enemies = db.Enemies.Count, equipment = db.Equipment.Count, problems, assets = rows };
@@ -122,8 +122,8 @@ public static class UnityReview
         Directory.CreateDirectory(Output);
         var db = GameDB.Instance;
         string[] paths = category == "heroes" ? db.HeroOrder.Select(ArtLibrary.HeroPath).ToArray()
-            : category == "enemies" ? db.Enemies.Keys.OrderBy(x => x).Select(ArtLibrary.EnemyPath).ToArray()
-            : db.Equipment.Keys.OrderBy(x => x).Select(id => ArtLibrary.Exists(ArtLibrary.WeaponPath(id)) ? ArtLibrary.WeaponPath(id) : ArtLibrary.PropPath("Equipment", id)).ToArray();
+            : category == "enemies" ? db.Enemies.Keys.Select(id => ArtVariants.EnemyModel(db, id)).Distinct().OrderBy(x => x).Select(ArtLibrary.EnemyPath).ToArray()
+            : db.Equipment.Keys.Select(id => ArtVariants.GearModel(db, id)).Distinct().OrderBy(x => x).Select(id => ArtLibrary.Exists(ArtLibrary.WeaponPath(id)) ? ArtLibrary.WeaponPath(id) : ArtLibrary.PropPath("Equipment", id)).ToArray();
         const int size = 256, columns = 6;
         var sheet = new Texture2D(columns * size, ((paths.Length + columns - 1) / columns) * size, TextureFormat.RGB24, false);
         var stage = new GameObject("Review gallery stage");

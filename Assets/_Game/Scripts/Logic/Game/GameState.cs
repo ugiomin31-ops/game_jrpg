@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Abyss.Logic.Dungeon;
+using Newtonsoft.Json;
 
 namespace Abyss.Logic.Game
 {
@@ -29,6 +30,10 @@ namespace Abyss.Logic.Game
         public List<string> LearnedSkills = new List<string>();
         /// <summary>Statuses carried between battles (status id -> turns left), e.g. trap poison.</summary>
         public Dictionary<string, int> Statuses = new Dictionary<string, int>();
+        /// <summary>Permanent seed bonuses: stat key (max_hp, max_mp, attack, magic, defense, resistance, speed) -> amount.</summary>
+        public Dictionary<string, int> Seeds = new Dictionary<string, int>();
+        /// <summary>The campaign's shared enhancement map (<see cref="GameState.Enhancements"/>), bound by <see cref="GameState.Repair"/>; not saved per hero.</summary>
+        [JsonIgnore] public IReadOnlyDictionary<string, int> EnhanceLevels;
 
         /// <summary>Equipped id in <paramref name="slot"/> or "".</summary>
         public string Equipped(string slot) => Equipment.TryGetValue(slot, out var id) && id != null ? id : "";
@@ -85,6 +90,8 @@ namespace Abyss.Logic.Game
         public Dictionary<string, int> Inventory = new Dictionary<string, int>();
         /// <summary>Equipment id -> count of UNEQUIPPED pieces owned.</summary>
         public Dictionary<string, int> EquipmentBag = new Dictionary<string, int>();
+        /// <summary>Equipment id -> enhancement level 1..10, shared by every copy of that id (see <see cref="Enhancement"/>).</summary>
+        public Dictionary<string, int> Enhancements = new Dictionary<string, int>();
         /// <summary>Every item id that has ever been in the inventory (smithy recipe visibility, §10.1).</summary>
         public SortedSet<string> EverOwnedItems = new SortedSet<string>(StringComparer.Ordinal);
         public int Gold;
@@ -221,6 +228,13 @@ namespace Abyss.Logic.Game
             Party ??= new List<HeroState>();
             Inventory ??= new Dictionary<string, int>();
             EquipmentBag ??= new Dictionary<string, int>();
+            Enhancements ??= new Dictionary<string, int>();
+            foreach (var id in new List<string>(Enhancements.Keys))
+            {
+                int level = Math.Min(Enhancement.MaxLevel, Enhancements[id]);
+                if (level <= 0 || !db.Equipment.ContainsKey(id)) Enhancements.Remove(id);
+                else Enhancements[id] = level;
+            }
             EverOwnedItems ??= new SortedSet<string>(StringComparer.Ordinal);
             Floors ??= new Dictionary<string, FloorProgress>();
             WarpsUnlocked ??= new SortedSet<int>();
@@ -263,6 +277,14 @@ namespace Abyss.Logic.Game
                 hero.Equipment ??= new Dictionary<string, string>();
                 hero.Statuses ??= new Dictionary<string, int>();
                 hero.LearnedSkills ??= new List<string>();
+                hero.Seeds ??= new Dictionary<string, int>();
+                foreach (var key in new List<string>(hero.Seeds.Keys))
+                {
+                    int amount = Math.Min(PartyStats.SeedCap(key), hero.Seeds[key]);
+                    if (amount <= 0) hero.Seeds.Remove(key);
+                    else hero.Seeds[key] = amount;
+                }
+                hero.EnhanceLevels = Enhancements;
                 foreach (string slot in EquipSlots)
                     if (!hero.Equipment.TryGetValue(slot, out var eq) || eq == null) hero.Equipment[slot] = "";
                 if (string.IsNullOrEmpty(hero.Job) || !db.Jobs.TryGetValue(hero.Job, out var job) || job.Hero != hero.Id) hero.Job = hero.Id;

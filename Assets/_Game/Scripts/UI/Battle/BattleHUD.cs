@@ -828,7 +828,7 @@ namespace Abyss.UI.Battle
                     string name = _db.Items.TryGetValue(id, out var item) ? item.DisplayName : _db.Equipment[id].DisplayName;
                     var label = UIFactory.Label(card.Rect, name, 23, color: UITheme.Text);
                     label.Rt().TopStrip(36, 12, 82, 16); label.overflowMode = TextOverflowModes.Ellipsis;
-                    string category = item != null ? item.ItemType == ItemType.Material ? "재료" : "소모품" : "장비";
+                    string category = item != null ? UITheme.ItemCategory(item.ItemType) : "장비";
                     UIFactory.Label(card.Rect, $"{UITheme.RarityName(rarity)} · {category}   ×{drops[i].Value}", 20, color: accent).Rt().BottomStrip(30, 12, 82, 16);
                     // Every card can reveal its complete name and description, even if the grid title is truncated.
                     var hit = card.gameObject.AddComponent<UnityEngine.UI.Button>();
@@ -886,7 +886,8 @@ namespace Abyss.UI.Battle
                 face.SetSprite(UIArtwork.Hero(card.Unit.DefId));
                 UIFactory.Label(slot, card.Unit.Name, 24).Rt().TopStrip(32, 12, 88, 12);
                 int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
-                string summary = finalHp > 0 ? $"EXP +{report.Experience:N0}" : "전투불능 · EXP 없음";
+                int heroXp = report.ExperienceByHero.TryGetValue(card.Unit.DefId, out int gained) ? gained : report.Experience;
+                string summary = finalHp > 0 ? $"EXP +{heroXp:N0}" : "전투불능 · EXP 없음";
                 foreach (var level in report.LevelUps) if (level.HeroId == card.Unit.DefId) summary = $"Lv.{level.OldLevel} → {level.NewLevel}  성장!";
                 var label = UIFactory.Label(slot, summary, 20, color: finalHp > 0 ? UITheme.Positive : UITheme.TextDisabled);
                 label.Rt().BottomStrip(36, 12, 88, 12); label.overflowMode = TextOverflowModes.Ellipsis;
