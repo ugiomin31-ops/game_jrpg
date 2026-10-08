@@ -10,7 +10,7 @@ namespace Abyss.UI
     public sealed partial class GameUI
     {
         /// <summary>Name shown for a party member: the job name once promoted, the hero's own name before.</summary>
-        string HeroLabel(HeroState hero) => PartyStats.IsPromoted(app.DB, hero) ? PartyStats.JobName(app.DB, hero) : HeroName(hero.Id);
+        string HeroLabel(HeroState hero) => HeroName(hero.Id);
 
         string JobName(HeroState hero) => PartyStats.JobName(app.DB, hero);
 
@@ -18,14 +18,14 @@ namespace Abyss.UI
         string JobBoardValue()
         {
             int ready = 0;
-            foreach (var hero in app.State.Party)
+            foreach (var hero in app.State.AllHunters())
                 foreach (var option in JobService.Options(app.DB, app.State, hero)) if (option.Available) { ready++; break; }
             return ready > 0 ? $"전직 가능 {ready}명" : "직업 확인";
         }
 
         void ShowJobs() => Menu(T("job_title"), T("job_greeting"), m =>
         {
-            foreach (var member in app.State.Party)
+            foreach (var member in app.State.AllHunters())
             {
                 var hero = member;
                 var options = JobService.Options(app.DB, app.State, hero);

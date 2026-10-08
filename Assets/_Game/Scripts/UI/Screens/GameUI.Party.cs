@@ -9,16 +9,70 @@ namespace Abyss.UI
 {
     public sealed partial class GameUI
     {
-        public void ShowParty() => Menu(T("party"), "동료를 선택해 장비, 기술과 능력치를 확인하세요.", m =>
+        // Tab 0 = the active party (equipment, skills, formation), tab 1 = reserve hunters. Formation changes only at the guild.
+        public void ShowParty() => Menu(T("menu_party", "헌터 관리"), "헌터를 선택해 장비, 기술과 능력치를 확인하고 파티를 편성하세요.", m =>
         {
             bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
-            m.Add("파티 전체 최강 장비", () => ConfirmPartyAutoEquip(m), "모든 동료에게 보유 장비 중 가장 강한 장비를 한 번에 장착합니다.", enabled: mutable, reason: T("battle_unavailable"));
-            foreach (var member in app.State.Party)
+            bool formation = mutable && app.Screen == GameScreen.Town;
+            m.Subtitle = $"파티 {app.State.Party.Count}/{GameState.PartySize} · 대기 {app.State.Reserve.Count}명 · {T("rank_title", "길드 등급")} {GameFlow.GuildRank(app.State)}";
+            if (m.TabIndex == 0)
             {
-                var hero = member;
-                m.Add(HeroLabel(hero), () => ShowHero(hero), HeroSummary(hero), $"{JobName(hero)} · Lv.{hero.Level}", icon: UIArtwork.Hero(hero.Id));
+                m.Add("파티 전체 최강 장비", () => ConfirmPartyAutoEquip(m), "파티 헌터 모두에게 보유 장비 중 가장 강한 장비를 한 번에 장착합니다.", enabled: mutable, reason: T("battle_unavailable"));
+                for (int i = 0; i < app.State.Party.Count; i++)
+                {
+                    var hero = app.State.Party[i]; int slot = i;
+                    m.Add($"{slot + 1}. {HeroLabel(hero)}", () => ShowPartyMember(hero, m), HeroSummary(hero), $"{JobName(hero)} · Lv.{hero.Level}", icon: UIArtwork.Hero(hero.Id));
+                }
+            }
+            else
+            {
+                if (app.State.Reserve.Count == 0)
+                    AddInformation(m, "대기 중인 헌터가 없습니다", "구역 보스를 쓰러뜨리면 새 헌터가 합류하고, 접수처에서 헌터를 스카우트할 수 있습니다.");
+                foreach (var member in app.State.Reserve)
+                {
+                    var hero = member;
+                    m.Add(HeroLabel(hero), () => ShowReserveMember(hero, m), HeroSummary(hero) + "\n\n대기 헌터도 전투 EXP의 절반을 받습니다.", formation ? "파티에 넣기" : $"Lv.{hero.Level}", icon: UIArtwork.Hero(hero.Id));
+                }
+            }
+        }, new[] { T("hunter_party", "파티 편성"), "대기 헌터" });
+        bool FormationOpen => app.Screen == GameScreen.Town && app.State.PendingBattle == null;
+        void ShowPartyMember(HeroState hero, GameMenuScreen owner) => Menu(HeroLabel(hero), HunterProfile(hero.Id), m =>
+        {
+            int slot = app.State.Party.IndexOf(hero);
+            m.Add("장비 · 기술 · 능력치", () => ShowHero(hero), HeroSummary(hero), icon: UIArtwork.Hero(hero.Id));
+            m.Add("대기로 보내기", () => ExecuteRoster(HunterRoster.Bench(app.State, hero.Id), owner, true), "파티에서 빼고 대기 헌터로 둡니다.", enabled: FormationOpen && app.State.Party.Count > 1,
+                reason: !FormationOpen ? T("roster_town_only", "파티 편성은 길드에서만 바꿀 수 있습니다.") : T("roster_last_member", "파티에는 최소 한 명이 있어야 합니다."));
+            if (slot > 0) m.Add("앞 순서로", () => { HunterRoster.SwapSlots(app.State, slot, slot - 1); ExecuteRoster(ServiceResult.Ok("roster_changed_msg"), owner, true); }, "전열에 가까운 자리로 옮깁니다.", enabled: FormationOpen, reason: T("roster_town_only", "파티 편성은 길드에서만 바꿀 수 있습니다."));
+            if (slot >= 0 && slot < app.State.Party.Count - 1) m.Add("뒤 순서로", () => { HunterRoster.SwapSlots(app.State, slot, slot + 1); ExecuteRoster(ServiceResult.Ok("roster_changed_msg"), owner, true); }, "뒤쪽 자리로 옮깁니다.", enabled: FormationOpen, reason: T("roster_town_only", "파티 편성은 길드에서만 바꿀 수 있습니다."));
+        });
+        void ShowReserveMember(HeroState hero, GameMenuScreen owner) => Menu(HeroLabel(hero), HunterProfile(hero.Id), m =>
+        {
+            m.Add("장비 · 기술 · 능력치", () => ShowHero(hero), HeroSummary(hero), icon: UIArtwork.Hero(hero.Id));
+            string townOnly = T("roster_town_only", "파티 편성은 길드에서만 바꿀 수 있습니다.");
+            if (app.State.Party.Count < GameState.PartySize)
+                m.Add("파티에 넣기", () => ExecuteRoster(HunterRoster.PutInParty(app.State, hero.Id, GameState.PartySize), owner, true), $"빈 자리({app.State.Party.Count + 1}번)에 넣습니다.", enabled: FormationOpen, reason: townOnly);
+            for (int i = 0; i < app.State.Party.Count; i++)
+            {
+                var member = app.State.Party[i]; int slot = i;
+                m.Add($"{HeroName(member.Id)} 대신 넣기", () => ExecuteRoster(HunterRoster.PutInParty(app.State, hero.Id, slot), owner, true),
+                    $"{slot + 1}번 자리의 {HeroName(member.Id)}({JobName(member)} · Lv.{member.Level}) 대신 파티에 넣습니다. 빠진 헌터는 대기 헌터가 됩니다.", $"{slot + 1}번", FormationOpen, townOnly, UIArtwork.Hero(member.Id));
             }
         });
+        void ExecuteRoster(ServiceResult result, GameMenuScreen owner, bool close)
+        {
+            Execute(result, owner);
+            if (!result.Success) return;
+            app.RefreshRosterVisuals();
+            if (close) root.Screens.Pop();
+        }
+        /// <summary>"C급 궁수 헌터" profile line plus the hunter's quote.</summary>
+        string HunterProfile(string heroId)
+        {
+            if (!app.DB.Heroes.TryGetValue(heroId ?? "", out var def)) return "";
+            string cls = app.DB.Jobs.TryGetValue(app.DB.ClassOf(heroId), out var job) ? job.DisplayName : "";
+            string head = string.IsNullOrEmpty(def.Rank) ? $"{cls} 헌터" : $"{def.Rank}급 {cls} 헌터";
+            return string.IsNullOrEmpty(def.Line) ? head : $"{head}\n\"{def.Line}\"";
+        }
         void ShowHero(HeroState hero) => Menu(HeroLabel(hero), HeroSummary(hero), m =>
         {
             var stats = PartyStats.EffectiveStats(app.DB, hero);
@@ -26,7 +80,7 @@ namespace Abyss.UI
             if (m.TabIndex == 0)
             {
                 bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
-                m.Add("최강 장비", () => ConfirmAutoEquip(hero, m), "보유한 장비 중 이 동료에게 가장 강한 조합을 한 번에 장착합니다.", enabled: mutable, reason: T("battle_unavailable"));
+                m.Add("최강 장비", () => ConfirmAutoEquip(hero, m), "보유한 장비 중 이 헌터에게 가장 강한 조합을 한 번에 장착합니다.", enabled: mutable, reason: T("battle_unavailable"));
                 foreach (string value in GameState.EquipSlots)
                 {
                     string slot = value;
@@ -151,7 +205,7 @@ namespace Abyss.UI
         }
         string HeroSummary(HeroState hero)
         {
-            var lines = new List<string> { $"{HeroName(hero.Id)} · Lv.{hero.Level}", $"{T("job_label", "직업")} · {JobName(hero)}", T("role_" + hero.Id, "모험가"), HeroVitals(hero), "상태 · " + HeroStatuses(hero) };
+            var lines = new List<string> { $"{HeroName(hero.Id)} · Lv.{hero.Level}", $"{T("job_label", "직업")} · {JobName(hero)}", HunterProfile(hero.Id), HeroVitals(hero), "상태 · " + HeroStatuses(hero) };
             foreach (string slot in GameState.EquipSlots) lines.Add(T("slot_" + slot) + " · " + EquipmentName(hero.Equipped(slot)));
             lines.Add(hero.Level >= GameState.LevelCap ? "최대 레벨" : $"다음 레벨까지 EXP {Math.Max(0, PartyStats.XpToNext(hero.Level) - hero.Xp)}");
             return string.Join("\n", lines);
@@ -203,7 +257,7 @@ namespace Abyss.UI
             if (piece.MpRegen > 0) lines.Add($"매 턴 MP {piece.MpRegen} 회복");
             if (piece.TpStart > 0) lines.Add($"전투 시작 시 TP {piece.TpStart}");
             if (piece.ExpBonus > 0f) lines.Add($"획득 경험치 +{piece.ExpBonus * 100:0}%");
-            if (piece.GoldBonus > 0f) lines.Add($"획득 골드 +{piece.GoldBonus * 100:0}% (파티 합산 최대 +100%)");
+            if (piece.GoldBonus > 0f) lines.Add($"획득 보상금 +{piece.GoldBonus * 100:0}% (파티 합산 최대 +100%)");
             return lines.Count == 0 ? "" : "\n" + string.Join("\n", lines);
         }
         string GearVerdict(HeroState hero, string slot, EquipmentDef piece)
@@ -289,13 +343,13 @@ namespace Abyss.UI
                 bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
                 m.Add(item.DisplayName, () =>
                 {
-                    if (item.ItemType == ItemType.EscapeDungeon) Confirm(T("return_stone"), "귀환의 돌을 사용하고 마을로 돌아갈까요?", () => UseFieldItem(id, null, m));
-                    else if (item.Target == "all_allies") Confirm("아이템 사용", $"{item.DisplayName} 1개를 전체 동료에게 사용할까요?\n{item.Description}", () => UseFieldItem(id, null, m));
+                    if (item.ItemType == ItemType.EscapeDungeon) Confirm(T("return_stone"), "게이트 탈출 비콘을 사용하고 길드로 돌아갈까요?", () => UseFieldItem(id, null, m));
+                    else if (item.Target == "all_allies") Confirm("아이템 사용", $"{item.DisplayName} 1개를 파티 전체에게 사용할까요?\n{item.Description}", () => UseFieldItem(id, null, m));
                     else ShowItemTargets(id, m);
                 }, item.Description + "\n\n" + usage, $"×{app.State.ItemCount(id)}", usable && mutable, !mutable ? T("battle_unavailable") : T("item_unavailable"), UIArtwork.Item(id));
             }
         });
-        void ShowItemTargets(string itemId, GameMenuScreen inventory) => Menu(ItemName(itemId), "아이템을 사용할 동료를 선택하세요.", m =>
+        void ShowItemTargets(string itemId, GameMenuScreen inventory) => Menu(ItemName(itemId), "아이템을 사용할 헌터를 선택하세요.", m =>
         {
             foreach (var member in app.State.Party)
             {

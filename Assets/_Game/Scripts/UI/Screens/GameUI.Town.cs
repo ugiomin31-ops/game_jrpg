@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Abyss.Logic;
 using Abyss.Logic.Game;
 using Abyss.Runtime;
+using Abyss.Presentation.Audio;
 using UnityEngine;
 
 namespace Abyss.UI
@@ -11,7 +12,7 @@ namespace Abyss.UI
     {
         static readonly string[] TownIds = { "innkeeper", "shopkeeper", "smith", "guild_clerk", "bestiary", "party", "elder", "gate" };
         static readonly string[] TownTitles = { "menu_inn", "menu_shop", "menu_smithy", "menu_guild", "menu_bestiary", "menu_party", "npc_elder_name", "menu_depart" };
-        string GoldLine => $"{app.State.Gold:N0} G";
+        string GoldLine => $"{app.State.Gold:N0}만원";
         string DeepestLabel => app.DB.Floors[Mathf.Clamp(app.State.DeepestFloor, 0, app.DB.Floors.Count - 1)].FloorLabel;
         static Sprite TownArtwork(string id)
         {
@@ -29,14 +30,14 @@ namespace Abyss.UI
             bool compact = UIRoot.Compact;
             const float width = 440f;
             services.Rect.Place(UIAnchor.TopRight, new Vector2(-24, compact ? -126 : -156), new Vector2(width, 548));
-            UIFactory.Label(services.Rect, "마을에서 준비하기", 32, UIFont.Title, UITheme.GoldBright, TMPro.TextAlignmentOptions.Center, UITextFx.Outline).Rt().TopStrip(44, 18, 24, 24);
+            UIFactory.Label(services.Rect, "새벽 길드", 32, UIFont.Title, UITheme.GoldBright, TMPro.TextAlignmentOptions.Center, UITextFx.Outline).Rt().TopStrip(44, 18, 24, 24);
             UIFactory.Separator(services.Rect, width - 80f).rectTransform.Place(UIAnchor.Top, new Vector2(0, -66), new Vector2(width - 80f, 18));
             UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 21, color: UITheme.TextDim, align: TMPro.TextAlignmentOptions.Center).Rt().TopStrip(28, 80, 24, 24);
-            var hints = new[] { "파티 회복", "소모품 · 장비", "장비 제작", "의뢰 · 전직", "약점 · 전리품", "장비 · 기술", "이야기", "미궁 탐험 시작" };
+            var hints = new[] { "치료 · 회복", "포션 · 장비", "강화 · 제작", "의뢰 · 스카우트", "몬스터 도감", "편성 · 장비", "이야기", "게이트로 출발" };
             for (int i = 0; i < TownIds.Length; i++)
             {
                 string id = TownIds[i];
-                var button = UIFactory.Button(services.Rect, (id == "elder" ? "촌장" : T(TownTitles[i])) + "\n<size=20>" + hints[i] + "</size>",
+                var button = UIFactory.Button(services.Rect, (id == "elder" ? "길드장실" : T(TownTitles[i])) + "\n<size=20>" + hints[i] + "</size>",
                     () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
                 button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -124 - (i / 2) * 102), new Vector2(196, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 92));
                 button.Label.textWrappingMode = TMPro.TextWrappingModes.Normal;
@@ -53,7 +54,7 @@ namespace Abyss.UI
         {
             if (app.Screen != GameScreen.Town || area == null) return;
             area.text = T("town_title");
-            resources.text = $"{GoldLine}  ·  최심부 {DeepestLabel}  ·  {DifficultyName(app.State.Difficulty)}";
+            resources.text = $"{GoldLine}  ·  {T("rank_title", "길드 등급")} {GameFlow.GuildRank(app.State)}  ·  최심부 {DeepestLabel}  ·  {DifficultyName(app.State.Difficulty)}";
             RefreshVitals();
         }
         void ShowTownDirectory() => Menu(T("town_title"), T("town_subtitle"), m =>
@@ -84,7 +85,7 @@ namespace Abyss.UI
         {
             int cost = TownServices.InnCost(app.State);
             m.Subtitle = T(GameFlow.GreetingKey(app.DB, app.State, "innkeeper")) + "  ·  " + GoldLine;
-            m.Add(T("inn_rest"), () => Confirm(T("inn_offer"), $"숙박비 {cost:N0} G를 지불하고 쉴까요?\n\n{T("inn_note")}", () => Execute(TownServices.RestAtInn(app.DB, app.State), m)), T("inn_note"), $"{cost:N0} G", app.State.Gold >= cost, T("reason_not_enough_gold"));
+            m.Add(T("inn_rest"), () => Confirm(T("inn_offer"), $"치료비 {cost:N0}만원을 내고 쉴까요?\n\n{T("inn_note")}", () => Execute(TownServices.RestAtInn(app.DB, app.State), m)), T("inn_note"), $"{cost:N0}만원", app.State.Gold >= cost, T("reason_not_enough_gold"));
             foreach (var hero in app.State.Party)
                 m.Add(HeroName(hero.Id), () => ShowHero(hero), HeroSummary(hero), $"HP {hero.Hp}", icon: UIArtwork.Hero(hero.Id));
         });
@@ -104,7 +105,7 @@ namespace Abyss.UI
                     string description = ContentDescription(entry.Id) + $"\n\n보유 {have}개";
                     if (equipment) description = ShopComparison(app.DB.Equipment[entry.Id]) + "\n\n" + description + $" · 장착 {PartyStats.EquippedCount(app.State, entry.Id)}개";
                     if (!entry.Unlocked) description += $"\n{app.DB.Floors[Math.Min(app.DB.Floors.Count - 1, TownServices.TierUnlockFloor(entry.ShopTier))].FloorLabel} 도달 시 해금";
-                    m.Add(entry.DisplayName, () => ShowQuantity(T("buy") + " · " + entry.DisplayName, maximum, entry.Price, n => equipment ? TownServices.BuyEquipment(app.DB, app.State, entry.Id, n) : TownServices.BuyItem(app.DB, app.State, entry.Id, n), m), description, $"{entry.Price:N0} G", entry.Unlocked && maximum > 0, reason, equipment ? UIArtwork.Gear(entry.Id) : UIArtwork.Item(entry.Id));
+                    m.Add(entry.DisplayName, () => ShowQuantity(T("buy") + " · " + entry.DisplayName, maximum, entry.Price, n => equipment ? TownServices.BuyEquipment(app.DB, app.State, entry.Id, n) : TownServices.BuyItem(app.DB, app.State, entry.Id, n), m), description, $"{entry.Price:N0}만원", entry.Unlocked && maximum > 0, reason, equipment ? UIArtwork.Gear(entry.Id) : UIArtwork.Item(entry.Id));
                 }
             }
             else
@@ -124,7 +125,7 @@ namespace Abyss.UI
                 int count = inventory[id];
                 m.Add(ItemName(id), () => ShowQuantity(T("sell") + " · " + ItemName(id), count, value,
                     n => equipment ? TownServices.SellEquipment(app.DB, app.State, id, n) : TownServices.SellItem(app.DB, app.State, id, n), m),
-                    ContentDescription(id) + $"\n\n보유 {count}개\n장착 중인 장비는 해제한 뒤 판매할 수 있습니다.", $"{value:N0} G", value > 0, T("reason_not_sellable"), equipment ? UIArtwork.Gear(id) : UIArtwork.Item(id));
+                    ContentDescription(id) + $"\n\n보유 {count}개\n장착 중인 장비는 해제한 뒤 판매할 수 있습니다.", $"{value:N0}만원", value > 0, T("reason_not_sellable"), equipment ? UIArtwork.Gear(id) : UIArtwork.Item(id));
             }
         }
         void ShowQuantity(string title, int maximum, int price, Func<int, ServiceResult> operation, GameMenuScreen owner)
@@ -134,12 +135,12 @@ namespace Abyss.UI
                 for (int i = 1; i <= maximum; i++)
                 {
                     int count = i;
-                    q.Add($"{count}개", () => Confirm("거래 확인", $"{title}\n수량 {count}개 · 합계 {price * count:N0} G\n{GoldLine}\n\n거래를 진행할까요?", () =>
+                    q.Add($"{count}개", () => Confirm("거래 확인", $"{title}\n수량 {count}개 · 합계 {price * count:N0}만원\n{GoldLine}\n\n거래를 진행할까요?", () =>
                     {
                         var result = operation(count);
                         if (result.Success) q.Close();
                         Execute(result, owner);
-                    }), $"{title}\n수량 {count}개\n합계 {price * count:N0} G\n\n{GoldLine}", $"{price * count:N0} G");
+                    }), $"{title}\n수량 {count}개\n합계 {price * count:N0}만원\n\n{GoldLine}", $"{price * count:N0}만원");
                 }
             });
         }
@@ -154,10 +155,10 @@ namespace Abyss.UI
                 var recipe = row;
                 var lines = new List<string> { EquipmentDescription(recipe.Equipment), "", T("materials") };
                 foreach (var material in recipe.Materials) lines.Add($"{ItemName(material.ItemId)} · {material.Have}/{material.Need}");
-                lines.Add($"제작비 {recipe.Gold:N0} G\n보유 {app.State.BagCount(recipe.Equipment.Id)}개");
+                lines.Add($"제작비 {recipe.Gold:N0}만원\n보유 {app.State.BagCount(recipe.Equipment.Id)}개");
                 bool capacity = app.State.BagCount(recipe.Equipment.Id) < GameState.MaxStack;
                 m.Add(recipe.Equipment.DisplayName, () => Confirm(T("craft"), string.Join("\n", lines) + "\n\n이 장비를 제작할까요?", () => Execute(TownServices.Craft(app.DB, app.State, recipe.Equipment.Id), m)),
-                    string.Join("\n", lines), $"{recipe.Gold:N0} G", recipe.CanCraft && capacity, !capacity ? T("reason_stack_full") : app.State.Gold < recipe.Gold ? T("reason_not_enough_gold") : T("reason_missing_materials"), UIArtwork.Gear(recipe.Equipment.Id));
+                    string.Join("\n", lines), $"{recipe.Gold:N0}만원", recipe.CanCraft && capacity, !capacity ? T("reason_stack_full") : app.State.Gold < recipe.Gold ? T("reason_not_enough_gold") : T("reason_missing_materials"), UIArtwork.Gear(recipe.Equipment.Id));
             }
         }, new[] { T("tab_craft"), T("tab_enhance") });
         /// <summary>Smithy 강화 tab: every owned piece with its next step, before → after stats and cost.</summary>
@@ -196,14 +197,18 @@ namespace Abyss.UI
             Line(T("stat_spd"), before.Speed, after.Speed);
             lines.Add("");
             lines.Add($"{ItemName(entry.Cost.StoneId)} · {entry.StonesOwned}/{entry.Cost.Stones}");
-            lines.Add($"강화비 {entry.Cost.Gold:N0} G  ·  {GoldLine}");
+            lines.Add($"강화비 {entry.Cost.Gold:N0}만원  ·  {GoldLine}");
             lines.Add($"보유 {entry.Owned}개 (같은 장비는 모두 함께 강화됩니다)");
             return string.Join("\n", lines);
         }
-        public void ShowQuests(bool guild = false) => Menu(guild ? T("guild_title") : "의뢰 수첩", guild ? T(GameFlow.GreetingKey(app.DB, app.State, "guild_clerk")) : "의뢰의 진행 상황을 확인합니다. 수락과 보상 수령은 마을 길드에서 할 수 있습니다.", m =>
+        public void ShowQuests(bool guild = false) => Menu(guild ? T("guild_title") : "의뢰 수첩", guild ? T(GameFlow.GreetingKey(app.DB, app.State, "guild_clerk")) : "의뢰의 진행 상황을 확인합니다. 수락과 보상 수령은 길드 접수처에서 할 수 있습니다.", m =>
         {
             QuestLog.Refresh(app.DB, app.State);
-            if (guild) m.Add(T("job_title", "전직"), ShowJobs, T("job_greeting", "전직"), JobBoardValue(), icon: UIArtwork.Command("party"));
+            if (guild)
+            {
+                m.Add(T("hunter_scout", "헌터 스카우트"), ShowScout, "길드에 새 헌터를 영입합니다. 깊은 구역에 도달할수록 실력 있는 헌터가 찾아옵니다.", ScoutBoardValue(), icon: UIArtwork.Command("party"));
+                m.Add(T("job_title", "전직"), ShowJobs, T("job_greeting", "전직"), JobBoardValue(), icon: UIArtwork.Command("party"));
+            }
             foreach (var row in TownServices.QuestBoard(app.DB, app.State))
             {
                 var entry = row; var quest = entry.Quest;
@@ -217,6 +222,31 @@ namespace Abyss.UI
                     else if (guild && entry.State == QuestBoardState.Complete) Execute(TownServices.ClaimQuest(app.DB, app.State, quest.Id), m);
                     else UIModal.Alert(root.Modals, quest.Title, details);
                 }, details, status);
+            }
+        });
+        string ScoutBoardValue()
+        {
+            int open = 0;
+            foreach (var offer in HunterRoster.ScoutOffers(app.DB, app.State)) if (offer.Unlocked) open++;
+            return open > 0 ? $"영입 가능 {open}명" : "명단 확인";
+        }
+        void ShowScout() => Menu(T("hunter_scout", "헌터 스카우트"), "길드에 새 헌터를 영입합니다.", m =>
+        {
+            m.Subtitle = "계약금을 내면 바로 합류합니다  ·  " + GoldLine;
+            var offers = HunterRoster.ScoutOffers(app.DB, app.State);
+            if (offers.Count == 0) AddInformation(m, "스카우트 명단이 비었습니다", "스카우트할 수 있는 헌터를 모두 영입했습니다.");
+            foreach (var row in offers)
+            {
+                var offer = row; var def = offer.Hunter;
+                string where = offer.Unlocked ? "" : $"\n\n{def.JoinZone}구역에 도달하면 스카우트할 수 있습니다.";
+                string details = $"{HunterProfile(def.Id)}\n\nHP {def.MaxHp} · MP {def.MaxMp} · 공격 {def.Attack} · 마력 {def.Magic} · 속도 {def.Speed}\n합류 레벨 · 현재 헌터 평균 레벨{where}";
+                m.Add(offer.Unlocked ? def.DisplayName : $"{def.DisplayName} · 미해금", () => Confirm("헌터 스카우트", $"{def.DisplayName}\n{HunterProfile(def.Id)}\n\n계약금 {offer.Price:N0}만원 · {GoldLine}\n\n영입할까요?", () =>
+                {
+                    var result = HunterRoster.Scout(app.DB, app.State, def.Id);
+                    Execute(result, m);
+                    if (result.Success) { AudioManager.Instance?.PlayJingle("jingle_level"); app.RefreshRosterVisuals(); }
+                }), details, $"{offer.Price:N0}만원", offer.Unlocked && app.State.Gold >= offer.Price,
+                    offer.Unlocked ? T("reason_not_enough_gold") : T("scout_locked", "아직 스카우트할 수 없는 헌터입니다."), UIArtwork.Hero(def.Id));
             }
         });
         string QuestStatus(QuestBoardState state)
@@ -235,10 +265,10 @@ namespace Abyss.UI
             if (app.DB.Items.TryGetValue(quest.TargetId, out var item)) return item.DisplayName;
             if (app.DB.Enemies.TryGetValue(quest.TargetId, out var enemy)) return enemy.DisplayName;
             foreach (var floor in app.DB.Floors) if (floor.Id == quest.TargetId) return floor.FloorLabel + " · " + floor.AreaName;
-            return "미궁 탐험";
+            return "게이트 탐사";
         }
-        // Tabs 0-5 = chapters 1-6, tab 6 = 시련의 회랑 (chapter 7), tab 7 = milestone rewards.
-        static readonly string[] BestiaryTabs = { "1장", "2장", "3장", "4장", "5장", "6장", "회랑", "보상" };
+        // Tabs 0-5 = zone pairs 1-2 .. 11-12 (bestiary chapters 1-6), tab 6 = the red gate (chapter 7), tab 7 = milestone rewards.
+        static readonly string[] BestiaryTabs = { "1·2구역", "3·4구역", "5·6구역", "7·8구역", "9·10구역", "11·12구역", "붉은 게이트", "보상" };
         const int BestiaryRewardTab = 7;
         void ShowBestiary() => Menu(T("bestiary_title"), T("menu_bestiary_sub"), m =>
         {
@@ -259,7 +289,7 @@ namespace Abyss.UI
                     icon: entry.Seen ? UIArtwork.Enemy(enemy.Id) : null, labelColor: entry.Seen ? accent : null);
             }
         }, BestiaryTabs);
-        string BestiaryChapterName(int chapter) => chapter >= 7 ? "시련의 회랑" : chapter + "장";
+        string BestiaryChapterName(int chapter) => chapter >= 7 ? "붉은 게이트" : $"{2 * chapter - 1}·{2 * chapter}구역";
         string BestiaryDetails(BestiaryRow entry)
         {
             var enemy = entry.Enemy;
@@ -273,7 +303,7 @@ namespace Abyss.UI
                     int rarity = ItemRarity(drop.Id);
                     drops.Add($"{UITheme.Tag(UITheme.RarityColor(rarity))}{UITheme.RarityName(rarity)}</color> {ItemName(drop.Id)} · {drop.Chance:P0}");
                 }
-            string rank = entry.IsBoss ? "등급 · 보스 · 봉인의 수호자" : entry.IsElite ? "등급 · 강적 · 배회 강적" : "등급 · 일반 · 미궁의 마물";
+            string rank = entry.IsBoss ? "등급 · 보스 · 게이트의 주인" : entry.IsElite ? "등급 · 강적 · 배회 강적" : "등급 · 일반 · 게이트 몬스터";
             string lore = app.DB.Text.TryGetValue("enemy_desc_" + enemy.Id, out var loreText) ? loreText + "\n" : "";
             string habitat = entry.Habitat.Count == 0 ? "알 수 없음" : string.Join(" · ", entry.Habitat);
             return $"{enemy.DisplayName} · Lv.{enemy.Level}\n{rank}\n{lore}HP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n서식지 · {habitat}\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";

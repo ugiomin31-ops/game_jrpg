@@ -777,7 +777,7 @@ namespace Abyss.UI.Battle
             UIFactory.Label(panel.Rect, heading, 52, UIFont.Title, victory ? UITheme.GoldBright : UITheme.Text, TextAlignmentOptions.Center,
                 victory ? UITextFx.Glow : UITextFx.Outline).Rt().TopStrip(72, 18, 36, 36);
             UIFactory.Label(panel.Rect, victory
-                    ? $"{UITheme.Tag(UITheme.GoldBright)}{report.Gold:N0} G</color>   <size=20>획득 골드</size>        {UITheme.Tag(UITheme.Positive)}EXP +{report.Experience:N0}</color>   <size=20>생존 동료</size>"
+                    ? $"{UITheme.Tag(UITheme.GoldBright)}{report.Gold:N0}만원</color>   <size=20>획득 보상금</size>        {UITheme.Tag(UITheme.Positive)}EXP +{report.Experience:N0}</color>   <size=20>생존 동료</size>"
                     : "전투 결과와 탐험 기록을 확인하세요.",
                 26, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.Center).Rt().TopStrip(36, 96, 36, 36);
             if (victory) BuildPartyResults(panel.Rect, panelSize.x, report, outcome);
@@ -787,7 +787,7 @@ namespace Abyss.UI.Battle
             _rewardScroll = UIFactory.ScrollView(growth.Rect, out var rewardContent, name: "Result progression");
             _rewardScroll.Rt().Stretch(22, 70, 22, 20);
             _text.Clear();
-            if (!victory) _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 마을에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
+            if (!victory) _text.Append(outcome.Result == BattleResult.Defeat ? "파티가 쓰러졌습니다. 길드에서 재정비하세요.\n" : "전투에서 벗어났습니다.\n");
             AppendProgression(report);
             if (_text.Length == 0) _text.Append("탐험 기록이 저장되었습니다.\n다음 모험을 이어가세요.");
             _rewardText = UIFactory.Paragraph(rewardContent, _text.ToString(), 24);
@@ -806,7 +806,7 @@ namespace Abyss.UI.Battle
             {
                 for (int i = cards.childCount - 1; i >= 0; i--) { var old = cards.GetChild(i).gameObject; old.SetActive(false); Destroy(old); }
                 int start = page * 6;
-                if (drops.Count == 0) UIFactory.Paragraph(cards, victory ? "획득한 물품이 없습니다." : "골드·EXP·아이템 보상은 없습니다.", 25).Rt().Stretch(18, 20, 18, 20);
+                if (drops.Count == 0) UIFactory.Paragraph(cards, victory ? "획득한 물품이 없습니다." : "보상금·EXP·아이템 보상은 없습니다.", 25).Rt().Stretch(18, 20, 18, 20);
                 for (int i = start; i < Math.Min(drops.Count, start + 6); i++)
                 {
                     string id = drops[i].Key;
@@ -896,7 +896,7 @@ namespace Abyss.UI.Battle
 
         void AppendProgression(Abyss.Logic.Game.BattleReport report)
         {
-            if (report.LevelUps.Count > 0) _text.Append("\n<b>동료의 성장</b>\n");
+            if (report.LevelUps.Count > 0) _text.Append("\n<b>헌터의 성장</b>\n");
             foreach (var level in report.LevelUps)
             {
                 _text.Append(_db.Heroes[level.HeroId].DisplayName).Append(" · Lv.").Append(level.OldLevel)
@@ -920,7 +920,7 @@ namespace Abyss.UI.Battle
                 var quest = _db.Quests[update.QuestId];
                 _text.Append(quest.Title).Append(" · ").Append(update.OldProgress).Append(" → ")
                     .Append(update.NewProgress).Append('/').Append(Math.Max(1, quest.Count));
-                _text.Append(update.Completed ? " · 완료!\n마을 길드에서 보상을 수령하세요.\n" : " · 진행 중\n");
+                _text.Append(update.Completed ? " · 완료!\n길드 접수처에서 보상을 받으세요.\n" : " · 진행 중\n");
             }
             if (report.NewBestiaryEntries.Count > 0) _text.Append("\n<b>마물 도감에 새로 기록</b>\n");
             foreach (string id in report.NewBestiaryEntries)

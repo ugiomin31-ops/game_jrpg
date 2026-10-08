@@ -555,7 +555,7 @@ namespace Abyss.Logic.Game
         static string BestiaryRewardText(GameDB db, BestiaryMilestoneDef def)
         {
             var parts = new List<string>();
-            if (def.Gold > 0) parts.Add(def.Gold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + " G");
+            if (def.Gold > 0) parts.Add(def.Gold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + "만원");
             foreach (var item in def.Items)
             {
                 string name = db.Items.TryGetValue(item.Id, out var consumable) ? consumable.DisplayName
