@@ -4,7 +4,7 @@
   "coverage": {
     "Heroes": 20,
     "NPCs": 8,
-    "Enemies": 51,
+    "Enemies": 83,
     "Gear": 115,
     "Items": 65,
     "Status": 22,
@@ -8371,6 +8371,1062 @@
           0.17809294164180756
         ],
         "ortho_scale": 0.4738236963748932
+      }
+    },
+    {
+      "id": "metal_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "tint": [
+        0.78,
+        0.82,
+        0.92,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/metal_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9646897315979004
+      }
+    },
+    {
+      "id": "gold_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "tint": [
+        1.0,
+        0.82,
+        0.32,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/gold_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9646897315979004
+      }
+    },
+    {
+      "id": "poison_mushroom",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "tint": [
+        0.72,
+        0.45,
+        0.95,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/poison_mushroom.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4494246244430542,
+          -4.530177593231201,
+          1.3768473863601685
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1431658267974854
+      }
+    },
+    {
+      "id": "snow_rabbit",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx",
+      "tint": [
+        0.92,
+        0.96,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/snow_rabbit.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2077467441558838,
+          -3.707056760787964,
+          1.1778939962387085
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0453561544418335
+      }
+    },
+    {
+      "id": "ice_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "tint": [
+        0.55,
+        0.85,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/ice_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9646897315979004
+      }
+    },
+    {
+      "id": "frost_bee",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "tint": [
+        0.6,
+        0.85,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/frost_bee.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.230318546295166,
+          -3.6956777572631836,
+          1.800001859664917
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1062045097351074
+      }
+    },
+    {
+      "id": "ember_bee",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "tint": [
+        1.0,
+        0.45,
+        0.25,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/ember_bee.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.230318546295166,
+          -3.6956777572631836,
+          1.800001859664917
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1062045097351074
+      }
+    },
+    {
+      "id": "lava_beetle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+      "tint": [
+        1.0,
+        0.42,
+        0.22,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/lava_beetle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4670629501342773,
+          -4.5846381187438965,
+          1.234238624572754
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.364490270614624
+      }
+    },
+    {
+      "id": "flame_wisp",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/wisp/wisp.fbx",
+      "tint": [
+        1.0,
+        0.55,
+        0.2,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/flame_wisp.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5859049558639526,
+          -5.025679588317871,
+          2.0179145336151123
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.615959882736206
+      }
+    },
+    {
+      "id": "crimson_scorpion",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sand_scorpion/sand_scorpion.fbx",
+      "tint": [
+        1.0,
+        0.3,
+        0.3,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/crimson_scorpion.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6014113426208496,
+          -5.015002727508545,
+          1.4295731782913208
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2865325212478638
+      }
+    },
+    {
+      "id": "skeleton_mage",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/skeleton/skeleton.fbx",
+      "tint": [
+        0.75,
+        0.6,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/skeleton_mage.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.505009412765503,
+          -4.631591796875,
+          1.5902118682861328
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5254000425338745
+      }
+    },
+    {
+      "id": "dark_pixie",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+      "tint": [
+        0.6,
+        0.4,
+        0.9,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/dark_pixie.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2228362560272217,
+          -3.73136305809021,
+          1.4839015007019043
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.843192458152771
+      }
+    },
+    {
+      "id": "ghost_mushroom",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "tint": [
+        0.7,
+        0.9,
+        0.95,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/ghost_mushroom.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4494246244430542,
+          -4.530177593231201,
+          1.3768473863601685
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1431658267974854
+      }
+    },
+    {
+      "id": "crypt_hound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "tint": [
+        0.55,
+        0.6,
+        0.75,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/crypt_hound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6961723566055298,
+          -5.273590087890625,
+          1.5289944410324097
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2075937986373901
+      }
+    },
+    {
+      "id": "deep_jelly",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/jellyfish/jellyfish.fbx",
+      "tint": [
+        0.55,
+        0.45,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/deep_jelly.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1982778310775757,
+          -3.7446179389953613,
+          1.5774080753326416
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0165365934371948
+      }
+    },
+    {
+      "id": "swamp_lizardman",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/lizardman/lizardman.fbx",
+      "tint": [
+        0.45,
+        0.8,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/swamp_lizardman.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.429289698600769,
+          -4.420030117034912,
+          1.4271398782730103
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3071662187576294
+      }
+    },
+    {
+      "id": "storm_harpy",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/harpy/harpy.fbx",
+      "tint": [
+        0.7,
+        0.55,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/storm_harpy.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5300841331481934,
+          -4.692144393920898,
+          1.9494317770004272
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5053446292877197
+      }
+    },
+    {
+      "id": "coral_golem",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ice_golem/ice_golem.fbx",
+      "tint": [
+        1.0,
+        0.55,
+        0.6,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/coral_golem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7730402946472168,
+          -5.646645545959473,
+          1.775794267654419
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.564092993736267
+      }
+    },
+    {
+      "id": "tide_drake",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/fire_drake/fire_drake.fbx",
+      "tint": [
+        0.35,
+        0.8,
+        0.85,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/tide_drake.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7483677864074707,
+          -5.225207805633545,
+          1.565165638923645
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3316320180892944
+      }
+    },
+    {
+      "id": "golden_mimic",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+      "tint": [
+        1.0,
+        0.8,
+        0.3,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/golden_mimic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2045962810516357,
+          -3.7653634548187256,
+          1.0412724018096924
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8562734723091125
+      }
+    },
+    {
+      "id": "void_wisp",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/wisp/wisp.fbx",
+      "tint": [
+        0.55,
+        0.35,
+        0.95,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/void_wisp.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5859049558639526,
+          -5.025679588317871,
+          2.0179145336151123
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.615959882736206
+      }
+    },
+    {
+      "id": "void_knight",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/dark_knight/dark_knight.fbx",
+      "tint": [
+        0.55,
+        0.4,
+        0.95,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/void_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4230027198791504,
+          -4.4639387130737305,
+          1.539965033531189
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5413281917572021
+      }
+    },
+    {
+      "id": "shadow_hound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "tint": [
+        0.35,
+        0.3,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/shadow_hound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6961723566055298,
+          -5.273590087890625,
+          1.5289944410324097
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2075937986373901
+      }
+    },
+    {
+      "id": "phantom",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+      "tint": [
+        0.5,
+        0.6,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/phantom.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1285609006881714,
+          -3.744561195373535,
+          1.4353022575378418
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9881591796875
+      }
+    },
+    {
+      "id": "abyss_crab",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/coral_crab/coral_crab.fbx",
+      "tint": [
+        0.5,
+        0.35,
+        0.8,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/abyss_crab.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5362186431884766,
+          -4.760152816772461,
+          1.384077787399292
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1921719312667847
+      }
+    },
+    {
+      "id": "elder_lich",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/lich/lich.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.45,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/elder_lich.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2674192190170288,
+          -3.9867677688598633,
+          1.4571261405944824
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2044674158096313
+      }
+    },
+    {
+      "id": "chaos_yeti",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/yeti/yeti.fbx",
+      "tint": [
+        0.6,
+        0.35,
+        0.8,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/chaos_yeti.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4161791801452637,
+          -4.55547571182251,
+          1.4220201969146729
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2560031414031982
+      }
+    },
+    {
+      "id": "inferno_phoenix",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/phoenix/phoenix.fbx",
+      "tint": [
+        0.75,
+        0.35,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/inferno_phoenix.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.3517858982086182,
+          -4.135167598724365,
+          1.9420208930969238
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1959798336029053
+      }
+    },
+    {
+      "id": "forest_guardian_ex",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/forest_guardian/forest_guardian.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/forest_guardian_ex.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          6.416273593902588,
+          -20.306303024291992,
+          6.310564041137695
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 5.713525772094727
+      }
+    },
+    {
+      "id": "frost_kraken_ex",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/frost_kraken/frost_kraken.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/frost_kraken_ex.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          8.38035774230957,
+          -26.188613891601562,
+          7.242684841156006
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 6.502416610717773
+      }
+    },
+    {
+      "id": "flame_sphinx_ex",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/flame_sphinx/flame_sphinx.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/flame_sphinx_ex.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          7.774252891540527,
+          -23.376033782958984,
+          6.560499668121338
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 7.145228385925293
+      }
+    },
+    {
+      "id": "boss_ex",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/boss/boss.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/boss_ex.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          4.86122465133667,
+          -15.461328506469727,
+          5.076726913452148
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 4.800893306732178
       }
     }
   ]
