@@ -90,8 +90,22 @@ def blade(c, bone, name, base, length, width, color, edge=None, depth=0.02, tip_
 
 class Sculpt(SculptBase):
     """The v3 sculpted kit plus `post`: an optional fn(position, normal, colour) -> colour applied to the fused
-    surface after the mass colours (moss on up-facing stone, wet sheen on top of armour, ...)."""
+    surface after the mass colours (moss on up-facing stone, wet sheen on top of armour, ...), and eyes whose
+    sphere resolution grows with their size (a body-sized eyeball needs more than the kit's 20 x 12)."""
     post = None
+
+    def eye(self, bone, center, look, r, iris, **kw):
+        if r <= 0.06:
+            return super().eye(bone, center, look, r, iris, **kw)
+        orig = A.sphere
+
+        def fine(name, r=0.5, loc=(0, 0, 0), color='#888888', seg=24, rings=14, **k2):
+            return orig(name, r=r, loc=loc, color=color, seg=56 if r > 0.15 else 36, rings=36 if r > 0.15 else 22, **k2)
+        A.sphere = fine
+        try:
+            return super().eye(bone, center, look, r, iris, **kw)
+        finally:
+            A.sphere = orig
 
     def _paint_and_weight(self, o):
         super()._paint_and_weight(o)
