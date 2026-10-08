@@ -1,4 +1,4 @@
-# Builds the game for phones on every push to the working branch:
+# Builds the game for phones on every push to the working branches:
 #   - Android APK  -> GitHub Release "phone-latest" (stable download link for the phone browser)
 #   - Web (WebGL)  -> gh-pages branch -> https://<owner>.github.io/<repo>/  (plays in the phone browser)
 #
@@ -11,7 +11,7 @@ name: Phone build
 
 on:
   push:
-    branches: [claude/project-thread-65bpbq]
+    branches: [claude/project-thread-65bpbq, claude/project-thread-1cwvmu]
     paths: ["Assets/**", "Packages/**", "ProjectSettings/**", ".github/workflows/phone-build.yml"]
   workflow_dispatch:
 
