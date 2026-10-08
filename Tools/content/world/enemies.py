@@ -35,7 +35,7 @@ def xp_to_next(level):
 
 # Kills of matching level per hero level (lower = faster levelling). Interpolated by level; tuned with the
 # campaign simulation (Tools/content/build_world.py --levels) so the party tracks each chapter's level range.
-KILLS_PER_LEVEL = [(1, 9), (6, 14), (12, 21), (24, 31), (34, 38), (44, 44), (54, 50), (64, 58), (72, 64)]
+KILLS_PER_LEVEL = [(1, 9), (6, 14), (12, 21), (24, 31), (34, 38), (44, 41), (54, 41), (64, 47), (72, 54)]
 
 
 def kills_per_level(level):
@@ -78,7 +78,7 @@ RELEVEL = {
 # Boss trinkets, progression items and chapter materials added to the original drop tables.
 EXTRA_DROPS = {
     'forest_guardian': [('job_medal', 1.0), ('acc_crystal_crown', 1.0), ('enhance_stone', 1.0)],
-    'frost_kraken': [('job_medal', 1.0), ('acc_kraken_eye', 1.0), ('enhance_stone', 1.0)],
+    'frost_kraken': [('acc_kraken_eye', 1.0), ('enhance_stone', 1.0), ('seed_mind', 1.0)],
     'flame_sphinx': [('acc_sphinx_riddle', 1.0), ('enhance_stone_hi', 1.0), ('seed_magic', 1.0)],
     'boss': [('master_seal', 1.0), ('acc_lich_phylactery', 1.0), ('enhance_stone_hi', 1.0), ('seed_life', 1.0)],
 }
@@ -401,7 +401,7 @@ BOSSES = {
                           dict(hp_below=0.3, actions_per_turn=3, skills=['sk_lev_abyss_breath', 'sk_lev_tail_crush', 'sk_lev_thunder_fin'], weights=[2, 2, 1],
                                summon=[], line='이 아래에 무엇이 있는지 아느냐… 나는 문이 아니다. 뚜껑이다!'),
                       ],
-                      drops=D(('leviathan_fin', 1.0), ('master_seal', 1.0), ('acc_dragon_fang', 1.0), ('enhance_stone_abyss', 1.0),
+                      drops=D(('leviathan_fin', 1.0), ('seed_swift', 1.0), ('acc_dragon_fang', 1.0), ('enhance_stone_abyss', 1.0),
                               ('seed_life', 1.0), ('megalixir', 1.0), ('sword_void', 0.25), ('robe_void', 0.25))),
     'abyss_lord': dict(level=65, ratios=(19.0, 2.2, 2.2, 1.25, 1.25, 1.2), weak=[8], resist=[7, 1, 3], shield=8,
                        skills=['sk_lord_void_blade', 'sk_lord_dominion', 'sk_lord_eclipse', 'sk_lord_crown', 'sk_lord_annihilation', 'sk_lord_soul_drain'],
@@ -414,7 +414,8 @@ BOSSES = {
                                 weights=[2, 3, 2, 1], summon=['phantom'], line='빛이… 어째서 꺼지지 않는가! 좋다, 모든 것을 무(無)로 되돌리겠다!'),
                        ],
                        drops=D(('lord_crown', 1.0), ('acc_abyss_heart', 1.0), ('enhance_stone_abyss', 1.0), ('megalixir', 1.0),
-                               ('seed_power', 1.0), ('seed_magic', 1.0))),
+                               ('seed_power', 1.0), ('seed_magic', 1.0), ('sword_void', 0.3), ('staff_void', 0.3),
+                               ('bow_void', 0.3), ('mace_judgment', 0.3))),
 }
 
 # Superbosses: the gold-tinted rematches of the trial corridor (postgame). Base boss skills plus a signature.
