@@ -403,7 +403,7 @@ BOSSES = {
                       ],
                       drops=D(('leviathan_fin', 1.0), ('seed_swift', 1.0), ('acc_dragon_fang', 1.0), ('enhance_stone_abyss', 1.0),
                               ('seed_life', 1.0), ('megalixir', 1.0), ('sword_void', 0.25), ('robe_void', 0.25))),
-    'abyss_lord': dict(level=65, ratios=(19.0, 2.2, 2.2, 1.25, 1.25, 1.2), weak=[8], resist=[7, 1, 3], shield=8,
+    'abyss_lord': dict(level=65, ratios=(19.0, 2.2, 2.2, 1.15, 1.15, 1.2), weak=[8], resist=[7, 3], shield=8,
                        skills=['sk_lord_void_blade', 'sk_lord_dominion', 'sk_lord_eclipse', 'sk_lord_crown', 'sk_lord_annihilation', 'sk_lord_soul_drain'],
                        phases=[
                            dict(hp_below=1.0, actions_per_turn=2, skills=['sk_lord_void_blade', 'sk_lord_dominion', 'sk_lord_eclipse'], weights=[3, 2, 1], summon=[],
@@ -430,7 +430,7 @@ SUPERBOSS = {
                     drops=D(('trial_emblem', 1.0), ('robe_dawn', 1.0), ('garb_dawn', 1.0), ('acc_lich_phylactery', 1.0), ('seed_guard', 1.0))),
     'leviathan_ex': dict(level=70, mult=(1.25, 1.15), sig='sk_ex_abyss_tide', summon=['naga_priestess'],
                          drops=D(('trial_emblem', 1.0), ('armor_dawn', 1.0), ('acc_dragon_fang', 1.0), ('seed_swift', 1.0), ('megalixir', 1.0))),
-    'abyss_lord_ex': dict(level=72, mult=(1.3, 1.2), sig='sk_ex_true_void', summon=['void_reaper', 'fallen_angel'],
+    'abyss_lord_ex': dict(level=72, mult=(1.3, 1.0), sig='sk_ex_true_void', summon=['void_reaper', 'fallen_angel'],
                           drops=D(('trial_emblem', 1.0), ('sword_dawn', 1.0), ('acc_ribbon', 1.0), ('acc_abyss_heart', 1.0), ('seed_power', 1.0), ('megalixir', 1.0))),
 }
 
@@ -545,13 +545,13 @@ def build_superbosses(rows, spec):
 
 # Battle-length tuning from the campaign simulation (Tools/LogicTests/CampaignBalanceTests): normal monsters get
 # more HP so a random fight lasts 3-5 rounds; elites a little; bosses per row (HP multiplier, ATK/MAG multiplier).
-NORMAL_HP = {1: 2.0, 2: 2.45, 3: 2.0, 4: 2.25, 5: 2.0, 6: 1.9, 7: 1.9}
+NORMAL_HP = {1: 2.0, 2: 2.45, 3: 2.0, 4: 2.25, 5: 2.0, 6: 2.2, 7: 1.9}
 ELITE_HP = 1.25
 BOSS_TUNE = {
-    'forest_guardian': (0.8, 1.4), 'frost_kraken': (0.85, 0.85), 'flame_sphinx': (1.0, 1.0), 'boss': (0.6, 0.8),
-    'leviathan': (0.7, 0.9), 'abyss_lord': (0.3, 0.7),
-    'forest_guardian_ex': (1.15, 1.25), 'frost_kraken_ex': (0.6, 0.78), 'flame_sphinx_ex': (0.5, 0.68), 'boss_ex': (0.4, 0.6),
-    'leviathan_ex': (0.55, 0.8), 'abyss_lord_ex': (0.36, 0.62),
+    'forest_guardian': (0.96, 1.69), 'frost_kraken': (1.43, 0.85), 'flame_sphinx': (1.65, 1.045), 'boss': (1.35, 0.648),
+    'leviathan': (1.3125, 0.99), 'abyss_lord': (0.97, 0.567),
+    'forest_guardian_ex': (2.5, 1.45), 'frost_kraken_ex': (1.425, 0.858), 'flame_sphinx_ex': (1.2, 0.99),
+    'boss_ex': (1.3, 0.84), 'leviathan_ex': (1.125, 0.94), 'abyss_lord_ex': (1.1385, 0.744),
 }
 
 
