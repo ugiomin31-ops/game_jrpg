@@ -44,18 +44,25 @@ _v3 = importlib.util.spec_from_file_location('roster_v3', str(ROOT / 'Blender' /
 _v3m = importlib.util.module_from_spec(_v3)
 _v3.loader.exec_module(_v3m)
 SOURCES.update(_v3m.SOURCES)  # monster v3: sculpted bodies replace older generators
+_v4 = importlib.util.spec_from_file_location('roster_v4', str(ROOT / 'Blender' / 'enemies_e' / 'roster.py'))
+_v4m = importlib.util.module_from_spec(_v4)
+_v4.loader.exec_module(_v4m)
+SOURCES.update(_v4m.SOURCES)  # monster v4: chapter 5-6 models (sunken temple, abyss core)
 
 
 def data_roster():
     with (ROOT / 'Assets/_Game/Resources/Data/enemies.json').open(encoding='utf-8') as stream:
         rows = json.load(stream)
-    roster = {row['id']: row for row in rows}
-    if len(rows) != len(roster) or len(roster) != len(SOURCES):
-        raise RuntimeError(f'Enemy data must contain exactly {len(SOURCES)} distinct IDs')
+    roster = {row['id']: row for row in rows if row.get('model', row['id']) == row['id']}
+    if len(rows) != len({row['id'] for row in rows}):
+        raise RuntimeError('Enemy data contains duplicate IDs')
+    # v4 models may be produced before their data rows land; their boss flag then comes from the v4 roster
+    for eid in _v4m.SOURCES:
+        roster.setdefault(eid, {'id': eid, 'is_boss': eid in _v4m.BOSSES})
     if set(roster) != set(SOURCES):
         raise RuntimeError(f'Generator/data mismatch: missing={set(roster)-set(SOURCES)}, extra={set(SOURCES)-set(roster)}')
-    if sum(row['is_boss'] for row in rows) != 4:
-        raise RuntimeError('Enemy roster must contain exactly four bosses')
+    if sum(bool(row['is_boss']) for row in roster.values()) != 4 + len(_v4m.BOSSES):
+        raise RuntimeError(f'Enemy roster must contain exactly {4 + len(_v4m.BOSSES)} bosses')
     return roster
 
 
