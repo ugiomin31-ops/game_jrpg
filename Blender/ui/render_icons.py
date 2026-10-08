@@ -197,7 +197,7 @@ def render(family, ident, source, tint=None):
         head_hi = Vector(tuple(max(p[a] for p in framed) for a in range(3)))
         center = (head_lo + head_hi) / 2
     direction = Vector((.18, -1, .03)).normalized() if portrait and hi.z - lo.z > 1.45 else Vector((0, -1, 0)) if portrait or family in ('Status', 'Elements', 'UI') else Vector((.32, -1, .20)).normalized()
-    flat_weapon = family == 'Gear' and ident.startswith(('sword_', 'bow_'))
+    flat_weapon = family == 'Gear' and source.stem.startswith(('sword_', 'bow_'))
     if flat_weapon:
         # Authored sword flats and bow curves lie in YZ: -Y is the edge, not the display face.
         direction = Vector((1, -.18, .08)).normalized()

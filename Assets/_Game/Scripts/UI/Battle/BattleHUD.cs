@@ -886,7 +886,8 @@ namespace Abyss.UI.Battle
                 face.SetSprite(UIArtwork.Hero(card.Unit.DefId));
                 UIFactory.Label(slot, card.Unit.Name, 24).Rt().TopStrip(32, 12, 88, 12);
                 int finalHp = outcome.FinalHp.TryGetValue(card.Unit.DefId, out int hp) ? hp : card.Unit.Hp;
-                string summary = finalHp > 0 ? $"EXP +{report.Experience:N0}" : "전투불능 · EXP 없음";
+                int heroXp = report.ExperienceByHero.TryGetValue(card.Unit.DefId, out int gained) ? gained : report.Experience;
+                string summary = finalHp > 0 ? $"EXP +{heroXp:N0}" : "전투불능 · EXP 없음";
                 foreach (var level in report.LevelUps) if (level.HeroId == card.Unit.DefId) summary = $"Lv.{level.OldLevel} → {level.NewLevel}  성장!";
                 var label = UIFactory.Label(slot, summary, 20, color: finalHp > 0 ? UITheme.Positive : UITheme.TextDisabled);
                 label.Rt().BottomStrip(36, 12, 88, 12); label.overflowMode = TextOverflowModes.Ellipsis;
