@@ -3,15 +3,15 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:28:49Z",
+  "produced_at_utc": "2026-10-08T03:55:36Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/sea_urchin/sea_urchin.fbx",
-      "bytes": 568876
+      "bytes": 568780
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_sea_urchin.blend",
-      "bytes": 352855
+      "bytes": 352728
     },
     "previews": [
       {

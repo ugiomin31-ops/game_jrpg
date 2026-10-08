@@ -3,28 +3,28 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:34:52Z",
+  "produced_at_utc": "2026-10-08T03:56:08Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/drowned_knight/drowned_knight.fbx",
-      "bytes": 1043116
+      "bytes": 1043100
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_drowned_knight.blend",
-      "bytes": 562250
+      "bytes": 561172
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_drowned_knight.png",
-        "bytes": 178606
+        "bytes": 178594
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_drowned_knight_side.png",
-        "bytes": 157978
+        "bytes": 157873
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_drowned_knight_attack.png",
-        "bytes": 175768
+        "bytes": 175740
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_drowned_knight_cast.png",
@@ -32,7 +32,7 @@
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_drowned_knight_die.png",
-        "bytes": 164129
+        "bytes": 164148
       }
     ]
   },

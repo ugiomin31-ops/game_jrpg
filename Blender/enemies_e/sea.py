@@ -455,10 +455,10 @@ def temple_guardian(eid):
                                mat='M_Emit', seg=10, rings=6))
     crest = []
     for i in range(9):
-        a = math.radians(-15 + 150 * i / 8)
+        a = math.radians(40 + 125 * i / 8)
         crest.append((-0.17 * math.cos(a) * 1.05, 1.1 + 0.2 * math.sin(a)))
     for i in range(8, -1, -1):
-        a = math.radians(-15 + 150 * i / 8)
+        a = math.radians(40 + 125 * i / 8)
         crest.append((-0.13 * math.cos(a), 1.1 + 0.135 * math.sin(a)))
     cr = A.extrude_shape('helm_crest', [(y, z) for y, z in crest], depth=0.04, color='#8a6a5a')
     cr.rotation_euler = (0, 0, math.radians(90))
@@ -812,7 +812,7 @@ def turtle_titan(eid):
     """거북 타이탄 — a colossal temple turtle: a high-domed shell of mossy olive scutes carrying a small marble shrine
     with a verdigris roof and a glowing pearl, a beaked head under heavy brows, and pillar legs with blunt claws."""
     c = Sculpt(eid, tris=11000, ao=0.6)
-    c.post = moss_post('#6f9a46', 0.6, 7.0, -0.2)
+    c.post = moss_post('#6f9a46', 0.82, 7.0, -0.45)
     C, R = Vector((0, 0.06, 0.6)), (0.5, 0.62, 0.34)
     cells = [(0, -0.36), (0, -0.12), (0, 0.12), (0, 0.36), (0, 0.56)] + [(s * 0.3, y) for s in (-1, 1) for y in (-0.3, -0.05, 0.2, 0.45)]
 

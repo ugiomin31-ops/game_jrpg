@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:30:00Z",
+  "produced_at_utc": "2026-10-08T03:56:46Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/turtle_titan/turtle_titan.fbx",
-      "bytes": 1062300
+      "bytes": 1060828
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_turtle_titan.blend",
-      "bytes": 557784
+      "bytes": 556883
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_turtle_titan.png",
-        "bytes": 167817
+        "bytes": 168394
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_turtle_titan_side.png",
-        "bytes": 169653
+        "bytes": 169839
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_turtle_titan_attack.png",
-        "bytes": 174053
+        "bytes": 174518
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_turtle_titan_cast.png",
-        "bytes": 170633
+        "bytes": 171179
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_turtle_titan_die.png",
-        "bytes": 170532
+        "bytes": 170949
       }
     ]
   },

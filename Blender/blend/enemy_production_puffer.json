@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:27:56Z",
+  "produced_at_utc": "2026-10-08T03:55:04Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/puffer/puffer.fbx",
-      "bytes": 657628
+      "bytes": 700332
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_puffer.blend",
-      "bytes": 395168
+      "bytes": 429199
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_puffer.png",
-        "bytes": 157826
+        "bytes": 157812
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_puffer_side.png",
-        "bytes": 158025
+        "bytes": 158129
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_puffer_attack.png",
-        "bytes": 158637
+        "bytes": 158528
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_puffer_cast.png",
-        "bytes": 160325
+        "bytes": 160411
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_puffer_die.png",
-        "bytes": 151924
+        "bytes": 151729
       }
     ]
   },
@@ -41,8 +41,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8896,
-    "vertices": 4682,
+    "triangles": 11040,
+    "vertices": 5754,
     "bones": 6,
     "materials": [
       "M_Toon"
@@ -84,8 +84,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 8896,
-    "vertices": 4682,
+    "triangles": 11040,
+    "vertices": 5754,
     "bones": 6,
     "materials": [
       "M_Toon"

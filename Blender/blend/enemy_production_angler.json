@@ -3,15 +3,15 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:28:32Z",
+  "produced_at_utc": "2026-10-08T03:55:19Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/angler/angler.fbx",
-      "bytes": 901852
+      "bytes": 901836
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_angler.blend",
-      "bytes": 468716
+      "bytes": 468999
     },
     "previews": [
       {

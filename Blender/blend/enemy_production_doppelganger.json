@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:50:55Z",
+  "produced_at_utc": "2026-10-08T04:00:01Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/doppelganger/doppelganger.fbx",
-      "bytes": 785372
+      "bytes": 785580
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_doppelganger.blend",
-      "bytes": 440382
+      "bytes": 440722
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger.png",
-        "bytes": 176146
+        "bytes": 173625
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_side.png",
-        "bytes": 158655
+        "bytes": 155937
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_attack.png",
-        "bytes": 170293
+        "bytes": 168028
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_cast.png",
-        "bytes": 156680
+        "bytes": 155136
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_doppelganger_die.png",
-        "bytes": 153291
+        "bytes": 152374
       }
     ]
   },

@@ -3,15 +3,15 @@
   "is_boss": true,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:36:52Z",
+  "produced_at_utc": "2026-10-08T03:57:23Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/leviathan/leviathan.fbx",
-      "bytes": 1554076
+      "bytes": 1554060
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/boss_leviathan.blend",
-      "bytes": 884787
+      "bytes": 884852
     },
     "previews": [
       {

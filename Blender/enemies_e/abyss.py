@@ -352,7 +352,7 @@ def nightmare(eid):
 
 
 # ---------------------------------------------------------------------------------------------- doppelganger
-def mirror_post(crack_scale=3.2, tint='#b8b0d8'):
+def mirror_post(crack_scale=2.6, tint='#b8b0d8'):
     """post-paint for living mirror-glass: a sky-bright top and dark lower reflection split by a soft horizon,
     a violet tint, and a web of dark cracks with pale chipped edges."""
     def f(p, n, col):
@@ -361,9 +361,9 @@ def mirror_post(crack_scale=3.2, tint='#b8b0d8'):
         base = lerp_col(sky, tint, 0.35)
         q = abs(noise.noise(p * crack_scale + Vector((1.7, 0.3, 2.2))))
         r = abs(noise.noise(p * crack_scale * 1.7 + Vector((4.1, 2.0, 0.6))))
-        if q < 0.05 or r < 0.035:
+        if q < 0.045 or r < 0.02:
             return rgba('#120c1e')
-        if q < 0.08 or r < 0.055:
+        if q < 0.075 or r < 0.032:
             return rgba('#ffffff')
         return lerp_col(base, col, 0.25)
     return f
@@ -667,8 +667,7 @@ def crystal_horror(eid):
 # ---------------------------------------------------------------------------------------------- abyss_lord (final boss)
 def abyss_lord(eid):
     """심연의 군주 — the final boss: a towering armoured demon king. Charcoal-violet skin, black plate armour with
-    violet-lit seams and gold trim, layered spiked pauldrons, a demonic face with amber eyes under a heavy brow and
-    fanged jaw, a crown of horns (two great swept-back horns ringed by a circlet of smaller ones), a vast cape of
+    violet-lit seams and gold trim, layered spiked pauldrons, a horned great helm whose T-visor burns with two amber eye-lights, a crown of horns (two great swept-back horns ringed by a circlet of smaller ones), a vast cape of
     void — black shading to deep violet and flecked with stars — and a two-handed greatsword with a glowing fuller."""
     k = 2.35                                     # modelled at ~1.6 m, enlarged to ~3.8 m with the horns
     c = BossSculpt(eid, scale=k, tris=20000, ao=0.6)
@@ -689,32 +688,35 @@ def abyss_lord(eid):
     A.apply_transform(cu)
     paint_fn(cu, lambda p: seam if abs(p.x) < 0.008 or abs(p.z - 1.05) < 0.006 else (gold if abs(p.z - 1.24) < 0.01 else armour(p)))
     c.add('body', A.sphere('core_gem', r=0.04, loc=(0, -0.19, 1.13), scale=(1, 0.5, 1.2), color='#d8a8ff', mat='M_Emit', seg=14, rings=8))
-    c.ring('body', 'belt', (0, -0.01, 0.86), 0.205, 0.022, gold, scale=(1, 0.75, 1))
+    c.ring('body', 'belt', (0, -0.01, 0.86), 0.205, 0.014, gold, scale=(1, 0.75, 1))
     for i in range(7):    # tassets
         a = math.radians(-90 + i * 30)
         c.chunk('body', f'tasset{i}', (0.21 * math.sin(a), -0.15 * math.cos(a), 0.74), (0.075, 0.025, 0.1), plate_hi, seed=i, jitter=0.03)
     c.membrane('body', 'loincloth', (0, -0.15, 0.86), [(-0.09, -0.15, 0.84), (-0.1, -0.17, 0.5), (-0.03, -0.18, 0.42), (0, -0.17, 0.46),
                                                         (0.03, -0.18, 0.42), (0.1, -0.17, 0.5), (0.09, -0.15, 0.84)], '#3a1a5a', thick=0.012,
                edge_color=gold)
-    # head: demonic face, heavy brow, fanged jaw
-    c.blob('head', (0, -0.01, 1.32), (0.06, 0.06, 0.07), skin)
-    c.blob('head', (0, -0.04, 1.45), (0.095, 0.1, 0.1), skin)
-    c.blob('head', (0, -0.1, 1.39), (0.07, 0.06, 0.055), skin)                                       # cheekbones/muzzle
-    c.blob('eyes', (0, -0.115, 1.475), (0.09, 0.04, 0.028), skin)                                    # heavy brow
+    # head: a horned great helm with a T-visor; two amber eye-lights burn in the dark slit
+    c.blob('head', (0, -0.01, 1.32), (0.065, 0.065, 0.07), skin)                                     # neck
+    for s in (-1, 1):                                                                                # high collar
+        c.blob('body', (s * 0.09, 0.0, 1.3), (0.07, 0.08, 0.07), armour)
+    c.blob('body', (0, 0.06, 1.31), (0.11, 0.06, 0.07), armour)
+    helm = lathe_helm(c, 'head', 'helm', (0, -0.03, 1.45), 0.105, 0.24, plate_hi,
+                      profile=[(0.095, -0.12), (0.108, -0.07), (0.11, 0.0), (0.104, 0.05), (0.085, 0.09), (0.05, 0.115), (0.0, 0.122)],
+                      scale=(1, 1.1, 1))
+    for v in helm.data.vertices:   # pinch the face into a keel
+        if v.co.y < -0.03:
+            v.co.y -= 0.035 * max(0.0, 1 - abs(v.co.x) / 0.09)
+    paint_fn(helm, lambda p: '#0a0610' if (p.y < -0.08 and ((abs(p.x) < 0.075 and abs(p.z - 1.46) < 0.014) or
+                                                           (abs(p.x) < 0.014 and 1.36 < p.z < 1.46)))
+             else gold if abs(p.z - 1.335) < 0.012 or (abs(p.x) < 0.01 and p.z > 1.5) else armour(p))
     for s in (-1, 1):
-        c.eye('eyes', (s * 0.042, -0.112, 1.447), (s * 0.3, -1, 0.0), 0.021, '#ffb020', slit=True, sclera='#f0e0b0', pupil='#2a0a00')
-        c.paint((s * 0.045, -0.135, 1.43), (0.02, 0.01, 0.03), '#2a1a30', weight=1.6)
-    c.limb('jaw', [(0, -0.06, 1.36), (0, -0.12, 1.355), (0, -0.15, 1.36)], [0.06, 0.05, 0.035], skin)
-    c.paint((0, -0.15, 1.38), (0.045, 0.02, 0.007), '#14081c', weight=1.8)
-    for s in (-1, 1):
-        spine(c, 'jaw', f'tusk{s}', (s * 0.03, -0.15, 1.37), (s * 0.2, -0.3, 1), 0.04, 0.009, '#efe6d0', tip='#ffffff', seg=6)
-    # gorget and helm back
-    c.ring('head', 'gorget', (0, -0.01, 1.31), 0.085, 0.022, plate_hi, scale=(1, 0.9, 1))
-    c.blob('head', (0, 0.03, 1.49), (0.1, 0.09, 0.09), armour)
+        c.add('head', A.sphere(f'eye_light{s}', r=0.014, loc=(s * 0.042, -0.152, 1.46), scale=(1.7, 0.5, 0.6), color='#ffb030',
+                               mat='M_Emit', seg=10, rings=6))
+        spine(c, 'head', f'cheek_spike{s}', (s * 0.09, -0.08, 1.37), (s * 0.6, -0.4, -0.5), 0.07, 0.016, plate_hi, tip='#c9a0ff', seg=6)
     # crown of horns
     for s in (-1, 1):
-        horn(c, 'crest', f'great_horn{s}', (s * 0.08, -0.02, 1.53), (s * 0.26, 0.0, 1.66), (s * 0.24, 0.12, 1.86), 0.04, '#2a2232', '#e8d8ff', n=14)
-    c.ring('crest', 'circlet', (0, -0.02, 1.53), 0.1, 0.014, gold, rot=(-8, 0, 0))
+        horn(c, 'crest', f'great_horn{s}', (s * 0.085, -0.02, 1.52), (s * 0.26, 0.0, 1.66), (s * 0.24, 0.12, 1.86), 0.04, '#2a2232', '#e8d8ff', n=14)
+    c.ring('crest', 'circlet', (0, -0.03, 1.54), 0.1, 0.012, gold, rot=(-8, 0, 0), scale=(1, 1.1, 1))
     for i in range(7):
         a = math.radians(-75 + 150 * i / 6)
         p = Vector((0.1 * math.sin(a), -0.02 - 0.1 * math.cos(a), 1.53))

@@ -3,40 +3,40 @@
   "is_boss": true,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:53:04Z",
+  "produced_at_utc": "2026-10-08T03:59:52Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/abyss_lord/abyss_lord.fbx",
-      "bytes": 1685404
+      "bytes": 1660188
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/boss_abyss_lord.blend",
-      "bytes": 923980
+      "bytes": 904832
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/boss_abyss_lord_front.png",
-        "bytes": 377979
+        "bytes": 377677
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/boss_abyss_lord_side.png",
-        "bytes": 329441
+        "bytes": 328251
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/boss_abyss_lord_back.png",
-        "bytes": 341639
+        "bytes": 341679
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/boss_abyss_lord_attack.png",
-        "bytes": 362217
+        "bytes": 363222
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/boss_abyss_lord_cast.png",
-        "bytes": 352397
+        "bytes": 351963
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/boss_abyss_lord_die.png",
-        "bytes": 349948
+        "bytes": 350195
       }
     ]
   },
@@ -45,8 +45,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 27994,
-    "vertices": 14155,
+    "triangles": 27216,
+    "vertices": 13768,
     "bones": 12,
     "materials": [
       "M_Toon",
@@ -93,8 +93,8 @@
       "Body",
       "Rig"
     ],
-    "triangles": 27994,
-    "vertices": 14155,
+    "triangles": 27216,
+    "vertices": 13768,
     "bones": 12,
     "materials": [
       "M_Toon",

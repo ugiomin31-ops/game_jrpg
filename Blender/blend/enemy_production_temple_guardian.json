@@ -3,36 +3,36 @@
   "is_boss": false,
   "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/sea.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:37:29Z",
+  "produced_at_utc": "2026-10-08T04:00:12Z",
   "files": {
     "fbx": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/temple_guardian/temple_guardian.fbx",
-      "bytes": 920236
+      "bytes": 920172
     },
     "blend": {
       "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_temple_guardian.blend",
-      "bytes": 497676
+      "bytes": 499085
     },
     "previews": [
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_temple_guardian.png",
-        "bytes": 171651
+        "bytes": 171690
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_temple_guardian_side.png",
-        "bytes": 154461
+        "bytes": 154060
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_temple_guardian_attack.png",
-        "bytes": 165318
+        "bytes": 165531
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_temple_guardian_cast.png",
-        "bytes": 164525
+        "bytes": 164549
       },
       {
         "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_temple_guardian_die.png",
-        "bytes": 160283
+        "bytes": 160130
       }
     ]
   },
