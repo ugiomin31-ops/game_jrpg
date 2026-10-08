@@ -200,21 +200,23 @@ namespace Abyss.Runtime.World
                         Bloom = 1.1f, BloomThreshold = 0.9f, Exposure = 0, Contrast = 12, Saturation = 10,
                         ColorFilter = new Color(1.0f, 0.98f, 0.95f), Vignette = 0.22f, Temperature = -4, TorchColor = new Color(1.0f, 0.72f, 0.4f),
                     };
-                case "town_night":
+                case "town_night": // 길드 저녁 (타이틀): screens, gate and lamps carry the glow
                     return new AtmospherePreset
                     {
-                        SunColor = new Color(0.58f, 0.66f, 1f), SunIntensity = 0.7f, SunEuler = new Vector3(42, -50, 0),
-                        AmbientSky = new Color(0.32f, 0.36f, 0.62f), AmbientEquator = new Color(0.24f, 0.24f, 0.4f), AmbientGround = new Color(0.12f, 0.1f, 0.14f),
-                        FogColor = new Color(0.1f, 0.11f, 0.22f), FogStart = 30, FogEnd = 110, BackgroundColor = new Color(0.06f, 0.07f, 0.16f),
-                        Bloom = 1.0f, Saturation = 8, Temperature = -6, TorchColor = new Color(1f, 0.72f, 0.42f),
+                        SunColor = new Color(0.62f, 0.7f, 1.0f), SunIntensity = 0.55f, SunEuler = new Vector3(40, -55, 0),
+                        AmbientSky = new Color(0.42f, 0.46f, 0.74f), AmbientEquator = new Color(0.36f, 0.34f, 0.5f), AmbientGround = new Color(0.16f, 0.14f, 0.2f),
+                        FogColor = new Color(0.16f, 0.18f, 0.34f), FogStart = 35, FogEnd = 120, BackgroundColor = new Color(0.12f, 0.14f, 0.3f),
+                        Bloom = 1.25f, BloomThreshold = 0.8f, Exposure = 0.05f, Contrast = 10, Saturation = 10,
+                        ColorFilter = new Color(0.96f, 0.98f, 1.0f), Vignette = 0.3f, Temperature = -8, TorchColor = new Color(1.0f, 0.74f, 0.46f),
                     };
-                case "town_dawn":
+                case "town_dawn": // 길드 낮: bright morning light through the glass front
                     return new AtmospherePreset
                     {
-                        SunColor = new Color(1f, 0.78f, 0.55f), SunIntensity = 1.4f, SunEuler = new Vector3(18, 70, 0),
-                        AmbientSky = new Color(0.75f, 0.62f, 0.68f), AmbientEquator = new Color(0.55f, 0.45f, 0.45f), AmbientGround = new Color(0.2f, 0.16f, 0.16f),
-                        FogColor = new Color(0.85f, 0.6f, 0.5f), FogStart = 40, FogEnd = 140, BackgroundColor = new Color(0.9f, 0.62f, 0.5f),
-                        Bloom = 1.1f, Saturation = 14, Temperature = 10, TorchColor = new Color(1f, 0.8f, 0.55f),
+                        SunColor = new Color(1.0f, 0.91f, 0.78f), SunIntensity = 1.25f, SunEuler = new Vector3(42, -28, 0),
+                        AmbientSky = new Color(0.84f, 0.9f, 1.0f), AmbientEquator = new Color(0.86f, 0.8f, 0.74f), AmbientGround = new Color(0.46f, 0.4f, 0.38f),
+                        FogColor = new Color(0.9f, 0.92f, 0.96f), FogStart = 45, FogEnd = 150, BackgroundColor = new Color(0.72f, 0.87f, 1.0f),
+                        Bloom = 0.55f, BloomThreshold = 0.95f, Exposure = 0.05f, Contrast = 6, Saturation = 12,
+                        ColorFilter = new Color(1.0f, 0.985f, 0.96f), Vignette = 0.16f, Temperature = 4, TorchColor = new Color(1.0f, 0.92f, 0.78f),
                     };
                 default:
                     return new AtmospherePreset();
