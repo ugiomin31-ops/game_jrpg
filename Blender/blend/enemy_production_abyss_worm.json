@@ -1,38 +1,38 @@
 {
   "id": "abyss_worm",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/enemies_e/abyss.py",
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T09:14:46Z",
+  "produced_at_utc": "2026-10-08T03:51:07Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Assets/_Game/Resources/Art/Enemies/abyss_worm/abyss_worm.fbx",
-      "bytes": 558492
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/abyss_worm/abyss_worm.fbx",
+      "bytes": 600972
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/blend/enemy_abyss_worm.blend",
-      "bytes": 342621
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_abyss_worm.blend",
+      "bytes": 433619
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm.png",
-        "bytes": 167962
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_abyss_worm.png",
+        "bytes": 166919
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_side.png",
-        "bytes": 170974
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_abyss_worm_side.png",
+        "bytes": 166384
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_attack.png",
-        "bytes": 166911
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_abyss_worm_attack.png",
+        "bytes": 156997
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_cast.png",
-        "bytes": 165557
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_abyss_worm_cast.png",
+        "bytes": 159317
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_abyss_worm_die.png",
-        "bytes": 155754
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_abyss_worm_die.png",
+        "bytes": 163052
       }
     ]
   },
@@ -41,9 +41,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7540,
-    "vertices": 3798,
-    "bones": 5,
+    "triangles": 10550,
+    "vertices": 5361,
+    "bones": 4,
     "materials": [
       "M_Toon"
     ],
@@ -84,9 +84,9 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7540,
-    "vertices": 3798,
-    "bones": 5,
+    "triangles": 10550,
+    "vertices": 5361,
+    "bones": 4,
     "materials": [
       "M_Toon"
     ],
