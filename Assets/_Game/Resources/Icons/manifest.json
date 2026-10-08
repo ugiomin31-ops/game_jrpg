@@ -4,7 +4,7 @@
   "coverage": {
     "Heroes": 20,
     "NPCs": 8,
-    "Enemies": 83,
+    "Enemies": 108,
     "Gear": 115,
     "Items": 65,
     "Status": 22,
@@ -9427,6 +9427,693 @@
           0.3097030222415924
         ],
         "ortho_scale": 4.800893306732178
+      }
+    },
+    {
+      "id": "puffer",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/puffer/puffer.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/puffer.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2112692594528198,
+          -3.667726993560791,
+          1.5336717367172241
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9420003294944763
+      }
+    },
+    {
+      "id": "sea_urchin",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sea_urchin/sea_urchin.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/sea_urchin.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1592706441879272,
+          -3.691707134246826,
+          1.1000652313232422
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8804329037666321
+      }
+    },
+    {
+      "id": "merfolk_guard",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/merfolk_guard/merfolk_guard.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/merfolk_guard.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5570875406265259,
+          -4.776800632476807,
+          1.6252211332321167
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.6056557893753052
+      }
+    },
+    {
+      "id": "angler",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/angler/angler.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/angler.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4172812700271606,
+          -4.351546764373779,
+          1.749761939048767
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.887383222579956
+      }
+    },
+    {
+      "id": "giant_clam",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/giant_clam/giant_clam.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/giant_clam.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6427644491195679,
+          -4.91903829574585,
+          1.3959590196609497
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2404626607894897
+      }
+    },
+    {
+      "id": "siren",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/siren/siren.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/siren.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.574818730354309,
+          -4.791884422302246,
+          2.0199129581451416
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5495436191558838
+      }
+    },
+    {
+      "id": "sea_serpent",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/sea_serpent/sea_serpent.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/sea_serpent.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.945481777191162,
+          -5.457818984985352,
+          1.6425079107284546
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3697575330734253
+      }
+    },
+    {
+      "id": "temple_guardian",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/temple_guardian/temple_guardian.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/temple_guardian.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.688720703125,
+          -5.293148994445801,
+          1.8577030897140503
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.8697409629821777
+      }
+    },
+    {
+      "id": "drowned_knight",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/drowned_knight/drowned_knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/drowned_knight.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6664034128189087,
+          -5.695021629333496,
+          1.86810302734375
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7362602949142456
+      }
+    },
+    {
+      "id": "naga_priestess",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/naga_priestess/naga_priestess.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/naga_priestess.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.9625592231750488,
+          -5.973934650421143,
+          1.9615483283996582
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.943676233291626
+      }
+    },
+    {
+      "id": "turtle_titan",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/turtle_titan/turtle_titan.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/turtle_titan.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          2.4405109882354736,
+          -7.608389854431152,
+          2.2260560989379883
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.8999783992767334
+      }
+    },
+    {
+      "id": "void_eye",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/void_eye/void_eye.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/void_eye.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.338110089302063,
+          -4.030660629272461,
+          1.5398231744766235
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1312083005905151
+      }
+    },
+    {
+      "id": "chaos_spawn",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/chaos_spawn/chaos_spawn.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/chaos_spawn.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.611598014831543,
+          -4.956676959991455,
+          1.4506858587265015
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2100731134414673
+      }
+    },
+    {
+      "id": "shadow_beast",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/shadow_beast/shadow_beast.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/shadow_beast.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.7632839679718018,
+          -5.428289890289307,
+          1.5924532413482666
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2805761098861694
+      }
+    },
+    {
+      "id": "gargoyle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/gargoyle/gargoyle.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/gargoyle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.868728518486023,
+          -5.7004714012146,
+          2.0567331314086914
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.729117512702942
+      }
+    },
+    {
+      "id": "nightmare",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/nightmare/nightmare.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/nightmare.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.8608478307724,
+          -5.767773628234863,
+          1.8729958534240723
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.7637163400650024
+      }
+    },
+    {
+      "id": "doppelganger",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/doppelganger/doppelganger.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/doppelganger.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.371011734008789,
+          -4.287973880767822,
+          1.546291470527649
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.593529224395752
+      }
+    },
+    {
+      "id": "abyss_worm",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/abyss_worm/abyss_worm.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/abyss_worm.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.8087472915649414,
+          -5.645242691040039,
+          1.7018178701400757
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.6293058395385742
+      }
+    },
+    {
+      "id": "fallen_angel",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/fallen_angel/fallen_angel.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/fallen_angel.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          2.206435203552246,
+          -6.755547523498535,
+          2.2201051712036133
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 2.0356717109680176
+      }
+    },
+    {
+      "id": "void_reaper",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/void_reaper/void_reaper.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/void_reaper.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4026367664337158,
+          -5.360935211181641,
+          2.0175068378448486
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5833256244659424
+      }
+    },
+    {
+      "id": "crystal_horror",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/crystal_horror/crystal_horror.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/crystal_horror.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.810245156288147,
+          -5.687404155731201,
+          1.6686276197433472
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.4070518016815186
+      }
+    },
+    {
+      "id": "leviathan",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/leviathan/leviathan.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/leviathan.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          7.551496505737305,
+          -22.505834579467773,
+          7.056454658508301
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 6.370578289031982
+      }
+    },
+    {
+      "id": "abyss_lord",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/abyss_lord/abyss_lord.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/abyss_lord.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          5.002180099487305,
+          -15.96316909790039,
+          5.089662075042725
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 5.82172155380249
+      }
+    },
+    {
+      "id": "leviathan_ex",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/leviathan/leviathan.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/leviathan_ex.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          7.551496505737305,
+          -22.505834579467773,
+          7.056454658508301
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 6.370578289031982
+      }
+    },
+    {
+      "id": "abyss_lord_ex",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/abyss_lord/abyss_lord.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/abyss_lord_ex.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          5.002180099487305,
+          -15.96316909790039,
+          5.089662075042725
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 5.82172155380249
       }
     }
   ]
