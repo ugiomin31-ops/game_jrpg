@@ -31,6 +31,11 @@ namespace Abyss.Logic.Game
         public float Hit, Evade, Crit;
         public List<int> ElementResists = new List<int>();
         public List<string> StatusImmunities = new List<string>();
+        /// <summary>Plain-attack element from the weapon (0 = none).</summary>
+        public int AttackElement;
+        /// <summary>Gear effects (summed): end-of-turn HP ratio / MP, battle-start TP, EXP and gold bonus ratios.</summary>
+        public float HpRegen, ExpBonus, GoldBonus;
+        public int MpRegen, TpStart;
         public int MaxHp => Stats.MaxHp;
         public int MaxMp => Stats.MaxMp;
     }
@@ -60,6 +65,8 @@ namespace Abyss.Logic.Game
     {
         public BattleResult Result;
         public int Experience, Gold;
+        /// <summary>EXP each standing hero actually received (base EXP x the hero's own gear EXP bonus).</summary>
+        public Dictionary<string, int> ExperienceByHero = new Dictionary<string, int>();
         public Dictionary<string, int> Drops = new Dictionary<string, int>();
         public List<LevelUpReport> LevelUps = new List<LevelUpReport>();
         public List<QuestUpdate> QuestUpdates = new List<QuestUpdate>();
@@ -113,13 +120,19 @@ namespace Abyss.Logic.Game
         public static HeroStats EffectiveStats(GameDB db, HeroState hero)
         {
             var def = db.Heroes[hero.Id];
-            var stats = LevelStats(def, hero.Level);
+            var stats = LevelStats(def, hero.Level) + SeedStats(hero);
             double hit = D(def.Hit), evade = D(def.Evade), crit = D(def.Crit);
             var output = new HeroStats();
             foreach (string slot in GameState.EquipSlots)
             {
                 if (!db.Equipment.TryGetValue(hero.Equipped(slot), out var piece)) continue;
-                stats += new StatBlock { MaxHp = piece.Hp, MaxMp = piece.Mp, Attack = piece.Atk, Magic = piece.Mag, Defense = piece.Def, Resistance = piece.Res, Speed = piece.Spd };
+                stats += Enhancement.Stats(piece, Enhancement.LevelOf(hero, piece.Id));
+                if (slot == "weapon") output.AttackElement = (int)piece.Element;
+                output.HpRegen += Math.Max(0f, piece.HpRegen);
+                output.MpRegen += Math.Max(0, piece.MpRegen);
+                output.TpStart += Math.Max(0, piece.TpStart);
+                output.ExpBonus += Math.Max(0f, piece.ExpBonus);
+                output.GoldBonus += Math.Max(0f, piece.GoldBonus);
                 hit += D(piece.Hit);
                 evade += D(piece.Evade);
                 crit += D(piece.Crit);
@@ -146,7 +159,7 @@ namespace Abyss.Logic.Game
             if (Array.IndexOf(GameState.EquipSlots, slot) < 0) throw new ArgumentException("Unknown equipment slot", nameof(slot));
             if (!string.IsNullOrEmpty(equipmentId) && (!db.Equipment.TryGetValue(equipmentId, out var piece)
                 || piece.Slot != slot || !AllowsClass(piece, hero.Id))) throw new ArgumentException("Incompatible equipment", nameof(equipmentId));
-            var preview = new HeroState { Id = hero.Id, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment) };
+            var preview = new HeroState { Id = hero.Id, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment), Seeds = hero.Seeds, EnhanceLevels = hero.EnhanceLevels };
             preview.Equipment[slot] = equipmentId ?? "";
             return EffectiveStats(db, preview);
         }
@@ -214,6 +227,10 @@ namespace Abyss.Logic.Game
                 ArmorId = hero.Equipped("armor"),
                 AccessoryId = hero.Equipped("accessory"),
                 Row = db.HeroOrder.IndexOf(heroId) == 0 ? 0 : 1,
+                AttackElement = stats.AttackElement,
+                HpRegen = stats.HpRegen,
+                MpRegen = stats.MpRegen,
+                TpStart = stats.TpStart,
             };
             if (hero.Hp > 0)
                 foreach (var kv in hero.Statuses) if (kv.Value > 0) spec.Statuses[kv.Key] = kv.Value;
@@ -238,7 +255,7 @@ namespace Abyss.Logic.Game
             };
             foreach (var hero in state.Party) setup.Party.Add(BuildCombatSpec(db, state, hero.Id));
             foreach (var kv in state.Inventory)
-                if (kv.Value > 0 && db.Items.TryGetValue(kv.Key, out var item) && item.ItemType != ItemType.Material)
+                if (kv.Value > 0 && db.Items.TryGetValue(kv.Key, out var item) && IsBattleItem(item))
                     setup.Inventory[kv.Key] = kv.Value;
             return setup;
         }
@@ -363,12 +380,14 @@ namespace Abyss.Logic.Game
             {
                 state.TotalWins++;
                 report.Experience = Math.Max(0, outcome.Experience);
-                report.Gold = Math.Max(0, outcome.Gold);
+                report.Gold = RoundI(Math.Max(0, outcome.Gold) * (1.0 + PartyGoldBonus(db, state)));
                 state.Gold += report.Gold;
                 foreach (var hero in state.Party)
                 {
                     if (hero.Hp <= 0) continue;
-                    var levelUp = AwardXp(db, hero, report.Experience);
+                    int xp = RoundI(report.Experience * (1.0 + D(EffectiveStats(db, hero).ExpBonus)));
+                    report.ExperienceByHero[hero.Id] = xp;
+                    var levelUp = AwardXp(db, hero, xp);
                     if (levelUp != null) report.LevelUps.Add(levelUp);
                 }
                 foreach (var kv in outcome.Drops)
@@ -387,6 +406,80 @@ namespace Abyss.Logic.Game
             }
             QuestLog.Refresh(db, state, report.QuestUpdates);
             return report;
+        }
+
+        /// <summary>Consumables offered in battle: not materials, seeds, key items or field-only items (camp tent).</summary>
+        public static bool IsBattleItem(ItemDef item) =>
+            item != null && item.ItemType != ItemType.Material && item.ItemType != ItemType.Seed && item.ItemType != ItemType.Key && !item.FieldOnly;
+
+        /// <summary>Party gold bonus ratio: every worn piece's gold_bonus summed, capped at +100 %.</summary>
+        public static double PartyGoldBonus(GameDB db, GameState state)
+        {
+            double total = 0;
+            foreach (var hero in state.Party)
+                foreach (string slot in GameState.EquipSlots)
+                    if (db.Equipment.TryGetValue(hero.Equipped(slot), out var piece)) total += Math.Max(0.0, D(piece.GoldBonus));
+            return Math.Min(1.0, total);
+        }
+
+        // ------------------------------------------------------------------ seeds
+
+        /// <summary>Seed stat keys (item "stat" field) in display order.</summary>
+        public static readonly string[] SeedKeys = { "max_hp", "max_mp", "attack", "magic", "defense", "resistance", "speed" };
+
+        /// <summary>Most a hero can gain from seeds in one stat (0 for unknown keys): HP 400, MP 100, speed 20, others 40.</summary>
+        public static int SeedCap(string stat)
+        {
+            switch (stat)
+            {
+                case "max_hp": return 400;
+                case "max_mp": return 100;
+                case "speed": return 20;
+                case "attack": case "magic": case "defense": case "resistance": return 40;
+                default: return 0;
+            }
+        }
+
+        /// <summary>Permanent seed bonuses of a hero as a stat block.</summary>
+        public static StatBlock SeedStats(HeroState hero)
+        {
+            var b = new StatBlock();
+            if (hero?.Seeds == null) return b;
+            foreach (var kv in hero.Seeds)
+            {
+                int v = Math.Max(0, Math.Min(SeedCap(kv.Key), kv.Value));
+                switch (kv.Key)
+                {
+                    case "max_hp": b.MaxHp += v; break;
+                    case "max_mp": b.MaxMp += v; break;
+                    case "attack": b.Attack += v; break;
+                    case "magic": b.Magic += v; break;
+                    case "defense": b.Defense += v; break;
+                    case "resistance": b.Resistance += v; break;
+                    case "speed": b.Speed += v; break;
+                }
+            }
+            return b;
+        }
+
+        /// <summary>
+        /// Applies one seed to a hero (does not consume it). Returns the amount gained (0 = unknown stat or already at the cap).
+        /// A living hero's current HP/MP rise with a max HP/MP seed.
+        /// </summary>
+        public static int ApplySeed(GameDB db, HeroState hero, ItemDef seed)
+        {
+            if (hero == null || seed == null || seed.ItemType != ItemType.Seed) return 0;
+            string stat = seed.Stat ?? "";
+            int cap = SeedCap(stat);
+            hero.Seeds ??= new Dictionary<string, int>();
+            hero.Seeds.TryGetValue(stat, out int have);
+            int gain = Math.Max(0, Math.Min(cap - have, Math.Max(1, seed.Value)));
+            if (gain <= 0) return 0;
+            hero.Seeds[stat] = have + gain;
+            if (hero.Hp > 0 && stat == "max_hp") hero.Hp += gain;
+            if (stat == "max_mp") hero.Mp += gain;
+            ClampVitals(db, hero);
+            return gain;
         }
 
         /// <summary>Whether <paramref name="heroId"/> may wear <paramref name="equipmentId"/> (known piece, valid slot, class allowed).</summary>

@@ -114,7 +114,8 @@ namespace Abyss.Logic.Game
 
         /// <summary>
         /// Uses a consumable from the camp menu (HEALING / MP_RESTORE / CURE / REVIVE on <paramref name="heroId"/>
-        /// or every hero for all_allies items; ESCAPE_DUNGEON in the dungeon). Nothing is consumed without effect.
+        /// or every hero for all_allies items; ESCAPE_DUNGEON in the dungeon; SEED on <paramref name="heroId"/>, permanent,
+        /// failing with reason_seed_cap at the cap). Nothing is consumed without effect.
         /// </summary>
         public static FieldItemResult UseFieldItem(GameDB db, GameState state, string itemId, string heroId, bool inDungeon)
         {
@@ -125,6 +126,15 @@ namespace Abyss.Logic.Game
                 if (!inDungeon) return Fail("no_effect");
                 state.RemoveItem(itemId, 1);
                 return new FieldItemResult { Success = true, TextKey = "used", ReturnToTown = true };
+            }
+            if (item.ItemType == ItemType.Seed)
+            {
+                var eater = state.Hero(heroId);
+                if (eater == null) return Fail("invalid_target");
+                if (PartyStats.ApplySeed(db, eater, item) <= 0) return Fail("reason_seed_cap");
+                state.RemoveItem(itemId, 1);
+                QuestLog.Refresh(db, state);
+                return new FieldItemResult { Success = true, TextKey = "used" };
             }
             if (item.ItemType != ItemType.Healing && item.ItemType != ItemType.MpRestore && item.ItemType != ItemType.Cure && item.ItemType != ItemType.Revive)
                 return Fail("item_unavailable");
@@ -141,6 +151,11 @@ namespace Abyss.Logic.Game
                         if (hero.Hp > 0 && hero.Hp < stats.MaxHp)
                         {
                             hero.Hp = Math.Min(stats.MaxHp, hero.Hp + (item.Value > 0 ? item.Value : item.HealAmount));
+                            changed = true;
+                        }
+                        if (hero.Hp > 0 && item.MpAmount > 0 && hero.Mp < stats.MaxMp)
+                        {
+                            hero.Mp = Math.Min(stats.MaxMp, hero.Mp + item.MpAmount);
                             changed = true;
                         }
                         break;

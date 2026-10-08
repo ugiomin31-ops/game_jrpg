@@ -384,6 +384,25 @@ namespace Abyss.Logic.Battle
                         Emit(new HealEvent { TargetId = actor.Id, SourceId = tick.status.SourceId, Amount = healed, StatusId = tick.status.Id, HpAfter = actor.Hp, MaxHp = actor.MaxHp });
                 }
             }
+            ApplyGearRegen(actor);
+        }
+
+        /// <summary>Equipment regeneration (regen ring, mana spring...): after status ticks, only while standing.</summary>
+        void ApplyGearRegen(BattleUnit actor)
+        {
+            if (!actor.IsAlive || actor.Side != BattleSide.Party) return;
+            if (actor.HpRegenRatio > 0.0 && actor.Hp < actor.MaxHp)
+            {
+                int healed = actor.Heal(Gd.RoundI(Math.Max(1, Gd.RoundI(actor.MaxHp * actor.HpRegenRatio)) * actor.HealingReceivedScale));
+                if (healed > 0)
+                    Emit(new HealEvent { TargetId = actor.Id, SourceId = actor.Id, Amount = healed, HpAfter = actor.Hp, MaxHp = actor.MaxHp });
+            }
+            if (actor.MpRegenPerTurn > 0 && actor.Mp < actor.MaxMp)
+            {
+                int before = actor.Mp;
+                actor.Mp = Math.Min(actor.MaxMp, actor.Mp + actor.MpRegenPerTurn);
+                Emit(new MpChangeEvent { UnitId = actor.Id, Mp = actor.Mp, MaxMp = actor.MaxMp, Delta = actor.Mp - before });
+            }
         }
 
         /// <summary>DoT / bleed damage (no TP, no break, no phase check).</summary>
@@ -956,6 +975,12 @@ namespace Abyss.Logic.Battle
                 int applied = target.Heal(amount);
                 if (applied > 0)
                     Emit(new HealEvent { TargetId = target.Id, SourceId = actor.Id, Amount = applied, HpAfter = target.Hp, MaxHp = target.MaxHp });
+                if (action.Item != null && action.Item.MpAmount > 0 && target.Mp < target.MaxMp)
+                {
+                    int before = target.Mp;
+                    target.Mp = Math.Min(target.MaxMp, target.Mp + action.Item.MpAmount);
+                    Emit(new MpChangeEvent { UnitId = target.Id, Mp = target.Mp, MaxMp = target.MaxMp, Delta = target.Mp - before });
+                }
             }
             ApplyPayloadStatuses(actor, targets, action.Skill, true);
         }

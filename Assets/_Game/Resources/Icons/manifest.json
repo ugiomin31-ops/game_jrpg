@@ -5,8 +5,8 @@
     "Heroes": 4,
     "NPCs": 8,
     "Enemies": 51,
-    "Gear": 48,
-    "Items": 30,
+    "Gear": 51,
+    "Items": 31,
     "Status": 22,
     "Elements": 8,
     "UI": 12
@@ -4951,6 +4951,126 @@
           0.3097030222415924
         ],
         "ortho_scale": 1.2560031414031982
+      }
+    },
+    {
+      "id": "acc_gold_charm",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/acc_lucky_charm.fbx",
+      "tint": [
+        1.0,
+        0.85,
+        0.35,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Gear/acc_gold_charm.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2037605047225952,
+          -3.746751546859741,
+          1.234439492225647
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.6308474540710449
+      }
+    },
+    {
+      "id": "armor_void",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Props/Equipment/armor_dawn.fbx",
+      "tint": [
+        0.6,
+        0.45,
+        0.95,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Gear/armor_void.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2718510627746582,
+          -3.974534511566162,
+          1.3307604789733887
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1114827394485474
+      }
+    },
+    {
+      "id": "sword_conqueror",
+      "family": "Gear",
+      "source": "Assets/_Game/Resources/Art/Weapons/sword_conqueror.fbx",
+      "output": "Assets/_Game/Resources/Icons/Gear/sword_conqueror.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          3.934013605117798,
+          -0.7058738470077515,
+          0.7383025288581848
+        ],
+        "rotation": [
+          1.471211314201355,
+          0.6608169078826904,
+          1.331455945968628
+        ],
+        "ortho_scale": 1.1384576559066772
+      }
+    },
+    {
+      "id": "fire_bomb",
+      "family": "Items",
+      "source": "Assets/_Game/Resources/Art/Props/Items/fire_bomb.fbx",
+      "output": "Assets/_Game/Resources/Icons/Items/fire_bomb.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1991819143295288,
+          -3.747443437576294,
+          1.1732151508331299
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9314965605735779
       }
     }
   ]

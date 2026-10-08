@@ -22,7 +22,8 @@ namespace Abyss.Logic
         MagicUp = 16, SpeedUp = 17, ManaShield = 18, Invincible = 19,
     }
 
-    public enum ItemType { Healing = 0, MpRestore = 1, Cure = 2, Revive = 3, EscapeDungeon = 4, FleeBattle = 5, Damage = 6, Material = 7, Buff = 8 }
+    /// <summary>Seed: permanent +stat on one hero (field/menu only). Key: progression key item (not usable, not sellable).</summary>
+    public enum ItemType { Healing = 0, MpRestore = 1, Cure = 2, Revive = 3, EscapeDungeon = 4, FleeBattle = 5, Damage = 6, Material = 7, Buff = 8, Seed = 9, Key = 10 }
 
     public enum Difficulty { Easy = 0, Normal = 1, Hard = 2 }
 
@@ -85,6 +86,9 @@ namespace Abyss.Logic
         public string Archetype = "body_only";
         public int BattleRow;
         public float[] Tint = { 1, 1, 1, 1 };
+        /// <summary>Art model id (Art/Enemies/&lt;model&gt;); "" = own id. A palette variant names its base enemy here and
+        /// its <see cref="Tint"/> multiplies the base model's colours (see <see cref="ArtVariants"/>).</summary>
+        public string Model = "";
         public List<BossPhase> Phases = new List<BossPhase>();
         public List<string> Gimmicks = new List<string>();
     }
@@ -142,6 +146,15 @@ namespace Abyss.Logic
         public int Price, SellPrice, ShopTier;
         public string StatusId = "";
         public Element Element;
+        /// <summary>HEALING items: MP restored alongside the HP heal (megalixir, camp tent).</summary>
+        public int MpAmount;
+        /// <summary>SEED items: stat raised permanently by <see cref="Value"/> (max_hp, max_mp, attack, magic, defense, resistance, speed).</summary>
+        public string Stat = "";
+        /// <summary>Usable from the field/camp menu only (never offered in battle).</summary>
+        public bool FieldOnly;
+        /// <summary>Optional art model id (Art/Props/Items/&lt;model&gt;) and RGBA tint for icon variants; "" = own id.</summary>
+        public string Model = "";
+        public float[] Tint;
     }
 
     public sealed class EquipmentDef
@@ -162,6 +175,26 @@ namespace Abyss.Logic
         public int ShopTier;
         public Dictionary<string, int> CraftMaterials = new Dictionary<string, int>();
         public int CraftGold;
+        /// <summary>Power tier 1..8 (T1 chapter 1 early ... T7 chapter 6, T8 postgame legendary); sets the enhancement cost.</summary>
+        public int Tier = 1;
+        /// <summary>Jobs allowed to equip (empty = any job of <see cref="Classes"/>).</summary>
+        public List<string> Jobs = new List<string>();
+        /// <summary>Weapons: element of the wielder's plain attack (0 = none).</summary>
+        public Element Element;
+        /// <summary>Wearer's battle EXP multiplier bonus (0.3 = +30 %).</summary>
+        public float ExpBonus;
+        /// <summary>Party battle gold bonus (summed over the party, capped at +100 %).</summary>
+        public float GoldBonus;
+        /// <summary>HP regained at the end of each of the wearer's turns, as a ratio of max HP.</summary>
+        public float HpRegen;
+        /// <summary>MP regained at the end of each of the wearer's turns.</summary>
+        public int MpRegen;
+        /// <summary>TP the wearer starts every battle with.</summary>
+        public int TpStart;
+        /// <summary>Art model id (weapon: Art/Weapons/&lt;model&gt;, else Art/Props/Equipment/&lt;model&gt;); "" = own id.</summary>
+        public string Model = "";
+        /// <summary>Optional RGBA multiplier for the model's colours (null = authored colours).</summary>
+        public float[] Tint;
     }
 
     public sealed class TreasureContents
