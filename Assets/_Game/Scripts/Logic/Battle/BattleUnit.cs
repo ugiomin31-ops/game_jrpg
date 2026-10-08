@@ -67,6 +67,8 @@ namespace Abyss.Logic.Battle
         public bool Summoned { get; internal set; }
         public string SummonerId { get; internal set; } = "";
         public bool Enraged { get; internal set; }
+        /// <summary>Ran away (runner AI): out of the fight, but neither defeated nor rewarded.</summary>
+        public bool Escaped { get; internal set; }
         public int ExperienceReward { get; private set; }
         public int GoldReward { get; private set; }
 

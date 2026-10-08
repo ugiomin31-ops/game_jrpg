@@ -261,9 +261,9 @@ namespace Abyss.Logic.Dungeon
             }
             if (victory && request.Kind == BattleKind.Boss)
             {
-                State.Flags.Add(GameFlow.BossFlag(State.FloorIndex / 3 + 1));
+                State.Flags.Add(GameFlow.BossFlag(GameFlow.ChapterOf(State.FloorIndex)));
                 result.PostText = request.PostText;
-                if (State.FloorIndex == db.Floors.Count - 1)
+                if (IsEndingFloor(State.FloorIndex) && !State.Flags.Contains(GameFlow.FlagCleared))
                 {
                     State.Flags.Add(GameFlow.FlagCleared); State.Location = GameLocation.Town;
                     result.Ending = true; result.ReturnToTown = true;
@@ -275,6 +275,12 @@ namespace Abyss.Logic.Dungeon
             Grid.Explore(State.Position);
             lastResolution = result;
             return result;
+        }
+        /// <summary>The floor whose boss ends the story: the one marked <see cref="FloorDef.Ending"/>, else the last floor.</summary>
+        bool IsEndingFloor(int index)
+        {
+            foreach (var floor in db.Floors) if (floor.Ending) return db.Floors[index].Ending;
+            return index == db.Floors.Count - 1;
         }
         void Retreat(DungeonBattleRequest request, DungeonBattleResolution result)
         {

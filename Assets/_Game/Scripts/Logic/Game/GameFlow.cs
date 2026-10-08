@@ -36,9 +36,51 @@ namespace Abyss.Logic.Game
         public const string FlagEndingSeen = "ending_seen";
         public const int ProloguePages = 8;
         public const int EndingPages = 12;
+        /// <summary>Floors per chapter (B1F-B5F is chapter 1). Floor 5 of a chapter holds its boss.</summary>
+        public const int FloorsPerChapter = 5;
+        /// <summary>Story chapters before the postgame (chapter 7 = 시련의 회랑, open after the ending).</summary>
+        public const int MainChapters = 6;
+        /// <summary>One-shot notice shown in town after the ending: the trial corridor is open.</summary>
+        public const string FlagPostgameNotice = "postgame_notice_seen";
 
-        /// <summary>"boss_N_cleared" for biome N = 1..4.</summary>
-        public static string BossFlag(int biome) => "boss_" + biome + "_cleared";
+        /// <summary>Chapter (1-based) of a floor index.</summary>
+        public static int ChapterOf(int floorIndex) => Math.Max(0, floorIndex) / FloorsPerChapter + 1;
+
+        /// <summary>"boss_N_cleared" for chapter N = 1..7.</summary>
+        public static string BossFlag(int chapter) => "boss_" + chapter + "_cleared";
+
+        /// <summary>Story chapter the party is in: 1 + bosses beaten in order, 7 after the ending.</summary>
+        public static int StoryChapter(GameState state)
+        {
+            if (state.Flags.Contains(FlagCleared)) return MainChapters + 1;
+            int chapter = 1;
+            while (chapter <= MainChapters && state.Flags.Contains(BossFlag(chapter))) chapter++;
+            return Math.Min(chapter, MainChapters);
+        }
+
+        /// <summary>
+        /// Town greeting text key for an NPC: "npc_&lt;id&gt;_greeting_&lt;chapter&gt;" when authored for the current
+        /// story chapter (or the latest earlier one), else the base "npc_&lt;id&gt;_greeting".
+        /// </summary>
+        public static string GreetingKey(GameDB db, GameState state, string npcId)
+        {
+            for (int chapter = StoryChapter(state); chapter >= 1; chapter--)
+            {
+                string key = "npc_" + npcId + "_greeting_" + chapter;
+                if (db.Text.ContainsKey(key)) return key;
+            }
+            return "npc_" + npcId + "_greeting";
+        }
+
+        /// <summary>Elder's talk pages: greeting, one line per chapter boss beaten, the postgame line after the ending.</summary>
+        public static List<string> ElderLineKeys(GameDB db, GameState state)
+        {
+            var keys = new List<string> { GreetingKey(db, state, "elder") };
+            for (int i = 1; i <= MainChapters; i++)
+                if (state.Flags.Contains(BossFlag(i)) && db.Text.ContainsKey("elder_" + i)) keys.Add("elder_" + i);
+            if (state.Flags.Contains(FlagCleared) && db.Text.ContainsKey("postgame_unlocked")) keys.Add("postgame_unlocked");
+            return keys;
+        }
         /// <summary>"tip_&lt;key&gt;"; also the tip's text key.</summary>
         public static string TipFlag(string key) => "tip_" + key;
 
@@ -68,24 +110,28 @@ namespace Abyss.Logic.Game
 
         /// <summary>
         /// Arrival in town (sets location). Returns notices to show in order: the first_town tip once, then the
-        /// elder's line once after each of the first three bosses (elder_1..3). The Unity layer autosaves after.
+        /// elder's line once after each of the chapter 1-5 bosses (elder_1..5), then the trial-corridor notice once
+        /// after the ending. The Unity layer autosaves after.
         /// </summary>
         public static List<StoryNotice> EnterTown(GameState state)
         {
             state.Location = GameLocation.Town;
             var output = new List<StoryNotice>();
             if (TryTip(state, "first_town")) output.Add(new StoryNotice { TitleKey = "tip_title", TextKey = TipFlag("first_town") });
-            for (int i = 1; i <= 3; i++)
+            // Chapter 6's closing words are the ending itself; the trial corridor notice follows the ending once.
+            for (int i = 1; i < MainChapters; i++)
                 if (state.Flags.Contains(BossFlag(i)) && state.Flags.Add("elder_" + i + "_seen"))
                     output.Add(new StoryNotice { TitleKey = "elder", TextKey = "elder_" + i });
+            if (state.Flags.Contains(FlagEndingSeen) && state.Flags.Add(FlagPostgameNotice))
+                output.Add(new StoryNotice { TitleKey = "elder", TextKey = "postgame_unlocked" });
             return output;
         }
 
-        /// <summary>Biome intro (biome_0..3) on the first visit of a biome's first floor, else null.</summary>
+        /// <summary>Chapter intro (biome_0..6) on the first visit of a chapter's first floor, else null.</summary>
         public static StoryNotice BiomeIntro(GameState state, int floorIndex)
         {
-            int biome = floorIndex / 3;
-            if (floorIndex % 3 != 0 || !state.Flags.Add("biome_" + biome + "_seen")) return null;
+            int biome = floorIndex / FloorsPerChapter;
+            if (floorIndex % FloorsPerChapter != 0 || !state.Flags.Add("biome_" + biome + "_seen")) return null;
             return new StoryNotice { TitleKey = "lore", TextKey = "biome_" + biome };
         }
 

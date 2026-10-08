@@ -111,8 +111,8 @@ namespace Abyss.Logic.Game
 
         // ------------------------------------------------------------------ shop
 
-        /// <summary>Unlocked shop tier 1..4: +1 per biome reached (B4, B7, B10).</summary>
-        public static int ShopTier(GameState state) => Math.Max(1, Math.Min(4, state.DeepestFloor / 3 + 1));
+        /// <summary>Unlocked shop tier 1..7: +1 per chapter reached (B6, B11, B16, B21, B26, B31). Tier 8 is never sold.</summary>
+        public static int ShopTier(GameState state) => Math.Max(1, Math.Min(GameFlow.MainChapters + 1, GameFlow.ChapterOf(state.DeepestFloor)));
 
         /// <summary>
         /// Every item and equipment piece the shop ever sells (shop_tier ≥ 1, price &gt; 0), sorted by tier, price, id;

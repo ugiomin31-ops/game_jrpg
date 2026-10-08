@@ -62,6 +62,53 @@ namespace Abyss.Runtime.World
             return p;
         }
 
+        /// <summary>
+        /// Floor look: the tileset preset (first-person or battle arena), then a region mood when the floor's overlay
+        /// names one. Chapters 5-7 reuse the frost / crypt / ember kits, so these moods make them read as new places:
+        /// tidewater = 가라앉은 신전 (sea-green underwater haze), voidglow = 심연의 핵 (violet glow, no sun),
+        /// trialfire = 시련의 회랑 (golden ember haze). The floor's fog_color tints the fog in every mood.
+        /// Other overlay names (vines, icicles, stalactites, cobwebs) keep the tileset look unchanged.
+        /// </summary>
+        public static AtmospherePreset ForFloor(Abyss.Logic.FloorDef floor, bool battle = false)
+        {
+            var p = battle ? ForTileset(floor.Tileset) : ForDungeon(floor.Tileset);
+            switch (floor.Overlay)
+            {
+                case "tidewater":
+                    p.SunColor = new Color(0.55f, 0.95f, 0.9f); p.SunIntensity = 0.85f; p.SunEuler = new Vector3(75, 10, 0);
+                    p.AmbientSky = new Color(0.25f, 0.6f, 0.62f); p.AmbientEquator = new Color(0.14f, 0.38f, 0.42f); p.AmbientGround = new Color(0.06f, 0.18f, 0.22f);
+                    p.ColorFilter = new Color(0.82f, 1f, 0.96f); p.Saturation = 10; p.Temperature = -22; p.Bloom = 1.25f; p.Vignette = 0.34f;
+                    p.TorchColor = new Color(0.45f, 1f, 0.9f);
+                    break;
+                case "voidglow":
+                    p.SunColor = new Color(0.7f, 0.45f, 1f); p.SunIntensity = 0.45f;
+                    p.AmbientSky = new Color(0.36f, 0.2f, 0.55f); p.AmbientEquator = new Color(0.2f, 0.1f, 0.32f); p.AmbientGround = new Color(0.12f, 0.03f, 0.16f);
+                    p.ColorFilter = new Color(0.92f, 0.82f, 1f); p.Saturation = 14; p.Contrast = 20; p.Bloom = 1.6f; p.BloomThreshold = 0.85f; p.Vignette = 0.42f;
+                    p.TorchColor = new Color(0.75f, 0.45f, 1f);
+                    break;
+                case "trialfire":
+                    p.SunColor = new Color(1f, 0.82f, 0.5f); p.SunIntensity = 1.1f;
+                    p.AmbientSky = new Color(0.62f, 0.45f, 0.28f); p.AmbientEquator = new Color(0.42f, 0.3f, 0.16f); p.AmbientGround = new Color(0.25f, 0.14f, 0.05f);
+                    p.ColorFilter = new Color(1f, 0.93f, 0.8f); p.Saturation = 8; p.Bloom = 1.5f; p.Temperature = 12;
+                    p.TorchColor = new Color(1f, 0.85f, 0.45f);
+                    break;
+                default:
+                    return p;
+            }
+            if (floor.FogColor != null && floor.FogColor.Length >= 3)
+            {
+                p.FogColor = new Color(floor.FogColor[0], floor.FogColor[1], floor.FogColor[2]);
+                p.BackgroundColor = p.FogColor * 0.6f;
+            }
+            return p;
+        }
+
+        /// <summary>Ambient particle tint of a floor (white when the data omits it).</summary>
+        public static Color ParticleTint(Abyss.Logic.FloorDef floor) =>
+            floor.AmbientParticleTint != null && floor.AmbientParticleTint.Length >= 3
+                ? new Color(floor.AmbientParticleTint[0], floor.AmbientParticleTint[1], floor.AmbientParticleTint[2], floor.AmbientParticleTint.Length > 3 ? floor.AmbientParticleTint[3] : 1f)
+                : Color.white;
+
         public static AtmospherePreset ForTileset(string tileset)
         {
             switch (tileset)

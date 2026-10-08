@@ -300,6 +300,17 @@ namespace Abyss.Logic.Battle
         void EnemyTurn(BattleUnit actor)
         {
             CheckPhases();
+            if (actor.AiProfile == EnemyAI.RunnerProfile && actor.CanAct && _rng.Randf() < EnemyAI.RunnerFleeChance)
+            {
+                // Rare monsters bolt: they leave the field without counting as defeated (no EXP, gold or drops).
+                actor.Escaped = true;
+                Msg("enemy_fled", actor.DisplayName);
+                actor.Hp = 0;
+                OnUnitDown(actor);
+                if (CheckOutcome()) return;
+                FinishTurn(actor, false);
+                return;
+            }
             int count = Math.Max(1, actor.ActionsPerTurn);
             for (int i = 0; i < count; i++)
             {
@@ -1186,8 +1197,15 @@ namespace Abyss.Logic.Battle
         bool CheckOutcome()
         {
             if (!_active) return true;
-            if (!EnemyAI.AnyLiving(_enemies)) { EndBattle(BattleResult.Victory); return true; }
+            if (!EnemyAI.AnyLiving(_enemies)) { EndBattle(AnyDefeated() ? BattleResult.Victory : BattleResult.Fled); return true; }
             if (!EnemyAI.AnyLiving(_party)) { EndBattle(BattleResult.Defeat); return true; }
+            return false;
+        }
+
+        /// <summary>False only when every enemy ran away (the party "wins" nothing and the battle counts as fled).</summary>
+        bool AnyDefeated()
+        {
+            foreach (var e in _enemies) if (!e.Escaped) return true;
             return false;
         }
 
@@ -1214,7 +1232,7 @@ namespace Abyss.Logic.Battle
             _drops.Clear();
             foreach (var e in _enemies)
             {
-                if (e.Summoned) continue;
+                if (e.Summoned || e.Escaped) continue;
                 foreach (var row in e.Drops)
                 {
                     if (_rng.Randf() < Gd.Clamp(Gd.D(row.Chance), 0.0, 1.0))
@@ -1233,7 +1251,7 @@ namespace Abyss.Logic.Battle
             {
                 foreach (var e in _enemies)
                 {
-                    if (e.Summoned) continue;
+                    if (e.Summoned || e.Escaped) continue;
                     o.Experience += Math.Max(0, e.ExperienceReward);
                     o.Gold += Math.Max(0, e.GoldReward);
                 }
@@ -1243,7 +1261,7 @@ namespace Abyss.Logic.Battle
             foreach (var e in _enemies)
             {
                 if (!o.SeenEnemies.Contains(e.DefId)) o.SeenEnemies.Add(e.DefId);
-                if (!e.Summoned && !e.IsAlive) o.DefeatedEnemies.Add(e.DefId);
+                if (!e.Summoned && !e.Escaped && !e.IsAlive) o.DefeatedEnemies.Add(e.DefId);
             }
             foreach (var h in _party)
             {

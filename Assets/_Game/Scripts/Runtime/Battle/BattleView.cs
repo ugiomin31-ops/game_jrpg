@@ -87,7 +87,7 @@ namespace Abyss.Runtime.Battle
             FloorDef floor = null;
             foreach (var candidate in app.DB.Floors) if (candidate.Id == setup.FloorId) { floor = candidate; break; }
             if (floor == null) throw new InvalidOperationException("Battle floor not found: " + setup.FloorId);
-            var atmosphere = AtmospherePreset.ForTileset(floor.Tileset);
+            var atmosphere = AtmospherePreset.ForFloor(floor, battle: true);
             app.Atmosphere.Apply(atmosphere); app.Atmosphere.SetupCamera(_camera);
             var arena = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(floor.Tileset, "arena"), transform);
             EnvironmentProcessor.Process(arena, atmosphere.TorchColor);

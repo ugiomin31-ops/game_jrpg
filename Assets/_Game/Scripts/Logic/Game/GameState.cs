@@ -72,7 +72,7 @@ namespace Abyss.Logic.Game
     /// <summary>Campaign state. Create with <see cref="NewGame"/> or <see cref="SaveCodec.Deserialize(string, GameDB)"/>.</summary>
     public sealed class GameState
     {
-        public const int LevelCap = 40;
+        public const int LevelCap = 70;
         public const int StartingGold = 150;
         public const int MaxStack = 99;
         public static readonly string[] EquipSlots = { "weapon", "armor", "accessory" };
@@ -244,6 +244,7 @@ namespace Abyss.Logic.Game
                 p.DefeatedFoes ??= new SortedSet<string>(StringComparer.Ordinal);
                 p.Keys = Math.Max(0, p.Keys);
             }
+            CampaignMigration.Apply(db, this);
             var byId = new Dictionary<string, HeroState>();
             foreach (var h in Party) if (h != null && h.Id != null && db.Heroes.ContainsKey(h.Id) && !byId.ContainsKey(h.Id)) byId[h.Id] = h;
             int lowest = int.MaxValue;
