@@ -1699,7 +1699,7 @@
    "dot_resist"
   ],
   "level": 35,
-  "max_hp": 15291,
+  "max_hp": 14067,
   "max_mp": 60,
   "attack": 173,
   "magic": 167,
@@ -8293,7 +8293,7 @@
     "line": "이 아래에 무엇이 있는지 아느냐… 나는 문이 아니다. 뚜껑이다!"
    }
   ],
-  "max_hp": 34542,
+  "max_hp": 37372,
   "attack": 355,
   "magic": 335,
   "defense": 136,
@@ -8456,9 +8456,9 @@
     "line": "빛이… 어째서 꺼지지 않는가! 좋다, 모든 것을 무(無)로 되돌리겠다!"
    }
   ],
-  "max_hp": 6349,
-  "attack": 407,
-  "magic": 385,
+  "max_hp": 41268,
+  "attack": 424,
+  "magic": 400,
   "defense": 189,
   "resistance": 215,
   "speed": 73,
