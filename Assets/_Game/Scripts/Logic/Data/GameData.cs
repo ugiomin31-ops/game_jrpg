@@ -284,6 +284,8 @@ namespace Abyss.Logic
         public List<LoreStoneDef> LoreStones = new List<LoreStoneDef>();
         public string BossPreText = "";
         public string BossPostText = "";
+        /// <summary>Defeating this floor's boss ends the main story (ending, cleared flag). Last floor when no floor sets it.</summary>
+        public bool Ending;
         [JsonProperty("_file")] public string File;
         /// <summary>Campaign floor index 0..11 (B1F..B12F), derived from FloorLabel.</summary>
         [JsonIgnore] public int Index;

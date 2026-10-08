@@ -80,17 +80,17 @@ namespace Abyss.UI
                 case "gate": ShowDepart(); break;
             }
         }
-        void ShowInn() => Menu(T("inn_title"), T("npc_innkeeper_greeting"), m =>
+        void ShowInn() => Menu(T("inn_title"), T(GameFlow.GreetingKey(app.DB, app.State, "innkeeper")), m =>
         {
             int cost = TownServices.InnCost(app.State);
-            m.Subtitle = T("npc_innkeeper_greeting") + "  ·  " + GoldLine;
+            m.Subtitle = T(GameFlow.GreetingKey(app.DB, app.State, "innkeeper")) + "  ·  " + GoldLine;
             m.Add(T("inn_rest"), () => Confirm(T("inn_offer"), $"숙박비 {cost:N0} G를 지불하고 쉴까요?\n\n{T("inn_note")}", () => Execute(TownServices.RestAtInn(app.DB, app.State), m)), T("inn_note"), $"{cost:N0} G", app.State.Gold >= cost, T("reason_not_enough_gold"));
             foreach (var hero in app.State.Party)
                 m.Add(HeroName(hero.Id), () => ShowHero(hero), HeroSummary(hero), $"HP {hero.Hp}", icon: UIArtwork.Hero(hero.Id));
         });
-        void ShowShop() => Menu(T("shop_title"), T("npc_shopkeeper_greeting"), m =>
+        void ShowShop() => Menu(T("shop_title"), T(GameFlow.GreetingKey(app.DB, app.State, "shopkeeper")), m =>
         {
-            m.Subtitle = T("npc_shopkeeper_greeting") + "  ·  " + GoldLine;
+            m.Subtitle = T(GameFlow.GreetingKey(app.DB, app.State, "shopkeeper")) + "  ·  " + GoldLine;
             if (m.TabIndex < 2)
             {
                 bool equipment = m.TabIndex == 1;
@@ -103,7 +103,7 @@ namespace Abyss.UI
                     string reason = !entry.Unlocked ? T("reason_tier_locked") : have >= cap ? T("reason_stack_full") : T("reason_not_enough_gold");
                     string description = ContentDescription(entry.Id) + $"\n\n보유 {have}개";
                     if (equipment) description = ShopComparison(app.DB.Equipment[entry.Id]) + "\n\n" + description + $" · 장착 {PartyStats.EquippedCount(app.State, entry.Id)}개";
-                    if (!entry.Unlocked) description += $"\n{app.DB.Floors[Math.Min(app.DB.Floors.Count - 1, (entry.ShopTier - 1) * TownServices.FloorsPerChapter)].FloorLabel} 도달 시 해금";
+                    if (!entry.Unlocked) description += $"\n{app.DB.Floors[Math.Min(app.DB.Floors.Count - 1, (entry.ShopTier - 1) * GameFlow.FloorsPerChapter)].FloorLabel} 도달 시 해금";
                     m.Add(entry.DisplayName, () => ShowQuantity(T("buy") + " · " + entry.DisplayName, maximum, entry.Price, n => equipment ? TownServices.BuyEquipment(app.DB, app.State, entry.Id, n) : TownServices.BuyItem(app.DB, app.State, entry.Id, n), m), description, $"{entry.Price:N0} G", entry.Unlocked && maximum > 0, reason, equipment ? UIArtwork.Gear(entry.Id) : UIArtwork.Item(entry.Id));
                 }
             }
@@ -143,9 +143,9 @@ namespace Abyss.UI
                 }
             });
         }
-        void ShowSmithy() => Menu(T("smithy_title"), T("npc_smith_greeting"), m =>
+        void ShowSmithy() => Menu(T("smithy_title"), T(GameFlow.GreetingKey(app.DB, app.State, "smith")), m =>
         {
-            m.Subtitle = T("npc_smith_greeting") + "  ·  " + GoldLine;
+            m.Subtitle = T(GameFlow.GreetingKey(app.DB, app.State, "smith")) + "  ·  " + GoldLine;
             if (m.TabIndex == 1) { AddEnhanceRows(m); return; }
             var recipes = TownServices.SmithyRecipes(app.DB, app.State);
             if (recipes.Count == 0) m.Add(T("smithy_empty"), () => UIModal.Alert(root.Modals, T("smithy_title"), T("smithy_empty")), T("smithy_empty"));
@@ -200,7 +200,7 @@ namespace Abyss.UI
             lines.Add($"보유 {entry.Owned}개 (같은 장비는 모두 함께 강화됩니다)");
             return string.Join("\n", lines);
         }
-        public void ShowQuests(bool guild = false) => Menu(guild ? T("guild_title") : "의뢰 수첩", guild ? T("npc_guild_clerk_greeting") : "의뢰의 진행 상황을 확인합니다. 수락과 보상 수령은 마을 길드에서 할 수 있습니다.", m =>
+        public void ShowQuests(bool guild = false) => Menu(guild ? T("guild_title") : "의뢰 수첩", guild ? T(GameFlow.GreetingKey(app.DB, app.State, "guild_clerk")) : "의뢰의 진행 상황을 확인합니다. 수락과 보상 수령은 마을 길드에서 할 수 있습니다.", m =>
         {
             QuestLog.Refresh(app.DB, app.State);
             if (guild) m.Add(T("job_title", "전직"), ShowJobs, T("job_greeting", "전직"), JobBoardValue(), icon: UIArtwork.Command("party"));
@@ -264,9 +264,8 @@ namespace Abyss.UI
         });
         void ShowElder()
         {
-            var lines = new List<string> { T("npc_elder_greeting") };
-            for (int i = 1; i <= 3; i++) if (app.State.Flags.Contains(GameFlow.BossFlag(i))) lines.Add(T("elder_" + i));
-            if (app.State.Flags.Contains(GameFlow.FlagCleared)) lines.Add(T("ending_11"));
+            var lines = new List<string>();
+            foreach (string key in GameFlow.ElderLineKeys(app.DB, app.State)) lines.Add(T(key));
             root.Screens.Push<GameStoryScreen>(s => { s.Title = T("npc_elder_name"); s.Pages = lines; s.CharactersPerSecond = app.Preferences.TextSpeed; s.ReducedMotion = app.Preferences.ReducedMotion; });
         }
         void ShowDepart() => Menu(T("depart_title"), $"탐험 기록 · 최심부 {DeepestLabel}", m =>
