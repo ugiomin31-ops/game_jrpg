@@ -2,7 +2,7 @@
   "generator": "Blender/ui/render_icons.py",
   "command": "C:/Users/User/Tools/Blender/blender.exe -b --factory-startup -P Blender/ui/render_icons.py",
   "coverage": {
-    "Heroes": 4,
+    "Heroes": 20,
     "NPCs": 8,
     "Enemies": 51,
     "Gear": 48,
@@ -81,16 +81,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.101792335510254,
-          -6.129438877105713,
-          1.8323432207107544
+          1.1020644903182983,
+          -6.130279064178467,
+          1.832369089126587
         ],
         "rotation": [
           1.5412794351577759,
           -2.5492132849080917e-09,
           0.17809294164180756
         ],
-        "ortho_scale": 0.796339213848114
+        "ortho_scale": 0.7123518586158752
       }
     },
     {
@@ -108,16 +108,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.0020513534545898,
-          -5.573908805847168,
-          1.7227892875671387
+          1.0022141933441162,
+          -5.573907852172852,
+          1.7227901220321655
         ],
         "rotation": [
           1.5412794351577759,
           -2.5492132849080917e-09,
           0.17809294164180756
         ],
-        "ortho_scale": 0.5601100325584412
+        "ortho_scale": 0.5597509145736694
       }
     },
     {
@@ -4951,6 +4951,438 @@
           0.3097030222415924
         ],
         "ortho_scale": 1.2560031414031982
+      }
+    },
+    {
+      "id": "sniper",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/sniper/sniper.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/sniper.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.0235308408737183,
+          -5.677111625671387,
+          1.7219194173812866
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.6570141911506653
+      }
+    },
+    {
+      "id": "divine_archer",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/divine_archer/divine_archer.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/divine_archer.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.128631830215454,
+          -5.969275951385498,
+          1.6804883480072021
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.6637320518493652
+      }
+    },
+    {
+      "id": "ranger",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/ranger/ranger.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/ranger.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9615263342857361,
+          -5.343780994415283,
+          1.6777616739273071
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.46385663747787476
+      }
+    },
+    {
+      "id": "shadow_stalker",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/shadow_stalker/shadow_stalker.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/shadow_stalker.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9690744876861572,
+          -5.358628273010254,
+          1.6782326698303223
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.46385663747787476
+      }
+    },
+    {
+      "id": "priest",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/priest/priest.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/priest.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9826552271842957,
+          -5.449798107147217,
+          1.7164366245269775
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.46519315242767334
+      }
+    },
+    {
+      "id": "saint",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/saint/saint.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/saint.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.166939616203308,
+          -6.27016019821167,
+          1.6776149272918701
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.6723191738128662
+      }
+    },
+    {
+      "id": "exorcist",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/exorcist/exorcist.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/exorcist.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9312979578971863,
+          -5.172192096710205,
+          1.5885132551193237
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.4337199926376343
+      }
+    },
+    {
+      "id": "inquisitor",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/inquisitor/inquisitor.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/inquisitor.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9765934348106384,
+          -5.416540145874023,
+          1.6359717845916748
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.6460592150688171
+      }
+    },
+    {
+      "id": "knight",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/knight/knight.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/knight.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.042486310005188,
+          -5.797999382019043,
+          1.810852289199829
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.5304903984069824
+      }
+    },
+    {
+      "id": "paladin",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/paladin/paladin.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/paladin.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2582011222839355,
+          -6.778580665588379,
+          1.7591181993484497
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.694474458694458
+      }
+    },
+    {
+      "id": "berserker",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/berserker/berserker.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/berserker.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.0218056440353394,
+          -5.45920991897583,
+          1.7195688486099243
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.47415098547935486
+      }
+    },
+    {
+      "id": "warlord",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/warlord/warlord.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/warlord.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.0641881227493286,
+          -5.917969226837158,
+          1.8688914775848389
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.5831807851791382
+      }
+    },
+    {
+      "id": "elementalist",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/elementalist/elementalist.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/elementalist.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9463239908218384,
+          -5.236786365509033,
+          1.5957095623016357
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.4317483603954315
+      }
+    },
+    {
+      "id": "archmage",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/archmage/archmage.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/archmage.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1381802558898926,
+          -6.330923557281494,
+          1.9058138132095337
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.7123518586158752
+      }
+    },
+    {
+      "id": "warlock",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/warlock/warlock.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/warlock.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          0.9511076807975769,
+          -5.263361930847168,
+          1.613459825515747
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.4381474554538727
+      }
+    },
+    {
+      "id": "abyssal",
+      "family": "Heroes",
+      "source": "Assets/_Game/Resources/Art/Characters/abyssal/abyssal.fbx",
+      "output": "Assets/_Game/Resources/Icons/Heroes/abyssal.png",
+      "framing": "front head and shoulders",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.003428339958191,
+          -5.499790191650391,
+          1.731106162071228
+        ],
+        "rotation": [
+          1.5412794351577759,
+          -2.5492132849080917e-09,
+          0.17809294164180756
+        ],
+        "ortho_scale": 0.4738236963748932
       }
     }
   ]

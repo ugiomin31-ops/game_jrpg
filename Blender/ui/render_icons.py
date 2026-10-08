@@ -148,6 +148,10 @@ def render(family, ident, source):
         # Full-height (anime) figures: keep head and shoulders only, or the face shrinks to a dot on the cards.
         cutoff = lo.z + (hi.z - lo.z) * (.76 if hi.z - lo.z > 1.45 else .48)
         framed = [p for p in points if p.z >= cutoff]
+        if hi.z - lo.z > 1.45:
+            # Wings, rune rings and long horns would widen the frame until the face is a dot: frame the
+            # head-and-shoulders column only and let the rest crop at the edges.
+            framed = [p for p in framed if abs(p.x) <= .30] or framed
     else:
         framed = points
     center = (lo + hi) / 2
