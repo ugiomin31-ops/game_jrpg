@@ -1,38 +1,38 @@
 {
   "id": "void_eye",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:54:17Z",
+  "produced_at_utc": "2026-10-08T09:05:21Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/void_eye/void_eye.fbx",
-      "bytes": 902860
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Assets/_Game/Resources/Art/Enemies/void_eye/void_eye.fbx",
+      "bytes": 838060
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_void_eye.blend",
-      "bytes": 536929
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/blend/enemy_void_eye.blend",
+      "bytes": 361028
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_void_eye.png",
-        "bytes": 173567
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye.png",
+        "bytes": 171886
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_void_eye_side.png",
-        "bytes": 167509
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_side.png",
+        "bytes": 169542
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_void_eye_attack.png",
-        "bytes": 170891
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_attack.png",
+        "bytes": 171807
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_void_eye_cast.png",
-        "bytes": 172691
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_cast.png",
+        "bytes": 173616
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_void_eye_die.png",
-        "bytes": 165921
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_void_eye_die.png",
+        "bytes": 161142
       }
     ]
   },
@@ -41,11 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 15790,
-    "vertices": 7917,
-    "bones": 9,
+    "triangles": 7272,
+    "vertices": 3676,
+    "bones": 10,
     "materials": [
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -84,11 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 15790,
-    "vertices": 7917,
-    "bones": 9,
+    "triangles": 7272,
+    "vertices": 3676,
+    "bones": 10,
     "materials": [
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [

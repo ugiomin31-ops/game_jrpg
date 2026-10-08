@@ -1,38 +1,38 @@
 {
   "id": "chaos_spawn",
   "is_boss": false,
-  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/enemies_e/abyss.py",
   "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-08T03:40:37Z",
+  "produced_at_utc": "2026-10-08T09:05:31Z",
   "files": {
     "fbx": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/chaos_spawn/chaos_spawn.fbx",
-      "bytes": 924716
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Assets/_Game/Resources/Art/Enemies/chaos_spawn/chaos_spawn.fbx",
+      "bytes": 718140
     },
     "blend": {
-      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_chaos_spawn.blend",
-      "bytes": 490206
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/blend/enemy_chaos_spawn.blend",
+      "bytes": 370157
     },
     "previews": [
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_chaos_spawn.png",
-        "bytes": 175210
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_chaos_spawn.png",
+        "bytes": 175120
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_chaos_spawn_side.png",
-        "bytes": 166847
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_chaos_spawn_side.png",
+        "bytes": 157974
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_chaos_spawn_attack.png",
-        "bytes": 160781
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_chaos_spawn_attack.png",
+        "bytes": 167071
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_chaos_spawn_cast.png",
-        "bytes": 166680
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_chaos_spawn_cast.png",
+        "bytes": 173088
       },
       {
-        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_chaos_spawn_die.png",
-        "bytes": 151912
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-acacaeb1c46f2cd65/Blender/preview/enemy_chaos_spawn_die.png",
+        "bytes": 167671
       }
     ]
   },
@@ -41,11 +41,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 10960,
-    "vertices": 5516,
-    "bones": 10,
+    "triangles": 7322,
+    "vertices": 3679,
+    "bones": 8,
     "materials": [
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -84,11 +85,12 @@
       "Body",
       "Rig"
     ],
-    "triangles": 10960,
-    "vertices": 5516,
-    "bones": 10,
+    "triangles": 7322,
+    "vertices": 3679,
+    "bones": 8,
     "materials": [
-      "M_Toon"
+      "M_Toon",
+      "M_Emit"
     ],
     "clips": {
       "Idle": [

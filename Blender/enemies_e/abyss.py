@@ -12,7 +12,7 @@ from kit_v4 import (Sculpt, BossSculpt, A, lerp_col, vgrad, rgba, hexmix, fibo, 
                     lathe_helm, paint_where, paint_fn, dome, scale_region,
                     attack_env, cast_env, die_env, window, bump, ramp, soft, DIE_HOLD)
 from sea import bezier, anime_head, hair_fall, stone_col, serpent_die, fish_fin  # noqa: E402,F401
-from mathutils import Vector, noise  # noqa: E402
+from mathutils import Euler, Vector, noise  # noqa: E402
 
 TAU = math.tau
 VOID, VIOLET, MAGENTA, PALE_V = '#1a1226', '#6a3fb0', '#d04ad8', '#d9c8ff'
@@ -49,82 +49,62 @@ def smoke_tongue(c, bone, name, base, height, r, lean=(0, 0), dark='#2a1e3a', li
 
 
 # ---------------------------------------------------------------------------------------------- void_eye
+def _ring_point(center, R, rot, a):
+    """Point at angle a on a ring of radius R (a torus lying in XY, turned by the Euler rot in degrees)."""
+    m = Euler([math.radians(v) for v in rot]).to_matrix()
+    return Vector(center) + m @ Vector((R * math.cos(a), R * math.sin(a), 0.0))
+
+
 def void_eye(eid):
-    """공허의 눈 — a great bloodshot eyeball hanging in the dark. The eyeball IS the body: its back half is wrapped in
-    a fleshy violet hood whose ragged rim forms heavy lids round the iris; a crown of six small slit-pupilled
-    eyes on stalks rings the hood, and a skirt of curling tentacles trails beneath."""
-    c = Sculpt(eid, tris=7500, ao=0.5)
-    flesh, dark, rim = '#6a3590', '#2a1538', '#9a62c0'
-    C = Vector((0, 0, 0.85))
-    R = 0.25
-    c.bone('body', tuple(C)); c.bone('eyes', (0, -0.2, 0.86), 'body')
+    """공허의 눈 — a floating star-orb guardian: a smooth violet crystal shell with a crown of small crystal points,
+    one calm gem-like eye set in a crystal bezel, two rune rings orbiting the shell with glowing motes, and a skirt of
+    flat ribbon fins trailing beneath it instead of tentacles."""
+    c = Sculpt(eid, tris=5400, ao=0.45)
+    deep, violet, lilac, teal = '#3a2a86', '#6a4cc8', '#cdbcf6', '#6ff0e0'
+    C = Vector((0, 0, 0.86))
+    E = Vector((0, -0.215, 0.86))                       # eye centre = blink pivot
+    c.bone('body', tuple(C)); c.bone('eyes', tuple(E), 'body')
+    c.bone('orbit1', tuple(C), 'body'); c.bone('orbit2', tuple(C), 'body')
+    fins = [math.radians(30 + 72 * i) for i in range(5)]
+    for i, a in enumerate(fins):
+        c.bone(f'tentacle{i + 1}', (math.cos(a) * 0.19, math.sin(a) * 0.19, C.z - 0.14), 'body')
 
-    def skin(p):
-        n = noise.noise(p * 12)
-        vein = abs(noise.noise(p * 6 + Vector((2, 0, 1)))) < 0.035
-        col = lerp_col(dark, flesh, 0.6 + (p.z - C.z) * 2.0 - (p.y - C.y) * 1.0 + 0.2 * n)
-        return lerp_col(col, MAGENTA, 0.6) if vein else col
-    # the great eyeball (a rigid sphere, like the kit's eyes but body sized), looking forward
-    big = c.eye('eyes', tuple(C), (0, -1, 0.05), R, '#e0a020', pupil='#120810', sclera='#f4ece6', iris_edge=0.8)
-    bloodshot(big, C, (0, -1, 0.05), 0.8)
-    # crisp iris and pupil laid over the eyeball as a domed cornea (a body-sized eye needs clean edges)
-    iris = A.sphere('iris', r=1, loc=tuple(C + Vector((0, -0.8 * R, 0))), scale=(0.6 * R, 0.22 * R, 0.6 * R), color='#e0a020',
-                    seg=40, rings=16)
-    A.apply_transform(iris)
-    ic = C + Vector((0, -R, 0))
-    paint_fn(iris, lambda p: '#3a1a10' if (Vector((p.x, 0, p.z)) - Vector((ic.x, 0, ic.z))).length > 0.56 * R else
-             lerp_col('#ffd060', '#b05a10', (Vector((p.x, 0, p.z)) - Vector((ic.x, 0, ic.z))).length / (0.5 * R) + (p.z - ic.z) / R))
-    c.add('eyes', iris)
-    pupil = A.sphere('pupil', r=1, loc=tuple(C + Vector((0, -1.005 * R, 0))), scale=(0.11 * R, 0.06 * R, 0.36 * R), color='#120810',
-                     seg=24, rings=10)
-    c.add('eyes', pupil)
-    c.add('eyes', A.sphere('glint', r=0.018, loc=tuple(C + Vector((-0.2 * R, -1.0 * R, 0.25 * R))), color='#ffffff', seg=10, rings=6))
-    # fleshy hood over the back half; its front rim makes thick lids that leave the iris and some sclera bare
-    c.blob('body', tuple(C + Vector((0, 0.1, 0.0))), (R * 1.04, R * 0.92, R * 1.02), skin)
-    c.blob('body', tuple(C + Vector((0, 0.2, 0.0))), (R * 0.8, R * 0.6, R * 0.8), skin)
-    for k in range(14):
-        a = TAU * k / 14
-        d = Vector((math.cos(a), 0, math.sin(a)))
-        lid = 0.9 if abs(math.sin(a)) > 0.7 else 0.97          # lids come further over the eye top and bottom
-        p = C + d * R * lid + Vector((0, -R * (0.45 if abs(math.sin(a)) > 0.7 else 0.3), 0))
-        c.blob('eyes', tuple(p), (0.07, 0.07, 0.07), rim)
-    # crown of small eyes on stalks around the hood
-    for i in range(6):
-        a = math.radians(90 + 360 * i / 6 + 30)
-        d = Vector((math.cos(a), 0.15, math.sin(a))).normalized()
-        base = C + Vector((math.cos(a) * R * 0.92, 0.1, math.sin(a) * R * 0.92))
-        tip = base + d * 0.13 + Vector((0, -0.04, 0))
-        c.limb('body', [tuple(base), tuple(base.lerp(tip, 0.5) + Vector((0, 0, 0.0))), tuple(tip)], [0.045, 0.032, 0.03], skin)
-        look = Vector((math.cos(a) * 0.35, -1, math.sin(a) * 0.35)).normalized()
-        c.eye('eyes', tuple(tip + look * 0.012), look, 0.032, '#f0b030', slit=True, sclera='#f6e8c8')
-        c.blob('eyes', tuple(tip + Vector((0, 0.0, 0.026))), (0.036, 0.03, 0.014), rim)
-    # tentacles beneath and behind
-    for i in range(6):
-        a = math.radians(360 * i / 6 + 15)
-        name = f'tentacle{i + 1}'
-        r0 = Vector((math.cos(a) * 0.13, 0.12 + math.sin(a) * 0.1, C.z - 0.17))
-        c.bone(name, tuple(r0), 'body')
-        out = Vector((math.cos(a), math.sin(a) * 0.8 + 0.3, 0)).normalized()
-        pts = [r0, r0 + out * 0.05 + Vector((0, 0, -0.14)), r0 + out * 0.12 + Vector((0, 0, -0.3)),
-               r0 + out * 0.22 + Vector((0, 0, -0.4)), r0 + out * 0.3 + Vector((0, 0, -0.36))]
-        c.limb(name, [tuple(p) for p in pts], [0.05, 0.04, 0.03, 0.02, 0.01],
-               lambda p: lerp_col(flesh, MAGENTA, (C.z - 0.25 - p.z) / 0.3))
+    def shell(p):
+        t = (p.z - C.z) / 0.25                          # -1 underside .. +1 crown
+        return lerp_col(lerp_col(deep, violet, (t + 0.7) / 1.4), lilac, max(0.0, t - 0.3) * 1.3)
+    c.blob('body', tuple(C), (0.25, 0.25, 0.245), shell)
+    # crystal bezel: a fused rim round the eye, so the eye sits in a socket of the shell
+    for k in range(12):
+        a = TAU * k / 12
+        c.blob('body', tuple(E + Vector((math.cos(a) * 0.08, -0.02, math.sin(a) * 0.08))), (0.027, 0.027, 0.027), lilac)
+    c.eye('eyes', tuple(E), (0, -1, 0), 0.06, '#4fd6e0', pupil='#14102a', sclera='#f4f0ff', iris_edge=0.6)
+    c.blob('eyes', tuple(E + Vector((0, -0.02, 0.06))), (0.08, 0.03, 0.02), deep)         # heavy calm lid
+    # crown of crystal points on the crown and back of the shell (the eye side stays clear)
+    crown = [d for d in fibo(48) if d.z > 0.35 and d.y > -0.1][:7]
+    for k, d in enumerate(crown):
+        if k % 3 == 0:
+            c.gem('body', f'crown{k}', tuple(C + d * 0.21), d, 0.044, 0.16, teal, '#2aa8a0', mat='M_Emit', sides=5)
+        else:
+            c.gem('body', f'crown{k}', tuple(C + d * 0.21), d, 0.044, 0.16, '#f0eaff', '#7050d8', mat='M_Toon', sides=5)
+    # two rune rings tilted in different planes: the Idle clip spins the orbit bones about Z
+    c.ring('orbit1', 'rune_ring1', tuple(C), 0.40, 0.011, teal, rot=(66, 0, 0), mat='M_Emit')
+    c.ring('orbit2', 'rune_ring2', tuple(C), 0.47, 0.012, lilac, rot=(66, 0, 90), mat='M_Toon')
+    for k in range(3):
+        c.orb('orbit1', f'rune1_{k}', tuple(_ring_point(C, 0.40, (66, 0, 0), TAU * k / 3)), (0.02, 0.02, 0.02), teal, 'M_Emit')
+        c.orb('orbit2', f'rune2_{k}', tuple(_ring_point(C, 0.47, (66, 0, 90), TAU * (k + 0.5) / 3)), (0.018, 0.018, 0.018), teal, 'M_Emit')
+    # ribbon fins: flat bands that flow out and down, each on its own sway bone
+    for i, a in enumerate(fins):
+        # a thin flared fin (sail-like membrane) fanning down from the shell; its frilled edge is teal
+        ca, sa = math.cos(a), math.sin(a)
+        out, side = Vector((ca, sa, 0)), Vector((-sa, ca, 0))
+        root = Vector((ca * 0.16, sa * 0.16, C.z - 0.12))
+        edge = []
+        for k in range(7):
+            s = k / 6 - 0.5
+            frill = 0.035 * (1 if k % 2 else 0)            # scalloped, ribbon-like hem
+            edge.append(root + out * (0.12 + 0.06 * abs(s) + frill) + side * (0.3 * s) + Vector((0, 0, -0.34 + 0.06 * abs(s))))
+        c.membrane(f'tentacle{i + 1}', f'fin{i + 1}', tuple(root), [tuple(p) for p in edge], violet, thick=0.008, edge_color=teal)
     return c.finish('float')
-
-
-def bloodshot(o, center, look, edge=0.75):
-    """Thin red veins on the sclera of a big eyeball (corners whose direction from `center` is outside the iris)."""
-    attr = o.data.color_attributes['Col']
-    look = Vector(look).normalized()
-    for loop in o.data.loops:
-        p = o.data.vertices[loop.vertex_index].co
-        d = (p - Vector(center)).normalized()
-        front = d.dot(look)
-        if front > edge:
-            continue
-        a = math.atan2(d.z, d.x)
-        vein = abs(math.sin(a * 9 + noise.noise(p * 30) * 2.5)) < 0.12 and front > 0.05
-        attr.data[loop.index].color_srgb = rgba('#c8304a') if vein else lerp_col('#f2e6e0', '#d8a8b8', max(0.0, 0.6 - front))
 
 
 # ---------------------------------------------------------------------------------------------- shadow_beast
@@ -163,55 +143,39 @@ def shadow_beast(eid):
 
 # ---------------------------------------------------------------------------------------------- chaos_spawn
 def chaos_spawn(eid):
-    """혼돈의 촉수 — a heaving mound of flesh with a gaping toothed maw for a face: a lumpy magenta-violet body,
-    a ring of hooked fangs round a dark throat, three mismatched eyes clustered above it, and six suckered
-    tentacles writhing up and out of the mass."""
-    c = Sculpt(eid, tris=9500, ao=0.6)
-    flesh, deep, sucker = '#8a3a8e', '#3e1a4a', '#f0b8d8'
+    """혼돈의 촉수 — a chubby jelly imp that bounces on stubby legs: a soft lilac-to-violet body with teal spots, a
+    round head with two small calm eyes under heavy lids, a closed smile with one small fang (no mouth hole), blush
+    dots, two crystal horns and a few sparkle motes."""
+    c = Sculpt(eid, tris=6200, ao=0.5)
+    lilac, violet, deep, teal, blush = '#c8b4f4', '#8a5ad6', '#5a3aa8', '#48d8c8', '#ff9ac4'
 
-    def hide(p):
-        n = noise.noise(p * 8)
-        col = lerp_col(deep, flesh, 0.4 + p.z * 1.0 + 0.35 * n)
-        if noise.noise(p * 14 + Vector((5, 1, 0))) > 0.45:
-            col = lerp_col(col, '#3fb8a0', 0.55)   # sickly teal mottling
-        return col
-    c.bone('body', (0, 0, 0.32)); c.bone('eyes', (0, -0.22, 0.6), 'body'); c.bone('jaw', (0, -0.18, 0.24), 'body')
-    for co, r in (((0, 0.02, 0.28), (0.34, 0.3, 0.26)), ((0.16, 0.12, 0.2), (0.2, 0.2, 0.18)), ((-0.18, 0.08, 0.18), (0.19, 0.2, 0.16)),
-                  ((0, -0.08, 0.46), (0.22, 0.2, 0.18)), ((0.08, 0.18, 0.44), (0.16, 0.14, 0.16))):
-        c.blob('body', co, r, hide)
-    # gaping maw on the front: a dark throat sunk into the mass, lips round it, fangs pointing inward
-    M = Vector((0, -0.27, 0.33))
-    c.blob('body', tuple(M + Vector((0, 0.02, 0))), (0.13, 0.12, 0.11), '#000000', negative=True)
-    c.paint(tuple(M + Vector((0, 0.06, 0))), (0.13, 0.13, 0.12), '#1a0510', weight=2.0)
-    for i in range(12):
-        a = TAU * i / 12
-        p = M + Vector((math.cos(a) * 0.14, 0.0, math.sin(a) * 0.125))
-        c.blob('jaw' if math.sin(a) < 0 else 'body', tuple(p), (0.045, 0.04, 0.045), '#c25a98')
-    ring = [M + Vector((math.cos(TAU * i / 14) * 0.115, -0.01, math.sin(TAU * i / 14) * 0.1)) for i in range(14)]
-    for k, p in enumerate(ring):
-        d = (M + Vector((0, 0.1, 0)) - p).normalized()
-        spine(c, 'jaw' if p.z < M.z else 'body', f'fang{k}', tuple(p), d, 0.06 + 0.015 * (k % 2), 0.014, '#f2e8d0', tip='#ffffff', seg=6)
-    c.paint(tuple(M + Vector((0, 0.03, -0.09))), (0.07, 0.06, 0.03), '#d04a7a', weight=2.2)        # tongue
-    # three mismatched eyes clustered above the maw
-    for k, (x, z, r, look) in enumerate(((-0.1, 0.57, 0.04, (-0.3, -1, 0.1)), (0.07, 0.6, 0.05, (0.2, -1, 0.15)),
-                                          (0.17, 0.5, 0.03, (0.6, -1, 0.0)))):
-        y = -0.2 + abs(x) * 0.3
-        c.blob('eyes', (x, y + 0.01, z + r * 0.8), (r * 1.3, r * 0.9, r * 0.5), deep)
-        c.eye('eyes', (x, y - 0.01, z), look, r, '#f0e040', slit=True, sclera='#f4e8d8')
-    # tentacles
-    for i in range(6):
-        a = math.radians(40 + 360 * i / 6)
-        n = f'tentacle{i + 1}'
-        r0 = Vector((math.cos(a) * 0.2, 0.08 + math.sin(a) * 0.18, 0.42))
-        c.bone(n, tuple(r0), 'body')
-        out = Vector((math.cos(a), math.sin(a), 0))
-        side = Vector((-out.y, out.x, 0))
-        pts = [r0, r0 + out * 0.08 + Vector((0, 0, 0.15)), r0 + out * 0.18 + Vector((0, 0, 0.3)) + side * 0.05,
-               r0 + out * 0.3 + Vector((0, 0, 0.36)) + side * 0.1, r0 + out * 0.38 + Vector((0, 0, 0.28)) + side * 0.06]
-        c.limb(n, [tuple(p) for p in pts], [0.075, 0.06, 0.045, 0.03, 0.012], hide)
-        for k in range(4):   # suckers along the underside of the curl
-            q = Vector(pts[1]).lerp(Vector(pts[3]), k / 3) - out * 0.04
-            c.paint(tuple(q), (0.018, 0.018, 0.018), sucker, weight=2.0)
+    def skin(p):
+        return lerp_col(lilac, violet, (p.z - 0.1) / 0.45)
+    c.bone('body', (0, 0, 0.3)); c.bone('head', (0, -0.02, 0.6), 'body'); c.bone('eyes', (0, -0.2, 0.62), 'head')
+    c.blob('body', (0, 0, 0.3), (0.3, 0.27, 0.22), skin)                              # chubby body
+    c.blob('body', (0, 0, 0.45), (0.22, 0.2, 0.14), skin)                             # neck
+    c.blob('head', (0, -0.02, 0.6), (0.25, 0.22, 0.2), skin)                          # round head
+    for s, side in ((1, 'L'), (-1, 'R')):                                              # +X is the creature's left
+        c.bone('arm.' + side, (s * 0.25, -0.02, 0.36), 'body')
+        c.limb('arm.' + side, [(s * 0.25, -0.02, 0.36), (s * 0.32, -0.08, 0.3), (s * 0.36, -0.11, 0.25)], [0.07, 0.066, 0.06], skin)
+        c.blob('arm.' + side, (s * 0.38, -0.12, 0.23), (0.078, 0.078, 0.072), skin)   # mitten hand
+        c.bone('leg.' + side, (s * 0.13, 0.0, 0.16), 'body')
+        c.limb('leg.' + side, [(s * 0.13, 0.0, 0.16), (s * 0.15, -0.04, 0.08), (s * 0.15, -0.06, 0.05)], [0.085, 0.075, 0.075], skin)
+        c.blob('leg.' + side, (s * 0.15, -0.09, 0.055), (0.095, 0.12, 0.06), deep)    # round foot
+    for s in (1, -1):                                                                  # crystal horns
+        c.gem('head', f'horn{s}', (s * 0.12, 0.0, 0.78), (s * 0.4, 0.25, 1), 0.06, 0.26, '#e6fbff', '#3ab8d8', mat='M_Toon', sides=5)
+    for s in (1, -1):                                                                  # small calm eyes under light lids
+        c.eye('eyes', (s * 0.085, -0.205, 0.62), (s * 0.12, -1, 0.05), 0.048, '#2fc7c0', pupil='#1a1030', sclera='#f8f4ff',
+              iris_edge=0.6)
+        c.blob('head', (s * 0.085, -0.2, 0.675), (0.05, 0.035, 0.015), violet)
+    for k in range(7):                                                                 # closed smile, painted (no mouth hole)
+        t = -1 + k / 3
+        c.paint((0.07 * t, -0.244, 0.54 + 0.035 * t * t), (0.018, 0.024, 0.016), '#20082e', weight=3.0)
+    spine(c, 'head', 'fang', (0.03, -0.245, 0.548), (0.0, -0.1, -1), 0.03, 0.011, '#fbf8ff', tip='#ffffff', seg=6)
+    for s in (1, -1):                                                                  # blush dots
+        c.paint((s * 0.14, -0.2, 0.57), (0.03, 0.035, 0.025), blush, weight=1.6)
+    for n, p in enumerate(((0.3, -0.1, 0.84), (-0.32, -0.04, 0.72), (0.0, 0.26, 0.94))):   # sparkle motes
+        c.orb('head', f'mote{n}', p, (0.016, 0.016, 0.016), '#8ffff0', 'M_Emit')
     return c.finish('hop')
 
 
@@ -414,53 +378,47 @@ def doppelganger(eid):
 
 # ---------------------------------------------------------------------------------------------- abyss_worm
 def abyss_worm(eid):
-    """심연 벌레 — a huge segmented worm bursting up through the floor: thick ringed segments of pale bruise-violet
-    flesh with darker bands, rubble heaved up around the hole, and a round head that is all mouth — a lipped
-    ring with three rows of hooked teeth spiralling into a dark throat, ringed by short twitching feelers."""
-    c = Sculpt(eid, tris=9500, ao=0.6)
-    flesh, band, deep = '#b89ac8', '#6a4a86', '#3a2450'
-    c.bone('body', (0, 0.0, 0.35)); c.bone('head', (0, -0.1, 0.85), 'body'); c.bone('jaw', (0, -0.3, 1.0), 'head')
-    # the arching body: segment rings alternate fat and thin along the spine curve
+    """심연 벌레 — a segmented armoured worm rearing out of a sand mound: rounded violet plates over a pale blue belly,
+    dark grooves between them, crystal spines down its back, and a beetle-like helmeted head with a crystal crest,
+    two small eyes under the brim and a pair of closed pincer mandibles."""
+    c = Sculpt(eid, tris=6000, ao=0.55)
+    plate, dark, belly, helm = '#6a4ab8', '#2a2468', '#b8d8f0', '#4a3a98'
+    c.bone('body', (0, 0.0, 0.35)); c.bone('head', (0, -0.1, 0.85), 'body')
+    c.bone('jaw', (0, -0.3, 0.98), 'head'); c.bone('eyes', (0, -0.36, 0.965), 'head')
+    # the arching body: a row of rounded plates, each with a dark groove after it
     path = [Vector(p) for p in bezier((0, 0.14, -0.05), (0, 0.12, 1.1), (0, -0.3, 1.08), 26)]
     radii = [0.19 + 0.02 * math.sin(math.pi * i / 26) for i in range(27)]
     for i, (p, r) in enumerate(zip(path, radii)):
+        if i > 21:      # the arch ends inside the helmet; past this point the plates would bury the face
+            break
         b = 'root' if p.z < 0.25 else 'body' if p.z < 0.8 else 'head'
-        nxt = path[min(i + 1, 26)] - path[max(i - 1, 0)]
-        rot = [math.degrees(v) for v in nxt.normalized().to_track_quat('Z', 'Y').to_euler()]
-        if i % 2 == 0:   # a fat ring: an oblate disc across the body, pale on the belly side
-            col = lambda q, p=p: lerp_col(flesh, '#ecdcec', max(0.0, -(q.y - p.y) / 0.14 - 0.1))  # noqa: E731
-            c.blob(b, tuple(p), (r * 1.1, r * 1.1, r * 0.5), col, rot=rot, stiff=3.0)
-        else:            # the dark groove between rings
-            c.blob(b, tuple(p), (r * 0.9, r * 0.9, r * 0.5), band, rot=rot)
-    # the mouth: a fleshy lip ring facing forward and down, throat cut deep into the head
-    M = path[-1] + Vector((0, -0.1, -0.02))
-    look = Vector((0, -1, -0.35)).normalized()
-    side = Vector((1, 0, 0))
-    up = side.cross(look).normalized() * -1
-    for k in range(14):
-        a = TAU * k / 14
-        p = M + (side * math.cos(a) + up * math.sin(a)) * 0.16
-        c.blob('jaw' if math.sin(a) < -0.2 else 'head', tuple(p), (0.06, 0.06, 0.06), '#d06a8a')
-    c.blob('head', tuple(M + look * 0.05), (0.14, 0.14, 0.13), '#000000', negative=True)
-    c.paint(tuple(M - look * 0.05), (0.12, 0.12, 0.12), '#2a0a18', weight=2.2)
-    for row, (rad, L, depth) in enumerate(((0.14, 0.075, 0.0), (0.11, 0.06, 0.045), (0.08, 0.05, 0.09))):
-        n = 14 - row * 3
-        for k in range(n):
-            a = TAU * (k + row * 0.5) / n
-            p = M + (side * math.cos(a) + up * math.sin(a)) * rad - look * depth
-            d = (M - look * (depth + 0.1) - p).normalized()
-            spine(c, 'jaw' if math.sin(a) < -0.2 else 'head', f'tooth{row}_{k}', tuple(p), d, L, 0.012, '#f2e8d4', tip='#ffffff', seg=6)
-    for k in range(8):   # feelers round the rim
-        a = TAU * (k + 0.5) / 8
-        root = M + (side * math.cos(a) + up * math.sin(a)) * 0.21 + look * 0.0
-        out = (side * math.cos(a) + up * math.sin(a)) * 0.8 + look * 0.6
-        c.tuft('jaw' if math.sin(a) < -0.2 else 'head', tuple(root), tuple(out), 0.12, 0.022, '#e08aa8', curl=-0.3)
-    # heaved-up rubble round the hole
-    for k in range(9):
-        a = TAU * k / 9
-        r = 0.29 + 0.04 * (k % 2)
-        c.chunk('root', f'rubble{k}', (r * math.cos(a), 0.14 + r * math.sin(a), 0.05), (0.09, 0.07, 0.06 + 0.02 * (k % 3)), '#5a5068',
-                seed=k + 3, jitter=0.15)
+        t = (path[min(i + 1, 26)] - path[max(i - 1, 0)]).normalized()
+        rot = [math.degrees(v) for v in t.to_track_quat('Z', 'Y').to_euler()]
+        if i % 3 == 0:
+            col = lambda q, p=p: lerp_col(plate, belly, max(0.0, -(q.y - p.y) / 0.13 - 0.15))  # noqa: E731
+            c.blob(b, tuple(p), (r * 1.2, r * 1.2, r * 0.62), col, rot=rot, stiff=3.0)
+            if 3 <= i <= 24:   # crystal spine on the back (dorsal side = +Y on the rising body, +Z over the top)
+                dorsal = Vector((0, t.z, -t.y)).normalized()
+                c.gem(b, f'spine{i}', tuple(p + dorsal * r * 0.8), dorsal, 0.04, 0.16, '#d8f8ff', '#3a8ec8', mat='M_Toon', sides=5)
+        else:
+            c.blob(b, tuple(p), (r * 0.8, r * 0.8, r * 0.36), dark, rot=rot)
+    # helmeted head: a domed beetle shell, a brow lip, a crystal crest, and eyes tucked under the brim
+    c.blob('head', (0, -0.14, 0.98), (0.23, 0.25, 0.19), helm)
+    c.blob('head', (0, -0.31, 1.05), (0.19, 0.05, 0.035), dark)
+    c.blob('head', (0, -0.05, 1.14), (0.05, 0.15, 0.03), dark)
+    c.gem('head', 'crest_crystal', (0, -0.14, 1.13), (0, -0.3, 1), 0.05, 0.24, '#e6fbff', '#3a8ec8', mat='M_Toon', sides=5)
+    for s in (-1, 1):
+        c.eye('eyes', (s * 0.1, -0.36, 0.965), (s * 0.25, -1, 0.1), 0.032, '#7ff0e0', pupil='#14102a', sclera='#eef2ff', iris_edge=0.6)
+    # closed mandibles: two armoured pincers meeting in front, with crystal-lit tips
+    for s in (-1, 1):
+        c.limb('jaw', [(s * 0.07, -0.26, 0.86), (s * 0.1, -0.4, 0.85), (s * 0.07, -0.5, 0.87), (s * 0.02, -0.5, 0.91)],
+               [0.036, 0.03, 0.024, 0.016], lambda q: lerp_col('#2e2470', '#7a6ad0', (-q.y - 0.42) / 0.12))
+    # a low sand mound round the hole
+    for k in range(7):
+        a = TAU * k / 7
+        r = 0.3 + 0.04 * (k % 2)
+        c.chunk('root', f'mound{k}', (r * math.cos(a), 0.14 + r * math.sin(a), 0.05), (0.09, 0.07, 0.06 + 0.02 * (k % 3)),
+                '#6a5a98', seed=k + 3, jitter=0.15)
 
     def extra(a, clip, f, t, i, names):
         if clip == 'Die':
