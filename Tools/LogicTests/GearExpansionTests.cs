@@ -43,7 +43,7 @@ namespace Abyss.LogicTests
         {
             var db = TestMain.DB;
             var state = GameState.NewGame(db, Difficulty.Normal);
-            var warrior = state.Hero("warrior");
+            var warrior = state.Hero("h_dohyun");
             string weapon = warrior.Equipped("weapon");
             int before = PartyStats.EffectiveStats(db, warrior).Stats.Attack;
             Assert.Equal("missing_stones", Enhancement.Enhance(db, state, weapon).Reason, "needs stones");
@@ -64,12 +64,12 @@ namespace Abyss.LogicTests
 
             var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
             Assert.Equal(10, Enhancement.LevelOf(loaded, weapon), "enhancement saved");
-            Assert.Equal(after, PartyStats.EffectiveStats(db, loaded.Hero("warrior")).Stats.Attack, "loaded hero bound to the map");
+            Assert.Equal(after, PartyStats.EffectiveStats(db, loaded.Hero("h_dohyun")).Stats.Attack, "loaded hero bound to the map");
             var old = Newtonsoft.Json.Linq.JObject.Parse(SaveCodec.Serialize(state));
             old.Remove("enhancements");
             var legacy = SaveCodec.Deserialize(old.ToString(), db);
             Assert.Equal(0, Enhancement.LevelOf(legacy, weapon), "old saves load as +0");
-            Assert.Equal(before, PartyStats.EffectiveStats(db, legacy.Hero("warrior")).Stats.Attack, "old save stats unchanged");
+            Assert.Equal(before, PartyStats.EffectiveStats(db, legacy.Hero("h_dohyun")).Stats.Attack, "old save stats unchanged");
         }
 
         [LogicTest]
@@ -77,21 +77,21 @@ namespace Abyss.LogicTests
         {
             var db = TestMain.DB;
             var state = GameState.NewGame(db, Difficulty.Normal);
-            var warrior = state.Hero("warrior");
+            var warrior = state.Hero("h_dohyun");
             int atk = PartyStats.EffectiveStats(db, warrior).Stats.Attack;
             int hp = PartyStats.EffectiveStats(db, warrior).MaxHp;
             state.AddItem("seed_power", 2);
             state.AddItem("seed_life", 1);
-            Assert.True(GameFlow.UseFieldItem(db, state, "seed_power", "warrior", false).Success, "seed used in town");
-            Assert.True(GameFlow.UseFieldItem(db, state, "seed_life", "warrior", false).Success, "life seed used");
+            Assert.True(GameFlow.UseFieldItem(db, state, "seed_power", "h_dohyun", false).Success, "seed used in town");
+            Assert.True(GameFlow.UseFieldItem(db, state, "seed_life", "h_dohyun", false).Success, "life seed used");
             Assert.Equal(atk + 2, PartyStats.EffectiveStats(db, warrior).Stats.Attack, "+2 attack");
             Assert.Equal(hp + 20, PartyStats.EffectiveStats(db, warrior).MaxHp, "+20 max HP");
             Assert.Equal(hp + 20, warrior.Hp, "current HP rises with the max");
             Assert.Equal(1, state.ItemCount("seed_power"), "one seed consumed");
             var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
-            Assert.Equal(atk + 2, PartyStats.EffectiveStats(db, loaded.Hero("warrior")).Stats.Attack, "seed bonus saved");
+            Assert.Equal(atk + 2, PartyStats.EffectiveStats(db, loaded.Hero("h_dohyun")).Stats.Attack, "seed bonus saved");
             warrior.Seeds["attack"] = PartyStats.SeedCap("attack");
-            var capped = GameFlow.UseFieldItem(db, state, "seed_power", "warrior", false);
+            var capped = GameFlow.UseFieldItem(db, state, "seed_power", "h_dohyun", false);
             Assert.True(!capped.Success && capped.TextKey == "reason_seed_cap", "capped seed fails");
             Assert.Equal(1, state.ItemCount("seed_power"), "nothing consumed at the cap");
             state.AddItem("job_medal", 1);
@@ -120,7 +120,7 @@ namespace Abyss.LogicTests
                 Assert.Equal(stats.MaxHp, h.Hp, "tent fills HP " + h.Id);
             }
 
-            var setup = BattleTestUtil.Setup(30, new[] { "slime" }, 7, BattleKind.Random, Difficulty.Normal, "warrior");
+            var setup = BattleTestUtil.Setup(30, new[] { "slime" }, 7, BattleKind.Random, Difficulty.Normal, "h_dohyun");
             setup.Party[0].Mp = 0;
             setup.Party[0].Hp = 10;
             setup.Inventory["megalixir"] = 1;
@@ -140,26 +140,26 @@ namespace Abyss.LogicTests
             var state = GameState.NewGame(db, Difficulty.Normal);
             state.AddEquipment("acc_exp_charm", 1);
             state.AddEquipment("acc_gold_charm", 1);
-            Assert.True(PartyStats.Equip(db, state, "warrior", "acc_exp_charm").Success, "exp charm on");
-            Assert.True(PartyStats.Equip(db, state, "mage", "acc_gold_charm").Success, "gold charm on");
+            Assert.True(PartyStats.Equip(db, state, "h_dohyun", "acc_exp_charm").Success, "exp charm on");
+            Assert.True(PartyStats.Equip(db, state, "h_seoa", "acc_gold_charm").Success, "gold charm on");
             int gold = state.Gold;
             var outcome = new BattleOutcome { Result = BattleResult.Victory, Experience = 10, Gold = 100 };
             var report = PartyStats.ApplyBattleOutcome(db, state, outcome);
-            Assert.Equal(13, report.ExperienceByHero["warrior"], "wearer gets +30 % EXP");
-            Assert.Equal(10, report.ExperienceByHero["mage"], "others get the base EXP");
+            Assert.Equal(13, report.ExperienceByHero["h_dohyun"], "wearer gets +30 % EXP");
+            Assert.Equal(10, report.ExperienceByHero["h_seoa"], "others get the base EXP");
             Assert.Equal(125, report.Gold, "party gold +25 %");
             Assert.Equal(gold + 125, state.Gold, "gold credited");
 
             state.AddEquipment("acc_regen_ring", 1);
             state.AddEquipment("sword_holy_avenger", 1);
-            PartyStats.Equip(db, state, "warrior", "acc_regen_ring");
-            state.Hero("warrior").Job = "paladin";   // job weapon: only a paladin may wield it
-            Assert.True(PartyStats.Equip(db, state, "warrior", "sword_holy_avenger").Success, "paladin equips the holy avenger");
-            var spec = PartyStats.BuildCombatSpec(db, state, "warrior");
+            PartyStats.Equip(db, state, "h_dohyun", "acc_regen_ring");
+            state.Hero("h_dohyun").Job = "paladin";   // job weapon: only a paladin may wield it
+            Assert.True(PartyStats.Equip(db, state, "h_dohyun", "sword_holy_avenger").Success, "paladin equips the holy avenger");
+            var spec = PartyStats.BuildCombatSpec(db, state, "h_dohyun");
             Assert.Equal((int)Element.Holy, spec.AttackElement, "weapon element on plain attacks");
             Assert.Near(0.05, spec.HpRegen, 1e-6, "regen ring ratio");
 
-            var setup = BattleTestUtil.Setup(30, new[] { "slime", "slime" }, 11, BattleKind.Random, Difficulty.Normal, "warrior");
+            var setup = BattleTestUtil.Setup(30, new[] { "slime", "slime" }, 11, BattleKind.Random, Difficulty.Normal, "h_dohyun");
             var w = setup.Party[0];
             w.HpRegen = 0.1f; w.MpRegen = 5; w.TpStart = 30; w.AttackElement = (int)Element.Fire;
             w.Hp = w.MaxHp / 2; w.Mp = 0;

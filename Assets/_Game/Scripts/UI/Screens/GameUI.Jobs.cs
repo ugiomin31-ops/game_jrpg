@@ -10,7 +10,7 @@ namespace Abyss.UI
     public sealed partial class GameUI
     {
         /// <summary>Name shown for a party member: the job name once promoted, the hero's own name before.</summary>
-        string HeroLabel(HeroState hero) => PartyStats.IsPromoted(hero) ? PartyStats.JobName(app.DB, hero) : HeroName(hero.Id);
+        string HeroLabel(HeroState hero) => PartyStats.IsPromoted(app.DB, hero) ? PartyStats.JobName(app.DB, hero) : HeroName(hero.Id);
 
         string JobName(HeroState hero) => PartyStats.JobName(app.DB, hero);
 

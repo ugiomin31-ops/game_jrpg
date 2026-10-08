@@ -387,7 +387,7 @@ namespace Abyss.Runtime.Battle
                 GearDisplay.DressBody(unit.Model, GearDisplay.Rank(_app.DB, spec.ArmorId), GearDisplay.Rank(_app.DB, spec.AccessoryId));
                 if (!string.IsNullOrEmpty(spec.WeaponId))
                 {
-                    string socket = snapshot.DefId == "archer" ? "weapon.L" : "weapon.R";
+                    string socket = _app.DB.ClassOf(snapshot.DefId) == "archer" ? "weapon.L" : "weapon.R";
                     if (unit.Model.FindBone(socket) == null) throw new InvalidOperationException("Missing weapon socket: " + snapshot.DefId + "/" + socket);
                     GearDisplay.AttachWeapon(_app.DB, unit.Model, socket, spec.WeaponId);
                 }
@@ -426,7 +426,8 @@ namespace Abyss.Runtime.Battle
                 if (actor.Side == BattleSide.Party)
                     _hud.UltimateCutIn(actor.DefId, actor.Name, e.DisplayName ?? "궁극기", PresentationColor(e.Element));
                 else _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
-                string hero = actor.DefId == "archer" ? "ranger" : actor.DefId;
+                string cls = actor.Side == BattleSide.Party ? _app.DB.ClassOf(actor.DefId) : actor.DefId;
+                string hero = cls == "archer" ? "ranger" : cls;
                 PlaySound("sfx_ultimate_" + hero);
                 yield return Wait(Reduced ? .5f : .95f); _hud.HideCutIn();
             }
@@ -449,7 +450,7 @@ namespace Abyss.Runtime.Battle
             string clip = ultimateTake ? "Ultimate" : cast ? "Cast"
                 : e.Kind == ActionKind.Skill && actor.Model.Anim.HasClip("Skill") ? "Skill" : "Attack";
             bool rangedBasic = e.Kind == ActionKind.Attack &&
-                (actor.DefId == "archer" || actor.DefId == "mage" || actor.DefId == "cleric");
+                actor.Side == BattleSide.Party && _app.DB.ClassOf(actor.DefId) != "warrior";
             bool approach = !Reduced && !cast && !rangedBasic && target != null && actor.Id != target.Id &&
                 ((_presentation != null && _presentation.Approach != "none") ||
                 (_presentation == null && e.Kind == ActionKind.Attack));
@@ -533,7 +534,7 @@ namespace Abyss.Runtime.Battle
         float Shoot(BattleDisplayUnit actor, BattleDisplayUnit target, Color tint)
         {
             string key = _presentation.TravelVfx;
-            Vector3 from = actor.Model.MuzzlePoint(actor.DefId == "archer" ? "weapon.L" : "weapon.R"), to = HitPoint(target);
+            Vector3 from = actor.Model.MuzzlePoint(_app.DB.ClassOf(actor.DefId) == "archer" ? "weapon.L" : "weapon.R"), to = HitPoint(target);
             float time = Reduced ? .08f : TravelTime(key, Vector3.Distance(from, to));
             TrackEffect(_vfx.Travel(key, from, to, time, tint));
             return time;
@@ -1036,7 +1037,7 @@ namespace Abyss.Runtime.Battle
         }
         static string WeaponSound(BattleDisplayUnit actor)
         {
-            switch (actor.DefId)
+            switch (actor.Side == BattleSide.Party ? Abyss.Logic.GameDB.Instance?.ClassOf(actor.DefId) : actor.DefId)
             { case "warrior": return "sfx_sword"; case "archer": return "sfx_bow"; case "mage": case "cleric": return "sfx_staff"; default: return "sfx_hit"; }
         }
         static void PlaySound(string id) { if (!string.IsNullOrEmpty(id)) AudioManager.Instance.PlaySfx(id); }

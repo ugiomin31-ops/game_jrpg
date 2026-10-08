@@ -52,10 +52,15 @@ namespace Abyss.Runtime.Art
         public const float HeroDisplayHeight = 1.3f;
 
         /// <summary>
-        /// Model of a hero in a job: Art/Characters/&lt;job&gt;/&lt;job&gt; when that outfit exists, else the hero's own model.
+        /// Model of a hunter: its own Art/Characters/&lt;id&gt;/&lt;id&gt; model. A hunter without its own model yet wears its
+        /// job's outfit (Art/Characters/&lt;job&gt;) or its class's model.
         /// </summary>
-        public static string HeroModelPath(string heroId, string jobId) =>
-            !string.IsNullOrEmpty(jobId) && jobId != heroId && Exists(HeroPath(jobId)) ? HeroPath(jobId) : HeroPath(heroId);
+        public static string HeroModelPath(string heroId, string jobId)
+        {
+            if (Exists(HeroPath(heroId))) return HeroPath(heroId);
+            if (!string.IsNullOrEmpty(jobId) && Exists(HeroPath(jobId))) return HeroPath(jobId);
+            return HeroPath(Abyss.Logic.GameDB.Instance?.ClassOf(heroId) ?? heroId);
+        }
 
         /// <summary>Spawns a hero (model id = hero id) wearing the outfit of <paramref name="jobId"/> when it has one.</summary>
         public static CharacterModel SpawnHero(string heroId, Transform parent = null, string jobId = null)

@@ -93,7 +93,10 @@ namespace Abyss.LogicTests
             PartyStats.AwardXp(db, hero, PartyStats.XpToNext(hero.Level) + 500);
             Assert.Equal(GameState.LevelCap, hero.Level, "level cap");
             Assert.Equal(0, hero.Xp, "XP overflow discarded at cap");
-            Assert.True(report.NewSkills.Contains("stunning_slam"), "level three skill learned");
+            Assert.True(report.NewSkills.Count == 0 || report.NewSkills.TrueForAll(id => db.Skills.ContainsKey(id)), "learned skills exist");
+            var start = db.Heroes[hero.Id];
+            Assert.True(start.Skills.Count >= 4, "hunters start with basic attack, a signature and two more skills");
+            Assert.True(start.Skills.Exists(id => id.StartsWith("sig_")), "signature skill from Lv 1");
         }
 
         [LogicTest]

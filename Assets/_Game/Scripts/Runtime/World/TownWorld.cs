@@ -34,7 +34,10 @@ namespace Abyss.Runtime.World
         Quaternion titleRotation;
         ServiceSpot nearest;
         static readonly string[] NpcIds = { "innkeeper", "shopkeeper", "smith", "guild_clerk", "elder" };
-        static readonly string[] NpcLabels = { "마사 · 여관", "피핀 · 상점", "브론 · 대장간", "리나 · 길드", "에드윈 · 장로" };
+        static readonly string[] NpcLabels = { "윤 간호사 · 의무실", "박 사장 · 헌터 마켓", "곽 장인 · 장비 공방", "서 주임 · 접수처", "백 길드장 · 길드장실" };
+        /// <summary>Benched hunters standing at the lounge spots (villager_1..3).</summary>
+        readonly List<CharacterModel> lounge = new List<CharacterModel>();
+        EnvironmentProcessor.Result layout;
 
         public void Initialize(GameApp app, bool title)
         {
@@ -43,7 +46,7 @@ namespace Abyss.Runtime.World
             app.Atmosphere.Apply(AtmospherePreset.ForTileset(title ? "town_night" : "town_dawn"));
             app.Atmosphere.SetupCamera(app.MainCamera);
             var town = ArtLibrary.SpawnStatic(ArtLibrary.TownPath, transform);
-            var layout = EnvironmentProcessor.Process(town, app.Atmosphere.Current.TorchColor, 2f, 7f);
+            layout = EnvironmentProcessor.Process(town, app.Atmosphere.Current.TorchColor, 2f, 7f);
             for (int i = 0; i < NpcIds.Length; i++)
             {
                 var marker = RequireSpot(layout, NpcIds[i]);
@@ -51,18 +54,12 @@ namespace Abyss.Runtime.World
                 npc.transform.SetPositionAndRotation(marker.position, marker.rotation);
                 npc.Play("Idle");
                 var spot = new ServiceSpot { Id = NpcIds[i], Marker = marker, Npc = npc };
-                if (!title) spot.Label = CreateLabel(NpcLabels[i], marker.position + Vector3.up * (npc.Height + 0.3f));
+                if (!title) spot.Label = CreateLabel(NpcLabel(i), marker.position + Vector3.up * (npc.Height + 0.3f));
                 services.Add(spot);
             }
-            for (int i = 0; i < 3; i++)
-            {
-                if (!layout.Spots.TryGetValue("villager_" + (i + 1), out var marker)) continue;
-                var npc = ArtLibrary.SpawnNpc("villager_" + (char)('a' + i), transform);
-                npc.transform.SetPositionAndRotation(marker.position, marker.rotation);
-                npc.Play("Idle");
-            }
+            SpawnLounge();
             var gate = RequireSpot(layout, "gate");
-            services.Add(new ServiceSpot { Id = "gate", Marker = gate, Label = title ? null : CreateLabel("심연의 미궁 · 출발", gate.position + Vector3.up * 2.4f) });
+            services.Add(new ServiceSpot { Id = "gate", Marker = gate, Label = title ? null : CreateLabel("게이트 이동 · 출발", gate.position + Vector3.up * 2.4f) });
             if (title)
             {
                 var cameraMarker = RequireSpot(layout, "camera_title");
@@ -72,19 +69,61 @@ namespace Abyss.Runtime.World
                 return;
             }
             var spawn = RequireSpot(layout, "spawn");
-            foreach (string id in app.DB.HeroOrder)
+            SpawnParty(spawn.position, spawn.rotation);
+            FollowCamera(true);
+        }
+
+        string NpcLabel(int i)
+        {
+            string key = "npc_" + NpcIds[i] + "_name";
+            string text = app.DB.T(key);
+            return text == key ? NpcLabels[i] : text;
+        }
+
+        void SpawnParty(Vector3 position, Quaternion rotation)
+        {
+            var forward = rotation * Vector3.forward;
+            foreach (var hero in app.State.Party)
             {
-                string job = title ? null : app.State?.Hero(id)?.Job;
-                var model = ArtLibrary.SpawnHero(id, transform, job);
-                model.transform.SetPositionAndRotation(spawn.position - spawn.forward * party.Count * 0.9f, spawn.rotation);
+                var model = ArtLibrary.SpawnHero(hero.Id, transform, hero.Job);
+                model.transform.SetPositionAndRotation(position - forward * party.Count * 0.9f, rotation);
                 model.Play("Idle");
                 party.Add(model);
-                partyPaths.Add(ArtLibrary.HeroModelPath(id, job));
+                partyPaths.Add(ArtLibrary.HeroModelPath(hero.Id, hero.Job));
             }
             RefreshEquipment();
             AttachController();
             heading = player.forward;
-            FollowCamera(true);
+        }
+
+        /// <summary>Benched hunters wait at the lounge spots (villager_1..3).</summary>
+        void SpawnLounge()
+        {
+            foreach (var m in lounge) if (m != null) Destroy(m.gameObject);
+            lounge.Clear();
+            var bench = title || app.State == null ? new List<Abyss.Logic.Game.HeroState>() : app.State.Reserve;
+            for (int i = 0; i < 3; i++)
+            {
+                if (!layout.Spots.TryGetValue("villager_" + (i + 1), out var marker)) continue;
+                if (i >= bench.Count) break;
+                var npc = ArtLibrary.SpawnHero(bench[i].Id, transform, bench[i].Job);
+                npc.transform.SetPositionAndRotation(marker.position, marker.rotation);
+                npc.Play("Idle");
+                lounge.Add(npc);
+            }
+        }
+
+        /// <summary>After a roster change: respawns the party where the leader stands and the benched hunters in the lounge.</summary>
+        public void RefreshRoster()
+        {
+            if (title || player == null) return;
+            Vector3 position = player.position;
+            Quaternion rotation = player.rotation;
+            foreach (var m in party) { m.gameObject.SetActive(false); Destroy(m.gameObject); }
+            party.Clear();
+            partyPaths.Clear();
+            SpawnParty(position, rotation);
+            SpawnLounge();
         }
 
         void AttachController()
@@ -132,7 +171,7 @@ namespace Abyss.Runtime.World
                 var hero = app.State.Hero(id);
                 string weapon = hero.Equipped("weapon");
                 GearDisplay.DressBody(model, GearDisplay.Rank(app.DB, hero.Equipped("armor")), GearDisplay.Rank(app.DB, hero.Equipped("accessory")));
-                GearDisplay.AttachWeapon(app.DB, model, id == "archer" ? "weapon.L" : "weapon.R", weapon);
+                GearDisplay.AttachWeapon(app.DB, model, app.DB.ClassOf(id) == "archer" ? "weapon.L" : "weapon.R", weapon);
             }
         }
 

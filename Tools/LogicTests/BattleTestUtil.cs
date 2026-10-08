@@ -36,7 +36,7 @@ namespace Abyss.LogicTests
             Difficulty difficulty = Difficulty.Normal, params string[] heroes)
         {
             var setup = new BattleSetup { Kind = kind, Difficulty = difficulty, Seed = seed };
-            foreach (var id in heroes.Length > 0 ? heroes : new[] { "warrior", "mage", "archer", "cleric" }) setup.Party.Add(Hero(id, level));
+            foreach (var id in heroes.Length > 0 ? heroes : new[] { "h_dohyun", "h_seoa", "h_jiho", "h_yuna" }) setup.Party.Add(Hero(id, level));
             setup.EnemyGroup.AddRange(enemies);
             return setup;
         }

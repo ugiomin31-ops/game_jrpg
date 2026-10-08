@@ -14,6 +14,10 @@ namespace Abyss.Logic.Game
         /// <summary>Speaker name key ("elder", "tip_title", "lore"...).</summary>
         public string TitleKey;
         public string TextKey;
+        /// <summary>Literal text shown instead of <see cref="TextKey"/> (hunter join notices).</summary>
+        public string Text;
+        /// <summary>Hunter id whose portrait goes with the notice (join notices), else null.</summary>
+        public string HeroId;
     }
 
     /// <summary>Result of using an item outside battle.</summary>
@@ -36,10 +40,18 @@ namespace Abyss.Logic.Game
         public const string FlagEndingSeen = "ending_seen";
         public const int ProloguePages = 8;
         public const int EndingPages = 12;
-        /// <summary>Floors per chapter (B1F-B5F is chapter 1). Floor 5 of a chapter holds its boss.</summary>
-        public const int FloorsPerChapter = 5;
-        /// <summary>Story chapters before the postgame (chapter 7 = 시련의 회랑, open after the ending).</summary>
-        public const int MainChapters = 6;
+        /// <summary>Floors per zone ("chapter" in older code): 1-1..1-3 is zone 1. Floor 3 of a zone holds its boss.</summary>
+        public const int FloorsPerChapter = 3;
+        /// <summary>Story zones before the postgame (zone 13 = 붉은 게이트, open after the ending).</summary>
+        public const int MainChapters = 12;
+        /// <summary>Guild licence grade from the zone bosses beaten (E at the start, S after the final boss).</summary>
+        public static string GuildRank(GameState state)
+        {
+            int beaten = 0;
+            for (int i = 1; i <= MainChapters; i++) if (state.Flags.Contains(BossFlag(i))) beaten++;
+            if (state.Flags.Contains(FlagCleared)) return "S";
+            return beaten >= 10 ? "A" : beaten >= 8 ? "B" : beaten >= 6 ? "C" : beaten >= 3 ? "D" : "E";
+        }
         /// <summary>One-shot notice shown in town after the ending: the trial corridor is open.</summary>
         public const string FlagPostgameNotice = "postgame_notice_seen";
 
@@ -113,17 +125,43 @@ namespace Abyss.Logic.Game
         /// elder's line once after each of the chapter 1-5 bosses (elder_1..5), then the trial-corridor notice once
         /// after the ending. The Unity layer autosaves after.
         /// </summary>
-        public static List<StoryNotice> EnterTown(GameState state)
+        public static List<StoryNotice> EnterTown(GameState state) => EnterTown(null, state);
+
+        /// <summary>
+        /// As <see cref="EnterTown(GameState)"/>, plus (with a database) the hunters who join now that their zone boss has
+        /// fallen (<see cref="HunterRoster.SyncStoryJoins"/>): one notice each, after the guild master's lines.
+        /// </summary>
+        public static List<StoryNotice> EnterTown(GameDB db, GameState state)
         {
             state.Location = GameLocation.Town;
             var output = new List<StoryNotice>();
             if (TryTip(state, "first_town")) output.Add(new StoryNotice { TitleKey = "tip_title", TextKey = TipFlag("first_town") });
+            var joins = db == null ? new List<StoryNotice>() : JoinNotices(db, state);
             // Chapter 6's closing words are the ending itself; the trial corridor notice follows the ending once.
             for (int i = 1; i < MainChapters; i++)
                 if (state.Flags.Contains(BossFlag(i)) && state.Flags.Add("elder_" + i + "_seen"))
                     output.Add(new StoryNotice { TitleKey = "elder", TextKey = "elder_" + i });
             if (state.Flags.Contains(FlagEndingSeen) && state.Flags.Add(FlagPostgameNotice))
                 output.Add(new StoryNotice { TitleKey = "elder", TextKey = "postgame_unlocked" });
+            output.AddRange(joins);
+            return output;
+        }
+
+        static List<StoryNotice> JoinNotices(GameDB db, GameState state)
+        {
+            var output = new List<StoryNotice>();
+            foreach (var hero in HunterRoster.SyncStoryJoins(db, state))
+            {
+                var def = db.Heroes[hero.Id];
+                string where = state.InParty(hero.Id) ? "파티에 합류했습니다." : "대기 헌터로 등록됐습니다. 헌터 관리에서 편성할 수 있어요.";
+                string job = PartyStats.JobName(db, hero);
+                output.Add(new StoryNotice
+                {
+                    TitleKey = "hunter_join_title",
+                    HeroId = hero.Id,
+                    Text = $"{def.Rank}급 {job} {def.DisplayName} (Lv.{hero.Level})\n\n\"{def.Line}\"\n\n{where}",
+                });
+            }
             return output;
         }
 

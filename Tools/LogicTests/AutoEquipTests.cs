@@ -22,7 +22,7 @@ namespace Abyss.LogicTests
         {
             var db = TestMain.DB;
             var state = GameState.NewGame(db, Difficulty.Normal);
-            var warrior = state.Hero("warrior");
+            var warrior = state.Hero("h_dohyun");
             var current = db.Equipment[warrior.Equipped("weapon")];
             // The strongest warrior weapon that is at least as good in every other stat and better in attack.
             EquipmentDef upgrade = null;
@@ -37,7 +37,7 @@ namespace Abyss.LogicTests
             Assert.True(upgrade != null, "data has a warrior weapon that dominates the starter");
             state.AddEquipment(upgrade.Id, 1);
 
-            var plan = AutoEquip.Plan(db, state, "warrior");
+            var plan = AutoEquip.Plan(db, state, "h_dohyun");
             var weapon = plan.Slots.Find(s => s.Slot == "weapon");
             Assert.True(plan.Changed && weapon.Changed, "the bag upgrade is recommended");
             Assert.True(weapon.ScoreDelta > 0, "the recommended weapon raises the score");
@@ -45,13 +45,13 @@ namespace Abyss.LogicTests
             // Planning alone must not equip anything; it must be at least as good as wearing the upgrade by hand.
             Assert.Equal(current.Id, warrior.Equipped("weapon"), "plan leaves the weapon worn");
             var manual = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
-            Assert.True(PartyStats.Equip(db, manual, "warrior", upgrade.Id).Success, "manual equip of the upgrade");
-            Assert.True(plan.ScoreAfter >= AutoEquip.ScoreOf(db, manual, "warrior") - Eps, "plan is not worse than the manual upgrade");
+            Assert.True(PartyStats.Equip(db, manual, "h_dohyun", upgrade.Id).Success, "manual equip of the upgrade");
+            Assert.True(plan.ScoreAfter >= AutoEquip.ScoreOf(db, manual, "h_dohyun") - Eps, "plan is not worse than the manual upgrade");
 
-            var result = AutoEquip.Apply(db, state, "warrior");
+            var result = AutoEquip.Apply(db, state, "h_dohyun");
             Assert.True(result.Success && result.Changes.Count > 0, "apply succeeds");
             Assert.Equal(weapon.RecommendedId, warrior.Equipped("weapon"), "applied weapon is the planned one");
-            Assert.Near(plan.ScoreAfter, AutoEquip.ScoreOf(db, state, "warrior"), Eps, "applied score matches the plan");
+            Assert.Near(plan.ScoreAfter, AutoEquip.ScoreOf(db, state, "h_dohyun"), Eps, "applied score matches the plan");
             Assert.True(plan.StatDelta.Attack > 0 || plan.StatDelta.Defense > 0, "main stats moved up");
         }
 
@@ -72,17 +72,17 @@ namespace Abyss.LogicTests
             }
 
             // A class-limited top weapon for another class, and a job-limited piece for a base-job hero, are refused by Equip too.
-            var mage = state.Hero("mage");
+            var mage = state.Hero("h_seoa");
             foreach (var piece in db.Equipment.Values)
             {
-                if (PartyStats.AllowsClass(piece, "mage")) continue;
-                Assert.Equal("class_mismatch", PartyStats.Equip(db, SaveCodec.Deserialize(SaveCodec.Serialize(state), db), "mage", piece.Id).Reason, piece.Id + " is class-locked");
+                if (PartyStats.AllowsClass(db, piece, "h_seoa")) continue;
+                Assert.Equal("class_mismatch", PartyStats.Equip(db, SaveCodec.Deserialize(SaveCodec.Serialize(state), db), "h_seoa", piece.Id).Reason, piece.Id + " is class-locked");
                 break;
             }
             foreach (var piece in db.Equipment.Values)
             {
-                if (!PartyStats.AllowsClass(piece, "mage") || piece.Jobs.Count == 0 || PartyStats.AllowsJob(db, piece, mage)) continue;
-                Assert.Equal("job_mismatch", PartyStats.Equip(db, SaveCodec.Deserialize(SaveCodec.Serialize(state), db), "mage", piece.Id).Reason, piece.Id + " is job-locked");
+                if (!PartyStats.AllowsClass(db, piece, "h_seoa") || piece.Jobs.Count == 0 || PartyStats.AllowsJob(db, piece, mage)) continue;
+                Assert.Equal("job_mismatch", PartyStats.Equip(db, SaveCodec.Deserialize(SaveCodec.Serialize(state), db), "h_seoa", piece.Id).Reason, piece.Id + " is job-locked");
                 break;
             }
         }

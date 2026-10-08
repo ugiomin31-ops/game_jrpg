@@ -117,7 +117,7 @@ namespace Abyss.LogicTests
                 var def = db.Heroes[hero.Id];
                 foreach (string slot in GameState.EquipSlots)
                 {
-                    var best = pool.Where(p => p.Slot == slot && PartyStats.AllowsClass(p, hero.Id) && (!jobs || PartyStats.AllowsJob(db, p, hero)))
+                    var best = pool.Where(p => p.Slot == slot && PartyStats.AllowsClass(db, p, hero.Id) && (!jobs || PartyStats.AllowsJob(db, p, hero)))
                         .OrderByDescending(p => Score(def, p)).ThenBy(p => p.Id, StringComparer.Ordinal).FirstOrDefault();
                     if (best != null) hero.Equipment[slot] = best.Id;
                 }

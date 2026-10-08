@@ -103,7 +103,7 @@ namespace Abyss.UI
                     string reason = !entry.Unlocked ? T("reason_tier_locked") : have >= cap ? T("reason_stack_full") : T("reason_not_enough_gold");
                     string description = ContentDescription(entry.Id) + $"\n\n보유 {have}개";
                     if (equipment) description = ShopComparison(app.DB.Equipment[entry.Id]) + "\n\n" + description + $" · 장착 {PartyStats.EquippedCount(app.State, entry.Id)}개";
-                    if (!entry.Unlocked) description += $"\n{app.DB.Floors[Math.Min(app.DB.Floors.Count - 1, (entry.ShopTier - 1) * GameFlow.FloorsPerChapter)].FloorLabel} 도달 시 해금";
+                    if (!entry.Unlocked) description += $"\n{app.DB.Floors[Math.Min(app.DB.Floors.Count - 1, TownServices.TierUnlockFloor(entry.ShopTier))].FloorLabel} 도달 시 해금";
                     m.Add(entry.DisplayName, () => ShowQuantity(T("buy") + " · " + entry.DisplayName, maximum, entry.Price, n => equipment ? TownServices.BuyEquipment(app.DB, app.State, entry.Id, n) : TownServices.BuyItem(app.DB, app.State, entry.Id, n), m), description, $"{entry.Price:N0} G", entry.Unlocked && maximum > 0, reason, equipment ? UIArtwork.Gear(entry.Id) : UIArtwork.Item(entry.Id));
                 }
             }
