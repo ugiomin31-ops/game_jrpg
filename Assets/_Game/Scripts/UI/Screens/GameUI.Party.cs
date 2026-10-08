@@ -11,6 +11,8 @@ namespace Abyss.UI
     {
         public void ShowParty() => Menu(T("party"), "동료를 선택해 장비, 기술과 능력치를 확인하세요.", m =>
         {
+            bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
+            m.Add("파티 전체 최강 장비", () => ConfirmPartyAutoEquip(m), "모든 동료에게 보유 장비 중 가장 강한 장비를 한 번에 장착합니다.", enabled: mutable, reason: T("battle_unavailable"));
             foreach (var member in app.State.Party)
             {
                 var hero = member;
@@ -23,6 +25,8 @@ namespace Abyss.UI
             m.Subtitle = $"{JobName(hero)} · Lv.{hero.Level} · {HeroVitals(hero)}";
             if (m.TabIndex == 0)
             {
+                bool mutable = app.Screen != GameScreen.Battle && app.State.PendingBattle == null;
+                m.Add("최강 장비", () => ConfirmAutoEquip(hero, m), "보유한 장비 중 이 동료에게 가장 강한 조합을 한 번에 장착합니다.", enabled: mutable, reason: T("battle_unavailable"));
                 foreach (string value in GameState.EquipSlots)
                 {
                     string slot = value;
@@ -95,6 +99,42 @@ namespace Abyss.UI
         {
             Execute(result, screen);
             if (result.Success) app.RefreshEquipmentVisuals();
+        }
+        void ConfirmAutoEquip(HeroState hero, GameMenuScreen screen)
+        {
+            var plan = AutoEquip.Plan(app.DB, app.State, hero.Id);
+            if (!plan.Changed) { UIModal.Alert(root.Modals, "최강 장비", "이미 가장 좋은 장비를 장착하고 있습니다."); return; }
+            Confirm("최강 장비", AutoEquipSummary(plan) + "\n\n장착할까요?", () => ExecuteAutoEquip(new[] { AutoEquip.Apply(app.DB, app.State, hero.Id) }, "최강 장비", screen));
+        }
+        void ConfirmPartyAutoEquip(GameMenuScreen screen)
+        {
+            var sections = new List<string>();
+            foreach (var plan in AutoEquip.PlanParty(app.DB, app.State))
+                if (plan.Changed) sections.Add($"<b>{HeroName(plan.HeroId)}</b>\n{AutoEquipSummary(plan)}");
+            if (sections.Count == 0) { UIModal.Alert(root.Modals, "파티 전체 최강 장비", "이미 가장 좋은 장비를 장착하고 있습니다."); return; }
+            Confirm("파티 전체 최강 장비", string.Join("\n\n", sections) + "\n\n장착할까요?", () => ExecuteAutoEquip(AutoEquip.ApplyParty(app.DB, app.State), "파티 전체 최강 장비", screen));
+        }
+        void ExecuteAutoEquip(IEnumerable<AutoEquipResult> results, string label, GameMenuScreen screen)
+        {
+            AutoEquipResult failed = null;
+            foreach (var result in results) if (!result.Success) { failed = result; break; }
+            ExecuteEquipment(failed == null ? ServiceResult.Ok("equipped_msg", label) : ServiceResult.Fail(failed.Reason), screen);
+        }
+        /// <summary>One line per changed slot ("무기: 철검 → 미스릴 검") and the loadout's main stat change ("공격 +12 · 방어 -3").</summary>
+        string AutoEquipSummary(AutoEquipPlan plan)
+        {
+            var lines = new List<string>();
+            foreach (var slot in plan.Slots) if (slot.Changed) lines.Add($"{T("slot_" + slot.Slot)}: {EquipmentName(slot.CurrentId)} → {EquipmentName(slot.RecommendedId)}");
+            var stats = new List<string>();
+            AddDelta(stats, T("stat_hp"), plan.StatDelta.MaxHp);
+            AddDelta(stats, T("stat_mp"), plan.StatDelta.MaxMp);
+            AddDelta(stats, T("stat_atk"), plan.StatDelta.Attack);
+            AddDelta(stats, T("stat_mag"), plan.StatDelta.Magic);
+            AddDelta(stats, T("stat_def"), plan.StatDelta.Defense);
+            AddDelta(stats, T("stat_res"), plan.StatDelta.Resistance);
+            AddDelta(stats, T("stat_spd"), plan.StatDelta.Speed);
+            lines.Add("능력 변화 · " + (stats.Count == 0 ? T("no_change") : string.Join(" · ", stats)));
+            return string.Join("\n", lines);
         }
         BattleUnit LiveHero(HeroState hero)
         {
