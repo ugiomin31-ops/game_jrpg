@@ -237,31 +237,61 @@ namespace Abyss.UI
             foreach (var floor in app.DB.Floors) if (floor.Id == quest.TargetId) return floor.FloorLabel + " · " + floor.AreaName;
             return "미궁 탐험";
         }
+        // Tabs 0-5 = chapters 1-6, tab 6 = 시련의 회랑 (chapter 7), tab 7 = milestone rewards.
+        static readonly string[] BestiaryTabs = { "1장", "2장", "3장", "4장", "5장", "6장", "회랑", "보상" };
+        const int BestiaryRewardTab = 7;
         void ShowBestiary() => Menu(T("bestiary_title"), T("menu_bestiary_sub"), m =>
         {
             var rows = TownServices.BestiaryRows(app.DB, app.State);
-            int found = 0, kills = 0;
-            foreach (var row in rows) { if (row.Seen) found++; kills += row.Kills; }
-            m.Subtitle = $"발견한 마물 {found}/{rows.Count} · 누적 토벌 {kills:N0}회";
+            int found = 0, killed = 0, kills = 0;
+            foreach (var row in rows) { if (row.Seen) found++; if (row.Kills > 0) killed++; kills += row.Kills; }
+            m.Subtitle = $"발견 {found}/{rows.Count} · 토벌 완료 {killed}/{rows.Count} · 누적 토벌 {kills:N0}회";
+            if (m.TabIndex == BestiaryRewardTab) { AddBestiaryRewards(m); return; }
+            int chapter = m.TabIndex + 1;
             foreach (var row in rows)
             {
+                if (row.Chapter != chapter) continue;
                 var entry = row; var enemy = entry.Enemy;
-                string title = entry.Seen ? enemy.DisplayName : T("unknown_name");
-                string details = T("bestiary_unseen");
-                if (entry.Seen)
-                {
-                    var weak = new List<string>();
-                    foreach (int element in entry.RevealedWeaknesses) weak.Add(T("element_" + element));
-                    if (entry.HiddenWeaknesses > 0) weak.Add("?");
-                    var drops = new List<string>();
-                    if (entry.DropsRevealed) foreach (var drop in enemy.Drops) drops.Add($"{ItemName(drop.Id)} · {drop.Chance:P0}");
-                    string lore = app.DB.Text.TryGetValue("enemy_desc_" + enemy.Id, out var loreText) ? loreText + "\n" : "";
-                    details = $"{enemy.DisplayName} · Lv.{enemy.Level}\n{(entry.IsBoss ? "봉인의 수호자" : entry.IsElite ? "배회 강적" : "미궁의 마물")}\n{lore}HP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";
-                }
-                string description = details;
-                m.Add(title, () => UIModal.Alert(root.Modals, title, description), description, entry.Seen ? $"{entry.Kills}회" : "미발견", icon: entry.Seen ? UIArtwork.Enemy(enemy.Id) : null);
+                string title = (entry.IsBoss ? "보스 · " : entry.IsElite ? "강적 · " : "") + (entry.Seen ? enemy.DisplayName : T("unknown_name"));
+                Color? accent = entry.IsBoss ? UITheme.GoldBright : entry.IsElite ? UITheme.Epic : (Color?)null;
+                string description = entry.Seen ? BestiaryDetails(entry) : $"{T("bestiary_unseen")}\n\n수록 · {BestiaryChapterName(entry.Chapter)}";
+                m.Add(title, () => UIModal.Alert(root.Modals, title, description), description, entry.Seen ? $"{entry.Kills}회" : "미발견",
+                    icon: entry.Seen ? UIArtwork.Enemy(enemy.Id) : null, labelColor: entry.Seen ? accent : null);
             }
-        });
+        }, BestiaryTabs);
+        string BestiaryChapterName(int chapter) => chapter >= 7 ? "시련의 회랑" : chapter + "장";
+        string BestiaryDetails(BestiaryRow entry)
+        {
+            var enemy = entry.Enemy;
+            var weak = new List<string>();
+            foreach (int element in entry.RevealedWeaknesses) weak.Add(T("element_" + element));
+            if (entry.HiddenWeaknesses > 0) weak.Add("?");
+            var drops = new List<string>();
+            if (entry.DropsRevealed)
+                foreach (var drop in enemy.Drops)
+                {
+                    int rarity = ItemRarity(drop.Id);
+                    drops.Add($"{UITheme.Tag(UITheme.RarityColor(rarity))}{UITheme.RarityName(rarity)}</color> {ItemName(drop.Id)} · {drop.Chance:P0}");
+                }
+            string rank = entry.IsBoss ? "등급 · 보스 · 봉인의 수호자" : entry.IsElite ? "등급 · 강적 · 배회 강적" : "등급 · 일반 · 미궁의 마물";
+            string lore = app.DB.Text.TryGetValue("enemy_desc_" + enemy.Id, out var loreText) ? loreText + "\n" : "";
+            string habitat = entry.Habitat.Count == 0 ? "알 수 없음" : string.Join(" · ", entry.Habitat);
+            return $"{enemy.DisplayName} · Lv.{enemy.Level}\n{rank}\n{lore}HP {enemy.MaxHp} · MP {enemy.MaxMp}\n공격 {enemy.Attack} · 마력 {enemy.Magic}\n방어 {enemy.Defense} · 저항 {enemy.Resistance} · 속도 {enemy.Speed}\n실드 {enemy.BreakShield}\n토벌 {entry.Kills:N0}회\n서식지 · {habitat}\n\n약점 · {(weak.Count == 0 ? T("weak_none") : string.Join(" · ", weak))}\n\n드롭 · {(!entry.DropsRevealed ? T("drops_unknown") : drops.Count == 0 ? T("drops_none") : string.Join("\n", drops))}";
+        }
+        int ItemRarity(string id) => app.DB.Items.TryGetValue(id, out var item) ? item.Rarity : app.DB.Equipment.TryGetValue(id, out var piece) ? piece.Rarity : 0;
+        void AddBestiaryRewards(GameMenuScreen m)
+        {
+            foreach (var milestone in TownServices.BestiaryMilestones(app.DB, app.State))
+            {
+                var row = milestone;
+                bool claimable = row.Reached && !row.Claimed;
+                string status = row.Claimed ? T("claimed") : row.Reached ? "선택하면 보상을 받습니다." : "아직 조건을 달성하지 못했습니다.";
+                string details = $"{row.Label}\n진행 {row.Progress}/{row.Goal}\n\n{T("reward")} · {row.RewardText}\n\n{status}";
+                m.Add(row.Label, () => Confirm(T("claim"), $"{row.Label} 달성 보상\n\n{row.RewardText}\n\n보상을 받을까요?", () => Execute(TownServices.ClaimBestiaryReward(app.DB, app.State, row.Index), m)),
+                    details, row.Claimed ? T("claimed") : row.Reached ? T("claim") : $"{row.Progress}/{row.Goal}", claimable, row.Claimed ? T("claimed") : T("reason_not_reached"),
+                    labelColor: claimable ? UITheme.GoldBright : (Color?)null);
+            }
+        }
         void ShowElder()
         {
             var lines = new List<string>();
