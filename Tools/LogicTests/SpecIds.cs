@@ -40,5 +40,27 @@ namespace Abyss.LogicTests
             "sword_holy_avenger", "sword_iron", "sword_knight", "sword_ravager", "sword_runic",
             "sword_tidal", "sword_void",
         };
+        /// <summary>Job signature weapons (equippable only after a class change).</summary>
+        public static readonly HashSet<string> JobWeapons = new HashSet<string>
+        {
+            "bow_heavens", "bow_longshot", "bow_nightfall", "bow_thornvine", "mace_grace",
+            "mace_purifier", "mace_seraph", "mace_verdict", "staff_abyss_eye", "staff_arcanum",
+            "staff_hex", "staff_prism", "sword_aegis", "sword_conqueror", "sword_holy_avenger",
+            "sword_ravager",
+        };
+        /// <summary>Party level range (enter, leave) of chapters 1-7 (7 = trial corridor).</summary>
+        public static readonly int[][] ChapterLevels =
+        {
+            new[] { 1, 12 },
+            new[] { 12, 24 },
+            new[] { 24, 34 },
+            new[] { 34, 44 },
+            new[] { 44, 54 },
+            new[] { 54, 64 },
+            new[] { 64, 70 },
+        };
+        /// <summary>Chapter boss ids, chapters 1-7.</summary>
+        public static readonly string[] ChapterBosses = { "forest_guardian", "frost_kraken", "flame_sphinx", "boss", "leviathan", "abyss_lord", "abyss_lord_ex" };
+        public const int LevelCap = 70;
     }
 }

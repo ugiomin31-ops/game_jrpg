@@ -100,7 +100,18 @@ def write_allowlist():
     lines += ['        };', '        public static readonly HashSet<string> Equipment = new HashSet<string>', '        {']
     for i in range(0, len(gear), 5):
         lines.append('            ' + ' '.join('"%s",' % x for x in gear[i:i + 5]))
-    lines += ['        };', '    }', '}', '']
+    lines += ['        };', '        /// <summary>Job signature weapons (equippable only after a class change).</summary>',
+              '        public static readonly HashSet<string> JobWeapons = new HashSet<string>', '        {']
+    jw = sorted(spec.JOB_WEAPONS.values())
+    for i in range(0, len(jw), 5):
+        lines.append('            ' + ' '.join('"%s",' % x for x in jw[i:i + 5]))
+    lines += ['        };', '        /// <summary>Party level range (enter, leave) of chapters 1-7 (7 = trial corridor).</summary>',
+              '        public static readonly int[][] ChapterLevels =', '        {']
+    for ch in spec.CHAPTERS:
+        lines.append('            new[] { %d, %d },' % ch['levels'])
+    lines += ['        };', '        /// <summary>Chapter boss ids, chapters 1-7.</summary>',
+              '        public static readonly string[] ChapterBosses = { %s };' % ', '.join('"%s"' % ch['boss'] for ch in spec.CHAPTERS),
+              '        public const int LevelCap = %d;' % spec.LEVEL_CAP, '    }', '}', '']
     data = '\r\n'.join(lines).encode('utf-8')
     old = open(path, 'rb').read() if os.path.exists(path) else b''
     if old != data:

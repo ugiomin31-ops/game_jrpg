@@ -525,16 +525,16 @@ def build_superbosses(rows, spec):
         phases = json.loads(json.dumps(base.get('phases') or []))
         if not phases:
             phases = [dict(hp_below=1.0, actions_per_turn=2, skills=list(base['skills']), weights=[1] * len(base['skills']), summon=[], line='')]
-        # Three phases: opening, summons at 60 %, signature frenzy at 30 % — one more action than the original.
+        # Three phases: opening, summons at 60 %, signature frenzy at 30 % (one more action than the original's last).
         first = phases[0]
         mid = phases[1] if len(phases) > 1 else phases[0]
         last = phases[-1]
         new = [
-            dict(hp_below=1.0, actions_per_turn=min(3, first['actions_per_turn'] + 1), skills=first['skills'], weights=first['weights'],
+            dict(hp_below=1.0, actions_per_turn=max(2, first['actions_per_turn']), skills=first['skills'], weights=first['weights'],
                  summon=[], line=lines[0]),
-            dict(hp_below=0.6, actions_per_turn=min(3, mid['actions_per_turn'] + 1), skills=mid['skills'] + [sig],
+            dict(hp_below=0.6, actions_per_turn=max(2, mid['actions_per_turn']), skills=mid['skills'] + [sig],
                  weights=mid['weights'] + [1], summon=cfg['summon'], line=lines[1]),
-            dict(hp_below=0.3, actions_per_turn=min(4, last['actions_per_turn'] + 1), skills=[sig] + last['skills'],
+            dict(hp_below=0.3, actions_per_turn=min(3, last['actions_per_turn'] + 1), skills=[sig] + last['skills'],
                  weights=[3] + last['weights'], summon=[], line=lines[2]),
         ]
         row['phases'] = new
@@ -543,11 +543,38 @@ def build_superbosses(rows, spec):
     return out
 
 
+# Battle-length tuning from the campaign simulation (Tools/LogicTests/CampaignBalanceTests): normal monsters get
+# more HP so a random fight lasts 3-5 rounds; elites a little; bosses per row (HP multiplier, ATK/MAG multiplier).
+NORMAL_HP = {1: 2.0, 2: 2.45, 3: 2.0, 4: 2.25, 5: 2.0, 6: 1.9, 7: 1.9}
+ELITE_HP = 1.25
+BOSS_TUNE = {
+    'forest_guardian': (0.8, 1.4), 'frost_kraken': (0.85, 0.85), 'flame_sphinx': (1.0, 1.0), 'boss': (0.6, 0.8),
+    'leviathan': (0.7, 0.9), 'abyss_lord': (0.3, 0.7),
+    'forest_guardian_ex': (1.15, 1.25), 'frost_kraken_ex': (0.6, 0.78), 'flame_sphinx_ex': (0.5, 0.68), 'boss_ex': (0.4, 0.6),
+    'leviathan_ex': (0.55, 0.8), 'abyss_lord_ex': (0.36, 0.62),
+}
+
+
+def tune(rows):
+    for r in rows:
+        if r['id'] in BOSS_TUNE:
+            hp, off = BOSS_TUNE[r['id']]
+        elif r['rank'] == 0 and r.get('ai_profile') != 'runner' and r['id'] != 'golden_mimic':
+            hp, off = NORMAL_HP[chapter_of_level(r['level'])], 1.0
+        elif r['rank'] == 1:
+            hp, off = ELITE_HP, 1.0
+        else:
+            continue
+        r['max_hp'] = max(1, int(round(r['max_hp'] * hp)))
+        r['attack'] = max(1, int(round(r['attack'] * off)))
+        r['magic'] = max(1, int(round(r['magic'] * off)))
+
+
 def build(spec):
     base = json.load(open(os.path.join(HERE, 'base_enemies.json'), encoding='utf-8'))
     rows = relevel_existing(base)
     rows += variant_rows(rows, spec)
     rows += build_new(spec)
     rows += build_superbosses(rows, spec)
-    order = {r['id']: i for i, r in enumerate(rows)}
+    tune(rows)
     return rows
