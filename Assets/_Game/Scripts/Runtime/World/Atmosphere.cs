@@ -200,23 +200,23 @@ namespace Abyss.Runtime.World
                         Bloom = 1.1f, BloomThreshold = 0.9f, Exposure = 0, Contrast = 12, Saturation = 10,
                         ColorFilter = new Color(1.0f, 0.98f, 0.95f), Vignette = 0.22f, Temperature = -4, TorchColor = new Color(1.0f, 0.72f, 0.4f),
                     };
-                case "town_night": // 길드 저녁 (타이틀): screens, gate and lamps carry the glow
+                case "town_night": // 길드 거리 저녁 (타이틀): lit HQ windows, street lamps and the violet gate carry the glow
                     return new AtmospherePreset
                     {
-                        SunColor = new Color(0.62f, 0.7f, 1.0f), SunIntensity = 0.55f, SunEuler = new Vector3(40, -55, 0),
-                        AmbientSky = new Color(0.42f, 0.46f, 0.74f), AmbientEquator = new Color(0.36f, 0.34f, 0.5f), AmbientGround = new Color(0.16f, 0.14f, 0.2f),
-                        FogColor = new Color(0.16f, 0.18f, 0.34f), FogStart = 35, FogEnd = 120, BackgroundColor = new Color(0.12f, 0.14f, 0.3f),
-                        Bloom = 1.25f, BloomThreshold = 0.8f, Exposure = 0.05f, Contrast = 10, Saturation = 10,
-                        ColorFilter = new Color(0.96f, 0.98f, 1.0f), Vignette = 0.3f, Temperature = -8, TorchColor = new Color(1.0f, 0.74f, 0.46f),
+                        SunColor = new Color(0.6f, 0.68f, 1.0f), SunIntensity = 0.5f, SunEuler = new Vector3(40, -55, 0),
+                        AmbientSky = new Color(0.36f, 0.4f, 0.6f), AmbientEquator = new Color(0.34f, 0.32f, 0.48f), AmbientGround = new Color(0.14f, 0.13f, 0.19f),
+                        FogColor = new Color(0.17f, 0.19f, 0.36f), FogStart = 50, FogEnd = 170, BackgroundColor = new Color(0.13f, 0.16f, 0.36f),
+                        Bloom = 1.45f, BloomThreshold = 0.8f, Exposure = 0.05f, Contrast = 10, Saturation = 12,
+                        ColorFilter = new Color(0.96f, 0.98f, 1.0f), Vignette = 0.28f, Temperature = -6, TorchColor = new Color(1.0f, 0.72f, 0.42f),
                     };
-                case "town_dawn": // 길드 낮: bright morning light through the glass front
+                case "town_dawn": // 길드 거리 (플레이): golden-hour street light, warm key and cool sky fill
                     return new AtmospherePreset
                     {
-                        SunColor = new Color(1.0f, 0.91f, 0.78f), SunIntensity = 1.25f, SunEuler = new Vector3(42, -28, 0),
-                        AmbientSky = new Color(0.84f, 0.9f, 1.0f), AmbientEquator = new Color(0.86f, 0.8f, 0.74f), AmbientGround = new Color(0.46f, 0.4f, 0.38f),
-                        FogColor = new Color(0.9f, 0.92f, 0.96f), FogStart = 45, FogEnd = 150, BackgroundColor = new Color(0.72f, 0.87f, 1.0f),
-                        Bloom = 0.55f, BloomThreshold = 0.95f, Exposure = 0.05f, Contrast = 6, Saturation = 12,
-                        ColorFilter = new Color(1.0f, 0.985f, 0.96f), Vignette = 0.16f, Temperature = 4, TorchColor = new Color(1.0f, 0.92f, 0.78f),
+                        SunColor = new Color(1.0f, 0.74f, 0.52f), SunIntensity = 0.95f, SunEuler = new Vector3(32, -38, 0),
+                        AmbientSky = new Color(0.52f, 0.55f, 0.68f), AmbientEquator = new Color(0.5f, 0.42f, 0.44f), AmbientGround = new Color(0.22f, 0.19f, 0.21f),
+                        FogColor = new Color(0.44f, 0.42f, 0.56f), FogStart = 60, FogEnd = 190, BackgroundColor = new Color(0.46f, 0.52f, 0.78f),
+                        Bloom = 1.1f, BloomThreshold = 0.9f, Exposure = 0.05f, Contrast = 8, Saturation = 14,
+                        ColorFilter = new Color(1.0f, 0.96f, 0.92f), Vignette = 0.2f, Temperature = 6, TorchColor = new Color(1.0f, 0.72f, 0.4f),
                     };
                 default:
                     return new AtmospherePreset();

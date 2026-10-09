@@ -1,6 +1,6 @@
 {
   "asset": "Art/Town/town",
-  "name": "새벽 길드 (Dawn Guild) hub",
+  "name": "새벽 길드 거리 (Dawn Guild street) hub",
   "units": "metres",
   "blender_axes": "Z-up; humanoid forward -Y",
   "unity_position_mapping": "(Blender x, Blender z, -Blender y)",
@@ -17,27 +17,39 @@
       0.0
     ]
   },
-  "hall_interior_blender": {
+  "plaza_paving_blender": {
     "min": [
-      -15.5,
-      -11.5,
+      -21.0,
+      -24.5,
       0.0
     ],
     "max": [
-      15.5,
-      11.5,
-      6.6
+      21.0,
+      14.0,
+      0.03
+    ]
+  },
+  "hq_footprint_blender": {
+    "min": [
+      -13.5,
+      -29.0,
+      0.0
+    ],
+    "max": [
+      13.5,
+      -17.5,
+      15.4
     ]
   },
   "camera_title_target_blender": [
-    -3.5333,
-    5.5333,
-    1.6067
+    -1.2,
+    -1.6,
+    1.8
   ],
   "camera_title_target_unity": [
-    -3.5333,
-    1.6067,
-    -5.5333
+    -1.2,
+    1.8,
+    1.6
   ],
   "camera_title_lens_mm": 30,
   "markers": {
@@ -66,8 +78,8 @@
     },
     "Spot_innkeeper": {
       "blender_position": [
-        -8.800000190734863,
-        0.4000000059604645,
+        -13.199999809265137,
+        1.7999999523162842,
         0.0
       ],
       "blender_euler_deg": [
@@ -82,14 +94,14 @@
         1.0
       ],
       "unity_position": [
-        -8.800000190734863,
+        -13.199999809265137,
         0.0,
-        -0.4000000059604645
+        -1.7999999523162842
       ]
     },
     "Spot_shopkeeper": {
       "blender_position": [
-        11.899999618530273,
+        13.399999618530273,
         -0.5,
         0.0
       ],
@@ -105,15 +117,15 @@
         1.0
       ],
       "unity_position": [
-        11.899999618530273,
+        13.399999618530273,
         0.0,
         0.5
       ]
     },
     "Spot_smith": {
       "blender_position": [
-        8.399999618530273,
-        8.300000190734863,
+        13.199999809265137,
+        9.800000190734863,
         0.0
       ],
       "blender_euler_deg": [
@@ -128,21 +140,21 @@
         1.0
       ],
       "unity_position": [
-        8.399999618530273,
+        13.199999809265137,
         0.0,
-        -8.300000190734863
+        -9.800000190734863
       ]
     },
     "Spot_guild_clerk": {
       "blender_position": [
-        8.0,
-        -3.9000000953674316,
-        0.0
+        6.199999809265137,
+        -16.399999618530273,
+        0.8999999761581421
       ],
       "blender_euler_deg": [
         0.0,
         0.0,
-        0.0
+        180.00000500895632
       ],
       "blender_quaternion_xyzw": [
         0.0,
@@ -151,16 +163,39 @@
         1.0
       ],
       "unity_position": [
-        8.0,
-        0.0,
-        3.9000000953674316
+        6.199999809265137,
+        0.8999999761581421,
+        16.399999618530273
       ]
     },
     "Spot_elder": {
       "blender_position": [
-        -10.199999809265137,
-        7.900000095367432,
-        0.3199999928474426
+        -3.5999999046325684,
+        -16.399999618530273,
+        0.8999999761581421
+      ],
+      "blender_euler_deg": [
+        0.0,
+        0.0,
+        180.00000500895632
+      ],
+      "blender_quaternion_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "unity_position": [
+        -3.5999999046325684,
+        0.8999999761581421,
+        16.399999618530273
+      ]
+    },
+    "Spot_gate": {
+      "blender_position": [
+        -16.5,
+        -15.0,
+        0.0
       ],
       "blender_euler_deg": [
         0.0,
@@ -174,15 +209,38 @@
         1.0
       ],
       "unity_position": [
-        -10.199999809265137,
-        0.3199999928474426,
-        -7.900000095367432
+        -16.5,
+        0.0,
+        15.0
       ]
     },
-    "Spot_gate": {
+    "Spot_villager_1": {
       "blender_position": [
+        -8.5,
+        0.5,
+        0.0
+      ],
+      "blender_euler_deg": [
         0.0,
-        8.800000190734863,
+        0.0,
+        0.0
+      ],
+      "blender_quaternion_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "unity_position": [
+        -8.5,
+        0.0,
+        -0.5
+      ]
+    },
+    "Spot_villager_2": {
+      "blender_position": [
+        -4.199999809265137,
+        -10.800000190734863,
         0.0
       ],
       "blender_euler_deg": [
@@ -197,67 +255,21 @@
         1.0
       ],
       "unity_position": [
+        -4.199999809265137,
         0.0,
-        0.0,
-        -8.800000190734863
-      ]
-    },
-    "Spot_villager_1": {
-      "blender_position": [
-        -9.5,
-        -5.199999809265137,
-        0.0
-      ],
-      "blender_euler_deg": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "blender_quaternion_xyzw": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ],
-      "unity_position": [
-        -9.5,
-        0.0,
-        5.199999809265137
-      ]
-    },
-    "Spot_villager_2": {
-      "blender_position": [
-        -5.0,
-        -10.199999809265137,
-        0.0
-      ],
-      "blender_euler_deg": [
-        0.0,
-        0.0,
-        -90.00000250447816
-      ],
-      "blender_quaternion_xyzw": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ],
-      "unity_position": [
-        -5.0,
-        0.0,
-        10.199999809265137
+        10.800000190734863
       ]
     },
     "Spot_villager_3": {
       "blender_position": [
-        -13.600000381469727,
-        -4.199999809265137,
+        -10.800000190734863,
+        -10.5,
         0.0
       ],
       "blender_euler_deg": [
         0.0,
         0.0,
-        60.000001669652114
+        90.00000250447816
       ],
       "blender_quaternion_xyzw": [
         0.0,
@@ -266,192 +278,140 @@
         1.0
       ],
       "unity_position": [
-        -13.600000381469727,
+        -10.800000190734863,
         0.0,
-        4.199999809265137
+        10.5
       ]
     },
     "Spot_camera_title": {
       "blender_position": [
-        -21.0,
-        -31.0,
-        15.5
+        -4.0,
+        42.0,
+        24.0
       ],
       "blender_euler_deg": [
-        71.06313910607773,
-        -5.070158348822173e-07,
-        -25.552565845454566
+        63.06362838034797,
+        -1.1583100776688539e-06,
+        -176.32549983927288
       ],
       "blender_quaternion_xyzw": [
-        0.5667626857757568,
-        -0.12851862609386444,
-        -0.17996664345264435,
-        0.7936466932296753
+        0.01676676794886589,
+        -0.5227030515670776,
+        -0.8519117832183838,
+        0.027326829731464386
       ],
       "unity_position": [
-        -21.0,
-        15.5,
-        31.0
+        -4.0,
+        24.0,
+        -42.0
       ]
     }
   },
-  "collision": "All Col_ meshes are hidden from Blender renders; Unity strips renderers and creates MeshColliders. Col_Ground top=-0.03m. Hall walls and glass are colliders; the hall has no roof collider (cut-away). Gallery, crests, banners and the skyline are visual only.",
-  "doors": "Front entrance: open 4.4 m gap at x -2.2..2.2. Workshop: glass door gap at x=5, y 6.8..9.2.",
+  "collision": "All Col_ meshes are hidden from Blender renders; Unity strips renderers and creates MeshColliders. Col_Ground top=-0.03m. The HQ body and plinth, clinic, market, workshop and booths (1.2 m counters), the kiosk, barricades, planters, benches, trunks and the fountain collide; the plaza boundary walls are 1.2 m high. Roads, lamps, cars, bushes, signs and the skyline are visual only. Colliders north-east of the player stay low so the follow camera (offset +10 x, +14 y, +12 z) is not pulled in.",
+  "doors": "HQ entrance: plinth steps centre x -3..3 (rise 0.225 m each), walkable top 0.9 m. Gate pocket: barricades at y -16.2 from x -21 to -13.5 close it; Spot_gate stands in front at y -15.",
   "light_anchors": [
     {
       "name": "LightAnchor_street_01",
       "blender_position": [
-        -8.5,
-        -13.5,
-        3.0999999046325684
+        -11.0,
+        8.600000381469727,
+        4.099999904632568
       ],
       "unity_position": [
-        -8.5,
-        3.0999999046325684,
-        13.5
+        -11.0,
+        4.099999904632568,
+        -8.600000381469727
       ]
     },
     {
       "name": "LightAnchor_street_02",
       "blender_position": [
-        8.5,
-        -13.5,
-        3.0999999046325684
+        10.5,
+        8.600000381469727,
+        4.099999904632568
       ],
       "unity_position": [
-        8.5,
-        3.0999999046325684,
-        13.5
+        10.5,
+        4.099999904632568,
+        -8.600000381469727
       ]
     },
     {
       "name": "LightAnchor_street_03",
       "blender_position": [
-        -19.0,
-        -15.0,
-        3.0999999046325684
+        -18.0,
+        -9.5,
+        4.099999904632568
       ],
       "unity_position": [
-        -19.0,
-        3.0999999046325684,
+        -18.0,
+        4.099999904632568,
+        9.5
+      ]
+    },
+    {
+      "name": "LightAnchor_gate_04",
+      "blender_position": [
+        -16.5,
+        -21.200000762939453,
+        3.0
+      ],
+      "unity_position": [
+        -16.5,
+        3.0,
+        21.200000762939453
+      ]
+    },
+    {
+      "name": "LightAnchor_hq_05",
+      "blender_position": [
+        0.0,
+        -15.0,
+        3.5999999046325684
+      ],
+      "unity_position": [
+        0.0,
+        3.5999999046325684,
         15.0
       ]
     },
     {
-      "name": "LightAnchor_street_04",
+      "name": "LightAnchor_clinic_06",
       "blender_position": [
-        19.0,
-        -15.0,
-        3.0999999046325684
+        -14.600000381469727,
+        1.5,
+        5.599999904632568
       ],
       "unity_position": [
-        19.0,
-        3.0999999046325684,
-        15.0
-      ]
-    },
-    {
-      "name": "LightAnchor_lounge_05",
-      "blender_position": [
-        -10.0,
-        -8.5,
-        4.0
-      ],
-      "unity_position": [
-        -10.0,
-        4.0,
-        8.5
-      ]
-    },
-    {
-      "name": "LightAnchor_reception_06",
-      "blender_position": [
-        8.0,
-        -6.5,
-        3.799999952316284
-      ],
-      "unity_position": [
-        8.0,
-        3.799999952316284,
-        6.5
+        -14.600000381469727,
+        5.599999904632568,
+        -1.5
       ]
     },
     {
       "name": "LightAnchor_market_07",
       "blender_position": [
-        12.600000381469727,
-        -0.5,
-        3.799999952316284
+        14.600000381469727,
+        -1.600000023841858,
+        4.0
       ],
       "unity_position": [
-        12.600000381469727,
-        3.799999952316284,
-        0.5
+        14.600000381469727,
+        4.0,
+        1.600000023841858
       ]
     },
     {
       "name": "LightAnchor_workshop_08",
       "blender_position": [
-        8.0,
-        8.0,
-        3.5999999046325684
+        14.800000190734863,
+        10.0,
+        3.0
       ],
       "unity_position": [
-        8.0,
-        3.5999999046325684,
-        -8.0
-      ]
-    },
-    {
-      "name": "LightAnchor_medical_09",
-      "blender_position": [
-        -11.0,
-        0.0,
-        3.799999952316284
-      ],
-      "unity_position": [
-        -11.0,
-        3.799999952316284,
-        -0.0
-      ]
-    },
-    {
-      "name": "LightAnchor_office_10",
-      "blender_position": [
-        -10.5,
-        9.0,
-        3.799999952316284
-      ],
-      "unity_position": [
-        -10.5,
-        3.799999952316284,
-        -9.0
-      ]
-    },
-    {
-      "name": "LightAnchor_gate_11",
-      "blender_position": [
-        0.0,
-        8.600000381469727,
-        3.4000000953674316
-      ],
-      "unity_position": [
-        0.0,
-        3.4000000953674316,
-        -8.600000381469727
-      ]
-    },
-    {
-      "name": "LightAnchor_lobby_12",
-      "blender_position": [
-        0.0,
-        -2.0,
-        4.199999809265137
-      ],
-      "unity_position": [
-        0.0,
-        4.199999809265137,
-        2.0
+        14.800000190734863,
+        3.0,
+        -10.0
       ]
     }
   ]
