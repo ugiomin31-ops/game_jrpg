@@ -8,3 +8,4 @@ Only the glTF parts used by the town hub and the hunter-theme dungeon kits are c
 bakes the colour into the `Col` attribute and the output FBX carries no texture.
 Used by `Blender/town/guild.py` (Dawn Guild street): market crates, drinks fridge, A-board menu, café tables and chairs.
 Used by `Blender/environment/hunter_kits/`: crate, crate_lid (factory stacked crates).
+Used by `Blender/environment/hunter_kits_b/`: chair_stool, chair_A, crate, jar_A_small.

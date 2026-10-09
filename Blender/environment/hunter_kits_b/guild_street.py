@@ -1,13 +1,15 @@
-"""guild_street tileset: downtown street around the hunter guild, overrun by monsters (hunter theme, zone 11).
+"""guild_street tileset: downtown street around the hunter guild at night, overrun by monsters (hunter theme, zone 11).
 
-Asphalt with lane marks and a crosswalk, sidewalk tiles, shopfronts with Korean-style signboards (abstract strokes),
-guild banners with a blue dawn emblem, a cracked wall with a violet gate rift, barricades, cones, street lamps.
-Floor pieces are flush (the grid normaliser clamps them to z <= 0), so curbs are only drawn on wall blocks.
+Outdoors, no ceiling. Road tiles (KayKit City Builder) with lane marks, manholes, kerbs and a crosswalk; walls are
+2-storey shop facades built from KayKit City buildings with shopfronts, awnings, lit signs (M_Emit), warm windows,
+AC units and balconies; crashed cars, streetlights, bins, barricades, cones, debris and violet gate cracks.
+Floor pieces are flush (the grid normaliser clamps them to z <= 0).
 """
 import math
 
 from common_b import (R, blk, bx, cy, cone, ball, lathe, pz, ring, tube, fin, panel, sign, glyphs, garland,
-                      door_frame, make_door, make_lid, publish, rect_pts, arena_scene, FACE_Y)
+                      door_frame, make_door, make_lid, publish, rect_pts, arena_scene, FACE_Y, kfit, kstand,
+                      ao_paint)
 import _kit_common_b as K  # noqa: E402
 
 TS = "guild_street"
@@ -23,7 +25,12 @@ GLASS = "#c9efff"; DARK = "#2a3440"; METAL = "#8c97a2"; METAL_DK = "#4a5562"
 CONE = "#ff7a1a"; WHITE = "#fff8e8"; STRIPE_R = "#ff8a2a"; LAMP_EM = "#ffe3a0"; VIOLET = "#9d6bff"
 VIOLET_EM = "#c7a8ff"; WOOD = "#a77a4c"; WOOD_DK = "#6e4d2e"; GREEN = "#4fa35a"; GREEN_DK = "#2f7a40"
 YELLOW_RAIL = "#f2c230"; CAR = ["#e8e9ee", "#d24a4a", "#3d7fd1"]; PAPER = ["#fffbe9", "#ffe6a8", "#e6f7ff"]
+WARM = "#ffc878"; AC = "#b9c3cc"; BALC = "#6b5a4a"; SHOP_FRAME = "#2a3440"
+CONE_GRID = [(-1.05 + 0.7 * i, -1.05 + 0.7 * j) for i in range(3) for j in range(3)]
+SLAB_FACE = -1.93                     # face plane of the building walls (KayKit building, 3.8 m footprint)
 
+
+# ---------------------------------------------------------------- floors (flush; road tiles dropped so their top is z = 0)
 
 def asphalt_base(prefix):
     return [bx(prefix + "g", (4.0, 4.0, 0.2), (0, 0, -0.13), ASPH_GROUT)]
@@ -34,140 +41,162 @@ def asphalt_slab(prefix, rng, x0, y0, x1, y1, col=None):
                        color=col or K.pick(rng, ASPHALT, 0.05), bevel=0.0, seed=rng.randint(0, 999))
 
 
+def road_quad(prefix, spec):
+    """Four KayKit City road tiles (2 x 2 m each) making one 4 m road cell. spec = [(name, rot_z), ...] by quadrant."""
+    out = []
+    for (cx, cy_), (name, rot) in zip(((-1, -1), (1, -1), (-1, 1), (1, 1)), spec):
+        out.append(kstand("kc", name, center=(cx, cy_), z0=-0.10, scale=1.0, rot_z=rot))
+    return out
+
+
 def floor_a():
-    """Asphalt with cracks; violet gate rifts glow in the cracks."""
+    """Asphalt road (KayKit road tiles) with violet gate cracks and a glowing rift; a manhole and cracks."""
     rng = R(51)
-    objs = asphalt_base("fa") + [asphalt_slab("fa_a", rng, -2, -2, 2, 2)]
+    objs = road_quad("fa", [("road_straight", 0), ("road_corner", 0), ("road_straight", 90), ("road_junction", 0)])
     for i in range(7):
         x, y = rng.uniform(-1.6, 1.6), rng.uniform(-1.6, 1.6)
-        objs.append(bx(f"fa_cr{i}", (rng.uniform(0.5, 1.1), 0.05, 0.01), (x, y, -0.004), "#2c3138",
+        objs.append(bx(f"fa_cr{i}", (rng.uniform(0.5, 1.1), 0.05, 0.01), (x, y, 0.004), "#2c3138",
                        rot=(0, 0, rng.uniform(-70, 70))))
-    objs.append(bx("fa_rift0", (1.5, 0.07, 0.012), (0.4, -0.2, 0.0), VIOLET, "M_Emit", rot=(0, 0, 28)))
-    objs.append(bx("fa_rift1", (0.9, 0.06, 0.012), (-0.6, 0.8, 0.0), VIOLET, "M_Emit", rot=(0, 0, -40)))
+    objs.append(bx("fa_rift0", (1.5, 0.07, 0.012), (0.4, -0.2, 0.006), VIOLET, "M_Emit", rot=(0, 0, 28)))
+    objs.append(bx("fa_rift1", (0.9, 0.06, 0.012), (-0.6, 0.8, 0.006), VIOLET, "M_Emit", rot=(0, 0, -40)))
+    objs.append(bx("fa_rift2", (0.6, 0.05, 0.012), (0.9, 1.2, 0.006), VIOLET_EM, "M_Emit", rot=(0, 0, 70)))
+    objs.append(K.ngon_disc("fa_mh", 0.36, z=0.008, n=16, loc=(-0.95, 0.9, 0), color="#3a3f47"))
+    objs.append(K.ring_strip("fa_mhr", 0.27, 0.31, z=0.012, n=16, color="#5a616b"))
     for i in range(5):
         x, y = rng.uniform(-1.5, 1.5), rng.uniform(-1.5, 1.5)
         pts = [(x + 0.12 * math.cos(math.tau * j / 6), y + 0.1 * math.sin(math.tau * j / 6)) for j in range(6)]
-        objs.append(K.poly_slab(f"fa_pt{i}", pts, top=-0.006, thick=0.01, color="#3a3f47", bevel=0.0))
+        objs.append(K.poly_slab(f"fa_pt{i}", pts, top=0.0, thick=0.01, color="#3a3f47", bevel=0.0))
     return [fin("floor_a", objs)]
 
 
 def floor_b():
-    """Road surface with a dashed lane line down the middle and yellow edge lines."""
+    """Road with a dashed centre line, yellow edge lines, a T-junction and skid marks; sewer grate."""
     rng = R(52)
-    objs = asphalt_base("fb") + [asphalt_slab("fb_a", rng, -2, -2, 2, 2)]
+    objs = road_quad("fb", [("road_tsplit", 0), ("road_straight", 90), ("road_straight", 0), ("road_straight", 0)])
     for i in range(3):
         y = -1.6 + i * 1.6
-        objs.append(bx(f"fb_dash{i}", (0.14, 0.9, 0.01), (0, y, 0.0), LANE))
+        objs.append(bx(f"fb_dash{i}", (0.14, 0.9, 0.012), (0, y, 0.006), LANE))
     for sx in (-1, 1):
-        objs.append(bx(f"fb_edge{sx}", (0.1, 4.0, 0.01), (sx * 1.85, 0, 0.0), LANE_Y))
-    # manhole cover with a bolt ring, and two patched repair squares
-    objs.append(K.ngon_disc("fb_mh", 0.36, z=0.004, n=16, loc=(0.95, -0.9, 0), color="#3a3f47"))
-    objs.append(K.ring_strip("fb_mhr", 0.27, 0.31, z=0.008, n=16, color="#5a616b"))
-    for i, (x, y, w) in enumerate(((-0.9, 1.2, 0.8), (0.2, -1.5, 0.6), (-1.4, -0.4, 0.5), (1.1, 1.5, 0.45))):
-        objs.append(bx(f"fb_patch{i}", (w, 0.7, 0.008), (x, y, 0.002), "#3c4149", rot=(0, 0, 12 * i)))
+        objs.append(bx(f"fb_edge{sx}", (0.1, 4.0, 0.012), (sx * 1.85, 0, 0.006), LANE_Y))
     for i, (x, y) in enumerate(((-0.2, -0.3), (0.7, 0.4), (-1.0, 0.1))):  # skid marks
-        objs.append(bx(f"fb_skid{i}", (0.6, 0.04, 0.006), (x, y, 0.003), "#23272d", rot=(0, 0, 70 + 20 * i)))
+        objs.append(bx(f"fb_skid{i}", (0.6, 0.04, 0.008), (x, y, 0.006), "#23272d", rot=(0, 0, 70 + 20 * i)))
+    for i, (x, y, w) in enumerate(((-0.9, 1.2, 0.8), (0.2, -1.5, 0.6), (-1.4, -0.4, 0.5))):
+        objs.append(bx(f"fb_patch{i}", (w, 0.7, 0.01), (x, y, 0.005), "#3c4149", rot=(0, 0, 12 * i)))
     return [fin("floor_b", objs)]
 
 
 def floor_c():
-    """Sidewalk tiles in a 2 x 2 grid with a crosswalk stripe set flush."""
+    """Sidewalk tiles with kerbs on the road side, a zebra crosswalk, a drain grate and cracks."""
     rng = R(53)
     objs = asphalt_base("fc") + [K.poly_slab(f"fc_t{i}{j}", rect_pts(-2 + 2 * i, -2 + 2 * j, -2 + 2 * i + 2, -2 + 2 * j + 2, 0.04),
                                              top=-0.012, thick=0.2, color=K.pick(rng, SIDEWALK, 0.03), bevel=0.01)
                                  for i in range(2) for j in range(2)]
-    for k in range(-1, 2):
+    for sx in (-1, 1):   # kerb stones along the road edge
+        objs.append(bx(f"fc_kerb{sx}", (0.18, 4.0, 0.12), (sx * 1.91, 0, 0.06), CURB))
+    for k in range(-1, 2):   # zebra
         objs.append(bx(f"fc_zb{k}", (0.22, 0.9, 0.01), (-1.2 + k * 1.2, 0.0, 0.0), LANE))
-    # drain grate with bars, a hairline crack and a damp patch
     for k in range(4):
         objs.append(bx(f"fc_gr{k}", (0.5, 0.05, 0.01), (1.45, -1.55 + k * 0.14, 0.0), "#5d646e"))
     objs.append(bx("fc_crk", (0.9, 0.03, 0.006), (-0.6, 1.1, 0.0), SIDE_GROUT, rot=(0, 0, 18)))
     objs.append(bx("fc_crk2", (0.5, 0.03, 0.006), (0.9, 0.35, 0.0), SIDE_GROUT, rot=(0, 0, -35)))
-    objs.append(bx("fc_crk3", (0.4, 0.03, 0.006), (-1.7, -0.5, 0.0), SIDE_GROUT, rot=(0, 0, 60)))
     objs.append(K.ngon_disc("fc_gum", 0.07, z=0.004, n=10, loc=(0.4, -1.3, 0), color="#2d2f33"))
     objs.append(K.ngon_disc("fc_wet", 0.3, z=0.003, n=12, loc=(-1.2, -1.2, 0), color="#7d8790"))
     return [fin("floor_c", objs)]
 
 
-# ---------------------------------------------------------------- walls
+# ---------------------------------------------------------------- walls: KayKit building core + shopfront decals
 
-def shell(prefix, col, s=3.86, h=4.42):
-    return [blk(prefix + "core", (s, s, h), (0, 0, h / 2), col, bevel=0.02),
-            blk(prefix + "cap", (3.96, 3.96, 0.08), (0, 0, 4.46), CONCRETE_DK, bevel=0.012)]
+def building(prefix, pack_name, color_tint=None):
+    """KayKit City building fitted to the 3.8 x 3.8 x 4.47 m envelope (2-storey shop block) as the wall core."""
+    return kfit("kc", pack_name, (3.8, 3.8, 4.47), center=(0, 0), z0=0.0)
 
 
-def shopfront(k, bg):
-    """Ground-floor shop: glass window with frame, striped awning, signboard above."""
+def shopfront(k, bg, cols=(2, 3)):
+    """Ground-floor shop on the -Y face: warm-lit window with a frame, glowing lit sign, striped awning, door,
+    and an upper floor with a balcony, a row of warm windows and an AC unit."""
     r = R(600 + k)
-    out = [blk(f"sf{k}base", (3.9, 0.08, 0.5), (0, B - 0.04, 0.25), CONCRETE_DK, bevel=0.01)]
-    out.append(blk(f"sf{k}fr", (2.6, 0.1, 2.05), (0, B - 0.05, 1.5), DARK, bevel=0.02))
-    out.append(bx(f"sf{k}gl", (2.4, 0.03, 1.85), (0, B - 0.1, 1.5), GLASS, "M_Clear"))
-    out.append(bx(f"sf{k}door", (0.5, 0.05, 1.3), (0.9, B - 0.12, 1.0), DARK))
-    for i in range(6):
+    out = []
+    # ground floor: frame + warm-lit window (M_Emit behind a glass pane), door
+    out.append(bx(f"sf{k}fr", (2.5, 0.06, 1.95), (-0.35, B - 0.03, 1.1), SHOP_FRAME))
+    out.append(bx(f"sf{k}warm", (2.3, 0.02, 1.7), (-0.35, B - 0.06, 1.1), WARM, "M_Emit"))
+    out.append(bx(f"sf{k}gl", (2.3, 0.02, 1.7), (-0.35, B - 0.075, 1.1), GLASS, "M_Clear"))
+    for i in range(3):   # window mullions
+        out.append(bx(f"sf{k}mu{i}", (0.04, 0.03, 1.7), (-0.35 - 0.77 + 0.77 * i, B - 0.085, 1.1), SHOP_FRAME))
+    out.append(bx(f"sf{k}dr", (0.6, 0.06, 1.5), (1.25, B - 0.03, 0.85), DARK))
+    out.append(bx(f"sf{k}drw", (0.36, 0.02, 0.5), (1.25, B - 0.07, 1.35), WARM, "M_Emit"))
+    # awning: striped canopy over the shop window
+    for i in range(4):
         col = "#ffffff" if i % 2 else bg
-        out.append(pz(f"sf{k}aw{i}", [(-0.3, 0), (0.3, 0), (0.3, -0.35), (-0.3, -0.35)], 0.22, axis="Y",
-                      loc=(-1.5 + i * 0.6, B - 0.1, 3.55), color=col))
-    out.append(blk(f"sf{k}sb", (3.4, 0.14, 0.6), (0, B - 0.07, 3.9), bg, bevel=0.02))
-    out += glyphs(f"sf{k}g", r, -1.55, 1.55, 3.62, 4.12, B - 0.14, "#ffffff", n=4, depth=0.03)
+        out.append(bx(f"sf{k}aw{i}", (0.7, 0.1, 0.12), (-1.5 + i * 0.75, B - 0.05, 2.3), col))
+    # lit sign: glowing board with glyph strokes
+    out.append(bx(f"sf{k}sb", (3.4, 0.04, 0.5), (0, B - 0.02, 3.2), bg, "M_Emit"))
+    out += glyphs(f"sf{k}g", r, -1.5, 1.5, 3.02, 3.38, B - 0.05, "#ffffff", n=3, depth=0.02, mat="M_Emit")
+    # upper floor: balcony with railing, warm windows, AC units
+    out.append(bx(f"sf{k}bal", (3.2, 0.1, 0.06), (0, B - 0.05, 2.0), BALC))
+    for i in range(5):
+        out.append(bx(f"sf{k}rl{i}", (0.03, 0.04, 0.4), (-1.5 + i * 0.75, B - 0.06, 2.2), BALC))
+    out.append(bx(f"sf{k}rt", (3.2, 0.04, 0.04), (0, B - 0.07, 2.4), BALC))
+    for i, x in enumerate((-1.2, 0.0, 1.2)):
+        out.append(bx(f"sf{k}uw{i}", (0.6, 0.02, 0.85), (x, B - 0.01, 2.75), WARM, "M_Emit"))
+    out.append(bx(f"sf{k}ac", (0.6, 0.07, 0.42), (1.45, B - 0.035, 1.9), AC))
+    out.append(bx(f"sf{k}acg", (0.5, 0.01, 0.3), (1.45, B - 0.075, 1.9), DARK))
     return out
 
 
 def wall_a():
-    """Shopfront facade: each face a different signboard colour."""
+    """Shop block: a warm-lit shopfront under a striped awning, with a lit sign and balconies on each face."""
     def face(k):
         return shopfront(k, SIGN_COLS[k % len(SIGN_COLS)])
-    objs = shell("wa", CONCRETE) + K.four_sides(face)
-    objs.append(bx("wa_sign_top", (1.0, 0.2, 0.2), (0, 0, 4.52), CONCRETE_DK))
+    objs = [building("wa", "building_E")] + K.four_sides(face)
     return [fin("wall_a", objs)]
 
 
 def banner_face(k):
-    """Guild banner: blue dawn banner with a gold sun emblem, two pilasters and tall windows."""
+    """Guild block: blue dawn banner with a gold sun emblem, pilasters, tall lit windows and an AC unit."""
     out = []
-    out.append(blk(f"gb{k}pl0", (0.4, 0.14, 4.1), (-1.6, B - 0.03, 2.05), CONCRETE_DK, bevel=0.02))
-    out.append(blk(f"gb{k}pl1", (0.4, 0.14, 4.1), (1.6, B - 0.03, 2.05), CONCRETE_DK, bevel=0.02))
-    out.append(pz(f"gb{k}ban", [(-0.55, 0.0), (0.55, 0.0), (0.55, -2.7), (0.0, -2.35), (-0.55, -2.7)], 0.05, axis="Y",
-                  loc=(0, B - 0.05, 4.1), color=GUILD_BLUE))
-    out.append(bx(f"gb{k}edge", (1.2, 0.02, 0.1), (0, B - 0.1, 4.0), GUILD_GOLD))
-    out += K.sun_emblem(f"gb{k}sun", r=0.36, rays=12, loc=(0, B - 0.1, 2.9), ray_col=GUILD_GOLD, disc_col="#ffe9a3",
+    out.append(bx(f"gb{k}pl0", (0.4, 0.07, 4.1), (-1.6, B - 0.02, 2.05), CONCRETE_DK))
+    out.append(bx(f"gb{k}pl1", (0.4, 0.07, 4.1), (1.6, B - 0.02, 2.05), CONCRETE_DK))
+    out.append(pz(f"gb{k}ban", [(-0.55, 0.0), (0.55, 0.0), (0.55, -2.7), (0.0, -2.35), (-0.55, -2.7)], 0.04, axis="Y",
+                  loc=(0, B - 0.03, 4.1), color=GUILD_BLUE))
+    out.append(bx(f"gb{k}edge", (1.2, 0.02, 0.1), (0, B - 0.05, 4.0), GUILD_GOLD))
+    out += K.sun_emblem(f"gb{k}sun", r=0.36, rays=12, loc=(0, B - 0.05, 2.9), ray_col=GUILD_GOLD, disc_col="#ffe9a3",
                         core_col="#ffb347", core_mat="M_Emit")
     for i, x in enumerate((-1.0, 1.0)):
-        out.append(bx(f"gb{k}win{i}", (0.7, 0.04, 1.4), (x, B - 0.06, 0.85), GLASS, "M_Clear"))
-    out.append(bx(f"gb{k}wf{k}", (2.6, 0.02, 0.06), (0, B - 0.06, 1.7), DARK))
+        out.append(bx(f"gb{k}win{i}", (0.7, 0.02, 1.4), (x, B - 0.02, 0.9), WARM, "M_Emit"))
+        out.append(bx(f"gb{k}wf{i}", (0.78, 0.04, 1.48), (x, B - 0.03, 0.9), SHOP_FRAME))
+    out.append(bx(f"gb{k}ac", (0.6, 0.07, 0.42), (0.0, B - 0.035, 2.0), AC))
     return out
 
 
 def wall_b():
-    objs = shell("wb", BRICK) + K.four_sides(banner_face)
-    objs.append(bx("wb_top", (1.0, 0.2, 0.2), (0, 0, 4.52), BRICK_DK))
+    objs = [building("wb", "building_F")] + K.four_sides(banner_face)
     return [fin("wall_b", objs)]
 
 
 def cracked_face(k):
-    """Brick wall with cracks, an outside fire escape and a violet gate rift glowing in the crack."""
+    """Brick block with a violet gate rift glowing across the facade, a fire escape and a warm window row."""
     r = R(800 + k)
     out = []
-    for i in range(3):
-        for j in range(2):
-            out.append(blk(f"cw{k}b{i}{j}", (1.2, 0.1, 0.6), (-1.2 + i * 1.2, B - 0.03, 0.45 + j * 0.9), BRICK if (i + j) % 2 else BRICK_DK, bevel=0.02))
-    out.append(bx(f"cw{k}rift", (0.06, 0.04, 2.4), (0.0 + r.uniform(-0.2, 0.2), B - 0.05, 2.7), VIOLET, "M_Emit", rot=(0, 0, r.uniform(-12, 12))))
-    out.append(bx(f"cw{k}rift2", (0.9, 0.04, 0.05), (0.35, B - 0.05, 3.2), VIOLET, "M_Emit", rot=(0, 0, 38)))
-    for i in range(3):
-        out.append(blk(f"cw{k}fe{i}", (2.6, 0.15, 0.08), (0, B - 0.12 - 0.1 * i, 0.9 + i * 0.9), METAL_DK, bevel=0.01))
-        out.append(bx(f"cw{k}fv{i}", (0.06, 0.2, 0.9), (-1.2, B - 0.12, 0.45 + i * 0.9), METAL_DK))
-        out.append(bx(f"cw{k}fw{i}", (0.06, 0.2, 0.9), (1.2, B - 0.12, 0.45 + i * 0.9), METAL_DK))
-    out.append(bx(f"cw{k}ac", (0.8, 0.5, 0.6), (-0.9, B - 0.3, 3.2), METAL))
-    out.append(cy(f"cw{k}ac_f", 0.18, 0.04, (-0.9, B - 0.56, 3.2), DARK, rot=(90, 0, 0), seg=10))
+    out.append(bx(f"cw{k}rift", (0.06, 0.02, 2.6), (0.0 + r.uniform(-0.2, 0.2), B - 0.02, 2.4), VIOLET, "M_Emit",
+                  rot=(0, 0, r.uniform(-12, 12))))
+    out.append(bx(f"cw{k}rift2", (1.1, 0.02, 0.05), (0.4, B - 0.02, 3.4), VIOLET, "M_Emit", rot=(0, 0, 38)))
+    out.append(bx(f"cw{k}rift3", (0.8, 0.02, 0.05), (-0.8, B - 0.02, 1.1), VIOLET_EM, "M_Emit", rot=(0, 0, -30)))
+    for i in range(3):   # fire escape
+        out.append(bx(f"cw{k}fe{i}", (2.6, 0.07, 0.05), (0, B - 0.05, 0.9 + i * 0.9), METAL_DK))
+        out.append(bx(f"cw{k}fv{i}", (0.05, 0.07, 0.9), (-1.3, B - 0.05, 0.45 + i * 0.9), METAL_DK))
+        out.append(bx(f"cw{k}fw{i}", (0.05, 0.07, 0.9), (1.3, B - 0.05, 0.45 + i * 0.9), METAL_DK))
+    out.append(bx(f"cw{k}ac", (0.8, 0.07, 0.6), (-0.9, B - 0.035, 3.2), AC))
+    out.append(bx(f"cw{k}acg", (0.6, 0.01, 0.45), (-0.9, B - 0.075, 3.2), DARK))
+    out.append(bx(f"cw{k}win", (0.9, 0.02, 0.9), (1.0, B - 0.02, 3.0), WARM, "M_Emit"))
     return out
 
 
 def wall_c():
-    objs = shell("wc", BRICK) + K.four_sides(cracked_face)
-    objs.append(bx("wc_top", (1.0, 0.2, 0.2), (0, 0, 4.52), BRICK_DK))
+    objs = [building("wc", "building_G")] + K.four_sides(cracked_face)
     return [fin("wall_c", objs)]
 
 
-# ---------------------------------------------------------------- overlays
+# ---------------------------------------------------------------- overlays (awnings, cables and paper signs hang outside the wall)
 
 def overlay_1():
     """Striped awning hanging from the top of a wall face, reaching out to -2.3."""
@@ -196,7 +225,96 @@ def overlay_2():
     return [fin("overlay_2", out)]
 
 
-# ---------------------------------------------------------------- doors (guild gate shutter)
+# ---------------------------------------------------------------- torch = KayKit streetlight, lamp head at the top
+
+def torch():
+    """Street lamp: a KayKit City streetlight scaled to 3.4 m; LightAnchor under the lamp head."""
+    lamp = kstand("kc", "streetlight", center=(0, 0), z0=0.0, scale=3.5)
+    return [fin("torch", [lamp]), K.empty("LightAnchor", loc=(0.0, 0.0, 3.1))]
+
+
+# ---------------------------------------------------------------- decor
+
+def decor_3():
+    """Crashed car from the KayKit City kit, scaled to a 2.4 m sedan, nosed into a barrier."""
+    o = [kstand("kc", "car_sedan", center=(0, 0), z0=0.0, scale=2.6, rot_z=-12)]
+    o.append(bx("d3_dent", (0.5, 0.04, 0.3), (0.2, -0.5, 0.45), "#3a3f47", rot=(0, 0, -12)))
+    o.append(bx("d3_glow", (0.28, 0.06, 0.12), (-0.3, -0.5, 0.42), "#fff6c2", "M_Emit"))
+    return [fin("decor_3", o)]
+
+
+def decor_4():
+    """Street bins: a KayKit dumpster and trash piles, with two wooden crates."""
+    o = [kstand("kc", "dumpster", center=(-0.15, 0.1), z0=0.0, scale=2.6),
+         kstand("kc", "trash_A", center=(0.6, -0.5), z0=0.0, scale=4.0),
+         kstand("kc", "trash_B", center=(-0.7, -0.4), z0=0.0, scale=4.0),
+         blk("d4_cr0", (0.6, 0.6, 0.5), (0.0, -0.6, 0.25), WOOD, bevel=0.03),
+         blk("d4_cr1", (0.5, 0.5, 0.4), (0.05, -0.55, 0.7), WOOD_DK, bevel=0.03)]
+    return [fin("decor_4", o)]
+
+
+def decor_6():
+    """Street planter with three KayKit bushes."""
+    o = [blk("d6_pl", (0.9, 0.9, 0.6), (0, 0, 0.3), CONCRETE_DK, bevel=0.04),
+         bx("d6_soil", (0.8, 0.8, 0.04), (0, 0, 0.6), "#4a3a2a")]
+    for i, (x, y) in enumerate(((-0.2, -0.1), (0.2, 0.15), (0.25, -0.2))):
+        o.append(kstand("kc", "bush", center=(x, y), z0=0.6, scale=2.4 + 0.2 * i))
+    return [fin("decor_6", o)]
+
+
+# ---------------------------------------------------------------- arena: crossroads in front of the guild, enclosed by facades
+
+def arena_builder():
+    """Night street: asphalt crossing with lane marks and a zebra, KayKit buildings, streetlights, parked cars."""
+    rng = R(920)
+    floor = [bx("ar_road", (19.2, 19.2, 0.04), (0, 0, -0.02), "#4a4f58")]
+    for i in range(-4, 5):   # dashed centre line along the street
+        floor.append(bx(f"ar_dash{i}", (0.9, 0.12, 0.01), (i * 2.0, 0.0, 0.005), LANE))
+    for i in range(8):       # zebra in front of the guild
+        floor.append(bx(f"ar_zb{i}", (0.6, 2.4, 0.01), (-7.0 + i * 2.0, -5.5, 0.005), LANE))
+    back = [bx("ar_guild", (24, 3.0, 12), (0, 19, 6), CONCRETE),
+            bx("ar_guild_base", (24, 3.2, 1.2), (0, 18.8, 0.6), CONCRETE_DK)]
+    back.append(pz("ar_banner", [(-1.6, 0.0), (1.6, 0.0), (1.6, -5.0), (0.0, -4.2), (-1.6, -5.0)], 0.2, axis="Y",
+                   loc=(0, 17.4, 9.5), color=GUILD_BLUE))
+    for x in (-8.0, -4.0, 4.0, 8.0):
+        for z in (3.5, 7.5):
+            back.append(bx(f"ar_win{x}{z}", (2.0, 0.1, 1.6), (x, 17.4, z), WARM, "M_Emit"))
+    # enclosing facades: KayKit buildings on both sides, behind the guild and behind the enemies
+    back.append(kfit("kc", "building_H", (7.0, 8.0, 9.0), center=(-13.0, 8.0), z0=0.0))
+    back.append(kfit("kc", "building_G", (7.0, 8.0, 8.5), center=(13.0, 8.0), z0=0.0))
+    back.append(kfit("kc", "building_E", (4.0, 4.0, 4.5), center=(-11.0, -6.0), z0=0.0))
+    back.append(kfit("kc", "building_F", (4.0, 4.0, 4.5), center=(11.0, -6.0), z0=0.0))
+    for x in (-8.0, 0.0, 8.0):
+        back.append(kfit("kc", "building_F", (4.0, 4.0, 4.5), center=(x, 22.0), z0=0.0))
+    # pass 2: the zone behind the enemies (y 6..12) is filled up to about 6 m with tall KayKit blocks
+    for x, y, nm in ((-9.0, 9.5, "building_A"), (-3.0, 11.0, "building_B"), (3.0, 11.0, "building_B"), (9.0, 9.5, "building_A")):
+        back.append(kfit("kc", nm, (3.6, 3.6, 5.8), center=(x, y), z0=0.0))
+    back.append(kfit("kc", "building_E", (3.6, 3.6, 6.0), center=(-6.0, 12.4), z0=0.0))
+    back.append(kfit("kc", "building_G", (3.6, 3.6, 5.6), center=(6.0, 12.4), z0=0.0))
+    for sx in (-1, 1):   # streetlights
+        for y in (2.0, 6.0, 10.0):
+            back.append(kstand("kc", "streetlight", center=(sx * 8.5, y), z0=0.0, scale=4.4))
+    back.append(kstand("kc", "car_sedan", center=(-5.0, 6.8), z0=0.0, scale=2.6, rot_z=0))
+    back.append(kstand("kc", "car_taxi", center=(5.2, 7.0), z0=0.0, scale=2.6, rot_z=180))
+    back.append(kstand("kc", "car_police", center=(-1.5, 4.6), z0=0.0, scale=2.6, rot_z=-15))
+    back.append(kstand("kc", "firehydrant", center=(3.0, 4.2), z0=0.0, scale=3.0))
+    back.append(kstand("kc", "trash_A", center=(-6.5, 4.4), z0=0.0, scale=4.0))
+    back.append(kstand("kc", "trash_B", center=(7.0, 4.0), z0=0.0, scale=4.0))
+    back.append(kstand("kc", "trafficlight_A", center=(-8.0, -2.5), z0=0.0, scale=2.6))
+    back.append(kstand("kc", "dumpster", center=(-1.0, 8.4), z0=0.0, scale=3.0, rot_z=20))
+    back.append(kstand("kc", "bush", center=(-7.6, 8.6), z0=0.0, scale=2.4))
+    back.append(kstand("kc", "bush", center=(7.6, 8.2), z0=0.0, scale=2.4))
+    back.append(kstand("kc", "trash_B", center=(3.6, 8.9), z0=0.0, scale=3.2))
+    for i, (x, y) in enumerate(((-6.0, -2.0), (6.0, -2.0))):   # barricades at the near corners
+        back.append(bx(f"ar_bar{i}", (2.2, 0.1, 0.8), (x, y, 0.5), STRIPE_R))
+    back += garland("ar_gl", -7.5, 7.5, (7.0, 7.0), 0.9, 12.5, 16, [CAR[1], GUILD_GOLD, GUILD_BLUE, WHITE], flag_w=0.35,
+                    flag_h=0.45)
+    return floor, back
+
+
+def arena():
+    return arena_scene(TS, arena_builder, ("#3c5b86", "#141d2e"), WORLD)
+
 
 def shutter_leaf(w=2.3, h=3.25, locked=False):
     x0, x1 = -w / 2 + 0.02, w / 2 - 0.02
@@ -230,8 +348,6 @@ def door_locked():
              ring("lk_sh", 0.09, 0.022, (0.0, -0.2, 1.75), METAL, rot=(90, 0, 0), seg=16, minor=4)]
     return make_door("door_locked", frame, shutter_leaf(locked=True), 2.3, lock_objs=chain)
 
-
-# ---------------------------------------------------------------- stairs (underpass steps, yellow rails)
 
 def stairs(down):
     rng = R(3051 if down else 3151)
@@ -281,8 +397,6 @@ def stairs_up():
     return stairs(False)
 
 
-# ---------------------------------------------------------------- chest (supply crate), lore (wanted board), trap, spring, warp, torch
-
 def chest():
     W, D, H = 1.1, 0.72, 0.55
     body = [blk("cb_box", (W, D, H), (0, 0, H / 2), WOOD, bevel=0.03)]
@@ -310,9 +424,6 @@ def lore_stone():
     o.append(ball("ls_pin0", 0.02, (-0.35, -0.12, 2.2), "#ff5a4a", seg=5, rings=3))
     o += glyphs("ls_g", r, -0.5, 0.5, 2.25, 2.5, -0.11, VIOLET_EM, n=4, depth=0.02, mat="M_Emit")
     return [fin("lore_stone", o)]
-
-
-CONE_GRID = [(-1.05 + 0.7 * i, -1.05 + 0.7 * j) for i in range(3) for j in range(3)]
 
 
 def trap():
@@ -362,20 +473,6 @@ def warp():
     return [fin("warp", o)]
 
 
-def torch():
-    """Street lamp: slim pole, curved arm and warm lamp head; LightAnchor under the lamp."""
-    o = [blk("to_b", (0.5, 0.5, 0.12), (0, 0, 0.06), METAL_DK, bevel=0.03), cy("to_p", 0.05, 3.0, (0, 0, 1.5), METAL_DK, seg=8),
-         tube("to_arm", [(0, 0, 2.7), (0.0, 0.25, 2.95), (0.0, 0.5, 2.85)], 0.03, METAL_DK, seg=3),
-         blk("to_hd", (0.3, 0.3, 0.12), (0.0, 0.5, 2.8), METAL_DK, bevel=0.02),
-         ball("to_lmp", 0.14, (0.0, 0.5, 2.7), LAMP_EM, mat="M_Emit", scale=(1, 1, 0.6), seg=8, rings=4),
-         cy("to_col0", 0.075, 0.12, (0, 0, 0.9), METAL, seg=8), cy("to_col1", 0.075, 0.12, (0, 0, 1.9), METAL, seg=8),
-         cy("to_bolt", 0.1, 0.03, (0, 0, 0.12), DARK, seg=8)]
-    lamp = fin("torch", o)
-    return [lamp, K.empty("LightAnchor", loc=(0, 0.5, 2.6))]
-
-
-# ---------------------------------------------------------------- boss gate: guild shutter with violet crack
-
 def boss_gate():
     o = [blk("bg_pl0", (0.3, 0.6, 3.7), (-1.85, 0, 1.85), CONCRETE, bevel=0.03),
          blk("bg_pl1", (0.3, 0.6, 3.7), (1.85, 0, 1.85), CONCRETE, bevel=0.03),
@@ -392,8 +489,6 @@ def boss_gate():
     o.append(bx("bg_glow", (2.8, 0.7, 0.02), (0, -0.4, 0.01), VIOLET_EM, "M_Emit"))
     return [fin("boss_gate", o)]
 
-
-# ---------------------------------------------------------------- decor
 
 def decor_1():
     """Striped road barricade with a plank and two legs."""
@@ -420,29 +515,6 @@ def decor_2():
     return [fin("decor_2", o)]
 
 
-def decor_3():
-    """A simple car, parked: body, cabin, wheels and headlights."""
-    col = CAR[0]
-    o = [blk("d3_body", (1.4, 0.6, 0.5), (0, 0, 0.42), col, bevel=0.05),
-         blk("d3_cab", (0.8, 0.52, 0.42), (0.1, 0.0, 0.84), "#9fd3f0", bevel=0.05),
-         bx("d3_win", (0.66, 0.54, 0.3), (0.1, 0.0, 0.86), GLASS, "M_Clear")]
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            o.append(cy(f"d3_w{sx}{sy}", 0.14, 0.12, (sx * 0.45, sy * 0.33, 0.14), DARK, rot=(90, 0, 0), seg=10))
-        o.append(bx(f"d3_hl{sx}", (0.05, 0.1, 0.1), (0.7, sx * 0.2, 0.46), "#fff6c2", "M_Emit"))
-    return [fin("decor_3", o)]
-
-
-def decor_4():
-    """Street bins: two wheelie bins and a stack of crates."""
-    o = [blk("d4_b0", (0.5, 0.55, 0.8), (-0.3, 0.0, 0.4), GREEN_DK, bevel=0.04),
-         blk("d4_b0l", (0.52, 0.56, 0.06), (-0.3, 0.0, 0.82), "#2a3a30", bevel=0.01),
-         blk("d4_b1", (0.5, 0.55, 0.8), (0.3, 0.1, 0.4), "#3d5570", bevel=0.04),
-         blk("d4_cr0", (0.6, 0.6, 0.5), (0.0, -0.6, 0.25), WOOD, bevel=0.03),
-         blk("d4_cr1", (0.5, 0.5, 0.4), (0.05, -0.55, 0.7), WOOD_DK, bevel=0.03)]
-    return [fin("decor_4", o)]
-
-
 def decor_5():
     """A-frame shop standee with a signboard and a small guild sun emblem."""
     o = []
@@ -450,86 +522,6 @@ def decor_5():
         o.append(blk(f"d5_{nm}", (0.7, 0.05, 1.1), (0, sy * 0.1, 0.6), "#fff7e6", bevel=0.01, rot=(sy * 18, 0, 0)))
     o += sign("d5_sg", R(9601), -0.3, 0.3, 0.8, 1.2, -0.26, SIGN_COLS[1], WHITE, n=2, depth=0.03)
     return [fin("decor_5", o)]
-
-
-def decor_6():
-    """Street tree in a planter."""
-    o = [blk("d6_pl", (0.9, 0.9, 0.6), (0, 0, 0.3), CONCRETE_DK, bevel=0.04),
-         bx("d6_soil", (0.8, 0.8, 0.04), (0, 0, 0.6), "#4a3a2a"),
-         cy("d6_tr", 0.06, 1.2, (0, 0, 1.2), WOOD_DK, seg=6)]
-    o.append(ball("d6_cr", 0.45, (0, 0, 2.1), GREEN, scale=(1, 1, 0.9), seg=8, rings=5))
-    o.append(ball("d6_cr2", 0.3, (0.25, 0.1, 2.5), "#7bc96a", seg=7, rings=4))
-    o.append(ball("d6_cr3", 0.32, (-0.3, -0.12, 1.95), GREEN_DK, seg=7, rings=4))
-    o.append(ball("d6_cr4", 0.26, (-0.12, 0.3, 2.45), "#7bc96a", seg=7, rings=4))
-    o.append(bx("d6_stake", (0.05, 0.05, 0.55), (0.18, -0.2, 0.7), WOOD, rot=(0, 0, 0)))
-    return [fin("decor_6", o)]
-
-
-# ---------------------------------------------------------------- arena: crossroads in front of the guild
-
-def arena_builder():
-    rng = R(920)
-    floor = [lathe("ar_rim", [(9.55, -0.5), (9.55, -0.12), (9.4, -0.03), (0.0, -0.03)], color=ASPH_GROUT, seg=64)]
-    floor.append(K.poly_slab("ar_road", [(9.4 * math.cos(math.tau * i / 40), 9.4 * math.sin(math.tau * i / 40)) for i in range(40)],
-                             top=0.0, thick=0.03, color="#4a4f58", bevel=0.0))
-    for i in range(12):   # zebra crossings across the plaza in front of the guild
-        a = math.tau * i / 12
-        cx, cy_ = 4.2 * math.cos(a), 4.2 * math.sin(a)
-        floor.append(bx(f"ar_zb{i}", (0.5, 1.4, 0.01), (cx, cy_, 0.004), LANE, rot=(0, 0, math.degrees(a))))
-    floor.append(K.ring_strip("ar_c1", 1.6, 1.75, z=0.004, n=48, color=LANE_Y, mat="M_Toon"))
-    floor += K.sun_emblem("ar_sun", r=1.0, rays=12, loc=(0, 0, 0.005), ray_col=GUILD_GOLD, disc_col="#ffe9a3",
-                          core_col="#ffb347", core_mat="M_Emit", depth=0.01, axis="Z")
-    back = [blk("ar_guild", (24, 3.0, 12), (0, 19, 6), CONCRETE, bevel=0.1),
-            blk("ar_guild_base", (24, 3.2, 1.2), (0, 18.8, 0.6), CONCRETE_DK, bevel=0.05)]
-    back.append(pz("ar_banner", [(-1.6, 0.0), (1.6, 0.0), (1.6, -5.0), (0.0, -4.2), (-1.6, -5.0)], 0.2, axis="Y",
-                   loc=(0, 17.4, 9.5), color=GUILD_BLUE))
-    back += K.sun_emblem("ar_bsun", r=0.9, rays=12, loc=(0, 17.2, 7.8), ray_col=GUILD_GOLD, disc_col="#ffe9a3",
-                         core_col="#ffb347", core_mat="M_Emit")
-    for x in (-8.0, -4.0, 4.0, 8.0):
-        for z in (3.5, 7.5):
-            back.append(bx(f"ar_win{x}{z}", (2.0, 0.1, 1.6), (x, 17.4, z), GLASS, "M_Clear"))
-    for sx in (-1, 1):   # side buildings
-        back.append(blk(f"ar_sb{sx}", (6, 10, 14), (sx * 15.5, 6, 7), BRICK if sx > 0 else CONCRETE, bevel=0.1))
-    for sx in (-1, 1):   # street lamps
-        for y in (2.0, 9.0):
-            back.append(cy(f"ar_lp{sx}{y}", 0.07, 4.5, (sx * 8.5, y, 2.25), METAL_DK, seg=8))
-            back.append(ball(f"ar_lh{sx}{y}", 0.25, (sx * 8.5, y, 4.6), LAMP_EM, mat="M_Emit", seg=8, rings=5))
-    for i, (x, y) in enumerate(((-6.0, -2.0), (6.0, -2.0))):   # barricades at the near corners
-        back.append(bx(f"ar_bar{i}", (2.2, 0.1, 0.8), (x, y, 0.5), STRIPE_R))
-    back += garland("ar_gl", -7.5, 7.5, (7.0, 7.0), 0.9, 12.5, 16, [CAR[1], GUILD_GOLD, GUILD_BLUE, WHITE], flag_w=0.35,
-                    flag_h=0.45)
-    return floor, back
-
-
-def arena():
-    return arena_scene(TS, arena_builder, ("#3c5b86", "#141d2e"), WORLD)
-
-
-# ---------------------------------------------------------------- pieces, layouts, publish
-
-PIECES = [
-    ("floor_a", floor_a), ("floor_b", floor_b), ("floor_c", floor_c),
-    ("wall_a", wall_a), ("wall_b", wall_b), ("wall_c", wall_c),
-    ("door", door), ("door_locked", door_locked),
-    ("stairs_down", stairs_down), ("stairs_up", stairs_up), ("chest", chest), ("lore_stone", lore_stone),
-    ("trap", trap), ("spring", spring), ("warp", warp), ("torch", torch),
-    ("decor_1", decor_1), ("decor_2", decor_2), ("decor_3", decor_3), ("decor_4", decor_4), ("decor_5", decor_5),
-    ("decor_6", decor_6), ("overlay_1", overlay_1), ("overlay_2", overlay_2), ("boss_gate", boss_gate),
-    ("foe_marker", lambda: foe_marker()),
-]
-
-LAYOUT = [
-    "W W boss_gate W W".split(),
-    "W lore_stone . torch W".split(),
-    "W . chest warp W".split(),
-    "W trap spring stairs_down W".split(),
-    "W W door W W".split(),
-]
-EXTRAS = [
-    ("decor_3", (1.3, 2.25), 0), ("decor_1", (3.3, 2.6), 0), ("decor_2", (1.3, 1.7), 40), ("decor_4", (2.6, 3.3), 0),
-    ("decor_6", (3.25, 1.35), 0), ("decor_5", (2.0, 3.35), 0), ("foe_marker", (1.0, 3.0), 0),
-    ("overlay_1", (1, 4), 0), ("overlay_2", (3, 4), 0), ("overlay_1", (0, 2), 90), ("overlay_2", (4, 3), -90),
-]
 
 
 def foe_marker():
@@ -562,6 +554,34 @@ def corridor():
         ("chest", (0, 0), -90, (1.3, 0.2, 0)),
     ]
     return plan
+
+
+
+# ---------------------------------------------------------------- pieces, layouts
+
+PIECES = [
+    ("floor_a", floor_a), ("floor_b", floor_b), ("floor_c", floor_c),
+    ("wall_a", wall_a), ("wall_b", wall_b), ("wall_c", wall_c),
+    ("door", door), ("door_locked", door_locked),
+    ("stairs_down", stairs_down), ("stairs_up", stairs_up), ("chest", chest), ("lore_stone", lore_stone),
+    ("trap", trap), ("spring", spring), ("warp", warp), ("torch", torch),
+    ("decor_1", decor_1), ("decor_2", decor_2), ("decor_3", decor_3), ("decor_4", decor_4), ("decor_5", decor_5),
+    ("decor_6", decor_6), ("overlay_1", overlay_1), ("overlay_2", overlay_2), ("boss_gate", boss_gate),
+    ("foe_marker", lambda: foe_marker()),
+]
+
+LAYOUT = [
+    "W W boss_gate W W".split(),
+    "W lore_stone . torch W".split(),
+    "W . chest warp W".split(),
+    "W trap spring stairs_down W".split(),
+    "W W door W W".split(),
+]
+EXTRAS = [
+    ("decor_3", (1.3, 2.25), 0), ("decor_1", (3.3, 2.6), 0), ("decor_2", (1.3, 1.7), 40), ("decor_4", (2.6, 3.3), 0),
+    ("decor_6", (3.25, 1.35), 0), ("decor_5", (2.0, 3.35), 0), ("foe_marker", (1.0, 3.0), 0),
+    ("overlay_1", (1, 4), 0), ("overlay_2", (3, 4), 0), ("overlay_1", (0, 2), 90), ("overlay_2", (4, 3), -90),
+]
 
 
 def main():

@@ -1,12 +1,16 @@
 """school tileset: Korean high school on festival night after a gate break (hunter theme, zone 7).
 
-Linoleum and classroom wood floors, lockers / classroom-door / notice-board walls with paper garlands and
-festival banners, desks, chalkboard, festival booth, nurse corner, gym double doors, gym arena.
+Linoleum and classroom wood floors under a ceiling of fluorescent tiles, festival string lights and paper lanterns.
+Walls: lockers with shoe cubbies, classroom walls with a recessed window (desk visible through the glass),
+notice boards with festival garlands. Props from KayKit Furniture / Restaurant Bits (desk, stool) plus custom
+pieces. Arena = enclosed gymnasium with a ceiling, string lights and a festival stage.
 """
 import math
 
 from common_b import (R, blk, bx, cy, cone, ball, lathe, pz, ring, tube, fin, face_y, panel, sign, glyphs,
-                      garland, door_frame, make_door, make_lid, publish, rect_pts, arena_scene, FACE_Y)
+                      garland, door_frame, make_door, make_lid, publish, rect_pts, arena_scene, FACE_Y, CEIL,
+                      WALL_TOP, CORE_Y0, SLAB_D, ao_paint, slab_boxes, wall_core, recess_glass, frame_strips,
+                      ceil_panel, fixture, hang_string, paper_lantern, kfit, kstand)
 import _kit_common_b as K  # noqa: E402
 
 TS = "school"
@@ -23,6 +27,38 @@ METAL = "#a3afba"; METAL_DK = "#5d6a76"; WOOD = "#c58a52"; WOOD_LT = "#e2aa70"; 
 CHALK = "#2f5f4f"; CORK = "#c99a62"; WHITE = "#fbfbf6"; GLASS = "#c9efff"; DARK = "#2a3440"
 LANTERN = "#ff6a4a"; LANTERN_EM = "#ffc27a"; CLAY = "#c8733e"; GREEN = "#4fa35a"; GREEN_DK = "#2f7a40"
 SOIL = "#4a3426"; GREY = "#b8c0c7"; STEP = "#c9d6dc"; CONFETTI = [PINK, YELLOW, "#6fd3ff", MINT, WHITE, ORANGE]
+CEIL_TILE = "#eef4f2"; CEIL_TILE2 = "#e2ebe9"; CEIL_SEAM = "#a9b9bd"; DUCT = "#9aa6ad"
+HOLE_CB = (-1.0, 1.0, 1.25, 3.2)     # classroom window recess on a wall face: x0, x1, z0, z1
+SPIKE_GRID = [(-1.05 + 0.7 * i, -1.05 + 0.7 * j) for i in range(3) for j in range(3)]
+
+
+# ---------------------------------------------------------------- ceilings (floor pieces carry a `Ceiling` root)
+
+def ceiling_school(prefix, axis="y", strings=True, lanterns=True, seed=0):
+    """Ceiling tile grid (2 x 2 panels per cell), fluorescent bars, a ventilation duct, festival string lights
+    along the corridor and paper lanterns on cords. Everything hangs at or below CEIL (normals down)."""
+    r = R(seed)
+    o = [bx(prefix + "seam", (4.0, 4.0, 0.04), (0, 0, CEIL - 0.02), CEIL_SEAM)]
+    for i in range(2):
+        for j in range(2):
+            x0, y0 = -2 + 2 * i, -2 + 2 * j
+            o.append(ceil_panel(f"{prefix}tile{i}{j}", x0 + 0.04, y0 + 0.04, x0 + 1.96, y0 + 1.96,
+                                r.choice([CEIL_TILE, CEIL_TILE2]), thick=0.1))
+    if axis == "y":
+        for x in (-0.9, 0.9):
+            o += fixture(f"{prefix}fx{x}", x, 0.0, CEIL - 0.1, 1.8, 0.3)
+    else:
+        for y in (-0.9, 0.9):
+            o += fixture(f"{prefix}fy{y}", 0.0, y, CEIL - 0.1, 1.8, 0.3, rot_z=90)
+    o.append(bx(prefix + "duct", (0.42, 4.0, 0.22), (-1.55, 0.0, CEIL - 0.11), DUCT))
+    o.append(bx(prefix + "duct_g", (0.44, 4.02, 0.03), (-1.55, 0.0, CEIL - 0.23), "#6f7b83"))
+    if strings:
+        o += hang_string(prefix + "str", (0.55, -2.0, CEIL - 0.34), (0.55, 2.0, CEIL - 0.34), sag=0.3, n=8,
+                         colors=[RED, YELLOW, MINT, PINK, "#6fd3ff", ORANGE], bulb=0.045)
+    if lanterns:
+        for k, (x, y) in enumerate(((-0.55, -1.0), (0.25, 1.0))):
+            o += paper_lantern(f"{prefix}pl{k}", x, y, 3.42, LANTERN, LANTERN_EM, r=0.17, cord_top=CEIL - 0.1)
+    return o
 
 
 # ---------------------------------------------------------------- floors (flush; floor top z = 0)
@@ -43,7 +79,7 @@ def tiles2(prefix, rng, cols, gap=0.07, top=-0.012, n=2):
 
 
 def floor_a():
-    """Linoleum corridor tiles with blue safety stripes on both sides, a floor drain and scuff marks."""
+    """Linoleum corridor tiles with blue safety stripes, a floor drain and scuffs. Ceiling with string lights."""
     rng = R(11)
     objs = grout_base("fa") + tiles2("fa_t", rng, LINO)
     for sx in (-1, 1):
@@ -57,11 +93,11 @@ def floor_a():
     objs.append(bx("fa_drain", (0.5, 0.5, 0.02), (0.0, -1.0, -0.005), METAL_DK))
     for j in range(4):
         objs.append(bx(f"fa_dg{j}", (0.44, 0.04, 0.03), (0.0, -1.0 - 0.2 + 0.13 * j, 0.0), DARK))
-    return [fin("floor_a", objs)]
+    return [fin("floor_a", objs), fin("Ceiling", ceiling_school("fa", "y", strings=True, lanterns=True, seed=1))]
 
 
 def floor_b():
-    """Classroom wood floor: five planks running along the corridor, each cut in two."""
+    """Classroom wood floor: five planks running along the corridor, each cut in two. Fluorescent bars across."""
     rng = R(22)
     objs = grout_base("fb", "#5a3d28")
     cols = ["#c98a52", "#b97840", "#d39a5f", "#c2864d"]
@@ -71,11 +107,11 @@ def floor_b():
         for j, (y0, y1) in enumerate(((-2.0, cut), (cut, 2.0))):
             objs.append(K.poly_slab(f"fb_p{i}{j}", rect_pts(x0, y0, x0 + 0.8, y1, 0.012), top=-0.012, thick=0.2,
                                     color=K.pick(rng, cols, 0.05), bevel=0.008, seed=rng.randint(0, 999)))
-    return [fin("floor_b", objs)]
+    return [fin("floor_b", objs), fin("Ceiling", ceiling_school("fb", "x", strings=False, lanterns=True, seed=2))]
 
 
 def floor_c():
-    """Linoleum with festival confetti and torn paper scattered flush on the tiles."""
+    """Linoleum with festival confetti and torn paper flush on the tiles. Ceiling with the string lights."""
     rng = R(33)
     objs = grout_base("fc") + tiles2("fc_t", rng, LINO)
     for i in range(26):
@@ -85,75 +121,89 @@ def floor_c():
         pts = [(x + u * c - v * s, y + u * s + v * c) for (u, v) in
                ((-w / 2, -w / 4), (w / 2, -w / 3), (w / 2, w / 4), (-w / 2, w / 3))]
         objs.append(K.poly_slab(f"fc_c{i}", pts, top=0.004, thick=0.02, color=rng.choice(CONFETTI), bevel=0.0))
-    return [fin("floor_c", objs)]
+    return [fin("floor_c", objs), fin("Ceiling", ceiling_school("fc", "y", strings=True, lanterns=False, seed=3))]
 
 
-# ---------------------------------------------------------------- walls (4 faces decorated, top trim)
+# ---------------------------------------------------------------- walls: core + four decorated face slabs
 
-def shell(prefix, col, s=3.86, h=4.42):
-    return [blk(prefix + "core", (s, s, h), (0, 0, h / 2), col, bevel=0.02),
-            blk(prefix + "cap", (3.96, 3.96, 0.08), (0, 0, 4.46), CREAM_DK, bevel=0.012)]
+def base_trim(prefix, rail=TEAL):
+    """Baseboard (darker plinth) and a rail on the face slab, flush to y = -2.0."""
+    return [bx(prefix + "pl", (3.86, 0.07, 0.36), (0, FACE_Y - 0.035, 0.18), CREAM_DK),
+            bx(prefix + "rl", (3.86, 0.08, 0.06), (0, FACE_Y - 0.04, 0.39), rail)]
 
 
-def wainscot(prefix, col, rail, h=1.0):
-    return [blk(prefix + "w", (3.9, 0.08, h), (0, B - 0.04, h / 2), col, bevel=0.01),
-            blk(prefix + "r", (3.92, 0.12, 0.1), (0, B - 0.06, h + 0.05), rail, bevel=0.01)]
+def solid_slab(prefix, col, dark, hole=None):
+    slab = slab_boxes(prefix, col, hole=hole)
+    for o in slab:
+        ao_paint(o, col, dark, band=0.42, corner=0.2)
+    return slab
+
+
+LOCK_X = (-1.56, -0.52, 0.52, 1.56)
 
 
 def lockers_face(k):
+    """Lockers with vents and name tags, a row of shoe cubbies at the foot, a festival garland under the header."""
     r = R(100 + k)
-    d = 0.1
-    front = B - d
-    out = wainscot(f"la{k}", SKY, BLUE_DK)
-    out.append(blk(f"la{k}top", (3.9, 0.1, 0.2), (0, B - 0.05, 4.1), BLUE_DK, bevel=0.01))
-    cols = [BLUE, BLUE_B, TEAL, BLUE]
-    for i, xc in enumerate((-1.56, -0.52, 0.52, 1.56)):
-        col = cols[(i + k) % len(cols)]
-        out.append(blk(f"la{k}{i}", (0.84, d, 2.75), (xc, B - d / 2, 2.575), col, bevel=0.015))
+    out = solid_slab(f"la{k}s", CREAM, CREAM_DK)
+    out += base_trim(f"la{k}")
+    for i in range(4):   # shoe cubbies
+        xc = -1.5 + i * 1.0
+        out.append(bx(f"la{k}cf{i}", (0.86, 0.07, 0.62), (xc, FACE_Y - 0.035, 0.82), BLUE_DK))
+        out.append(bx(f"la{k}cd{i}", (0.7, 0.02, 0.48), (xc, FACE_Y - 0.075, 0.82), DARK))
+        for j, sx in enumerate((-0.16, 0.16)):
+            out.append(blk(f"la{k}sh{i}{j}", (0.22, 0.07, 0.11), (xc + sx, FACE_Y - 0.06, 0.66),
+                           r.choice([WHITE, PINK, YELLOW, MINT]), bevel=0.03))
+    for i, xc in enumerate(LOCK_X):   # lockers
+        col = (BLUE, BLUE_B, TEAL, BLUE)[(i + k) % 4]
+        out.append(bx(f"la{k}{i}", (0.84, 0.07, 2.75), (xc, FACE_Y - 0.035, 2.625), col))
         for j in range(3):
-            out.append(bx(f"la{k}{i}v{j}", (0.46, 0.02, 0.05), (xc - 0.05, front + 0.004, 3.5 - j * 0.12), DARK))
-        out.append(bx(f"la{k}{i}h", (0.05, 0.03, 0.32), (xc + 0.3, front - 0.01, 2.35), METAL))
-        out.append(bx(f"la{k}{i}n", (0.24, 0.02, 0.14), (xc, front - 0.01, 3.2 + r.uniform(-0.02, 0.02)), WHITE))
+            out.append(bx(f"la{k}{i}v{j}", (0.46, 0.02, 0.05), (xc - 0.05, FACE_Y - 0.075, 3.5 - j * 0.12), DARK))
+        out.append(bx(f"la{k}{i}h", (0.05, 0.03, 0.32), (xc + 0.3, FACE_Y - 0.08, 2.35), METAL))
+        out.append(bx(f"la{k}{i}n", (0.24, 0.02, 0.14), (xc, FACE_Y - 0.075, 3.2 + r.uniform(-0.02, 0.02)), WHITE))
+    out.append(bx(f"la{k}top", (3.86, 0.08, 0.14), (0, FACE_Y - 0.04, 4.1), BLUE_DK))
+    out += garland(f"la{k}g", -1.85, 1.85, (4.3, 4.3), 0.18, FACE_Y - 0.02, 7, [RED, YELLOW, MINT, PINK, BLUE_B],
+                   flag_w=0.13, flag_h=0.18, seg=10)
     return out
 
 
 def wall_a():
-    objs = shell("wa", CREAM)
-    objs += K.four_sides(lockers_face)
+    objs = wall_core("wa", CREAM, cap=CREAM_DK) + K.four_sides(lockers_face)
     objs.append(bx("wa_light", (1.2, 0.25, 0.04), (0, 0, 4.52), "#fff6d6", "M_Emit"))
     return [fin("wall_a", objs)]
 
 
 def classroom_face(k):
-    out = wainscot(f"cb{k}", CREAM_DK, TEAL, h=0.9)
-    d = 0.1
-    fy = B - d / 2
-    out.append(blk(f"cb{k}hd", (2.24, d, 0.14), (0, fy, 3.35), BLUE_DK, bevel=0.012))
-    out.append(blk(f"cb{k}sl", (2.24, d, 0.12), (0, fy, 1.0), BLUE_DK, bevel=0.012))
-    for x in (-1.05, 1.05):
-        out.append(blk(f"cb{k}st{x}", (0.14, d, 2.35), (x, fy, 2.2), BLUE_DK, bevel=0.012))
-    out.append(bx(f"cb{k}gl", (1.0, 0.03, 2.15), (-0.5, B - 0.02, 2.17), GLASS, "M_Clear"))
-    out.append(bx(f"cb{k}gr", (1.0, 0.03, 2.15), (0.5, B - 0.02, 2.17), GLASS, "M_Clear"))
-    for x in (-0.12, 0.12):
-        out.append(bx(f"cb{k}hn{x}", (0.04, 0.06, 0.7), (x, B - 0.08, 1.9), METAL))
-    for sx in (-1, 1):   # side windows with mullion frames
-        xc = sx * 1.52
-        out.append(blk(f"cb{k}wf{sx}", (0.66, d, 1.9), (xc, fy, 2.2), BLUE_DK, bevel=0.012))
-        out.append(bx(f"cb{k}wg{sx}", (0.5, 0.03, 1.74), (xc, B - 0.02, 2.2), GLASS, "M_Clear"))
+    """Classroom wall: a recessed window with a desk and chair visible inside, blackboard, room sign, posters."""
+    out = solid_slab(f"cb{k}s", CREAM, CREAM_DK, hole=HOLE_CB)
+    out += base_trim(f"cb{k}", rail=TEAL)
+    out += frame_strips(f"cb{k}f", HOLE_CB, BLUE_DK, w=0.09, depth=0.05)
+    # interior (between the glass and the core face at CORE_Y0)
+    out.append(bx(f"cb{k}bd", (1.7, 0.03, 0.85), (0, CORE_Y0 - 0.02, 2.35), CHALK))
+    out.append(bx(f"cb{k}bf", (1.76, 0.02, 0.05), (0, CORE_Y0 - 0.03, 2.35 + 0.45), WOOD_DK))
+    out.append(blk(f"cb{k}dt", (0.62, 0.32, 0.05), (0, -1.62, 2.0), WOOD_LT, bevel=0.01))
+    for sx in (-1, 1):
+        out.append(bx(f"cb{k}dl{sx}", (0.04, 0.28, 0.75), (sx * 0.27, -1.62, 1.625), METAL_DK))
+    out.append(bx(f"cb{k}dbk", (0.16, 0.2, 0.02), (0.1, -1.6, 2.1), RED))
+    out.append(blk(f"cb{k}cs", (0.36, 0.34, 0.05), (0, -1.84, 1.7), BLUE_DK, bevel=0.01))
+    out.append(blk(f"cb{k}cb", (0.36, 0.05, 0.4), (0, -1.94, 1.95), BLUE_DK, bevel=0.01))
     out += sign(f"cb{k}sg", R(200 + k), -1.85, -1.2, 3.5, 3.9, B, WHITE, BLUE_DK, n=2, depth=0.05)
+    out += sign(f"cb{k}rm", R(230 + k), -0.55, 0.55, 3.38, 3.72, B, WHITE, BLUE_DK, n=2, depth=0.03)
+    out.append(panel(f"cb{k}pp", 1.2, 1.85, 1.5, 2.8, B, PINK, depth=0.02))
+    out.append(panel(f"cb{k}pq", 1.3, 1.75, 1.6, 2.6, B - 0.02, "#fff0a8", depth=0.01))
     return out
 
 
 def wall_b():
-    objs = shell("wb", CREAM)
-    objs += K.four_sides(classroom_face)
+    objs = wall_core("wb", CREAM, cap=CREAM_DK) + K.four_sides(classroom_face)
     objs.append(bx("wb_light", (1.2, 0.25, 0.04), (0, 0, 4.52), "#fff6d6", "M_Emit"))
     return [fin("wall_b", objs)]
 
 
 def notice_face(k):
     r = R(300 + k)
-    out = wainscot(f"nb{k}", CREAM_DK, TEAL, h=1.0)
+    out = solid_slab(f"nb{k}s", CREAM, CREAM_DK)
+    out += base_trim(f"nb{k}", rail=TEAL)
     out.append(panel(f"nb{k}cf", -1.75, 0.05, 1.35, 3.15, B, CORK, depth=0.06))
     for nm, (a, b_, c, d_) in (("l", (-1.79, -1.71, 1.3, 3.2)), ("r", (0.01, 0.09, 1.3, 3.2)),
                                ("b", (-1.79, 0.09, 1.3, 1.38)), ("t", (-1.79, 0.09, 3.12, 3.2))):
@@ -172,13 +222,132 @@ def notice_face(k):
 
 
 def wall_c():
-    objs = shell("wc", CREAM)
-    objs += K.four_sides(notice_face)
+    objs = wall_core("wc", CREAM, cap=CREAM_DK) + K.four_sides(notice_face)
     objs.append(bx("wc_light", (1.2, 0.25, 0.04), (0, 0, 4.52), "#fff6d6", "M_Emit"))
     return [fin("wall_c", objs)]
 
 
-# ---------------------------------------------------------------- overlays (hang on a wall face, reach to -2.3)
+# ---------------------------------------------------------------- decor
+
+def decor_1():
+    """Classroom desk from the KayKit Furniture kit: small table, wooden chair pulled out, book set and a textbook."""
+    o = [kfit("kf", "table_small", (0.72, 0.6, 0.74), center=(0.0, 0.0), z0=0.0),
+         kfit("kf", "chair_A_wood", (0.5, 0.5, 0.92), center=(0.0, -0.62), z0=0.0, rot_z=180),
+         kfit("kf", "book_set", (0.26, 0.19, 0.06), center=(0.12, 0.06), z0=0.74),
+         bx("d1_tb", (0.22, 0.16, 0.025), (-0.2, -0.05, 0.765), RED, rot=(0, 0, 8))]
+    return [fin("decor_1", o)]
+
+
+def decor_6():
+    """Two KayKit restaurant stools beside a mop bucket with a wet-floor sign."""
+    o = [kstand("kr", "chair_stool", center=(0.35, 0.3), z0=0.0, scale=0.9),
+         kstand("kr", "chair_stool", center=(0.3, -0.25), z0=0.0, scale=0.9)]
+    o.append(lathe("d6_bk", [(0.0, 0.0), (0.2, 0.0), (0.24, 0.3), (0.22, 0.32), (0.0, 0.32)], loc=(-0.5, -0.3, 0),
+                   color=BLUE, seg=10))
+    o.append(cy("d6_mp", 0.02, 1.0, (-0.5, -0.3, 0.5), WOOD_DK, rot=(8, 0, 0), seg=6))
+    o.append(ball("d6_mh", 0.16, (-0.5, -0.3, 0.07), WHITE, scale=(1, 1, 0.5), seg=8, rings=4))
+    o.append(bx("d6_wf", (0.35, 0.03, 0.5), (-0.1, -0.85, 0.3), YELLOW, rot=(0, 0, 0)))
+    o.append(bx("d6_wf2", (0.12, 0.04, 0.3), (-0.1, -0.87, 0.3), DARK))
+    return [fin("decor_6", o)]
+
+
+# ---------------------------------------------------------------- arena: enclosed gymnasium stage with festival decorations
+
+def arena_builder():
+    """Enclosed gymnasium (pass 2): plank floor with court lines, hoop and scoreboard, mats, vaulting box, cart and
+    cones at y 5..10, a stage with banners and tiered stands at y 9..13.5, wall pads and lockers on the sides."""
+    LINE_W = "#f5f5f0"; HOOP = "#e8862a"
+    FY0, FY1 = -9.6, 13.6                  # hall extent along y
+    floor = []
+    for i in range(16):   # 1.2 m planks along the court (top at z = 0)
+        x0 = -9.6 + i * 1.2
+        floor.append(bx(f"ar_pl{i}", (1.18, FY1 - FY0, 0.04), (x0 + 0.6, (FY0 + FY1) / 2, -0.02),
+                        WOOD if i % 2 else WOOD_LT))
+    for x in (-8.0, 8.0):
+        floor.append(bx(f"ar_sl{x}", (0.1, 16.1, 0.01), (x, 0.0, 0.005), LINE_W))
+    for y in (-8.0, 8.0):
+        floor.append(bx(f"ar_bl{y}", (16.1, 0.1, 0.01), (0.0, y, 0.005), LINE_W))
+    floor.append(bx("ar_mid", (16.1, 0.1, 0.01), (0, 0, 0.005), LINE_W))
+    for s in (-1, 1):   # keys (painted paint areas) at both ends
+        ys = s * 8.0
+        for x in (-2.45, 2.45):
+            floor.append(bx(f"ar_key{s}{x}", (0.1, 5.9, 0.01), (x, ys - s * 2.95, 0.005), LINE_W))
+        floor.append(bx(f"ar_keyh{s}", (4.9, 0.1, 0.01), (0, ys - s * 5.9, 0.005), LINE_W))
+    # back wall, stage and banners (front face at y 13.6)
+    back = [blk("ar_wall", (23.0, 2.0, 9.0), (0, 14.6, 4.5), CREAM, bevel=0.1),
+            blk("ar_stage", (8.0, 2.6, 0.9), (0, 12.0, 0.45), WOOD_LT, bevel=0.03),
+            blk("ar_stg2", (8.0, 0.25, 0.25), (0, 10.7, 0.8), WOOD_DK, bevel=0.02),
+            blk("ar_banner", (6.0, 0.2, 2.4), (0, 13.5, 3.6), BLUE_DK, bevel=0.03),
+            K.prism("ar_star", K.star_pts(5, 1.2, 0.55), 0.1, axis="Y", loc=(0, 13.35, 3.6), color=YELLOW)]
+    for sx, col in ((-1, RED), (1, TEAL)):   # tall hanging banners beside the stage (to about 6 m)
+        back.append(blk(f"ar_bn{sx}", (1.2, 0.15, 3.4), (sx * 4.6, 13.45, 4.4), col, bevel=0.03))
+        back.append(blk(f"ar_bnt{sx}", (1.2, 0.17, 0.5), (sx * 4.6, 13.45, 6.3), YELLOW_DK, bevel=0.03))
+    # freestanding scoreboard on two legs, 2.6 m high panel (y 9.3)
+    for x in (-4.0, -1.2):
+        back.append(cy(f"ar_sbl{x}", 0.05, 2.4, (x, 9.5, 1.2), METAL_DK, seg=8))
+    back.append(bx("ar_board", (3.0, 0.15, 1.5), (-2.6, 9.3, 3.4), DARK))
+    back.append(bx("ar_score", (2.6, 0.03, 1.0), (-2.6, 9.17, 3.4), "#ffd96b", "M_Emit"))
+    # side walls, blue lower band, wall pads and lockers
+    for sx in (-1, 1):
+        back.append(bx(f"ar_sw{sx}", (2.0, FY1 - FY0, 9.0), (sx * 11.0, (FY0 + FY1) / 2, 4.5), CREAM))
+        back.append(bx(f"ar_sb{sx}", (2.1, FY1 - FY0, 1.3), (sx * 11.0, (FY0 + FY1) / 2, 0.65), BLUE))
+        for y in (-6.0, 4.0):
+            back.append(bx(f"ar_sg{sx}{y}", (0.12, 3.6, 2.2), (sx * 11.05, y, 5.6), GLASS, "M_Clear"))
+        for k, y in enumerate((-7.0, -2.0, 3.0)):   # padded wall pads on the court side
+            back.append(bx(f"ar_pad{sx}{k}", (0.2, 4.6, 1.5), (sx * 9.85, y, 1.35), RED if k % 2 else BLUE_DK))
+        for k, y in enumerate((4.5, 5.6, 6.7, 7.8)):   # lockers beside the enemy zone
+            back.append(bx(f"ar_lk{sx}{k}", (0.5, 0.9, 1.9), (sx * 9.8, y, 0.95), (BLUE, TEAL, RED)[k % 3]))
+    back.append(bx("ar_ceil", (22.0, FY1 - FY0, 0.12), (0, (FY0 + FY1) / 2, 8.6), CREAM_DK))
+    for x in (-6.0, 0.0, 6.0):
+        for y in (-8.0, -2.0, 4.0, 10.0):
+            back += fixture(f"ar_fx{x}{y}", x, y, 8.5, 2.6, 0.32, rot_z=0.0)
+    back += hang_string("ar_str0", (-10.5, -6.0, 7.6), (10.5, -6.0, 7.6), sag=0.8, n=18,
+                        colors=[RED, YELLOW, BLUE_B, MINT, PINK, ORANGE], bulb=0.075)
+    back += hang_string("ar_str1", (-10.5, 9.0, 7.6), (10.5, 9.0, 7.6), sag=0.8, n=18,
+                        colors=[YELLOW, MINT, PINK, "#6fd3ff", RED], bulb=0.075)
+    for i, x in enumerate((-8.0, -4.0, 0.0, 4.0, 8.0)):
+        back += paper_lantern(f"ar_pl{i}", x, -2.0 if i % 2 else 2.0, 6.5, LANTERN, LANTERN_EM, r=0.28, cord_top=8.5)
+    # hoop at the baseline (y 9.0), post behind the board
+    back.append(cy("ar_hpole", 0.07, 3.0, (0, 9.45, 1.5), METAL_DK, seg=8))
+    back.append(bx("ar_hback", (1.8, 0.06, 1.05), (0, 9.0, 3.5), WHITE))
+    back.append(bx("ar_hbox", (0.6, 0.02, 0.45), (0, 8.96, 3.3), RED))
+    back.append(ring("ar_hrim", 0.23, 0.025, (0, 8.6, 3.05), HOOP, rot=(90, 0, 0), seg=18, minor=4))
+    # tiered stands at y 9.0..13.5 on both sides of the stage, five tiers up to about 4 m
+    for sx in (-1, 1):
+        for t in range(5):
+            y0, h = 9.0 + t * 0.9, 0.5 + t * 0.9
+            back.append(blk(f"ar_tier{sx}{t}", (5.6, 0.9, h), (sx * 7.3, y0 + 0.45, h / 2),
+                            BLUE if t % 2 else CREAM, bevel=0.02))
+            for j in range(5):
+                back.append(bx(f"ar_seat{sx}{t}{j}", (0.6, 0.06, 0.05), (sx * (5.2 + j * 0.9), y0 + 0.45, h + 0.02),
+                               WOOD_DK))
+    # behind the enemy side (y 5..8): gym mats, vaulting box, ball cart, cones
+    for k, col in enumerate((BLUE, RED, BLUE_DK)):
+        back.append(bx(f"ar_mat{k}", (2.0, 1.2, 0.1), (-2.4, 6.8, 0.05 + 0.1 * k), col))
+    back.append(blk("ar_vault", (1.2, 0.9, 0.9), (1.4, 7.4, 0.45), WOOD, bevel=0.03))
+    back.append(bx("ar_vpad", (1.25, 0.95, 0.1), (1.4, 7.4, 0.95), RED))
+    back.append(bx("ar_cart", (1.2, 0.8, 0.06), (3.2, 5.6, 0.95), METAL))
+    for i, (x, y) in enumerate(((2.6, 5.2), (3.8, 5.2), (2.6, 6.0), (3.8, 6.0))):
+        back.append(cy(f"ar_cl{i}", 0.03, 0.95, (x, y, 0.47), METAL_DK, seg=6))
+        back.append(ball(f"ar_bb{i}", 0.12, (x - 0.3 + 0.2 * (i % 2), y - 0.2 + 0.4 * (i // 2), 1.12), HOOP, seg=8, rings=5))
+    for i, (x, y) in enumerate(((-0.8, 7.6), (1.0, 7.4), (4.2, 8.0), (-4.2, 8.0))):
+        back.append(cone(f"ar_cn{i}", 0.18, 0.5, (x, y, 0.25), ORANGE))
+    # chairs, cabinets and stools on both sides of the enemy zone
+    for sx in (-1, 1):
+        for y in (4.6, 5.6, 6.6, 7.6):
+            back.append(kstand("kr", "chair_A", center=(sx * 7.4, y), z0=0.0, scale=1.0, rot_z=-90 * sx))
+        for y in (4.4, 6.2):
+            back.append(kstand("kf", "cabinet_small", center=(sx * 8.9, y), z0=0.0, scale=1.1, rot_z=0))
+        back.append(kstand("kr", "chair_stool", center=(sx * 5.6, 4.6), z0=0.0, scale=1.0))
+        back.append(kstand("kr", "chair_stool", center=(sx * 5.6, 5.5), z0=0.0, scale=1.0))
+    back += garland("ar_gl", -9.5, 9.5, (7.0, 7.0), 0.9, 13.42, 22, [RED, YELLOW, BLUE_B, MINT, PINK, ORANGE],
+                    flag_w=0.42, flag_h=0.5)
+    return floor, back
+
+
+def arena():
+    return arena_scene(TS, arena_builder, ("#3a3f7a", "#141a3a"), WORLD)
+
 
 def overlay_1():
     """Festival garland with paper lanterns draped along a wall face."""
@@ -208,8 +377,6 @@ def overlay_2():
         out += glyphs(f"o2g{i}", r, x - 0.22, x + 0.22, 2.9, 3.85, y - 0.04, WHITE, n=2, depth=0.02)
     return [fin("overlay_2", out)]
 
-
-# ---------------------------------------------------------------- doors
 
 def sliding_leaf(w=2.3, h=3.25):
     """Classroom sliding door: wood rails, two glass panes, handle and room sign."""
@@ -253,8 +420,6 @@ def door_locked():
             ring("lk_sh", 0.09, 0.022, (0.8, -0.19, 1.45), METAL, rot=(90, 0, 0), seg=16, minor=4)]
     return make_door("door_locked", frame, hinged_door_leaf(), 2.3, lock_objs=lock)
 
-
-# ---------------------------------------------------------------- stairs
 
 def stairs_down():
     rng = R(3001)
@@ -304,8 +469,6 @@ def stairs_up():
     return [fin("stairs_up", o)]
 
 
-# ---------------------------------------------------------------- chest / lore / trap / spring / warp / torch
-
 def chest():
     W, D, H = 1.1, 0.72, 0.55
     body = [blk("cb_box", (W, D, H), (0, 0, H / 2), RED, bevel=0.03)]
@@ -334,9 +497,6 @@ def lore_stone():
         o.append(bx(f"ls_n{i}", (0.3, 0.01, 0.34), (x, -0.105, z), col, rot=(0, r.uniform(-12, 12), 0)))
     o += glyphs("ls_g", r, -0.5, 0.5, 2.25, 2.5, -0.1, VIOLET_EM, n=4, depth=0.02, mat="M_Emit")
     return [fin("lore_stone", o)]
-
-
-SPIKE_GRID = [(-1.05 + 0.7 * i, -1.05 + 0.7 * j) for i in range(3) for j in range(3)]
 
 
 def trap():
@@ -400,8 +560,6 @@ def torch():
     return [lamp, anchor]
 
 
-# ---------------------------------------------------------------- boss gate: gymnasium double doors with violet crack
-
 def boss_gate():
     o = [blk("bg_pl0", (0.3, 0.6, 3.7), (-1.85, 0, 1.85), CREAM, bevel=0.03),
          blk("bg_pl1", (0.3, 0.6, 3.7), (1.85, 0, 1.85), CREAM, bevel=0.03),
@@ -417,25 +575,6 @@ def boss_gate():
         o.append(tube(f"bg_crk{sx}", [(p[0], p[1], min(p[2], 3.0)) for p in pts], 0.03, VIOLET_EM, mat="M_Emit"))
     o.append(bx("bg_glow", (2.8, 0.7, 0.02), (0, -0.4, 0.01), VIOLET_EM, "M_Emit"))
     return [fin("boss_gate", o)]
-
-
-# ---------------------------------------------------------------- decor (footprint ~ +-0.9 m, front = -Y)
-
-def decor_1():
-    """Classroom desk with a textbook and a chair pulled out in front."""
-    o = [blk("d1_top", (0.9, 0.6, 0.05), (0, 0, 0.75), WOOD_LT, bevel=0.015),
-         bx("d1_dr", (0.8, 0.5, 0.2), (0, 0, 0.56), WOOD),
-         blk("d1_book", (0.22, 0.16, 0.03), (-0.2, 0.05, 0.79), RED, bevel=0.005)]
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            o.append(cy(f"d1_leg{sx}{sy}", 0.022, 0.72, (sx * 0.4, sy * 0.25, 0.36), METAL_DK, seg=6))
-    cx, cyy = 0.0, -0.6
-    o.append(blk("d1_seat", (0.44, 0.42, 0.05), (cx, cyy, 0.45), BLUE_DK, bevel=0.01))
-    o.append(blk("d1_back", (0.44, 0.05, 0.5), (cx, cyy + 0.19, 0.72), BLUE_DK, bevel=0.01))
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            o.append(cy(f"d1_cl{sx}{sy}", 0.02, 0.44, (cx + sx * 0.18, cyy + sy * 0.17, 0.22), METAL_DK, seg=6))
-    return [fin("decor_1", o)]
 
 
 def decor_2():
@@ -499,89 +638,6 @@ def decor_5():
     return [fin("decor_5", o)]
 
 
-def decor_6():
-    """Stacked classroom chairs beside a mop bucket."""
-    o = []
-    for i in range(3):
-        z = 0.3 + i * 0.25
-        o.append(blk(f"d6_s{i}", (0.44, 0.42, 0.05), (0.3, 0.2, z), BLUE_DK, bevel=0.01))
-        o.append(blk(f"d6_b{i}", (0.44, 0.05, 0.4), (0.3, 0.39, z + 0.22), BLUE_DK, bevel=0.01))
-    o.append(lathe("d6_bk", [(0.0, 0.0), (0.2, 0.0), (0.24, 0.3), (0.22, 0.32), (0.0, 0.32)], loc=(-0.5, -0.3, 0),
-                   color=BLUE, seg=10))
-    o.append(cy("d6_mp", 0.02, 1.0, (-0.5, -0.3, 0.5), WOOD_DK, rot=(8, 0, 0), seg=6))
-    o.append(ball("d6_mh", 0.16, (-0.5, -0.3, 0.07), WHITE, scale=(1, 1, 0.5), seg=8, rings=4))
-    return [fin("decor_6", o)]
-
-
-# ---------------------------------------------------------------- arena: gymnasium stage with festival decorations
-
-def arena_builder():
-    rng = R(900)
-    floor = []
-    floor.append(lathe("ar_rim", [(9.55, -0.5), (9.55, -0.12), (9.4, -0.03), (0.0, -0.03)], color=WOOD_DK, seg=64))
-    for i in range(24):
-        a0, a1 = math.tau * i / 24, math.tau * (i + 1) / 24
-        pts = [(0.0, 0.0), (9.4 * math.cos(a0), 9.4 * math.sin(a0)), (9.4 * math.cos(a1), 9.4 * math.sin(a1))]
-        floor.append(K.poly_slab(f"ar_w{i}", pts, top=0.0, thick=0.03, color=WOOD if i % 2 else WOOD_LT, bevel=0.0))
-    floor.append(K.ring_strip("ar_c1", 1.55, 1.65, z=0.004, n=48, color=RED, mat="M_Toon"))
-    floor.append(K.ring_strip("ar_c2", 8.9, 9.0, z=0.004, n=64, color=WHITE, mat="M_Toon"))
-    floor.append(K.ring_strip("ar_c3", 0.0, 0.12, z=0.004, n=24, color=WHITE, mat="M_Toon"))
-    back = []
-    back.append(blk("ar_wall", (60, 2.0, 14), (0, 19, 7), CREAM, bevel=0.1))
-    back.append(blk("ar_stage", (26, 6, 1.2), (0, 14, 0.6), WOOD_LT, bevel=0.03))
-    back.append(blk("ar_stg2", (26, 0.3, 0.3), (0, 11.2, 1.25), WOOD_DK, bevel=0.02))
-    for sx in (-1, 1):
-        back.append(blk(f"ar_cur{sx}", (2.8, 0.5, 7.5), (sx * 10.5, 11.3, 4.0), RED, bevel=0.05))
-        back.append(blk(f"ar_cp{sx}", (3.0, 0.6, 0.4), (sx * 10.5, 11.2, 7.9), YELLOW_DK, bevel=0.03))
-    back.append(blk("ar_banner", (7.5, 0.2, 4.4), (0, 17.9, 7.0), BLUE_DK, bevel=0.03))
-    back.append(K.prism("ar_star", K.star_pts(5, 1.5, 0.65), 0.1, axis="Y", loc=(0, 17.7, 7.2), color=YELLOW))
-    back.append(bx("ar_board", (4.0, 0.3, 1.2), (0, 17.6, 11.0), DARK))
-    back.append(bx("ar_score", (3.6, 0.1, 0.9), (0, 17.4, 11.0), "#ffd96b", "M_Emit"))
-    for sx in (-1, 1):
-        for r_ in range(5):
-            back.append(blk(f"ar_bl{sx}{r_}", (2.0, 14, 0.5), (sx * (11.6 + r_ * 1.0), 4, 0.25 + r_ * 0.5),
-                            BLUE if r_ % 2 else CREAM, bevel=0.02))
-    back += garland("ar_gl", -12, 12, (8.2, 8.2), 1.2, 9.0, 26, [RED, YELLOW, BLUE_B, MINT, PINK, ORANGE],
-                    flag_w=0.42, flag_h=0.5)
-    for i in range(9):
-        x = -12 + i * 3.0
-        t = (x + 12) / 24
-        back.append(ball(f"ar_lt{i}", 0.22, (x, 9.0, 8.2 - 1.2 * 4 * t * (1 - t) - 0.55), LANTERN_EM,
-                         mat="M_Emit", seg=8, rings=5))
-    return floor, back
-
-
-def arena():
-    return arena_scene(TS, arena_builder, ("#3a3f7a", "#141a3a"), WORLD)
-
-
-# ---------------------------------------------------------------- pieces, layouts, publish
-
-PIECES = [
-    ("floor_a", floor_a), ("floor_b", floor_b), ("floor_c", floor_c),
-    ("wall_a", wall_a), ("wall_b", wall_b), ("wall_c", wall_c),
-    ("door", door), ("door_locked", door_locked),
-    ("stairs_down", stairs_down), ("stairs_up", stairs_up), ("chest", chest), ("lore_stone", lore_stone),
-    ("trap", trap), ("spring", spring), ("warp", warp), ("torch", torch),
-    ("decor_1", decor_1), ("decor_2", decor_2), ("decor_3", decor_3), ("decor_4", decor_4), ("decor_5", decor_5),
-    ("decor_6", decor_6), ("overlay_1", overlay_1), ("overlay_2", overlay_2), ("boss_gate", boss_gate),
-    ("foe_marker", lambda: foe_marker()),
-]
-
-LAYOUT = [
-    "W W boss_gate W W".split(),
-    "W lore_stone . torch W".split(),
-    "W . chest warp W".split(),
-    "W trap spring stairs_down W".split(),
-    "W W door W W".split(),
-]
-EXTRAS = [
-    ("decor_1", (1.3, 2.25), 0), ("decor_3", (3.3, 2.6), 0), ("decor_5", (1.3, 1.7), 40), ("decor_6", (2.6, 3.3), 0),
-    ("decor_2", (3.25, 1.35), 0), ("decor_4", (2.0, 3.35), 0), ("foe_marker", (1.0, 3.0), 0),
-    ("overlay_1", (1, 4), 0), ("overlay_2", (3, 4), 0), ("overlay_1", (0, 2), 90), ("overlay_2", (4, 3), -90),
-]
-
-
 def foe_marker():
     """Floor marker for a foe: violet ring, six crystal shards and a floating gate crystal."""
     o = [K.ring_strip("fm_r0", 1.0, 1.12, z=0.02, n=32, color=VIOLET),
@@ -612,6 +668,34 @@ def corridor():
         ("chest", (0, 0), -90, (1.3, 0.2, 0)),
     ]
     return plan
+
+
+
+# ---------------------------------------------------------------- pieces, layouts
+
+PIECES = [
+    ("floor_a", floor_a), ("floor_b", floor_b), ("floor_c", floor_c),
+    ("wall_a", wall_a), ("wall_b", wall_b), ("wall_c", wall_c),
+    ("door", door), ("door_locked", door_locked),
+    ("stairs_down", stairs_down), ("stairs_up", stairs_up), ("chest", chest), ("lore_stone", lore_stone),
+    ("trap", trap), ("spring", spring), ("warp", warp), ("torch", torch),
+    ("decor_1", decor_1), ("decor_2", decor_2), ("decor_3", decor_3), ("decor_4", decor_4), ("decor_5", decor_5),
+    ("decor_6", decor_6), ("overlay_1", overlay_1), ("overlay_2", overlay_2), ("boss_gate", boss_gate),
+    ("foe_marker", lambda: foe_marker()),
+]
+
+LAYOUT = [
+    "W W boss_gate W W".split(),
+    "W lore_stone . torch W".split(),
+    "W . chest warp W".split(),
+    "W trap spring stairs_down W".split(),
+    "W W door W W".split(),
+]
+EXTRAS = [
+    ("decor_1", (1.3, 2.25), 0), ("decor_3", (3.3, 2.6), 0), ("decor_5", (1.3, 1.7), 40), ("decor_6", (2.6, 3.3), 0),
+    ("decor_2", (3.25, 1.35), 0), ("decor_4", (2.0, 3.35), 0), ("foe_marker", (1.0, 3.0), 0),
+    ("overlay_1", (1, 4), 0), ("overlay_2", (3, 4), 0), ("overlay_1", (0, 2), 90), ("overlay_2", (4, 3), -90),
+]
 
 
 def main():
