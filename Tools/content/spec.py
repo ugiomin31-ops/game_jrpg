@@ -210,13 +210,13 @@ HUNTERS = [
     # ---- story joins: one when each zone boss falls
     dict(id='h_minjun', name='최민준', cls='warrior', gender='M', rank='D', join=('boss', 1), start_job=None,
          stat=dict(max_hp=1.15, defense=1.12, speed=0.92), sig=('sk_provoke', '구조대의 함성'),
-         hair=['#1a1008', '#3a2414', '#6a4428'], eyes='#8a5a20',
-         look='ex firefighter tank: orange-and-navy turnout coat with reflective stripes, helmet with visor up, '
+         hair=['#3e1a10', '#7a3420', '#b35a36'], eyes='#d08a20',
+         look='ex firefighter tank: orange-and-navy turnout coat with reflective stripes, yellow brimmed cap, '
          'heavy gloves, big round shield made from a manhole cover', line='시민 대피 끝! 이제 내가 막는다.'),
     dict(id='h_sora', name='이소라', cls='archer', gender='F', rank='D', join=('boss', 2), start_job='ranger',
          stat=dict(speed=1.12, attack=1.05, max_hp=0.92), sig=('sk_a_shadow_stitch', '그림자 바느질'),
-         hair=['#101018', '#22223a', '#3a3a5a'], eyes='#8a3ad4',
-         look='assassin: short black bomber jacket, face mask, hood, fitted dark pants, thigh straps with knives, '
+         hair=['#0e1a1e', '#1a2e34', '#2c4a52'], eyes='#8a3ad4',
+         look='assassin: short black bomber jacket with violet trim, fitted dark pants, thigh straps with knives, '
          'violet accents', line='…말 걸지 마. 표적이 도망가.'),
     dict(id='h_taeyang', name='오태양', cls='mage', gender='M', rank='C', join=('boss', 3), start_job='elementalist',
          stat=dict(magic=1.08, defense=1.05), sig=('sk_flame_wave', '용광로 파도'),
@@ -225,12 +225,12 @@ HUNTERS = [
          'welding goggles on forehead, tool belt, burn-proof gloves', line='공장 불 끄던 놈이 불을 쓰게 될 줄이야.'),
     dict(id='h_eunbi', name='정은비', cls='cleric', gender='F', rank='C', join=('boss', 4), start_job='exorcist',
          stat=dict(magic=1.06, resistance=1.08), sig=('sk_c_banish', '부적 퇴마'),
-         hair=['#0a0a14', '#1a1a2a', '#2e2e46'], eyes='#c83a3a',
+         hair=['#141e44', '#24346a', '#3a4f8e'], eyes='#c83a3a',
          look='Korean shaman exorcist: white jeogori-style short jacket with red goreum ribbon, dark hanbok-like '
          'long skirt, talismans on a cord, bell bracelet, long straight black hair', line='귀신보다 무서운 건 야근이에요.'),
     dict(id='h_gunwoo', name='서건우', cls='warrior', gender='M', rank='C', join=('boss', 5), start_job='berserker',
          stat=dict(attack=1.12, max_hp=1.05, defense=0.92), sig=('sk_w_berserk', '링 위의 광기'),
-         hair=['#0a0a0a', '#202020', '#3a3a3a'], eyes='#d43a2a',
+         hair=['#3c4a5a', '#6a7d92', '#a8b8c8'], eyes='#d43a2a',
          look='MMA fighter berserker: sleeveless black compression top, red boxing shorts over leggings, hand wraps '
          'and bandaged forearms, buzz cut, chain necklace', line='맞으면서 배우는 거지. 덤벼!'),
     dict(id='h_hana', name='김하나', cls='mage', gender='F', rank='B', join=('boss', 6), start_job='elementalist',
@@ -240,7 +240,7 @@ HUNTERS = [
          'star hairpin, knee boots, headset mic', line='팬 여러분, 오늘도 얼려 드릴게요!'),
     dict(id='h_siwoo', name='류시우', cls='archer', gender='M', rank='B', join=('boss', 7), start_job='sniper',
          stat=dict(attack=1.1, speed=1.02, max_hp=0.95), sig=('sk_a_deadeye', '방과 후 데드아이'),
-         hair=['#1a1410', '#3a2e24', '#5a4a3a'], eyes='#3a6ad4',
+         hair=['#7a5a2a', '#b88a4a', '#e6c488'], eyes='#3a6ad4',
          look='genius high-school sniper: navy school blazer with emblem, loosened tie, white shirt, grey slacks, '
          'headphones around the neck, long rifle-like bow', line='교실에서 보는 것보다 과녁이 크네요.'),
     dict(id='h_mirae', name='송미래', cls='cleric', gender='F', rank='B', join=('boss', 8), start_job='inquisitor',
@@ -250,12 +250,12 @@ HUNTERS = [
          'peaked cap, knee boots, golden blonde braid', line='죄는 미워하되, 몬스터는 더 미워하세요.'),
     dict(id='h_jaehyun', name='남재현', cls='cleric', gender='M', rank='A', join=('boss', 9), start_job='priest',
          stat=dict(magic=1.1, max_mp=1.15, attack=0.9), sig=('sk_greater_heal', '긴급 수술'),
-         hair=['#1a1a20', '#36364a', '#5a5a74'], eyes='#3a8aa0',
+         hair=['#3a322c', '#6e6258', '#a09488'], eyes='#3a8aa0',
          look='doctor healer: white doctor coat over teal scrubs, stethoscope, ID badge, rimless glasses, neat '
          'short hair', line='환자는 제가 맡죠. 여러분은 싸우기만 하세요.'),
     dict(id='h_dana', name='문다나', cls='warrior', gender='F', rank='A', join=('boss', 10), start_job='knight',
          stat=dict(defense=1.12, max_hp=1.08, magic=0.9), sig=('sk_w_aegis', '해병의 방벽'),
-         hair=['#2a1a10', '#5a3a20', '#8a5a34'], eyes='#5a7a3a',
+         hair=['#2a1a10', '#5a3a20', '#8a5a34'], eyes='#6ab04a',
          look='ex-marine guardian: digital camo jacket with rolled sleeves, tactical plate carrier, knee pads, '
          'combat boots, short ponytail, red beret', line='한 걸음도 물러서지 않는다. 그게 해병이다.'),
     dict(id='h_iseul', name='차이슬', cls='archer', gender='F', rank='A', join=('boss', 11), start_job='sniper',
@@ -276,7 +276,7 @@ HUNTERS = [
          'leather gloves, bob-cut wine-red hair', line='의뢰비만 확실하면, 끝까지 지켜 드리죠.'),
     dict(id='h_youngsu', name='장영수', cls='cleric', gender='M', rank='C', join=('scout', 6, 8000), start_job='exorcist',
          stat=dict(max_hp=1.1, defense=1.08, speed=0.95), sig=('sk_c_exorcism', '목탁 퇴마'),
-         hair=['#1a1a1a', '#2a2a2a', '#3a3a3a'], eyes='#6a5a3a',
+         hair=['#3a3040', '#5a4e62', '#84788e'], eyes='#c98a2a',
          look='temple monk exorcist: grey monk robe with a brown kasa sash, prayer beads, straw sandals over socks, '
          'shaved head, wooden moktak hanging from the belt', line='나무아미타불… 그리고 한 대 더.'),
     dict(id='h_rina', name='유리나', cls='mage', gender='F', rank='B', join=('scout', 8, 15000), start_job='elementalist',

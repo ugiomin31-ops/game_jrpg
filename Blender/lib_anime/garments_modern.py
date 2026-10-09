@@ -13,7 +13,7 @@ import abyss_bpy as A
 import anime_body as AB
 import body as B
 import garments as G
-from humanoid import V, along, cyl, ellipsoid, lathe, ring, solidify, sweep
+from humanoid import V, along, cyl, ellipsoid, lathe, ring, rgb, solidify, sweep
 
 GOLD = G.GOLD
 SILVER = "#c8d2dc"
@@ -67,8 +67,49 @@ def _arm_near(H, co, S_list, ts, reach=0.02):
 
 # ---------------------------------------------------------------- torso layers
 
+def rim_trim(o, color, width=0.012):
+    """Paints the faces with a corner within `width` of the piece's open border (collar, hem, front edges).
+    A vertex test, not the face-centre test of G.edge_trim: a face of a coarse ring has its centre well over a
+    centimetre from its border corners, so the centre test never found the edge."""
+    import bmesh
+    from humanoid import rgb
+    from mathutils.kdtree import KDTree
+    bm = bmesh.new()
+    bm.from_mesh(o.data)
+    border = [v.co.copy() for v in bm.verts if v.is_boundary]
+    bm.free()
+    if not border:
+        return o
+    kd = KDTree(len(border))
+    for i, c in enumerate(border):
+        kd.insert(c, i)
+    kd.balance()
+    me = o.data
+    hot = [kd.find(v.co)[2] < width for v in me.vertices]
+    attr = me.color_attributes["Col"]
+    c = rgb(color)
+    for p in me.polygons:
+        if any(hot[i] for i in p.vertices):
+            for li in p.loop_indices:
+                attr.data[li].color_srgb = c
+    return o
+
+
+def _paint_bands(o, color, zs, half=0.012):
+    """Paints the faces lying wholly inside a thin row around each world height in zs (reflective stripes)."""
+    me = o.data
+    attr = me.color_attributes["Col"]
+    c = rgb(color)
+    for p in me.polygons:
+        zz = [(o.matrix_world @ me.vertices[i].co).z for i in p.vertices]
+        if any(min(zz) >= z - half and max(zz) <= z + half for z in zs):
+            for li in p.loop_indices:
+                attr.data[li].color_srgb = c
+    return o
+
+
 def jacket(H, body, color, hem=None, top=None, split=40, flare=0.0, pad=0.024, trim_color=None, lining=None,
-           name="jacket", seg=44):
+           name="jacket", seg=44, bands=(), band_color=None):
     """Open jacket or coat over the torso: rings measured from the collar to the hem, a front opening of `split`
     degrees (0 = closed), `flare` widens the hem (long coats). The arms stay as the hoodie sleeves unless the
     caller builds sleeves() first. lining colours the inside of the opening."""
@@ -79,13 +120,24 @@ def jacket(H, body, color, hem=None, top=None, split=40, flare=0.0, pad=0.024, t
     dom = AB.dominant_bones(body)
     rings = []
     zs = [top + (hem - top) * t for t in (0.0, 0.2, 0.45, 0.7, 1.0)]
+    if trim_color:  # thin rows at the collar and hem: the trim band is a few cm, not a whole ring span
+        zs = [zs[0], zs[0] - 0.018] + zs[1:-1] + [zs[-1] + 0.018, zs[-1]]
+    for bz in bands:  # a thin row either side of each stripe height
+        zs += [bz - 0.008, bz + 0.008]
+    zs = sorted(set(round(z, 5) for z in zs), reverse=True)
     for i, z in enumerate(zs):
-        cy, rx, ry = G.torso_ring(body, z, dom=dom)
+        # The base body at hip height (hoodie hem, trousers) is weighted to the thigh bones: measure those too, or
+        # the shell is cut inside the cloth and the hoodie pokes out through the coat. Chest rings have no thigh verts.
+        cy, rx, ry = G.torso_ring(body, z, dom=dom, parts=G.TORSO + ("thigh",))
         grow = pad + flare * (i / (len(zs) - 1)) * 0.5
         rings.append((z, cy, rx + grow, ry + grow))
     a0, a1 = (split / 2, 360 - split / 2) if split else (None, None)
     o = G.ring_shell(name, rings, color, seg=seg, a0=a0, a1=a1, p=2.3)
     G.conform_to(o, body, 0.010, keep_outside=True)
+    if trim_color:
+        rim_trim(o, trim_color, 0.010)  # before solidify: the solidified shell has no open border left to trim
+    if bands and band_color:
+        _paint_bands(o, band_color, bands)
     solidify(o, 0.007)
     if lining and split:
         cy = rings[len(rings) // 2][1]
@@ -93,8 +145,6 @@ def jacket(H, body, color, hem=None, top=None, split=40, flare=0.0, pad=0.024, t
         def inner(co, n):
             return lining if n.dot(Vector((co.x, co.y - cy, 0.0))) < -0.2 else None
         AB.paint_faces(o, inner)
-    if trim_color:
-        G.edge_trim(o, trim_color, 0.010)
     H.add_blend(o, G.chain_w([("hips", hz), ("spine", j["spine"].z), ("chest", j["chest"].z)]))
     return o
 
@@ -107,16 +157,18 @@ def vest(H, body, color, trim_color=None, pad=0.022, open_front=26, pockets=0, p
     top, hem = sz - 0.030, hz + 0.02
     dom = AB.dominant_bones(body)
     zs = [top + (hem - top) * t for t in (0.0, 0.35, 0.7, 1.0)]
+    if trim_color:
+        zs = [zs[0], zs[0] - 0.018] + zs[1:-1] + [zs[-1] + 0.018, zs[-1]]
     rings = []
     for z in zs:
-        cy, rx, ry = G.torso_ring(body, z, dom=dom)
+        cy, rx, ry = G.torso_ring(body, z, dom=dom, parts=G.TORSO + ("thigh",))
         rings.append((z, cy, rx + pad, ry + pad))
     a0, a1 = (open_front / 2, 360 - open_front / 2) if open_front else (None, None)
     o = G.ring_shell(name, rings, color, seg=44, a0=a0, a1=a1, p=2.4)
     G.conform_to(o, body, 0.008, keep_outside=True)
-    solidify(o, 0.006)
     if trim_color:
-        G.edge_trim(o, trim_color, 0.008)
+        rim_trim(o, trim_color, 0.008)  # before solidify, as in jacket()
+    solidify(o, 0.006)
     H.add_blend(o, G.chain_w([("hips", hz), ("spine", j["spine"].z), ("chest", j["chest"].z)]))
     out = [o]
     zc = sz - 0.085
@@ -486,8 +538,10 @@ def headband(H, body, color, z_off=0.02, width=0.024, sag=0.0):
     return o
 
 
-def _lenses(H, body, frame, lens, style, z_lift=0.0):
-    """Rims (round/square) or a lens-only frame (rimless: a fine line of lens; sun: a dark lens), bridge included."""
+def _lenses(H, body, frame, lens, style, z_lift=0.0, tube=0.0034):
+    """Rims (round/square) or a lens-only frame (rimless: a fine line of lens; sun: a dark lens), bridge included.
+    round/square rims have no lens disc (the lens is clear: nothing in front of the eye), so `tube` sets how thin the
+    frame reads; M_Clear discs render as opaque white in the toon preview."""
     eL, eR = H.eyes["L"][0], H.eyes["R"][0]
     z = (eL.z + eR.z) / 2 + z_lift
     fy = _face_front(body, z)
@@ -495,7 +549,7 @@ def _lenses(H, body, frame, lens, style, z_lift=0.0):
     for e in (eL, eR):
         cnt = V((e.x, fy - 0.006, z))
         if style in ("round", "square"):
-            out.append(ring("glass_rim", cnt, (0, 1, 0), 0.028 if style == "round" else 0.026, 0.0034, frame,
+            out.append(ring("glass_rim", cnt, (0, 1, 0), 0.028 if style == "round" else 0.026, tube, frame,
                             seg=28 if style == "round" else 4, minor=6))
         if style == "sun":
             out.append(ellipsoid("glass_lens", cnt - V((0, 0.003, 0)), (0.026, 0.0025, 0.022), lens, seg=16, rings=8,
@@ -509,9 +563,9 @@ def _lenses(H, body, frame, lens, style, z_lift=0.0):
     return out
 
 
-def glasses(H, body, frame, lens="#bfe3ff", style="round"):
+def glasses(H, body, frame, lens="#bfe3ff", style="round", tube=0.0034):
     """Glasses over the eyes (round, square or rimless); the rims are rigid to the head."""
-    parts = _lenses(H, body, frame, lens, style)
+    parts = _lenses(H, body, frame, lens, style, tube=tube)
     H.add("head", *parts)
     return parts
 
@@ -523,10 +577,11 @@ def sunglasses(H, body, frame, lens="#101015"):
     return parts
 
 
-def goggles(H, body, strap, lens="#f0a03a"):
-    """Welding/sport goggles: a strap around the forehead, two tinted lenses over the eyes."""
+def goggles(H, body, strap, lens="#f0a03a", lift=0.058):
+    """Welding/sport goggles: a strap around the forehead, two tinted lenses. lift = height of the strap above the
+    eye line (the lenses sit on the strap): keep it above the brows (about 0.09) to leave the eyes uncovered."""
     c, half, top = G.skull_box(H, body)
-    z = (H.eyes["L"][0].z + H.eyes["R"][0].z) / 2 + 0.058
+    z = (H.eyes["L"][0].z + H.eyes["R"][0].z) / 2 + lift
     rx, ry = half.x * 1.04, half.y * 1.04
     band = G.ring_shell("goggle_strap", [(z, c.y, rx, ry), (z + 0.022, c.y, rx, ry)], strap, seg=44)
     solidify(band, 0.006)
@@ -646,11 +701,6 @@ def hat_pin(H, body, color):
 def boot(H, body, S, top, color, cuff=None, shaft=0.047, sole=None):
     """A short boot or shoe whose top is at `top` (used for ankle boots, knee boots, dress shoes)."""
     return AB.boot(H, body, S, top, color, cuff_color=cuff)
-
-
-def stripes(o, color, zs, width=0.010):
-    """Horizontal reflective bands at the heights zs (world z) painted over a garment."""
-    return G.trim(o, lambda co, n: any(abs(co.z - z) < width for z in zs), color)
 
 
 def binoculars(H, body, color, pad=0.070):

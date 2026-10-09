@@ -106,10 +106,18 @@ def _boots(H, body, top, color, cuff=None):
     AB.drop_faces(body, lambda co: co.z < top - 0.04)
 
 
-def _belt(H, body, color, buckle, width=0.040):
-    hz = H.j["hip"].z
-    bx, by = AB.section(body, hz + 0.03)
-    return B.belt(H, hz + 0.03, color, buckle, width=width, r=bx + 0.010, sy=(by + 0.010) / (bx + 0.010))
+def _bracer(H, body, S, color, reach=0.62, flare=1.05, trim_color=None):
+    """Forearm guard with a gentle elbow flare: the library default (1.25) sticks out past the sleeve like spikes."""
+    return G.bracer(H, body, S, color, trim_color=trim_color, reach=reach, flare=flare)
+
+
+def _belt(H, body, color, buckle, width=0.040, pad=0.010, z=None, thick=0.007):
+    """Waist belt at hip + 0.03 (or z). pad = how far the belt stands off the bare body: a jacket or vest worn over
+    the waist needs pad above its own shell offset (~0.034 for a 0.024 jacket), or the belt sinks inside it.
+    thick = strap thickness (the default 0.012 reads as a plank on the slim hunters)."""
+    z = H.j["hip"].z + 0.03 if z is None else z
+    bx, by = AB.section(body, z)
+    return B.belt(H, z, color, buckle, width=width, r=bx + pad, sy=(by + pad) / (bx + pad), thick=thick)
 
 
 def _buzz(H, body, color):
@@ -131,27 +139,26 @@ def h_dohyun():
     """Protagonist: black hoodie (hood kept) under an olive tactical vest, cargo pants, red scarf, fingerless gloves."""
     H, body, sp = _start("h_dohyun")
     _ready(H, body, _ramp("#0e0f14", "#1c1e26", "#2e3240", "#434858"), _ramp("#1e2019", "#33352a", "#4a4d3e"), hood=True)
-    M.vest(H, body, "#56612f", pockets=4, pad=0.030)
-    _belt(H, body, "#1d1d1d", "#8a8a8a", 0.034)
+    M.vest(H, body, "#56612f", pockets=4, pad=0.030, trim_color="#c8323c")
+    _belt(H, body, "#1d1d1d", "#8a8a8a", 0.034, pad=0.040)
     M.belt_pouch(H, body, "#4f5a30", side=-1, flap="#3d4626")
     G.scarf(H, body, "#b8323c", tail=0.22)
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#161616", reach=0.30)
+        _bracer(H, body, S, "#161616", reach=0.30)
     return H
 
 
 def h_seoa():
-    """University student: beige trench coat over a white knit, grey pleated skirt, black tights, ankle boots,
-    round glasses, a spellbook on a belt chain."""
+    """University student: cropped beige trench over a white knit, navy skirt, ankle boots, thin round glasses with
+    clear lenses, burgundy trim on the coat, belt."""
     H, body, sp = _start("h_seoa", drop=_TAILS)
     _ready(H, body, _ramp("#8e877c", "#c9c2b4", "#eae5da", "#fbf8f2"), _ramp("#050508", "#15151c", "#2a2a34"))
-    M.jacket(H, body, "#c3ae83", hem=H.j["hip"].z - 0.07, split=36, trim_color="#a8946c", lining="#a8946c")
+    M.jacket(H, body, "#c3ae83", hem=H.j["hip"].z - 0.02, split=36, trim_color="#7a2e3a", lining="#a8946c")
     M.sleeves(H, body, "#c3ae83")
-    _belt(H, body, "#5a4a3a", "#c8b070", 0.028)
-    G.robe_skirt(H, body, "#4a4e63", hem=H.j["knee.L"].z + 0.03, flare=1.35, trim_color=None, wave=0.02,
-                 split=6, name="skirt")
-    M.glasses(H, body, "#3a2a20", lens="#cfe6ff", style="round")
-    G.grimoire(H, body, cover="#3a2a4a", trim_color="#c8a870", side=-1, glow=None)
+    _belt(H, body, "#5a4a3a", "#c8b070", 0.028, pad=0.040)
+    G.robe_skirt(H, body, "#4a4e63", hem=H.j["knee.L"].z + 0.03, flare=1.25, trim_color=None, wave=0.0,
+                 name="skirt")
+    M.glasses(H, body, "#b89a5a", lens="#e8f4ff", style="round", tube=0.0016)
     _boots(H, body, H.j["ankle.L"].z + 0.07, "#2a1f1a")
     return H
 
@@ -164,7 +171,8 @@ def h_jiho():
     M.jacket(H, body, "#1d2f57", hem=H.j["hip"].z - 0.10, split=0, pad=0.020, trim_color="#f2f2f2")
     M.sleeves(H, body, "#1d2f57", bands=(0.34, 0.70), band_color="#f2f2f2")
     M.cap(H, body, "#eeeeee", brim="#1d2f57", brim_len=0.075)
-    G.bracer(H, body, "L", "#2a2f3a", reach=0.52, trim_color="#f2f2f2")
+    _belt(H, body, "#f2f2f2", "#8a8a8a", 0.030, pad=0.034)
+    _bracer(H, body, "L", "#2a2f3a", reach=0.52, trim_color="#f2f2f2")
     M.bag(H, body, "#2a2f3a", strap="#f2f2f2", side=-1)
     return H
 
@@ -174,41 +182,41 @@ def h_yuna():
     first-aid pouch."""
     H, body, sp = _start("h_yuna", drop=_TAILS)
     _ready(H, body, _ramp("#6aa4cc", "#94c4e4", "#b6dbf0"), _ramp("#1f3d60", "#2d5278", "#3c6894"))
-    M.jacket(H, body, "#f5f2ea", hem=H.j["hip"].z - 0.10, split=60, trim_color="#e2dccd")
+    M.jacket(H, body, "#f5f2ea", hem=H.j["hip"].z - 0.10, split=60, trim_color="#e0362f")
     sl = M.sleeves(H, body, "#f5f2ea")
     M.armband(H, body, "L", "#e0362f", cross="#ffffff", over=sl)
     M.ponytail(H, body, sp["hair"][1], length=0.17, thick=0.034, low=True)
+    _belt(H, body, "#1f3d60", "#f4f4f4", 0.030, pad=0.034)
     M.belt_pouch(H, body, "#e0362f", side=-1, flap="#ffffff")
     _boots(H, body, H.j["ankle.L"].z + 0.05, "#f4f4f4", cuff="#dcdcdc")
     return H
 
 
 def h_minjun():
-    """Ex firefighter tank: orange turnout coat with reflective bands, navy trousers, yellow helmet, heavy gloves,
-    a manhole-cover shield on the left arm."""
+    """Ex firefighter tank: orange turnout coat with reflective bands, navy trousers, yellow hard-hat cap (brow and
+    eyes uncovered), heavy gloves, a manhole-cover shield on the left arm."""
     H, body, sp = _start("h_minjun")
     _ready(H, body, _ramp("#2a2a30", "#3a3a42", "#4e4e58"), _ramp("#1a2440", "#26335a", "#34437a"))
-    coat = M.jacket(H, body, "#e7741e", hem=H.j["hip"].z - 0.22, split=0, pad=0.026, name="turnout")
-    M.stripes(coat, "#dfe6ee", [H.j["hip"].z - 0.02, H.j["hip"].z - 0.06, H.j["chest"].z + 0.02])
+    M.jacket(H, body, "#e7741e", hem=H.j["hip"].z - 0.22, split=0, pad=0.026, name="turnout",
+             bands=(H.j["hip"].z - 0.02, H.j["hip"].z - 0.06, H.j["chest"].z + 0.02), band_color="#dfe6ee")
     M.sleeves(H, body, "#e7741e", bands=(0.55,), band_color="#dfe6ee")
-    G.helm(H, body, "#f2c230", trim_color="#2a2a2a")
+    M.cap(H, body, "#f2c230", brim="#2a2a2a", brim_len=0.10, band="#2a2a2a")
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#2a2a2a", reach=0.45, trim_color="#d0d0d0")
+        _bracer(H, body, S, "#2a2a2a", reach=0.45, trim_color="#d0d0d0")
     M.shield(H, body, "L", "#4b515c", rim="#2b2f36", boss="#c9c9c9", R=0.21)
-    _belt(H, body, "#2b2a28", "#9a9a9a", 0.042)
+    _belt(H, body, "#2b2a28", "#9a9a9a", 0.042, pad=0.040)
     _boots(H, body, H.j["knee.L"].z - 0.22, "#2b2a28")
     return H
 
 
 def h_sora():
-    """Assassin: black bomber jacket with violet edges, face mask, hood, fitted dark pants, thigh straps with knives,
-    violet accents."""
+    """Assassin: black bomber jacket with violet edges, hood, fitted dark pants, violet belt, thigh straps with knives.
+    No face mask: the face stays fully visible."""
     H, body, sp = _start("h_sora", drop=None)
     _ready(H, body, _ramp("#0c0b12", "#17161f", "#25242f"), _ramp("#0d0c12", "#1d1c28", "#2c2b3a"), hood=True)
-    M.jacket(H, body, "#15141c", hem=H.j["hip"].z - 0.04, split=8, trim_color="#8a5cff", pad=0.024)
+    M.jacket(H, body, "#15141c", hem=H.j["hip"].z + 0.005, split=8, trim_color="#8a5cff", pad=0.024)
     M.sleeves(H, body, "#15141c", bands=(0.42,), band_color="#8a5cff")
-    G.mask(H, body, "#15131c", trim_color="#8a5cff")
-    _belt(H, body, "#2a2838", "#8a5cff", 0.024)
+    _belt(H, body, "#2a2838", "#8a5cff", 0.024, pad=0.036)
     for S in ("L", "R"):
         M.thigh_strap(H, body, S, "#2a2838", knife="#c8c8d8")
     _boots(H, body, H.j["ankle.L"].z + 0.10, "#101014")
@@ -221,12 +229,12 @@ def h_taeyang():
     H, body, sp = _start("h_taeyang")
     _ready(H, body, _ramp("#8a3f12", "#d8702a", "#f09048"), _ramp("#8a3f12", "#d8702a", "#f09048"))
     M.vest(H, body, "#171717", pad=0.020)
-    M.goggles(H, body, strap="#2a2a2a", lens="#e0a030")
-    _belt(H, body, "#3a2a1e", "#8a8a8a", 0.046)
+    M.goggles(H, body, strap="#2a2a2a", lens="#e0a030", lift=0.092)
+    _belt(H, body, "#3a2a1e", "#8a8a8a", 0.046, pad=0.030)
     M.belt_pouch(H, body, "#4a3424", side=-1)
     M.belt_pouch(H, body, "#4a3424", side=1, flap="#3a2a1c")
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#2b2b2b", reach=0.40, trim_color="#ffa040")
+        _bracer(H, body, S, "#2b2b2b", reach=0.40, trim_color="#ffa040")
     _boots(H, body, H.j["ankle.L"].z + 0.08, "#3b2a1e")
     return H
 
@@ -237,10 +245,11 @@ def h_eunbi():
     H, body, sp = _start("h_eunbi", drop=_TAILS)
     _ready(H, body, _ramp("#e6e0d2", "#f2ede2", "#fbf8f0"), _ramp("#101018", "#1a1c28", "#262a3a"))
     cz = H.j["chest"].z
-    M.jacket(H, body, "#f2efe6", top=H.j["neck"].z - 0.03, hem=H.j["hip"].z + 0.02, split=0, trim_color="#d6cfbb")
+    M.jacket(H, body, "#f2efe6", top=H.j["neck"].z - 0.03, hem=H.j["hip"].z + 0.02, split=0, trim_color="#c8282c")
     M.sleeves(H, body, "#f2efe6")
     M.ribbon(H, body, "#c8282c", z=cz - 0.04)
-    G.robe_skirt(H, body, "#1d2236", hem=H.j["ankle.L"].z + 0.03, flare=1.45, trim_color="#c8282c", wave=0.04,
+    _belt(H, body, "#c8282c", "#e8c060", 0.030, pad=0.040)
+    G.robe_skirt(H, body, "#1d2236", hem=H.j["ankle.L"].z + 0.03, flare=1.12, trim_color="#c8282c", wave=0.02,
                  name="skirt")
     G.talismans(H, body, paper="#f4ecd8", ink="#b02a2a", n=5)
     M.bracelet(H, body, "L", "#c9a24a", bell="#e8c060")
@@ -255,8 +264,10 @@ def h_gunwoo():
     _ready(H, body, _ramp("#0a0a0c", "#17171b", "#26262c"), _ramp("#8a1c1c", "#b82a2a", "#d83a3a"))
     _buzz(H, body, "#1d1b1f")
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#efefef", reach=0.70)
+        _bracer(H, body, S, "#efefef", reach=0.70)
     M.neck_beads(H, body, "#c9ced6", n=24, r=0.0045, chain=True, span=62)
+    M.armband(H, body, "R", "#e0362f")
+    _belt(H, body, "#111111", "#c8c8c8", 0.034)
     return H
 
 
@@ -267,7 +278,8 @@ def h_hana():
     _ready(H, body, _ramp("#c8d6e6", "#eef7ff", "#ffffff"), _ramp("#c8d6e6", "#dbe8f5", "#eef6ff"))
     M.jacket(H, body, "#eef7ff", hem=H.j["hip"].z - 0.10, split=26, trim_color=SILVER)
     M.sleeves(H, body, "#eef7ff", bands=(0.50,), band_color=SILVER)
-    G.robe_skirt(H, body, "#bfe0ff", hem=H.j["hip"].z - 0.20, flare=1.4, trim_color=None, wave=0.06, name="skirt")
+    _belt(H, body, "#7fb4e8", SILVER, 0.030, pad=0.034)
+    G.robe_skirt(H, body, "#bfe0ff", hem=H.j["hip"].z - 0.20, flare=1.2, trim_color=None, wave=0.03, name="skirt")
     M.star_pin(H, body, "#ffd76a", side=-1.0)
     M.headset(H, body, "#2c3340", cups="#eef7ff", mic="#c8d2dc")
     _boots(H, body, H.j["knee.L"].z + 0.04, "#e8f2ff", cuff=SILVER)
@@ -278,8 +290,9 @@ def h_siwoo():
     """High-school sniper: navy blazer with a crest, loosened tie, white shirt, grey slacks, headphones round the neck."""
     H, body, sp = _start("h_siwoo")
     _ready(H, body, _ramp("#c8cacd", "#e4e5e8", "#ffffff"), _ramp("#4a4f58", "#6d727b", "#8a9099"))
-    M.jacket(H, body, "#1f2c4e", hem=H.j["hip"].z - 0.12, split=12, trim_color=None)
+    M.jacket(H, body, "#1f2c4e", hem=H.j["hip"].z - 0.12, split=12, trim_color="#c8a040")
     M.sleeves(H, body, "#1f2c4e")
+    _belt(H, body, "#1a1a1a", "#c8c8c8", 0.030, pad=0.034)
     M.badge(H, body, GOLD, pad=0.03, x=-0.07)
     M.tie(H, body, "#7a1f2a", length=0.17, loosen=0.035)
     M.neck_headphones(H, body, "#2c2f36", cups="#3a3f4a")
@@ -295,12 +308,13 @@ def h_mirae():
     coat = M.jacket(H, body, "#f3efe4", hem=hem, split=6, flare=0.0, trim_color=GOLD, pad=0.024, name="coat")
     M.sleeves(H, body, "#f3efe4", bands=(0.96,), band_color=GOLD)
     hz, cz = H.j["hip"].z, H.j["chest"].z
+    _belt(H, body, "#15151b", GOLD, 0.030, pad=0.036, z=hz + 0.06)
     M.buttons(H, body, [cz - 0.02, cz - 0.10, hz + 0.02], GOLD, x=-0.035, pad=0.036)
     M.buttons(H, body, [cz - 0.02, cz - 0.10, hz + 0.02], GOLD, x=0.035, pad=0.036)
     G.pendant(H, [body, coat], cz - 0.06, color=GOLD, size=0.05, shape="cross")
     M.cap(H, body, "#f3efe4", brim="#14141a", brim_len=0.10, band=GOLD)
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#16161c", reach=0.28)
+        _bracer(H, body, S, "#16161c", reach=0.28)
     M.braid(H, body, "#f0d080", side=-1.0)
     _boots(H, body, H.j["knee.L"].z + 0.06, "#15151b")
     return H
@@ -310,8 +324,10 @@ def h_jaehyun():
     """Doctor healer: white doctor coat over teal scrubs, stethoscope, ID badge, rimless glasses, neat short hair."""
     H, body, sp = _start("h_jaehyun")
     _ready(H, body, _ramp("#2a7a78", "#2f8f8c", "#3aa6a2"), _ramp("#2a7e7b", "#33938f", "#3fa8a4"))
-    M.jacket(H, body, "#f5f6f8", hem=H.j["hip"].z - 0.20, split=12, trim_color=None)
-    M.sleeves(H, body, "#f5f6f8")
+    M.jacket(H, body, "#f5f6f8", hem=H.j["hip"].z - 0.20, split=12, trim_color="#3aa6a2")
+    sl = M.sleeves(H, body, "#f5f6f8")
+    _belt(H, body, "#2a2f3a", "#c8d0dc", 0.030, pad=0.034)
+    M.armband(H, body, "L", "#e0362f", cross="#ffffff", over=sl)
     M.stethoscope(H, body, "#3a3f4a")
     M.badge(H, body, "#3aa0ff", pad=0.03, x=-0.07)
     M.glasses(H, body, "#c8d0dc", lens="#d8f0ff", style="rimless")
@@ -325,7 +341,9 @@ def h_dana():
     _ready(H, body, _ramp("#3a4128", "#4b5a36", "#5f6e44"), _ramp("#363b2a", "#4a5036", "#5e6544"))
     jk = M.jacket(H, body, "#4f5b36", hem=H.j["hip"].z - 0.05, split=0, pad=0.024)
     M.camo(jk, ["#4f5b36", "#6b5a3a", "#2e3523", "#8a7a55"], scale=1.0)
+    G.edge_trim(jk, "#b8242c", 0.010)
     M.sleeves(H, body, "#4f5b36")
+    _belt(H, body, "#2a2a22", "#8a8a8a", 0.034, pad=0.032, z=H.j["hip"].z - 0.02)
     M.vest(H, body, "#2b3024", pad=0.052, pockets=2, plates="#363c2c", open_front=0)
     for S in ("L", "R"):
         M.knee_pads(H, body, S, "#2b3024")
@@ -340,13 +358,14 @@ def h_iseul():
     gloves."""
     H, body, sp = _start("h_iseul")
     _ready(H, body, _ramp("#3a3f2c", "#4f5a3a", "#64714a"), _ramp("#3a4128", "#4d5634", "#606b40"))
-    M.vest(H, body, "#5a4a2e", pockets=4, pad=0.022)
+    M.vest(H, body, "#5a4a2e", pockets=4, pad=0.022, trim_color="#c4422f")
     hz, nz = H.j["hip"].z, H.j["neck"].z
+    _belt(H, body, "#2a2a2a", "#8a8a8a", 0.032, pad=0.012, z=hz - 0.02)
     M.jacket(H, body, "#4e6e3a", hem=hz + 0.06, top=nz - 0.005, split=60, flare=0.0, pad=0.030, name="poncho", seg=48)
     M.binoculars(H, body, "#2a2a2a")
     M.headband(H, body, "#c4422f", width=0.030)
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#2a2a2a", reach=0.25)
+        _bracer(H, body, S, "#2a2a2a", reach=0.25)
     return H
 
 
@@ -356,11 +375,13 @@ def h_haneul():
     H, body, sp = _start("h_haneul")
     _ready(H, body, _ramp("#14121c", "#1e1b2a", "#2a2638"), _ramp("#0f0d16", "#1a1824", "#27242f"))
     cy = G.torso_ring(body, H.j["chest"].z)[0]
-    M.jacket(H, body, "#15121e", hem=H.j["knee.L"].z - 0.04, split=12, flare=0.0, pad=0.026, lining="#6a3ad0")
+    M.jacket(H, body, "#15121e", hem=H.j["knee.L"].z - 0.04, split=12, flare=0.0, pad=0.026, lining="#6a3ad0",
+             trim_color="#8a5cff")
     M.sleeves(H, body, "#15121e")
+    _belt(H, body, "#1b1828", "#c8b0ff", 0.034, pad=0.036)
     M.high_collar(H, body, "#15121e", lining="#6a3ad0")
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#0c0b10", reach=0.28)
+        _bracer(H, body, S, "#0c0b10", reach=0.28)
     G.orbs(H, ["#9a5cff", "#c79cff", "#6a3ad0"], radius=0.32, size=0.042)
     _boots(H, body, H.j["ankle.L"].z + 0.035, "#101014")
     return H
@@ -370,33 +391,33 @@ def h_bora():
     """Bodyguard: black suit with the jacket open, red tie, sunglasses on the head, earpiece, leather gloves."""
     H, body, sp = _start("h_bora")
     _ready(H, body, _ramp("#c8c4bc", "#e6e2da", "#f6f4ef"), _ramp("#0c0c10", "#16161c", "#22222a"))
-    M.jacket(H, body, "#16161a", hem=H.j["hip"].z - 0.10, split=26, pad=0.024)
+    M.jacket(H, body, "#16161a", hem=H.j["hip"].z - 0.10, split=26, pad=0.024, trim_color="#b8242c")
     M.sleeves(H, body, "#16161a")
+    _belt(H, body, "#111114", "#c8c8c8", 0.030, pad=0.034)
     M.tie(H, body, "#b8242c", length=0.22)
     M.sunglasses(H, body, frame="#111111", lens="#101015")
     M.earpiece(H, body, "#2a2a2a", coil="#2a2a2a")
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#2a1a1a", reach=0.25)
+        _bracer(H, body, S, "#2a1a1a", reach=0.25)
     _boots(H, body, H.j["ankle.L"].z + 0.03, "#111114")
     return H
 
 
 def h_youngsu():
-    """Temple monk exorcist: grey monk robe with a brown sash, prayer beads, straw sandals, shaved head, wooden
-    moktak hanging from the belt."""
+    """Temple monk exorcist, dressed as a styled long coat: olive coat with gold edges and a belt, a cream vest
+    under it (visible through the front opening), prayer beads, straw sandals, shaved head, wooden moktak on the belt."""
     H, body, sp = _start("h_youngsu", drop="all")
     _ready(H, body, _ramp("#6e7074", "#8c8e93", "#a6a8ad"), _ramp("#5e6064", "#76787d", "#8c8e93"))
-    hz, ankle, knee = H.j["hip"].z, H.j["ankle.L"].z, H.j["knee.L"].z
-    M.jacket(H, body, "#8c8e93", hem=hz - 0.10, split=10, flare=0.0, pad=0.026)
-    G.robe_skirt(H, body, "#8c8e93", hem=ankle + (knee - ankle) * 0.5, flare=1.06, trim_color=None, split=10,
-                 wave=0.01, name="robe")
-    M.sleeves(H, body, "#8c8e93")
-    _belt(H, body, "#6b4a2a", None, 0.070)
+    hz, knee = H.j["hip"].z, H.j["knee.L"].z
+    M.vest(H, body, "#e6dcc4", pad=0.018, open_front=0, trim_color="#a8783a")
+    M.jacket(H, body, "#3e4a2c", hem=knee - 0.02, split=46, flare=0.25, pad=0.026, trim_color="#c9a050")
+    M.sleeves(H, body, "#3e4a2c")
+    _belt(H, body, "#2a1d12", "#c9a050", 0.050, pad=0.040)
     M.neck_beads(H, body, "#5a3a22", n=15, r=0.0072)
     M.bracelet(H, body, "R", "#5a3a22")
     _boots(H, body, H.j["ankle.L"].z + 0.03, "#c9a95b", cuff="#c9a95b")
     cy, rx, ry = G.torso_ring(body, H.j["hip"].z)
-    H.add("hips", ellipsoid("moktak", V((-rx * 1.05, cy - 0.02, H.j["hip"].z - 0.04)), (0.040, 0.045, 0.032),
+    H.add("hips", ellipsoid("moktak", V((-(rx + 0.040), cy - 0.02, hz - 0.04)), (0.040, 0.045, 0.032),
                               "#9a6a3a", seg=12, rings=6))
     return H
 
@@ -411,7 +432,8 @@ def h_rina():
     M.sleeves(H, body, "#ff9ad0", bands=(0.92,), band_color="#ffffff")
     M.frill(H, body, "#fff3fa", z=nz - 0.04, pad=0.03)
     M.ribbon(H, body, "#ff5aa8", z=cz - 0.04)
-    G.robe_skirt(H, body, "#ffd6ee", hem=H.j["hip"].z - 0.22, flare=1.6, trim_color="#ffffff", wave=0.06, name="skirt")
+    _belt(H, body, "#ff5aa8", "#fff07a", 0.030, pad=0.034)
+    G.robe_skirt(H, body, "#ffd6ee", hem=H.j["hip"].z - 0.22, flare=1.25, trim_color="#ffffff", wave=0.03, name="skirt")
     G.capelet(H, body, "#ffb0d8", depth=0.12, trim_color="#ffffff")
     M.star_pin(H, body, "#fff07a", side=1.0)
     _boots(H, body, H.j["knee.L"].z + 0.05, "#ff6fb0", cuff="#ffffff")
@@ -426,11 +448,11 @@ def h_jun():
     M.jacket(H, body, "#111114", hem=H.j["hip"].z - 0.10, split=0, pad=0.024, trim_color="#e6ff1a")
     M.sleeves(H, body, "#111114", bands=(0.35, 0.62), band_color="#e6ff1a")
     for S in ("L", "R"):
-        G.bracer(H, body, S, "#17171a", reach=0.35, trim_color="#e6ff1a")
+        _bracer(H, body, S, "#17171a", reach=0.35, trim_color="#e6ff1a")
     M.helmet_on_hip(H, body, "#f0f0f0", side=1)
     M.crossbow(H, body, "#2a2a2e")
     M.bag(H, body, "#e6ff1a", strap="#111114", side=-1)
-    _belt(H, body, "#1a1a1e", "#8a8a8a", 0.030)
+    _belt(H, body, "#1a1a1e", "#e6ff1a", 0.030, pad=0.034)
     return H
 
 

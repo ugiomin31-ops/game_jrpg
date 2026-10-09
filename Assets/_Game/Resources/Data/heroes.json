@@ -702,7 +702,7 @@
   "scout_price": 0,
   "start_job": "",
   "line": "시민 대피 끝! 이제 내가 막는다.",
-  "profile": "ex firefighter tank: orange-and-navy turnout coat with reflective stripes, helmet with visor up, heavy gloves, big round shield made from a manhole cover",
+  "profile": "ex firefighter tank: orange-and-navy turnout coat with reflective stripes, yellow brimmed cap, heavy gloves, big round shield made from a manhole cover",
   "_file": "h_minjun"
  },
  {
@@ -834,7 +834,7 @@
   "scout_price": 0,
   "start_job": "ranger",
   "line": "…말 걸지 마. 표적이 도망가.",
-  "profile": "assassin: short black bomber jacket, face mask, hood, fitted dark pants, thigh straps with knives, violet accents",
+  "profile": "assassin: short black bomber jacket with violet trim, fitted dark pants, thigh straps with knives, violet accents",
   "_file": "h_sora"
  },
  {
