@@ -23,7 +23,7 @@ SIGN_COLS = ["#ff7a59", "#3fb8a8", "#ffd24a", "#7ec8ff", "#ff6fa0"]
 GUILD_BLUE = "#2f6db8"; GUILD_BLUE_DK = "#1f4a86"; GUILD_GOLD = "#ffd24a"; DAWN = "#5aa7e0"
 GLASS = "#c9efff"; DARK = "#2a3440"; METAL = "#8c97a2"; METAL_DK = "#4a5562"
 CONE = "#ff7a1a"; WHITE = "#fff8e8"; STRIPE_R = "#ff8a2a"; LAMP_EM = "#ffe3a0"; VIOLET = "#9d6bff"
-VIOLET_EM = "#c7a8ff"; WOOD = "#a77a4c"; WOOD_DK = "#6e4d2e"; GREEN = "#4fa35a"; GREEN_DK = "#2f7a40"
+VIOLET_EM = "#7b3dff"; WOOD = "#a77a4c"; WOOD_DK = "#6e4d2e"; GREEN = "#4fa35a"; GREEN_DK = "#2f7a40"
 YELLOW_RAIL = "#f2c230"; CAR = ["#e8e9ee", "#d24a4a", "#3d7fd1"]; PAPER = ["#fffbe9", "#ffe6a8", "#e6f7ff"]
 WARM = "#ffc878"; AC = "#b9c3cc"; BALC = "#6b5a4a"; SHOP_FRAME = "#2a3440"
 CONE_GRID = [(-1.05 + 0.7 * i, -1.05 + 0.7 * j) for i in range(3) for j in range(3)]

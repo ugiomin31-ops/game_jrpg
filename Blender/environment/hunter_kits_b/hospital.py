@@ -21,7 +21,7 @@ WHITE = "#f8fdfd"; WHITE_DK = "#e4eef0"; MINT = ["#d3f2e6", "#c6ebdc", "#dcf7ef"
 MINT_WAIN = "#9fdcc9"; BLUE = "#3f8fd6"; BLUE_LT = "#8cc2ea"; BLUE_DK = "#2d64a3"; RED = "#e5534b"; RED_DK = "#b33b35"
 PINK_CU = "#f3c6d8"; SKYC = "#c6e9f5"; LEMON = "#fbe7a1"; GREEN = "#4fa35a"; GREEN_DK = "#2f7a40"
 METAL = "#b8c4cc"; METAL_DK = "#6b7b86"; DARK = "#2d3e52"; GLASS = "#c9efff"; YELLOW = "#ffd24a"; YELLOW_DK = "#d9a52b"
-CLAY = "#f1f6f4"; VIOLET = "#9d6bff"; VIOLET_EM = "#c7a8ff"; MINT_EM = "#7fffd4"; WARM_EM = "#ffe2b0"
+CLAY = "#f1f6f4"; VIOLET = "#9d6bff"; VIOLET_EM = "#7b3dff"; MINT_EM = "#7fffd4"; WARM_EM = "#ffe2b0"
 CREAM = "#fbf7ef"; CHART = "#ffffff"; SOFT_BLUE = "#cfe8ff"; PLATE = "#f3f0e6"
 CEIL_PANEL = "#f4f8f7"; CEIL_SEAM = "#c4d6d4"; GRILLE = "#e8f1f0"
 HOLE_NURSE = (-0.9, 0.9, 1.2, 2.9)   # nurse hatch recess on a wall face: x0, x1, z0, z1
