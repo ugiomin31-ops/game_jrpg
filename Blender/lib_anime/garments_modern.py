@@ -109,7 +109,7 @@ def _paint_bands(o, color, zs, half=0.012):
 
 
 def jacket(H, body, color, hem=None, top=None, split=40, flare=0.0, pad=0.024, trim_color=None, lining=None,
-           name="jacket", seg=44, bands=(), band_color=None):
+           name="jacket", seg=44, bands=(), band_color=None, narrow=0.0):
     """Open jacket or coat over the torso: rings measured from the collar to the hem, a front opening of `split`
     degrees (0 = closed), `flare` widens the hem (long coats). The arms stay as the hoodie sleeves unless the
     caller builds sleeves() first. lining colours the inside of the opening."""
@@ -125,10 +125,18 @@ def jacket(H, body, color, hem=None, top=None, split=40, flare=0.0, pad=0.024, t
     for bz in bands:  # a thin row either side of each stripe height
         zs += [bz - 0.008, bz + 0.008]
     zs = sorted(set(round(z, 5) for z in zs), reverse=True)
+    zr = hz + 0.03  # narrow: hold the hip ring from here and taper to `narrow` x at the hem (no thigh widening)
+    if narrow:
+        cyh, rxh, ryh = G.torso_ring(body, zr, dom=dom, parts=G.TORSO)
     for i, z in enumerate(zs):
         # The base body at hip height (hoodie hem, trousers) is weighted to the thigh bones: measure those too, or
         # the shell is cut inside the cloth and the hoodie pokes out through the coat. Chest rings have no thigh verts.
-        cy, rx, ry = G.torso_ring(body, z, dom=dom, parts=G.TORSO + ("thigh",))
+        if narrow and z < zr:
+            t = min(1.0, (zr - z) / max(1e-4, zr - hem))
+            s = 1.0 - (1.0 - narrow) * t
+            cy, rx, ry = cyh, rxh * s, ryh * s
+        else:
+            cy, rx, ry = G.torso_ring(body, z, dom=dom, parts=G.TORSO + ("thigh",))
         grow = pad + flare * (i / (len(zs) - 1)) * 0.5
         rings.append((z, cy, rx + grow, ry + grow))
     a0, a1 = (split / 2, 360 - split / 2) if split else (None, None)
@@ -418,6 +426,23 @@ def thigh_strap(H, body, S, color, knife=None):
         A.apply_transform(out[-1])
     H.add("thigh." + S, *out)
     return out
+
+
+def tights(H, body, S, color, pad=0.008):
+    """Fitted trousers for one leg: a thigh tube on the thigh bone and a shin tube on the shin bone, so the leg
+    bends with the rig (rigid per bone, like the strap and the knee pads)."""
+    j = H.j
+    hip, kn, an = j["hipj." + S], j["knee." + S], j["ankle." + S]
+    rt = G.limb_radius(body, "thigh." + S, hip, kn) + pad
+    rs = G.limb_radius(body, "shin." + S, kn, an) + pad
+    top = V((hip.x, hip.y, H.j["hip"].z))
+    th = along("tights_thigh", top, kn, [(rt * 0.9, 0.0), (rt, 0.35), (rt * 0.94, 1.0)], color, seg=20)
+    sh = along("tights_shin", kn, an + V((0, 0, 0.02)), [(rs * 0.94, 0.0), (rs, 0.5), (rs * 0.9, 1.0)], color, seg=20)
+    G.conform_to(th, body, 0.004, keep_outside=True)
+    G.conform_to(sh, body, 0.004, keep_outside=True)
+    H.add("thigh." + S, th)
+    H.add("shin." + S, sh)
+    return [th, sh]
 
 
 def knee_pads(H, body, S, color):

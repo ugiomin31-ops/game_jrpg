@@ -212,11 +212,11 @@ namespace Abyss.Runtime.World
                 case "town_dawn": // 길드 거리 (플레이): late-afternoon street light, soft warm key and cool sky fill
                     return new AtmospherePreset
                     {
-                        SunColor = new Color(1.0f, 0.88f, 0.74f), SunIntensity = 1.0f, SunEuler = new Vector3(38, -38, 0),
-                        AmbientSky = new Color(0.56f, 0.6f, 0.74f), AmbientEquator = new Color(0.5f, 0.48f, 0.5f), AmbientGround = new Color(0.22f, 0.2f, 0.22f),
+                        SunColor = new Color(1.0f, 0.86f, 0.7f), SunIntensity = 0.88f, SunEuler = new Vector3(38, -38, 0),
+                        AmbientSky = new Color(0.48f, 0.52f, 0.68f), AmbientEquator = new Color(0.44f, 0.42f, 0.47f), AmbientGround = new Color(0.2f, 0.18f, 0.21f),
                         FogColor = new Color(0.5f, 0.52f, 0.64f), FogStart = 70, FogEnd = 210, BackgroundColor = new Color(0.5f, 0.6f, 0.84f),
-                        Bloom = 0.8f, BloomThreshold = 0.92f, Exposure = 0.05f, Contrast = 10, Saturation = 12,
-                        ColorFilter = new Color(1.0f, 0.98f, 0.96f), Vignette = 0.2f, Temperature = 2, TorchColor = new Color(1.0f, 0.74f, 0.44f),
+                        Bloom = 0.8f, BloomThreshold = 0.92f, Exposure = 0f, Contrast = 13, Saturation = 16,
+                        ColorFilter = new Color(1.0f, 0.98f, 0.96f), Vignette = 0.24f, Temperature = 2, TorchColor = new Color(1.0f, 0.74f, 0.44f),
                     };
                 default:
                     return new AtmospherePreset();

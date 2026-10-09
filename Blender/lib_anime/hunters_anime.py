@@ -8,6 +8,8 @@ the pieces are jackets, vests, bags, sportswear, uniforms and accessories.
 import os
 import sys
 
+import bmesh
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path[:0] = [os.path.join(HERE, "..", "..", "Tools", "content")]
 import spec  # noqa: E402
@@ -80,6 +82,20 @@ def _start(hid, drop=None):
     H = AB.AnimeHumanoid(hid)
     body = _body(H, sp, drop)
     return H, body, sp
+
+
+def _cut_tops_below(body, z):
+    """Deletes the base top's faces below z. The female VRoid tunic runs down past the hips and balloons under a
+    short jacket, so the hip line ends it and the legs take over."""
+    mn = [m.name if m else "" for m in body.data.materials]
+    bm = bmesh.new()
+    bm.from_mesh(body.data)
+    bm.faces.ensure_lookup_table()
+    dead = [f for f in bm.faces if "Tops" in mn[f.material_index] and f.calc_center_median().z < z]
+    bmesh.ops.delete(bm, geom=dead, context="FACES")
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+    bm.to_mesh(body.data)
+    bm.free()
 
 
 def _ready(H, body, tops, bottoms, hood=False):
@@ -156,8 +172,8 @@ def h_seoa():
     M.jacket(H, body, "#c3ae83", hem=H.j["hip"].z - 0.02, split=36, trim_color="#7a2e3a", lining="#a8946c")
     M.sleeves(H, body, "#c3ae83")
     _belt(H, body, "#5a4a3a", "#c8b070", 0.028, pad=0.040)
-    G.robe_skirt(H, body, "#4a4e63", hem=H.j["knee.L"].z + 0.03, flare=1.25, trim_color=None, wave=0.0,
-                 name="skirt")
+    G.robe_skirt(H, body, "#4a4e63", hem=H.j["knee.L"].z + 0.05, flare=1.12, trim_color=None, wave=0.0,
+                 name="skirt", narrow=True)
     M.glasses(H, body, "#b89a5a", lens="#e8f4ff", style="round", tube=0.0016)
     _boots(H, body, H.j["ankle.L"].z + 0.07, "#2a1f1a")
     return H
@@ -197,7 +213,7 @@ def h_minjun():
     eyes uncovered), heavy gloves, a manhole-cover shield on the left arm."""
     H, body, sp = _start("h_minjun")
     _ready(H, body, _ramp("#2a2a30", "#3a3a42", "#4e4e58"), _ramp("#1a2440", "#26335a", "#34437a"))
-    M.jacket(H, body, "#e7741e", hem=H.j["hip"].z - 0.22, split=0, pad=0.026, name="turnout",
+    M.jacket(H, body, "#e7741e", hem=H.j["hip"].z - 0.22, split=14, pad=0.026, name="turnout", narrow=0.86,
              bands=(H.j["hip"].z - 0.02, H.j["hip"].z - 0.06, H.j["chest"].z + 0.02), band_color="#dfe6ee")
     M.sleeves(H, body, "#e7741e", bands=(0.55,), band_color="#dfe6ee")
     M.cap(H, body, "#f2c230", brim="#2a2a2a", brim_len=0.10, band="#2a2a2a")
@@ -214,10 +230,13 @@ def h_sora():
     No face mask: the face stays fully visible."""
     H, body, sp = _start("h_sora", drop=None)
     _ready(H, body, _ramp("#0c0b12", "#17161f", "#25242f"), _ramp("#0d0c12", "#1d1c28", "#2c2b3a"), hood=True)
-    M.jacket(H, body, "#15141c", hem=H.j["hip"].z + 0.005, split=8, trim_color="#8a5cff", pad=0.024)
+    VB.drop_material(body, "Bottoms")  # the base skirt balloons: fitted dark tights instead
+    _cut_tops_below(body, H.j["hip"].z)
+    M.jacket(H, body, "#15141c", hem=H.j["hip"].z + 0.005, split=8, trim_color="#8a5cff", pad=0.024, narrow=0.9)
     M.sleeves(H, body, "#15141c", bands=(0.42,), band_color="#8a5cff")
     _belt(H, body, "#2a2838", "#8a5cff", 0.024, pad=0.036)
     for S in ("L", "R"):
+        M.tights(H, body, S, "#24222f")
         M.thigh_strap(H, body, S, "#2a2838", knife="#c8c8d8")
     _boots(H, body, H.j["ankle.L"].z + 0.10, "#101014")
     return H
@@ -249,8 +268,8 @@ def h_eunbi():
     M.sleeves(H, body, "#f2efe6")
     M.ribbon(H, body, "#c8282c", z=cz - 0.04)
     _belt(H, body, "#c8282c", "#e8c060", 0.030, pad=0.040)
-    G.robe_skirt(H, body, "#1d2236", hem=H.j["ankle.L"].z + 0.03, flare=1.12, trim_color="#c8282c", wave=0.02,
-                 name="skirt")
+    G.robe_skirt(H, body, "#1d2236", hem=H.j["knee.L"].z + 0.02, flare=1.2, trim_color="#c8282c", wave=0.0,
+                 name="skirt", narrow=True)
     G.talismans(H, body, paper="#f4ecd8", ink="#b02a2a", n=5)
     M.bracelet(H, body, "L", "#c9a24a", bell="#e8c060")
     return H
@@ -305,7 +324,8 @@ def h_mirae():
     H, body, sp = _start("h_mirae", drop=_TAILS)
     _ready(H, body, _ramp("#c8bfae", "#e6dfd0", "#f6f2e8"), _ramp("#1a1a20", "#26262e", "#33333c"))
     hem = H.j["knee.L"].z + 0.02
-    coat = M.jacket(H, body, "#f3efe4", hem=hem, split=6, flare=0.0, trim_color=GOLD, pad=0.024, name="coat")
+    coat = M.jacket(H, body, "#f3efe4", hem=hem, split=6, flare=0.0, trim_color=GOLD, pad=0.024, name="coat",
+                    narrow=0.88)
     M.sleeves(H, body, "#f3efe4", bands=(0.96,), band_color=GOLD)
     hz, cz = H.j["hip"].z, H.j["chest"].z
     _belt(H, body, "#15151b", GOLD, 0.030, pad=0.036, z=hz + 0.06)
@@ -410,7 +430,7 @@ def h_youngsu():
     _ready(H, body, _ramp("#6e7074", "#8c8e93", "#a6a8ad"), _ramp("#5e6064", "#76787d", "#8c8e93"))
     hz, knee = H.j["hip"].z, H.j["knee.L"].z
     M.vest(H, body, "#e6dcc4", pad=0.018, open_front=0, trim_color="#a8783a")
-    M.jacket(H, body, "#3e4a2c", hem=knee - 0.02, split=46, flare=0.25, pad=0.026, trim_color="#c9a050")
+    M.jacket(H, body, "#3e4a2c", hem=knee - 0.02, split=62, flare=0.1, pad=0.026, trim_color="#c9a050", narrow=0.9)
     M.sleeves(H, body, "#3e4a2c")
     _belt(H, body, "#2a1d12", "#c9a050", 0.050, pad=0.040)
     M.neck_beads(H, body, "#5a3a22", n=15, r=0.0072)
@@ -433,7 +453,8 @@ def h_rina():
     M.frill(H, body, "#fff3fa", z=nz - 0.04, pad=0.03)
     M.ribbon(H, body, "#ff5aa8", z=cz - 0.04)
     _belt(H, body, "#ff5aa8", "#fff07a", 0.030, pad=0.034)
-    G.robe_skirt(H, body, "#ffd6ee", hem=H.j["hip"].z - 0.22, flare=1.25, trim_color="#ffffff", wave=0.03, name="skirt")
+    G.robe_skirt(H, body, "#ffd6ee", hem=H.j["knee.L"].z + 0.02, flare=1.08, trim_color="#ffffff", wave=0.03,
+                 name="skirt", narrow=True)
     G.capelet(H, body, "#ffb0d8", depth=0.12, trim_color="#ffffff")
     M.star_pin(H, body, "#fff07a", side=1.0)
     _boots(H, body, H.j["knee.L"].z + 0.05, "#ff6fb0", cuff="#ffffff")

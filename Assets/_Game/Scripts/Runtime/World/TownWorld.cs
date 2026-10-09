@@ -274,7 +274,7 @@ namespace Abyss.Runtime.World
         void FollowCamera(bool snap)
         {
             Vector3 target = player.position + Vector3.up * 0.8f;
-            Vector3 offset = new Vector3(10f, 12f, -14f);
+            Vector3 offset = new Vector3(6.5f, 8f, -9.5f);  // close enough that the hunters read as people on the street
             var camera = app.MainCamera;
             Vector3 desired = target + offset;
             if (Physics.SphereCast(target, 0.35f, offset.normalized, out var hit, offset.magnitude, ~(1 << 8), QueryTriggerInteraction.Ignore))
