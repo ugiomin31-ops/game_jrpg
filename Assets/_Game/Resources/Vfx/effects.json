@@ -6463,6 +6463,187 @@
       ]
     },
     {
+      "key": "environment_subway",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "D7E6FF",
+          "rate": 5,
+          "life": 5,
+          "size": 0.05,
+          "speed": 0.06,
+          "radius": 6,
+          "gravity": 0.004
+        },
+        {
+          "kind": "emitter",
+          "texture": "spark",
+          "color": "C9A6FF",
+          "rate": 2,
+          "life": 2,
+          "size": 0.08,
+          "speed": 0.12,
+          "radius": 6
+        }
+      ]
+    },
+    {
+      "key": "environment_factory",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "E8C9A0",
+          "rate": 5,
+          "life": 5,
+          "size": 0.06,
+          "speed": 0.06,
+          "radius": 6,
+          "gravity": 0.006
+        },
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFB060",
+          "rate": 3,
+          "life": 3,
+          "size": 0.08,
+          "speed": 0.12,
+          "radius": 6,
+          "gravity": -0.01
+        }
+      ]
+    },
+    {
+      "key": "environment_cave",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "crystal",
+          "color": "9FE6FF",
+          "rate": 3,
+          "life": 4,
+          "size": 0.1,
+          "speed": 0.06,
+          "radius": 6,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "B9C8FF",
+          "rate": 4,
+          "life": 4,
+          "size": 0.05,
+          "speed": 0.05,
+          "radius": 6
+        }
+      ]
+    },
+    {
+      "key": "environment_school",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "petal",
+          "color": "FFD8A0",
+          "rate": 3,
+          "life": 4,
+          "size": 0.1,
+          "speed": 0.1,
+          "radius": 6,
+          "gravity": 0.012,
+          "alpha": true
+        },
+        {
+          "kind": "emitter",
+          "texture": "star4",
+          "color": "FFF2C0",
+          "rate": 2,
+          "life": 3,
+          "size": 0.07,
+          "speed": 0.06,
+          "radius": 6
+        }
+      ]
+    },
+    {
+      "key": "environment_hospital",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "dot",
+          "color": "E6FFF6",
+          "rate": 5,
+          "life": 5,
+          "size": 0.05,
+          "speed": 0.05,
+          "radius": 6,
+          "gravity": 0.003
+        },
+        {
+          "kind": "emitter",
+          "texture": "bubble",
+          "color": "BFF5E6",
+          "rate": 2,
+          "life": 4,
+          "size": 0.08,
+          "speed": 0.08,
+          "radius": 6,
+          "gravity": -0.006,
+          "alpha": true
+        }
+      ]
+    },
+    {
+      "key": "environment_guild_street",
+      "description": "Local biome atmosphere drifting particles",
+      "duration": 1.2,
+      "loop": true,
+      "layers": [
+        {
+          "kind": "emitter",
+          "texture": "ember",
+          "color": "FFB070",
+          "rate": 5,
+          "life": 4,
+          "size": 0.1,
+          "speed": 0.12,
+          "radius": 6,
+          "gravity": -0.012
+        },
+        {
+          "kind": "emitter",
+          "texture": "smoke_sheet",
+          "color": "9AA0B8",
+          "rate": 1,
+          "life": 5,
+          "size": 0.9,
+          "speed": 0.06,
+          "radius": 6,
+          "gravity": -0.004,
+          "tiles": 4,
+          "alpha": true
+        }
+      ]
+    },
+    {
       "key": "charge_fire",
       "description": "Fire casting: flame rune seal, converging ring, flame tongues licking up around the caster, embers",
       "duration": 1.4,

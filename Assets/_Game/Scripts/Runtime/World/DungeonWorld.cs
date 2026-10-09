@@ -134,7 +134,9 @@ namespace Abyss.Runtime.World
             RefreshProgress();
             var vfx = VfxLibrary.Create();
             vfx.Camera = app.MainCamera;
-            ambient = vfx.Play("environment_" + tileset, app.MainCamera.transform.position, AtmospherePreset.ParticleTint(run.Grid.Floor), follow: app.MainCamera.transform);
+            // A tileset without its own drifting particles simply has none (an unknown key must not stop the floor from loading).
+            if (vfx.Supports("environment_" + tileset))
+                ambient = vfx.Play("environment_" + tileset, app.MainCamera.transform.position, AtmospherePreset.ParticleTint(run.Grid.Floor), follow: app.MainCamera.transform);
         }
 
         void CreateMarkerAssets()

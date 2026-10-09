@@ -645,7 +645,20 @@ def statuses_and_environment():
                           emitter('ember', 'CFEFFF', 3, 3, .08, .05, 6)]),
         ('ember_caverns', [emitter('ember', 'FFC080', 6, 4, .12, .1, 6, gravity=-.01)]),
         ('haunted_crypt', [emitter('skull_wisp', 'B8ABDD', 5, 4, .16, .1, 6, alpha=True),
-                           emitter('dot', 'A898E0', 3, 4, .05, .08, 6)])]:
+                           emitter('dot', 'A898E0', 3, 4, .05, .08, 6)]),
+        # Hunter-world places: dust in the station light, gate sparks, crystal motes, festival confetti, ward haze.
+        ('subway', [emitter('dot', 'D7E6FF', 5, 5, .05, .06, 6, gravity=.004),
+                    emitter('spark', 'C9A6FF', 2, 2, .08, .12, 6)]),
+        ('factory', [emitter('dot', 'E8C9A0', 5, 5, .06, .06, 6, gravity=.006),
+                     emitter('ember', 'FFB060', 3, 3, .08, .12, 6, gravity=-.01)]),
+        ('cave', [emitter('crystal', '9FE6FF', 3, 4, .1, .06, 6, alpha=True),
+                  emitter('dot', 'B9C8FF', 4, 4, .05, .05, 6)]),
+        ('school', [emitter('petal', 'FFD8A0', 3, 4, .1, .1, 6, gravity=.012, alpha=True),
+                    emitter('star4', 'FFF2C0', 2, 3, .07, .06, 6)]),
+        ('hospital', [emitter('dot', 'E6FFF6', 5, 5, .05, .05, 6, gravity=.003),
+                      emitter('bubble', 'BFF5E6', 2, 4, .08, .08, 6, gravity=-.006, alpha=True)]),
+        ('guild_street', [emitter('ember', 'FFB070', 5, 4, .1, .12, 6, gravity=-.012),
+                          emitter('smoke_sheet', '9AA0B8', 1, 5, .9, .06, 6, gravity=-.004, tiles=4, alpha=True)])]:
         effect('environment_' + key, 'Local biome atmosphere drifting particles', *layers, loop=True)
 
 
