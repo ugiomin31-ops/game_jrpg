@@ -530,7 +530,7 @@ def arena_scene(ts, builder, sky_cols, world, lights_extra=None):
         roots.append(K.empty(f"LightAnchor_edge_{i}", (x, y, 2.2)))
     if lights_extra:
         roots += lights_extra
-    K.export_piece(ts, "arena", roots)
+    K.export_arena_turned(ts, roots)
     collider.hide_render = True
     K.A.save_blend(f"env_{ts}_arena")
     tris = sum(K.tris(o) for o in roots)

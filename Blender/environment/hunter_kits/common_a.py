@@ -454,7 +454,7 @@ class HunterKit:
                   KA.empty("Spot_camera", (0, -12, 4)), KA.empty("LightAnchor_stage", (0, 0, 5))]
         for i, (x, y) in enumerate(((-10.5, 4), (10.5, 4), (-10.5, 14), (10.5, 14))):
             roots.append(KA.empty(f"LightAnchor_edge_{i}", (x, y, 2.2)))
-        B.export_piece(self.TS, "arena", roots)
+        B.export_arena_turned(self.TS, roots)
         collider.hide_render = True
         B.render_cam(f"env_{self.TS}_arena_battlecam", loc=(0, -12, 4), target=(0, 3, 1), fov_deg=70,
                      res=(1600, 900), world=self.WORLD)
