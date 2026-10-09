@@ -48,6 +48,10 @@ _v4 = importlib.util.spec_from_file_location('roster_v4', str(ROOT / 'Blender' /
 _v4m = importlib.util.module_from_spec(_v4)
 _v4.loader.exec_module(_v4m)
 SOURCES.update(_v4m.SOURCES)  # monster v4: chapter 5-6 models (sunken temple, abyss core)
+_v5 = importlib.util.spec_from_file_location('roster_v5', str(ROOT / 'Blender' / 'enemies_h' / 'roster.py'))
+_v5m = importlib.util.module_from_spec(_v5)
+_v5.loader.exec_module(_v5m)
+SOURCES.update(_v5m.SOURCES)  # monster v5: hunter-theme monsters (enemies_h), rows may land in enemies.json later
 
 
 def data_roster():
@@ -59,6 +63,8 @@ def data_roster():
     # v4 models may be produced before their data rows land; their boss flag then comes from the v4 roster
     for eid in _v4m.SOURCES:
         roster.setdefault(eid, {'id': eid, 'is_boss': eid in _v4m.BOSSES})
+    for eid in _v5m.SOURCES:  # v5 hunter monsters: enemies.json rows are added by the data side
+        roster.setdefault(eid, {'id': eid, 'is_boss': eid in _v5m.BOSSES})
     if set(roster) != set(SOURCES):
         raise RuntimeError(f'Generator/data mismatch: missing={set(roster)-set(SOURCES)}, extra={set(SOURCES)-set(roster)}')
     if sum(bool(row['is_boss']) for row in roster.values()) != 4 + len(_v4m.BOSSES):

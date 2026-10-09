@@ -51,7 +51,7 @@ namespace Abyss.LogicTests
                     indices.Add(labels.IndexOf(label));
                 }
                 for (int i = 1; i < indices.Count; i++) Assert.True(indices[i] > indices[i - 1], row.Enemy.Id + " habitat ascending");
-                Assert.Equal(GameFlow.ChapterOf(indices[0]), row.Chapter, row.Enemy.Id + " chapter of its first floor");
+                Assert.Equal(TownServices.ChapterOfFloor(indices[0]), row.Chapter, row.Enemy.Id + " chapter of its first floor");
             }
         }
 
@@ -70,10 +70,10 @@ namespace Abyss.LogicTests
         public static void LevelFallbackFollowsTheChapterLevelBands()
         {
             Assert.Equal(1, TownServices.LevelChapter(1), "level 1 is chapter 1");
-            Assert.Equal(1, TownServices.LevelChapter(11), "level 11 is chapter 1");
-            Assert.Equal(2, TownServices.LevelChapter(12), "level 12 enters chapter 2");
-            Assert.Equal(6, TownServices.LevelChapter(54), "level 54 enters chapter 6");
-            Assert.Equal(7, TownServices.LevelChapter(70), "level 70 is the trial corridor");
+            Assert.Equal(1, TownServices.LevelChapter(10), "level 10 is chapter 1 (zones 1-2)");
+            Assert.Equal(2, TownServices.LevelChapter(11), "level 11 enters chapter 2 (zone 3)");
+            Assert.Equal(6, TownServices.LevelChapter(55), "level 55 enters chapter 6 (zone 11)");
+            Assert.Equal(7, TownServices.LevelChapter(70), "level 70 is the red gate");
         }
 
         [LogicTest]

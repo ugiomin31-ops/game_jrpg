@@ -1,397 +1,10 @@
 [
  {
-  "id": "archer",
-  "display_name": "궁수",
-  "max_hp": 125,
+  "id": "h_dohyun",
+  "display_name": "강도현",
+  "max_hp": 173,
   "max_mp": 24,
-  "attack": 19,
-  "magic": 10,
-  "defense": 11,
-  "resistance": 11,
-  "speed": 22,
-  "hit": 1.0,
-  "evade": 0.1,
-  "crit": 0.1,
-  "hp_growth": 10.5,
-  "mp_growth": 2.2,
-  "atk_growth": 2.4,
-  "mag_growth": 0.8,
-  "def_growth": 1.4,
-  "res_growth": 1.4,
-  "spd_growth": 1.3,
-  "starter_equipment": {
-   "weapon": "bow_short",
-   "armor": "garb_leather",
-   "accessory": ""
-  },
-  "skills": [
-   "basic_attack",
-   "double_shot"
-  ],
-  "learnset": [
-   {
-    "level": 1,
-    "skill": "double_shot"
-   },
-   {
-    "level": 3,
-    "skill": "sk_poison_arrow"
-   },
-   {
-    "level": 4,
-    "skill": "sk_a_ice_arrow"
-   },
-   {
-    "level": 6,
-    "skill": "sk_hunter_mark"
-   },
-   {
-    "level": 7,
-    "skill": "sk_a_hawk_eye"
-   },
-   {
-    "level": 8,
-    "skill": "ult_starfall_volley"
-   },
-   {
-    "level": 10,
-    "skill": "sk_weak_point"
-   },
-   {
-    "level": 11,
-    "skill": "sk_a_flash_arrow"
-   },
-   {
-    "level": 12,
-    "skill": "sk_a_thunder_arrow"
-   },
-   {
-    "level": 14,
-    "skill": "sk_flame_arrow"
-   },
-   {
-    "level": 16,
-    "skill": "sk_a_triple_shot"
-   },
-   {
-    "level": 18,
-    "skill": "sk_arrow_rain"
-   },
-   {
-    "level": 20,
-    "skill": "sk_a_holy_arrow"
-   },
-   {
-    "level": 22,
-    "skill": "sk_a_gale"
-   },
-   {
-    "level": 24,
-    "skill": "sk_sleep_arrow"
-   },
-   {
-    "level": 26,
-    "skill": "sk_a_shadow_stitch"
-   },
-   {
-    "level": 28,
-    "skill": "sk_a_deadeye"
-   },
-   {
-    "level": 30,
-    "skill": "sk_a_blaze_rain"
-   },
-   {
-    "level": 32,
-    "skill": "sk_piercing_gale"
-   },
-   {
-    "level": 34,
-    "skill": "sk_a_phantom_raid"
-   },
-   {
-    "level": 36,
-    "skill": "sk_a_venom_storm"
-   },
-   {
-    "level": 38,
-    "skill": "ult_a_heaven_arrow"
-   }
-  ],
-  "_file": "archer"
- },
- {
-  "id": "cleric",
-  "display_name": "성직자",
-  "max_hp": 120,
-  "max_mp": 40,
-  "attack": 10,
-  "magic": 20,
-  "defense": 12,
-  "resistance": 18,
-  "speed": 11,
-  "hit": 0.95,
-  "evade": 0.05,
-  "crit": 0.04,
-  "hp_growth": 10.0,
-  "mp_growth": 4.0,
-  "atk_growth": 1.0,
-  "mag_growth": 2.5,
-  "def_growth": 1.5,
-  "res_growth": 2.4,
-  "spd_growth": 0.8,
-  "starter_equipment": {
-   "weapon": "mace_wood",
-   "armor": "robe_cloth",
-   "accessory": ""
-  },
-  "skills": [
-   "basic_attack",
-   "heal",
-   "holy_light"
-  ],
-  "learnset": [
-   {
-    "level": 1,
-    "skill": "heal"
-   },
-   {
-    "level": 1,
-    "skill": "holy_light"
-   },
-   {
-    "level": 2,
-    "skill": "sk_c_protect"
-   },
-   {
-    "level": 3,
-    "skill": "sk_cure"
-   },
-   {
-    "level": 4,
-    "skill": "sk_c_regen"
-   },
-   {
-    "level": 5,
-    "skill": "sk_c_blessing"
-   },
-   {
-    "level": 6,
-    "skill": "sk_heal_all"
-   },
-   {
-    "level": 8,
-    "skill": "ult_seraph_hymn"
-   },
-   {
-    "level": 9,
-    "skill": "sk_c_banish"
-   },
-   {
-    "level": 10,
-    "skill": "sk_revive"
-   },
-   {
-    "level": 11,
-    "skill": "sk_c_barrier"
-   },
-   {
-    "level": 12,
-    "skill": "sk_c_haste"
-   },
-   {
-    "level": 13,
-    "skill": "sk_c_protect_all"
-   },
-   {
-    "level": 14,
-    "skill": "sk_greater_heal"
-   },
-   {
-    "level": 16,
-    "skill": "sk_c_holy_lance"
-   },
-   {
-    "level": 18,
-    "skill": "sk_c_purify_all"
-   },
-   {
-    "level": 20,
-    "skill": "sk_sanctuary"
-   },
-   {
-    "level": 23,
-    "skill": "sk_c_hymn_swift"
-   },
-   {
-    "level": 24,
-    "skill": "sk_c_exorcism"
-   },
-   {
-    "level": 27,
-    "skill": "sk_divine_judgment"
-   },
-   {
-    "level": 29,
-    "skill": "sk_c_judgment_cross"
-   },
-   {
-    "level": 31,
-    "skill": "sk_c_benediction"
-   },
-   {
-    "level": 35,
-    "skill": "sk_c_resurrection"
-   },
-   {
-    "level": 38,
-    "skill": "ult_c_miracle"
-   }
-  ],
-  "class_color": [
-   1.0,
-   0.72,
-   0.68,
-   1.0
-  ],
-  "_file": "cleric"
- },
- {
-  "id": "mage",
-  "display_name": "마법사",
-  "max_hp": 105,
-  "max_mp": 38,
-  "attack": 11,
-  "magic": 25,
-  "defense": 9,
-  "resistance": 16,
-  "speed": 12,
-  "hit": 0.95,
-  "evade": 0.05,
-  "crit": 0.03,
-  "hp_growth": 8.5,
-  "mp_growth": 4.2,
-  "atk_growth": 0.9,
-  "mag_growth": 3.0,
-  "def_growth": 1.1,
-  "res_growth": 2.2,
-  "spd_growth": 0.9,
-  "starter_equipment": {
-   "weapon": "staff_oak",
-   "armor": "robe_cloth",
-   "accessory": ""
-  },
-  "skills": [
-   "basic_attack",
-   "fireball",
-   "sk_m_spark"
-  ],
-  "learnset": [
-   {
-    "level": 1,
-    "skill": "fireball"
-   },
-   {
-    "level": 1,
-    "skill": "sk_m_spark"
-   },
-   {
-    "level": 4,
-    "skill": "sk_ice_lance"
-   },
-   {
-    "level": 5,
-    "skill": "sk_m_sleep"
-   },
-   {
-    "level": 6,
-    "skill": "sk_m_shadow_bolt"
-   },
-   {
-    "level": 7,
-    "skill": "sk_m_focus"
-   },
-   {
-    "level": 8,
-    "skill": "ult_meteor"
-   },
-   {
-    "level": 9,
-    "skill": "sk_chain_spark"
-   },
-   {
-    "level": 11,
-    "skill": "sk_m_silence"
-   },
-   {
-    "level": 12,
-    "skill": "sk_flame_wave"
-   },
-   {
-    "level": 14,
-    "skill": "sk_m_blaze"
-   },
-   {
-    "level": 15,
-    "skill": "sk_m_lightning"
-   },
-   {
-    "level": 17,
-    "skill": "sk_frost_nova"
-   },
-   {
-    "level": 19,
-    "skill": "sk_m_glacier"
-   },
-   {
-    "level": 20,
-    "skill": "sk_m_drain"
-   },
-   {
-    "level": 22,
-    "skill": "sk_thunder_storm"
-   },
-   {
-    "level": 24,
-    "skill": "sk_m_prism"
-   },
-   {
-    "level": 25,
-    "skill": "sk_m_curse"
-   },
-   {
-    "level": 28,
-    "skill": "sk_void_lance"
-   },
-   {
-    "level": 30,
-    "skill": "sk_m_hellfire"
-   },
-   {
-    "level": 32,
-    "skill": "sk_m_absolute_zero"
-   },
-   {
-    "level": 33,
-    "skill": "sk_m_abyss_gate"
-   },
-   {
-    "level": 35,
-    "skill": "sk_m_indra"
-   },
-   {
-    "level": 38,
-    "skill": "ult_m_arcana_nova"
-   }
-  ],
-  "_file": "mage"
- },
- {
-  "id": "warrior",
-  "display_name": "검사",
-  "max_hp": 165,
-  "max_mp": 24,
-  "attack": 22,
+  "attack": 23,
   "magic": 8,
   "defense": 17,
   "resistance": 10,
@@ -399,33 +12,30 @@
   "hit": 0.95,
   "evade": 0.03,
   "crit": 0.05,
-  "hp_growth": 14.0,
+  "hp_growth": 14.7,
   "mp_growth": 2.2,
-  "atk_growth": 2.6,
+  "atk_growth": 2.73,
   "mag_growth": 0.6,
   "def_growth": 2.0,
   "res_growth": 1.2,
   "spd_growth": 0.7,
-  "starter_equipment": {
-   "weapon": "sword_bronze",
-   "armor": "armor_chain",
-   "accessory": ""
-  },
   "skills": [
    "basic_attack",
-   "strong_attack"
+   "sig_dohyun",
+   "strong_attack",
+   "stunning_slam"
   ],
   "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_dohyun"
+   },
    {
     "level": 1,
     "skill": "strong_attack"
    },
    {
-    "level": 2,
-    "skill": "sk_w_twin_slash"
-   },
-   {
-    "level": 3,
+    "level": 1,
     "skill": "stunning_slam"
    },
    {
@@ -517,6 +127,2697 @@
     "skill": "ult_w_ragnarok"
    }
   ],
-  "_file": "warrior"
+  "starter_equipment": {
+   "weapon": "sword_bronze",
+   "armor": "armor_chain",
+   "accessory": ""
+  },
+  "class": "warrior",
+  "rank": "E",
+  "gender": "M",
+  "join_kind": "start",
+  "join_zone": 1,
+  "scout_price": 0,
+  "start_job": "",
+  "line": "나는 아직 E급이야. 그래도 여기서 도망치진 않아.",
+  "profile": "protagonist: black hoodie under an olive tactical vest, dark cargo pants, sneakers, fingerless gloves, red scarf",
+  "_file": "h_dohyun"
+ },
+ {
+  "id": "h_seoa",
+  "display_name": "한서아",
+  "max_hp": 105,
+  "max_mp": 42,
+  "attack": 11,
+  "magic": 26,
+  "defense": 9,
+  "resistance": 16,
+  "speed": 12,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.03,
+  "hp_growth": 8.5,
+  "mp_growth": 4.62,
+  "atk_growth": 0.9,
+  "mag_growth": 3.15,
+  "def_growth": 1.1,
+  "res_growth": 2.2,
+  "spd_growth": 0.9,
+  "skills": [
+   "basic_attack",
+   "sig_seoa",
+   "fireball"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_seoa"
+   },
+   {
+    "level": 1,
+    "skill": "fireball"
+   },
+   {
+    "level": 4,
+    "skill": "sk_ice_lance"
+   },
+   {
+    "level": 5,
+    "skill": "sk_m_sleep"
+   },
+   {
+    "level": 6,
+    "skill": "sk_m_shadow_bolt"
+   },
+   {
+    "level": 7,
+    "skill": "sk_m_focus"
+   },
+   {
+    "level": 8,
+    "skill": "ult_meteor"
+   },
+   {
+    "level": 9,
+    "skill": "sk_chain_spark"
+   },
+   {
+    "level": 11,
+    "skill": "sk_m_silence"
+   },
+   {
+    "level": 12,
+    "skill": "sk_flame_wave"
+   },
+   {
+    "level": 14,
+    "skill": "sk_m_blaze"
+   },
+   {
+    "level": 15,
+    "skill": "sk_m_lightning"
+   },
+   {
+    "level": 17,
+    "skill": "sk_frost_nova"
+   },
+   {
+    "level": 19,
+    "skill": "sk_m_glacier"
+   },
+   {
+    "level": 20,
+    "skill": "sk_m_drain"
+   },
+   {
+    "level": 22,
+    "skill": "sk_thunder_storm"
+   },
+   {
+    "level": 24,
+    "skill": "sk_m_prism"
+   },
+   {
+    "level": 25,
+    "skill": "sk_m_curse"
+   },
+   {
+    "level": 28,
+    "skill": "sk_void_lance"
+   },
+   {
+    "level": 30,
+    "skill": "sk_m_hellfire"
+   },
+   {
+    "level": 32,
+    "skill": "sk_m_absolute_zero"
+   },
+   {
+    "level": 33,
+    "skill": "sk_m_abyss_gate"
+   },
+   {
+    "level": 35,
+    "skill": "sk_m_indra"
+   },
+   {
+    "level": 38,
+    "skill": "ult_m_arcana_nova"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "staff_oak",
+   "armor": "robe_cloth",
+   "accessory": ""
+  },
+  "class": "mage",
+  "rank": "E",
+  "gender": "F",
+  "join_kind": "start",
+  "join_zone": 1,
+  "scout_price": 0,
+  "start_job": "",
+  "line": "수업 빠지면 F인데… 게이트가 먼저야.",
+  "profile": "university student: beige trench coat over a white knit, pleated skirt, black tights, ankle boots, round glasses, small spellbook on a belt chain",
+  "_file": "h_seoa"
+ },
+ {
+  "id": "h_jiho",
+  "display_name": "윤지호",
+  "max_hp": 125,
+  "max_mp": 24,
+  "attack": 20,
+  "magic": 10,
+  "defense": 11,
+  "resistance": 11,
+  "speed": 24,
+  "hit": 1.0,
+  "evade": 0.1,
+  "crit": 0.1,
+  "hp_growth": 10.5,
+  "mp_growth": 2.2,
+  "atk_growth": 2.472,
+  "mag_growth": 0.8,
+  "def_growth": 1.4,
+  "res_growth": 1.4,
+  "spd_growth": 1.404,
+  "skills": [
+   "basic_attack",
+   "sig_jiho",
+   "sk_poison_arrow"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_jiho"
+   },
+   {
+    "level": 1,
+    "skill": "sk_poison_arrow"
+   },
+   {
+    "level": 4,
+    "skill": "sk_a_ice_arrow"
+   },
+   {
+    "level": 6,
+    "skill": "sk_hunter_mark"
+   },
+   {
+    "level": 7,
+    "skill": "sk_a_hawk_eye"
+   },
+   {
+    "level": 8,
+    "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 10,
+    "skill": "sk_weak_point"
+   },
+   {
+    "level": 11,
+    "skill": "sk_a_flash_arrow"
+   },
+   {
+    "level": 12,
+    "skill": "sk_a_thunder_arrow"
+   },
+   {
+    "level": 14,
+    "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 16,
+    "skill": "sk_a_triple_shot"
+   },
+   {
+    "level": 18,
+    "skill": "sk_arrow_rain"
+   },
+   {
+    "level": 20,
+    "skill": "sk_a_holy_arrow"
+   },
+   {
+    "level": 22,
+    "skill": "sk_a_gale"
+   },
+   {
+    "level": 24,
+    "skill": "sk_sleep_arrow"
+   },
+   {
+    "level": 26,
+    "skill": "sk_a_shadow_stitch"
+   },
+   {
+    "level": 28,
+    "skill": "sk_a_deadeye"
+   },
+   {
+    "level": 30,
+    "skill": "sk_a_blaze_rain"
+   },
+   {
+    "level": 32,
+    "skill": "sk_piercing_gale"
+   },
+   {
+    "level": 34,
+    "skill": "sk_a_phantom_raid"
+   },
+   {
+    "level": 36,
+    "skill": "sk_a_venom_storm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_a_heaven_arrow"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "bow_short",
+   "armor": "garb_leather",
+   "accessory": ""
+  },
+  "class": "archer",
+  "rank": "E",
+  "gender": "M",
+  "join_kind": "start",
+  "join_zone": 1,
+  "scout_price": 0,
+  "start_job": "",
+  "line": "과녁보다 크네. 안 빗나가.",
+  "profile": "ex national archery athlete: navy track jacket with white stripes, snapback cap, arm guard, quiver as a sports bag strap, joggers",
+  "_file": "h_jiho"
+ },
+ {
+  "id": "h_yuna",
+  "display_name": "백유나",
+  "max_hp": 120,
+  "max_mp": 42,
+  "attack": 10,
+  "magic": 20,
+  "defense": 12,
+  "resistance": 19,
+  "speed": 11,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.04,
+  "hp_growth": 10.0,
+  "mp_growth": 4.2,
+  "atk_growth": 1.0,
+  "mag_growth": 2.5,
+  "def_growth": 1.5,
+  "res_growth": 2.592,
+  "spd_growth": 0.8,
+  "class_color": [
+   1.0,
+   0.72,
+   0.68,
+   1.0
+  ],
+  "skills": [
+   "basic_attack",
+   "sig_yuna",
+   "holy_light",
+   "sk_c_protect",
+   "sk_cure"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_yuna"
+   },
+   {
+    "level": 1,
+    "skill": "holy_light"
+   },
+   {
+    "level": 1,
+    "skill": "sk_c_protect"
+   },
+   {
+    "level": 1,
+    "skill": "sk_cure"
+   },
+   {
+    "level": 4,
+    "skill": "sk_c_regen"
+   },
+   {
+    "level": 5,
+    "skill": "sk_c_blessing"
+   },
+   {
+    "level": 6,
+    "skill": "sk_heal_all"
+   },
+   {
+    "level": 8,
+    "skill": "ult_seraph_hymn"
+   },
+   {
+    "level": 9,
+    "skill": "sk_c_banish"
+   },
+   {
+    "level": 10,
+    "skill": "sk_revive"
+   },
+   {
+    "level": 11,
+    "skill": "sk_c_barrier"
+   },
+   {
+    "level": 12,
+    "skill": "sk_c_haste"
+   },
+   {
+    "level": 13,
+    "skill": "sk_c_protect_all"
+   },
+   {
+    "level": 14,
+    "skill": "sk_greater_heal"
+   },
+   {
+    "level": 16,
+    "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 18,
+    "skill": "sk_c_purify_all"
+   },
+   {
+    "level": 20,
+    "skill": "sk_sanctuary"
+   },
+   {
+    "level": 23,
+    "skill": "sk_c_hymn_swift"
+   },
+   {
+    "level": 24,
+    "skill": "sk_c_exorcism"
+   },
+   {
+    "level": 27,
+    "skill": "sk_divine_judgment"
+   },
+   {
+    "level": 29,
+    "skill": "sk_c_judgment_cross"
+   },
+   {
+    "level": 31,
+    "skill": "sk_c_benediction"
+   },
+   {
+    "level": 35,
+    "skill": "sk_c_resurrection"
+   },
+   {
+    "level": 38,
+    "skill": "ult_c_miracle"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "mace_wood",
+   "armor": "robe_cloth",
+   "accessory": ""
+  },
+  "class": "cleric",
+  "rank": "E",
+  "gender": "F",
+  "join_kind": "start",
+  "join_zone": 1,
+  "scout_price": 0,
+  "start_job": "",
+  "line": "다친 사람 있으면 저부터 불러 주세요!",
+  "profile": "nursing student: white cardigan over a light blue scrub top, red-cross armband, white sneakers, hair in a low ponytail, first-aid pouch",
+  "_file": "h_yuna"
+ },
+ {
+  "id": "h_minjun",
+  "display_name": "최민준",
+  "max_hp": 190,
+  "max_mp": 24,
+  "attack": 22,
+  "magic": 8,
+  "defense": 19,
+  "resistance": 10,
+  "speed": 9,
+  "hit": 0.95,
+  "evade": 0.03,
+  "crit": 0.05,
+  "hp_growth": 16.1,
+  "mp_growth": 2.2,
+  "atk_growth": 2.6,
+  "mag_growth": 0.6,
+  "def_growth": 2.24,
+  "res_growth": 1.2,
+  "spd_growth": 0.644,
+  "skills": [
+   "basic_attack",
+   "sig_minjun",
+   "strong_attack",
+   "sk_w_twin_slash",
+   "stunning_slam"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_minjun"
+   },
+   {
+    "level": 1,
+    "skill": "strong_attack"
+   },
+   {
+    "level": 1,
+    "skill": "sk_w_twin_slash"
+   },
+   {
+    "level": 1,
+    "skill": "stunning_slam"
+   },
+   {
+    "level": 5,
+    "skill": "sk_w_rally"
+   },
+   {
+    "level": 6,
+    "skill": "sk_cleave"
+   },
+   {
+    "level": 7,
+    "skill": "sk_w_flame_blade"
+   },
+   {
+    "level": 8,
+    "skill": "ult_heaven_rend"
+   },
+   {
+    "level": 11,
+    "skill": "sk_w_armor_break"
+   },
+   {
+    "level": 13,
+    "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 15,
+    "skill": "sk_bleed_edge"
+   },
+   {
+    "level": 16,
+    "skill": "sk_w_power_break"
+   },
+   {
+    "level": 17,
+    "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 20,
+    "skill": "sk_iron_wall"
+   },
+   {
+    "level": 22,
+    "skill": "sk_w_berserk"
+   },
+   {
+    "level": 23,
+    "skill": "sk_w_whirlwind"
+   },
+   {
+    "level": 24,
+    "skill": "sk_w_holy_blade"
+   },
+   {
+    "level": 26,
+    "skill": "sk_war_cry"
+   },
+   {
+    "level": 28,
+    "skill": "sk_w_giga_slash"
+   },
+   {
+    "level": 29,
+    "skill": "sk_w_aegis"
+   },
+   {
+    "level": 30,
+    "skill": "sk_w_grand_cross"
+   },
+   {
+    "level": 32,
+    "skill": "sk_w_crimson_fury"
+   },
+   {
+    "level": 34,
+    "skill": "sk_titan_crash"
+   },
+   {
+    "level": 36,
+    "skill": "sk_w_cataclysm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_w_ragnarok"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "sword_bronze",
+   "armor": "armor_chain",
+   "accessory": ""
+  },
+  "class": "warrior",
+  "rank": "D",
+  "gender": "M",
+  "join_kind": "boss",
+  "join_zone": 1,
+  "scout_price": 0,
+  "start_job": "",
+  "line": "시민 대피 끝! 이제 내가 막는다.",
+  "profile": "ex firefighter tank: orange-and-navy turnout coat with reflective stripes, yellow brimmed cap, heavy gloves, big round shield made from a manhole cover",
+  "_file": "h_minjun"
+ },
+ {
+  "id": "h_sora",
+  "display_name": "이소라",
+  "max_hp": 115,
+  "max_mp": 24,
+  "attack": 20,
+  "magic": 10,
+  "defense": 11,
+  "resistance": 11,
+  "speed": 25,
+  "hit": 1.0,
+  "evade": 0.1,
+  "crit": 0.1,
+  "hp_growth": 9.66,
+  "mp_growth": 2.2,
+  "atk_growth": 2.52,
+  "mag_growth": 0.8,
+  "def_growth": 1.4,
+  "res_growth": 1.4,
+  "spd_growth": 1.456,
+  "skills": [
+   "basic_attack",
+   "sig_sora",
+   "double_shot",
+   "sk_poison_arrow"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_sora"
+   },
+   {
+    "level": 1,
+    "skill": "double_shot"
+   },
+   {
+    "level": 1,
+    "skill": "sk_poison_arrow"
+   },
+   {
+    "level": 4,
+    "skill": "sk_a_ice_arrow"
+   },
+   {
+    "level": 6,
+    "skill": "sk_hunter_mark"
+   },
+   {
+    "level": 7,
+    "skill": "sk_a_hawk_eye"
+   },
+   {
+    "level": 8,
+    "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 10,
+    "skill": "sk_weak_point"
+   },
+   {
+    "level": 11,
+    "skill": "sk_a_flash_arrow"
+   },
+   {
+    "level": 12,
+    "skill": "sk_a_thunder_arrow"
+   },
+   {
+    "level": 14,
+    "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 16,
+    "skill": "sk_a_triple_shot"
+   },
+   {
+    "level": 18,
+    "skill": "sk_arrow_rain"
+   },
+   {
+    "level": 20,
+    "skill": "sk_a_holy_arrow"
+   },
+   {
+    "level": 22,
+    "skill": "sk_a_gale"
+   },
+   {
+    "level": 24,
+    "skill": "sk_sleep_arrow"
+   },
+   {
+    "level": 28,
+    "skill": "sk_a_deadeye"
+   },
+   {
+    "level": 30,
+    "skill": "sk_a_blaze_rain"
+   },
+   {
+    "level": 32,
+    "skill": "sk_piercing_gale"
+   },
+   {
+    "level": 34,
+    "skill": "sk_a_phantom_raid"
+   },
+   {
+    "level": 36,
+    "skill": "sk_a_venom_storm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_a_heaven_arrow"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "bow_short",
+   "armor": "garb_leather",
+   "accessory": ""
+  },
+  "class": "archer",
+  "rank": "D",
+  "gender": "F",
+  "join_kind": "boss",
+  "join_zone": 2,
+  "scout_price": 0,
+  "start_job": "ranger",
+  "line": "…말 걸지 마. 표적이 도망가.",
+  "profile": "assassin: short black bomber jacket with violet trim, fitted dark pants, thigh straps with knives, violet accents",
+  "_file": "h_sora"
+ },
+ {
+  "id": "h_taeyang",
+  "display_name": "오태양",
+  "max_hp": 105,
+  "max_mp": 38,
+  "attack": 11,
+  "magic": 27,
+  "defense": 9,
+  "resistance": 16,
+  "speed": 12,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.03,
+  "hp_growth": 8.5,
+  "mp_growth": 4.2,
+  "atk_growth": 0.9,
+  "mag_growth": 3.24,
+  "def_growth": 1.155,
+  "res_growth": 2.2,
+  "spd_growth": 0.9,
+  "skills": [
+   "basic_attack",
+   "sig_taeyang",
+   "fireball",
+   "sk_m_spark"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_taeyang"
+   },
+   {
+    "level": 1,
+    "skill": "fireball"
+   },
+   {
+    "level": 1,
+    "skill": "sk_m_spark"
+   },
+   {
+    "level": 4,
+    "skill": "sk_ice_lance"
+   },
+   {
+    "level": 5,
+    "skill": "sk_m_sleep"
+   },
+   {
+    "level": 6,
+    "skill": "sk_m_shadow_bolt"
+   },
+   {
+    "level": 7,
+    "skill": "sk_m_focus"
+   },
+   {
+    "level": 8,
+    "skill": "ult_meteor"
+   },
+   {
+    "level": 9,
+    "skill": "sk_chain_spark"
+   },
+   {
+    "level": 11,
+    "skill": "sk_m_silence"
+   },
+   {
+    "level": 14,
+    "skill": "sk_m_blaze"
+   },
+   {
+    "level": 15,
+    "skill": "sk_m_lightning"
+   },
+   {
+    "level": 17,
+    "skill": "sk_frost_nova"
+   },
+   {
+    "level": 19,
+    "skill": "sk_m_glacier"
+   },
+   {
+    "level": 20,
+    "skill": "sk_m_drain"
+   },
+   {
+    "level": 22,
+    "skill": "sk_thunder_storm"
+   },
+   {
+    "level": 24,
+    "skill": "sk_m_prism"
+   },
+   {
+    "level": 25,
+    "skill": "sk_m_curse"
+   },
+   {
+    "level": 28,
+    "skill": "sk_void_lance"
+   },
+   {
+    "level": 30,
+    "skill": "sk_m_hellfire"
+   },
+   {
+    "level": 32,
+    "skill": "sk_m_absolute_zero"
+   },
+   {
+    "level": 33,
+    "skill": "sk_m_abyss_gate"
+   },
+   {
+    "level": 35,
+    "skill": "sk_m_indra"
+   },
+   {
+    "level": 38,
+    "skill": "ult_m_arcana_nova"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "staff_crystal",
+   "armor": "robe_silk",
+   "accessory": ""
+  },
+  "class": "mage",
+  "rank": "C",
+  "gender": "M",
+  "join_kind": "boss",
+  "join_zone": 3,
+  "scout_price": 0,
+  "start_job": "elementalist",
+  "line": "공장 불 끄던 놈이 불을 쓰게 될 줄이야.",
+  "profile": "factory engineer fire mage: orange work coveralls with sleeves tied at the waist, black tank top, welding goggles on forehead, tool belt, burn-proof gloves",
+  "_file": "h_taeyang"
+ },
+ {
+  "id": "h_eunbi",
+  "display_name": "정은비",
+  "max_hp": 120,
+  "max_mp": 40,
+  "attack": 10,
+  "magic": 21,
+  "defense": 12,
+  "resistance": 19,
+  "speed": 11,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.04,
+  "hp_growth": 10.0,
+  "mp_growth": 4.0,
+  "atk_growth": 1.0,
+  "mag_growth": 2.65,
+  "def_growth": 1.5,
+  "res_growth": 2.592,
+  "spd_growth": 0.8,
+  "class_color": [
+   1.0,
+   0.72,
+   0.68,
+   1.0
+  ],
+  "skills": [
+   "basic_attack",
+   "sig_eunbi",
+   "heal",
+   "holy_light",
+   "sk_c_protect",
+   "sk_cure"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_eunbi"
+   },
+   {
+    "level": 1,
+    "skill": "heal"
+   },
+   {
+    "level": 1,
+    "skill": "holy_light"
+   },
+   {
+    "level": 1,
+    "skill": "sk_c_protect"
+   },
+   {
+    "level": 1,
+    "skill": "sk_cure"
+   },
+   {
+    "level": 4,
+    "skill": "sk_c_regen"
+   },
+   {
+    "level": 5,
+    "skill": "sk_c_blessing"
+   },
+   {
+    "level": 6,
+    "skill": "sk_heal_all"
+   },
+   {
+    "level": 8,
+    "skill": "ult_seraph_hymn"
+   },
+   {
+    "level": 10,
+    "skill": "sk_revive"
+   },
+   {
+    "level": 11,
+    "skill": "sk_c_barrier"
+   },
+   {
+    "level": 12,
+    "skill": "sk_c_haste"
+   },
+   {
+    "level": 13,
+    "skill": "sk_c_protect_all"
+   },
+   {
+    "level": 14,
+    "skill": "sk_greater_heal"
+   },
+   {
+    "level": 16,
+    "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 18,
+    "skill": "sk_c_purify_all"
+   },
+   {
+    "level": 20,
+    "skill": "sk_sanctuary"
+   },
+   {
+    "level": 23,
+    "skill": "sk_c_hymn_swift"
+   },
+   {
+    "level": 24,
+    "skill": "sk_c_exorcism"
+   },
+   {
+    "level": 27,
+    "skill": "sk_divine_judgment"
+   },
+   {
+    "level": 29,
+    "skill": "sk_c_judgment_cross"
+   },
+   {
+    "level": 31,
+    "skill": "sk_c_benediction"
+   },
+   {
+    "level": 35,
+    "skill": "sk_c_resurrection"
+   },
+   {
+    "level": 38,
+    "skill": "ult_c_miracle"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "mace_silver",
+   "armor": "robe_silk",
+   "accessory": ""
+  },
+  "class": "cleric",
+  "rank": "C",
+  "gender": "F",
+  "join_kind": "boss",
+  "join_zone": 4,
+  "scout_price": 0,
+  "start_job": "exorcist",
+  "line": "귀신보다 무서운 건 야근이에요.",
+  "profile": "Korean shaman exorcist: white jeogori-style short jacket with red goreum ribbon, dark hanbok-like long skirt, talismans on a cord, bell bracelet, long straight black hair",
+  "_file": "h_eunbi"
+ },
+ {
+  "id": "h_gunwoo",
+  "display_name": "서건우",
+  "max_hp": 173,
+  "max_mp": 24,
+  "attack": 25,
+  "magic": 8,
+  "defense": 16,
+  "resistance": 10,
+  "speed": 10,
+  "hit": 0.95,
+  "evade": 0.03,
+  "crit": 0.05,
+  "hp_growth": 14.7,
+  "mp_growth": 2.2,
+  "atk_growth": 2.912,
+  "mag_growth": 0.6,
+  "def_growth": 1.84,
+  "res_growth": 1.2,
+  "spd_growth": 0.7,
+  "skills": [
+   "basic_attack",
+   "sig_gunwoo",
+   "strong_attack",
+   "sk_w_twin_slash",
+   "stunning_slam"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_gunwoo"
+   },
+   {
+    "level": 1,
+    "skill": "strong_attack"
+   },
+   {
+    "level": 1,
+    "skill": "sk_w_twin_slash"
+   },
+   {
+    "level": 1,
+    "skill": "stunning_slam"
+   },
+   {
+    "level": 4,
+    "skill": "sk_provoke"
+   },
+   {
+    "level": 5,
+    "skill": "sk_w_rally"
+   },
+   {
+    "level": 6,
+    "skill": "sk_cleave"
+   },
+   {
+    "level": 7,
+    "skill": "sk_w_flame_blade"
+   },
+   {
+    "level": 8,
+    "skill": "ult_heaven_rend"
+   },
+   {
+    "level": 11,
+    "skill": "sk_w_armor_break"
+   },
+   {
+    "level": 13,
+    "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 15,
+    "skill": "sk_bleed_edge"
+   },
+   {
+    "level": 16,
+    "skill": "sk_w_power_break"
+   },
+   {
+    "level": 17,
+    "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 20,
+    "skill": "sk_iron_wall"
+   },
+   {
+    "level": 23,
+    "skill": "sk_w_whirlwind"
+   },
+   {
+    "level": 24,
+    "skill": "sk_w_holy_blade"
+   },
+   {
+    "level": 26,
+    "skill": "sk_war_cry"
+   },
+   {
+    "level": 28,
+    "skill": "sk_w_giga_slash"
+   },
+   {
+    "level": 29,
+    "skill": "sk_w_aegis"
+   },
+   {
+    "level": 30,
+    "skill": "sk_w_grand_cross"
+   },
+   {
+    "level": 32,
+    "skill": "sk_w_crimson_fury"
+   },
+   {
+    "level": 34,
+    "skill": "sk_titan_crash"
+   },
+   {
+    "level": 36,
+    "skill": "sk_w_cataclysm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_w_ragnarok"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "sword_knight",
+   "armor": "armor_plate",
+   "accessory": ""
+  },
+  "class": "warrior",
+  "rank": "C",
+  "gender": "M",
+  "join_kind": "boss",
+  "join_zone": 5,
+  "scout_price": 0,
+  "start_job": "berserker",
+  "line": "맞으면서 배우는 거지. 덤벼!",
+  "profile": "MMA fighter berserker: sleeveless black compression top, red boxing shorts over leggings, hand wraps and bandaged forearms, buzz cut, chain necklace",
+  "_file": "h_gunwoo"
+ },
+ {
+  "id": "h_hana",
+  "display_name": "김하나",
+  "max_hp": 97,
+  "max_mp": 38,
+  "attack": 11,
+  "magic": 28,
+  "defense": 9,
+  "resistance": 16,
+  "speed": 13,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.03,
+  "hp_growth": 7.82,
+  "mp_growth": 4.2,
+  "atk_growth": 0.9,
+  "mag_growth": 3.3,
+  "def_growth": 1.1,
+  "res_growth": 2.2,
+  "spd_growth": 0.945,
+  "skills": [
+   "basic_attack",
+   "sig_hana",
+   "fireball",
+   "sk_m_spark"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_hana"
+   },
+   {
+    "level": 1,
+    "skill": "fireball"
+   },
+   {
+    "level": 1,
+    "skill": "sk_m_spark"
+   },
+   {
+    "level": 4,
+    "skill": "sk_ice_lance"
+   },
+   {
+    "level": 5,
+    "skill": "sk_m_sleep"
+   },
+   {
+    "level": 6,
+    "skill": "sk_m_shadow_bolt"
+   },
+   {
+    "level": 7,
+    "skill": "sk_m_focus"
+   },
+   {
+    "level": 8,
+    "skill": "ult_meteor"
+   },
+   {
+    "level": 9,
+    "skill": "sk_chain_spark"
+   },
+   {
+    "level": 11,
+    "skill": "sk_m_silence"
+   },
+   {
+    "level": 12,
+    "skill": "sk_flame_wave"
+   },
+   {
+    "level": 14,
+    "skill": "sk_m_blaze"
+   },
+   {
+    "level": 15,
+    "skill": "sk_m_lightning"
+   },
+   {
+    "level": 19,
+    "skill": "sk_m_glacier"
+   },
+   {
+    "level": 20,
+    "skill": "sk_m_drain"
+   },
+   {
+    "level": 22,
+    "skill": "sk_thunder_storm"
+   },
+   {
+    "level": 24,
+    "skill": "sk_m_prism"
+   },
+   {
+    "level": 25,
+    "skill": "sk_m_curse"
+   },
+   {
+    "level": 28,
+    "skill": "sk_void_lance"
+   },
+   {
+    "level": 30,
+    "skill": "sk_m_hellfire"
+   },
+   {
+    "level": 32,
+    "skill": "sk_m_absolute_zero"
+   },
+   {
+    "level": 33,
+    "skill": "sk_m_abyss_gate"
+   },
+   {
+    "level": 35,
+    "skill": "sk_m_indra"
+   },
+   {
+    "level": 38,
+    "skill": "ult_m_arcana_nova"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "staff_sage",
+   "armor": "robe_mystic",
+   "accessory": ""
+  },
+  "class": "mage",
+  "rank": "B",
+  "gender": "F",
+  "join_kind": "boss",
+  "join_zone": 6,
+  "scout_price": 0,
+  "start_job": "elementalist",
+  "line": "팬 여러분, 오늘도 얼려 드릴게요!",
+  "profile": "idol hunter ice mage: white-and-ice-blue stage jacket with silver trim, short pleated skirt, star hairpin, knee boots, headset mic",
+  "_file": "h_hana"
+ },
+ {
+  "id": "h_siwoo",
+  "display_name": "류시우",
+  "max_hp": 119,
+  "max_mp": 24,
+  "attack": 21,
+  "magic": 10,
+  "defense": 11,
+  "resistance": 11,
+  "speed": 22,
+  "hit": 1.0,
+  "evade": 0.1,
+  "crit": 0.1,
+  "hp_growth": 9.975,
+  "mp_growth": 2.2,
+  "atk_growth": 2.64,
+  "mag_growth": 0.8,
+  "def_growth": 1.4,
+  "res_growth": 1.4,
+  "spd_growth": 1.326,
+  "skills": [
+   "basic_attack",
+   "sig_siwoo",
+   "double_shot",
+   "sk_poison_arrow"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_siwoo"
+   },
+   {
+    "level": 1,
+    "skill": "double_shot"
+   },
+   {
+    "level": 1,
+    "skill": "sk_poison_arrow"
+   },
+   {
+    "level": 4,
+    "skill": "sk_a_ice_arrow"
+   },
+   {
+    "level": 6,
+    "skill": "sk_hunter_mark"
+   },
+   {
+    "level": 7,
+    "skill": "sk_a_hawk_eye"
+   },
+   {
+    "level": 8,
+    "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 10,
+    "skill": "sk_weak_point"
+   },
+   {
+    "level": 11,
+    "skill": "sk_a_flash_arrow"
+   },
+   {
+    "level": 12,
+    "skill": "sk_a_thunder_arrow"
+   },
+   {
+    "level": 14,
+    "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 16,
+    "skill": "sk_a_triple_shot"
+   },
+   {
+    "level": 18,
+    "skill": "sk_arrow_rain"
+   },
+   {
+    "level": 20,
+    "skill": "sk_a_holy_arrow"
+   },
+   {
+    "level": 22,
+    "skill": "sk_a_gale"
+   },
+   {
+    "level": 24,
+    "skill": "sk_sleep_arrow"
+   },
+   {
+    "level": 26,
+    "skill": "sk_a_shadow_stitch"
+   },
+   {
+    "level": 30,
+    "skill": "sk_a_blaze_rain"
+   },
+   {
+    "level": 32,
+    "skill": "sk_piercing_gale"
+   },
+   {
+    "level": 34,
+    "skill": "sk_a_phantom_raid"
+   },
+   {
+    "level": 36,
+    "skill": "sk_a_venom_storm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_a_heaven_arrow"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "bow_gale",
+   "armor": "garb_wind",
+   "accessory": ""
+  },
+  "class": "archer",
+  "rank": "B",
+  "gender": "M",
+  "join_kind": "boss",
+  "join_zone": 7,
+  "scout_price": 0,
+  "start_job": "sniper",
+  "line": "교실에서 보는 것보다 과녁이 크네요.",
+  "profile": "genius high-school sniper: navy school blazer with emblem, loosened tie, white shirt, grey slacks, headphones around the neck, long rifle-like bow",
+  "_file": "h_siwoo"
+ },
+ {
+  "id": "h_mirae",
+  "display_name": "송미래",
+  "max_hp": 120,
+  "max_mp": 40,
+  "attack": 11,
+  "magic": 21,
+  "defense": 12,
+  "resistance": 18,
+  "speed": 11,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.04,
+  "hp_growth": 10.0,
+  "mp_growth": 4.0,
+  "atk_growth": 1.08,
+  "mag_growth": 2.625,
+  "def_growth": 1.5,
+  "res_growth": 2.4,
+  "spd_growth": 0.8,
+  "class_color": [
+   1.0,
+   0.72,
+   0.68,
+   1.0
+  ],
+  "skills": [
+   "basic_attack",
+   "sig_mirae",
+   "heal",
+   "holy_light",
+   "sk_c_protect",
+   "sk_cure"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_mirae"
+   },
+   {
+    "level": 1,
+    "skill": "heal"
+   },
+   {
+    "level": 1,
+    "skill": "holy_light"
+   },
+   {
+    "level": 1,
+    "skill": "sk_c_protect"
+   },
+   {
+    "level": 1,
+    "skill": "sk_cure"
+   },
+   {
+    "level": 4,
+    "skill": "sk_c_regen"
+   },
+   {
+    "level": 5,
+    "skill": "sk_c_blessing"
+   },
+   {
+    "level": 6,
+    "skill": "sk_heal_all"
+   },
+   {
+    "level": 8,
+    "skill": "ult_seraph_hymn"
+   },
+   {
+    "level": 9,
+    "skill": "sk_c_banish"
+   },
+   {
+    "level": 10,
+    "skill": "sk_revive"
+   },
+   {
+    "level": 11,
+    "skill": "sk_c_barrier"
+   },
+   {
+    "level": 12,
+    "skill": "sk_c_haste"
+   },
+   {
+    "level": 13,
+    "skill": "sk_c_protect_all"
+   },
+   {
+    "level": 14,
+    "skill": "sk_greater_heal"
+   },
+   {
+    "level": 16,
+    "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 18,
+    "skill": "sk_c_purify_all"
+   },
+   {
+    "level": 20,
+    "skill": "sk_sanctuary"
+   },
+   {
+    "level": 23,
+    "skill": "sk_c_hymn_swift"
+   },
+   {
+    "level": 24,
+    "skill": "sk_c_exorcism"
+   },
+   {
+    "level": 27,
+    "skill": "sk_divine_judgment"
+   },
+   {
+    "level": 31,
+    "skill": "sk_c_benediction"
+   },
+   {
+    "level": 35,
+    "skill": "sk_c_resurrection"
+   },
+   {
+    "level": 38,
+    "skill": "ult_c_miracle"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "mace_saint",
+   "armor": "robe_sage",
+   "accessory": ""
+  },
+  "class": "cleric",
+  "rank": "B",
+  "gender": "F",
+  "join_kind": "boss",
+  "join_zone": 8,
+  "scout_price": 0,
+  "start_job": "inquisitor",
+  "line": "죄는 미워하되, 몬스터는 더 미워하세요.",
+  "profile": "inquisitor: long white military-style coat with gold buttons and a cross emblem, black gloves, peaked cap, knee boots, golden blonde braid",
+  "_file": "h_mirae"
+ },
+ {
+  "id": "h_jaehyun",
+  "display_name": "남재현",
+  "max_hp": 120,
+  "max_mp": 46,
+  "attack": 9,
+  "magic": 22,
+  "defense": 12,
+  "resistance": 18,
+  "speed": 11,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.04,
+  "hp_growth": 10.0,
+  "mp_growth": 4.6,
+  "atk_growth": 0.9,
+  "mag_growth": 2.75,
+  "def_growth": 1.5,
+  "res_growth": 2.4,
+  "spd_growth": 0.8,
+  "class_color": [
+   1.0,
+   0.72,
+   0.68,
+   1.0
+  ],
+  "skills": [
+   "basic_attack",
+   "sig_jaehyun",
+   "heal",
+   "holy_light",
+   "sk_c_protect",
+   "sk_cure"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_jaehyun"
+   },
+   {
+    "level": 1,
+    "skill": "heal"
+   },
+   {
+    "level": 1,
+    "skill": "holy_light"
+   },
+   {
+    "level": 1,
+    "skill": "sk_c_protect"
+   },
+   {
+    "level": 1,
+    "skill": "sk_cure"
+   },
+   {
+    "level": 4,
+    "skill": "sk_c_regen"
+   },
+   {
+    "level": 5,
+    "skill": "sk_c_blessing"
+   },
+   {
+    "level": 6,
+    "skill": "sk_heal_all"
+   },
+   {
+    "level": 8,
+    "skill": "ult_seraph_hymn"
+   },
+   {
+    "level": 9,
+    "skill": "sk_c_banish"
+   },
+   {
+    "level": 10,
+    "skill": "sk_revive"
+   },
+   {
+    "level": 11,
+    "skill": "sk_c_barrier"
+   },
+   {
+    "level": 12,
+    "skill": "sk_c_haste"
+   },
+   {
+    "level": 13,
+    "skill": "sk_c_protect_all"
+   },
+   {
+    "level": 16,
+    "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 18,
+    "skill": "sk_c_purify_all"
+   },
+   {
+    "level": 20,
+    "skill": "sk_sanctuary"
+   },
+   {
+    "level": 23,
+    "skill": "sk_c_hymn_swift"
+   },
+   {
+    "level": 24,
+    "skill": "sk_c_exorcism"
+   },
+   {
+    "level": 27,
+    "skill": "sk_divine_judgment"
+   },
+   {
+    "level": 29,
+    "skill": "sk_c_judgment_cross"
+   },
+   {
+    "level": 31,
+    "skill": "sk_c_benediction"
+   },
+   {
+    "level": 35,
+    "skill": "sk_c_resurrection"
+   },
+   {
+    "level": 38,
+    "skill": "ult_c_miracle"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "mace_requiem",
+   "armor": "robe_spirit",
+   "accessory": ""
+  },
+  "class": "cleric",
+  "rank": "A",
+  "gender": "M",
+  "join_kind": "boss",
+  "join_zone": 9,
+  "scout_price": 0,
+  "start_job": "priest",
+  "line": "환자는 제가 맡죠. 여러분은 싸우기만 하세요.",
+  "profile": "doctor healer: white doctor coat over teal scrubs, stethoscope, ID badge, rimless glasses, neat short hair",
+  "_file": "h_jaehyun"
+ },
+ {
+  "id": "h_dana",
+  "display_name": "문다나",
+  "max_hp": 178,
+  "max_mp": 24,
+  "attack": 22,
+  "magic": 7,
+  "defense": 19,
+  "resistance": 10,
+  "speed": 10,
+  "hit": 0.95,
+  "evade": 0.03,
+  "crit": 0.05,
+  "hp_growth": 15.12,
+  "mp_growth": 2.2,
+  "atk_growth": 2.6,
+  "mag_growth": 0.54,
+  "def_growth": 2.24,
+  "res_growth": 1.2,
+  "spd_growth": 0.7,
+  "skills": [
+   "basic_attack",
+   "sig_dana",
+   "strong_attack",
+   "sk_w_twin_slash",
+   "stunning_slam"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_dana"
+   },
+   {
+    "level": 1,
+    "skill": "strong_attack"
+   },
+   {
+    "level": 1,
+    "skill": "sk_w_twin_slash"
+   },
+   {
+    "level": 1,
+    "skill": "stunning_slam"
+   },
+   {
+    "level": 4,
+    "skill": "sk_provoke"
+   },
+   {
+    "level": 5,
+    "skill": "sk_w_rally"
+   },
+   {
+    "level": 6,
+    "skill": "sk_cleave"
+   },
+   {
+    "level": 7,
+    "skill": "sk_w_flame_blade"
+   },
+   {
+    "level": 8,
+    "skill": "ult_heaven_rend"
+   },
+   {
+    "level": 11,
+    "skill": "sk_w_armor_break"
+   },
+   {
+    "level": 13,
+    "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 15,
+    "skill": "sk_bleed_edge"
+   },
+   {
+    "level": 16,
+    "skill": "sk_w_power_break"
+   },
+   {
+    "level": 17,
+    "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 20,
+    "skill": "sk_iron_wall"
+   },
+   {
+    "level": 22,
+    "skill": "sk_w_berserk"
+   },
+   {
+    "level": 23,
+    "skill": "sk_w_whirlwind"
+   },
+   {
+    "level": 24,
+    "skill": "sk_w_holy_blade"
+   },
+   {
+    "level": 26,
+    "skill": "sk_war_cry"
+   },
+   {
+    "level": 28,
+    "skill": "sk_w_giga_slash"
+   },
+   {
+    "level": 30,
+    "skill": "sk_w_grand_cross"
+   },
+   {
+    "level": 32,
+    "skill": "sk_w_crimson_fury"
+   },
+   {
+    "level": 34,
+    "skill": "sk_titan_crash"
+   },
+   {
+    "level": 36,
+    "skill": "sk_w_cataclysm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_w_ragnarok"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "sword_runic",
+   "armor": "armor_rune",
+   "accessory": ""
+  },
+  "class": "warrior",
+  "rank": "A",
+  "gender": "F",
+  "join_kind": "boss",
+  "join_zone": 10,
+  "scout_price": 0,
+  "start_job": "knight",
+  "line": "한 걸음도 물러서지 않는다. 그게 해병이다.",
+  "profile": "ex-marine guardian: digital camo jacket with rolled sleeves, tactical plate carrier, knee pads, combat boots, short ponytail, red beret",
+  "_file": "h_dana"
+ },
+ {
+  "id": "h_iseul",
+  "display_name": "차이슬",
+  "max_hp": 125,
+  "max_mp": 24,
+  "attack": 20,
+  "magic": 10,
+  "defense": 11,
+  "resistance": 11,
+  "speed": 24,
+  "hit": 1.0,
+  "evade": 0.1,
+  "crit": 0.1,
+  "hp_growth": 10.5,
+  "mp_growth": 2.2,
+  "atk_growth": 2.544,
+  "mag_growth": 0.8,
+  "def_growth": 1.4,
+  "res_growth": 1.4,
+  "spd_growth": 1.43,
+  "skills": [
+   "basic_attack",
+   "sig_iseul",
+   "double_shot",
+   "sk_poison_arrow"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_iseul"
+   },
+   {
+    "level": 1,
+    "skill": "double_shot"
+   },
+   {
+    "level": 1,
+    "skill": "sk_poison_arrow"
+   },
+   {
+    "level": 4,
+    "skill": "sk_a_ice_arrow"
+   },
+   {
+    "level": 6,
+    "skill": "sk_hunter_mark"
+   },
+   {
+    "level": 7,
+    "skill": "sk_a_hawk_eye"
+   },
+   {
+    "level": 8,
+    "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 10,
+    "skill": "sk_weak_point"
+   },
+   {
+    "level": 11,
+    "skill": "sk_a_flash_arrow"
+   },
+   {
+    "level": 12,
+    "skill": "sk_a_thunder_arrow"
+   },
+   {
+    "level": 14,
+    "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 16,
+    "skill": "sk_a_triple_shot"
+   },
+   {
+    "level": 18,
+    "skill": "sk_arrow_rain"
+   },
+   {
+    "level": 20,
+    "skill": "sk_a_holy_arrow"
+   },
+   {
+    "level": 22,
+    "skill": "sk_a_gale"
+   },
+   {
+    "level": 24,
+    "skill": "sk_sleep_arrow"
+   },
+   {
+    "level": 26,
+    "skill": "sk_a_shadow_stitch"
+   },
+   {
+    "level": 28,
+    "skill": "sk_a_deadeye"
+   },
+   {
+    "level": 30,
+    "skill": "sk_a_blaze_rain"
+   },
+   {
+    "level": 34,
+    "skill": "sk_a_phantom_raid"
+   },
+   {
+    "level": 36,
+    "skill": "sk_a_venom_storm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_a_heaven_arrow"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "bow_tide",
+   "armor": "garb_tide",
+   "accessory": ""
+  },
+  "class": "archer",
+  "rank": "A",
+  "gender": "F",
+  "join_kind": "boss",
+  "join_zone": 11,
+  "scout_price": 0,
+  "start_job": "sniper",
+  "line": "길드 거리는 내 앞마당이야. 따라와.",
+  "profile": "guild scout captain: green field poncho over a utility vest, cargo pants, binoculars, bandana, fingerless gloves",
+  "_file": "h_iseul"
+ },
+ {
+  "id": "h_haneul",
+  "display_name": "강하늘",
+  "max_hp": 105,
+  "max_mp": 42,
+  "attack": 11,
+  "magic": 28,
+  "defense": 8,
+  "resistance": 16,
+  "speed": 12,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.03,
+  "hp_growth": 8.5,
+  "mp_growth": 4.62,
+  "atk_growth": 0.9,
+  "mag_growth": 3.42,
+  "def_growth": 0.99,
+  "res_growth": 2.2,
+  "spd_growth": 0.9,
+  "skills": [
+   "basic_attack",
+   "sig_haneul",
+   "fireball",
+   "sk_m_spark"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_haneul"
+   },
+   {
+    "level": 1,
+    "skill": "fireball"
+   },
+   {
+    "level": 1,
+    "skill": "sk_m_spark"
+   },
+   {
+    "level": 4,
+    "skill": "sk_ice_lance"
+   },
+   {
+    "level": 5,
+    "skill": "sk_m_sleep"
+   },
+   {
+    "level": 6,
+    "skill": "sk_m_shadow_bolt"
+   },
+   {
+    "level": 7,
+    "skill": "sk_m_focus"
+   },
+   {
+    "level": 8,
+    "skill": "ult_meteor"
+   },
+   {
+    "level": 9,
+    "skill": "sk_chain_spark"
+   },
+   {
+    "level": 11,
+    "skill": "sk_m_silence"
+   },
+   {
+    "level": 12,
+    "skill": "sk_flame_wave"
+   },
+   {
+    "level": 14,
+    "skill": "sk_m_blaze"
+   },
+   {
+    "level": 15,
+    "skill": "sk_m_lightning"
+   },
+   {
+    "level": 17,
+    "skill": "sk_frost_nova"
+   },
+   {
+    "level": 19,
+    "skill": "sk_m_glacier"
+   },
+   {
+    "level": 20,
+    "skill": "sk_m_drain"
+   },
+   {
+    "level": 22,
+    "skill": "sk_thunder_storm"
+   },
+   {
+    "level": 24,
+    "skill": "sk_m_prism"
+   },
+   {
+    "level": 25,
+    "skill": "sk_m_curse"
+   },
+   {
+    "level": 28,
+    "skill": "sk_void_lance"
+   },
+   {
+    "level": 30,
+    "skill": "sk_m_hellfire"
+   },
+   {
+    "level": 32,
+    "skill": "sk_m_absolute_zero"
+   },
+   {
+    "level": 35,
+    "skill": "sk_m_indra"
+   },
+   {
+    "level": 38,
+    "skill": "ult_m_arcana_nova"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "staff_void",
+   "armor": "robe_void",
+   "accessory": ""
+  },
+  "class": "mage",
+  "rank": "S",
+  "gender": "M",
+  "join_kind": "boss",
+  "join_zone": 12,
+  "scout_price": 0,
+  "start_job": "warlock",
+  "line": "S급이라고 다 친절한 건 아냐. 난 예외지만.",
+  "profile": "S-rank dark mage: long black coat with violet lining and high collar, black gloves, silver hair, floating violet runes, dress shoes",
+  "_file": "h_haneul"
+ },
+ {
+  "id": "h_bora",
+  "display_name": "표보라",
+  "max_hp": 165,
+  "max_mp": 24,
+  "attack": 24,
+  "magic": 8,
+  "defense": 17,
+  "resistance": 10,
+  "speed": 10,
+  "hit": 0.95,
+  "evade": 0.03,
+  "crit": 0.05,
+  "hp_growth": 14.0,
+  "mp_growth": 2.2,
+  "atk_growth": 2.86,
+  "mag_growth": 0.6,
+  "def_growth": 2.0,
+  "res_growth": 1.2,
+  "spd_growth": 0.735,
+  "skills": [
+   "basic_attack",
+   "sig_bora",
+   "strong_attack",
+   "sk_w_twin_slash",
+   "stunning_slam"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_bora"
+   },
+   {
+    "level": 1,
+    "skill": "strong_attack"
+   },
+   {
+    "level": 1,
+    "skill": "sk_w_twin_slash"
+   },
+   {
+    "level": 1,
+    "skill": "stunning_slam"
+   },
+   {
+    "level": 4,
+    "skill": "sk_provoke"
+   },
+   {
+    "level": 5,
+    "skill": "sk_w_rally"
+   },
+   {
+    "level": 6,
+    "skill": "sk_cleave"
+   },
+   {
+    "level": 7,
+    "skill": "sk_w_flame_blade"
+   },
+   {
+    "level": 8,
+    "skill": "ult_heaven_rend"
+   },
+   {
+    "level": 11,
+    "skill": "sk_w_armor_break"
+   },
+   {
+    "level": 13,
+    "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 15,
+    "skill": "sk_bleed_edge"
+   },
+   {
+    "level": 16,
+    "skill": "sk_w_power_break"
+   },
+   {
+    "level": 17,
+    "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 20,
+    "skill": "sk_iron_wall"
+   },
+   {
+    "level": 22,
+    "skill": "sk_w_berserk"
+   },
+   {
+    "level": 24,
+    "skill": "sk_w_holy_blade"
+   },
+   {
+    "level": 26,
+    "skill": "sk_war_cry"
+   },
+   {
+    "level": 28,
+    "skill": "sk_w_giga_slash"
+   },
+   {
+    "level": 29,
+    "skill": "sk_w_aegis"
+   },
+   {
+    "level": 30,
+    "skill": "sk_w_grand_cross"
+   },
+   {
+    "level": 32,
+    "skill": "sk_w_crimson_fury"
+   },
+   {
+    "level": 34,
+    "skill": "sk_titan_crash"
+   },
+   {
+    "level": 36,
+    "skill": "sk_w_cataclysm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_w_ragnarok"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "sword_iron",
+   "armor": "armor_scale",
+   "accessory": ""
+  },
+  "class": "warrior",
+  "rank": "C",
+  "gender": "F",
+  "join_kind": "scout",
+  "join_zone": 3,
+  "scout_price": 3000,
+  "start_job": "berserker",
+  "line": "의뢰비만 확실하면, 끝까지 지켜 드리죠.",
+  "profile": "bodyguard warrior: black suit with the jacket open, red tie, sunglasses on the head, earpiece, leather gloves, bob-cut wine-red hair",
+  "_file": "h_bora"
+ },
+ {
+  "id": "h_youngsu",
+  "display_name": "장영수",
+  "max_hp": 132,
+  "max_mp": 40,
+  "attack": 10,
+  "magic": 20,
+  "defense": 13,
+  "resistance": 18,
+  "speed": 10,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.04,
+  "hp_growth": 11.0,
+  "mp_growth": 4.0,
+  "atk_growth": 1.0,
+  "mag_growth": 2.5,
+  "def_growth": 1.62,
+  "res_growth": 2.4,
+  "spd_growth": 0.76,
+  "class_color": [
+   1.0,
+   0.72,
+   0.68,
+   1.0
+  ],
+  "skills": [
+   "basic_attack",
+   "sig_youngsu",
+   "heal",
+   "holy_light",
+   "sk_c_protect",
+   "sk_cure"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_youngsu"
+   },
+   {
+    "level": 1,
+    "skill": "heal"
+   },
+   {
+    "level": 1,
+    "skill": "holy_light"
+   },
+   {
+    "level": 1,
+    "skill": "sk_c_protect"
+   },
+   {
+    "level": 1,
+    "skill": "sk_cure"
+   },
+   {
+    "level": 4,
+    "skill": "sk_c_regen"
+   },
+   {
+    "level": 5,
+    "skill": "sk_c_blessing"
+   },
+   {
+    "level": 6,
+    "skill": "sk_heal_all"
+   },
+   {
+    "level": 8,
+    "skill": "ult_seraph_hymn"
+   },
+   {
+    "level": 9,
+    "skill": "sk_c_banish"
+   },
+   {
+    "level": 10,
+    "skill": "sk_revive"
+   },
+   {
+    "level": 11,
+    "skill": "sk_c_barrier"
+   },
+   {
+    "level": 12,
+    "skill": "sk_c_haste"
+   },
+   {
+    "level": 13,
+    "skill": "sk_c_protect_all"
+   },
+   {
+    "level": 14,
+    "skill": "sk_greater_heal"
+   },
+   {
+    "level": 16,
+    "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 18,
+    "skill": "sk_c_purify_all"
+   },
+   {
+    "level": 20,
+    "skill": "sk_sanctuary"
+   },
+   {
+    "level": 23,
+    "skill": "sk_c_hymn_swift"
+   },
+   {
+    "level": 27,
+    "skill": "sk_divine_judgment"
+   },
+   {
+    "level": 29,
+    "skill": "sk_c_judgment_cross"
+   },
+   {
+    "level": 31,
+    "skill": "sk_c_benediction"
+   },
+   {
+    "level": 35,
+    "skill": "sk_c_resurrection"
+   },
+   {
+    "level": 38,
+    "skill": "ult_c_miracle"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "mace_blessed",
+   "armor": "robe_mystic",
+   "accessory": ""
+  },
+  "class": "cleric",
+  "rank": "C",
+  "gender": "M",
+  "join_kind": "scout",
+  "join_zone": 6,
+  "scout_price": 8000,
+  "start_job": "exorcist",
+  "line": "나무아미타불… 그리고 한 대 더.",
+  "profile": "temple monk exorcist: grey monk robe with a brown kasa sash, prayer beads, straw sandals over socks, shaved head, wooden moktak hanging from the belt",
+  "_file": "h_youngsu"
+ },
+ {
+  "id": "h_rina",
+  "display_name": "유리나",
+  "max_hp": 105,
+  "max_mp": 38,
+  "attack": 11,
+  "magic": 27,
+  "defense": 9,
+  "resistance": 16,
+  "speed": 13,
+  "hit": 0.95,
+  "evade": 0.05,
+  "crit": 0.03,
+  "hp_growth": 8.5,
+  "mp_growth": 4.2,
+  "atk_growth": 0.9,
+  "mag_growth": 3.24,
+  "def_growth": 1.1,
+  "res_growth": 2.2,
+  "spd_growth": 0.972,
+  "skills": [
+   "basic_attack",
+   "sig_rina",
+   "fireball",
+   "sk_m_spark"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_rina"
+   },
+   {
+    "level": 1,
+    "skill": "fireball"
+   },
+   {
+    "level": 1,
+    "skill": "sk_m_spark"
+   },
+   {
+    "level": 4,
+    "skill": "sk_ice_lance"
+   },
+   {
+    "level": 5,
+    "skill": "sk_m_sleep"
+   },
+   {
+    "level": 6,
+    "skill": "sk_m_shadow_bolt"
+   },
+   {
+    "level": 7,
+    "skill": "sk_m_focus"
+   },
+   {
+    "level": 8,
+    "skill": "ult_meteor"
+   },
+   {
+    "level": 9,
+    "skill": "sk_chain_spark"
+   },
+   {
+    "level": 11,
+    "skill": "sk_m_silence"
+   },
+   {
+    "level": 12,
+    "skill": "sk_flame_wave"
+   },
+   {
+    "level": 14,
+    "skill": "sk_m_blaze"
+   },
+   {
+    "level": 15,
+    "skill": "sk_m_lightning"
+   },
+   {
+    "level": 17,
+    "skill": "sk_frost_nova"
+   },
+   {
+    "level": 19,
+    "skill": "sk_m_glacier"
+   },
+   {
+    "level": 20,
+    "skill": "sk_m_drain"
+   },
+   {
+    "level": 22,
+    "skill": "sk_thunder_storm"
+   },
+   {
+    "level": 25,
+    "skill": "sk_m_curse"
+   },
+   {
+    "level": 28,
+    "skill": "sk_void_lance"
+   },
+   {
+    "level": 30,
+    "skill": "sk_m_hellfire"
+   },
+   {
+    "level": 32,
+    "skill": "sk_m_absolute_zero"
+   },
+   {
+    "level": 33,
+    "skill": "sk_m_abyss_gate"
+   },
+   {
+    "level": 35,
+    "skill": "sk_m_indra"
+   },
+   {
+    "level": 38,
+    "skill": "ult_m_arcana_nova"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "staff_ruby",
+   "armor": "robe_sage",
+   "accessory": ""
+  },
+  "class": "mage",
+  "rank": "B",
+  "gender": "F",
+  "join_kind": "scout",
+  "join_zone": 8,
+  "scout_price": 15000,
+  "start_job": "elementalist",
+  "line": "사랑과 마력으로, 게이트를 닫겠어요!",
+  "profile": "magical-girl mage: pink-and-white frilled jacket with ribbon, star wand, twin tails with ribbons, striped stockings, small cape",
+  "_file": "h_rina"
+ },
+ {
+  "id": "h_jun",
+  "display_name": "진준",
+  "max_hp": 125,
+  "max_mp": 24,
+  "attack": 20,
+  "magic": 10,
+  "defense": 10,
+  "resistance": 11,
+  "speed": 25,
+  "hit": 1.0,
+  "evade": 0.1,
+  "crit": 0.1,
+  "hp_growth": 10.5,
+  "mp_growth": 2.2,
+  "atk_growth": 2.52,
+  "mag_growth": 0.8,
+  "def_growth": 1.288,
+  "res_growth": 1.4,
+  "spd_growth": 1.456,
+  "skills": [
+   "basic_attack",
+   "sig_jun",
+   "double_shot",
+   "sk_poison_arrow"
+  ],
+  "learnset": [
+   {
+    "level": 1,
+    "skill": "sig_jun"
+   },
+   {
+    "level": 1,
+    "skill": "double_shot"
+   },
+   {
+    "level": 1,
+    "skill": "sk_poison_arrow"
+   },
+   {
+    "level": 4,
+    "skill": "sk_a_ice_arrow"
+   },
+   {
+    "level": 6,
+    "skill": "sk_hunter_mark"
+   },
+   {
+    "level": 7,
+    "skill": "sk_a_hawk_eye"
+   },
+   {
+    "level": 8,
+    "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 10,
+    "skill": "sk_weak_point"
+   },
+   {
+    "level": 11,
+    "skill": "sk_a_flash_arrow"
+   },
+   {
+    "level": 12,
+    "skill": "sk_a_thunder_arrow"
+   },
+   {
+    "level": 14,
+    "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 16,
+    "skill": "sk_a_triple_shot"
+   },
+   {
+    "level": 18,
+    "skill": "sk_arrow_rain"
+   },
+   {
+    "level": 20,
+    "skill": "sk_a_holy_arrow"
+   },
+   {
+    "level": 22,
+    "skill": "sk_a_gale"
+   },
+   {
+    "level": 24,
+    "skill": "sk_sleep_arrow"
+   },
+   {
+    "level": 26,
+    "skill": "sk_a_shadow_stitch"
+   },
+   {
+    "level": 28,
+    "skill": "sk_a_deadeye"
+   },
+   {
+    "level": 30,
+    "skill": "sk_a_blaze_rain"
+   },
+   {
+    "level": 32,
+    "skill": "sk_piercing_gale"
+   },
+   {
+    "level": 36,
+    "skill": "sk_a_venom_storm"
+   },
+   {
+    "level": 38,
+    "skill": "ult_a_heaven_arrow"
+   }
+  ],
+  "starter_equipment": {
+   "weapon": "bow_wraith",
+   "armor": "garb_wraith",
+   "accessory": ""
+  },
+  "class": "archer",
+  "rank": "A",
+  "gender": "M",
+  "join_kind": "scout",
+  "join_zone": 10,
+  "scout_price": 30000,
+  "start_job": "ranger",
+  "line": "배송 완료. 표적도 완료.",
+  "profile": "courier rider assassin: black hooded windbreaker with neon yellow stripes, motorcycle gloves, helmet clipped to the belt, crossbow on the back, delivery bag",
+  "_file": "h_jun"
  }
 ]

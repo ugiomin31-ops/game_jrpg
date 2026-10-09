@@ -42,15 +42,19 @@ namespace Abyss.UI
         /// </summary>
         public static Func<string, string> HeroJob;
 
+        /// <summary>A hunter's own portrait; a hunter without one shows its job's, then its class's portrait.</summary>
         public static Sprite Hero(string id)
         {
-            string job = string.IsNullOrEmpty(id) ? null : HeroJob?.Invoke(id);
-            if (!string.IsNullOrEmpty(job) && job != id && job.IndexOf('/') < 0 && job.IndexOf('\\') < 0)
+            if (string.IsNullOrEmpty(id)) return Load("Heroes", id);
+            var own = TryLoad("Heroes", id);
+            if (own != null) return own;
+            string job = HeroJob?.Invoke(id);
+            if (!string.IsNullOrEmpty(job) && job.IndexOf('/') < 0 && job.IndexOf('\\') < 0)
             {
                 var sprite = TryLoad("Heroes", job);
                 if (sprite != null) return sprite;
             }
-            return Load("Heroes", id);
+            return Load("Heroes", Abyss.Logic.GameDB.Instance?.ClassOf(id) ?? id);
         }
 
         /// <summary>Portrait of a job (falls back to the hero's portrait when the job has none).</summary>

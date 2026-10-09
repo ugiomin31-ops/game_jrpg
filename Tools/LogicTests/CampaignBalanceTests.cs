@@ -44,7 +44,7 @@ namespace Abyss.LogicTests
             {
                 int c = CampaignSim.Chapter(floor.Index);
                 int level = CampaignSim.FloorLevel(floor.Index);
-                var party = PartyFor(db, prep, level, c, forge: CampaignSim.ExpectedForge[c - 1]);
+                var party = PartyFor(db, prep, level, c, forge: CampaignSim.ExpectedForge[CampaignSim.MarketTier(c) - 1]);
                 var random = new CampaignSim.Result();
                 foreach (var group in floor.EncounterGroups.Distinct(new GroupComparer()))
                     for (int s = 0; s < 2; s++) CampaignSim.Fight(db, party, group, BattleKind.Random, 1f, floor.Id, seed++, random);
@@ -57,20 +57,20 @@ namespace Abyss.LogicTests
                 foreach (var e in floor.Events.Where(e => !e.Group.Any(id => db.Enemies[id].IsBoss)))
                     for (int s = 0; s < 2; s++) CampaignSim.Fight(db, party, e.Group, BattleKind.Event, 1f, floor.Id, seed++, ev);
                 var boss = new CampaignSim.Result();
-                if (floor.BossGroup.Count > 0 && c < 7)
+                if (floor.BossGroup.Count > 0 && c <= GameFlow.MainChapters)
                 {
-                    var bossParty = PartyFor(db, prep, CampaignSim.BossLevel(c), c, forge: CampaignSim.ExpectedForge[c - 1]);
+                    var bossParty = PartyFor(db, prep, CampaignSim.BossLevel(c), c, forge: CampaignSim.ExpectedForge[CampaignSim.MarketTier(c) - 1]);
                     for (int s = 0; s < BossSamples; s++) CampaignSim.Fight(db, bossParty, floor.BossGroup, BattleKind.Boss, 1f, floor.Id, BossSeed(c) + s, boss);
                     table.Boss[c] = boss;
                 }
                 if (!table.Random.TryGetValue(c, out var acc)) table.Random[c] = acc = new CampaignSim.Result();
                 acc.Battles += random.Battles; acc.Wins += random.Wins; acc.Rounds += random.Rounds;
-                Console.WriteLine($"  {floor.FloorLabel,-5} {level,3}  {random,-18}  {foe,-11}  {ev,-11}  {(floor.BossGroup.Count > 0 && c < 7 ? $"{floor.BossGroup[0]}@Lv{CampaignSim.BossLevel(c)} {boss}" : "")}");
+                Console.WriteLine($"  {floor.FloorLabel,-5} {level,3}  {random,-18}  {foe,-11}  {ev,-11}  {(floor.BossGroup.Count > 0 && c <= GameFlow.MainChapters ? $"{floor.BossGroup[0]}@Lv{CampaignSim.BossLevel(c)} {boss}" : "")}");
             }
             // Superbosses: the trial corridor's six echoes at the level cap with legendary gear (expected: jobs and +10 forging).
             var legendary = prep == Prep.Under
-                ? CampaignSim.Party(db, SpecIds.LevelCap, 7, legendary: true)
-                : CampaignSim.Party(db, SpecIds.LevelCap, 7, legendary: true, jobs: true, forge: Enhancement.MaxLevel);
+                ? CampaignSim.Party(db, SpecIds.LevelCap, GameFlow.MainChapters + 1, legendary: true)
+                : CampaignSim.Party(db, SpecIds.LevelCap, GameFlow.MainChapters + 1, legendary: true, jobs: true, forge: Enhancement.MaxLevel);
             foreach (var enemy in db.Enemies.Values.Where(e => e.Id.EndsWith("_ex")).OrderBy(e => e.Level))
             {
                 var r = new CampaignSim.Result();
@@ -102,10 +102,12 @@ namespace Abyss.LogicTests
             {
                 bool geared = db.Equipment.Values.Any(p => p.ShopTier == kv.Key && p.Slot == "weapon");
                 Console.WriteLine($"  chapter {kv.Key} boss {(geared ? "checked" : "not checked: no tier-" + kv.Key + " gear rows yet")}");
-                // Chapters 1-4: the under-prepared party (no class change) keeps a 25 % floor. From chapter 5 the game gates the
-                // top job, so the floor is only that the boss is still possible without it (5 %).
-                double floor = kv.Key <= 4 ? 0.25 : 0.05;
-                if (geared) Assert.True(kv.Value.WinRate >= floor && kv.Value.WinRate < 1, $"chapter {kv.Key} boss is winnable at least {floor * 100:0}% ({kv.Value})");
+                // Zones 1-4: the under-prepared party (no class change) keeps a 25 % floor. From zone 5 the bosses are tuned for
+                // the advanced job (Lv 12) and later the master job (Lv 36), so without them the only check is that the boss is
+                // not a free win; the expected-player range below keeps every boss beatable.
+                if (!geared) continue;
+                if (kv.Key <= 4) Assert.True(kv.Value.WinRate >= 0.25, $"zone {kv.Key} boss is winnable at least 25% ({kv.Value})");
+                Assert.True(kv.Value.WinRate < 1, $"zone {kv.Key} boss is not a free win ({kv.Value})");
             }
 
             // Expected player targets.
@@ -117,32 +119,33 @@ namespace Abyss.LogicTests
             int foesOver60 = expected.Foes.Count(f => f.WinRate >= 0.6);
             Assert.True(foesOver60 * 3 >= expected.Foes.Count * 2, $"expected: FOEs are mostly won at 60% or more ({foesOver60} of {expected.Foes.Count} floors)");
             double? prevRounds = null;
-            for (int c = 1; c <= 6; c++)
+            for (int c = 1; c <= GameFlow.MainChapters; c++)
             {
                 var boss = expected.Boss[c];
-                Assert.True(boss.WinRate >= 0.55 && boss.WinRate <= 0.85, $"expected: chapter {c} boss is 55-85% ({boss})");
-                // Boss fights lengthen chapter to chapter: no drop of more than 2.5 rounds, no jump of more than four (the step to
-                // the final boss is the long one: 12-16 rounds after a chapter 5 boss of about 11).
+                Assert.True(boss.WinRate >= 0.55 && boss.WinRate <= 0.85, $"expected: zone {c} boss is 55-85% ({boss})");
+                // Boss fights stay in a steady band zone to zone: no drop of more than 2.5 rounds, no jump of more than four (the
+                // step to the final boss is the long one: 12-16 rounds after a zone 11 boss of about 11).
                 if (prevRounds is double p)
-                    Assert.True(boss.AvgRounds >= p - 2.5 && boss.AvgRounds <= p + 4.0, $"expected: chapter {c} boss rounds rise smoothly ({boss}, previous {p:0.0}r)");
+                    Assert.True(boss.AvgRounds >= p - 2.5 && boss.AvgRounds <= p + 4.0, $"expected: zone {c} boss rounds change smoothly ({boss}, previous {p:0.0}r)");
                 prevRounds = boss.AvgRounds;
             }
-            // The final boss is the longest fight of the main story: 12-16 rounds, longer than the chapter 5 boss.
-            var final6 = expected.Boss[6];
-            Assert.True(final6.AvgRounds >= 12 && final6.AvgRounds <= 16, $"expected: final boss takes 12-16 rounds ({final6})");
-            Assert.True(final6.AvgRounds > expected.Boss[5].AvgRounds, $"expected: final boss fight is longer than chapter 5 ({final6} vs {expected.Boss[5]})");
-            // The under-prepared curve must not invert sharply in chapters 1-4: a chapter's boss is not much easier than the previous one.
+            // The final boss is the longest fight of the main story: 12-16 rounds, longer than the zone 11 boss.
+            int last = GameFlow.MainChapters;
+            var final = expected.Boss[last];
+            Assert.True(final.AvgRounds >= 12 && final.AvgRounds <= 16, $"expected: final boss takes 12-16 rounds ({final})");
+            Assert.True(final.AvgRounds > expected.Boss[last - 1].AvgRounds, $"expected: final boss fight is longer than zone {last - 1} ({final} vs {expected.Boss[last - 1]})");
+            // The under-prepared curve must not invert sharply in zones 1-4: a zone's boss is not much easier than the previous one.
             for (int c = 2; c <= 4; c++)
                 Assert.True(under.Boss[c].WinRate <= under.Boss[c - 1].WinRate + 0.25,
-                    $"under-prepared: chapter {c} boss is not much easier than chapter {c - 1} ({under.Boss[c]} vs {under.Boss[c - 1]})");
-            // Main-story boss HP grows chapter by chapter, and the final boss is clearly the largest (at least 1.1x the chapter 5 boss).
-            for (int c = 2; c <= 6; c++)
+                    $"under-prepared: zone {c} boss is not much easier than zone {c - 1} ({under.Boss[c]} vs {under.Boss[c - 1]})");
+            // Main-story boss HP grows zone by zone, and the final boss is clearly the largest (at least 1.1x the zone 11 boss).
+            for (int c = 2; c <= last; c++)
             {
                 int prevHp = db.Enemies[SpecIds.ChapterBosses[c - 2]].MaxHp, hp = db.Enemies[SpecIds.ChapterBosses[c - 1]].MaxHp;
-                Assert.True(hp > prevHp, $"boss HP grows chapter by chapter: chapter {c} ({hp}) above chapter {c - 1} ({prevHp})");
+                Assert.True(hp > prevHp, $"boss HP grows zone by zone: zone {c} ({hp}) above zone {c - 1} ({prevHp})");
             }
-            int leviathanHp = db.Enemies[SpecIds.ChapterBosses[4]].MaxHp, finalHp = db.Enemies[SpecIds.ChapterBosses[5]].MaxHp;
-            Assert.True(finalHp >= leviathanHp * 1.1, $"final boss HP is at least 1.1x the chapter 5 boss ({finalHp} vs {leviathanHp})");
+            int beforeFinalHp = db.Enemies[SpecIds.ChapterBosses[last - 2]].MaxHp, finalHp = db.Enemies[SpecIds.ChapterBosses[last - 1]].MaxHp;
+            Assert.True(finalHp >= beforeFinalHp * 1.1, $"final boss HP is at least 1.1x the zone {last - 1} boss ({finalHp} vs {beforeFinalHp})");
             foreach (var (id, r) in expected.Superbosses)
                 Assert.True(r.WinRate >= 0.25 && r.WinRate <= 0.75, $"expected: superboss {id} is won 25-75% of the time ({r})");
         }

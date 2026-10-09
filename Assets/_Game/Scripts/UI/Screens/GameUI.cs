@@ -58,7 +58,7 @@ namespace Abyss.UI
             { m.Title = title; m.Subtitle = subtitle; m.RefreshContent = refresh; m.TabLabels = tabs; m.AllowCancel = cancel; });
         }
         string T(string key, string fallback = null) => app.DB.Text.TryGetValue(key, out var value) ? value : fallback ?? "정보를 확인할 수 없습니다.";
-        string HeroName(string id) => app.DB.Heroes.TryGetValue(id, out var d) ? d.DisplayName : "동료";
+        string HeroName(string id) => app.DB.Heroes.TryGetValue(id, out var d) ? d.DisplayName : "헌터";
         string ItemName(string id) => app.DB.Items.TryGetValue(id, out var d) ? d.DisplayName : app.DB.Equipment.ContainsKey(id) ? EquipmentName(id) : "물품";
         /// <summary>Equipment name with its smithy enhancement ("무쇠 장검 +3").</summary>
         string EquipmentName(string id) => app.DB.Equipment.TryGetValue(id ?? "", out var e) ? Enhancement.DisplayName(e, Enhancement.LevelOf(app.State, id)) : T("slot_none");
@@ -150,7 +150,7 @@ namespace Abyss.UI
                         {
                             var s = app.Saves.Summary(slot);
                             var played = TimeSpan.FromSeconds(s.PlayTimeSeconds);
-                            var lines = new List<string> { s.Location == GameLocation.Town ? T("town") : s.FloorLabel, $"{DifficultyName(s.Difficulty)} · {s.Gold:N0} G", $"최심부 {s.DeepestFloorLabel}", $"플레이 시간 {(long)played.TotalHours:00}:{played.Minutes:00}:{played.Seconds:00}" };
+                            var lines = new List<string> { s.Location == GameLocation.Town ? T("town") : s.FloorLabel, $"{DifficultyName(s.Difficulty)} · {s.Gold:N0}만원", $"최심부 {s.DeepestFloorLabel}", $"플레이 시간 {(long)played.TotalHours:00}:{played.Minutes:00}:{played.Seconds:00}" };
                             foreach (var hero in s.Levels) lines.Add($"{HeroName(hero.Key)} · Lv.{hero.Value}");
                             var date = app.Saves.SlotTime(slot);
                             if (date.HasValue) lines.Add(date.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm"));
@@ -204,8 +204,8 @@ namespace Abyss.UI
             var pause = Menu(app.Screen == GameScreen.Dungeon ? T("camp_title") : "모험 수첩", T("camp_hint"), m =>
             {
                 bool inBattle = app.Screen == GameScreen.Battle;
-                if (app.Screen == GameScreen.Town) m.Add("마을 시설", ShowTownDirectory, T("town_subtitle"));
-                m.Add(T("party"), ShowParty, "동료의 능력치, 장비와 습득한 기술을 확인합니다.", icon: UIArtwork.Command("party"));
+                if (app.Screen == GameScreen.Town) m.Add("길드 시설", ShowTownDirectory, T("town_subtitle"));
+                m.Add(T("party"), ShowParty, "헌터의 능력치, 장비와 기술을 확인하고 파티를 편성합니다.", icon: UIArtwork.Command("party"));
                 m.Add(T("cmd_item"), ShowFieldItems, inBattle ? T("battle_unavailable") : T("camp_hint"), enabled: !inBattle, reason: T("battle_unavailable"), icon: UIArtwork.Command("item"));
                 m.Add("의뢰 수첩", () => ShowQuests(false));
                 m.Add("마물 도감", ShowBestiary, "발견한 마물과 장별 토벌 기록, 도감 달성 보상을 확인합니다.");
@@ -215,7 +215,7 @@ namespace Abyss.UI
                 m.Add(T("settings"), ShowSettings);
                 m.Add(T("credits"), () => ShowCredits(null));
                 m.Add(T("title_return"), ReturnTitle);
-                m.Add("모험 계속", () => root.Screens.Pop());
+                m.Add("계속하기", () => root.Screens.Pop());
             });
             pause.CloseOnMenu = true;
             pause.Closed = () => { UIInput.Consume(); app.SetPaused(false); };
@@ -246,7 +246,7 @@ namespace Abyss.UI
                 if (grid.Cell(cell) == '#') continue;
                 total++; if (grid.Progress.Explored.Contains(cell)) explored++;
             }
-            resources.text = $"{app.State.Gold:N0} G  ·  열쇠 {grid.Progress.Keys}  ·  탐사 {Math.Min(100, total == 0 ? 0 : explored * 100 / total)}%";
+            resources.text = $"{app.State.Gold:N0}만원  ·  열쇠 {grid.Progress.Keys}  ·  탐사 {Math.Min(100, total == 0 ? 0 : explored * 100 / total)}%";
             minimap.SetMap(grid, app.State);
             RefreshVitals();
         }
@@ -372,7 +372,7 @@ namespace Abyss.UI
         void ShowMap()
         {
             if (app.State.Location != GameLocation.Dungeon || app.Dungeon == null)
-            { UIModal.Alert(root.Modals, T("map_title"), "미궁 안에서 현재 층의 지도를 펼칠 수 있습니다."); return; }
+            { UIModal.Alert(root.Modals, T("map_title"), "게이트 안에서 현재 층의 지도를 펼칠 수 있습니다."); return; }
             root.Screens.Push<GameMapScreen>(s => { s.Run = app.Dungeon; s.State = app.State; });
         }
     }

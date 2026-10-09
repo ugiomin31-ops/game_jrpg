@@ -46,7 +46,7 @@ namespace Abyss.LogicTests
         [LogicTest]
         public static void AutoFiresTheNewestUltimateWhenUseful()
         {
-            var setup = BattleTestUtil.Setup(38, new[] { "slime", "slime", "slime" }, 3, heroes: new[] { "warrior" });
+            var setup = BattleTestUtil.Setup(38, new[] { "slime", "slime", "slime" }, 3, heroes: new[] { "h_dohyun" });
             var engine = new BattleEngine(TestMain.DB, setup);
             engine.Start();
             var hero = engine.ActiveHero;

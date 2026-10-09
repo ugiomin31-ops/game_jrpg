@@ -97,8 +97,9 @@ namespace Abyss.Logic.Game
             return total;
         }
 
-        /// <summary>Equipment class restriction: empty Classes = every hero.</summary>
-        public static bool AllowsClass(EquipmentDef piece, string heroId) => piece.Classes == null || piece.Classes.Count == 0 || piece.Classes.Contains(heroId);
+        /// <summary>Equipment class restriction: empty Classes = every hero; otherwise the hero's base class must be listed.</summary>
+        public static bool AllowsClass(GameDB db, EquipmentDef piece, string heroId) =>
+            piece.Classes == null || piece.Classes.Count == 0 || piece.Classes.Contains(db.ClassOf(heroId));
 
         /// <summary>
         /// Equipment job restriction: empty Jobs = any job; otherwise the hero's current job or a job it was promoted
@@ -112,26 +113,28 @@ namespace Abyss.Logic.Game
         }
 
         /// <summary>Class and job restriction together.</summary>
-        public static bool AllowsHero(GameDB db, EquipmentDef piece, HeroState hero) => AllowsClass(piece, hero.Id) && AllowsJob(db, piece, hero);
+        public static bool AllowsHero(GameDB db, EquipmentDef piece, HeroState hero) => AllowsClass(db, piece, hero.Id) && AllowsJob(db, piece, hero);
 
         /// <summary>The hero's current job row, or null when jobs.json has no row for it (stats then use the plain hero).</summary>
         public static JobDef JobOf(GameDB db, HeroState hero)
         {
-            string id = string.IsNullOrEmpty(hero.Job) ? hero.Id : hero.Job;
-            return db.Jobs.TryGetValue(id, out var job) && job.Hero == hero.Id ? job : null;
+            string cls = db.ClassOf(hero.Id);
+            string id = string.IsNullOrEmpty(hero.Job) ? cls : hero.Job;
+            return db.Jobs.TryGetValue(id, out var job) && job.Hero == cls ? job : null;
         }
 
-        /// <summary>Job ids from the base job down to <paramref name="jobId"/> (e.g. cleric, priest, saint).</summary>
+        /// <summary>Job ids from the base job (the hero's class) down to <paramref name="jobId"/> (e.g. cleric, priest, saint).</summary>
         public static List<string> JobPath(GameDB db, string heroId, string jobId)
         {
             var path = new List<string>();
-            string id = string.IsNullOrEmpty(jobId) ? heroId : jobId;
-            while (!string.IsNullOrEmpty(id) && db.Jobs.TryGetValue(id, out var job) && job.Hero == heroId && !path.Contains(id))
+            string cls = db.ClassOf(heroId);
+            string id = string.IsNullOrEmpty(jobId) ? cls : jobId;
+            while (!string.IsNullOrEmpty(id) && db.Jobs.TryGetValue(id, out var job) && job.Hero == cls && !path.Contains(id))
             {
                 path.Insert(0, id);
                 id = job.Parent;
             }
-            if (path.Count == 0 || path[0] != heroId) path.Insert(0, heroId);
+            if (path.Count == 0 || path[0] != cls) path.Insert(0, cls);
             return path;
         }
 
@@ -141,8 +144,8 @@ namespace Abyss.Logic.Game
         /// <summary>Display name of the hero's current job (the hero's own name for a missing job row).</summary>
         public static string JobName(GameDB db, HeroState hero) => JobOf(db, hero)?.DisplayName ?? (db.Heroes.TryGetValue(hero.Id, out var def) ? def.DisplayName : hero.Id);
 
-        /// <summary>True once the hero has left the base job.</summary>
-        public static bool IsPromoted(HeroState hero) => !string.IsNullOrEmpty(hero.Job) && hero.Job != hero.Id;
+        /// <summary>True once the hero has left the base job (its class).</summary>
+        public static bool IsPromoted(GameDB db, HeroState hero) => !string.IsNullOrEmpty(hero.Job) && hero.Job != db.ClassOf(hero.Id);
 
         /// <summary>Level stats with the job multipliers applied (no equipment).</summary>
         public static StatBlock JobLevelStats(HeroDef hero, JobDef job, int level)
@@ -254,9 +257,10 @@ namespace Abyss.Logic.Game
         public static List<string> SkillsFor(GameDB db, string heroId, string jobId, int level)
         {
             var output = SkillsForLevel(db.Heroes[heroId], level);
+            string cls = db.ClassOf(heroId);
             foreach (string id in JobPath(db, heroId, jobId))
             {
-                if (id == heroId || !db.Jobs.TryGetValue(id, out var job)) continue;
+                if (id == cls || !db.Jobs.TryGetValue(id, out var job)) continue;
                 var rows = new List<LearnEntry>(job.Learnset);
                 rows.Sort((a, b) => a.Level.CompareTo(b.Level));
                 foreach (var row in rows) if (row.Level <= level && !string.IsNullOrEmpty(row.Skill) && !output.Contains(row.Skill)) output.Add(row.Skill);
@@ -272,8 +276,9 @@ namespace Abyss.Logic.Game
         {
             var output = new List<LearnEntry>();
             foreach (var row in db.Heroes[hero.Id].Learnset) if (row.Level > hero.Level) output.Add(row);
+            string cls = db.ClassOf(hero.Id);
             foreach (string id in JobPath(db, hero))
-                if (id != hero.Id && db.Jobs.TryGetValue(id, out var job))
+                if (id != cls && db.Jobs.TryGetValue(id, out var job))
                     foreach (var row in job.Learnset) if (row.Level > hero.Level) output.Add(row);
             output.Sort((a, b) => a.Level.CompareTo(b.Level));
             return output;
@@ -298,7 +303,7 @@ namespace Abyss.Logic.Game
             var spec = new HeroCombatSpec
             {
                 HeroId = heroId,
-                DisplayName = IsPromoted(hero) ? JobName(db, hero) : def.DisplayName,
+                DisplayName = def.DisplayName,
                 Level = hero.Level,
                 MaxHp = stats.MaxHp,
                 MaxMp = stats.MaxMp,
@@ -318,7 +323,7 @@ namespace Abyss.Logic.Game
                 WeaponId = hero.Equipped("weapon"),
                 ArmorId = hero.Equipped("armor"),
                 AccessoryId = hero.Equipped("accessory"),
-                Row = db.HeroOrder.IndexOf(heroId) == 0 ? 0 : 1,
+                Row = db.ClassOf(heroId) == "warrior" ? 0 : 1,
                 AttackElement = stats.AttackElement,
                 HpRegen = stats.HpRegen,
                 MpRegen = stats.MpRegen,
@@ -482,6 +487,7 @@ namespace Abyss.Logic.Game
                     var levelUp = AwardXp(db, hero, xp);
                     if (levelUp != null) report.LevelUps.Add(levelUp);
                 }
+                HunterRoster.AwardBenchXp(db, state, report.Experience);
                 foreach (var kv in outcome.Drops)
                 {
                     if (kv.Value <= 0) continue;
@@ -577,7 +583,7 @@ namespace Abyss.Logic.Game
         /// <summary>Whether <paramref name="heroId"/> may wear <paramref name="equipmentId"/> (known piece, valid slot, class allowed).</summary>
         public static bool CanEquip(GameDB db, string heroId, string equipmentId) =>
             db.Equipment.TryGetValue(equipmentId, out var piece) && db.Heroes.ContainsKey(heroId)
-            && Array.IndexOf(GameState.EquipSlots, piece.Slot) >= 0 && AllowsClass(piece, heroId);
+            && Array.IndexOf(GameState.EquipSlots, piece.Slot) >= 0 && AllowsClass(db, piece, heroId);
 
         /// <summary>Whether this hero, in its current job, may wear <paramref name="equipmentId"/> (class and job restriction).</summary>
         public static bool CanEquip(GameDB db, HeroState hero, string equipmentId) =>
@@ -590,7 +596,7 @@ namespace Abyss.Logic.Game
             if (hero == null) return ServiceResult.Fail("unknown_member");
             if (!db.Equipment.TryGetValue(equipmentId, out var piece)) return ServiceResult.Fail("unknown_equipment");
             if (Array.IndexOf(GameState.EquipSlots, piece.Slot) < 0) return ServiceResult.Fail("invalid_slot");
-            if (!AllowsClass(piece, heroId)) return ServiceResult.Fail("class_mismatch");
+            if (!AllowsClass(db, piece, heroId)) return ServiceResult.Fail("class_mismatch");
             if (!AllowsJob(db, piece, hero)) return ServiceResult.Fail("job_mismatch");
             if (state.BagCount(equipmentId) < 1) return ServiceResult.Fail("not_owned");
             string previous = hero.Equipped(piece.Slot);

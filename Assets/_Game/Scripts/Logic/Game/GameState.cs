@@ -82,10 +82,13 @@ namespace Abyss.Logic.Game
         public const int LevelCap = 70;
         public const int StartingGold = 150;
         public const int MaxStack = 99;
+        public const int PartySize = 4;
         public static readonly string[] EquipSlots = { "weapon", "armor", "accessory" };
 
-        /// <summary>Party in formation order (warrior, mage, archer, cleric).</summary>
+        /// <summary>Active party in formation order (1..<see cref="PartySize"/> hunters).</summary>
         public List<HeroState> Party = new List<HeroState>();
+        /// <summary>Recruited hunters waiting at the guild (benched; they earn <see cref="HunterRoster.BenchXpShare"/> of battle EXP).</summary>
+        public List<HeroState> Reserve = new List<HeroState>();
         /// <summary>Item id -> count (consumables and materials).</summary>
         public Dictionary<string, int> Inventory = new Dictionary<string, int>();
         /// <summary>Equipment id -> count of UNEQUIPPED pieces owned.</summary>
@@ -120,11 +123,11 @@ namespace Abyss.Logic.Game
         public uint DungeonRandomState;
         public int DungeonEncounterSteps;
 
-        /// <summary>Fresh campaign: 4 heroes at Lv1 with starter gear and full vitals, 150 G, 3 healing_potion, 1 return_stone (§2.2).</summary>
+        /// <summary>Fresh campaign: the starting hunters at Lv1 with starter gear and full vitals, 150 G, 3 healing_potion, 1 return_stone (§2.2).</summary>
         public static GameState NewGame(GameDB db, Difficulty difficulty)
         {
             var s = new GameState { Difficulty = difficulty, Gold = StartingGold, Location = GameLocation.Town };
-            foreach (string id in db.HeroOrder) s.Party.Add(new HeroState { Id = id, Job = id, Level = 1, Hp = -1, Mp = -1 });
+            foreach (string id in db.HeroOrder) s.Party.Add(new HeroState { Id = id, Job = db.ClassOf(id), Level = 1, Hp = -1, Mp = -1 });
             s.AddItem("healing_potion", 3);
             s.AddItem("return_stone", 1);
             var first = db.Floors[0];
@@ -136,11 +139,26 @@ namespace Abyss.Logic.Game
             return s;
         }
 
-        /// <summary>Hero by id or null.</summary>
+        /// <summary>Recruited hunter (party or reserve) by id, or null.</summary>
         public HeroState Hero(string heroId)
         {
             foreach (var h in Party) if (h.Id == heroId) return h;
+            foreach (var h in Reserve) if (h.Id == heroId) return h;
             return null;
+        }
+
+        /// <summary>True when the hunter is in the active party.</summary>
+        public bool InParty(string heroId)
+        {
+            foreach (var h in Party) if (h.Id == heroId) return true;
+            return false;
+        }
+
+        /// <summary>Every recruited hunter: the party in formation order, then the reserve.</summary>
+        public IEnumerable<HeroState> AllHunters()
+        {
+            foreach (var h in Party) yield return h;
+            foreach (var h in Reserve) yield return h;
         }
 
         /// <summary>Progress record for a floor id (created on first access).</summary>
@@ -260,44 +278,31 @@ namespace Abyss.Logic.Game
                 p.DefeatedFoes ??= new SortedSet<string>(StringComparer.Ordinal);
                 p.Keys = Math.Max(0, p.Keys);
             }
+            Reserve ??= new List<HeroState>();
             CampaignMigration.Apply(db, this);
-            var byId = new Dictionary<string, HeroState>();
-            foreach (var h in Party) if (h != null && h.Id != null && db.Heroes.ContainsKey(h.Id) && !byId.ContainsKey(h.Id)) byId[h.Id] = h;
+            HunterRoster.MigrateLegacyHeroes(db, this);
+            // Every recruited hunter exists once (party first); unknown ids are dropped. The starting hunters are
+            // always recruited (saves missing one get it back at the roster's lowest level).
+            var seen = new HashSet<string>();
+            var party = new List<HeroState>();
+            var reserve = new List<HeroState>();
+            foreach (var h in Party) if (h != null && h.Id != null && db.Heroes.ContainsKey(h.Id) && seen.Add(h.Id)) party.Add(h);
+            foreach (var h in Reserve) if (h != null && h.Id != null && db.Heroes.ContainsKey(h.Id) && seen.Add(h.Id)) reserve.Add(h);
             int lowest = int.MaxValue;
-            foreach (var h in byId.Values) lowest = Math.Min(lowest, h.Level);
-            Party = new List<HeroState>();
+            foreach (var h in party) lowest = Math.Min(lowest, h.Level);
+            foreach (var h in reserve) lowest = Math.Min(lowest, h.Level);
             foreach (string id in db.HeroOrder)
             {
-                if (!byId.TryGetValue(id, out var hero))
-                {
-                    // Saves missing a hero get a fresh one at the party's lowest level (original: _ensure_cleric).
-                    hero = new HeroState { Id = id, Job = id, Level = lowest == int.MaxValue ? 1 : lowest, Hp = -1, Mp = -1 };
-                }
-                // A hero without any slot record (fresh or legacy) gets starter gear; emptied slots stay empty.
-                bool missingEquipment = hero.Equipment == null || hero.Equipment.Count == 0;
-                hero.Equipment ??= new Dictionary<string, string>();
-                hero.Statuses ??= new Dictionary<string, int>();
-                hero.LearnedSkills ??= new List<string>();
-                hero.Seeds ??= new Dictionary<string, int>();
-                foreach (var key in new List<string>(hero.Seeds.Keys))
-                {
-                    int amount = Math.Min(PartyStats.SeedCap(key), hero.Seeds[key]);
-                    if (amount <= 0) hero.Seeds.Remove(key);
-                    else hero.Seeds[key] = amount;
-                }
-                hero.EnhanceLevels = Enhancements;
-                foreach (string slot in EquipSlots)
-                    if (!hero.Equipment.TryGetValue(slot, out var eq) || eq == null) hero.Equipment[slot] = "";
-                if (string.IsNullOrEmpty(hero.Job) || !db.Jobs.TryGetValue(hero.Job, out var job) || job.Hero != hero.Id) hero.Job = hero.Id;
-                if (missingEquipment) EquipStarterGear(db, hero);
-                hero.Level = Math.Max(1, Math.Min(LevelCap, hero.Level));
-                hero.Xp = hero.Level >= LevelCap ? 0 : Math.Max(0, hero.Xp);
-                PartyStats.SyncLearnedSkills(db, hero);
-                var stats = PartyStats.EffectiveStats(db, hero);
-                hero.Hp = hero.Hp < 0 ? stats.MaxHp : Math.Min(hero.Hp, stats.MaxHp);
-                hero.Mp = hero.Mp < 0 ? stats.MaxMp : Math.Min(hero.Mp, stats.MaxMp);
-                Party.Add(hero);
+                if (seen.Contains(id)) continue;
+                seen.Add(id);
+                var fresh = new HeroState { Id = id, Job = db.ClassOf(id), Level = lowest == int.MaxValue ? 1 : lowest, Hp = -1, Mp = -1 };
+                if (party.Count < PartySize) party.Add(fresh); else reserve.Add(fresh);
             }
+            while (party.Count > PartySize) { reserve.Insert(0, party[party.Count - 1]); party.RemoveAt(party.Count - 1); }
+            while (party.Count == 0 && reserve.Count > 0) { party.Add(reserve[0]); reserve.RemoveAt(0); }
+            Party = party;
+            Reserve = reserve;
+            foreach (var hero in AllHunters()) RepairHero(db, hero);
             Gold = Math.Max(0, Gold);
             FloorIndex = Math.Max(0, Math.Min(db.Floors.Count - 1, FloorIndex));
             DeepestFloor = Math.Max(FloorIndex, Math.Min(db.Floors.Count - 1, DeepestFloor));
@@ -314,8 +319,37 @@ namespace Abyss.Logic.Game
             QuestLog.Refresh(db, this);
         }
 
+        /// <summary>Normalises one hunter: slots, seeds, job (must be on the hunter's class tree), level/XP, skills, vitals.</summary>
+        internal void RepairHero(GameDB db, HeroState hero)
+        {
+            // A hero without any slot record (fresh or legacy) gets starter gear; emptied slots stay empty.
+            bool missingEquipment = hero.Equipment == null || hero.Equipment.Count == 0;
+            hero.Equipment ??= new Dictionary<string, string>();
+            hero.Statuses ??= new Dictionary<string, int>();
+            hero.LearnedSkills ??= new List<string>();
+            hero.Seeds ??= new Dictionary<string, int>();
+            foreach (var key in new List<string>(hero.Seeds.Keys))
+            {
+                int amount = Math.Min(PartyStats.SeedCap(key), hero.Seeds[key]);
+                if (amount <= 0) hero.Seeds.Remove(key);
+                else hero.Seeds[key] = amount;
+            }
+            hero.EnhanceLevels = Enhancements;
+            foreach (string slot in EquipSlots)
+                if (!hero.Equipment.TryGetValue(slot, out var eq) || eq == null) hero.Equipment[slot] = "";
+            string cls = db.ClassOf(hero.Id);
+            if (string.IsNullOrEmpty(hero.Job) || !db.Jobs.TryGetValue(hero.Job, out var job) || job.Hero != cls) hero.Job = cls;
+            if (missingEquipment) EquipStarterGear(db, hero);
+            hero.Level = Math.Max(1, Math.Min(LevelCap, hero.Level));
+            hero.Xp = hero.Level >= LevelCap ? 0 : Math.Max(0, hero.Xp);
+            PartyStats.SyncLearnedSkills(db, hero);
+            var stats = PartyStats.EffectiveStats(db, hero);
+            hero.Hp = hero.Hp < 0 ? stats.MaxHp : Math.Min(hero.Hp, stats.MaxHp);
+            hero.Mp = hero.Mp < 0 ? stats.MaxMp : Math.Min(hero.Mp, stats.MaxMp);
+        }
+
         /// <summary>Authored starter piece per empty slot; when absent, the cheapest eligible tier-1 piece (original rule).</summary>
-        static void EquipStarterGear(GameDB db, HeroState hero)
+        internal static void EquipStarterGear(GameDB db, HeroState hero)
         {
             db.Heroes.TryGetValue(hero.Id, out var def);
             foreach (string slot in EquipSlots)
@@ -324,7 +358,7 @@ namespace Abyss.Logic.Game
                 if (def != null && def.StarterEquipment.TryGetValue(slot, out var authored))
                 {
                     if (string.IsNullOrEmpty(authored)) continue;
-                    if (db.Equipment.TryGetValue(authored, out var piece) && piece.Slot == slot && PartyStats.AllowsClass(piece, hero.Id))
+                    if (db.Equipment.TryGetValue(authored, out var piece) && piece.Slot == slot && PartyStats.AllowsClass(db, piece, hero.Id))
                     {
                         hero.Equipment[slot] = authored;
                         continue;
@@ -333,7 +367,7 @@ namespace Abyss.Logic.Game
                 EquipmentDef best = null;
                 foreach (var piece in db.Equipment.Values)
                 {
-                    if (piece.Slot != slot || piece.ShopTier != 1 || !PartyStats.AllowsClass(piece, hero.Id) || (piece.Jobs != null && piece.Jobs.Count > 0)) continue;
+                    if (piece.Slot != slot || piece.ShopTier != 1 || !PartyStats.AllowsClass(db, piece, hero.Id) || (piece.Jobs != null && piece.Jobs.Count > 0)) continue;
                     if (best == null || piece.Price < best.Price || (piece.Price == best.Price && string.CompareOrdinal(piece.Id, best.Id) < 0)) best = piece;
                 }
                 if (best != null) hero.Equipment[slot] = best.Id;

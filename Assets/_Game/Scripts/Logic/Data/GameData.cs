@@ -44,6 +44,20 @@ namespace Abyss.Logic
         public List<string> Skills = new List<string>();
         public List<LearnEntry> Learnset = new List<LearnEntry>();
         public float[] ClassColor;
+        /// <summary>Base class (warrior | mage | archer | cleric): job tree, equipment rules and motion style. "" = the id itself.</summary>
+        public string Class = "";
+        /// <summary>Hunter licence grade shown on the profile (E..S).</summary>
+        public string Rank = "";
+        /// <summary>"start" (in the party from the prologue), "boss" (joins when zone <see cref="JoinZone"/>'s boss falls)
+        /// or "scout" (hired at the guild reception from zone <see cref="JoinZone"/> for <see cref="ScoutPrice"/>).</summary>
+        public string JoinKind = "start";
+        public int JoinZone;
+        public int ScoutPrice;
+        /// <summary>Job the hunter already holds when joining ("" = the class); granted without its item cost.</summary>
+        public string StartJob = "";
+        /// <summary>Profile line (personality) for the roster screen and the join notice.</summary>
+        public string Line = "";
+        public string Profile = "";
     }
 
     public sealed class DropEntry
@@ -287,7 +301,7 @@ namespace Abyss.Logic
         /// <summary>Defeating this floor's boss ends the main story (ending, cleared flag). Last floor when no floor sets it.</summary>
         public bool Ending;
         [JsonProperty("_file")] public string File;
-        /// <summary>Campaign floor index 0..11 (B1F..B12F), derived from FloorLabel.</summary>
+        /// <summary>Campaign floor index (position in dungeon.json).</summary>
         [JsonIgnore] public int Index;
     }
 
@@ -335,13 +349,16 @@ namespace Abyss.Logic
         public readonly Dictionary<string, HeroDef> Heroes = new Dictionary<string, HeroDef>();
         /// <summary>jobs.json rows by id, base jobs (id = hero id) included.</summary>
         public readonly Dictionary<string, JobDef> Jobs = new Dictionary<string, JobDef>();
-        public readonly List<string> HeroOrder = new List<string> { "warrior", "mage", "archer", "cleric" };
+        /// <summary>Starting party in formation order (heroes with join_kind "start", in file order).</summary>
+        public readonly List<string> HeroOrder = new List<string>();
+        /// <summary>Every playable hunter in roster order (heroes.json file order).</summary>
+        public readonly List<string> RosterOrder = new List<string>();
         public readonly Dictionary<string, EnemyDef> Enemies = new Dictionary<string, EnemyDef>();
         public readonly Dictionary<string, SkillDef> Skills = new Dictionary<string, SkillDef>();
         public readonly Dictionary<string, StatusDef> Statuses = new Dictionary<string, StatusDef>();
         public readonly Dictionary<string, ItemDef> Items = new Dictionary<string, ItemDef>();
         public readonly Dictionary<string, EquipmentDef> Equipment = new Dictionary<string, EquipmentDef>();
-        public readonly List<FloorDef> Floors = new List<FloorDef>();          // ordered B1F..B12F
+        public readonly List<FloorDef> Floors = new List<FloorDef>();          // campaign order
         public readonly Dictionary<string, QuestDef> Quests = new Dictionary<string, QuestDef>();
         public readonly List<QuestDef> QuestList = new List<QuestDef>();
         public readonly Dictionary<string, PresentationDef> Presentations = new Dictionary<string, PresentationDef>();
@@ -358,7 +375,12 @@ namespace Abyss.Logic
         public static GameDB Load(Func<string, string> readTable)
         {
             var db = new GameDB();
-            foreach (var h in Parse<HeroDef>(readTable("heroes"))) db.Heroes[h.Id] = h;
+            foreach (var h in Parse<HeroDef>(readTable("heroes")))
+            {
+                db.Heroes[h.Id] = h;
+                db.RosterOrder.Add(h.Id);
+                if (string.IsNullOrEmpty(h.JoinKind) || h.JoinKind == "start") db.HeroOrder.Add(h.Id);
+            }
             foreach (var j in Parse<JobDef>(readTable("jobs"))) db.Jobs[j.Id] = j;
             foreach (var e in Parse<EnemyDef>(readTable("enemies"))) db.Enemies[e.Id] = e;
             foreach (var s in Parse<SkillDef>(readTable("skills"))) db.Skills[s.Id] = s;
@@ -366,14 +388,9 @@ namespace Abyss.Logic
             foreach (var i in Parse<ItemDef>(readTable("items"))) db.Items[i.Id] = i;
             foreach (var q in Parse<EquipmentDef>(readTable("equipment"))) db.Equipment[q.Id] = q;
             foreach (var p in Parse<PresentationDef>(readTable("presentation"))) db.Presentations[p.Id] = p;
+            // dungeon.json lists the floors in campaign order (labels are display text: "1-1" .. "12-3", "R-1").
             var floors = Parse<FloorDef>(readTable("dungeon"));
-            foreach (var f in floors)
-            {
-                // "B7F" -> 6
-                string digits = f.FloorLabel.Trim('B', 'F');
-                f.Index = int.Parse(digits) - 1;
-            }
-            floors.Sort((a, b) => a.Index.CompareTo(b.Index));
+            for (int i = 0; i < floors.Count; i++) floors[i].Index = i;
             db.Floors.AddRange(floors);
             foreach (var q in Parse<QuestDef>(readTable("quests"))) { db.Quests[q.Id] = q; db.QuestList.Add(q); }
             db.QuestList.Sort((a, b) => a.UnlockFloor != b.UnlockFloor ? a.UnlockFloor.CompareTo(b.UnlockFloor) : string.CompareOrdinal(a.Id, b.Id));
@@ -384,6 +401,10 @@ namespace Abyss.Logic
         }
 
         static List<T> Parse<T>(string json) => JsonConvert.DeserializeObject<List<T>>(json, JsonSettings);
+
+        /// <summary>Base class of a hero (its job tree and equipment class); the id itself for heroes without one.</summary>
+        public string ClassOf(string heroId) =>
+            heroId != null && Heroes.TryGetValue(heroId, out var hero) && !string.IsNullOrEmpty(hero.Class) ? hero.Class : heroId;
 
         /// <summary>Localised UI string by key; returns the key itself when missing.</summary>
         public string T(string key) => Text.TryGetValue(key, out var v) ? v : key;

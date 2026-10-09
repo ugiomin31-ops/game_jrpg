@@ -19,6 +19,9 @@ ART = ROOT / 'Assets/_Game/Resources/Art'
 OUTPUT = ROOT / 'Assets/_Game/Resources/Icons'
 sys.path.insert(0, str(ROOT / 'Tools/ui'))
 from asset_import import texture_meta
+sys.path.insert(0, str(ROOT / 'Tools/content'))
+import spec  # noqa: E402 (hunter roster: Tools/content/spec.py HUNTERS)
+HUNTER_IDS = {h['id'] for h in spec.HUNTERS}
 
 ELEMENTS = ('slash', 'blunt', 'pierce', 'fire', 'ice', 'thunder', 'dark', 'holy')
 PORTRAIT_EXPOSURE = .55
@@ -273,6 +276,15 @@ def main():
     actual = {family: sum(row[0] == family for row in rows) for family in expected}
     if actual != expected:
         raise ValueError(f'Catalogue does not cover the data: {actual} != {expected}')
+    # Enemies named on the command line that have no enemies.json row yet (new hunter monsters) render from their FBX.
+    known = {(family, ident) for family, ident, _, _ in rows}
+    for name in sorted(selection):
+        family, _, ident = name.partition('/')
+        if family == 'Enemies' and (family, ident) not in known and (ART / f'Enemies/{ident}/{ident}.fbx').is_file():
+            rows.append(('Enemies', ident, ART / f'Enemies/{ident}/{ident}.fbx', None))
+        # Hunters (spec.HUNTERS) named on the command line before heroes.json has their rows render from their FBX too.
+        if family == 'Heroes' and ident in HUNTER_IDS and (family, ident) not in known and (ART / f'Characters/{ident}/{ident}.fbx').is_file():
+            rows.append(('Heroes', ident, ART / f'Characters/{ident}/{ident}.fbx', None))
     missing = [f'{family}/{ident}: {source}' for family, ident, source, _ in rows
                if (not selection or family + '/' + ident in selection) and not source.is_file()]
     if missing:

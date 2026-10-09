@@ -35,7 +35,11 @@ CONTACT = dict(Attack=ATTACK_HIT / 30, Cast=CAST_RELEASE / 40, Skill=SKILL_HIT /
 STYLE_OF = dict(knight='warrior', paladin='warrior', berserker='warrior', warlord='warrior',
                 elementalist='mage', archmage='mage', warlock='mage', abyssal='mage',
                 sniper='archer', divine_archer='archer', ranger='archer', shadow_stalker='archer',
-                priest='cleric', saint='cleric', exorcist='cleric', inquisitor='cleric')
+                priest='cleric', saint='cleric', exorcist='cleric', inquisitor='cleric',
+                h_dohyun='warrior', h_seoa='mage', h_jiho='archer', h_yuna='cleric', h_minjun='warrior',
+                h_sora='archer', h_taeyang='mage', h_eunbi='cleric', h_gunwoo='warrior', h_hana='mage',
+                h_siwoo='archer', h_mirae='cleric', h_jaehyun='cleric', h_dana='warrior', h_iseul='archer',
+                h_haneul='mage', h_bora='warrior', h_youngsu='cleric', h_rina='mage', h_jun='archer')
 ID = Quaternion()
 
 

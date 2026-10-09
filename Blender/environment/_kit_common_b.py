@@ -644,6 +644,20 @@ def export_piece(tileset, piece, objs):
     return path
 
 
+def export_arena_turned(tileset, objs):
+    """Export an arena authored with the enemies toward +Y. The game maps Blender (x, y, z) to Unity (x, z, -y) and puts
+    the enemies at Unity +Z (Blender -Y), so the arena is exported turned 180 degrees about Z and turned back after."""
+    turn = Matrix.Rotation(math.pi, 4, "Z")
+    tops = [o for o in objs if o.parent is None]
+    for o in tops:
+        o.matrix_world = turn @ o.matrix_world
+    try:
+        return export_piece(tileset, "arena", objs)
+    finally:
+        for o in tops:
+            o.matrix_world = turn @ o.matrix_world
+
+
 def all_desc(objs):
     out = []
     for o in objs:

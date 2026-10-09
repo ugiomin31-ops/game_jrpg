@@ -640,16 +640,19 @@ def tassets(H, body, color, trim_color=GOLD, length=0.16, plates=4):
 
 
 def robe_skirt(H, body, color, hem, flare=1.25, trim_color=GOLD, split=0, wave=0.04, top=None, name="robe",
-               back_split=0, over=()):
+               back_split=0, over=(), narrow=False):
     """Skirt/robe/coat tails measured from the hips: fitted at the waist, flaring to `hem` with folds.
-    split opens the front by that many degrees (back_split the back)."""
+    split opens the front by that many degrees (back_split the back). narrow=True measures the hips without the
+    thigh verts, so the skirt flares from the hip line instead of from the width of both legs (a box)."""
     from body import skirt_weights
     j = H.j
     hz = j["hip"].z
     top = hz + 0.04 if top is None else top
     dom = AB.dominant_bones(body)
-    cy0, rx0, ry0 = torso_ring(body, top, dom=dom, parts=("hips", "spine", "thigh"))
-    cyh, rxh, ryh = torso_ring(body, hz - 0.08, dom=dom, parts=("hips", "thigh"))
+    parts0 = ("hips", "spine") if narrow else ("hips", "spine", "thigh")
+    partsh = ("hips",) if narrow else ("hips", "thigh")
+    cy0, rx0, ry0 = torso_ring(body, top, dom=dom, parts=parts0)
+    cyh, rxh, ryh = torso_ring(body, hz - 0.03 if narrow else hz - 0.08, dom=dom, parts=partsh)
     n = 8
     rings = []
     for i in range(n + 1):

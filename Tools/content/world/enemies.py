@@ -35,7 +35,8 @@ def xp_to_next(level):
 
 # Kills of matching level per hero level (lower = faster levelling). Interpolated by level; tuned with the
 # campaign simulation (Tools/content/build_world.py --levels) so the party tracks each chapter's level range.
-KILLS_PER_LEVEL = [(1, 9), (6, 14), (12, 21), (24, 31), (34, 37), (44, 37), (54, 37), (64, 45), (72, 54)]
+KILLS_PER_LEVEL = [(1, 9), (6, 30), (11, 54), (17, 40), (22, 42), (28, 33), (33, 54), (39, 43), (44, 53), (50, 24),
+                   (55, 54), (60, 49), (66, 29), (70, 64), (74, 68)]
 
 
 def kills_per_level(level):
@@ -56,48 +57,80 @@ def gold_for(level, mult=1.0):
     return max(1, int(round((6 + 3.6 * level) * mult)))
 
 
-# ------------------------------------------------------------------ chapter roster (existing monsters)
-# id -> new level. Normal monsters spread over the chapter; elites are FOE / mid-boss levels; bosses sit one
-# level above the chapter's exit level.
-RELEVEL = {
-    # chapter 1 (Lv 1-12)
-    'slime': 1, 'sprout': 2, 'horned_rabbit': 3, 'mushroom': 5, 'killer_bee': 5, 'bat': 7, 'mandragora': 7,
-    'rhino_beetle': 9, 'pixie': 10, 'elite_mushroom': 6, 'elite_rhino_beetle': 8, 'elite_bat': 11, 'forest_guardian': 13,
-    # chapter 2 (Lv 12-24)
-    'jellyfish': 13, 'frost_spider': 14, 'coral_crab': 15, 'snow_fairy': 16, 'penguin_mage': 18, 'ice_wolf': 19,
-    'yeti': 20, 'ice_golem': 22, 'elite_ice_wolf': 18, 'elite_yeti': 20, 'elite_coral_crab': 22, 'frost_kraken': 25,
-    # chapter 3 (Lv 24-34)
-    'magma_slime': 25, 'hellhound': 26, 'flame_elemental': 26, 'sand_scorpion': 28, 'sand_golem': 28, 'lizardman': 30,
-    'phoenix': 30, 'harpy': 32, 'fire_drake': 32, 'elite_hellhound': 28, 'elite_sand_golem': 30, 'elite_fire_drake': 33,
-    'flame_sphinx': 35,
-    # chapter 4 (Lv 34-44)
-    'skeleton': 35, 'ghost': 35, 'grave_bat': 37, 'mimic': 38, 'scarecrow': 39, 'dark_knight': 41, 'lich': 42, 'wisp': 42,
-    'elite_skeleton': 38, 'elite_dark_knight': 40, 'elite_scarecrow': 42, 'elite_mimic': 43, 'boss': 45,
-}
+# ------------------------------------------------------------------ zone levels (existing and new monsters)
+# Every monster in spec.ZONE_POOLS is levelled into its zone's range (spec CHAPTERS 'levels', enter -> leave):
+# normals spread over the range in their old strength order, elites at about 75 % of the range, the zone boss one
+# level above the exit. A monster listed in several zones keeps the level of its first zone (the earlier gate);
+# rare monsters sit at the middle of their first zone (spec RARE_BY_ZONE). Filled by build() into LEVELS / ZONE_OF.
+LEVELS = {}
+ZONE_OF = {}
+ELITE_AT = 0.75
+STONE_OF_ZONE = {1: 'enhance_stone', 2: 'enhance_stone', 3: 'enhance_stone', 4: 'enhance_stone_hi', 5: 'enhance_stone_hi',
+                 6: 'enhance_stone_abyss', 7: 'enhance_stone_abyss', 8: 'enhance_stone_abyss', 9: 'enhance_stone_abyss',
+                 10: 'enhance_stone_abyss', 11: 'enhance_stone_abyss', 12: 'enhance_stone_abyss', 13: 'enhance_stone_abyss'}
 
-# Boss trinkets, progression items and chapter materials added to the original drop tables.
+
+def _old_levels():
+    """Strength order key of every monster before the zone levels: the authored level of the original rows, variant
+    and new-model configs."""
+    old = {r['id']: r['level'] for r in json.load(open(os.path.join(HERE, 'base_enemies.json'), encoding='utf-8'))}
+    for k, v in VARIANT_CFG.items():
+        old.setdefault(k, v['level'])
+    for cfg in NEW_CFG:
+        old.setdefault(cfg['id'], cfg['level'])
+    for k, cfg in BOSSES.items():
+        old.setdefault(k, cfg['level'])
+    return old
+
+
+def zone_levels(spec):
+    """Fills LEVELS and ZONE_OF from spec.ZONE_POOLS, the zone bosses and the rare monsters."""
+    old = _old_levels()
+    LEVELS.clear()
+    ZONE_OF.clear()
+
+    def assign(mid, level, zone):
+        if mid not in LEVELS:
+            LEVELS[mid] = int(level)
+            ZONE_OF[mid] = zone
+
+    for ch in spec.CHAPTERS:
+        z = ch['n']
+        lo, hi = ch['levels']
+        pool = spec.ZONE_POOLS[z]
+        normals = sorted(pool['normal'], key=lambda i: (old[i], i))
+        n = len(normals)
+        for idx, mid in enumerate(normals):
+            assign(mid, lo if n == 1 else lo + round((hi - lo) * idx / (n - 1)), z)
+        for mid in pool['elite']:
+            assign(mid, lo + round((hi - lo) * ELITE_AT), z)
+        if z <= spec.MAIN_ZONES:
+            assign(ch['boss'], hi + 1, z)
+    for rid, zones in spec.RARE_BY_ZONE.items():
+        lo, hi = spec.CHAPTERS[zones[0] - 1]['levels']
+        assign(rid, lo + (hi - lo) // 2, zones[0])
+    return dict(LEVELS), dict(ZONE_OF)
+
+
+def zone_of_level(level, spec):
+    for ch in spec.CHAPTERS:
+        if level <= ch['levels'][1]:
+            return ch['n']
+    return spec.CHAPTERS[-1]['n']
+
+
+# Boss trinkets, progression items and zone materials added to the original drop tables.
 EXTRA_DROPS = {
     'forest_guardian': [('job_medal', 1.0), ('acc_crystal_crown', 1.0), ('enhance_stone', 1.0)],
     'frost_kraken': [('acc_kraken_eye', 1.0), ('enhance_stone', 1.0), ('seed_mind', 1.0)],
     'flame_sphinx': [('acc_sphinx_riddle', 1.0), ('enhance_stone_hi', 1.0), ('seed_magic', 1.0)],
-    'boss': [('master_seal', 1.0), ('acc_lich_phylactery', 1.0), ('enhance_stone_hi', 1.0), ('seed_life', 1.0)],
+    'boss': [('acc_lich_phylactery', 1.0), ('enhance_stone_hi', 1.0), ('seed_life', 1.0)],
 }
 # Legendary (tier 8) pieces leave the chapter 4 boss: they belong to the trial corridor now.
 REPLACE_DROPS = {
     'boss': {'sword_dawn': 'sword_runic', 'staff_starlight': 'staff_bone', 'bow_star': 'bow_wraith', 'mace_dawn': 'mace_requiem'},
 }
 RENAME = {'boss': '심연의 전령 모르데인'}
-
-
-def chapter_of_level(level):
-    for c, (lo, hi) in enumerate(((1, 12), (12, 24), (24, 34), (34, 44), (44, 54), (54, 64), (64, 72)), 1):
-        if level <= hi:
-            return c
-    return 7
-
-
-STONES = {1: 'enhance_stone', 2: 'enhance_stone', 3: 'enhance_stone', 4: 'enhance_stone_hi', 5: 'enhance_stone_hi',
-          6: 'enhance_stone_abyss', 7: 'enhance_stone_abyss'}
 
 
 def _ratios(row, level):
@@ -124,14 +157,14 @@ def relevel_existing(base):
     for src in base:
         row = json.loads(json.dumps(src))
         old = src['level']
-        new = RELEVEL[row['id']]
+        new = LEVELS[row['id']]
         r = _ratios(src, old)
         rank = row['rank']
         if rank == 2:
             _apply(row, new, r, rank, exp_mult=BOSS_EXP[row['id']], gold_mult=BOSS_GOLD)
         else:
             _apply(row, new, r, rank)
-        c = chapter_of_level(new)
+        c = ZONE_OF[row['id']]
         drops = row['drops']
         for old_id, new_id in REPLACE_DROPS.get(row['id'], {}).items():
             for d in drops:
@@ -142,7 +175,7 @@ def relevel_existing(base):
             if item not in have:
                 drops.append({'id': item, 'chance': chance})
                 have.add(item)
-        stone = STONES[c]
+        stone = STONE_OF_ZONE[c]
         if rank < 2 and stone not in have:
             drops.append({'id': stone, 'chance': 0.06 if rank == 0 else 0.5})
         if row['id'] in RENAME:
@@ -154,17 +187,31 @@ def relevel_existing(base):
 # Boss EXP multiples of a normal monster of the same level, and gold multiple.
 BOSS_EXP = {'forest_guardian': 30, 'frost_kraken': 32, 'flame_sphinx': 34, 'boss': 36, 'leviathan': 38, 'abyss_lord': 40,
             'forest_guardian_ex': 30, 'frost_kraken_ex': 30, 'flame_sphinx_ex': 30, 'boss_ex': 30, 'leviathan_ex': 32,
-            'abyss_lord_ex': 40}
+            'abyss_lord_ex': 40,
+            'subway_bat_lord': 30, 'scrap_colossus': 32, 'crystal_cave_lord': 34, 'festival_pumpkin_king': 36,
+            'plague_lich': 38, 'abyss_herald': 40}
 BOSS_GOLD = 25
 
 
 # ------------------------------------------------------------------ palette variants
 # id -> (level, element theme overrides, skills/weights, ai, extra fields, drops)
+def _drop_id(item, zone, spec):
+    """'@line' in a drop table is that gear line's piece of the zone's tier (spec TIER_OF_ZONE / GEAR_LINES)."""
+    if item.startswith('@'):
+        return spec.GEAR_LINES[item[1:]][spec.TIER_OF_ZONE[zone] - 1]
+    return item
+
+
 def variant_rows(base_rows, spec):
     by_id = {r['id']: r for r in base_rows}
     base_src = {r['id']: r for r in json.load(open(os.path.join(HERE, 'base_enemies.json'), encoding='utf-8'))}
+    rows_in = [(v[0], v[1], v[2], v[3]) for v in spec.VARIANTS]
+    rows_in += [(v[0], v[1], v[2], v[3]) for v in spec.ZONE_VARIANTS if v[5] == 0]
+    own_model = {h[0] for h in spec.HUNTER_MONSTERS if not h[6]}
+    rows_in += [(h[0], h[1], spec.HUNTER_MONSTER_BASE[h[0]], (1.0, 1.0, 1.0)) for h in spec.HUNTER_MONSTERS if not h[6]]
+    replaced = {rid: h[0] for h in spec.HUNTER_MONSTERS for rid in h[6]}
     out = []
-    for vid, name, base, tint, chapter, role in spec.VARIANTS:
+    for vid, name, base, tint in rows_in:
         if vid.endswith('_ex'):
             continue  # superbosses are built separately
         cfg = VARIANT_CFG[vid]
@@ -173,12 +220,12 @@ def variant_rows(base_rows, spec):
         row['id'] = vid
         row['display_name'] = name
         row['_file'] = vid
-        row['model'] = base
-        row['tint'] = [tint[0], tint[1], tint[2], 1.0]
+        row['model'] = vid if vid in own_model else replaced.get(vid, base)
+        row['tint'] = [1.0, 1.0, 1.0, 1.0] if row['model'] != base else [tint[0], tint[1], tint[2], 1.0]
         ratios = _ratios(src, src['level'])
         for k, v in cfg.get('ratio', {}).items():
             ratios[k] *= v
-        level = cfg['level']
+        level = LEVELS[vid]
         rank = cfg.get('rank', 0)
         row['rank'] = rank
         row['is_boss'] = False
@@ -192,7 +239,8 @@ def variant_rows(base_rows, spec):
         if not row.get('summons'):
             row['summons'] = []
             row['summon_limit'] = 0
-        row['drops'] = [{'id': i, 'chance': c} for i, c in cfg['drops']]
+        zone = ZONE_OF[vid]
+        row['drops'] = [{'id': _drop_id(i, zone, spec), 'chance': c} for i, c in cfg['drops']]
         row.pop('phases', None)
         out.append(row)
     return out
@@ -327,6 +375,77 @@ VARIANT_CFG = {
 }
 
 
+# Zone palette variants of the hunter theme (spec ZONE_VARIANTS, rank 0): 'level' only orders them by strength.
+# Gear drops are '@line' tokens: that line's piece of the zone's tier (spec TIER_OF_ZONE).
+ZONE_NORMAL_CFG = {
+    'sewer_slime': dict(level=1, weaknesses=[4], resistances=[2], skills=['basic_attack', 'poison_spore', 'sk_acid_spit'],
+                        skill_weights=[2, 2, 1], max_mp=10,
+                        drops=D(('slime_gel', 1.0), ('healing_potion', 0.2), ('ether', 0.08), ('enhance_stone', 0.05), ('@sword', 0.03), ('acc_iron_bangle', 0.02))),
+    'tunnel_bat': dict(level=6, weaknesses=[6], resistances=[2], evade=0.12, skills=['basic_attack', 'sk_screech', 'sk_bleed_edge'],
+                       skill_weights=[3, 1, 1], max_mp=12,
+                       drops=D(('bat_wing', 1.0), ('healing_potion', 0.2), ('ether', 0.08), ('enhance_stone', 0.05), ('@bow', 0.03), ('acc_mind_ring', 0.02))),
+    'scrap_golem': dict(level=22, ratio={'max_hp': 1.1}, weaknesses=[5], resistances=[3, 6], skills=['basic_attack', 'sk_harden', 'sk_sandstorm'],
+                        skill_weights=[3, 1, 1], max_mp=20,
+                        drops=D(('golem_sandstone', 1.0), ('mega_potion', 0.15), ('hi_ether', 0.08), ('enhance_stone', 0.06), ('@armor', 0.05), ('acc_earth_amulet', 0.02))),
+    'oil_slime': dict(level=24, weaknesses=[4], resistances=[5], skills=['basic_attack', 'sk_acid_spit', 'poison_spore'],
+                      skill_weights=[2, 2, 1], max_mp=16,
+                      drops=D(('magma_core', 1.0), ('mega_potion', 0.15), ('hi_ether', 0.08), ('enhance_stone', 0.06), ('@robe', 0.05), ('acc_burn_ward', 0.02))),
+    'spark_wisp': dict(level=30, weaknesses=[8], resistances=[6], ai_profile='caster', skills=['basic_attack', 'sk_chain_spark', 'sk_e_thunder'],
+                       skill_weights=[1, 3, 2], max_mp=50,
+                       drops=D(('magma_core', 1.0), ('ether', 0.1), ('mega_potion', 0.15), ('enhance_stone', 0.06), ('@staff', 0.05), ('acc_thunder_amulet', 0.02))),
+    'iron_beetle': dict(level=28, ratio={'defense': 1.15}, weaknesses=[4], resistances=[3, 1], skills=['basic_attack', 'sk_harden', 'strong_attack'],
+                        skill_weights=[3, 1, 1], max_mp=20,
+                        drops=D(('drake_scale', 1.0), ('mega_potion', 0.15), ('hi_ether', 0.08), ('enhance_stone', 0.06), ('@armor', 0.05), ('acc_iron_bangle', 0.02))),
+    'crystal_slime': dict(level=35, weaknesses=[2], resistances=[5, 6], skills=['basic_attack', 'sk_ice_shard', 'sk_harden'],
+                          skill_weights=[2, 2, 1], max_mp=24,
+                          drops=D(('pearl', 1.0), ('hi_potion', 0.2), ('hi_ether', 0.08), ('enhance_stone_hi', 0.06), ('@staff', 0.05), ('acc_mana_spring', 0.02))),
+    'cave_spider': dict(level=38, weaknesses=[4], resistances=[3], skills=['basic_attack', 'sk_poison_arrow', 'poison_spore'],
+                        skill_weights=[3, 2, 1], max_mp=12,
+                        drops=D(('scale_blue', 1.0), ('mega_potion', 0.15), ('hi_ether', 0.08), ('enhance_stone_hi', 0.06), ('@bow', 0.05), ('acc_tp_crest', 0.02))),
+    'locker_mimic': dict(level=40, weaknesses=[2, 6], resistances=[7], ai_profile='aggressive', skills=['basic_attack', 'strong_attack', 'sk_dread_stare'],
+                         skill_weights=[2, 2, 1], max_mp=10,
+                         drops=D(('cursed_straw', 1.0), ('hi_potion', 0.2), ('hi_ether', 0.08), ('enhance_stone_hi', 0.06), ('@mace', 0.05), ('acc_sleep_ward', 0.02))),
+    'school_ghost': dict(level=42, weaknesses=[8], resistances=[7, 3], ai_profile='caster', skills=['basic_attack', 'sk_lullaby', 'sk_spirit_fire'],
+                         skill_weights=[2, 2, 1], max_mp=50,
+                         drops=D(('ghost_essence', 1.0), ('hi_potion', 0.2), ('max_ether', 0.06), ('enhance_stone_hi', 0.06), ('@robe', 0.05), ('acc_sleep_ward', 0.02))),
+    'pill_slime': dict(level=48, weaknesses=[4], resistances=[2], ai_profile='support', skills=['basic_attack', 'heal', 'sk_acid_spit'],
+                       skill_weights=[2, 2, 1], max_mp=40,
+                       drops=D(('temple_stone', 1.0), ('mega_potion', 0.15), ('max_ether', 0.06), ('enhance_stone_hi', 0.06), ('@mace', 0.05), ('acc_regen_ring', 0.02))),
+    'syringe_bee': dict(level=50, weaknesses=[4, 3], resistances=[5], skills=['basic_attack', 'sk_lullaby', 'sk_poison_arrow'],
+                        skill_weights=[3, 2, 1], max_mp=20,
+                        drops=D(('siren_feather', 1.0), ('mega_potion', 0.15), ('hi_ether', 0.08), ('enhance_stone_hi', 0.06), ('@bow', 0.05), ('acc_sleep_ward', 0.02))),
+    'bandage_ghost': dict(level=52, weaknesses=[8], resistances=[7], ai_profile='caster', skills=['basic_attack', 'sk_hex', 'sk_curse_screech'],
+                          skill_weights=[2, 2, 1], max_mp=40,
+                          drops=D(('ghost_essence', 1.0), ('panacea', 0.06), ('max_ether', 0.06), ('enhance_stone_hi', 0.06), ('@robe', 0.05), ('acc_curse_ward', 0.02))),
+    'street_hound': dict(level=58, weaknesses=[8, 4], resistances=[7], ai_profile='aggressive', skills=['basic_attack', 'sk_twin_bite', 'sk_e_shadow_bite'],
+                         skill_weights=[3, 2, 1], max_mp=12,
+                         drops=D(('shadow_pelt', 1.0), ('x_potion', 0.14), ('max_ether', 0.06), ('enhance_stone_abyss', 0.05), ('@garb', 0.03), ('acc_regen_ring', 0.02))),
+}
+VARIANT_CFG.update(ZONE_NORMAL_CFG)
+
+# Hunter monsters with their own Blender model (spec HUNTER_MONSTERS, Blender/enemies_h). 'level' only orders them.
+HUNTER_MONSTER_CFG = {
+    'sewer_rat': dict(level=2, weaknesses=[3, 4], resistances=[], evade=0.08, skills=['basic_attack', 'sk_bleed_edge', 'strong_attack'],
+                      skill_weights=[3, 1, 1], max_mp=10,
+                      drops=D(('bat_wing', 1.0), ('healing_potion', 0.22), ('ether', 0.08), ('enhance_stone', 0.05), ('@garb', 0.03), ('acc_iron_bangle', 0.02))),
+    'goblin': dict(level=6, weaknesses=[4], resistances=[], ai_profile='aggressive', skills=['basic_attack', 'strong_attack', 'sk_war_cry'],
+                   skill_weights=[3, 2, 1], max_mp=12,
+                   drops=D(('forest_fiber', 1.0), ('healing_potion', 0.22), ('ether', 0.08), ('enhance_stone', 0.05), ('@sword', 0.04), ('acc_power_band', 0.02))),
+    'goblin_shaman': dict(level=9, weaknesses=[4, 8], resistances=[3], ai_profile='caster', skills=['basic_attack', 'heal', 'sk_root_bind'],
+                          skill_weights=[1, 2, 2], max_mp=40,
+                          drops=D(('forest_fiber', 1.0), ('ether', 0.12), ('healing_potion', 0.18), ('enhance_stone', 0.05), ('@staff', 0.04), ('acc_mind_ring', 0.02))),
+    'cave_mole': dict(level=30, ratio={'defense': 1.1}, weaknesses=[1, 5], resistances=[3], skills=['basic_attack', 'sk_bleed_edge', 'sk_harden'],
+                      skill_weights=[3, 2, 1], max_mp=16,
+                      drops=D(('golem_sandstone', 1.0), ('hi_potion', 0.2), ('hi_ether', 0.08), ('enhance_stone_hi', 0.06), ('@armor', 0.05), ('acc_earth_amulet', 0.02))),
+    'orc': dict(level=56, ratio={'max_hp': 1.1}, weaknesses=[8, 5], resistances=[], ai_profile='berserker', skills=['basic_attack', 'sk_cleave', 'strong_attack'],
+                skill_weights=[3, 2, 1], max_mp=14,
+                drops=D(('shadow_pelt', 1.0), ('x_potion', 0.14), ('max_ether', 0.06), ('enhance_stone_abyss', 0.05), ('@sword', 0.03), ('acc_power_band', 0.02))),
+    'high_orc': dict(level=58, rank=1, ratio={'max_hp': 1.15}, weaknesses=[8], resistances=[1], ai_profile='berserker',
+                     skills=['basic_attack', 'sk_cleave', 'sk_harden', 'sk_war_cry'], skill_weights=[3, 2, 1, 1], max_mp=30, break_shield=6,
+                     drops=D(('shadow_pelt', 1.0), ('x_potion', 0.3), ('max_ether', 0.15), ('enhance_stone_abyss', 0.3), ('@armor', 0.12), ('acc_regen_ring', 0.05))),
+}
+VARIANT_CFG.update(HUNTER_MONSTER_CFG)
+
 # ------------------------------------------------------------------ new models (chapter 5 and 6)
 def N(id, level, rank, ratios, weak, resist, skills, weights, ai='basic', evade=0.05, shield=3, row=1, mp=30,
       actions=1, scale=1.0, summons=None, limit=0, gimmicks=None, drops=(), exp=None, hit=0.95):
@@ -420,17 +539,17 @@ BOSSES = {
 
 # Superbosses: the gold-tinted rematches of the trial corridor (postgame). Base boss skills plus a signature.
 SUPERBOSS = {
-    'forest_guardian_ex': dict(level=66, mult=(1.25, 1.15), sig='sk_ex_ancient_wrath', summon=['inferno_phoenix'],
+    'forest_guardian_ex': dict(level=70, mult=(1.25, 1.15), sig='sk_ex_ancient_wrath', summon=['inferno_phoenix'],
                                drops=D(('trial_emblem', 1.0), ('bow_star', 1.0), ('acc_crystal_crown', 1.0), ('seed_life', 1.0), ('megalixir', 1.0))),
-    'frost_kraken_ex': dict(level=67, mult=(1.25, 1.15), sig='sk_ex_abyss_tide', summon=['deep_jelly', 'deep_jelly'],
+    'frost_kraken_ex': dict(level=71, mult=(1.25, 1.15), sig='sk_ex_abyss_tide', summon=['deep_jelly', 'deep_jelly'],
                             drops=D(('trial_emblem', 1.0), ('staff_starlight', 1.0), ('acc_kraken_eye', 1.0), ('seed_mind', 1.0), ('megalixir', 1.0))),
-    'flame_sphinx_ex': dict(level=68, mult=(1.25, 1.15), sig='sk_ex_solar_apocalypse', summon=['flame_wisp', 'flame_wisp'],
+    'flame_sphinx_ex': dict(level=72, mult=(1.25, 1.15), sig='sk_ex_solar_apocalypse', summon=['flame_wisp', 'flame_wisp'],
                             drops=D(('trial_emblem', 1.0), ('mace_dawn', 1.0), ('acc_sphinx_riddle', 1.0), ('seed_magic', 1.0), ('megalixir', 1.0))),
-    'boss_ex': dict(level=69, mult=(1.25, 1.15), sig='sk_ex_requiem', summon=['elder_lich'],
+    'boss_ex': dict(level=73, mult=(1.25, 1.15), sig='sk_ex_requiem', summon=['elder_lich'],
                     drops=D(('trial_emblem', 1.0), ('robe_dawn', 1.0), ('garb_dawn', 1.0), ('acc_lich_phylactery', 1.0), ('seed_guard', 1.0))),
-    'leviathan_ex': dict(level=70, mult=(1.25, 1.15), sig='sk_ex_abyss_tide', summon=['naga_priestess'],
+    'leviathan_ex': dict(level=73, mult=(1.25, 1.15), sig='sk_ex_abyss_tide', summon=['naga_priestess'],
                          drops=D(('trial_emblem', 1.0), ('armor_dawn', 1.0), ('acc_dragon_fang', 1.0), ('seed_swift', 1.0), ('megalixir', 1.0))),
-    'abyss_lord_ex': dict(level=72, mult=(1.3, 1.0), sig='sk_ex_true_void', summon=['void_reaper', 'fallen_angel'],
+    'abyss_lord_ex': dict(level=74, mult=(1.3, 1.0), sig='sk_ex_true_void', summon=['void_reaper', 'fallen_angel'],
                           drops=D(('trial_emblem', 1.0), ('sword_dawn', 1.0), ('acc_ribbon', 1.0), ('acc_abyss_heart', 1.0), ('seed_power', 1.0), ('megalixir', 1.0))),
 }
 
@@ -455,7 +574,7 @@ def build_new(spec, drops_check=None):
     archetypes = {i: a for i, _, _, a, _, _ in spec.NEW_MODELS}
     names = {i: n for i, n, *_ in spec.NEW_MODELS}
     for cfg in NEW_CFG:
-        level, rank = cfg['level'], cfg['rank']
+        level, rank = LEVELS[cfg['id']], cfg['rank']
         row = {
             'id': cfg['id'], 'display_name': names[cfg['id']], 'rank': rank, 'is_boss': False, 'hit': cfg['hit'],
             'level': level, 'max_mp': cfg['mp'], 'evade': cfg['evade'], 'break_shield': cfg['shield'],
@@ -480,8 +599,80 @@ def build_new(spec, drops_check=None):
     return out
 
 
+# Zone bosses of the hunter theme (spec ZONE_VARIANTS rank 2; level = zone exit + 1). Ratios are absolute against the
+# normal model at the boss level (hp, atk, mag, def, res, spd). Two acts each; summons only where the role has them.
+# Phases carry no dialogue text (story lines are written separately).
+ZONE_BOSS_CFG = {
+    'subway_bat_lord': dict(ratios=(9.0, 1.7, 1.5, 1.2, 1.2, 1.3), weak=[3, 6], resist=[2], shield=6,
+                            skills=['basic_attack', 'sk_screech', 'sk_bleed_edge', 'sk_crow_swarm', 'sk_twin_bite'],
+                            phases=[(1.0, ['basic_attack', 'sk_screech', 'sk_bleed_edge'], [2, 2, 1], []),
+                                    (0.5, ['sk_screech', 'sk_crow_swarm', 'sk_twin_bite'], [2, 2, 1], ['bat', 'bat'])],
+                            drops=D(('acc_swift_anklet', 1.0), ('enhance_stone', 1.0), ('seed_swift', 1.0), ('@sword', 0.3),
+                                    ('@bow', 0.3), ('x_potion', 0.5))),
+    'scrap_colossus': dict(ratios=(12.0, 1.9, 1.3, 1.8, 1.2, 0.7), weak=[6], resist=[3, 5], shield=8,
+                           skills=['basic_attack', 'sk_sandstorm', 'sk_titan_crash', 'sk_harden', 'stunning_slam'],
+                           phases=[(1.0, ['basic_attack', 'sk_sandstorm', 'sk_harden'], [2, 2, 1], []),
+                                   (0.5, ['sk_titan_crash', 'stunning_slam', 'sk_sandstorm'], [2, 2, 1], [])],
+                           drops=D(('acc_earth_amulet', 1.0), ('enhance_stone', 1.0), ('seed_guard', 1.0), ('@armor', 0.3),
+                                   ('@mace', 0.3), ('x_potion', 0.5))),
+    'crystal_cave_lord': dict(ratios=(13.0, 1.8, 2.0, 1.4, 2.0, 1.0), weak=[2], resist=[5, 6], shield=8,
+                              skills=['basic_attack', 'sk_e_crystal_spike', 'sk_e_crystal_shell', 'sk_ice_shard', 'sk_titan_crash'],
+                              phases=[(1.0, ['basic_attack', 'sk_e_crystal_spike', 'sk_e_crystal_shell'], [2, 2, 1], []),
+                                      (0.5, ['sk_ice_shard', 'sk_titan_crash', 'sk_e_crystal_spike'], [2, 2, 2], [])],
+                              drops=D(('acc_mana_spring', 1.0), ('enhance_stone_hi', 1.0), ('seed_mind', 1.0), ('@staff', 0.3),
+                                      ('@robe', 0.3), ('pearl', 0.5))),
+    'festival_pumpkin_king': dict(ratios=(14.0, 1.9, 1.9, 1.3, 1.3, 1.0), weak=[8, 4], resist=[7], shield=8,
+                                  skills=['basic_attack', 'sk_crow_swarm', 'sk_harvest_reap', 'sk_dread_stare', 'sk_curse_screech'],
+                                  phases=[(1.0, ['basic_attack', 'sk_crow_swarm', 'sk_dread_stare'], [2, 2, 1], []),
+                                          (0.5, ['sk_harvest_reap', 'sk_curse_screech', 'sk_crow_swarm'], [2, 2, 1], ['scarecrow', 'scarecrow'])],
+                                  drops=D(('master_seal', 1.0), ('acc_exp_charm', 1.0), ('enhance_stone_hi', 1.0), ('seed_life', 1.0),
+                                          ('@mace', 0.3), ('@garb', 0.3))),
+    'plague_lich': dict(ratios=(14.0, 1.6, 2.2, 1.2, 1.5, 1.1), weak=[8], resist=[7, 5], shield=7,
+                        skills=['basic_attack', 'sk_spirit_fire', 'sk_hex', 'sk_toxic_cloud', 'poison_spore'],
+                        phases=[(1.0, ['basic_attack', 'sk_hex', 'sk_spirit_fire'], [2, 2, 1], []),
+                                (0.5, ['sk_toxic_cloud', 'poison_spore', 'sk_hex'], [2, 2, 1], ['skeleton', 'skeleton'])],
+                        drops=D(('acc_lich_phylactery', 1.0), ('enhance_stone_hi', 1.0), ('seed_life', 1.0), ('@robe', 0.3),
+                                ('@staff', 0.3), ('max_ether', 0.5))),
+    'abyss_herald': dict(ratios=(15.0, 1.8, 1.9, 1.3, 1.3, 1.15), weak=[8], resist=[7], shield=8,
+                         skills=['basic_attack', 'sk_abyss_bolt', 'sk_abyss_wave', 'sk_soul_reap', 'sk_e_void_scythe'],
+                         phases=[(1.0, ['basic_attack', 'sk_abyss_bolt', 'sk_abyss_wave'], [2, 2, 1], []),
+                                 (0.5, ['sk_soul_reap', 'sk_e_void_scythe', 'sk_abyss_bolt'], [2, 2, 2], ['void_knight'])],
+                         drops=D(('acc_dark_amulet', 1.0), ('enhance_stone_abyss', 1.0), ('seed_magic', 1.0), ('@sword', 0.3),
+                                 ('@garb', 0.3), ('x_potion', 0.5))),
+}
+
+
+def zone_boss_rows(spec, rows):
+    by_id = {r['id']: r for r in rows}
+    archetypes = {i: a for i, _, _, a, _, _ in spec.NEW_MODELS}
+    entries = {v[0]: v for v in spec.ZONE_VARIANTS if v[5] == 2}
+    out = []
+    for zid, cfg in ZONE_BOSS_CFG.items():
+        _, name, base, tint, zone, _, _ = entries[zid]
+        level = LEVELS[zid]
+        phases = [dict(hp_below=hp, actions_per_turn=2, skills=sk, weights=w, summon=sm, line='') for hp, sk, w, sm in cfg['phases']]
+        row = {
+            'id': zid, 'display_name': name, 'rank': 2, 'is_boss': True, 'hit': 0.95, 'gimmicks': ['cc_immune', 'dot_resist'],
+            'level': level, 'max_mp': 0, 'evade': 0.05, 'break_shield': cfg['shield'], 'weaknesses': cfg['weak'],
+            'resistances': cfg['resist'], 'scale_mult': 1.0, 'actions_per_turn': 2, 'ai_profile': 'boss', 'summons': [],
+            'summon_limit': 0, 'skill_weights': [1] * len(cfg['skills']), 'skills': cfg['skills'],
+            'archetype': archetypes.get(base) or by_id[base]['archetype'], 'battle_row': 1,
+            'tint': [tint[0], tint[1], tint[2], 1.0], 'model': base, 'phases': phases, '_file': zid,
+        }
+        _apply(row, level, dict(zip(STATS, cfg['ratios'])), 2, exp_mult=BOSS_EXP[zid], gold_mult=BOSS_GOLD)
+        drops, seen = [], set()
+        for i, c in cfg['drops']:
+            i = _drop_id(i, zone, spec)
+            if i not in seen:
+                seen.add(i)
+                drops.append({'id': i, 'chance': c})
+        row['drops'] = drops
+        out.append(row)
+    return out
+
+
 def _boss_row(bid, name, archetype, cfg):
-    level = cfg['level']
+    level = LEVELS[bid]
     ratios = dict(zip(STATS, cfg['ratios']))
     row = {
         'id': bid, 'display_name': name, 'rank': 2, 'is_boss': True, 'hit': 0.95, 'gimmicks': ['cc_immune', 'dot_resist'],
@@ -545,11 +736,14 @@ def build_superbosses(rows, spec):
 
 # Battle-length tuning from the campaign simulation (Tools/LogicTests/CampaignBalanceTests): normal monsters get
 # more HP so a random fight lasts 3-5 rounds; elites a little; bosses per row (HP multiplier, ATK/MAG multiplier).
-NORMAL_HP = {1: 2.0, 2: 2.45, 3: 2.0, 4: 2.25, 5: 2.0, 6: 2.2, 7: 1.9}
+# Per zone (the old chapter values of the zones that took their place).
+NORMAL_HP = {1: 2.0, 2: 2.0, 3: 2.45, 4: 2.45, 5: 2.0, 6: 2.0, 7: 2.25, 8: 2.25, 9: 2.0, 10: 2.0, 11: 2.2, 12: 2.2, 13: 1.9}
 ELITE_HP = 1.25
 BOSS_TUNE = {
-    'forest_guardian': (0.96, 1.69), 'frost_kraken': (1.43, 0.85), 'flame_sphinx': (1.518, 1.045), 'boss': (0.81, 0.7776),
-    'leviathan': (1.42, 0.99), 'abyss_lord': (0.975, 0.8736),
+    'subway_bat_lord': (1.0, 2.3), 'forest_guardian': (0.96, 1.8), 'scrap_colossus': (1.5, 1.85),
+    'frost_kraken': (1.5, 0.82), 'crystal_cave_lord': (1.4, 2.02), 'flame_sphinx': (1.65, 1.05),
+    'festival_pumpkin_king': (1.25, 1.85), 'boss': (1.316, 1.15), 'plague_lich': (1.2, 2.0),
+    'leviathan': (1.2, 0.95), 'abyss_herald': (1.3, 1.4), 'abyss_lord': (0.975, 0.8736),
     'forest_guardian_ex': (2.5, 1.45), 'frost_kraken_ex': (1.425, 0.858), 'flame_sphinx_ex': (1.2, 0.99),
     'boss_ex': (1.3, 0.84), 'leviathan_ex': (1.125, 0.94), 'abyss_lord_ex': (1.1385, 0.744),
 }
@@ -560,7 +754,7 @@ def tune(rows):
         if r['id'] in BOSS_TUNE:
             hp, off = BOSS_TUNE[r['id']]
         elif r['rank'] == 0 and r.get('ai_profile') != 'runner' and r['id'] != 'golden_mimic':
-            hp, off = NORMAL_HP[chapter_of_level(r['level'])], 1.0
+            hp, off = NORMAL_HP[ZONE_OF.get(r['id'], 13)], 1.0
         elif r['rank'] == 1:
             hp, off = ELITE_HP, 1.0
         else:
@@ -571,10 +765,13 @@ def tune(rows):
 
 
 def build(spec):
+    """All monster rows. Levels come from the zones (zone_levels); LEVELS / ZONE_OF are left filled for the caller."""
+    zone_levels(spec)
     base = json.load(open(os.path.join(HERE, 'base_enemies.json'), encoding='utf-8'))
     rows = relevel_existing(base)
     rows += variant_rows(rows, spec)
     rows += build_new(spec)
+    rows += zone_boss_rows(spec, rows)
     rows += build_superbosses(rows, spec)
     tune(rows)
     return rows

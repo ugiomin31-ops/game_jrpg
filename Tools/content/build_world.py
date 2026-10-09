@@ -1,4 +1,4 @@
-"""Builds the world content of the 35-floor campaign into Assets/_Game/Resources/Data.
+"""Builds the world content of the 39-floor campaign (13 zones x 3 floors) into Assets/_Game/Resources/Data.
 
     python3 Tools/content/build_world.py            # write dungeon/enemies/skills/quests/text_ko + C# spec allowlist
     python3 Tools/content/build_world.py --check    # build and validate only (no writes)
@@ -9,7 +9,8 @@
 
 Deterministic: same inputs -> byte-identical outputs. Sources: Tools/content/spec.py (fixed ids) and
 Tools/content/world/*.py (maps, solver, enemies, skills, texts, quests). Original rows round-trip: enemies are
-re-levelled from world/base_enemies.json, skills/text rows are upserted by id, other rows stay untouched.
+re-levelled into their zones (world/enemies.py), skills/text rows are upserted by id, other rows stay untouched.
+Quest problems are warnings only (world/quests.py is owned by another work item).
 """
 import json
 import math
@@ -46,20 +47,9 @@ def write(name, rows):
 
 
 # ------------------------------------------------------------------ enemies
-def chapter_tag(row, variant_ch, new_ch):
-    if row['id'] in variant_ch:
-        return variant_ch[row['id']] or None
-    if row['id'] in new_ch:
-        return new_ch[row['id']]
-    return W_enemies.chapter_of_level(row['level'])
-
-
 def build_enemies():
     rows = W_enemies.build(spec)
-    variant_ch = {v[0]: v[4] for v in spec.VARIANTS}
-    new_ch = {m[0]: m[2] for m in spec.NEW_MODELS}
     for r in rows:
-        r['_chapter'] = chapter_tag(r, variant_ch, new_ch)
         # '_file' stays the last key, as in the original rows.
         f = r.pop('_file')
         r['_file'] = f
@@ -67,12 +57,7 @@ def build_enemies():
 
 
 def strip(rows):
-    out = []
-    for r in rows:
-        r = dict(r)
-        r.pop('_chapter', None)
-        out.append(r)
-    return out
+    return [dict(r) for r in rows]
 
 
 # ------------------------------------------------------------------ allowlist of ids other workers create
@@ -106,11 +91,11 @@ def write_allowlist():
     jw = sorted(spec.JOB_WEAPONS.values())
     for i in range(0, len(jw), 5):
         lines.append('            ' + ' '.join('"%s",' % x for x in jw[i:i + 5]))
-    lines += ['        };', '        /// <summary>Party level range (enter, leave) of chapters 1-7 (7 = trial corridor).</summary>',
+    lines += ['        };', '        /// <summary>Party level range (enter, leave) of zones 1-13 (13 = postgame red gate).</summary>',
               '        public static readonly int[][] ChapterLevels =', '        {']
     for ch in spec.CHAPTERS:
         lines.append('            new[] { %d, %d },' % ch['levels'])
-    lines += ['        };', '        /// <summary>Chapter boss ids, chapters 1-7.</summary>',
+    lines += ['        };', '        /// <summary>Zone boss ids, zones 1-13.</summary>',
               '        public static readonly string[] ChapterBosses = { %s };' % ', '.join('"%s"' % ch['boss'] for ch in spec.CHAPTERS),
               '        public const int LevelCap = %d;' % spec.LEVEL_CAP, '    }', '}', '']
     data = '\r\n'.join(lines).encode('utf-8')
@@ -122,12 +107,14 @@ def write_allowlist():
 
 # ------------------------------------------------------------------ validation
 def validate(enemy_rows, skills, floors, quests, items, equipment, statuses, presentations):
+    """Returns (problems, warnings). Quest references are warnings: world/quests.py still uses the old ids."""
     spec_items, spec_gear = spec_ids()
     known_items = set(items) | set(spec_items)
     known_gear = set(equipment) | set(spec_gear)
     known = known_items | known_gear
     eids = {e['id'] for e in enemy_rows}
     problems = []
+    warnings = []
     for s in skills.values():
         if s.get('presentation') and s['presentation'] not in presentations:
             problems.append('skill %s presentation %s' % (s['id'], s['presentation']))
@@ -157,7 +144,8 @@ def validate(enemy_rows, skills, floors, quests, items, equipment, statuses, pre
         for d in ids:
             if d not in known:
                 problems.append('enemy %s drop %s unknown' % (e['id'], d))
-        if e.get('model') and e['model'] not in eids:
+        if e.get('model') and e['model'] not in eids and not os.path.exists(
+                os.path.join(ROOT, 'Assets', '_Game', 'Resources', 'Art', 'Enemies', e['model'], e['model'] + '.fbx')):
             problems.append('enemy %s model %s' % (e['id'], e['model']))
     for f in floors:
         res = solver.analyse(f['rows'])
@@ -190,15 +178,15 @@ def validate(enemy_rows, skills, floors, quests, items, equipment, statuses, pre
     fids = {f['id'] for f in floors}
     for q in quests:
         if q['kind'] in ('kill', 'foe', 'boss') and q['target_id'] not in eids:
-            problems.append('quest %s target' % q['id'])
+            warnings.append('quest %s target' % q['id'])
         if q['kind'] == 'collect' and q['target_id'] not in known_items:
-            problems.append('quest %s collect target' % q['id'])
+            warnings.append('quest %s collect target' % q['id'])
         if q['kind'] == 'explore' and q['target_id'] not in fids:
-            problems.append('quest %s floor' % q['id'])
+            warnings.append('quest %s floor' % q['id'])
         for k in q['reward_items']:
             if k not in known:
-                problems.append('quest %s reward %s' % (q['id'], k))
-    return problems
+                warnings.append('quest %s reward %s' % (q['id'], k))
+    return problems, warnings
 
 
 # ------------------------------------------------------------------ level simulation (main path)
@@ -206,6 +194,8 @@ def level_sim(floors, enemy_rows, verbose=True):
     """Expected party level per floor for a main-path party: every floor explored once (its target number of
     random battles, every event, the FOEs, the mid-boss and the boss). Rare groups count at a 35 % catch rate."""
     by_id = {e['id']: e for e in enemy_rows}
+    rare_ids = set(spec.RARE_BY_ZONE)
+    per = spec.FLOORS_PER_ZONE
     level, xp = 1, 0
     out = []
 
@@ -220,15 +210,14 @@ def level_sim(floors, enemy_rows, verbose=True):
         if level >= spec.LEVEL_CAP:
             xp = 0
 
-    for f in floors:
-        n = int(f['floor_label'][1:-1])
-        c = (n - 1) // 5 + 1
+    for i, f in enumerate(floors):
+        zone = i // per + 1
         enter = level
-        battles = W_floors.TARGET_BATTLES[c]
+        battles = W_floors.TARGET_BATTLES[zone]
         groups = f['encounter_groups']
         for b in range(battles):
             g = groups[b % len(groups)]
-            rare = [x for x in g if x in W_floors.RARE]
+            rare = [x for x in g if x in rare_ids]
             if rare:
                 gain(int(sum(by_id[x]['experience_reward'] for x in g if x not in rare) + 0.35 * sum(by_id[x]['experience_reward'] for x in rare)))
             else:
@@ -240,10 +229,12 @@ def level_sim(floors, enemy_rows, verbose=True):
         boss_level = level
         for x in f['boss_group']:
             gain(by_id[x]['experience_reward'])
-        out.append((f['floor_label'], f['area_name'], enter, boss_level if f['boss_group'] else level, level))
+        out.append((f['floor_label'], f['area_name'], zone, enter, boss_level if f['boss_group'] else level, level))
     if verbose:
-        for label, name, a, b, z in out:
-            print('%-5s %-16s enter Lv%2d  %s exit Lv%2d' % (label, name, a, ('boss@Lv%2d' % b) if a != b or True else '', z))
+        for label, name, zone, a, b, z in out:
+            lo, hi = spec.CHAPTERS[zone - 1]['levels']
+            print('%-5s zone %2d %-14s range Lv%2d-%2d  enter Lv%2d  boss Lv%2d  exit Lv%2d' % (
+                label, zone, name[:14], lo, hi, a, b, z))
     return out
 
 
@@ -253,18 +244,24 @@ def pace(floors, verbose=True):
     6 min for a boss, 8 s per chest/lore stone."""
     total = 0.0
     out = []
-    for f in floors:
+    per = spec.FLOORS_PER_ZONE
+    zone1 = 0.0
+    for i, f in enumerate(floors):
         steps = solver.exploration_steps(f['rows'], 0.85) * W_floors.WALK_FACTOR
-        per = min(f['min_encounter_steps'] + 1.0 / f['encounter_rate'], f['max_encounter_steps'])
-        battles = steps / per
+        per_step = min(f['min_encounter_steps'] + 1.0 / f['encounter_rate'], f['max_encounter_steps'])
+        battles = steps / per_step
         fixed = (len(f['events']) + len(f['foes'])) * 100 + (360 if f['boss_group'] else 0) + (len(f['treasures']) + len(f['lore_stones'])) * 8
         minutes = (steps * 0.5 + battles * 65 + fixed) / 60.0
         total += minutes
+        if i < per:
+            zone1 += minutes
         out.append((f['floor_label'], int(steps), battles, minutes))
         if verbose:
             print('%-5s walk %4d steps  %4.1f random battles  ~%4.1f min' % (f['floor_label'], steps, battles, minutes))
+    main_floors = spec.MAIN_ZONES * per
     if verbose:
-        print('total ~%.1f h (main story %.1f h)' % (total / 60, sum(m for *_, m in out[:30]) / 60))
+        print('zone 1 (to the first boss) ~%.1f min; main story (%d floors) ~%.1f h; all %d floors ~%.1f h' % (
+            zone1, main_floors, sum(m for *_, m in out[:main_floors]) / 60, len(out), total / 60))
     return out
 
 
@@ -285,7 +282,7 @@ def contact_sheet(floors, path):
         font = ImageFont.truetype(os.path.join(ROOT, 'Assets', '_Game', 'Fonts', 'Pretendard-Regular.otf'), 14)
     except OSError:
         font = ImageFont.load_default()
-    d.text((12, 8), '35 floors (B1F-B35F)  S start  < up  > down  W warp  T chest  K key  L door  E event  B boss  X trap  H spring  N lore  o FOE  M mid-boss',
+    d.text((12, 8), '%d floors (1-1..R-3)  S start  < up  > down  W warp  T chest  K key  L door  E event  B boss  X trap  H spring  N lore  o FOE  M mid-boss' % len(floors),
            fill=(230, 230, 230), font=font)
     for i, f in enumerate(floors):
         ox = 8 + (i % cols) * tile
@@ -334,9 +331,11 @@ def main(argv):
     statuses = {s['id'] for s in load('statuses')}
     presentations = {p['id'] for p in load('presentation')}
     skills = {s['id']: s for s in skills_rows}
-    problems = validate(enemy_rows, skills, floors, quests, items, equipment, statuses, presentations)
+    problems, warnings = validate(enemy_rows, skills, floors, quests, items, equipment, statuses, presentations)
     for p in problems:
         print('PROBLEM', p)
+    for w in warnings:
+        print('WARN', w)
     if '--maps' in argv:
         for f, m in zip(floors, meta):
             print('%s %s seed=%d states=%d walk=%d steps=%d rate=%.3f max=%d foes=%d' % (

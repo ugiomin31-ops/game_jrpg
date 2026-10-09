@@ -150,7 +150,7 @@ namespace Abyss.Runtime
         {
             SetPaused(false);
             Dungeon = null;
-            var notices = GameFlow.EnterTown(State);
+            var notices = GameFlow.EnterTown(DB, State);
             EnterTownVisual();
             Save();
             ShowTownNotices(notices, 0);
@@ -161,7 +161,7 @@ namespace Abyss.Runtime
         {
             if (index >= notices.Count) { if (index > 0) { Screen = GameScreen.Town; UI.ShowTown(); } return; }
             var notice = notices[index];
-            ShowStory(DB.T(notice.TitleKey), new[] { DB.T(notice.TextKey) }, () => ShowTownNotices(notices, index + 1));
+            ShowStory(DB.T(notice.TitleKey), new[] { notice.Text ?? DB.T(notice.TextKey) }, () => ShowTownNotices(notices, index + 1));
         }
 
         void EnterTownVisual()
@@ -177,6 +177,8 @@ namespace Abyss.Runtime
         public void RefreshEquipmentVisuals() => townWorld?.RefreshEquipment();
         /// <summary>Swaps town party models to their current job outfits (after a class change).</summary>
         public void RefreshJobVisuals() => townWorld?.RefreshJobModels();
+        /// <summary>Respawns the guild party and lounge after a roster change (party formation, scouting).</summary>
+        public void RefreshRosterVisuals() => townWorld?.RefreshRoster();
 
         public void OpenTownService(string id)
         {

@@ -5,6 +5,10 @@ Source packs (all CC0, see Blender/third_party/<pack>/README.md):
   kh = KayKit Halloween Bits 1.0        (Kay Lousberg)      gradient texture atlas, 8x4 swatches
   qd = Quaternius Modular Dungeon packs (Quaternius)       flat material colours
   qn = Quaternius Ultimate Stylized Nature (Quaternius)    small colour textures (alpha cards for leaves)
+  kc = KayKit City Builder Bits 1.0    (Kay Lousberg)      gradient texture atlas (town hub, street props)
+  kf = KayKit Furniture Bits 1.0       (Kay Lousberg)      gradient texture atlas (town hub, cabinets, shelves)
+  kr = KayKit Restaurant Bits 1.0      (Kay Lousberg)      gradient texture atlas (town hub, crates)
+  ks = KayKit Space Base Bits 1.0      (Kay Lousberg)      gradient texture atlas (town hub, cargo, containers, rocks)
 
 Only the specific files used by the kits are vendored under Blender/third_party/. Override a pack folder with
 the environment variable ABYSS_CC0_<PACK> (e.g. ABYSS_CC0_KD=/path/to/Assets/gltf) or `set_source(pack, path)`.
@@ -36,6 +40,10 @@ PACKS = {
     "kh": dict(folder="kaykit_halloween_bits", atlas=True, exts=(".gltf", ".glb")),
     "qd": dict(folder="quaternius_modular_dungeons", atlas=False, exts=(".glb", ".gltf")),
     "qn": dict(folder="quaternius_stylized_nature", atlas=False, exts=(".gltf", ".glb")),
+    "kc": dict(folder="kaykit_city_builder_bits", atlas=True, exts=(".gltf", ".glb")),
+    "kf": dict(folder="kaykit_furniture_bits", atlas=True, exts=(".gltf", ".glb")),
+    "kr": dict(folder="kaykit_restaurant_bits", atlas=True, exts=(".gltf", ".glb")),
+    "ks": dict(folder="kaykit_space_base_bits", atlas=True, exts=(".gltf", ".glb")),
 }
 _SOURCE_OVERRIDE = {}
 MATS = ("M_Toon", "M_Emit", "M_Clear")

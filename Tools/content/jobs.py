@@ -18,10 +18,15 @@ import sys
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 DATA = os.path.join(ROOT, 'Assets', '_Game', 'Resources', 'Data')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from spec import JOB_TREE, JOB_NAMES_KO, JOB_WEAPONS  # noqa: E402
+from spec import (JOB_TREE, JOB_NAMES_KO, JOB_WEAPONS, JOB_ADVANCED_LEVEL, JOB_ADVANCED_BOSS,  # noqa: E402
+                  JOB_MASTER_LEVEL, JOB_MASTER_BOSS)
 
 BASES = ('warrior', 'mage', 'archer', 'cleric')
 PARENT = {child: parent for parent, children in JOB_TREE.items() for child in children}
+# Class-change requirements by tier (spec): advanced = Lv 12 + the zone 2 boss + job_medal, master = Lv 36 + the zone 7
+# boss + master_seal. The learnset of a tier shifts so its first skill lands on the tier's required level.
+REQUIRED_LEVEL = {1: 1, 2: JOB_ADVANCED_LEVEL, 3: JOB_MASTER_LEVEL}
+REQUIRED_BOSS = {1: '', 2: JOB_ADVANCED_BOSS, 3: JOB_MASTER_BOSS}
 
 
 def base_of(job):
@@ -296,6 +301,15 @@ def skill_row(s):
     return row
 
 
+def learnset(job, tier):
+    """Hero levels of a job's skills: the authored spacing, moved so the first skill is at the tier's required level."""
+    rows = LEARNSETS.get(job, [])
+    if not rows:
+        return []
+    shift = REQUIRED_LEVEL[tier] - min(s['level'] for s in rows) if tier > 1 else 0
+    return [{'level': s['level'] + shift, 'skill': s['id']} for s in rows]
+
+
 def job_rows():
     order = []
     for base in BASES:
@@ -309,13 +323,13 @@ def job_rows():
         m = STATS.get(job, (1, 1, 1, 1, 1, 1, 1, 0, 0, 0))
         row = {'id': job, 'display_name': JOB_NAMES_KO[job], 'hero': base_of(job), 'tier': tier, 'parent': PARENT.get(job, ''),
                'description': DESCRIPTIONS[job],
-               'required_level': {1: 1, 2: 15, 3: 40}[tier],
+               'required_level': REQUIRED_LEVEL[tier],
                'required_item': {1: '', 2: 'job_medal', 3: 'master_seal'}[tier],
-               'required_boss': {1: '', 2: 'forest_guardian', 3: 'boss'}[tier],
+               'required_boss': REQUIRED_BOSS[tier],
                'hp_mult': m[0], 'mp_mult': m[1], 'atk_mult': m[2], 'mag_mult': m[3], 'def_mult': m[4], 'res_mult': m[5], 'spd_mult': m[6],
                'hit': m[7], 'evade': m[8], 'crit': m[9],
                'signature_weapon': JOB_WEAPONS.get(job, ''),
-               'learnset': [{'level': s['level'], 'skill': s['id']} for s in LEARNSETS.get(job, [])],
+               'learnset': learnset(job, tier),
                '_file': job}
         for k in ('hp_mult', 'mp_mult', 'atk_mult', 'mag_mult', 'def_mult', 'res_mult', 'spd_mult', 'hit', 'evade', 'crit'):
             row[k] = float(row[k])
@@ -326,10 +340,10 @@ def job_rows():
 ITEMS = [
     {'id': 'job_medal', 'display_name': '전직의 증표', 'description': '전직의 자격을 증명하는 은빛 증표. 길드에서 1차 전직을 할 때 하나 사용합니다.',
      'item_type': 7, 'heal_amount': 0, 'max_stack': 99, 'power': 0.0, 'value': 0, 'target': 'none', 'price': 0, 'sell_price': 0,
-     'shop_tier': 0, 'status_id': '', 'element': 0, '_file': 'job_medal', 'rarity': 2},
+     'shop_tier': 2, 'status_id': '', 'element': 0, '_file': 'job_medal', 'rarity': 2},
     {'id': 'master_seal', 'display_name': '마스터의 인장', 'description': '한 길을 끝까지 걸은 자에게 주어지는 금빛 인장. 길드에서 2차 전직을 할 때 하나 사용합니다.',
-     'item_type': 7, 'heal_amount': 0, 'max_stack': 99, 'power': 0.0, 'value': 0, 'target': 'none', 'price': 0, 'sell_price': 0,
-     'shop_tier': 0, 'status_id': '', 'element': 0, '_file': 'master_seal', 'rarity': 3},
+     'item_type': 7, 'heal_amount': 0, 'max_stack': 99, 'power': 0.0, 'value': 0, 'target': 'none', 'price': 12000, 'sell_price': 0,
+     'shop_tier': 4, 'status_id': '', 'element': 0, '_file': 'master_seal', 'rarity': 3},
 ]
 
 TEXT = {

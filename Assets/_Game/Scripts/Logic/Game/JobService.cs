@@ -47,10 +47,11 @@ namespace Abyss.Logic.Game
         /// <summary>Jobs promoted directly from the hero's current job, in jobs.json order.</summary>
         public static List<JobDef> NextJobs(GameDB db, HeroState hero)
         {
-            string current = string.IsNullOrEmpty(hero.Job) ? hero.Id : hero.Job;
+            string cls = db.ClassOf(hero.Id);
+            string current = string.IsNullOrEmpty(hero.Job) ? cls : hero.Job;
             var output = new List<JobDef>();
             foreach (var job in db.Jobs.Values)
-                if (job.Hero == hero.Id && job.Parent == current) output.Add(job);
+                if (job.Hero == cls && job.Parent == current) output.Add(job);
             return output;
         }
 
@@ -59,8 +60,9 @@ namespace Abyss.Logic.Game
         {
             if (!db.Jobs.TryGetValue(jobId ?? "", out var job)) return new JobOption { Reason = "job_unknown" };
             var option = new JobOption { Job = job };
-            string current = string.IsNullOrEmpty(hero.Job) ? hero.Id : hero.Job;
-            if (job.Hero != hero.Id || job.Parent != current) option.Reason = "job_not_next";
+            string cls = db.ClassOf(hero.Id);
+            string current = string.IsNullOrEmpty(hero.Job) ? cls : hero.Job;
+            if (job.Hero != cls || job.Parent != current) option.Reason = "job_not_next";
             if (job.RequiredLevel > 1)
                 Add(option, "level", $"Lv.{job.RequiredLevel} 이상 (현재 Lv.{hero.Level})", hero.Level >= job.RequiredLevel, "job_level");
             if (!string.IsNullOrEmpty(job.RequiredBoss))
@@ -94,7 +96,7 @@ namespace Abyss.Logic.Game
         /// <summary>Effective stats the hero would have in <paramref name="jobId"/> with the gear it could keep.</summary>
         public static HeroStats PreviewStats(GameDB db, HeroState hero, string jobId)
         {
-            var preview = new HeroState { Id = hero.Id, Job = jobId, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment) };
+            var preview = new HeroState { Id = hero.Id, Job = jobId, Level = hero.Level, Equipment = new Dictionary<string, string>(hero.Equipment), Seeds = hero.Seeds, EnhanceLevels = hero.EnhanceLevels };
             foreach (string slot in GameState.EquipSlots)
                 if (db.Equipment.TryGetValue(preview.Equipped(slot), out var piece) && !PartyStats.AllowsJob(db, piece, preview)) preview.Equipment[slot] = "";
             return PartyStats.EffectiveStats(db, preview);

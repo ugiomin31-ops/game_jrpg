@@ -44,8 +44,8 @@ namespace Abyss.LogicTests
                 int chapter = i / GameFlow.FloorsPerChapter + 1, k = i % GameFlow.FloorsPerChapter;
                 Assert.Equal(i, floor.Index, "floor order " + floor.FloorLabel);
                 var grid = DungeonGrid.Parse(floor);
-                Assert.True(grid.Width == grid.Height && grid.Width % 2 == 1 && grid.Width >= 21 && grid.Width <= 27, floor.FloorLabel + " size");
-                Assert.True(grid.Width >= lastSize, floor.FloorLabel + " floors grow chapter by chapter");
+                Assert.True(grid.Width == grid.Height && grid.Width % 2 == 1 && grid.Width >= 17 && grid.Width <= 27, floor.FloorLabel + " size");
+                Assert.True(grid.Width >= lastSize, floor.FloorLabel + " floors grow zone by zone");
                 lastSize = grid.Width;
                 Assert.Equal(1, grid.FindCells('S').Count(), floor.FloorLabel + " one start");
                 Assert.Equal(1, grid.FindCells('<').Count(), floor.FloorLabel + " one way up");
@@ -64,21 +64,21 @@ namespace Abyss.LogicTests
                 foreach (var foe in floor.Foes)
                     foreach (var p in foe.Patrol) Assert.True(grid.FoePassable(GridPos.FromArray(p)), floor.FloorLabel + " FOE route " + foe.Id);
                 Assert.True(floor.EncounterRate > 0 && floor.EncounterRate < 0.2 && floor.MaxEncounterSteps > floor.MinEncounterSteps, floor.FloorLabel + " encounter pacing");
-                // Chapter roles: floor 3 = mid-boss FOE, floor 5 = chapter boss guarding the stairs.
-                if (k == 2) Assert.True(floor.Foes.Any(f => f.Id.StartsWith("midboss_") && db.Enemies[f.Group[0]].Rank == 1), floor.FloorLabel + " mid-boss");
-                if (k == 4 && chapter <= GameFlow.MainChapters)
+                // Zone roles: floor 2 = mid-boss FOE, floor 3 = zone boss guarding the stairs.
+                if (k == 1) Assert.True(floor.Foes.Any(f => f.Id.StartsWith("midboss_") && db.Enemies[f.Group[0]].Rank == 1), floor.FloorLabel + " mid-boss");
+                if (k == 2 && chapter <= GameFlow.MainChapters)
                 {
                     Assert.Equal(SpecIds.ChapterBosses[chapter - 1], floor.BossGroup.Single(), floor.FloorLabel + " chapter boss");
                     Assert.True(floor.BossPreText.Length > 0 && floor.BossPostText.Length > 0, floor.FloorLabel + " boss lines");
                 }
-                if (k != 4 && chapter <= GameFlow.MainChapters) Assert.Equal(0, floor.BossGroup.Count, floor.FloorLabel + " no boss");
+                if (k != 2 && chapter <= GameFlow.MainChapters) Assert.Equal(0, floor.BossGroup.Count, floor.FloorLabel + " no boss");
                 if (i < db.Floors.Count - 1) Assert.Equal(1, grid.FindCells('>').Count(), floor.FloorLabel + " way down");
             }
-            Assert.Equal("abyss_lord_ex", db.Floors[db.Floors.Count - 1].BossGroup.Single(), "trial corridor ends with the last echo");
+            Assert.Equal("abyss_lord_ex", db.Floors[db.Floors.Count - 1].BossGroup.Single(), "the red gate ends with the last echo");
             Assert.Equal(1, db.Floors.Count(f => f.Ending), "one floor ends the story");
-            Assert.True(db.Floors[GameFlow.MainChapters * GameFlow.FloorsPerChapter - 1].Ending, "B30F's boss ends the story");
-            // The five trial floors each hold a superbosses' echo (event battles before the stairs).
-            for (int i = 30; i < 35; i++)
+            Assert.True(db.Floors[GameFlow.MainChapters * GameFlow.FloorsPerChapter - 1].Ending, "12-3's boss ends the story");
+            // The three red gate floors each hold a superboss echo (event battles before the stairs).
+            for (int i = GameFlow.MainChapters * GameFlow.FloorsPerChapter; i < db.Floors.Count; i++)
                 Assert.True(db.Floors[i].Events.Any(e => e.Group.Any(id => id.EndsWith("_ex"))), db.Floors[i].FloorLabel + " superboss");
         }
 
@@ -110,21 +110,22 @@ namespace Abyss.LogicTests
             }
             Assert.Equal(GameFlow.MainChapters + 1, GameFlow.StoryChapter(state), "postgame chapter");
             var final = WinBoss(db, state, db.Floors.Count - 1);
-            Assert.True(!final.Ending, "the trial corridor's last echo does not replay the ending");
-            Assert.True(state.Flags.Contains(GameFlow.BossFlag(7)), "trial corridor cleared flag");
+            Assert.True(!final.Ending, "the red gate's last echo does not replay the ending");
+            Assert.True(state.Flags.Contains(GameFlow.BossFlag(GameFlow.MainChapters + 1)), "red gate cleared flag");
             state.Flags.Add(GameFlow.FlagEndingSeen);
             var notices = GameFlow.EnterTown(state);
             Assert.True(notices.Any(n => n.TextKey == "postgame_unlocked"), "postgame notice once");
             Assert.True(!GameFlow.EnterTown(state).Any(n => n.TextKey == "postgame_unlocked"), "postgame notice not repeated");
             foreach (string key in GameFlow.ElderLineKeys(db, state)) Assert.True(db.Text.ContainsKey(key), "elder line " + key);
-            for (int b = 0; b <= 6; b++) Assert.True(db.Text.ContainsKey("biome_" + b), "chapter intro " + b);
+            for (int b = 0; b < GameFlow.MainChapters; b++) Assert.True(db.Text.ContainsKey("biome_" + b), "zone intro " + b);
             for (int p = 1; p <= GameFlow.EndingPages; p++) Assert.True(db.Text.ContainsKey("ending_" + p), "ending page " + p);
         }
 
-        static GameState Legacy(GameDB db)
+        static GameState Legacy(GameDB db, bool layout35 = false)
         {
             var state = GameState.NewGame(db, Difficulty.Normal);
-            state.Flags.Remove(CampaignMigration.FlagLayout);
+            state.Flags.Remove(CampaignMigration.FlagHunterLayout);
+            if (!layout35) state.Flags.Remove(CampaignMigration.FlagLayout);
             return state;
         }
 
@@ -142,21 +143,21 @@ namespace Abyss.LogicTests
             state.Floors["frost_grotto_b6"] = old;
             state.Floors["verdant_ruins"] = new FloorProgress();
             state.Location = GameLocation.Dungeon; state.Position = new GridPos(7, 7);
-            state.Quests["q_frost_survey"] = new QuestProgress { State = QuestState.Accepted };
             state.Party[0].Level = 22;
             var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
 
-            Assert.True(loaded.Flags.Contains(CampaignMigration.FlagLayout), "migrated once");
+            Assert.True(loaded.Flags.Contains(CampaignMigration.FlagHunterLayout), "migrated once");
             Assert.True(!loaded.Floors.ContainsKey("frost_grotto_b6") && !loaded.Floors.ContainsKey("verdant_ruins"), "old layouts' progress dropped");
-            Assert.Equal(GameLocation.Town, loaded.Location, "resume in town");
+            Assert.Equal(GameLocation.Town, loaded.Location, "resume at the guild");
             Assert.True(loaded.PendingBattle == null, "no stale battle");
-            Assert.Equal(CampaignMigration.MapLegacyIndex(5), loaded.FloorIndex, "current floor mapped");
-            Assert.Equal(9, loaded.FloorIndex, "old frost boss floor -> chapter 2 boss floor (B10F)");
-            Assert.True(loaded.DeepestFloor >= 10, "beaten chapter 2 boss keeps chapter 3 open");
-            Assert.True(loaded.Flags.Contains(GameFlow.BossFlag(1)) && loaded.Flags.Contains(GameFlow.BossFlag(2)), "boss flags kept");
-            foreach (int chapterBoss in new[] { 4, 9 })
+            Assert.Equal(CampaignMigration.Map35Index(CampaignMigration.MapLegacyIndex(5)), loaded.FloorIndex, "current floor mapped");
+            Assert.Equal(11, loaded.FloorIndex, "old frost boss floor -> D-rank gate boss floor (4-3)");
+            Assert.True(loaded.DeepestFloor >= 12, "beaten zone 4 boss keeps zone 5 open");
+            for (int zone = 1; zone <= 4; zone++) Assert.True(loaded.Flags.Contains(GameFlow.BossFlag(zone)), "old chapters 1-2 cover zones 1-4: boss " + zone);
+            Assert.True(!loaded.Flags.Contains(GameFlow.BossFlag(5)), "zone 5 still ahead");
+            for (int zone = 1; zone <= 4; zone++)
             {
-                var floor = db.Floors[chapterBoss];
+                var floor = db.Floors[zone * GameFlow.FloorsPerChapter - 1];
                 var grid = DungeonGrid.Parse(floor, loaded.Floor(floor.Id));
                 Assert.True(grid.Progress.ClearedBattles.Contains(grid.FindCell('B')), floor.FloorLabel + " boss stays beaten");
             }
@@ -164,16 +165,15 @@ namespace Abyss.LogicTests
             foreach (int warp in loaded.WarpsUnlocked)
                 Assert.True(DungeonGrid.Parse(db.Floors[warp]).FindCells('W').Any(), "warp floor has a crystal " + warp);
             foreach (int floor in TownServices.DepartureFloors(db, loaded)) Assert.True(floor <= loaded.DeepestFloor, "departures within reach");
-            Assert.Equal(22, loaded.Party[0].Level, "heroes untouched");
-            Assert.True(loaded.Quests["q_frost_survey"].State != QuestState.Claimed, "accepted quest kept (now complete: its floor is behind the party)");
+            Assert.Equal(22, loaded.Hero("h_dohyun").Level, "heroes untouched");
             string once = SaveCodec.Serialize(loaded);
             Assert.Equal(once, SaveCodec.Serialize(SaveCodec.Deserialize(once, db)), "migration is idempotent");
             int deepestWarp = TownServices.DepartureFloors(db, loaded).Max();
-            Assert.Equal(10, deepestWarp, "the chapter 3 entrance warp is open (the old party had walked into biome 3's floors)");
+            Assert.Equal(12, deepestWarp, "the zone 5 entrance warp is open");
             var run = new DungeonRun(db, loaded, deepestWarp, ArrivalMode.Town);
             Assert.True(run.CanAct, "migrated save can depart to its deepest warp");
 
-            // A save that had seen the old ending: the herald is now chapter 4's boss and the story continues below.
+            // A save that had seen the old ending: the herald's chapter maps to zones 7-8 and the story continues below.
             var ended = Legacy(db);
             GameFlow.CompletePrologue(ended);
             ended.FloorIndex = 11; ended.DeepestFloor = 11;
@@ -182,13 +182,36 @@ namespace Abyss.LogicTests
             var after = SaveCodec.Deserialize(SaveCodec.Serialize(ended), db);
             Assert.True(!after.Flags.Contains(GameFlow.FlagCleared) && !after.Flags.Contains(GameFlow.FlagEndingSeen), "story no longer cleared");
             Assert.True(after.Flags.Contains(CampaignMigration.FlagLegacyEnding), "old ending remembered");
-            Assert.Equal(4 * GameFlow.FloorsPerChapter, after.DeepestFloor, "chapter 5 is open");
-            Assert.Equal(5, GameFlow.StoryChapter(after), "story resumes at chapter 5");
+            Assert.Equal(8 * GameFlow.FloorsPerChapter, after.DeepestFloor, "zone 9 is open");
+            Assert.Equal(9, GameFlow.StoryChapter(after), "story resumes at zone 9");
 
             // New games are already on the new layout: loading them never changes anything.
             var fresh = GameState.NewGame(db, Difficulty.Normal);
             string text = SaveCodec.Serialize(fresh);
             Assert.Equal(text, SaveCodec.Serialize(SaveCodec.Deserialize(text, db)), "fresh save untouched");
+        }
+
+        [LogicTest]
+        public static void ThirtyFiveFloorSavesMoveOntoTheZones()
+        {
+            var db = TestMain.DB;
+            var state = Legacy(db, layout35: true);
+            GameFlow.CompletePrologue(state);
+            state.FloorIndex = 14; state.DeepestFloor = 15;           // old B15F (chapter 3 boss floor), deepest B16F
+            for (int c = 1; c <= 3; c++) state.Flags.Add(GameFlow.BossFlag(c));
+            state.Flags.Add("elder_2_seen");
+            state.Floors["ember_caverns_b15"] = new FloorProgress();
+            var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
+            Assert.Equal(17, loaded.FloorIndex, "old chapter 3 boss floor -> C-rank gate boss floor (6-3)");
+            Assert.True(loaded.DeepestFloor >= 18, "zone 7 open");
+            for (int zone = 1; zone <= 6; zone++) Assert.True(loaded.Flags.Contains(GameFlow.BossFlag(zone)), "boss " + zone);
+            Assert.True(!loaded.Flags.Contains(GameFlow.BossFlag(7)), "zone 7 still ahead");
+            for (int zone = 1; zone <= 6; zone++) Assert.True(loaded.Flags.Contains("elder_" + zone + "_seen"), "guild master line " + zone + " not replayed");
+            Assert.Equal(7, GameFlow.StoryChapter(loaded), "story resumes at the school");
+            Assert.True(!loaded.Floors.ContainsKey("ember_caverns_b15"), "old floor progress dropped");
+            // The joins of the cleared zones arrive on the next guild visit.
+            var joins = GameFlow.EnterTown(db, loaded).Where(n => n.HeroId != null).Select(n => n.HeroId).ToList();
+            Assert.Equal(6, joins.Count, "six story hunters join for six cleared zones");
         }
 
         [LogicTest]
@@ -255,13 +278,13 @@ namespace Abyss.LogicTests
             }
             var medals = Sources("job_medal");
             Assert.Equal(4, medals.count, "four job medals");
-            Assert.True(db.Enemies["forest_guardian"].Drops.Any(d => d.Id == "job_medal" && d.Chance >= 1f), "the chapter 1 boss leaves a job medal");
-            Assert.True(medals.latest < 2 * GameFlow.FloorsPerChapter, "job medals within chapter 2");
+            Assert.True(db.Enemies["forest_guardian"].Drops.Any(d => d.Id == "job_medal" && d.Chance >= 1f), "the E-rank gate boss leaves a job medal");
+            Assert.True(medals.latest < 4 * GameFlow.FloorsPerChapter, "job medals within zone 4");
             var seals = Sources("master_seal");
             Assert.Equal(4, seals.count, "four master seals");
-            Assert.True(db.Enemies["boss"].Drops.Any(d => d.Id == "master_seal" && d.Chance >= 1f), "the chapter 4 herald leaves a master seal");
-            Assert.True(seals.latest < 5 * GameFlow.FloorsPerChapter, "master seals within chapter 5");
-            Assert.True(db.QuestList.Where(q => q.RewardItems.ContainsKey("master_seal")).All(q => q.UnlockFloor >= 4 * GameFlow.FloorsPerChapter), "master seal trials open after the herald");
+            Assert.True(db.Enemies["festival_pumpkin_king"].Drops.Any(d => d.Id == "master_seal" && d.Chance >= 1f), "the school boss leaves a master seal");
+            Assert.True(seals.latest < 9 * GameFlow.FloorsPerChapter, "master seals within zone 9");
+            Assert.True(db.QuestList.Where(q => q.RewardItems.ContainsKey("master_seal")).All(q => q.UnlockFloor >= 6 * GameFlow.FloorsPerChapter), "master seal requests open from the school");
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Abyss.Logic.Game
         public static string RewardText(GameDB db, QuestDef quest)
         {
             var parts = new List<string>();
-            if (quest.RewardGold > 0) parts.Add(quest.RewardGold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + " G");
+            if (quest.RewardGold > 0) parts.Add(quest.RewardGold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + "만원");
             foreach (var kv in quest.RewardItems)
             {
                 string name = db.Items.TryGetValue(kv.Key, out var item) ? item.DisplayName

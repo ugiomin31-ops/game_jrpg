@@ -1,0 +1,125 @@
+{
+  "id": "mummy_pup",
+  "is_boss": false,
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/enemies_h/hunter.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-08T15:35:18Z",
+  "files": {
+    "fbx": {
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Assets/_Game/Resources/Art/Enemies/mummy_pup/mummy_pup.fbx",
+      "bytes": 971724
+    },
+    "blend": {
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/blend/enemy_mummy_pup.blend",
+      "bytes": 438105
+    },
+    "previews": [
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/preview/enemy_mummy_pup.png",
+        "bytes": 171672
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/preview/enemy_mummy_pup_side.png",
+        "bytes": 165676
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/preview/enemy_mummy_pup_attack.png",
+        "bytes": 167765
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/preview/enemy_mummy_pup_cast.png",
+        "bytes": 171114
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-a4b9b1b245924fe5c/Blender/preview/enemy_mummy_pup_die.png",
+        "bytes": 164180
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 8980,
+    "vertices": 4498,
+    "bones": 12,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 8980,
+    "vertices": 4498,
+    "bones": 12,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

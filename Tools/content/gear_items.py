@@ -11,7 +11,8 @@ Tier curve (CONTENT_20H_PLAN, CHAPTERS in spec.py). The level is the party level
     T5 ch4 (Lv34-44)       T6 ch5 (Lv44-54)      T7 ch6 (Lv54-64)  T8 postgame legendary (Lv64-70, craft only)
 T1-T4 keep the authored numbers. T5..T8 are the line's T4 integer stats x 1.30 / 1.60 / 1.95 / 2.40, which keeps
 the weapon at 40-50 % of the wielder's total attack/magic (see --table) so +10 enhancement (+100 % of the piece)
-stays meaningful without making level growth irrelevant. Shop tier = chapter (1..7); T8 is never sold.
+stays meaningful without making level growth irrelevant. Shop tier = guild market tier (TIER_SHOP): the market sells gear tier t
+from the zone spec.TIER_UNLOCK_ZONE[t] on (C#: TownServices.ChapterOfFloor); T8 is never sold.
 """
 import json
 import math
@@ -24,6 +25,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import spec  # noqa: E402
 
 INT_STATS = ('atk', 'mag', 'def', 'res', 'spd', 'hp', 'mp')
+# shop_tier = guild market tier (C# TownServices.ChapterOfFloor: one tier per two zones, 7 = the red gate).
+# T1-T2 sell from zone 1, T3 zone 3, T4 zone 5, T5 zone 7, T6 zone 9, T7 zone 11; T8 legendaries are never sold.
 TIER_SHOP = {1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 0}
 TIER_FACTOR = {5: 1.30, 6: 1.60, 7: 1.95, 8: 2.40}
 TIER_PRICE = {5: 1.95, 6: 3.3, 7: 5.5}
@@ -220,8 +223,8 @@ ITEMS = [
     ('seed_mind', '정신의 씨앗', '먹은 동료의 마법 저항이 영구히 2 오릅니다.', SEED, 'single_ally', dict(stat='resistance', value=2), 0, 0, 2, 99),
     ('seed_swift', '신속의 씨앗', '먹은 동료의 속도가 영구히 1 오릅니다.', SEED, 'single_ally', dict(stat='speed', value=1), 0, 0, 2, 99),
     ('seed_life', '생명의 씨앗', '먹은 동료의 최대 HP가 영구히 20 오릅니다.', SEED, 'single_ally', dict(stat='max_hp', value=20), 0, 0, 2, 99),
-    ('job_medal', '전직의 증표', '길드가 인정한 모험가에게 주는 증표. 1차 전직에 필요합니다. 팔 수 없습니다.', KEY, 'none', dict(), 0, 0, 2, 9),
-    ('master_seal', '마스터의 인장', '한 길을 끝까지 걸은 자의 인장. 2차 전직에 필요합니다. 팔 수 없습니다.', KEY, 'none', dict(), 0, 0, 3, 9),
+    ('job_medal', '전직의 증표', '길드가 인정한 모험가에게 주는 증표. 1차 전직에 필요합니다. 팔 수 없습니다.', KEY, 'none', dict(), 2500, 2, 2, 9),
+    ('master_seal', '마스터의 인장', '한 길을 끝까지 걸은 자의 인장. 2차 전직에 필요합니다. 팔 수 없습니다.', KEY, 'none', dict(), 12000, 4, 3, 9),
     ('enhance_stone', '강화석', '대장간에서 장비를 강화하는 돌. T1-T3 장비에 씁니다.', MATERIAL, 'none', dict(), 80, 1, 0, 99),
     ('enhance_stone_hi', '상급 강화석', '마력이 깃든 강화석. T4-T5 장비에 씁니다.', MATERIAL, 'none', dict(), 450, 3, 1, 99),
     ('enhance_stone_abyss', '심연 강화석', '심연의 힘이 응축된 강화석. T6-T8 장비에 씁니다.', MATERIAL, 'none', dict(), 1600, 5, 2, 99),

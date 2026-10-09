@@ -97,7 +97,7 @@ namespace Abyss.UI
             }
             if (_gold > 0)
             {
-                var gold = UIFactory.Label(_window, $"+ {_gold:N0} G", compact ? 46f : 40f, UIFont.Heavy, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Glow, "Gold");
+                var gold = UIFactory.Label(_window, $"+ {_gold:N0}만원", compact ? 46f : 40f, UIFont.Heavy, UITheme.GoldBright, TextAlignmentOptions.Center, UITextFx.Glow, "Gold");
                 gold.Rt().BottomStrip(60, 112, 40, 40);
                 gold.transform.localScale = Vector3.zero;
                 UITween.Scale(gold.transform, 1f, 0.35f, UIEase.OutBack, 0.3f + shown * 0.12f);

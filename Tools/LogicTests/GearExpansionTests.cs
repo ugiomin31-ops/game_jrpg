@@ -34,8 +34,8 @@ namespace Abyss.LogicTests
             Assert.True(Enhancement.CostOf(iron, 10) == null, "no step past +10");
             Assert.Equal(Enhancement.StoneHigh, Enhancement.CostOf(db.Equipment["sword_runic"], 0).StoneId, "T5 uses the high stone");
             Assert.Equal(Enhancement.StoneAbyss, Enhancement.CostOf(db.Equipment["sword_tidal"], 0).StoneId, "T6 uses the abyss stone");
-            Assert.Equal("무쇠 장검 +3", Enhancement.DisplayName(iron, 3), "displayed name");
-            Assert.Equal("무쇠 장검", Enhancement.DisplayName(iron, 0), "+0 has no suffix");
+            Assert.Equal(iron.DisplayName + " +3", Enhancement.DisplayName(iron, 3), "displayed name");
+            Assert.Equal(iron.DisplayName, Enhancement.DisplayName(iron, 0), "+0 has no suffix");
         }
 
         [LogicTest]
@@ -43,7 +43,7 @@ namespace Abyss.LogicTests
         {
             var db = TestMain.DB;
             var state = GameState.NewGame(db, Difficulty.Normal);
-            var warrior = state.Hero("warrior");
+            var warrior = state.Hero("h_dohyun");
             string weapon = warrior.Equipped("weapon");
             int before = PartyStats.EffectiveStats(db, warrior).Stats.Attack;
             Assert.Equal("missing_stones", Enhancement.Enhance(db, state, weapon).Reason, "needs stones");
@@ -64,12 +64,12 @@ namespace Abyss.LogicTests
 
             var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
             Assert.Equal(10, Enhancement.LevelOf(loaded, weapon), "enhancement saved");
-            Assert.Equal(after, PartyStats.EffectiveStats(db, loaded.Hero("warrior")).Stats.Attack, "loaded hero bound to the map");
+            Assert.Equal(after, PartyStats.EffectiveStats(db, loaded.Hero("h_dohyun")).Stats.Attack, "loaded hero bound to the map");
             var old = Newtonsoft.Json.Linq.JObject.Parse(SaveCodec.Serialize(state));
             old.Remove("enhancements");
             var legacy = SaveCodec.Deserialize(old.ToString(), db);
             Assert.Equal(0, Enhancement.LevelOf(legacy, weapon), "old saves load as +0");
-            Assert.Equal(before, PartyStats.EffectiveStats(db, legacy.Hero("warrior")).Stats.Attack, "old save stats unchanged");
+            Assert.Equal(before, PartyStats.EffectiveStats(db, legacy.Hero("h_dohyun")).Stats.Attack, "old save stats unchanged");
         }
 
         [LogicTest]
@@ -77,21 +77,21 @@ namespace Abyss.LogicTests
         {
             var db = TestMain.DB;
             var state = GameState.NewGame(db, Difficulty.Normal);
-            var warrior = state.Hero("warrior");
+            var warrior = state.Hero("h_dohyun");
             int atk = PartyStats.EffectiveStats(db, warrior).Stats.Attack;
             int hp = PartyStats.EffectiveStats(db, warrior).MaxHp;
             state.AddItem("seed_power", 2);
             state.AddItem("seed_life", 1);
-            Assert.True(GameFlow.UseFieldItem(db, state, "seed_power", "warrior", false).Success, "seed used in town");
-            Assert.True(GameFlow.UseFieldItem(db, state, "seed_life", "warrior", false).Success, "life seed used");
+            Assert.True(GameFlow.UseFieldItem(db, state, "seed_power", "h_dohyun", false).Success, "seed used in town");
+            Assert.True(GameFlow.UseFieldItem(db, state, "seed_life", "h_dohyun", false).Success, "life seed used");
             Assert.Equal(atk + 2, PartyStats.EffectiveStats(db, warrior).Stats.Attack, "+2 attack");
             Assert.Equal(hp + 20, PartyStats.EffectiveStats(db, warrior).MaxHp, "+20 max HP");
             Assert.Equal(hp + 20, warrior.Hp, "current HP rises with the max");
             Assert.Equal(1, state.ItemCount("seed_power"), "one seed consumed");
             var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
-            Assert.Equal(atk + 2, PartyStats.EffectiveStats(db, loaded.Hero("warrior")).Stats.Attack, "seed bonus saved");
+            Assert.Equal(atk + 2, PartyStats.EffectiveStats(db, loaded.Hero("h_dohyun")).Stats.Attack, "seed bonus saved");
             warrior.Seeds["attack"] = PartyStats.SeedCap("attack");
-            var capped = GameFlow.UseFieldItem(db, state, "seed_power", "warrior", false);
+            var capped = GameFlow.UseFieldItem(db, state, "seed_power", "h_dohyun", false);
             Assert.True(!capped.Success && capped.TextKey == "reason_seed_cap", "capped seed fails");
             Assert.Equal(1, state.ItemCount("seed_power"), "nothing consumed at the cap");
             state.AddItem("job_medal", 1);
@@ -120,7 +120,7 @@ namespace Abyss.LogicTests
                 Assert.Equal(stats.MaxHp, h.Hp, "tent fills HP " + h.Id);
             }
 
-            var setup = BattleTestUtil.Setup(30, new[] { "slime" }, 7, BattleKind.Random, Difficulty.Normal, "warrior");
+            var setup = BattleTestUtil.Setup(30, new[] { "slime" }, 7, BattleKind.Random, Difficulty.Normal, "h_dohyun");
             setup.Party[0].Mp = 0;
             setup.Party[0].Hp = 10;
             setup.Inventory["megalixir"] = 1;
@@ -140,26 +140,26 @@ namespace Abyss.LogicTests
             var state = GameState.NewGame(db, Difficulty.Normal);
             state.AddEquipment("acc_exp_charm", 1);
             state.AddEquipment("acc_gold_charm", 1);
-            Assert.True(PartyStats.Equip(db, state, "warrior", "acc_exp_charm").Success, "exp charm on");
-            Assert.True(PartyStats.Equip(db, state, "mage", "acc_gold_charm").Success, "gold charm on");
+            Assert.True(PartyStats.Equip(db, state, "h_dohyun", "acc_exp_charm").Success, "exp charm on");
+            Assert.True(PartyStats.Equip(db, state, "h_seoa", "acc_gold_charm").Success, "gold charm on");
             int gold = state.Gold;
             var outcome = new BattleOutcome { Result = BattleResult.Victory, Experience = 10, Gold = 100 };
             var report = PartyStats.ApplyBattleOutcome(db, state, outcome);
-            Assert.Equal(13, report.ExperienceByHero["warrior"], "wearer gets +30 % EXP");
-            Assert.Equal(10, report.ExperienceByHero["mage"], "others get the base EXP");
+            Assert.Equal(13, report.ExperienceByHero["h_dohyun"], "wearer gets +30 % EXP");
+            Assert.Equal(10, report.ExperienceByHero["h_seoa"], "others get the base EXP");
             Assert.Equal(125, report.Gold, "party gold +25 %");
             Assert.Equal(gold + 125, state.Gold, "gold credited");
 
             state.AddEquipment("acc_regen_ring", 1);
             state.AddEquipment("sword_holy_avenger", 1);
-            PartyStats.Equip(db, state, "warrior", "acc_regen_ring");
-            state.Hero("warrior").Job = "paladin";   // job weapon: only a paladin may wield it
-            Assert.True(PartyStats.Equip(db, state, "warrior", "sword_holy_avenger").Success, "paladin equips the holy avenger");
-            var spec = PartyStats.BuildCombatSpec(db, state, "warrior");
+            PartyStats.Equip(db, state, "h_dohyun", "acc_regen_ring");
+            state.Hero("h_dohyun").Job = "paladin";   // job weapon: only a paladin may wield it
+            Assert.True(PartyStats.Equip(db, state, "h_dohyun", "sword_holy_avenger").Success, "paladin equips the holy avenger");
+            var spec = PartyStats.BuildCombatSpec(db, state, "h_dohyun");
             Assert.Equal((int)Element.Holy, spec.AttackElement, "weapon element on plain attacks");
             Assert.Near(0.05, spec.HpRegen, 1e-6, "regen ring ratio");
 
-            var setup = BattleTestUtil.Setup(30, new[] { "slime", "slime" }, 11, BattleKind.Random, Difficulty.Normal, "warrior");
+            var setup = BattleTestUtil.Setup(30, new[] { "slime", "slime" }, 11, BattleKind.Random, Difficulty.Normal, "h_dohyun");
             var w = setup.Party[0];
             w.HpRegen = 0.1f; w.MpRegen = 5; w.TpStart = 30; w.AttackElement = (int)Element.Fire;
             w.Hp = w.MaxHp / 2; w.Mp = 0;
@@ -176,20 +176,21 @@ namespace Abyss.LogicTests
         public static void ShopTierFollowsChaptersAndLegendariesAreNeverSold()
         {
             var db = TestMain.DB;
-            Assert.Equal(1, TownServices.ChapterOfFloor(0), "B1F chapter 1");
-            Assert.Equal(1, TownServices.ChapterOfFloor(4), "B5F chapter 1");
-            Assert.Equal(2, TownServices.ChapterOfFloor(5), "B6F chapter 2");
-            Assert.Equal(6, TownServices.ChapterOfFloor(29), "B30F chapter 6");
-            Assert.Equal(7, TownServices.ChapterOfFloor(30), "postgame");
+            // Shop tiers advance every two zones: zones 1-2 = tier 1 ... zones 11-12 = tier 6, the red gate = tier 7.
+            Assert.Equal(1, TownServices.ChapterOfFloor(0), "1-1 tier 1");
+            Assert.Equal(1, TownServices.ChapterOfFloor(5), "2-3 tier 1");
+            Assert.Equal(2, TownServices.ChapterOfFloor(6), "3-1 tier 2");
+            Assert.Equal(6, TownServices.ChapterOfFloor(35), "12-3 tier 6");
+            Assert.Equal(7, TownServices.ChapterOfFloor(36), "postgame");
             Assert.Equal(7, TownServices.ChapterOfFloor(99), "capped");
             var state = GameState.NewGame(db, Difficulty.Normal);
             state.Gold = 1000000;
             Assert.Equal(1, TownServices.ShopTier(state), "start");
             Assert.Equal("tier_locked", TownServices.BuyEquipment(db, state, "sword_runic").Reason, "T5 locked in chapter 1");
-            state.DeepestFloor = 15;
-            Assert.Equal(4, TownServices.ShopTier(state), "chapter 4");
-            Assert.True(TownServices.BuyEquipment(db, state, "sword_runic").Success, "T5 sold in chapter 4");
-            Assert.Equal("tier_locked", TownServices.BuyEquipment(db, state, "sword_tidal").Reason, "T6 needs chapter 5");
+            state.DeepestFloor = 18;
+            Assert.Equal(4, TownServices.ShopTier(state), "zone 7 opens tier 4");
+            Assert.True(TownServices.BuyEquipment(db, state, "sword_runic").Success, "T5 sold from zone 7");
+            Assert.Equal("tier_locked", TownServices.BuyEquipment(db, state, "sword_tidal").Reason, "T6 needs zone 9");
             state.DeepestFloor = 0;
             state.Flags.Add(GameFlow.FlagCleared);
             Assert.Equal(7, TownServices.ShopTier(state), "clearing opens the postgame shop");

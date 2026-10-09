@@ -42,7 +42,7 @@ namespace Abyss.LogicTests
         [LogicTest]
         public static void AutoKeepsUltimateForAUsefulFight()
         {
-            var engine = new BattleEngine(TestMain.DB, BattleTestUtil.Setup(38, new[] { "slime" }, 3, heroes: new[] { "warrior" }));
+            var engine = new BattleEngine(TestMain.DB, BattleTestUtil.Setup(38, new[] { "slime" }, 3, heroes: new[] { "h_dohyun" }));
             engine.Start(); engine.ActiveHero.Tp = 100;
             engine.Enemies[0].Hp = Math.Min(engine.Enemies[0].Hp, 40); // a nearly beaten slime: one attack finishes it
             var cmd = engine.SuggestCommand(engine.ActiveHero);
@@ -140,7 +140,7 @@ namespace Abyss.LogicTests
         public static void EquipmentPreviewUsesEffectiveClampsAndLeavesSaveUntouched()
         {
             var state = GameState.NewGame(TestMain.DB, Difficulty.Normal);
-            var hero = state.Hero("archer");
+            var hero = state.Hero("h_jiho");
             state.AddEquipment("acc_eagle_eye", 1);
             string saved = SaveCodec.Serialize(state);
             var preview = PartyStats.PreviewEquipment(TestMain.DB, hero, "accessory", "acc_eagle_eye");
@@ -156,7 +156,7 @@ namespace Abyss.LogicTests
         public static void EquipmentPreviewIncludesResistanceAndRejectsOtherClass()
         {
             var state = GameState.NewGame(TestMain.DB, Difficulty.Normal);
-            var hero = state.Hero("mage");
+            var hero = state.Hero("h_seoa");
             var preview = PartyStats.PreviewEquipment(TestMain.DB, hero, "accessory", "acc_frost_amulet");
             Assert.True(preview.ElementResists.Contains((int)Element.Ice), "preview includes ice resistance");
             bool threw = false;
@@ -222,8 +222,11 @@ namespace Abyss.LogicTests
         public static void AllSkillsMonstersAndFloorsHaveValidContentReferences()
         {
             var db = TestMain.DB;
-            Assert.Equal(4, db.Heroes.Count, "four distinct party roles");
-            Assert.Equal(35, db.Floors.Count, "six chapters of five floors plus the five-floor trial corridor");
+            Assert.Equal(20, db.Heroes.Count, "twenty hunters");
+            Assert.Equal(4, db.HeroOrder.Select(id => db.ClassOf(id)).Distinct().Count(), "the starting party covers the four classes");
+            foreach (var cls in new[] { "warrior", "mage", "archer", "cleric" })
+                Assert.Equal(5, db.Heroes.Values.Count(h => h.Class == cls), "five hunters per class: " + cls);
+            Assert.Equal(39, db.Floors.Count, "twelve zones of three floors plus the three-floor red gate");
             foreach (var skill in db.Skills.Values)
             {
                 Assert.True(skill.MpCost >= 0 && skill.TpCost >= 0 && skill.HitCount > 0, "valid skill costs/hits " + skill.Id);
@@ -252,8 +255,10 @@ namespace Abyss.LogicTests
                     foreach (var id in t.Contents.Items.Keys.Concat(t.Contents.Equipment.Keys))
                         Assert.True(db.Items.ContainsKey(id) || db.Equipment.ContainsKey(id) || SpecIds.Items.Contains(id) || SpecIds.Equipment.Contains(id), "treasure id " + id);
             }
+            // A model is another row's art (palette variant) or a standalone enemy FBX (Resources/Art/Enemies/<model>/).
+            string art = System.IO.Path.Combine(Environment.GetEnvironmentVariable("ABYSS_DATA_DIR") ?? "", "..", "Art", "Enemies");
             foreach (var enemy in db.Enemies.Values)
-                Assert.True(string.IsNullOrEmpty(enemy.Model) || db.Enemies.ContainsKey(enemy.Model), "variant model " + enemy.Id);
+                Assert.True(string.IsNullOrEmpty(enemy.Model) || db.Enemies.ContainsKey(enemy.Model) || System.IO.File.Exists(System.IO.Path.Combine(art, enemy.Model, enemy.Model + ".fbx")), "variant model " + enemy.Id);
         }
 
         [LogicTest]
