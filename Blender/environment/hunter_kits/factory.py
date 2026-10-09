@@ -1,13 +1,16 @@
 """Abandoned factory ('factory' tileset).
 
-Look: stained concrete with yellow/black hazard stripes, steel grating, corrugated blue-grey metal walls, rust-red
-brick, concrete with mustard/teal pipes and valves, hanging cage lamps (warm orange), conveyor, crates, oil drums,
-valves, chain hoists and gas cylinders, a steel roller door, and a machine-floor arena.
+Look: stained concrete with yellow/black hazard stripes and steel grating, corrugated steel and rust-red brick walls,
+mustard/teal/red pipe runs with valves, a steel truss roof with corrugated panels, skylight strips and caged industrial
+lamps (M_Emit). Every floor piece carries a `Ceiling` root (roof, trusses, lamps). Props: conveyor, machine press,
+oil drums, a pallet cart, crates and containers (KayKit Restaurant / Space Base), cabinets and a dumpster (KayKit
+Furniture / City Builder).
 """
 import math
 
 import common_a as C
-from common_a import HunterKit, MB, KA, T, box, cyl, quad, plate, flat_bar, tile_quads, diag_stripes, chain, pick
+from common_a import HunterKit, MB, KA, T, box, cyl, quad, plate, flat_bar, tile_quads, diag_stripes, chain, pick, \
+    grime, tiles_g, ceil_tiles, ceil_rect, hang, cc, join, kit_pal, CEIL, ARENA_CEIL, WALL_H
 
 CONC = ["#8f8b82", "#9a968c", "#86827a"]
 CONC_STAIN = "#6e6a62"
@@ -38,32 +41,92 @@ GAS_G = "#3f7f5f"
 GAS_Y = "#c9b04a"
 VALVE_R = "#c23b2e"
 BLACK = "#222427"
+ROOF_D = "#3f4b54"
+ROOF_L = "#66778a"
+TRUSS = "#6a5a4c"
+SKYLIGHT = "#ffe2b0"
+LAMP_CAGE = "#2d3237"
+
+PAL = kit_pal("#2a2e33", "#c9ccd0")  # CC0 props: luminance mapped between a dark and a light grey-steel
 
 
 def _face(side, d):
     return KA.face_matrix(side, d)
 
 
+def _truss(mb, y, z_bot=4.02, z_top=4.4, col=TRUSS):
+    """Steel roof truss across the corridor (X) at y: top and bottom chords and a zig-zag web."""
+    box(mb, col, -2.0, 2.0, y - 0.07, y + 0.07, z_top - 0.07, z_top)
+    box(mb, col, -2.0, 2.0, y - 0.07, y + 0.07, z_bot, z_bot + 0.07)
+    n = 4
+    pts = [(-2.0 + 4.0 * k / n, y, z_bot + 0.03 if k % 2 == 0 else z_top - 0.03) for k in range(n + 1)]
+    for p, q in zip(pts, pts[1:]):
+        mb.add(KA.tube([p, q], 0.035, sides=4), col)
+
+
+def _lamp(mb, x, y, top=CEIL):
+    """Caged industrial lamp hung from the roof: a conical shade, a glowing bulb underneath and a rod."""
+    hang(mb, STEEL_D, x, y, top - 0.005, top - 0.5, r=0.012)
+    vs, fs = KA.lathe([(0.1, 0.0), (0.34, -0.24)], seg=12)
+    mb.add((vs, fs), LAMP_CAGE, M=T((x, y, top - 0.3)))
+    vs, fs = KA.disc(0.1, n=10, z=0.0)
+    mb.add((vs, [tuple(reversed(f)) for f in fs]), LAMP_E, "M_Emit", M=T((x, y, top - 0.54)))
+
 class FactoryKit(HunterKit):
     TS = "factory"
     WORLD = "#2a1d17"
     SKY = ("#4a2f22", "#14100d")
 
-    # ------------------------------------------------------------ floors
+    # ------------------------------------------------------------ ceilings (Ceiling root, normals down)
+    def _ceiling(self, piece):
+        rng = self.rng(f"ceiling_{piece}")
+        mb = MB()
+        ceil_rect(mb, ROOF_D, -2, -2, 2, 2, CEIL)
+        # corrugated roof sheets: ribs running along the hall (Y), alternate shades, grimy at the walls
+        for k in range(10):
+            x = -1.8 + k * 0.4
+            col = grime(ROOF_L if k % 2 else "#58687a", low=0.0, corner=0.0, wall_edge=0.3)
+            box(mb, col, x - 0.07, x + 0.07, -2.0, 2.0, CEIL - 0.12, CEIL - 0.005, ch=0.0)
+        # skylight strip over the centre line: frosted warm glass lit from above (emissive) in steel frames
+        box(mb, STEEL_D, -0.42, 0.42, -2.0, 2.0, CEIL - 0.14, CEIL - 0.1, ch=0.0)
+        ceil_rect(mb, SKYLIGHT, -0.34, -2.0, 0.34, 2.0, CEIL - 0.16, mat="M_Emit")
+        if piece != "floor_c":
+            _truss(mb, -2.0)
+            _truss(mb, 0.0)
+        else:
+            _truss(mb, 0.0)
+        if piece in ("floor_a", "stairs_down"):
+            _lamp(mb, -0.9, -0.9)
+            _lamp(mb, 0.9, 0.9)
+        elif piece == "floor_b":
+            _lamp(mb, 0.0, 0.0)
+        else:
+            _lamp(mb, -0.9, 1.1)
+        # a hanging chain hoist on the truss
+        if piece == "floor_c":
+            chain(mb, STEEL_D, (1.3, 0.0, 4.0), (1.3, 0.0, 3.3), link_r=0.05, wire=0.012)
+            box(mb, RUST_D, 1.2, 1.4, -0.12, 0.12, 3.3, 3.42, ch=0.01)
+        return mb.build("Ceiling")
+
+    # ------------------------------------------------------------ floors (flush detail at z = 0) + Ceiling
     def floor(self, v):
         rng = self.rng(f"floor_{v}")
         mb = MB()
         if v == "a":
-            # stained concrete slabs with a diagonal yellow/black hazard band across the middle of the cell
+            # stained concrete slabs with a diagonal yellow/black hazard band across the cell
             plate(mb, CONC_D, -2, -2, 2, 2, -0.3, -0.03)
-            tile_quads(mb, rng, CONC, -2, -2, 2, 2, 0.4, 0.4, d=-0.01, gap=0.04, amt=0.06)
+            tiles_g(mb, rng, CONC, -2, -2, 2, 2, 0.4, 0.4, d=-0.01, gap=0.04, amt=0.06,
+                    grime_kw=dict(low=0.0, corner=0.3, wall_edge=0.4))
             for _ in range(7):
                 x, y = rng.uniform(-1.6, 1.6), rng.uniform(-1.6, 1.6)
                 r = rng.uniform(0.25, 0.5)
-                quad(mb, CONC_STAIN, x - r, y - r * 0.6, x + r, y + r * 0.6, 0.0)
+                quad(mb, grime(CONC_STAIN, low=0.0, corner=0.0), x - r, y - r * 0.6, x + r, y + r * 0.6, 0.0)
             diag_stripes(mb, [HAZ_Y, HAZ_K], -2, 0.9, 2, 1.5, 0.3, 0.0, mat="M_Toon")
+            for k in range(3):   # oil drip marks flush to the slab
+                x = rng.uniform(-1.5, 1.5)
+                flat_bar(mb, "#2b2a2f", (x, -1.8), (x + 0.15, -1.2 - 0.3 * k), 0.08, 0.002, mat="M_Clear")
         elif v == "b":
-            # steel grating: light bars over a dark recess (reads as holes)
+            # steel grating: light bars over a dark recess (reads as holes), with a steel nosing frame
             plate(mb, GRATE_D, -2, -2, 2, 2, -0.3, -0.03)
             for i in range(11):
                 u = -2 + 0.4 * i
@@ -75,28 +138,31 @@ class FactoryKit(HunterKit):
                 for j in range(10):
                     quad(mb, "#1f2327", -2 + 0.4 * i + 0.08, -2 + 0.4 * j + 0.08,
                          -2 + 0.4 * i + 0.32, -2 + 0.4 * j + 0.32, -0.005)
+            for pos in (-2.0, 2.0):   # yellow nosing at the cell edges
+                quad(mb, HAZ_Y, pos - 0.1 if pos > 0 else pos, -2, pos if pos > 0 else pos + 0.1, 2, 0.004)
         else:
-            # cracked stained concrete with oil puddles (glossy M_Clear sheen)
+            # cracked stained concrete with oil puddles (glossy M_Clear sheen) and a faint drain channel
             plate(mb, CONC_D, -2, -2, 2, 2, -0.3, -0.03)
-            tile_quads(mb, rng, CONC, -2, -2, 2, 2, 0.5, 0.5, d=-0.01, gap=0.03, amt=0.07)
+            tiles_g(mb, rng, CONC, -2, -2, 2, 2, 0.5, 0.5, d=-0.01, gap=0.03, amt=0.07,
+                    grime_kw=dict(low=0.0, corner=0.3, wall_edge=0.4))
             for _ in range(4):
                 x, y = rng.uniform(-1.2, 1.2), rng.uniform(-1.2, 1.2)
-                mb.add(KA.disc(rng.uniform(0.35, 0.6), n=14, z=0.002), "#2b2a2f", "M_Clear",
-                       M=T((x, y, 0)))
+                mb.add(KA.disc(rng.uniform(0.35, 0.6), n=14, z=0.002), "#2b2a2f", "M_Clear", M=T((x, y, 0)))
             zig = [(-1.9, -0.6), (-1.2, -0.3), (-0.8, -0.9), (-0.3, -0.5), (0.3, -0.7), (1.0, -0.2), (1.9, -0.5)]
             for p, q in zip(zig, zig[1:]):
                 flat_bar(mb, "#5a5650", p, q, 0.04, -0.004)
-        return [mb.build(f"floor_{v}")]
+        return [mb.build(f"floor_{v}"), self._ceiling(f"floor_{v}")]
 
     # ------------------------------------------------------------ walls
     def _core(self, mb, col, inset):
-        mb.add(KA.cbox(2 * (2.0 - inset), 2 * (2.0 - inset), C.WALL_H, ch=0.05, loc=(0, 0, C.WALL_H / 2)), col)
+        mb.add(KA.cbox(2 * (2.0 - inset), 2 * (2.0 - inset), C.WALL_H, ch=0.05, loc=(0, 0, C.WALL_H / 2)),
+               grime(col, low=0.4, k=0.6, corner=0.6), "M_Toon")
 
     def wall(self, v):
         rng = self.rng(f"wall_{v}")
         mb = MB()
         if v == "a":
-            # corrugated metal: raised ribs over a recessed core, rust streaks, concrete plinth
+            # corrugated steel: raised ribs over a recessed core, rust streaks, a concrete plinth
             self._core(mb, CORR_D, 0.1)
             n = 18
             w = 4.0 / n
@@ -104,15 +170,18 @@ class FactoryKit(HunterKit):
                 M = _face(s, 1.9)
                 for i in range(n):
                     u0 = -2.0 + i * w
-                    col = CORR_L if i % 2 == 0 else "#6f8796"
+                    col = grime(CORR_L if i % 2 == 0 else "#6f8796", low=0.5, k=0.7, corner=0.5)
                     plate(mb, col, u0 + 0.01, 0.6, u0 + w - 0.01, 4.5, 0.0, 0.1, M=M)
                 for _ in range(3):
                     u = rng.uniform(-1.8, 1.4)
                     vv = rng.uniform(0.8, 2.6)
                     quad(mb, RUST, u, vv, u + 0.22, vv + rng.uniform(0.8, 1.6), 0.102, M=M)
                 plate(mb, CONC[0], -2, 0.0, 2, 0.6, 0.0, 0.1, M=M)
+                quad(mb, HAZ_Y, -2, 0.6, 2, 0.72, 0.1, M=M)
+                for u in (-1.8, 1.8):   # angle-iron corner bars
+                    plate(mb, STEEL_D, u - 0.06, 0.6, u + 0.06, 4.5, 0.1, 0.13, M=M)
         elif v == "b":
-            # rust-red brick, staggered courses, a few missing bricks
+            # rust-red brick, staggered courses, a few missing bricks, a steel lintel band and a pipe
             self._core(mb, MORTAR, 0.02)
             for s in C.SIDES:
                 M = _face(s, 1.98)
@@ -126,10 +195,16 @@ class FactoryKit(HunterKit):
                     while u < 2.0:
                         a, b = max(-2.0, u + 0.03), min(2.0, u + bw - 0.03)
                         if b - a > 0.08 and rng.random() > 0.06:
-                            quad(mb, pick(rng, BRICK, 0.07), a, v0 + 0.03, b, v0 + bh - 0.03, 0.02, M=M)
+                            quad(mb, grime(pick(rng, BRICK, 0.07), low=0.35, k=0.6, corner=0.4),
+                                 a, v0 + 0.03, b, v0 + bh - 0.03, 0.02, M=M)
                         u += bw
+                plate(mb, STEEL_D, -2, 3.85, 2, 4.0, 0.0, 0.05, M=M)
+                cyl(mb, RUST_D, (-1.2, 0.5, 0.06), 0.06, 0.5, seg=8, rot=(0, 0, 0), M=M)
+                cyl(mb, PIPE_G, (0.6, 0.35, 0.09), 0.09, 4.0, seg=10, rot=(-90, 0, 0), M=M)
+                for vv in (1.3, 3.1):
+                    plate(mb, STEEL_D, 0.5, vv, 0.7, vv + 0.06, 0.09, 0.14, M=M)
         else:
-            # concrete with three pipe runs per face (teal, mustard, red), flanges and valve wheels
+            # concrete with three pipe runs per face (teal, mustard, red), flanges, valve wheels and hazard base
             self._core(mb, CONC[1], 0.15)
             for s in C.SIDES:
                 M = _face(s, 1.85)
@@ -141,8 +216,106 @@ class FactoryKit(HunterKit):
                 cyl(mb, STEEL_D, (0.0, 3.1, 0.0), 0.12, 4.0, seg=12, rot=(0, 90, 0), center=True, M=M)
                 cyl(mb, VALVE_R, (-0.6, 3.1, 0.15), 0.1, 0.04, seg=12, rot=(0, 0, 0), M=M)
                 cyl(mb, STEEL, (0.6, 3.1, 0.15), 0.1, 0.05, seg=12, rot=(0, 0, 0), M=M)
+                diag_stripes(mb, [HAZ_Y, HAZ_K], -2, 0.0, 2, 0.45, 0.22, 0.02, M=M)
+                plate(mb, CONC[0], -2, 0.45, 2, 0.6, 0.0, 0.02, M=M)
         return [mb.build(f"wall_{v}")]
+    # ------------------------------------------------------------ decor (stand on the floor, front = -Y)
+    def _conveyor(self, mb):
+        """Belt conveyor along Y: steel legs, rollers, a black belt between yellow side rails, a motor box."""
+        L, W, H = 1.8, 0.7, 0.9
+        for x in (-W / 2 + 0.05, W / 2 - 0.05):
+            for y in (-L / 2 + 0.1, L / 2 - 0.1):
+                box(mb, STEEL_D, x - 0.04, x + 0.04, y - 0.04, y + 0.04, 0.0, H - 0.1, ch=0.0)
+            box(mb, HAZ_Y, x - 0.04, x + 0.04, -L / 2, L / 2, H - 0.22, H - 0.12, ch=0.01)
+        for k in range(8):
+            y = -L / 2 + 0.1 + k * (L - 0.2) / 7
+            cyl(mb, GRATE_L, (-W / 2 + 0.05, y, H - 0.14), 0.05, W - 0.1, seg=8, rot=(0, 90, 0), center=True)
+        box(mb, BELT, -W / 2 + 0.07, W / 2 - 0.07, -L / 2 + 0.05, L / 2 - 0.05, H - 0.15, H - 0.12, ch=0.0)
+        box(mb, DRUM_B, -0.22, 0.22, -L / 2 - 0.02, -L / 2 + 0.35, 0.0, 0.35, ch=0.02)
+        cyl(mb, BLACK, (0.0, -L / 2 + 0.19, 0.35), 0.1, 0.03, seg=10, rot=(90, 0, 0), center=True)
 
+    def _press(self, mb):
+        """Machine press: a steel base, a column frame, a hydraulic head with a piston and a gauge."""
+        box(mb, STEEL_D, -0.5, 0.5, -0.45, 0.45, 0.0, 0.3, ch=0.03)
+        box(mb, DRUM_B, -0.42, 0.42, -0.36, 0.36, 0.3, 1.0, ch=0.04)
+        for x in (-0.42, 0.42):
+            for y in (-0.36, 0.36):
+                cyl(mb, STEEL, (x, y, 1.0), 0.05, 1.3, seg=8)
+        box(mb, GRATE_L, -0.5, 0.5, -0.45, 0.45, 2.3, 2.55, ch=0.03)
+        cyl(mb, STEEL, (0.0, 0.0, 1.5), 0.1, 0.8, seg=10)
+        box(mb, RUST_D, -0.15, 0.15, -0.12, 0.12, 2.55, 2.7, ch=0.02)
+        cyl(mb, "#cfd6dc", (0.0, -0.45, 0.6), 0.08, 0.04, seg=12, rot=(90, 0, 0), center=True)
+        quad(mb, HAZ_Y, -0.3, -0.2, 0.3, -0.12, 0.0, M=KA.face_matrix("S", 0.46))
+        quad(mb, "#ffcf7a", -0.12, 0.6, 0.12, 0.72, 0.0, M=KA.face_matrix("S", 0.46), mat="M_Emit")
+
+    def _drums(self, mb, x=0.0, y=0.0, lay=False):
+        """Three oil drums (two upright, one on its side) with rolled bands."""
+        for k, (dx, dy, col) in enumerate(((-0.35, -0.2, DRUM_B), (0.25, -0.25, DRUM_O), (0.0, 0.3, DRUM_B))):
+            cyl(mb, col, (x + dx, y + dy, 0.0), 0.3, 0.9, seg=14)
+            for zb in (0.12, 0.78):
+                cyl(mb, STEEL_D, (x + dx, y + dy, zb), 0.31, 0.04, seg=14)
+            cyl(mb, STEEL, (x + dx, y + dy, 0.9), 0.1, 0.03, seg=8)
+
+    def _cart(self, mb):
+        """Pallet / forklift-like cart: a steel chassis, a mast with two forks, a seat and small wheels."""
+        box(mb, VALVE_R, -0.6, 0.6, -0.5, 0.7, 0.25, 0.35, ch=0.02)
+        box(mb, BLACK, -0.35, 0.35, -0.2, 0.2, 0.35, 0.8, ch=0.03)
+        for x in (-0.5, 0.5):
+            box(mb, STEEL_D, x - 0.05, x + 0.05, -0.6, -0.55, 0.0, 2.1, ch=0.0)
+        box(mb, STEEL_D, -0.5, 0.5, -0.6, -0.55, 2.0, 2.1, ch=0.0)
+        for x in (-0.4, 0.4):
+            box(mb, HAZ_Y, x - 0.08, x + 0.08, -0.55, 0.95, 0.12, 0.16, ch=0.0)
+        for x, y in ((-0.5, -0.45), (0.5, -0.45), (-0.5, 0.5), (0.5, 0.5)):
+            cyl(mb, BLACK, (x, y, 0.0), 0.1, 0.08, seg=10, rot=(0, 90, 0), center=True)
+
+    def decor(self, i):
+        mb = MB()
+        if i == 1:
+            self._conveyor(mb)
+            return [mb.build("decor_1")]
+        if i == 2:
+            self._press(mb)
+            return [mb.build("decor_2")]
+        if i == 3:
+            self._drums(mb, -0.1, 0.0)
+            return [mb.build("decor_3")]
+        if i == 4:
+            self._cart(mb)
+            return [mb.build("decor_4")]
+        if i == 5:
+            # stacked crates with a loose lid, and a cargo box (KayKit Restaurant / Space Base)
+            return [join("decor_5", [cc("kr", "crate", PAL, loc=(-0.2, 0.0, 0.0), scale=0.85),
+                                     cc("kr", "crate_lid", PAL, loc=(-0.2, 0.0, 0.85), scale=0.85),
+                                     cc("ks", "cargo_A", PAL, loc=(0.45, -0.2, 0.0), scale=1.6, rz=20.0)])]
+        # storage: a dumpster and a tall steel cabinet (KayKit City Builder / Furniture), with a container on top
+        return [join("decor_6", [cc("kc", "dumpster", PAL, loc=(-0.25, 0.0, 0.0), scale=2.6, rz=10.0),
+                                 cc("kf", "cabinet_small", PAL, loc=(0.7, -0.2, 0.0), scale=1.3, rz=-10.0)])]
+
+    # ------------------------------------------------------------ overlays (hug the -Y face of a wall block: y -2..-2.35)
+    def overlay(self, i):
+        rng = self.rng(f"overlay_{i}")
+        mb = MB()
+        M = _face("S", 2.0)
+        if i == 1:
+            # pipe bundle with flanges and a hazard plate at the foot of the wall
+            for k, (u, col) in enumerate(((-0.4, PIPE_T), (-0.22, PIPE_G), (-0.04, PIPE_R))):
+                cyl(mb, col, (u, 0.0, 0.2), 0.08, 3.6, seg=10, rot=(0, 0, 0), M=M)
+                cyl(mb, STEEL, (u, 1.2, 0.2), 0.1, 0.05, seg=10, rot=(0, 0, 0), M=M)
+            plate(mb, STEEL_D, -0.8, 0.0, 0.25, 0.05, 0.0, 0.2, M=M)
+            plate(mb, HAZ_Y, 0.4, 0.0, 0.9, 0.5, 0.0, 0.03, M=M)
+            for _ in range(4):
+                x = rng.uniform(-1.0, 1.0)
+                s = rng.uniform(0.1, 0.2)
+                mb.add(KA.rock(rng, s, s, s * 0.7, n=9, flat=0.3), C.pick(rng, ["#6e6a62", "#7d7870"]),
+                       M=T((x, -2.2, 0.0)))
+        else:
+            # electric box on the wall with a warning sticker, and a rusted gauge
+            plate(mb, "#5d6b74", -0.5, 1.2, 0.5, 2.0, 0.0, 0.25, M=M)
+            quad(mb, HAZ_Y, -0.35, 1.5, 0.35, 1.75, 0.26, M=M)
+            cyl(mb, "#c9ccd0", (0.0, 2.3, 0.0), 0.2, 0.12, seg=14, rot=(0, 0, 0), M=M)
+            quad(mb, "#ffcf7a", -0.1, 2.25, 0.1, 2.35, 0.13, M=M, mat="M_Emit")
+            plate(mb, RUST_D, -1.6, 0.0, -1.2, 2.6, 0.0, 0.03, M=M)
+        return [mb.build(f"overlay_{i}")]
     # ------------------------------------------------------------ doors (cell block with a 2 m opening)
     def door(self, locked):
         name = "door_locked" if locked else "door"
@@ -272,82 +445,6 @@ class FactoryKit(HunterKit):
         mb.add(sph, LAMP_E, "M_Emit")
         return [mb.build("torch"), KA.empty("LightAnchor", (0, -0.7, 2.3))]
 
-    def decor(self, i):
-        rng = self.rng(f"decor_{i}")
-        mb = MB()
-        if i == 1:
-            # conveyor: steel frame, black belt with yellow side rails and rollers, long axis along X
-            for x in (-0.55, 0.55):
-                for y in (-0.3, 0.3):
-                    box(mb, STEEL_D, x - 0.04, x + 0.04, y - 0.04, y + 0.04, 0.0, 0.8, ch=0.0)
-            box(mb, BELT, -0.65, 0.65, -0.32, 0.32, 0.78, 0.86, ch=0.01)
-            for s in (-0.32, 0.32):
-                box(mb, HAZ_Y, -0.66, 0.66, s - 0.03, s + 0.03, 0.86, 0.92, ch=0.0)
-            for x in (-0.5, -0.17, 0.17, 0.5):
-                cyl(mb, STEEL, (x, 0.0, 0.76), 0.05, 0.6, seg=8, rot=(90, 0, 0), center=True)
-        elif i == 2:
-            # stacked crates (wood with metal bands)
-            box(mb, CRATE, -0.45, 0.45, -0.4, 0.4, 0.0, 0.6, ch=0.02)
-            box(mb, CRATE_D, -0.38, 0.38, -0.33, 0.33, 0.6, 1.1, ch=0.02)
-            box(mb, CRATE, -0.3, 0.3, -0.28, 0.28, 1.1, 1.5, ch=0.02)
-            M = KA.face_matrix("S", 0.4)
-            quad(mb, HAZ_Y, -0.3, 0.3, 0.3, 0.45, 0.01, M=M)
-        elif i == 3:
-            # oil drums: two upright blue, one orange, one lying on its side
-            for x, y, col in ((-0.35, -0.05, DRUM_B), (0.35, -0.05, DRUM_O), (0.0, 0.35, DRUM_B)):
-                cyl(mb, col, (x, y, 0.0), 0.3, 0.9, seg=14)
-                cyl(mb, STEEL_D, (x, y, 0.88), 0.31, 0.04, seg=14)
-                cyl(mb, STEEL, (x, y, 0.3), 0.31, 0.04, seg=14)
-            cyl(mb, DRUM_O, (-0.15, -0.5, 0.3), 0.3, 0.6, seg=14, rot=(0, 90, 20), center=True)
-        elif i == 4:
-            # valve station: floor flange, vertical pipe, horizontal branch, red wheel facing -Y
-            cyl(mb, STEEL_D, (0, 0, 0), 0.26, 0.12, seg=14)
-            cyl(mb, PIPE_T, (0, 0, 0.6), 0.1, 1.2, seg=12)
-            cyl(mb, PIPE_T, (0, 0.0, 1.05), 0.09, 0.9, seg=12, rot=(0, 90, 0), center=True)
-            cyl(mb, PIPE_G, (0.0, 0.0, 0.8), 0.12, 0.08, seg=12)
-            cyl(mb, VALVE_R, (0.0, -0.25, 1.4), 0.2, 0.05, seg=16, rot=(90, 0, 0), center=True)
-            cyl(mb, STEEL, (0.0, -0.3, 1.4), 0.05, 0.06, seg=10, rot=(90, 0, 0), center=True)
-        elif i == 5:
-            # chain hoist: gantry bar on two posts, three chains with hooks hanging to the floor
-            for x in (-0.45, 0.45):
-                box(mb, STEEL_D, x - 0.05, x + 0.05, -0.1, 0.1, 0.0, 2.6, ch=0.0)
-            box(mb, STEEL_D, -0.55, 0.55, -0.12, 0.12, 2.55, 2.65, ch=0.02)
-            for x in (-0.25, 0.0, 0.25):
-                chain(mb, "#6b7278", (x, 0.0, 2.5), (x, 0.0, 0.5), link_r=0.05, wire=0.014)
-                mb.add(KA.disc(0.02, n=4, z=0.0), STEEL, M=T((x, 0.0, 0.42)))
-            for x, y in ((0.5, 0.25), (0.62, -0.2)):
-                chain(mb, "#6b7278", (x, y, 0.0), (x + 0.3, y + 0.2, 0.0), link_r=0.05, wire=0.014)
-        else:
-            # gas cylinder rack: steel frame with green and yellow cylinders
-            for x in (-0.45, 0.45):
-                box(mb, STEEL_D, x - 0.04, x + 0.04, -0.3, 0.3, 0.0, 1.5, ch=0.0)
-            box(mb, STEEL_D, -0.5, 0.5, -0.32, -0.26, 1.2, 1.26, ch=0.0)
-            for x, col in ((-0.3, GAS_G), (0.0, GAS_Y), (0.3, GAS_G)):
-                cyl(mb, col, (x, 0.0, 0.1), 0.14, 1.1, seg=12)
-                cyl(mb, STEEL_D, (x, 0.0, 1.2), 0.1, 0.1, seg=10)
-        return [mb.build(f"decor_{i}")]
-
-    # ------------------------------------------------------------ overlays (-Y face of a wall block, y -2 .. -2.35)
-    def overlay(self, i):
-        rng = self.rng(f"overlay_{i}")
-        mb = MB()
-        M = _face("S", 2.0)
-        if i == 1:
-            # pipe run with brackets and rust streaks
-            for z, col in ((2.4, PIPE_T), (2.7, PIPE_G), (3.0, PIPE_R)):
-                cyl(mb, col, (0.0, -2.14, z), 0.09, 3.0, seg=10, rot=(0, 90, 0), center=True)
-            for u in (-1.0, 0.0, 1.0):
-                box(mb, STEEL_D, u - 0.05, u + 0.05, -2.2, -2.04, 1.9, 3.4, ch=0.0)
-            for _ in range(4):
-                u = rng.uniform(-1.6, 1.6)
-                quad(mb, RUST_D, u, 0.4, u + 0.12, rng.uniform(1.8, 2.6), -0.0, M=M)
-        else:
-            # cable tray and a hazard sign
-            plate(mb, STEEL_D, -1.3, 2.4, 1.3, 2.52, 0.0, 0.24, M=M)
-            plate(mb, HAZ_Y, -0.45, 0.9, 0.45, 1.6, 0.0, 0.03, M=M)
-            diag_stripes(mb, [HAZ_Y, HAZ_K], -0.45, 0.9, 0.45, 1.6, 0.14, 0.035, M=M)
-        return [mb.build(f"overlay_{i}")]
-
     # ------------------------------------------------------------ boss gate and marker
     def boss_gate(self):
         """Heavy steel press shutter with yellow edges and rivets."""
@@ -372,40 +469,146 @@ class FactoryKit(HunterKit):
         mb.add(KA.disc(0.55, n=20, z=0.005), HAZ_K)
         return [mb.build("foe_marker"), KA.empty("Spot_foe", (0, 0, 0))]
 
-    # ------------------------------------------------------------ arena: factory floor with machines
+    # ------------------------------------------------------------ arena: machine hall stage (battle camera framing as subway)
     def arena_floor(self, rng):
+        """Factory floor: worn concrete slabs with cracks, oil stains and grating patches; no ring or radial marking."""
         mb = MB()
-        n = 48
-        for i in range(n):
-            a0, a1 = 2 * math.pi * i / n, 2 * math.pi * (i + 1) / n
-            col = CONC[0] if i % 2 == 0 else CONC[1]
-            mb.add(([(0, 0, 0), (9.2 * math.cos(a0), 9.2 * math.sin(a0), 0),
-                     (9.2 * math.cos(a1), 9.2 * math.sin(a1), 0)], [(0, 1, 2)]), col)
-        for k in range(16):
-            a0 = 2 * math.pi * k / 16
-            a1 = a0 + math.pi / 16
-            ring = [(8.6 * math.cos(a0), 8.6 * math.sin(a0), 0.004), (9.2 * math.cos(a0), 9.2 * math.sin(a0), 0.004),
-                    (9.2 * math.cos(a1), 9.2 * math.sin(a1), 0.004), (8.6 * math.cos(a1), 8.6 * math.sin(a1), 0.004)]
-            mb.add((ring, [(0, 1, 2, 3)]), HAZ_Y if k % 2 == 0 else HAZ_K)
-        mb.add(KA.disc(1.6, n=40, z=0.004), "#5d5a53")
-        mb.add(KA.disc(1.1, n=40, z=0.005), "#ff8a3d", "M_Emit")
+        R = 17.5
+        tiles_g(mb, rng, CONC, -R, -R, R, R, 1.5, 1.5, d=0.0, gap=0.05, amt=0.07,
+                grime_kw=dict(low=0.0, corner=0.0))
+        for k in range(5):   # steel grating patches over a pit
+            x0, y0 = -6.5 + 3.0 * k, 10.5
+            for i in range(4):
+                quad(mb, GRATE_L, x0 + 0.1 * i, y0, x0 + 0.1 * i + 0.06, y0 + 1.8, 0.004)
+            quad(mb, GRATE_D, x0, y0 - 0.1, x0 + 2.2, y0 + 1.9, 0.002)
+        mb.add(KA.disc(0.9, n=40, z=0.002, r_in=0.84), "#7a756c")   # faint centre mark only
+        for _ in range(9):
+            x, y = rng.uniform(-14, 14), rng.uniform(-14, 14)
+            if math.hypot(x, y) < 9.6 or math.hypot(x, y) > 17:
+                continue
+            mb.add(KA.disc(rng.uniform(0.4, 0.9), n=12, z=0.003), "#3b3a3c", M=T((x, y, 0)))
+        for _ in range(16):
+            x, y = rng.uniform(-8, 8), rng.uniform(-8, 8)
+            if 1.5 < math.hypot(x, y) < 8.5:
+                flat_bar(mb, "#2e2d30", (x, y), (x + rng.uniform(-1.2, 1.2), y + rng.uniform(-1.2, 1.2)), 0.04, 0.004)
+        for x0 in (-9.0, 0.0, 9.0):                                  # painted aisle lines, grey-white, worn
+            flat_bar(mb, "#c9c7bf", (x0 - 0.05, 2.5), (x0 + 0.05, 14.0), 0.1, 0.004)
+        for _ in range(8):                                           # dark oil puddles (opaque)
+            x, y = rng.uniform(-12, 12), rng.uniform(-10, 14)
+            if math.hypot(x, y) < 16.5:
+                mb.add(KA.disc(rng.uniform(0.35, 0.8), n=14, z=0.004), "#2a2a2e", M=T((x, y, 0)))
+        for _ in range(4):                                           # rust-brown patches on the concrete
+            x, y = rng.uniform(-12, 12), rng.uniform(-6, 14)
+            if math.hypot(x, y) < 16.5:
+                mb.add(KA.disc(rng.uniform(0.5, 1.2), n=14, z=0.003), "#7d6a58", M=T((x, y, 0)))
         return mb
 
+    def _catwalk(self, mb, y=10.6, z=3.3):
+        """Steel catwalk along X behind the enemies: grating deck, handrails, columns down to the floor."""
+        sub = MB()
+        box(sub, GRATE_D, -13.0, 13.0, y - 0.7, y + 0.7, z - 0.1, z, ch=0.0)
+        for i in range(27):
+            x = -13.0 + i
+            quad(sub, GRATE_L, x + 0.1, y - 0.66, x + 0.2, y + 0.66, z + 0.002)
+        for yy in (y - 0.7, y + 0.7):
+            box(sub, STEEL, -13.0, 13.0, yy - 0.03, yy + 0.03, z, z + 1.0, ch=0.0)
+            for x in range(-13, 14, 2):
+                cyl(sub, STEEL, (x, yy, z), 0.03, 1.0, seg=6)
+        for x in (-12.5, -4.0, 4.0, 12.5):
+            box(sub, STEEL_D, x - 0.12, x + 0.12, y - 0.12, y + 0.12, 0.0, z, ch=0.0)
+            box(sub, STEEL_D, x - 0.3, x + 0.3, y - 0.2, y + 0.2, z - 0.1, z, ch=0.0)
+        for x in (-6.0, 6.0):   # ladder rails from the floor up to the deck, with rungs
+            for side in (-0.25, 0.25):
+                cyl(sub, STEEL, (x + side, y + 0.7 + 0.1, 0.0), 0.03, z, seg=6)
+            for k in range(int(z / 0.4)):
+                box(sub, STEEL, x - 0.25, x + 0.25, y + 0.7 + 0.08, y + 0.7 + 0.12, 0.2 + 0.4 * k, 0.24 + 0.4 * k, ch=0.0)
+        mb.extend(sub)
+
     def arena_backdrop(self, rng):
-        """Machine hall: a corrugated ring wall, press machines and tanks silhouetted, lit windows and stacks."""
+        """Hall ring: corrugated steel with grime, steel girts, lit high windows, I-beam columns."""
         mb = MB()
-        R, H, n = 17.0, 9.0, 60
+        R, H, n = 17.0, ARENA_CEIL, 56
         p = lambda a, z: (R * math.cos(a), R * math.sin(a), z)
         for i in range(n):
             a0, a1 = 2 * math.pi * i / n, 2 * math.pi * (i + 1) / n
-            col = CORR_L if i % 2 == 0 else CORR_D
-            mb.add(([p(a0, 0), p(a1, 0), p(a1, H), p(a0, H)], [(0, 3, 2, 1)]), col)
+            base = CORR_L if i % 2 == 0 else "#6f8796"
+            mb.add(([p(a0, 0), p(a1, 0), p(a1, H - 0.5), p(a0, H - 0.5)], [(0, 3, 2, 1)]),
+                   grime(base, low=0.9, k=0.6, corner=0.0))
+            mb.add(([p(a0, H - 0.5), p(a1, H - 0.5), p(a1, H), p(a0, H)], [(0, 3, 2, 1)]), STEEL_D)
+        for z in (3.0, 6.2):
+            for i in range(n):
+                a0, a1 = 2 * math.pi * i / n, 2 * math.pi * (i + 1) / n
+                mb.add(([p(a0, z), p(a1, z), p(a1, z + 0.12), p(a0, z + 0.12)], [(0, 3, 2, 1)]), STEEL_D)
+        for k in range(10):
+            a = 2 * math.pi * k / 10 + 0.15
+            r = R - 0.05
+            mb.add(([(r * math.cos(a - 0.1), r * math.sin(a - 0.1), 6.6), (r * math.cos(a + 0.1), r * math.sin(a + 0.1), 6.6),
+                     (r * math.cos(a + 0.1), r * math.sin(a + 0.1), 7.7), (r * math.cos(a - 0.1), r * math.sin(a - 0.1), 7.7)],
+                    [(0, 3, 2, 1)]), SKYLIGHT, "M_Emit")
         for k in range(12):
-            a = 2 * math.pi * k / 12 + 0.15
-            x, y = 15.2 * math.cos(a), 15.2 * math.sin(a)
-            box(mb, STEEL_D, x - 1.4, x + 1.4, y - 1.4, y + 1.4, 0.0, 3.0 + 1.2 * (k % 3), ch=0.1)
-            box(mb, "#e0a22e", x - 1.5, x + 1.5, y - 1.5, y + 1.5, 2.6, 2.9, ch=0.0)
-            cyl(mb, RUST_D, (x, y, 0.0), 0.6, 9.0, seg=12)
-        mb.add(([(-6.0, 15.0, 1.0), (6.0, 15.0, 1.0), (6.0, 15.0, 5.0), (-6.0, 15.0, 5.0)], [(0, 1, 2, 3)]),
-               "#ffb35c", "M_Emit")
+            a = 2 * math.pi * k / 12 + 0.12
+            x, y = (R - 0.6) * math.cos(a), (R - 0.6) * math.sin(a)
+            box(mb, STEEL_D, x - 0.3, x + 0.3, y - 0.3, y + 0.3, 0.0, H - 0.1, ch=0.02)
+        self._catwalk(mb, y=9.6)
         return mb
+
+    def arena_ceiling(self, rng):
+        """Machine-hall roof over the whole arena: corrugated ribs, steel trusses, skylights and caged lamps."""
+        mb = MB()
+        R = 16.6
+        for k in range(30):
+            x = -17.4 + k * 1.2
+            half = math.sqrt(max(R * R - x * x, 1.0))
+            col = grime(ROOF_L if k % 2 else "#58687a", low=0.0, corner=0.0)
+            box(mb, col, x - 0.08, x + 0.08, -half, half, ARENA_CEIL - 0.3, ARENA_CEIL - 0.005, ch=0.0)
+        for y in (-12.0, -6.0, 0.0, 6.0, 12.0):
+            half = math.sqrt(max(R * R - y * y, 1.0))
+            box(mb, TRUSS, -half, half, y - 0.1, y + 0.1, ARENA_CEIL - 0.25, ARENA_CEIL - 0.13, ch=0.0)
+            box(mb, TRUSS, -half, half, y - 0.1, y + 0.1, ARENA_CEIL - 1.0, ARENA_CEIL - 0.9, ch=0.0)
+            n = 12
+            pts = [(-half + 2 * half * k / n, y, ARENA_CEIL - (0.95 if k % 2 == 0 else 0.25)) for k in range(n + 1)]
+            for p, q in zip(pts, pts[1:]):
+                mb.add(KA.tube([p, q], 0.07, sides=4), TRUSS)
+        for x in (-6.0, 0.0, 6.0):
+            half = math.sqrt(max(R * R - x * x, 1.0))
+            box(mb, STEEL_D, x - 0.4, x + 0.4, -half, half, ARENA_CEIL - 0.34, ARENA_CEIL - 0.28, ch=0.0)
+            ceil_rect(mb, SKYLIGHT, x - 0.3, -half, x + 0.3, half, ARENA_CEIL - 0.36, mat="M_Emit")
+        for x, y in ((-7.0, 3.0), (7.0, 3.0), (-7.0, 9.0), (7.0, 9.0), (0.0, 6.0)):
+            _lamp(mb, x, y, top=ARENA_CEIL)
+        return mb
+
+    def arena_props(self, rng):
+        """Machines, conveyors, crates and containers. Enemy side (y > 0) is dense (press, conveyors, drums, stacks),
+        the party side stays sparse."""
+        mb = MB()
+        out = []
+        for x, y, rz, kind in ((-8.5, 8.4, 90.0, "conv"), (-2.5, 9.0, 90.0, "conv"), (4.0, 8.6, 90.0, "conv"),
+                               (-11.0, 6.6, 0.0, "press"), (10.8, 6.4, 0.0, "press"), (-6.2, 6.0, 0.0, "press"),
+                               (6.4, 6.2, 0.0, "press"), (-4.4, 7.4, 0.0, "drums"), (4.6, 6.8, 0.0, "drums"),
+                               (-11.4, 2.6, 0.0, "drums"), (11.2, 2.4, 0.0, "cart"), (-9.6, -6.6, 0.0, "cart")):
+            sub = MB()
+            if kind == "conv":
+                self._conveyor(sub)
+            elif kind == "press":
+                self._press(sub)
+            elif kind == "drums":
+                self._drums(sub, 0.0, 0.0)
+            else:
+                self._cart(sub)
+            mb.extend(C.place_mb(sub, T((x, y, 0), (0, 0, rz))))
+        for x, y, rz in ((-12.4, 9.8, 0.0), (12.2, 10.2, 20.0), (-5.2, 10.6, -10.0), (1.8, 6.6, 0.0)):
+            out.append(cc("kr", "crate", PAL, loc=(x, y, 0), rz=rz, scale=1.6))
+            out.append(cc("kr", "crate_lid", PAL, loc=(x, y, 1.6), rz=rz, scale=1.6))
+        for x, y, rz in ((-13.0, 6.4, 90.0), (13.0, 7.0, 90.0), (-9.2, 9.9, 0.0)):
+            out.append(cc("ks", "containers_A", PAL, loc=(x, y, 0), rz=rz, scale=3.0))
+        out.append(cc("kc", "dumpster", PAL, loc=(-9.6, -8.4, 0), rz=10.0, scale=2.6))
+        # two storage silos on the enemy side: the tall element of the backdrop (about 5.5 m)
+        silo = MB()
+        for x, y in ((-12.8, 10.0), (12.6, 10.4)):
+            cyl(silo, STEEL, (x, y, 0.0), 1.1, 5.4, seg=16)
+            for z in (1.2, 2.5, 3.8, 5.0):
+                cyl(silo, STEEL_D, (x, y, z), 1.14, 0.1, seg=16)
+            cyl(silo, STEEL_D, (x, y, 5.4), 1.1, 0.35, seg=16)
+        out.append(silo.build("arena_silos"))
+        out.append(mb.build("arena_props"))
+        return out

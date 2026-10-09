@@ -30,8 +30,10 @@ import bpy  # noqa: E402
 import abyss_bpy as A  # noqa: E402
 import _kit_common_a as KA  # noqa: E402
 import _kit_common_b as B  # noqa: E402
+import _pipeline as P  # noqa: E402
+import arch_geo as G  # noqa: E402
+import cc0_kit as CC  # noqa: E402
 from _kit_common_a import MB, T, Vector  # noqa: E402
-from _pipeline import run  # noqa: E402
 from mathutils import Matrix  # noqa: E402
 
 CELL = 4.0
@@ -254,6 +256,145 @@ def chain(mb, col, p0, p1, link_r=0.05, wire=0.014, M=None, mat="M_Toon"):
         mb.add(ring, col, mat, M=(M @ T(p, rot)) if M is not None else T(p, rot))
 
 
+# ---------------------------------------------------------------- grime, ceilings, CC0 placement (hunter kits v2)
+
+CEIL = G.CEIL          # ceilings hang just under the 4.5 m wall top (same contract as dungeon_cc0.py)
+EYE_CLEAR = 3.0        # hanging props keep their lowest point above this height (eye line 1.35 m)
+ARENA_CEIL = 9.0      # stage ceiling height (= top of the arena backdrop ring)
+
+
+def grime(col, low=0.35, k=0.6, corner=0.5, wall_edge=0.0):
+    """Per-corner colour callable (world space). Darkens the bottom `low` m of a wall (fake AO / splash grime), the
+    cell corners (both |x| and |y| near 2) and, for floors, the strip beside a wall (`wall_edge` strength).
+    Painted into `Col` only; no textures."""
+    c = KA.C(col)
+
+    def f(co):
+        a = G.smooth(low, 0.0, co.z) * 0.85 if low > 0 else 0.0
+        m = min(abs(co.x), abs(co.y))
+        a = max(a, G.smooth(1.84, 1.99, m) * corner)
+        if wall_edge:
+            a = max(a, G.smooth(1.55, 1.98, max(abs(co.x), abs(co.y))) * wall_edge)
+        t = a * (1.0 - k)
+        return (c[0] * (1 - t), c[1] * (1 - t), c[2] * (1 - t), 1.0)
+    return f
+
+
+def tiles_g(mb, rng, cols, u0, v0, u1, v1, cu, cv, d=0.0, M=None, gap=0.03, amt=0.06, mat="M_Toon",
+            skip=None, grime_kw=None):
+    """Tile grid like common_a.tile_quads, but every tile carries the grime callable (jittered base colour)."""
+    nu = max(1, round((u1 - u0) / cu))
+    nv = max(1, round((v1 - v0) / cv))
+    du, dv = (u1 - u0) / nu, (v1 - v0) / nv
+    for i in range(nu):
+        for j in range(nv):
+            cx, cy = u0 + (i + 0.5) * du, v0 + (j + 0.5) * dv
+            if skip and skip(cx, cy):
+                continue
+            a, b = u0 + i * du + gap, u0 + (i + 1) * du - gap
+            c, e = v0 + j * dv + gap, v0 + (j + 1) * dv - gap
+            col = grime(jit(rng, rng.choice(cols), amt), **(grime_kw or {}))
+            quad(mb, col, a, c, b, e, d, M=M, mat=mat)
+
+
+def ceil_rect(mb, col, x0, y0, x1, y1, z, mat="M_Toon"):
+    """Flat rectangle at height z with its normal pointing DOWN (visible from the corridor)."""
+    mb.add(([(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)], [(0, 3, 2, 1)]), col, mat)
+
+
+def place_mb(src, M):
+    """Copy of an MB with every vertex moved by M (builds a sub-piece once and places it in another piece)."""
+    out = MB()
+    out.v = [M @ v for v in src.v]
+    out.f = list(src.f)
+    return out
+
+
+def ceil_tiles(mb, rng, cols, x0, y0, x1, y1, z, cu, gap=0.03, amt=0.05, grime_kw=None, mat="M_Toon",
+               skip=None):
+    """Grid of ceiling tiles (normals down), each with jittered colour and the grime callable."""
+    nu = max(1, round((x1 - x0) / cu))
+    nv = max(1, round((y1 - y0) / cu))
+    du, dv = (x1 - x0) / nu, (y1 - y0) / nv
+    for i in range(nu):
+        for j in range(nv):
+            cx, cy = x0 + (i + 0.5) * du, y0 + (j + 0.5) * dv
+            if skip and skip(cx, cy):
+                continue
+            a, b = x0 + i * du + gap, x0 + (i + 1) * du - gap
+            c, e = y0 + j * dv + gap, y0 + (j + 1) * dv - gap
+            col = grime(jit(rng, rng.choice(cols), amt), **(grime_kw or {}))
+            ceil_rect(mb, col, a, c, b, e, z, mat=mat)
+
+
+def ceil_box(mb, col, x0, x1, y0, y1, z0, z1, mat="M_Toon", ch=0.0):
+    """Box for ceiling parts (bottom faces included, so it reads from below)."""
+    box(mb, col, x0, x1, y0, y1, z0, z1, ch=ch, mat=mat)
+
+
+def hang(mb, col, x, y, z_top, z_bot, r=0.012, seg=6, mat="M_Toon"):
+    """Thin vertical rod / cable from z_top down to z_bot."""
+    cyl(mb, col, (x, y, z_bot), r, z_top - z_bot, seg=seg, mat=mat)
+
+
+def pipe_x(mb, col, y, z, r, x0=-2.0, x1=2.0, seg=8, M=None, mat="M_Toon"):
+    """Horizontal pipe along X at (y, z)."""
+    cyl(mb, col, (x0, y, z), r, x1 - x0, seg=seg, rot=(0, 90, 0), M=M, mat=mat)
+
+
+def pipe_y(mb, col, x, z, r, y0=-2.0, y1=2.0, seg=8, M=None, mat="M_Toon"):
+    """Horizontal pipe along Y at (x, z)."""
+    cyl(mb, col, (x, y0, z), r, y1 - y0, seg=seg, rot=(-90, 0, 0), M=M, mat=mat)
+
+
+def pipe_z(mb, col, x, y, z0, z1, r, seg=8, M=None, mat="M_Toon"):
+    cyl(mb, col, (x, y, z0), r, z1 - z0, seg=seg, M=M, mat=mat)
+
+
+def kit_pal(dark, light, rules=None):
+    """CC0 palette for a hunter kit: each source colour family is remapped between two kit colours by its luminance
+    (the 'grad' mode), so bought parts pick up the kit's shadows and highlights. `rules` can override keys."""
+    return CC.Palette(dict(rules or {}), default=("grad", (dark, light), "M_Toon"))
+
+
+def cc(pack, name, pal, loc=(0, 0, 0), rz=0.0, scale=1.0, rot=(0, 0, 0), mat_rules=None):
+    """CC0 part placed at loc, turned rz about Z and scaled (scale: float or (sx, sy, sz)). Returns one object."""
+    s = scale if hasattr(scale, "__len__") else (scale, scale, scale)
+    return CC.inst(pack, name, pal.derive(mat_rules) if mat_rules else pal,
+                   M=CC.T(loc, (rot[0], rot[1], rot[2] + rz), s), oname=f"{pack}_{name}")
+
+
+def join(name, objs):
+    """Join generated and CC0 objects into one mesh named `name` (origin at the piece origin)."""
+    return CC.finish(name, [o for o in objs if o is not None])
+
+
+def run_hunter_pieces(ts, pieces, world):
+    """Like _pipeline.run, but floor pieces keep their `Ceiling` root object at ceiling height (the floor clamp only
+    flattens the walking surface)."""
+    names = [n for n, _ in pieces]
+    if len(names) != len(set(names)) or set(names) != set(P.PIECE_NAMES):
+        raise RuntimeError(f"Incomplete or duplicate environment pieces for {ts}: {names}")
+
+    def floor_grid(name, builder):
+        def build():
+            objs = builder()
+            for o in objs:
+                if o.type != "MESH" or o.name == "Ceiling":
+                    continue
+                for v in o.data.vertices:
+                    v.co.x = max(-2.0, min(2.0, v.co.x))
+                    v.co.y = max(-2.0, min(2.0, v.co.y))
+                    v.co.z = min(0.0, v.co.z)
+                o.data.update()
+            return objs
+        return build
+
+    wrapped = [(n, floor_grid(n, fn) if n.startswith("floor_") else P.grid_piece(n, fn)) for n, fn in pieces]
+    return B.run_kit(ts, wrapped, P.LAYOUT, P.EXTRAS, walls=("wall_a", "wall_b", "wall_c"),
+                     floors=("floor_a", "floor_b", "floor_c"), world=world)
+
+
 # ---------------------------------------------------------------- base kit
 
 class HunterKit:
@@ -284,24 +425,31 @@ class HunterKit:
 
     # -- arena (shared stage scaffolding; tilesets provide floor + backdrop as MB)
     def arena_floor(self, rng):
+        """MB of the stage floor covering the whole ring (platform/stage surface, bed, decals). Tilesets override."""
         raise NotImplementedError
 
     def arena_backdrop(self, rng):
         raise NotImplementedError
+
+    def arena_ceiling(self, rng):
+        """MB of the stage ceiling at ARENA_CEIL (normals down). Tilesets override."""
+        raise NotImplementedError
+
+    def arena_props(self, rng):
+        """Objects standing around the stage edge (outside the 9.4 m disc, inside the backdrop ring)."""
+        return []
 
     def arena(self):
         A.reset_scene()
         rng = self.rng("arena")
         floor = self.arena_floor(rng).build("arena")
         backdrop = self.arena_backdrop(rng).build("arena_backdrop")
-        sky = MB()
-        sky.add(KA.uvsphere(95, seg=32, rings=16, loc=(0, 10, 8)), KA.vgrad(self.SKY[0], self.SKY[1], -20, 90),
-                "M_Emit")
-        skyobj = sky.build("arena_sky")
         collision = MB()
         collision.add(KA.disc(9.4, n=64, z=0), "#888888")
         collider = collision.build("Col_Ground")
-        roots = [floor, backdrop, skyobj, collider]
+        # enclosed stage: the ring and a ceiling close the hall (no sky); props stand around the edge
+        ceiling = self.arena_ceiling(self.rng("arena_ceiling")).build("arena_ceiling")
+        roots = [floor, backdrop, ceiling, collider] + self.arena_props(self.rng("arena_props"))
         roots += [KA.empty("Spot_party", (0, -4, 0)), KA.empty("Spot_enemies", (0, 4, 0)),
                   KA.empty("Spot_camera", (0, -12, 4)), KA.empty("LightAnchor_stage", (0, 0, 5))]
         for i, (x, y) in enumerate(((-10.5, 4), (10.5, 4), (-10.5, 14), (10.5, 14))):
@@ -313,9 +461,25 @@ class HunterKit:
         B.render_cam(f"env_{self.TS}_arena_wide", loc=(0, -13, 8.5), target=(0, 8, 1.5), fov_deg=60,
                      res=(1600, 900), world=self.WORLD)
         B.render_cam(f"env_{self.TS}_arena_top", loc=(0.01, -0.01, 34), target=(0, 0, 0), fov_deg=50,
-                     res=(1200, 1200), world=self.WORLD, hide=[skyobj])
+                     res=(1200, 1200), world=self.WORLD, hide=[ceiling])
         print(f"[arena] {self.TS}: {sum(B.tris(o) for o in roots)} tris", flush=True)
+        # in-game battle camera (vertical FOV 43 at 16:10) with grey 1.6 m capsules at the party and enemy spots,
+        # for scale only: the stand-ins are added after the export and never reach the FBX
+        self.standins()
+        B.render_cam(f"env_{self.TS}_arena_game", loc=(0, -10.2, 3.6), target=(1.4, 0.6, 1.05), fov_deg=43,
+                     res=(1600, 1000), world=self.WORLD)
         return roots
+
+    STANDIN_SPOTS = [(-3, -3), (-1, -3), (1, -3), (3, -3), (-2.5, 3), (0, 3), (2.5, 3)]
+
+    def standins(self):
+        """Grey 1.6 m capsules (cylinder + two caps) on the party and enemy spots, render-only."""
+        mb = MB()
+        for x, y in self.STANDIN_SPOTS:
+            cyl(mb, "#8c9096", (x, y, 0.22), 0.22, 1.16, seg=12)
+            sphere(mb, "#8c9096", (x, y, 0.22), 0.22, seg=12, rings=6)
+            sphere(mb, "#8c9096", (x, y, 1.38), 0.22, seg=12, rings=6)
+        return mb.build("standins_render_only")
 
     # -- first-person corridor, placed by the same rules as DungeonWorld.Initialize / Dress / AgainstWall
     CORRIDOR = [
@@ -430,7 +594,7 @@ class HunterKit:
                             fov_deg=65, res=(1600, 900), world=self.WORLD, hide=hide)
 
     def run_all(self):
-        sheet = run(self.TS, self.pieces(), world=self.WORLD)
+        sheet = run_hunter_pieces(self.TS, self.pieces(), world=self.WORLD)
         self.corridor(sheet)
         self.arena()
         return sheet

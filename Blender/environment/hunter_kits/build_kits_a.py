@@ -4,12 +4,12 @@
   (--kit subway | factory | cave | all; --preview-dir DIR)
 
 Exports Assets/_Game/Resources/Art/Environment/<tileset>/<piece>.fbx (abyss_bpy.export_fbx, same settings as the
-other kits). Previews land in the shared preview folder as <tileset>_sheet.png, <tileset>_corridor.png and
-<tileset>_arena_*.png, and are copied to Blender/preview/hunter_a/. No .blend files are written into the repo.
+other kits). Previews go to the shared folder as <tileset>_corridor.png, <tileset>_arena_wide.png,
+<tileset>_arena_battle.png, <tileset>_props.png (plus the layout and contact sheets). No preview images or .blend
+files are written into the repo.
 """
 import glob
 import os
-import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -17,8 +17,8 @@ sys.path.insert(0, HERE)
 import common_a  # noqa: E402  (also puts Blender/environment and Blender/lib on sys.path)
 import abyss_bpy as A  # noqa: E402
 
-REPO_PREVIEW = os.path.normpath(os.path.join(HERE, "..", "..", "preview", "hunter_a"))
-DEFAULT_PREVIEW = "/mnt/project-files/art-upgrade/hunter_v1/env_a"
+DEFAULT_PREVIEW = "/mnt/project-files/art-upgrade/hunter_v2/kits"
+VIEW_NAMES = {"sheet_props": "props", "arena_battlecam": "arena_battle"}
 KITS = ("subway", "factory", "cave")
 
 
@@ -40,12 +40,11 @@ def arg(args, key, default):
 
 
 def publish_previews(ts, preview_dir):
-    """Rename env_<ts>_*.png to <ts>_*.png (the names the kit previews are asked for) and copy to the repo."""
-    os.makedirs(REPO_PREVIEW, exist_ok=True)
+    """Rename env_<ts>_<view>.png to <ts>_<view>.png (view names per VIEW_NAMES)."""
     for src in glob.glob(os.path.join(preview_dir, f"env_{ts}_*.png")):
-        dst = os.path.join(preview_dir, os.path.basename(src).replace(f"env_{ts}_", f"{ts}_", 1))
+        view = os.path.basename(src)[len(f"env_{ts}_"):-len(".png")]
+        dst = os.path.join(preview_dir, f"{ts}_{VIEW_NAMES.get(view, view)}.png")
         os.replace(src, dst)
-        shutil.copy2(dst, os.path.join(REPO_PREVIEW, os.path.basename(dst)))
         print("[preview]", dst, flush=True)
 
 

@@ -5,10 +5,10 @@ Source packs (all CC0, see Blender/third_party/<pack>/README.md):
   kh = KayKit Halloween Bits 1.0        (Kay Lousberg)      gradient texture atlas, 8x4 swatches
   qd = Quaternius Modular Dungeon packs (Quaternius)       flat material colours
   qn = Quaternius Ultimate Stylized Nature (Quaternius)    small colour textures (alpha cards for leaves)
-  kc = KayKit City Builder Bits 1.0    (Kay Lousberg)      gradient texture atlas, 8x4 swatches (town hub)
-  kf = KayKit Furniture Bits 1.0        (Kay Lousberg)      gradient texture atlas, 8x4 swatches (town hub)
-  kr = KayKit Restaurant Bits 1.0       (Kay Lousberg)      gradient texture atlas, 8x4 swatches (town hub)
-  ks = KayKit Space Base Bits 1.0       (Kay Lousberg)      gradient texture atlas, 8x4 swatches (town hub)
+  kc = KayKit City Builder Bits 1.0    (Kay Lousberg)      gradient texture atlas (town hub, street props)
+  kf = KayKit Furniture Bits 1.0       (Kay Lousberg)      gradient texture atlas (town hub, cabinets, shelves)
+  kr = KayKit Restaurant Bits 1.0      (Kay Lousberg)      gradient texture atlas (town hub, crates)
+  ks = KayKit Space Base Bits 1.0      (Kay Lousberg)      gradient texture atlas (town hub, cargo, containers, rocks)
 
 Only the specific files used by the kits are vendored under Blender/third_party/. Override a pack folder with
 the environment variable ABYSS_CC0_<PACK> (e.g. ABYSS_CC0_KD=/path/to/Assets/gltf) or `set_source(pack, path)`.
