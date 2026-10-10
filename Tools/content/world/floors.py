@@ -42,6 +42,16 @@ MIN_STEPS = 6
 # Zone grid (lattice split) per style. The maze gates use the size-based grid.
 ZONE_GRID = {'tunnels': (2, 2), 'aisles': (3, 2), 'cave': (3, 2), 'halls': (3, 1), 'streets': (3, 3)}
 
+# Authored starter progression (selected P1/M1/N2). Apply only after the original
+# encounter/event/FOE generation has consumed its RNG, so every other field stays fixed.
+_STARTER_IDS = dict(A='sewer_slime', B='sewer_rat', C='slime', D='horned_rabbit',
+                    E='killer_bee', F='bat', T='tunnel_bat')
+STARTER_ENCOUNTERS = {
+    'subway_1': ('AA', 'AB', 'AC', 'AD', 'BB', 'BC', 'BD'),
+    'subway_2': ('AEF', 'FE', 'AAF', 'TF', 'CFF', 'DFF', 'TTE'),
+    'subway_3': ('TTF', 'BDF', 'BDT', 'DFT', 'CCE', 'BTT', 'CTT'),
+}
+
 # Rare monsters mixed into encounter tables: one rare group among ~14 rows.
 RARE_DILUTE = 4
 
@@ -342,6 +352,11 @@ def build_floors(spec, enemies, originals):
         per = max(MIN_STEPS + 6, steps / battles)
         rate = round(1.0 / max(4.0, per - MIN_STEPS), 3)
         look = MOOD.get(ch['overlay']) or TILESET_LOOK.get(ch['tileset'], {})
+        # All original RNG draws above remain intact, including event/FOE construction.
+        # Fresh member lists and an independent showcase copy prevent cross-floor aliases.
+        authored = STARTER_ENCOUNTERS.get('%s_%d' % (ch['id'], k))
+        if authored is not None:
+            groups = [[_STARTER_IDS[token] for token in group] for group in authored]
         row = {
             'id': '%s_%d' % (ch['id'], k),
             'floor_label': floor_label(zone, k),

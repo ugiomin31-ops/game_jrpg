@@ -126,6 +126,201 @@ namespace Abyss.Logic.Battle
             return result;
         }
 
+        // --- Knowledge-safe previews ---------------------------------------------------------------------
+
+        /// <summary>
+        /// What the player knows about how <paramref name="target"/> takes <paramref name="element"/>: weakness in
+        /// the bestiary or found this battle, resist / neutral observed this battle, else Unknown. Non-elemental
+        /// hits are Neutral; heroes' own affinities are known. Never reads the hidden enemy tables.
+        /// </summary>
+        public PreviewAffinity KnownAffinity(BattleUnit target, int element)
+        {
+            if (target == null || element <= 0) return PreviewAffinity.Neutral;
+            if (target.Side == BattleSide.Party)
+                return target.IsWeakTo(element) ? PreviewAffinity.Weak : target.Resists(element) ? PreviewAffinity.Resist : PreviewAffinity.Neutral;
+            string key = WeaknessKey(target.DefId, element);
+            if (_known.Contains(key) || _discovered.Contains(key)) return PreviewAffinity.Weak;
+            if (_resistSeen.Contains(key)) return PreviewAffinity.Resist;
+            if (_neutralSeen.Contains(key)) return PreviewAffinity.Neutral;
+            return PreviewAffinity.Unknown;
+        }
+
+        /// <summary>
+        /// RNG-free, state-free estimate of <paramref name="cmd"/> by the party unit at <paramref name="actorUnitIndex"/>
+        /// (engine unit indices). Single-target rules use <paramref name="targetUnitIndex"/>, which must be a valid
+        /// target; other rules ignore it and cover every unit they can affect. Attack / damage skill / damage item ->
+        /// Damage, healing skill / item -> Heal, anything else (or an invalid index / dead actor / unknown id) -> None.
+        /// </summary>
+        public ActionPreview PreviewAction(int actorUnitIndex, BattleCommand cmd, int targetUnitIndex)
+        {
+            if (cmd == null || actorUnitIndex < 0 || actorUnitIndex >= _units.Count) return ActionPreview.None;
+            var actor = _units[actorUnitIndex];
+            if (actor == null || actor.Side != BattleSide.Party || !actor.IsAlive) return ActionPreview.None;
+            SkillDef skill = null;
+            ItemDef item = null;
+            PreviewKind kind;
+            switch (cmd.Kind)
+            {
+                case CommandKind.Attack:
+                    kind = PreviewKind.Damage;
+                    break;
+                case CommandKind.Skill:
+                {
+                    skill = FindActorSkill(actor, cmd.SkillId);
+                    if (skill == null) return ActionPreview.None;
+                    var effect = SkillEffect(skill);
+                    kind = effect == ActionEffect.Damage ? PreviewKind.Damage : effect == ActionEffect.Heal ? PreviewKind.Heal : PreviewKind.None;
+                    break;
+                }
+                case CommandKind.Item:
+                {
+                    if (cmd.ItemId == null || !_db.Items.TryGetValue(cmd.ItemId, out item)) return ActionPreview.None;
+                    var effect = ItemEffect(item);
+                    kind = effect == ActionEffect.DamageFixed ? PreviewKind.Damage : effect == ActionEffect.Heal ? PreviewKind.Heal : PreviewKind.None;
+                    break;
+                }
+                default:
+                    return ActionPreview.None;
+            }
+            if (kind == PreviewKind.None) return ActionPreview.None;
+
+            var rule = GetTargetRule(actor, cmd);
+            var pool = ValidTargets(actor, cmd);
+            var targets = new List<BattleUnit>();
+            switch (rule)
+            {
+                case TargetRule.None:
+                    return ActionPreview.None;
+                case TargetRule.SingleEnemy:
+                case TargetRule.SingleAlly:
+                {
+                    if (targetUnitIndex < 0 || targetUnitIndex >= _units.Count) return ActionPreview.None;
+                    var chosen = _units[targetUnitIndex];
+                    bool valid = false;
+                    foreach (var u in pool) valid |= ReferenceEquals(u, chosen);
+                    if (!valid) return ActionPreview.None;
+                    targets.Add(chosen);
+                    break;
+                }
+                default:
+                    targets.AddRange(pool);
+                    break;
+            }
+            if (targets.Count == 0) return ActionPreview.None;
+
+            bool random = rule == TargetRule.RandomEnemies || rule == TargetRule.RandomAllies;
+            int hits = item != null ? 1 : Math.Max(1, skill?.HitCount ?? 1);
+            int element = item != null ? (int)item.Element : DamageFormula.ElementOf(actor, skill);
+            var rows = new List<TargetPreview>(targets.Count);
+            foreach (var target in targets)
+                rows.Add(kind == PreviewKind.Heal ? HealPreview(actor, target, skill, item)
+                    : DamagePreview(actor, target, skill, item, element, hits, random));
+            if (kind == PreviewKind.Heal) { element = 0; hits = random ? hits : 1; }
+            return new ActionPreview(kind, random, hits, element, rows);
+        }
+
+        /// <summary>
+        /// Sum of per-hit non-crit damage at the lowest / highest variance roll (known weakness hits include the current
+        /// chain bonus). Only a KNOWN weakness lowers the shield; the hit that empties it switches the remaining hits to the BREAK multiplier. Random scope returns
+        /// one hit instead (its max uses BREAK when enough known-weak picks could empty the shield first).
+        /// </summary>
+        TargetPreview DamagePreview(BattleUnit actor, BattleUnit target, SkillDef skill, ItemDef item, int element, int hits, bool random)
+        {
+            var affinity = KnownAffinity(target, element);
+            double multiplier = affinity == PreviewAffinity.Weak ? DamageFormula.WeaknessMultiplier
+                : affinity == PreviewAffinity.Resist ? DamageFormula.ResistMultiplier : 1.0;
+            bool knownWeak = affinity == PreviewAffinity.Weak;
+            // The chain bonus rides on KNOWN weakness hits only (the action would start at the current chain).
+            if (knownWeak && target.Side == BattleSide.Enemy && _chain > 0) multiplier *= ChainFactor(_chain);
+            bool broken = target.Broken;
+            int shield = broken ? 0 : target.Shield;
+            int shieldDamage = 0;
+            bool breaks = false;
+            var type = DamageFormula.DamageTypeOf(skill);
+            double baseAmount = item != null ? 0.0 : DamageFormula.BaseAmount(actor, target, skill);
+            double low = DamageFormula.LowestRoll(DamageFormula.DamageVariance), high = DamageFormula.HighestRoll(DamageFormula.DamageVariance);
+            if (random)
+            {
+                bool mayBreak = knownWeak && !broken && target.MaxShield > 0 && hits > shield;
+                int lo = HitAmount(actor, target, skill, item, type, baseAmount, low, multiplier, broken);
+                int hi = HitAmount(actor, target, skill, item, type, baseAmount, high, multiplier, broken || mayBreak);
+                return new TargetPreview(_units.IndexOf(target), target.Id, lo, hi, affinity, 0, false, false, target.HasDamageShield);
+            }
+            long min = 0, max = 0;
+            for (int h = 0; h < hits; h++)
+            {
+                min += HitAmount(actor, target, skill, item, type, baseAmount, low, multiplier, broken);
+                max += HitAmount(actor, target, skill, item, type, baseAmount, high, multiplier, broken);
+                if (knownWeak && !broken && target.MaxShield > 0)
+                {
+                    if (shield > 0) shieldDamage++;
+                    shield = Math.Max(0, shield - 1);
+                    if (shield == 0) { broken = true; breaks = true; }
+                }
+            }
+            int minClamped = (int)Math.Min(int.MaxValue, min), maxClamped = (int)Math.Min(int.MaxValue, max);
+            return new TargetPreview(_units.IndexOf(target), target.Id, minClamped, maxClamped, affinity, shieldDamage, breaks, minClamped >= target.Hp, target.HasDamageShield);
+        }
+
+        /// <summary>One non-crit hit at a given variance roll (items: their fixed amount).</summary>
+        static int HitAmount(BattleUnit actor, BattleUnit target, SkillDef skill, ItemDef item, DamageType type, double baseAmount, double roll, double multiplier, bool broken)
+            => item != null ? DamageFormula.FixedItemAmount(item, multiplier, broken)
+                : DamageFormula.FinalAmount(DamageFormula.ApplyTargetMultipliers(baseAmount * roll, target, skill, type, multiplier, broken));
+
+        /// <summary>HP restored at the lowest / highest heal variance (healing-received scale applied, before the missing-HP cap).</summary>
+        TargetPreview HealPreview(BattleUnit actor, BattleUnit target, SkillDef skill, ItemDef item)
+        {
+            int min, max;
+            if (item != null) min = max = Math.Max(0, item.HealAmount);
+            else
+            {
+                double amount = DamageFormula.HealingBase(actor, skill);
+                min = Math.Max(1, Gd.RoundI(amount * DamageFormula.LowestRoll(DamageFormula.HealVariance)));
+                max = Math.Max(1, Gd.RoundI(amount * DamageFormula.HighestRoll(DamageFormula.HealVariance)));
+            }
+            min = Gd.RoundI(min * target.HealingReceivedScale);
+            max = Gd.RoundI(max * target.HealingReceivedScale);
+            return new TargetPreview(_units.IndexOf(target), target.Id, min, max, PreviewAffinity.Neutral, 0, false, false, false);
+        }
+
+        /// <summary>
+        /// Weak when a living enemy the skill can target has a KNOWN weakness to its element, else Resist when one
+        /// is known to resist it, else None. Damage skills only; knowledge only.
+        /// </summary>
+        public SkillAffinityTag KnownSkillAffinity(BattleUnit actor, SkillDef skill)
+        {
+            if (actor == null || skill == null || SkillEffect(skill) != ActionEffect.Damage) return SkillAffinityTag.None;
+            int element = DamageFormula.ElementOf(actor, skill);
+            if (element <= 0) return SkillAffinityTag.None;
+            bool resist = false;
+            foreach (var target in ValidTargets(actor, BattleCommand.Skill(skill.Id)))
+            {
+                if (target.Side != BattleSide.Enemy || !target.IsAlive) continue;
+                var affinity = KnownAffinity(target, element);
+                if (affinity == PreviewAffinity.Weak) return SkillAffinityTag.Weak;
+                resist |= affinity == PreviewAffinity.Resist;
+            }
+            return resist ? SkillAffinityTag.Resist : SkillAffinityTag.None;
+        }
+
+        /// <summary>
+        /// Skill menu for the command window: <see cref="GetCommandOptions"/> skills tagged with
+        /// <see cref="KnownSkillAffinity"/>, stable-partitioned so damage skills with a known-weak target come first
+        /// (learn order kept within each group; costs and unavailable reasons unchanged). AUTO keeps the plain order.
+        /// </summary>
+        public List<SkillOption> SkillMenu(BattleUnit unit)
+        {
+            var first = new List<SkillOption>();
+            var rest = new List<SkillOption>();
+            foreach (var option in GetCommandOptions(unit).Skills)
+            {
+                option.KnownAffinity = KnownSkillAffinity(unit, option.Skill);
+                (option.KnownAffinity == SkillAffinityTag.Weak ? first : rest).Add(option);
+            }
+            first.AddRange(rest);
+            return first;
+        }
+
         // --- AUTO battle ------------------------------------------------------------------------------
 
         /// <summary>
@@ -161,6 +356,15 @@ namespace Abyss.Logic.Battle
                 if (score > reviveScore) { reviveScore = score; revive = BattleCommand.Skill(s.Id, group ? null : revivalTarget.Id); }
             }
             if (revive != null) return revive;
+
+            if (unit.Side == BattleSide.Party)
+            {
+                var interrupt = SuggestChargeBreak(unit);
+                if (interrupt != null) return interrupt;
+                if (ShouldGuardThreat(unit)) return BattleCommand.Guard();
+                var preheal = SuggestThreatHeal(unit, usable, living);
+                if (preheal != null) return preheal;
+            }
 
             // Remove stun/freeze/silence before an offensive ultimate; minor ailments alone can wait.
             BattleCommand cleanse = null;
@@ -237,6 +441,205 @@ namespace Abyss.Logic.Battle
                 : BattleCommand.Skill(best.Id, SkillRule(best) == TargetRule.SingleEnemy ? bestTarget?.Id : null);
         }
 
+        // O5: no RNG, unknown affinities remain neutral, no speculative RANDOM targeting.
+        BattleCommand SuggestChargeBreak(BattleUnit actor)
+        {
+            foreach (var enemy in _enemies) // registration order is the engine unit-index tie break
+            {
+                if (!enemy.IsAlive || enemy.Broken || enemy.PendingCharge == null || enemy.Shield <= 0) continue;
+                var command = BestWeakAction(actor, enemy, out int ownHits);
+                if (command == null || !BeforeChargeRelease(actor, enemy)) continue;
+                long available = ownHits;
+                for (int i = _turnIndex; i < _queue.Count; i++)
+                {
+                    var ally = _queue[i];
+                    if (ally == actor || ally.Side != BattleSide.Party || !ally.CanAct || ally.Broken || !BeforeChargeRelease(ally, enemy)) continue;
+                    BestWeakAction(ally, enemy, out int hits);
+                    available += Math.Min(enemy.Shield, hits);
+                }
+                if (available >= enemy.Shield) return command;
+            }
+            return null;
+        }
+
+        bool BeforeChargeRelease(BattleUnit actor, BattleUnit enemy)
+        {
+            int partyTurn = _queue.IndexOf(actor);
+            if (partyTurn < _turnIndex) return false;
+            // A charge announced this round cannot release in it. A due release executes on the charger's next actual
+            // action: later this round only when it still has a turn it can use, otherwise next round.
+            int enemyTurn = _queue.IndexOf(enemy);
+            bool releasesThisRound = enemy.PendingCharge.AnnouncedRound < Round && enemyTurn >= _turnIndex && enemy.CanAct;
+            return !releasesThisRound || partyTurn < enemyTurn;
+        }
+
+        BattleCommand BestWeakAction(BattleUnit actor, BattleUnit enemy, out int bestHits)
+        {
+            bestHits = 0;
+            BattleCommand best = null;
+            if (KnownAffinity(enemy, actor.AttackElement) == PreviewAffinity.Weak
+                && ContainsTarget(ValidTargets(actor, BattleCommand.Attack(enemy.Id)), enemy))
+            { best = BattleCommand.Attack(enemy.Id); bestHits = 1; }
+            foreach (var option in GetCommandOptions(actor).Skills)
+            {
+                var skill = option.Skill;
+                if (!option.Usable || skill.Kind != SkillKind.Damage || KnownAffinity(enemy, DamageFormula.ElementOf(actor, skill)) != PreviewAffinity.Weak) continue;
+                var targets = ValidTargets(actor, BattleCommand.Skill(skill.Id));
+                if (!ContainsTarget(targets, enemy)) continue;
+                var rule = SkillRule(skill);
+                if (rule == TargetRule.RandomEnemies && targets.Count != 1) continue;
+                int hits = Math.Max(1, skill.HitCount);
+                if (hits <= bestHits) continue; // stable learn-order ties, attack first
+                bestHits = hits;
+                best = BattleCommand.Skill(skill.Id, rule == TargetRule.SingleEnemy ? enemy.Id : null);
+            }
+            return best;
+        }
+
+        static bool ContainsTarget(IReadOnlyList<BattleUnit> targets, BattleUnit target)
+        {
+            foreach (var unit in targets) if (unit == target) return true;
+            return false;
+        }
+
+        // Relevant threats before a hero's next actual turn. Current round uses the fixed queue;
+        // next round uses deterministic effective speed (CompareTurns), never a variance roll.
+        IEnumerable<(BattleUnit Enemy, BattleAction Action, bool NextRound)> ThreatsTo(BattleUnit hero, bool afterDecision = false)
+        {
+            int heroTurn = _queue.IndexOf(hero);
+            foreach (var enemy in _enemies)
+            {
+                if (!enemy.IsAlive || enemy.Broken) continue;
+                bool pendingShown = false;
+                if (enemy.CanAct && _planned.TryGetValue(enemy.Id, out var slots))
+                    foreach (var action in slots)
+                    {
+                        if (action == null || action.IsChargeAnnounce || action.Kind != ActionKind.Attack && action.Kind != ActionKind.Skill) continue;
+                        if (action.Kind == ActionKind.Skill && SkillEffect(action.Skill) != ActionEffect.Damage) continue;
+                        int enemyTurn = _queue.IndexOf(enemy);
+                        bool inWindow = enemyTurn >= _turnIndex && (heroTurn <= _turnIndex || afterDecision || enemyTurn < heroTurn);
+                        if (!inWindow) continue;
+                        if (action.IsChargeRelease) pendingShown = true;
+                        if (ThreatTargets(action, hero)) yield return (enemy, action, false);
+                    }
+                if (enemy.PendingCharge == null || pendingShown || heroTurn > _turnIndex && !afterDecision || CompareTurns(enemy, hero) >= 0) continue;
+                // An upcoming skipped turn ticks CC; an already-ended turn has ticked it already.
+                int enemyTurnsBeforeNextRound = _queue.IndexOf(enemy) >= _turnIndex ? 1 : 0;
+                if (!CanActAfterTurns(enemy, enemyTurnsBeforeNextRound)) continue;
+                var pending = enemy.PendingCharge;
+                var release = BattleAction.Make(ActionKind.Skill, enemy.Id,
+                    pending.TargetUnitId != null ? new[] { pending.TargetUnitId } : null, pending.SkillId, enemy.PendingChargeSkill);
+                release.Scope = (int)pending.Scope; release.PowerScale = 1.5; release.IsChargeRelease = true;
+                if (ThreatTargets(release, hero)) yield return (enemy, release, true);
+            }
+        }
+
+        static bool CanActAfterTurns(BattleUnit enemy, int turns)
+        {
+            foreach (var status in enemy.Statuses)
+                if (!status.CanAct && status.TurnsRemaining > turns) return false;
+            return enemy.IsAlive;
+        }
+
+        bool HolderTurnBeforeThreat(BattleUnit hero, BattleUnit enemy, bool nextRound)
+        {
+            int holder = _queue.IndexOf(hero);
+            // Current decision finishes before a later hit; skipped future turns also tick/drop defenses.
+            return holder == _turnIndex || holder > _turnIndex && (nextRound || _queue.IndexOf(enemy) > holder);
+        }
+
+        static bool ThreatTargets(BattleAction action, BattleUnit hero)
+            => action.Scope != 2 && (action.Scope == 1 && (action.Skill == null || action.Skill.TargetType == TargetType.Enemy)
+                || action.Scope == 0 && action.TargetIds.Count > 0 && action.TargetIds[0] == hero.Id);
+
+        int ThreatMaximum(BattleUnit enemy, BattleAction action, BattleUnit hero, bool activeDefense = false, bool guardRemains = true, bool holderActsFirst = false)
+        {
+            int hits = Math.Max(1, action.Skill?.HitCount ?? 1);
+            double amount = DamageFormula.BaseAmount(enemy, hero, action.Skill, action.PowerScale, holderActsFirst ? 1 : 0)
+                * DamageFormula.HighestRoll(DamageFormula.DamageVariance);
+            double multiplier = DamageFormula.ElementMultiplier(hero, DamageFormula.ElementOf(enemy, action.Skill));
+            // Guard-policy maximum is unguarded; active defenses use carried Guard only while it survives.
+            int hit = DamageFormula.FinalAmount(DamageFormula.ApplyTargetMultipliers(amount, hero, action.Skill,
+                DamageFormula.DamageTypeOf(action.Skill), multiplier, hero.Broken, holderActsFirst ? 1 : 0,
+                activeDefense && guardRemains && hero.Guarding));
+            if (!activeDefense) return (int)Math.Min(int.MaxValue, (long)hit * hits);
+            // Pure local absorption model: never ReceiveDamage/Prepare a live unit. Simulate each hit's barrier/MP budget.
+            var barrierLeft = new List<int>();
+            var fullHit = new List<bool>();
+            double manaRatio = 0;
+            foreach (var status in hero.Statuses)
+            {
+                if (status.TurnsRemaining <= (holderActsFirst ? 1 : 0)) continue;
+                if (status.Invincible) return 0;
+                if (status.EffectType == StatusEffectType.Barrier) { barrierLeft.Add(status.BarrierRemaining); fullHit.Add(status.BarrierFullHit); }
+                if (manaRatio <= 0 && status.ManaShieldRatio > 0) manaRatio = status.ManaShieldRatio;
+            }
+            int mp = hero.Mp;
+            long total = 0;
+            for (int h = 0; h < hits; h++)
+            {
+                int left = hit;
+                for (int i = 0; i < barrierLeft.Count && left > 0; i++)
+                {
+                    if (fullHit[i]) { left = 0; fullHit[i] = false; barrierLeft[i] = 0; }
+                    else { int used = Math.Min(barrierLeft[i], left); left -= used; barrierLeft[i] -= used; }
+                }
+                int toMp = Math.Min(mp, Gd.RoundI(left * manaRatio));
+                mp -= toMp; left -= toMp; total += left;
+            }
+            return (int)Math.Min(int.MaxValue, total);
+        }
+
+        bool ShouldGuardThreat(BattleUnit hero, bool futureDecision = false)
+        {
+            foreach (var threat in ThreatsTo(hero, futureDecision))
+            {
+                bool holderActsFirst = HolderTurnBeforeThreat(hero, threat.Enemy, threat.NextRound);
+                int max = ThreatMaximum(threat.Enemy, threat.Action, hero, holderActsFirst: holderActsFirst);
+                if (max >= hero.Hp && max / 2.0 < hero.Hp) return true;
+            }
+            return false;
+        }
+
+        BattleCommand SuggestThreatHeal(BattleUnit actor, List<SkillDef> usable, List<BattleUnit> living)
+        {
+            var candidates = new List<BattleUnit>(living);
+            candidates.Sort((a, b) =>
+            {
+                int ratio = ((double)a.Hp / a.MaxHp).CompareTo((double)b.Hp / b.MaxHp);
+                return ratio != 0 ? ratio : UnitIndexOf(a).CompareTo(UnitIndexOf(b));
+            });
+            foreach (var ally in candidates)
+            {
+                bool lethal = false;
+                int allyTurn = _queue.IndexOf(ally);
+                bool canDecide = allyTurn > _turnIndex && ally.CanAct && !ally.Broken;
+                foreach (var threat in ThreatsTo(ally, afterDecision: true))
+                {
+                    bool holderActsFirst = HolderTurnBeforeThreat(ally, threat.Enemy, threat.NextRound);
+                    // TurnStart drops carried guard even on a skipped turn; ability to decide is separate.
+                    bool guardRemains = !holderActsFirst;
+                    if (ThreatMaximum(threat.Enemy, threat.Action, ally, activeDefense: true, guardRemains: guardRemains, holderActsFirst: holderActsFirst) < ally.Hp) continue;
+                    // A future ally can guard only threats after its upcoming decision. Lethal strikes before it cannot wait.
+                    if (holderActsFirst && canDecide)
+                    {
+                        int max = ThreatMaximum(threat.Enemy, threat.Action, ally, holderActsFirst: holderActsFirst);
+                        if (max / 2.0 < ally.Hp) continue;
+                    }
+                    lethal = true; break;
+                }
+                if (!lethal) continue;
+                foreach (var skill in usable)
+                {
+                    if (skill.Kind != SkillKind.Heal || !ContainsTarget(ValidTargets(actor, BattleCommand.Skill(skill.Id)), ally)) continue;
+                    var rule = SkillRule(skill);
+                    if (rule == TargetRule.RandomAllies && ValidTargets(actor, BattleCommand.Skill(skill.Id)).Count != 1) continue;
+                    return BattleCommand.Skill(skill.Id, rule == TargetRule.SingleAlly ? ally.Id : null);
+                }
+            }
+            return null;
+        }
+
         static double RevivalValue(BattleUnit target)
         {
             double value = target.MaxHp + target.MaxMp;
@@ -298,11 +701,15 @@ namespace Abyss.Logic.Battle
                     case StatusEffectType.DefenseDown: value += attackScore * def.Magnitude * 4; break;
                     case StatusEffectType.AttackDown: value += (target.EffectiveAttack + target.EffectiveMagic) * def.Magnitude * 2; break;
                     case StatusEffectType.Silence: if (target.SkillList.Exists(x => x.MpCost > 0)) value += attackScore * 1.6; break;
-                    case StatusEffectType.Sleep: case StatusEffectType.Stun: case StatusEffectType.Freeze: if (target.CanAct) value += attackScore * 1.5; break;
+                    case StatusEffectType.Sleep: case StatusEffectType.Stun: case StatusEffectType.Freeze: if (target.CanAct) value += attackScore * 1.5 * BossCcScaleFor(target); break;
                 }
             }
             return value * (skill.Kind == SkillKind.Debuff ? Math.Max(0, Math.Min(1, skill.StatusChance)) : 1);
         }
+
+        /// <summary>AUTO's view of a CC chance on this target: bosses scale it by the CC already landed this phase.</summary>
+        static double BossCcScaleFor(BattleUnit target)
+            => target.Side == BattleSide.Enemy && target.IsBoss ? BossCcChanceScale(target.PhaseCcSuccesses) : 1.0;
 
         static double LowestRatio(List<BattleUnit> units)
         {
@@ -344,7 +751,7 @@ namespace Abyss.Logic.Battle
                 {
                     var effect = BattleStatus.FromDef(status, unit.Id);
                     if (!target.IsImmuneTo(effect) && !effect.IsBeneficial)
-                        useful += Math.Min(target.Hp - damage, !effect.CanAct ? target.EffectiveAttack * 0.5 : target.MaxHp * 0.025) * skill.StatusChance;
+                        useful += Math.Min(target.Hp - damage, !effect.CanAct ? target.EffectiveAttack * 0.5 * BossCcScaleFor(target) : target.MaxHp * 0.025) * skill.StatusChance;
                 }
                 if (skill != null && skill.Drain > 0) useful += Math.Min(unit.MaxHp - unit.Hp, useful * skill.Drain);
                 total += useful;
@@ -366,7 +773,8 @@ namespace Abyss.Logic.Battle
             def *= 1.0 - (skill == null ? 0.0 : Gd.D(skill.DefenseIgnore));
             double dmg = Math.Max(1.0, off * power - def * DamageFormula.DefenseFactor);
             int element = DamageFormula.ElementOf(unit, skill);
-            if (element > 0 && IsWeaknessKnown(target, element)) dmg *= DamageFormula.WeaknessMultiplier;
+            if (element > 0 && IsWeaknessKnown(target, element))
+                dmg *= DamageFormula.WeaknessMultiplier * (unit.Side == BattleSide.Party && target.Side == BattleSide.Enemy ? ChainFactor(_chain) : 1.0);
             else if (element > 0 && _resistSeen.Contains(WeaknessKey(target.DefId, element))) dmg *= DamageFormula.ResistMultiplier;
             if (target.Broken) dmg *= DamageFormula.BrokenMultiplier;
             if (skill != null && !string.IsNullOrEmpty(skill.BonusVsStatus) && target.HasStatus(skill.BonusVsStatus)) dmg *= Gd.D(skill.BonusVsStatusMult);

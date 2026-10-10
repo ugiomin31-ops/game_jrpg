@@ -23,7 +23,7 @@ namespace Abyss.UI
             float top = compact ? 52f : 115f, x = compact ? 84f : 100f;
             var eyebrow = UIFactory.Label(Rect, "A B Y S S   G A T E", 23, color: UITheme.Gold);
             eyebrow.Rt().Place(UIAnchor.TopLeft, new Vector2(x, -top), new Vector2(760, 40));
-            var title = UIFactory.Label(Rect, "심연의 게이트", compact ? 88 : 94, UIFont.Title, UITheme.Text, TextAlignmentOptions.MidlineLeft, UITextFx.Heavy);
+            var title = UIFactory.Label(Rect, "심연의 게이트", compact ? 80 : 88, UIFont.Title, UITheme.Text, TextAlignmentOptions.MidlineLeft, UITextFx.Heavy);
             title.Rt().Place(UIAnchor.TopLeft, new Vector2(x - 8, -top - 44), new Vector2(900, 140));
             var rule = UIFactory.Image(Rect, UISprites.White, UITheme.Gold, "Dawn line");
             rule.Rt().Place(UIAnchor.TopLeft, new Vector2(x + 3, -top - 194), new Vector2(430, 2));
@@ -31,19 +31,29 @@ namespace Abyss.UI
             motto.Rt().Place(UIAnchor.TopLeft, new Vector2(x, -top - 214), new Vector2(720, 46));
             var group = UIFactory.ButtonGroup(Rect, false, compact ? 14 : 16);
             float w = compact ? 520 : 420, big = compact ? 92 : 72, small = compact ? 74 : 62;
-            if (compact) group.Rt().Place(UIAnchor.BottomLeft, new Vector2(0f, 0f), new Vector2(x, 52), new Vector2(w, 2 * big + 2 * small + 3 * 14));
-            else group.Rt().Place(UIAnchor.Left, new Vector2(100, -102), new Vector2(420, 444));
-            group.AddButton("새로운 시작", () => NewGame?.Invoke(), w, big);
-            var resume = group.AddButton("이어하기", () => ContinueGame?.Invoke(), w, big);
-            resume.Interactable = HasSave;
-            resume.DisabledReason = "저장된 기록이 없습니다. 새로 시작해 주세요.";
-            if (!HasSave) resume.SetLabel("이어하기 · 저장 없음");
+            bool showQuit = !UIRoot.TouchFirst && Application.platform != RuntimePlatform.WebGLPlayer;
+            int secondaryCount = 3 + (showQuit ? 1 : 0);
+            float groupHeight = big + secondaryCount * small + secondaryCount * (compact ? 14 : 16);
+            if (compact) group.Rt().Place(UIAnchor.BottomLeft, new Vector2(0f, 0f), new Vector2(x, 52), new Vector2(w, groupHeight));
+            else group.Rt().Place(UIAnchor.Left, new Vector2(100, -102), new Vector2(w, groupHeight));
+            if (HasSave)
+            {
+                group.AddButton("이어하기", () => ContinueGame?.Invoke(), w, big);
+                group.AddButton("새로운 시작", () => NewGame?.Invoke(), w, small);
+            }
+            else
+            {
+                group.AddButton("새로운 시작", () => NewGame?.Invoke(), w, big);
+                var resume = group.AddButton("이어하기 · 저장 없음", () => ContinueGame?.Invoke(), w, small);
+                resume.Interactable = false;
+                resume.DisabledReason = "저장된 기록이 없습니다. 새로 시작해 주세요.";
+            }
             group.AddButton("설정", () => Settings?.Invoke(), w, small);
             group.AddButton("제작진", () => Credits?.Invoke(), w, small);
             // iOS apps may not quit themselves; Android keeps the button for its back-to-home habit.
             // Phones and browsers leave with the home/back gesture or by closing the tab: no quit button there.
-            if (!UIRoot.TouchFirst && Application.platform != RuntimePlatform.WebGLPlayer) group.AddButton("게임 종료", () => Quit?.Invoke(), 420, 62);
-            group.FocusIndex = HasSave ? 1 : 0;
+            if (showQuit) group.AddButton("게임 종료", () => Quit?.Invoke(), w, small);
+            group.FocusIndex = 0;
             if (!UIRoot.TouchFirst)
             {
                 UIFactory.KeyHint(Rect, UIAction.Confirm, "선택").Rt().Place(UIAnchor.BottomLeft, new Vector2(100, 75), new Vector2(250, 44));

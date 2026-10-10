@@ -55,9 +55,24 @@ namespace Abyss.UI
             {
                 var member = app.State.Party[i]; int slot = i;
                 m.Add($"{HeroName(member.Id)} 대신 넣기", () => ExecuteRoster(HunterRoster.PutInParty(app.State, hero.Id, slot), owner, true),
-                    $"{slot + 1}번 자리의 {HeroName(member.Id)}({JobName(member)} · Lv.{member.Level}) 대신 파티에 넣습니다. 빠진 헌터는 대기 헌터가 됩니다.", $"{slot + 1}번", FormationOpen, townOnly, UIArtwork.Hero(member.Id));
+                    RosterSwapComparison(member, hero, slot), $"{slot + 1}번", FormationOpen, townOnly, UIArtwork.Hero(member.Id));
             }
         });
+        string RosterSwapComparison(HeroState outgoing, HeroState incoming, int slot)
+        {
+            var before = PartyStats.EffectiveStats(app.DB, outgoing);
+            var after = PartyStats.EffectiveStats(app.DB, incoming);
+            string GearLine(HeroState hero)
+            {
+                var gear = new List<string>();
+                foreach (string equipSlot in GameState.EquipSlots)
+                    gear.Add(T("slot_" + equipSlot) + " " + EquipmentName(hero.Equipped(equipSlot)));
+                return string.Join(" · ", gear);
+            }
+            return $"{slot + 1}번 자리 교체 · 나가는 헌터는 대기 명단으로 이동합니다.\n\n" +
+                $"내보냄  {HeroLabel(outgoing)} · Lv.{outgoing.Level}\n유효 HP {outgoing.Hp}/{before.MaxHp} · MP {outgoing.Mp}/{before.MaxMp}\n장비 {GearLine(outgoing)}\n\n" +
+                $"영입  {HeroLabel(incoming)} · Lv.{incoming.Level}\n유효 HP {incoming.Hp}/{after.MaxHp} · MP {incoming.Mp}/{after.MaxMp}\n장비 {GearLine(incoming)}";
+        }
         void ExecuteRoster(ServiceResult result, GameMenuScreen owner, bool close)
         {
             Execute(result, owner);

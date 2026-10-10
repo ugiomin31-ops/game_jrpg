@@ -27,6 +27,7 @@ namespace Abyss.Logic
         public float HpRegen;                                     // gear: ratio of max HP regained at the end of each own turn
         public int MpRegen;                                       // gear: MP regained at the end of each own turn
         public int TpStart;                                       // gear: TP at battle start
+        public int Tp;                                            // TP carried from the previous battle (0..100); battle start = max(Tp, TpStart)
     }
 
     public sealed class BattleSetup
@@ -56,5 +57,6 @@ namespace Abyss.Logic
         public bool EscapedDungeon;                                                  // return_stone etc. if usable in battle
         public Dictionary<string, Dictionary<string, int>> FinalStatuses = new Dictionary<string, Dictionary<string, int>>(); // hero id -> status id -> turns left (KO'd = empty)
         public List<string> SeenEnemies = new List<string>();                        // every enemy id that appeared, incl. summons (bestiary "seen")
+        public Dictionary<string, int> FinalTp = new Dictionary<string, int>();      // hero id -> TP at battle end (any result; KO'd = 0)
     }
 }

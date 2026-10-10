@@ -120,7 +120,8 @@ namespace Abyss.Logic.Game
         }
 
         /// <summary>
-        /// Rests at the inn: full HP/MP, revive, clear statuses, respawn every FOE (treasures, doors, keys, warps stay).
+        /// Rests at the inn: full HP/MP, revive, clear statuses and carried TP (whole roster), refill springs, respawn every FOE
+        /// (treasures, doors, keys, warps stay). A failed payment changes nothing.
         /// <paramref name="free"/> skips the price (defeat recovery). Sets <see cref="ServiceResult.RequestsAutosave"/>.
         /// </summary>
         public static ServiceResult RestAtInn(GameDB db, GameState state, bool free = false)
@@ -129,6 +130,8 @@ namespace Abyss.Logic.Game
             if (state.Gold < cost) return ServiceResult.Fail("not_enough_gold");
             state.Gold -= cost;
             PartyStats.RestoreParty(db, state);
+            state.ClearCarriedTp();
+            state.RefillSprings();
             foreach (var floor in state.Floors.Values) floor.DefeatedFoes.Clear();
             var result = ServiceResult.Ok("inn_rested");
             result.GoldDelta = -cost;

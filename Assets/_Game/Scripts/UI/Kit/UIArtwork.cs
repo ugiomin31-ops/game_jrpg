@@ -60,7 +60,8 @@ namespace Abyss.UI
         /// <summary>Portrait of a job (falls back to the hero's portrait when the job has none).</summary>
         public static Sprite Job(string jobId, string heroId) => (string.IsNullOrEmpty(jobId) ? null : TryLoad("Heroes", jobId)) ?? Load("Heroes", heroId);
         public static Sprite NPC(string id) => Load("NPCs", id);
-        public static Sprite Enemy(string id) => Load("Enemies", id);
+        // Palette variants share the authored base model and its portrait.
+        public static Sprite Enemy(string id) => Load("Enemies", ArtVariants.EnemyModel(GameDB.Instance, id));
         public static Sprite Gear(string id) => Load("Gear", id);
         public static Sprite Item(string id) => Load("Items", id);
         public static Sprite Status(string id) => Load("Status", id);

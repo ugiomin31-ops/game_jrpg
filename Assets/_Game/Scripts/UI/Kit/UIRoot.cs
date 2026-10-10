@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -26,6 +27,16 @@ namespace Abyss.UI
         CanvasScaler _scaler;
         RectTransform _stickBase, _stickKnob;
         int _stickFrame = -1;
+        // Last geometry announced through LayoutChanged (compact mode, touch target, scale, canvas and safe-area size).
+        bool _layoutKnown, _notifying, _lastCompact;
+        float _lastScale, _lastTouchTarget;
+        Vector2 _lastCanvasSize, _lastSafeSize;
+
+        /// <summary>
+        /// Raised from LateUpdate after the screen/safe-area update and whenever the final canvas geometry changes
+        /// (the CanvasScaler applies a new reference resolution one frame later). Never raised re-entrantly.
+        /// </summary>
+        public static event Action LayoutChanged;
 
         public static UIRoot Create(Transform parent = null, bool persistent = true)
         {
@@ -97,6 +108,7 @@ namespace Abyss.UI
         void LateUpdate()
         {
             if (_safe != Screen.safeArea || _width != Screen.width || _height != Screen.height || Compact != ComputeCompact(Screen.width, Screen.height)) UpdateSafeArea();
+            NotifyLayoutIfChanged();
             UpdateTouchStick();
         }
 
@@ -152,6 +164,30 @@ namespace Abyss.UI
             SafeArea.anchorMin = new Vector2(_safe.xMin / _width, _safe.yMin / _height);
             SafeArea.anchorMax = new Vector2(_safe.xMax / _width, _safe.yMax / _height);
             SafeArea.offsetMin = SafeArea.offsetMax = Vector2.zero;
+        }
+
+        /// <summary>Announces a changed layout key once; listeners may rebuild UI but cannot trigger a nested notification.</summary>
+        void NotifyLayoutIfChanged()
+        {
+            if (_notifying || Canvas == null || SafeArea == null) return;
+            Vector2 canvasSize = ((RectTransform)transform).rect.size, safeSize = SafeArea.rect.size;
+            float scale = Canvas.scaleFactor, touchTarget = TouchTargetHeight;
+            if (_layoutKnown && _lastCompact == Compact && Mathf.Approximately(_lastScale, scale) && Mathf.Approximately(_lastTouchTarget, touchTarget)
+                && (_lastCanvasSize - canvasSize).sqrMagnitude < 0.01f && (_lastSafeSize - safeSize).sqrMagnitude < 0.01f) return;
+            _layoutKnown = true; _lastCompact = Compact; _lastScale = scale; _lastTouchTarget = touchTarget;
+            _lastCanvasSize = canvasSize; _lastSafeSize = safeSize;
+            var listeners = LayoutChanged;
+            if (listeners == null) return;
+            _notifying = true;
+            try
+            {
+                foreach (Action listener in listeners.GetInvocationList())
+                {
+                    try { listener(); }
+                    catch (Exception e) { Debug.LogException(e); }
+                }
+            }
+            finally { _notifying = false; }
         }
 
         void OnDestroy() { if (Instance == this) Instance = null; }

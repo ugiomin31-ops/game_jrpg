@@ -33,36 +33,40 @@ namespace Abyss.UI
     }
 
     /// <summary>
-    /// Visual language of the Abyss UI: deep navy glass, thin gold filigree, white text, dawn-orange focus.
+    /// Visual language of the Abyss UI: slate surfaces, cyan focus, clear text and semantic resource colours.
     /// All colours / fonts / sizes / sprites used by the kit come from here.
     /// </summary>
     public static class UITheme
     {
         // ---- colours ------------------------------------------------------------------------------
-        /// <summary>Primary text (warm white).</summary>
-        public static readonly Color Text = Hex("f6f2e9");
-        /// <summary>Secondary text (cool lavender grey).</summary>
-        public static readonly Color TextDim = Hex("aab3d6");
+        /// <summary>Primary text.</summary>
+        public static readonly Color Text = Hex("edf5f6");
+        /// <summary>Secondary text.</summary>
+        public static readonly Color TextDim = Hex("b6c8cf");
         /// <summary>Disabled text.</summary>
-        public static readonly Color TextDisabled = Hex("6c7290");
-        /// <summary>Gold accent (frames, headers, currency).</summary>
-        public static readonly Color Gold = Hex("e6c477");
-        /// <summary>Bright gold for highlights.</summary>
-        public static readonly Color GoldBright = Hex("fbe7b0");
-        /// <summary>Muted gold for subtle lines.</summary>
-        public static readonly Color GoldDim = Hex("8c7444");
-        /// <summary>Dawn orange — keyboard/gamepad focus and selection.</summary>
-        public static readonly Color Dawn = Hex("ffad5a");
-        /// <summary>Light dawn for focus text.</summary>
-        public static readonly Color DawnBright = Hex("ffe0b0");
-        /// <summary>Navy used for flat fills / dimmers.</summary>
-        public static readonly Color Navy = Hex("0d1430");
-        /// <summary>Very dark navy (outline / shadow tint, never pure black).</summary>
-        public static readonly Color Ink = Hex("070914");
+        public static readonly Color TextDisabled = Hex("71858e");
+        /// <summary>Legacy accent slot mapped to the cyan UI accent. Legendary rarity uses LegendaryGold.</summary>
+        public static readonly Color Gold = Hex("59d6cc");
+        /// <summary>Bright cyan accent for headers and focus.</summary>
+        public static readonly Color GoldBright = Hex("8cf1e8");
+        /// <summary>Muted cyan accent for subtle lines.</summary>
+        public static readonly Color GoldDim = Hex("397f82");
+        /// <summary>Primary cyan selection and focus.</summary>
+        public static readonly Color Dawn = Hex("59d6cc");
+        /// <summary>Light cyan for focused text.</summary>
+        public static readonly Color DawnBright = Hex("a6fff5");
+        /// <summary>Slate fill / dimmer base.</summary>
+        public static readonly Color Navy = Hex("101c28");
+        /// <summary>Very dark slate outline / shadow tint.</summary>
+        public static readonly Color Ink = Hex("08131b");
         /// <summary>Negative / warning (disabled reasons, low HP).</summary>
-        public static readonly Color Danger = Hex("ff5a6e");
+        public static readonly Color Danger = Hex("f47d85");
         /// <summary>Positive value change.</summary>
-        public static readonly Color Positive = Hex("7dffa8");
+        public static readonly Color Positive = Hex("7ddfb1");
+        /// <summary>Advisory warning without implying a progression lock.</summary>
+        public static readonly Color Warning = Hex("f4bb68");
+        /// <summary>Legendary rarity accent remains gold.</summary>
+        public static readonly Color LegendaryGold = Hex("f4bb68");
         /// <summary>HP full.</summary>
         public static readonly Color HpHigh = Hex("5fe08a");
         /// <summary>HP mid.</summary>
@@ -93,15 +97,15 @@ namespace Abyss.UI
         public static readonly Color Dim = new Color(0.02f, 0.03f, 0.08f, 0.62f);
 
         /// <summary>Card fills for result / facility tiles: the same midnight glass family as the kit sprites.</summary>
-        public static readonly Color Surface = Hex("111a40");
-        public static readonly Color SurfaceRaised = Hex("1d2858");
-        public static readonly Color SurfaceSelected = Hex("33407e");
-        public static readonly Color Border = Hex("8c7444");
+        public static readonly Color Surface = Hex("101c28");
+        public static readonly Color SurfaceRaised = Hex("192b38");
+        public static readonly Color SurfaceSelected = Hex("244551");
+        public static readonly Color Border = Hex("397f82");
         /// <summary>Rarity accents: common (dim) · rare (azure) · epic (violet) · legendary (gold).</summary>
         public static readonly Color Rare = Hex("7fb6ff");
         public static readonly Color Epic = Hex("cf9dff");
 
-        public static Color RarityColor(int rarity) => rarity >= 3 ? GoldBright : rarity == 2 ? Epic : rarity == 1 ? Rare : TextDim;
+        public static Color RarityColor(int rarity) => rarity >= 3 ? LegendaryGold : rarity == 2 ? Epic : rarity == 1 ? Rare : TextDim;
         public static string RarityName(int rarity) => rarity >= 3 ? "전설" : rarity == 2 ? "영웅" : rarity == 1 ? "희귀" : "일반";
         /// <summary>Loot / bag category of an item: 재료, 씨앗 (permanent stat seed), 중요 물품 (key item) or 소모품.</summary>
         public static string ItemCategory(Abyss.Logic.ItemType type) =>

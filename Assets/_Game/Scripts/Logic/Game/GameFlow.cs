@@ -110,11 +110,13 @@ namespace Abyss.Logic.Game
             return state.Location == GameLocation.Town ? ResumeRoute.Town : ResumeRoute.Dungeon;
         }
 
-        /// <summary>Prologue finished: go to town.</summary>
+        /// <summary>Prologue finished: go to town (carried TP cleared).</summary>
         public static void CompletePrologue(GameState state)
         {
             state.Flags.Remove(FlagProloguePending);
             state.Location = GameLocation.Town;
+            state.ClearCarriedTp();
+            state.RefillSprings();
         }
 
         /// <summary>Marks a one-shot tip shown. True only the first time (then show text key <c>tip_&lt;key&gt;</c>).</summary>
@@ -134,6 +136,8 @@ namespace Abyss.Logic.Game
         public static List<StoryNotice> EnterTown(GameDB db, GameState state)
         {
             state.Location = GameLocation.Town;
+            state.ClearCarriedTp();
+            state.RefillSprings();
             var output = new List<StoryNotice>();
             if (TryTip(state, "first_town")) output.Add(new StoryNotice { TitleKey = "tip_title", TextKey = TipFlag("first_town") });
             var joins = db == null ? new List<StoryNotice>() : JoinNotices(db, state);
@@ -175,7 +179,7 @@ namespace Abyss.Logic.Game
 
         /// <summary>
         /// "마을에서 다시 시작" after a defeat: loses 50 % gold (normal/hard, rounded down; easy loses none),
-        /// then a free inn rest (full recovery, FOEs respawn) in town. Returns the gold lost (text key "recovered").
+        /// then a free inn rest (full recovery, FOEs respawn, carried TP cleared) in town. Returns the gold lost (text key "recovered").
         /// No-op returning 0 when no defeat is pending.
         /// </summary>
         public static int RecoverFromDefeat(GameDB db, GameState state)
@@ -185,15 +189,19 @@ namespace Abyss.Logic.Game
             state.Gold -= lost;
             TownServices.RestAtInn(db, state, free: true);
             state.Location = GameLocation.Town;
+            state.ClearCarriedTp();
+            state.RefillSprings();
             return lost;
         }
 
-        /// <summary>Ending and credits watched: the next continue goes to town.</summary>
+        /// <summary>Ending and credits watched: the next continue goes to town (carried TP cleared).</summary>
         public static void MarkEndingSeen(GameState state)
         {
             state.Flags.Add(FlagCleared);
             state.Flags.Add(FlagEndingSeen);
             state.Location = GameLocation.Town;
+            state.ClearCarriedTp();
+            state.RefillSprings();
         }
 
         /// <summary>

@@ -93,6 +93,8 @@ namespace Abyss.Logic
         public float ScaleMult = 1f;
         public int ActionsPerTurn = 1;
         public string AiProfile = "basic";
+        /// <summary>Boss-owned skill to announce, then release next round at x1.5 power; empty disables charging.</summary>
+        public string ChargeSkill = "";
         public List<string> Summons = new List<string>();
         public int SummonLimit;
         public List<int> SkillWeights = new List<int>();

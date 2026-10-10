@@ -14,6 +14,7 @@ namespace Abyss.UI
         static readonly string[] TownTitles = { "menu_inn", "menu_shop", "menu_smithy", "menu_guild", "menu_bestiary", "menu_party", "npc_elder_name", "menu_depart" };
         string GoldLine => $"{app.State.Gold:N0}만원";
         string DeepestLabel => app.DB.Floors[Mathf.Clamp(app.State.DeepestFloor, 0, app.DB.Floors.Count - 1)].FloorLabel;
+        UIButton departButton;
         static Sprite TownArtwork(string id)
         {
             switch (id)
@@ -26,36 +27,66 @@ namespace Abyss.UI
         public void ShowTown()
         {
             Clear(); BuildHud(false); RefreshTown();
-            var services = UIFactory.Panel(hud, UIPanelStyle.Ornate, name: "Town service cards");
-            bool compact = UIRoot.Compact;
-            const float width = 440f;
-            services.Rect.Place(UIAnchor.TopRight, new Vector2(-24, compact ? -126 : -156), new Vector2(width, 548));
-            UIFactory.Label(services.Rect, "새벽 길드", 32, UIFont.Title, UITheme.GoldBright, TMPro.TextAlignmentOptions.Center, UITextFx.Outline).Rt().TopStrip(44, 18, 24, 24);
-            UIFactory.Separator(services.Rect, width - 80f).rectTransform.Place(UIAnchor.Top, new Vector2(0, -66), new Vector2(width - 80f, 18));
-            UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 21, color: UITheme.TextDim, align: TMPro.TextAlignmentOptions.Center).Rt().TopStrip(28, 80, 24, 24);
-            var hints = new[] { "치료 · 회복", "포션 · 장비", "강화 · 제작", "의뢰 · 스카우트", "몬스터 도감", "편성 · 장비", "이야기", "게이트로 출발" };
-            for (int i = 0; i < TownIds.Length; i++)
+            townObjective = UIFactory.Label(townPanel, "", 25, UIFont.Bold, UITheme.Text, name: "Current objective");
+            townObjective.Rt().TopStrip(34, 91, 24, 24);
+            townReadiness = UIFactory.Label(townPanel, "", 22, UIFont.Bold, UITheme.Positive, name: "Departure readiness");
+            townReadiness.Rt().TopStrip(30, 126, 24, 24);
+            townIssues = UIFactory.Paragraph(townPanel, "", 19, UITheme.TextDim, "Readiness notes");
+            townIssues.lineSpacing = 1f;
+            townIssues.Rt().TopStrip(38, 156, 24, 248);
+            departButton = UIFactory.Button(townPanel, "게이트 출발", ShowDepart, name: "Primary departure");
+            departButton.Rt().Place(UIAnchor.BottomRight, new Vector2(-20, 12), new Vector2(224, 54));
+
+            const float width = 500f;
+            float height = 430f;
+            var services = UIFactory.Panel(hud, UIPanelStyle.Glass, name: "Guild facilities");
+            services.Rect.Place(UIAnchor.TopRight, new Vector2(-20, -24), new Vector2(width, height));
+            UIFactory.Label(services.Rect, "길드 시설", 28, UIFont.Bold, UITheme.GoldBright).Rt().TopStrip(40, 16, 20, 20);
+            UIFactory.Label(services.Rect, "회복 · 보급 · 성장", 20, color: UITheme.TextDim).Rt().TopStrip(28, 53, 20, 20);
+            for (int i = 0; i < TownIds.Length - 1; i++)
             {
                 string id = TownIds[i];
-                var button = UIFactory.Button(services.Rect, (id == "elder" ? "길드장실" : T(TownTitles[i])) + "\n<size=20>" + hints[i] + "</size>",
+                string label = id == "elder" ? "길드장실" : T(TownTitles[i]);
+                var button = UIFactory.Button(services.Rect, label,
                     () => { if (!BlocksWorldInput) { UIInput.Consume(); ShowTownService(id); } }, TownArtwork(id));
-                button.Rt().Place(UIAnchor.TopLeft, new Vector2(20 + (i % 2) * 204, -124 - (i / 2) * 102), new Vector2(196, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 92));
+                float buttonWidth = (width - 52f) * 0.5f;
+                button.Rt().Place(UIAnchor.TopLeft, new Vector2(18 + (i % 2) * (buttonWidth + 8f), -92 - (i / 2) * 78), new Vector2(buttonWidth, UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 70));
                 button.Label.textWrappingMode = TMPro.TextWrappingModes.Normal;
                 button.Label.fontSizeMax = 25;
-                if (id == "gate") button.Label.color = UITheme.DawnBright;
             }
             string help = UIRoot.TouchFirst
                 ? "이동 · 화면을 누른 채 끌기    대화 · 시설 근처에서 탭    수첩 · 오른쪽 아래 버튼"
                 : "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start";
             UIFactory.Label(hud, help, 21, color: UITheme.TextDim)
                 .Rt().BottomStrip(38, 212, 30, 470);
+            RefreshTownReadiness();
         }
         void RefreshTown()
         {
             if (app.Screen != GameScreen.Town || area == null) return;
-            area.text = T("town_title");
+            area.text = "새벽 길드";
             resources.text = $"{GoldLine}  ·  {T("rank_title", "길드 등급")} {GameFlow.GuildRank(app.State)}  ·  최심부 {DeepestLabel}  ·  {DifficultyName(app.State.Difficulty)}";
             RefreshVitals();
+            RefreshTownReadiness();
+        }
+        void RefreshTownReadiness()
+        {
+            if (app?.State == null || app.Screen != GameScreen.Town || townObjective == null) return;
+            var report = ExpeditionReadiness.Evaluate(app.DB, app.State);
+            townObjective.text = report.ObjectiveText;
+            townReadiness.text = report.SummaryText + "  ·  출발 제한 없음";
+            townReadiness.color = report.HasWarnings ? UITheme.Warning : UITheme.Positive;
+            if (report.IssueLines.Count == 0)
+                townIssues.text = "출발 전 참고 점검 · 현재 파티 상태";
+            else
+            {
+                int shown = Math.Min(2, report.IssueLines.Count);
+                var visible = new List<string>();
+                for (int i = 0; i < shown; i++) visible.Add(report.IssueLines[i]);
+                if (report.IssueLines.Count > shown) visible.Add($"외 {report.IssueLines.Count - shown}건 · 헌터 관리에서 확인");
+                townIssues.text = string.Join("  ·  ", visible);
+            }
+            if (departButton != null) departButton.Label.color = UITheme.Text;
         }
         void ShowTownDirectory() => Menu(T("town_title"), T("town_subtitle"), m =>
         {

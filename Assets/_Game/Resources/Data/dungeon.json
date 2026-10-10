@@ -27,44 +27,37 @@
   "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
-    "tunnel_bat",
-    "tunnel_bat",
-    "bat"
+    "sewer_slime",
+    "sewer_slime"
    ],
    [
     "sewer_slime",
-    "sewer_rat",
-    "tunnel_bat"
-   ],
-   [
-    "slime",
-    "horned_rabbit",
-    "bat"
-   ],
-   [
-    "slime",
-    "horned_rabbit",
-    "killer_bee"
-   ],
-   [
-    "slime",
     "sewer_rat"
    ],
    [
-    "slime",
-    "tunnel_bat",
-    "tunnel_bat"
+    "sewer_slime",
+    "slime"
    ],
    [
-    "bat",
-    "killer_bee",
-    "killer_bee"
+    "sewer_slime",
+    "horned_rabbit"
+   ],
+   [
+    "sewer_rat",
+    "sewer_rat"
+   ],
+   [
+    "sewer_rat",
+    "slime"
+   ],
+   [
+    "sewer_rat",
+    "horned_rabbit"
    ]
   ],
   "showcase_group": [
-   "tunnel_bat",
-   "tunnel_bat",
-   "bat"
+   "sewer_slime",
+   "sewer_slime"
   ],
   "boss_group": [],
   "fog_color": [
@@ -221,7 +214,8 @@
   "encounter_groups": [
    [
     "sewer_slime",
-    "killer_bee"
+    "killer_bee",
+    "bat"
    ],
    [
     "bat",
@@ -229,7 +223,8 @@
    ],
    [
     "sewer_slime",
-    "sewer_slime"
+    "sewer_slime",
+    "bat"
    ],
    [
     "tunnel_bat",
@@ -242,6 +237,7 @@
    ],
    [
     "horned_rabbit",
+    "bat",
     "bat"
    ],
    [
@@ -252,7 +248,8 @@
   ],
   "showcase_group": [
    "sewer_slime",
-   "killer_bee"
+   "killer_bee",
+   "bat"
   ],
   "boss_group": [],
   "fog_color": [
@@ -447,8 +444,9 @@
   "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
-    "sewer_rat",
-    "tunnel_bat"
+    "tunnel_bat",
+    "tunnel_bat",
+    "bat"
    ],
    [
     "sewer_rat",
@@ -461,8 +459,9 @@
     "tunnel_bat"
    ],
    [
-    "sewer_rat",
-    "horned_rabbit"
+    "horned_rabbit",
+    "bat",
+    "tunnel_bat"
    ],
    [
     "slime",
@@ -476,12 +475,14 @@
    ],
    [
     "slime",
-    "bat"
+    "tunnel_bat",
+    "tunnel_bat"
    ]
   ],
   "showcase_group": [
-   "sewer_rat",
-   "tunnel_bat"
+   "tunnel_bat",
+   "tunnel_bat",
+   "bat"
   ],
   "boss_group": [
    "subway_bat_lord"

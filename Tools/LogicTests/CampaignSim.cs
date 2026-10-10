@@ -140,23 +140,159 @@ namespace Abyss.LogicTests
             return state;
         }
 
+        public sealed class Vitals
+        {
+            public string Id, UnitId;
+            public int Hp, Mp, Tp, MaxHp, MaxMp;
+            public Dictionary<string, int> Statuses = new Dictionary<string, int>();
+            public static Vitals Of(BattleUnit u) => new Vitals
+            {
+                Id = u.DefId, UnitId = u.Id, Hp = u.Hp, Mp = u.Mp, Tp = u.IsAlive ? u.Tp : 0,
+                MaxHp = u.MaxHp, MaxMp = u.MaxMp,
+                Statuses = u.IsAlive ? u.Statuses.Where(s => s.TurnsRemaining > 0).ToDictionary(s => s.Id, s => s.TurnsRemaining)
+                    : new Dictionary<string, int>(),
+            };
+            public override string ToString() => $"{Id}:{Hp}/{MaxHp}hp,{Mp}/{MaxMp}mp,{Tp}tp";
+        }
+
+        public sealed class Sample
+        {
+            public BattleResult Outcome;
+            public int Rounds, GrossMpSpent;
+            public bool TimedOut;
+            public List<Vitals> Start, End;
+            public int HpLost => Start.Sum(s => Math.Max(0, s.Hp - End.Single(e => e.Id == s.Id).Hp));
+            public int NetMpDepletion => Start.Sum(s => s.Mp - End.Single(e => e.Id == s.Id).Mp);
+            public int InitialCapacity => Start.Sum(s => s.MaxHp + s.MaxMp);
+            public double Attrition => InitialCapacity == 0 ? 0 : (double)(HpLost + GrossMpSpent) / InitialCapacity;
+            public bool Won => !TimedOut && Outcome == BattleResult.Victory;
+        }
+
         public sealed class Result
         {
-            public int Battles, Wins, Rounds;
+            public int Battles, Wins, Rounds, Timeouts;
+            public long HpLost, GrossMpSpent, NetMpDepletion;
+            public double AttritionSum;
             public double WinRate => Battles == 0 ? 0 : (double)Wins / Battles;
             public double AvgRounds => Wins == 0 ? 0 : (double)Rounds / Wins;
+            // Every initial sample counts, including defeats/flees/timeouts; sample-normalized arithmetic mean.
+            public double AvgAttrition => Battles == 0 ? 0 : AttritionSum / Battles;
+            public void Record(Sample sample)
+            {
+                Battles++;
+                if (sample.Won) { Wins++; Rounds += sample.Rounds; }
+                if (sample.TimedOut) Timeouts++;
+                HpLost += sample.HpLost; GrossMpSpent += sample.GrossMpSpent; NetMpDepletion += sample.NetMpDepletion;
+                AttritionSum += sample.Attrition;
+            }
+            public void Merge(Result other)
+            {
+                Battles += other.Battles; Wins += other.Wins; Rounds += other.Rounds; Timeouts += other.Timeouts;
+                HpLost += other.HpLost; GrossMpSpent += other.GrossMpSpent; NetMpDepletion += other.NetMpDepletion;
+                AttritionSum += other.AttritionSum;
+            }
+            public string Resources => Battles == 0 ? "-" : $"n={Battles} wins={Wins} rounds={Rounds} attr={AvgAttrition:P2} HP_loss={HpLost} MP_paid={GrossMpSpent} MP_net={NetMpDepletion} timeout={Timeouts}";
             public override string ToString() => Battles == 0 ? "-" : $"{WinRate * 100,3:0}% {AvgRounds,4:0.0}r";
         }
 
-        /// <summary>AUTO battles of <paramref name="group"/>; rounds are averaged over victories.</summary>
+        /// <summary>
+        /// Execute emits the paid-cost MP event immediately after Skill ActionStart, before its payload. Count that
+        /// action-linked actual delta once, not subsequent mana-shield damage, regen or restoration events. No RNG queries.
+        /// </summary>
+        public static int PaidHeroMp(GameDB db, IEnumerable<BattleEvent> events, IEnumerable<string> heroUnitIds)
+        {
+            var heroes = new HashSet<string>(heroUnitIds);
+            ActionStartEvent payment = null;
+            int total = 0;
+            foreach (var e in events)
+            {
+                if (payment != null)
+                {
+                    Assert.True(e is MpChangeEvent cost && cost.UnitId == payment.ActorId && cost.Delta < 0,
+                        "every executed positive-cost hero skill has an immediate actual payment event");
+                    var mp = (MpChangeEvent)e;
+                    Assert.Equal(Math.Max(0, db.Skills[payment.SkillId].MpCost), -mp.Delta, "action-linked paid MP equals cost");
+                    total -= mp.Delta;
+                }
+                payment = e is ActionStartEvent a && a.Kind == ActionKind.Skill && heroes.Contains(a.ActorId)
+                    && !a.IsChargeRelease && db.Skills[a.SkillId].MpCost > 0 ? a : null;
+            }
+            Assert.True(payment == null, "event stream cannot truncate a pending hero payment");
+            return total;
+        }
+
+        /// <summary>Runs without campaign settlement; even incomplete battles retain their actual resource endpoint.</summary>
+        public static Sample Measure(GameDB db, BattleSetup setup, int maxRounds = 120)
+        {
+            var engine = new BattleEngine(db, setup);
+            var start = engine.Party.Select(Vitals.Of).ToList();
+            var events = BattleTestUtil.RunAuto(engine, maxRounds);
+            bool ended = engine.State == BattleEngineState.Ended;
+            Assert.True(ended || engine.Round > maxRounds, "battle ends or is recorded as timeout");
+            return new Sample
+            {
+                Outcome = ended ? engine.Outcome.Result : BattleResult.None, TimedOut = !ended, Rounds = engine.Round,
+                Start = start, End = engine.Party.Select(Vitals.Of).ToList(),
+                GrossMpSpent = PaidHeroMp(db, events, start.Select(s => s.UnitId)),
+            };
+        }
+
+        /// <summary>AUTO cold-start battles; the caller's fixed party is never settled or mutated.</summary>
         public static void Fight(GameDB db, GameState party, IList<string> group, BattleKind kind, float power, string floorId, int seed, Result into)
         {
             var setup = PartyStats.BuildBattleSetup(db, party, kind, group, power, floorId, seed);
-            var engine = new BattleEngine(db, setup);
-            BattleTestUtil.RunAuto(engine, 120);
-            Assert.True(engine.State == BattleEngineState.Ended || engine.Round > 120, "battle ends: " + string.Join(",", group));
-            into.Battles++;
-            if (engine.State == BattleEngineState.Ended && engine.Outcome.Result == BattleResult.Victory) { into.Wins++; into.Rounds += engine.Round; }
+            foreach (var h in setup.Party) { h.Hp = h.MaxHp; h.Mp = h.MaxMp; h.Tp = 0; }
+            into.Record(Measure(db, setup));
+        }
+
+        // Original expected cold-start seed is the trip seed. Subsequent fights add this fixed stride, never advance
+        // the original shared sample counter. Group j advances cyclically through that floor's original distinct groups.
+        public const int TripFights = 4, TripSeedStride = 1000000;
+        public static int TripSeed(int originalSeed, int fight) => originalSeed + fight * TripSeedStride;
+
+        public static void Carry(BattleSetup setup, Sample previous)
+        {
+            foreach (var h in setup.Party)
+            {
+                var end = previous.End.Single(e => e.Id == h.HeroId);
+                h.Hp = end.Hp; h.Mp = end.Mp; h.Tp = end.Tp;
+                h.Statuses = new Dictionary<string, int>(end.Statuses);
+            }
+        }
+
+        public sealed class Trip
+        {
+            public readonly List<Sample> Fights = new List<Sample>();
+            public bool Complete => Fights.Count == TripFights && Fights.All(f => f.Won);
+            public double RemainingHp => (double)Fights.Last().End.Sum(e => e.Hp) / Fights[0].Start.Sum(s => s.MaxHp);
+            public double RemainingMp => Fights[0].Start.Sum(s => s.MaxMp) == 0 ? 1
+                : (double)Fights.Last().End.Sum(e => e.Mp) / Fights[0].Start.Sum(s => s.MaxMp);
+        }
+
+        /// <summary>No items, rest, rewards, XP, newly favourable knowledge, or between-fight healing. KO stays KO.</summary>
+        public static Trip SerialTrip(GameDB db, GameState party, IList<List<string>> groups, int groupIndex, string floorId, int originalSeed)
+        {
+            var trip = new Trip();
+            for (int fight = 0; fight < TripFights; fight++)
+            {
+                var setup = PartyStats.BuildBattleSetup(db, party, BattleKind.Random, groups[(groupIndex + fight) % groups.Count],
+                    1f, floorId, TripSeed(originalSeed, fight));
+                setup.Inventory.Clear();
+                if (fight == 0) foreach (var h in setup.Party) { h.Hp = h.MaxHp; h.Mp = h.MaxMp; h.Tp = 0; }
+                else Carry(setup, trip.Fights.Last()); // Engine applies O7 max(carried TP, gear TP) on every battle start.
+                var result = Measure(db, setup);
+                trip.Fights.Add(result);
+                if (!result.Won) break;
+            }
+            return trip;
+        }
+
+        public static double Median(IEnumerable<double> values)
+        {
+            var sorted = values.OrderBy(x => x).ToArray();
+            Assert.True(sorted.Length > 0, "median includes every trip endpoint");
+            int mid = sorted.Length / 2;
+            return sorted.Length % 2 == 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
         }
     }
 }
