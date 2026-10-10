@@ -21,6 +21,13 @@ namespace Abyss.Logic.Battle
         public const int TpOnAllyFall = 20;
         public const int TpOnBreak = 10;
         public const double EnrageBelow = 0.3;
+        /// <summary>Weakness chain cap.</summary>
+        public const int ChainMax = 5;
+        /// <summary>Weakness hits of a party action deal x(1 + ChainStep x pre-action chain).</summary>
+        public const double ChainStep = 0.10;
+        /// <summary>Pre-action chain from which each BREAK also gives every living party member <see cref="TpOnChainBreak"/>.</summary>
+        public const int ChainBreakFrom = 3;
+        public const int TpOnChainBreak = 10;
 
         readonly GameDB _db;
         readonly BattleSetup _setup;
@@ -37,8 +44,11 @@ namespace Abyss.Logic.Battle
         readonly Dictionary<string, int> _drops = new Dictionary<string, int>();
         readonly List<BattleUnit> _queue = new List<BattleUnit>();
 
+        readonly Dictionary<string, List<BattleAction>> _planned = new Dictionary<string, List<BattleAction>>();
+        readonly HashSet<string> _chargeUsedThisRound = new HashSet<string>();
         int _turnIndex;
         readonly HashSet<string> _resistSeen = new HashSet<string>(); // "enemyId:element" resisted this battle (AUTO)
+        readonly HashSet<string> _neutralSeen = new HashSet<string>(); // "enemyId:element" landed neither weak nor resisted this battle (previews)
         BattleUnit _current;
         bool _active;
         bool _awaiting;
@@ -53,6 +63,9 @@ namespace Abyss.Logic.Battle
         readonly List<BattleUnit> _actionDamaged = new List<BattleUnit>();
         readonly HashSet<string> _actionEffectShown = new HashSet<string>();
         readonly Dictionary<string, int> _actionHitIndex = new Dictionary<string, int>();
+        int _chain;            // battle-local weakness chain, 0..ChainMax
+        int _actionChain;      // chain before the current action (0 for enemy actions)
+        bool _actionWeakHit;   // the current party action landed at least one weakness hit on an enemy
 
         /// <summary>Builds every unit (difficulty / FOE power applied once). Does not roll anything yet.</summary>
         public BattleEngine(GameDB db, BattleSetup setup)
@@ -78,6 +91,7 @@ namespace Abyss.Logic.Battle
                 _enemies.Add(unit);
                 Register(unit, null);
             }
+            AssignInitialLabels();
         }
 
         // --- Public state --------------------------------------------------------------------------
@@ -103,8 +117,37 @@ namespace Abyss.Logic.Battle
         public IReadOnlyDictionary<string, int> Inventory => _inventory;
         /// <summary>The seeded battle RNG (tests / simulators).</summary>
         public GodotRng Rng => _rng;
+        /// <summary>Current weakness chain (0..<see cref="ChainMax"/>); see <see cref="ChainChangedEvent"/>.</summary>
+        public int Chain => _chain;
+        /// <summary>Immutable copies of unconsumed slots, in unit-index/slot order. Query is RNG/state free.</summary>
+        public IReadOnlyList<EnemyIntent> EnemyIntents
+        {
+            get
+            {
+                var result = new List<EnemyIntent>();
+                foreach (var enemy in _enemies)
+                    if (_planned.TryGetValue(enemy.Id, out var slots))
+                        for (int slot = 0; slot < slots.Count; slot++)
+                            if (slots[slot] != null) result.Add(new EnemyIntent(Round, enemy.Id, slot, slots[slot]));
+                return result.AsReadOnly();
+            }
+        }
+
+        /// <summary>Damage factor of weakness hits at a pre-action chain value: 1 + 0.10 x chain.</summary>
+        public static double ChainFactor(int chain) => 1.0 + ChainStep * Gd.Clamp(chain, 0, ChainMax);
+
+        /// <summary>
+        /// Boss crowd-control chance scale from the CC already landed this phase: 0.5, then 0.25, then 0 (multiplies the
+        /// final application chance; cc_resist stacks).
+        /// </summary>
+        public static double BossCcChanceScale(int successesThisPhase)
+            => successesThisPhase <= 0 ? 0.5 : successesThisPhase == 1 ? 0.25 : 0.0;
 
         public BattleUnit UnitById(string id) => id != null && _byId.TryGetValue(id, out var u) ? u : null;
+        /// <summary>Engine unit index (position in <see cref="Units"/>), or -1.</summary>
+        public int UnitIndexOf(BattleUnit unit) => unit == null ? -1 : _units.IndexOf(unit);
+        /// <summary>Engine unit index of a unit id, or -1.</summary>
+        public int UnitIndexOf(string id) => UnitIndexOf(UnitById(id));
         public int InventoryCount(string itemId) => itemId != null && _inventory.TryGetValue(itemId, out var n) ? n : 0;
 
         /// <summary>Living units that still act this round, current actor first.</summary>
@@ -247,6 +290,33 @@ namespace Abyss.Logic.Battle
             var ids = new List<string>(_queue.Count);
             foreach (var u in _queue) ids.Add(u.Id);
             Emit(new RoundStartEvent { Round = Round, TurnOrder = ids });
+            _planned.Clear();
+            _chargeUsedThisRound.Clear();
+            foreach (var enemy in _enemies)
+            {
+                if (!enemy.IsAlive) continue;
+                var slots = new List<BattleAction>();
+                _planned[enemy.Id] = slots;
+                bool reserved = enemy.PendingCharge != null;
+                for (int slot = 0; slot < Math.Max(1, enemy.ActionsPerTurn); slot++)
+                {
+                    BattleAction action;
+                    if (slot == 0 && enemy.PendingCharge != null && Round > enemy.PendingCharge.AnnouncedRound)
+                    {
+                        var pending = enemy.PendingCharge;
+                        action = BattleAction.Make(ActionKind.Skill, enemy.Id,
+                            pending.TargetUnitId != null ? new[] { pending.TargetUnitId } : null, pending.SkillId, enemy.PendingChargeSkill);
+                        action.Scope = (int)pending.Scope;
+                        action.FrozenSingleTarget = action.Scope == 0;
+                        action.IsChargeRelease = true; action.PowerScale = 1.5;
+                        action.LowestHpTarget = enemy.AiProfile == "aggressive" || enemy.AiProfile == "berserker" && enemy.Enraged;
+                    }
+                    else action = PlanEnemyAction(enemy, reserved);
+                    reserved |= action.IsChargeAnnounce;
+                    slots.Add(action);
+                    EmitIntent(enemy, slot, action);
+                }
+            }
         }
 
         static int CompareTurns(BattleUnit a, BattleUnit b)
@@ -300,35 +370,122 @@ namespace Abyss.Logic.Battle
         void EnemyTurn(BattleUnit actor)
         {
             CheckPhases();
-            if (actor.AiProfile == EnemyAI.RunnerProfile && actor.CanAct && _rng.Randf() < EnemyAI.RunnerFleeChance)
+            for (int slot = 0; slot < Math.Max(1, actor.ActionsPerTurn); slot++)
             {
-                // Rare monsters bolt: they leave the field without counting as defeated (no EXP, gold or drops).
-                actor.Escaped = true;
-                Msg("enemy_fled", actor.DisplayName);
-                actor.Hp = 0;
-                OnUnitDown(actor);
-                if (CheckOutcome()) return;
-                FinishTurn(actor, false);
-                return;
-            }
-            int count = Math.Max(1, actor.ActionsPerTurn);
-            for (int i = 0; i < count; i++)
-            {
-                if (!_active || !actor.IsAlive || !actor.CanAct || !EnemyAI.AnyLiving(_party)) break;
-                var action = EnemyAI.Choose(actor, _party, _enemies, _rng, _setup.Difficulty, SummonSlots(actor));
+                DropExtraIntents(actor);
+                if (!_active || !actor.IsAlive || !actor.CanAct || actor.Broken || !EnemyAI.AnyLiving(_party)) break;
+                if (!_planned.TryGetValue(actor.Id, out var slots)) _planned[actor.Id] = slots = new List<BattleAction>();
+                BattleAction action = slot < slots.Count ? slots[slot] : null;
+                if (action == null || !PlannedSkillValid(actor, action))
+                {
+                    if (action != null) ClearIntent(actor, slot);
+                    action = PlanEnemyAction(actor, actor.PendingCharge != null || ChargeReserved(slots, slot));
+                    while (slots.Count <= slot) slots.Add(null);
+                    slots[slot] = action;
+                    EmitIntent(actor, slot, action);
+                }
+                if (action.IsChargeRelease && actor.PendingCharge == null)
+                {
+                    ClearIntent(actor, slot);
+                    action = PlanEnemyAction(actor, ChargeReserved(slots, slot));
+                    slots[slot] = action; EmitIntent(actor, slot, action);
+                }
+                RetargetInvalid(actor, action);
                 if (Prepare(action, actor) != null)
                 {
-                    action = BattleAction.Make(ActionKind.Attack, actor.Id);
+                    ClearIntent(actor, slot);
+                    action = BattleAction.Make(ActionKind.Attack, actor.Id); // legacy fallback: first valid target, no draw
                     if (Prepare(action, actor) != null)
-                    {
-                        action = BattleAction.Make(ActionKind.Guard, actor.Id);
-                        Prepare(action, actor); // executed regardless, as in the original
-                    }
+                    { action = BattleAction.Make(ActionKind.Guard, actor.Id); Prepare(action, actor); }
+                    slots[slot] = action; EmitIntent(actor, slot, action);
                 }
+                ClearIntent(actor, slot);
                 Execute(action);
                 if (CheckOutcome()) return;
             }
+            ClearIntents(actor);
             FinishTurn(actor, false);
+        }
+
+        BattleAction PlanEnemyAction(BattleUnit actor, bool excludeCharge)
+        {
+            excludeCharge |= _chargeUsedThisRound.Contains(actor.Id);
+            var action = EnemyAI.Choose(actor, _party, _enemies, _rng, _setup.Difficulty, SummonSlots(actor), excludeCharge);
+            var rule = RuleOf(action);
+            action.Scope = rule == TargetRule.RandomEnemies || rule == TargetRule.RandomAllies ? 2
+                : rule == TargetRule.AllEnemies || rule == TargetRule.AllAllies || rule == TargetRule.All ? 1 : 0;
+            if (action.Scope != 0) action.TargetIds.Clear();
+            else
+            {
+                if (rule == TargetRule.SingleEnemy && IsOffensive(EffectOf(action)))
+                {
+                    var forced = ProvokeTarget(actor, EnemyAI.Living(_party));
+                    if (forced != null) { action.TargetIds.Clear(); action.TargetIds.Add(forced.Id); }
+                }
+                action.FrozenSingleTarget = true;
+            }
+            action.IsChargeAnnounce = !excludeCharge && actor.PendingCharge == null && actor.ChargeSkill.Length > 0
+                && action.Kind == ActionKind.Skill && action.PayloadId == actor.ChargeSkill;
+            return action;
+        }
+
+        void EmitIntent(BattleUnit actor, int slot, BattleAction action)
+            => Emit(new EnemyIntentPlannedEvent(new EnemyIntent(Round, actor.Id, slot, action)));
+
+        static bool ChargeReserved(List<BattleAction> slots, int except)
+        {
+            for (int i = 0; i < slots.Count; i++)
+                if (i != except && slots[i] != null && (slots[i].IsChargeAnnounce || slots[i].IsChargeRelease)) return true;
+            return false;
+        }
+
+        bool PlannedSkillValid(BattleUnit actor, BattleAction action)
+            => action.IsChargeRelease || action.Kind != ActionKind.Skill
+                || FindActorSkill(actor, action.PayloadId) != null && EnemyAI.IsAffordable(actor, action.Skill);
+
+        void RetargetInvalid(BattleUnit actor, BattleAction action)
+        {
+            var rule = RuleOf(action);
+            if (rule != TargetRule.SingleEnemy && rule != TargetRule.SingleAlly && rule != TargetRule.Self) return;
+            var target = action.TargetIds.Count > 0 ? UnitById(action.TargetIds[0]) : null;
+            bool revive = EffectOf(action) == ActionEffect.Revive;
+            bool valid = target != null && (revive ? !target.IsAlive && !target.Escaped && !target.Summoned : target.IsAlive);
+            if (valid) return; // provoke/taunt added after planning never overrides a valid frozen target
+            action.TargetIds.Clear();
+            string id = EnemyAI.Retarget(actor, action, _party, _enemies, _rng);
+            if (rule == TargetRule.SingleEnemy && IsOffensive(EffectOf(action)))
+                id = ProvokeTarget(actor, EnemyAI.Living(_party))?.Id ?? id;
+            if (id != null) action.TargetIds.Add(id);
+            action.FrozenSingleTarget = true;
+        }
+
+        void ClearIntent(BattleUnit actor, int slot)
+        {
+            if (!_planned.TryGetValue(actor.Id, out var slots) || slot >= slots.Count || slots[slot] == null) return;
+            slots[slot] = null;
+            Emit(new IntentClearedEvent(actor.Id, slot));
+        }
+
+        void ClearIntents(BattleUnit actor)
+        {
+            if (_planned.TryGetValue(actor.Id, out var slots))
+                for (int slot = 0; slot < slots.Count; slot++) ClearIntent(actor, slot);
+        }
+
+        void DropExtraIntents(BattleUnit actor)
+        {
+            if (_planned.TryGetValue(actor.Id, out var slots))
+                for (int slot = Math.Max(1, actor.ActionsPerTurn); slot < slots.Count; slot++) ClearIntent(actor, slot);
+        }
+
+        void CancelCharge(BattleUnit actor, ChargeCancelReason reason)
+        {
+            if (actor.PendingCharge == null) return;
+            actor.PendingCharge = null; actor.PendingChargeSkill = null;
+            Emit(new ChargeCancelledEvent(actor.Id, reason));
+            if (_planned.TryGetValue(actor.Id, out var slots))
+                for (int slot = 0; slot < slots.Count; slot++)
+                    if (slots[slot]?.IsChargeRelease == true) ClearIntent(actor, slot);
         }
 
         int SummonSlots(BattleUnit actor)
@@ -346,6 +503,7 @@ namespace Abyss.Logic.Battle
 
         void FinishTurn(BattleUnit actor, bool recoverBreak)
         {
+            if (actor.Side == BattleSide.Enemy) ClearIntents(actor);
             ApplyTurnEndEffects(actor);
             if (actor.IsAlive)
                 foreach (var id in actor.RemoveExpiredStatuses())
@@ -461,9 +619,9 @@ namespace Abyss.Logic.Battle
                     action.Skill = null;
                     break;
                 case ActionKind.Skill:
-                    action.Skill = FindActorSkill(actor, action.PayloadId);
+                    if (!action.IsChargeRelease) action.Skill = FindActorSkill(actor, action.PayloadId);
                     if (action.Skill == null) return "skill_unavailable";
-                    int mp = Math.Max(0, action.Skill.MpCost), tp = Math.Max(0, action.Skill.TpCost);
+                    int mp = action.IsChargeRelease ? 0 : Math.Max(0, action.Skill.MpCost), tp = action.IsChargeRelease ? 0 : Math.Max(0, action.Skill.TpCost);
                     if (mp > 0 && actor.IsSilenced) return "silenced";
                     if (actor.Mp < mp) return "mp_short";
                     if (actor.Tp < tp) return "tp_short";
@@ -476,6 +634,7 @@ namespace Abyss.Logic.Battle
                     if (itemEffect == ActionEffect.Flee && !FleeAllowed(true)) return "flee_forbidden";
                     break;
                 case ActionKind.Flee:
+                    if (actor.Side == BattleSide.Enemy) { action.TargetIds.Clear(); return null; }
                     if (!FleeAllowed()) return "flee_forbidden";
                     action.TargetIds.Clear();
                     return null;
@@ -492,6 +651,8 @@ namespace Abyss.Logic.Battle
                 default:
                     return "invalid_action";
             }
+            // Announcing costs no hits and makes no RANDOM allocations. Store the frozen single target only.
+            if (action.IsChargeAnnounce) return null;
             return ResolveTargets(action, actor);
         }
 
@@ -562,7 +723,7 @@ namespace Abyss.Logic.Battle
                         ids.Add(chosen.Id);
                     }
                     else if (pool.Count > 0) ids.Add(pool[0].Id);
-                    if (!pickAllies && IsOffensive(effect))
+                    if (!action.FrozenSingleTarget && !pickAllies && IsOffensive(effect))
                     {
                         var forced = ProvokeTarget(actor, opponentPool);
                         if (forced != null) { ids.Clear(); ids.Add(forced.Id); }
@@ -688,6 +849,8 @@ namespace Abyss.Logic.Battle
             _actionDamaged.Clear();
             _actionEffectShown.Clear();
             _actionHitIndex.Clear();
+            _actionChain = actor.Side == BattleSide.Party ? _chain : 0;
+            _actionWeakHit = false;
             ApplyActionBleed(actor);
             if (!actor.IsAlive) return;
             EmitActionStart(actor, action);
@@ -699,7 +862,7 @@ namespace Abyss.Logic.Battle
                     break;
                 case ActionKind.Skill:
                 {
-                    int mp = Math.Max(0, action.Skill.MpCost), tp = Math.Max(0, action.Skill.TpCost);
+                    int mp = action.IsChargeRelease ? 0 : Math.Max(0, action.Skill.MpCost), tp = action.IsChargeRelease ? 0 : Math.Max(0, action.Skill.TpCost);
                     if (actor.SpendMp(mp))
                     {
                         if (mp > 0) Emit(new MpChangeEvent { UnitId = actor.Id, Mp = actor.Mp, MaxMp = actor.MaxMp, Delta = -mp });
@@ -709,7 +872,24 @@ namespace Abyss.Logic.Battle
                             actor.Tp = Math.Max(0, actor.Tp - tp);
                             Emit(new TpChangeEvent { UnitId = actor.Id, Tp = actor.Tp, MaxTp = actor.MaxTp, Delta = actor.Tp - before });
                         }
-                        ResolvePayload(actor, action);
+                        if (action.IsChargeAnnounce)
+                        {
+                            string target = action.Scope == 0 && action.TargetIds.Count > 0 ? action.TargetIds[0] : null;
+                            _chargeUsedThisRound.Add(actor.Id);
+                            actor.PendingCharge = new PendingCharge(action.PayloadId, target, Round, (Scope)action.Scope);
+                            actor.PendingChargeSkill = action.Skill;
+                            Emit(new ChargeStartedEvent(actor.Id, action.PayloadId, target));
+                        }
+                        else
+                        {
+                            if (action.IsChargeRelease)
+                            {
+                                _chargeUsedThisRound.Add(actor.Id);
+                                actor.PendingCharge = null; actor.PendingChargeSkill = null;
+                                Emit(new ChargeReleasedEvent(actor.Id, action.PayloadId));
+                            }
+                            ResolvePayload(actor, action);
+                        }
                     }
                     break;
                 }
@@ -730,6 +910,12 @@ namespace Abyss.Logic.Battle
                     Msg("guard", actor.DisplayName);
                     break;
                 case ActionKind.Flee:
+                    if (actor.Side == BattleSide.Enemy)
+                    {
+                        actor.Escaped = true; Msg("enemy_fled", actor.DisplayName);
+                        actor.Hp = 0; OnUnitDown(actor);
+                        break;
+                    }
                     if (AttemptFlee())
                     {
                         Emit(new FleeEvent { Success = true });
@@ -749,15 +935,55 @@ namespace Abyss.Logic.Battle
             if (_actionDealtDamage) GainTp(actor, TpOnDeal);
             foreach (var t in _actionDamaged) GainTp(t, TpOnTake);
             CheckPhases();
+            UpdateChain(actor, action);
             Emit(new ActionEndEvent { ActorId = actor.Id, Kind = action.Kind });
         }
+
+        /// <summary>
+        /// Once per party action, after it resolved: a weakness hit advances the chain by one (capped); a damaging action
+        /// (attack, damage skill/ultimate, damage item) without one resets it. Other actions and enemy turns leave it alone.
+        /// </summary>
+        void UpdateChain(BattleUnit actor, BattleAction action)
+        {
+            if (actor.Side != BattleSide.Party) return;
+            if (_actionWeakHit) SetChain(Math.Min(ChainMax, _chain + 1));
+            else if (IsDamagingAction(action)) SetChain(0);
+        }
+
+        static bool IsDamagingAction(BattleAction action)
+        {
+            switch (action.Kind)
+            {
+                case ActionKind.Attack: return true;
+                case ActionKind.Skill: return action.Skill != null && SkillEffect(action.Skill) == ActionEffect.Damage;
+                case ActionKind.Item: return EffectOf(action) == ActionEffect.DamageFixed;
+                default: return false;
+            }
+        }
+
+        void SetChain(int value)
+        {
+            if (value == _chain) return;
+            int old = _chain;
+            _chain = value;
+            Emit(new ChainChangedEvent(old, value));
+        }
+
+        /// <summary>Weakness hits of a party action on an enemy carry the pre-action chain bonus.</summary>
+        double ChainBonus(BattleUnit actor, BattleUnit target, int element)
+            => actor.Side == BattleSide.Party && target.Side == BattleSide.Enemy && _actionChain > 0 && target.IsWeakTo(element)
+                ? ChainFactor(_actionChain) : 1.0;
+
+        /// <summary>One damage roll with the pre-action chain bonus folded into weakness hits (shared formula, same draws).</summary>
+        HitRoll RollDamage(BattleUnit actor, BattleUnit target, SkillDef skill, double powerScale = 1.0)
+            => DamageFormula.Damage(actor, target, skill, _rng, ChainBonus(actor, target, DamageFormula.ElementOf(actor, skill)), powerScale);
 
         void EmitActionStart(BattleUnit actor, BattleAction action)
         {
             var ev = new ActionStartEvent
             {
                 ActorId = actor.Id, Kind = action.Kind, TargetIds = new List<string>(action.TargetIds),
-                Scope = (Scope)action.Scope, HitCount = 1,
+                Scope = (Scope)action.Scope, HitCount = 1, IsChargeAnnounce = action.IsChargeAnnounce, IsChargeRelease = action.IsChargeRelease,
             };
             switch (action.Kind)
             {
@@ -855,7 +1081,7 @@ namespace Abyss.Logic.Battle
                 for (int h = 0; h < hitsPerTarget; h++)
                 {
                     if (!target.IsAlive) break;
-                    var roll = DamageFormula.Damage(actor, target, skill, _rng);
+                    var roll = RollDamage(actor, target, skill, action.PowerScale);
                     if (roll.Missed)
                     {
                         Emit(new MissEvent { TargetId = target.Id, SourceId = actor.Id, HitIndex = NextHitIndex(target) });
@@ -891,16 +1117,13 @@ namespace Abyss.Logic.Battle
         void ResolveFixedDamage(BattleUnit actor, BattleAction action)
         {
             var item = action.Item;
-            int baseAmount = item.Value;
-            if (baseAmount <= 0) baseAmount = Gd.RoundI(Math.Max(0.0, Gd.D(item.Power)) * 100.0);
             int element = (int)item.Element;
             foreach (var target in TargetsOf(action))
             {
                 if (!target.IsAlive) continue;
                 double multiplier = DamageFormula.ElementMultiplier(target, element);
-                double amount = baseAmount * multiplier;
-                if (target.Broken) amount *= DamageFormula.BrokenMultiplier;
-                DealHit(actor, target, Math.Max(1, Gd.RoundI(amount)), false, DamageType.Item, element, multiplier);
+                double amountMultiplier = multiplier * ChainBonus(actor, target, element);
+                DealHit(actor, target, DamageFormula.FixedItemAmount(item, amountMultiplier, target.Broken), false, DamageType.Item, element, multiplier);
             }
         }
 
@@ -924,8 +1147,10 @@ namespace Abyss.Logic.Battle
                 if (!_actionDamaged.Contains(target)) _actionDamaged.Add(target);
             }
             if (multiplier < 1.0 && target.Side == BattleSide.Enemy) _resistSeen.Add(WeaknessKey(target.DefId, element));
+            if (multiplier == 1.0 && element > 0 && target.Side == BattleSide.Enemy) _neutralSeen.Add(WeaknessKey(target.DefId, element));
             if (multiplier > 1.0)
             {
+                if (target.Side == BattleSide.Enemy && actor.Side == BattleSide.Party) _actionWeakHit = true; // absorbed / 0-damage hits count
                 if (target.Side == BattleSide.Enemy) DiscoverWeakness(target, element);
                 if (target.IsAlive && target.MaxShield > 0 && !target.Broken)
                 {
@@ -935,7 +1160,10 @@ namespace Abyss.Logic.Battle
                     {
                         target.Broken = true;
                         Emit(new BreakEvent { UnitId = target.Id });
-                        foreach (var ally in _party) GainTp(ally, TpOnBreak);
+                        CancelCharge(target, ChargeCancelReason.Break);
+                        // A party action whose pre-action chain was 3+ adds TpOnChainBreak per enemy broken.
+                        int breakTp = TpOnBreak + (actor.Side == BattleSide.Party && _actionChain >= ChainBreakFrom ? TpOnChainBreak : 0);
+                        foreach (var ally in _party) GainTp(ally, breakTp);
                         Msg("break", target.DisplayName);
                     }
                 }
@@ -954,6 +1182,8 @@ namespace Abyss.Logic.Battle
 
         void OnUnitDown(BattleUnit unit)
         {
+            CancelCharge(unit, ChargeCancelReason.Removed);
+            ClearIntents(unit);
             Emit(new UnitDownEvent { UnitId = unit.Id });
             unit.Guarding = false;
             foreach (var id in unit.ClearStatuses())
@@ -1055,16 +1285,44 @@ namespace Abyss.Logic.Battle
             ApplyPayloadStatuses(actor, targets, action.Skill, true);
         }
 
+        /// <summary>
+        /// An item's status always lands, except crowd control on a boss: chance <see cref="BossCcChanceScale"/>, halved again
+        /// by cc_resist (one roll, none at 0), and a landing counts toward the boss's phase total.
+        /// </summary>
         void ApplyItemStatus(BattleUnit actor, List<BattleUnit> targets, ItemDef item)
         {
             if (item == null || string.IsNullOrEmpty(item.StatusId)) return;
             if (!_db.Statuses.TryGetValue(item.StatusId, out var def)) return;
-            foreach (var t in targets) ApplyStatusTo(actor, t, def);
+            foreach (var t in targets)
+            {
+                if (!BossCcLimited(t, def, actor))
+                {
+                    ApplyStatusTo(actor, t, def);
+                    continue;
+                }
+                double chance = BossCcChanceScale(t.PhaseCcSuccesses);
+                if (t.HasGimmick("cc_resist")) chance *= 0.5;
+                if (chance <= 0.0 || (chance < 1.0 && !(_rng.Randf() < chance))) continue;
+                if (ApplyStatusTo(actor, t, def)) t.PhaseCcSuccesses++;
+            }
+        }
+
+        /// <summary>
+        /// True for a crowd-control status (stun/sleep/freeze) aimed at a living boss that is not explicitly immune to it:
+        /// its chance is scaled by the CC that already landed this phase. Immune targets keep the plain path (immune popup).
+        /// </summary>
+        bool BossCcLimited(BattleUnit target, StatusDef def, BattleUnit actor)
+        {
+            if (target == null || !target.IsAlive || target.Side != BattleSide.Enemy || !target.IsBoss) return false;
+            if (!BattleUnit.IsCrowdControl(def.EffectType)) return false;
+            return !target.IsImmuneTo(BattleStatus.FromDef(def, actor != null ? actor.Id : ""));
         }
 
         /// <summary>
         /// status_effect + extra_statuses of a skill: one roll per target for all entries. Status-only
-        /// kinds treat status_chance 0 as "always"; cc_resist halves STUN/SLEEP/FREEZE chances.
+        /// kinds treat status_chance 0 as "always"; cc_resist halves STUN/SLEEP/FREEZE chances. On a boss, CC chances are
+        /// further scaled by <see cref="BossCcChanceScale"/> of the CC landed this phase (read once per target); any CC
+        /// landing from the payload (refresh included) counts once.
         /// </summary>
         void ApplyPayloadStatuses(BattleUnit actor, List<BattleUnit> targets, SkillDef skill, bool statusKind)
         {
@@ -1079,25 +1337,31 @@ namespace Abyss.Logic.Battle
             {
                 if (!target.IsAlive) continue;
                 double roll = _rng.Randf();
+                double bossScale = BossCcChanceScale(target.PhaseCcSuccesses);
+                bool bossCcLanded = false;
                 foreach (var entry in entries)
                 {
                     if (entry == null || !_db.Statuses.TryGetValue(entry, out var def)) continue;
                     double landing = chance;
                     if (target.HasGimmick("cc_resist") && BattleUnit.IsCrowdControl(def.EffectType)) landing *= 0.5;
-                    if (roll < landing) ApplyStatusTo(actor, target, def);
+                    bool limited = BossCcLimited(target, def, actor);
+                    if (limited) landing *= bossScale;
+                    if (roll < landing && ApplyStatusTo(actor, target, def) && limited) bossCcLanded = true;
                 }
+                if (bossCcLanded) target.PhaseCcSuccesses++;
             }
         }
 
-        void ApplyStatusTo(BattleUnit actor, BattleUnit target, StatusDef def)
+        /// <summary>Applies or refreshes a status; false when the target is down or immune.</summary>
+        bool ApplyStatusTo(BattleUnit actor, BattleUnit target, StatusDef def)
         {
-            if (!target.IsAlive) return;
+            if (!target.IsAlive) return false;
             var effect = BattleStatus.FromDef(def, actor != null ? actor.Id : "");
             if (target.IsImmuneTo(effect))
             {
                 Emit(new StatusImmuneEvent { UnitId = target.Id, StatusId = effect.Id });
                 Msg("immune", target.DisplayName, effect.DisplayName);
-                return;
+                return false;
             }
             bool refreshed = target.ApplyStatus(effect);
             BattleStatus current = effect;
@@ -1107,6 +1371,7 @@ namespace Abyss.Logic.Battle
                 UnitId = target.Id, StatusId = current.Id, DisplayName = current.DisplayName, EffectType = current.EffectType,
                 Turns = current.TurnsRemaining, Beneficial = current.IsBeneficial, Refreshed = refreshed, SourceId = current.SourceId,
             });
+            return true;
         }
 
         // --- Phases, enrage, summons --------------------------------------------------------------
@@ -1143,6 +1408,7 @@ namespace Abyss.Logic.Battle
 
         void ActivatePhase(BattleUnit enemy, int index, BossPhase row)
         {
+            enemy.PhaseCcSuccesses = 0; // a new phase restores the boss's CC resistance
             if (row.Skills != null)
             {
                 var resolved = new List<SkillDef>();
@@ -1159,6 +1425,7 @@ namespace Abyss.Logic.Battle
                 }
             }
             enemy.ActionsPerTurn = Gd.Clamp(row.ActionsPerTurn, 1, 6);
+            DropExtraIntents(enemy);
             Emit(new BossPhaseEvent { UnitId = enemy.Id, PhaseIndex = index, Line = row.Line ?? "", ActionsPerTurn = enemy.ActionsPerTurn });
             if (row.Summon != null && row.Summon.Count > 0) Summon(enemy, row.Summon);
         }
@@ -1173,11 +1440,53 @@ namespace Abyss.Logic.Battle
                 var unit = BattleUnit.FromEnemy(_db, def, EnemyStats.Build(def, _setup.Difficulty, _enemyPower), _enemies.Count);
                 unit.Summoned = true;
                 unit.SummonerId = summoner.Id;
+                AssignSummonLabel(unit);
                 _enemies.Add(unit);
                 Register(unit, null);
                 Emit(new SummonEvent { SummonerId = summoner.Id, Unit = unit.Snapshot(KnownWeaknessesOf(unit)) });
             }
         }
+
+        // --- Display labels ----------------------------------------------------------------------------
+
+        /// <summary>Same-named starting enemies get display-only letters A, B, C... in formation order.</summary>
+        void AssignInitialLabels()
+        {
+            var groups = new Dictionary<string, List<BattleUnit>>();
+            var order = new List<string>();
+            foreach (var e in _enemies)
+            {
+                if (!groups.TryGetValue(e.BaseName, out var list)) { groups[e.BaseName] = list = new List<BattleUnit>(); order.Add(e.BaseName); }
+                list.Add(e);
+            }
+            foreach (var name in order)
+            {
+                var list = groups[name];
+                if (list.Count < 2) continue;
+                for (int i = 0; i < list.Count; i++) list[i].SetLabelSuffix(LabelLetter(i));
+            }
+        }
+
+        /// <summary>
+        /// A summon sharing its name with any enemy already in this battle (standing or not) takes the first letter
+        /// nobody used yet; an unlettered namesake counts as "A". Existing units are never relabelled.
+        /// </summary>
+        void AssignSummonLabel(BattleUnit unit)
+        {
+            var used = new HashSet<string>();
+            foreach (var e in _enemies)
+                if (e != unit && e.BaseName == unit.BaseName) used.Add(e.LabelSuffix.Length == 0 ? LabelLetter(0) : e.LabelSuffix);
+            if (used.Count == 0) return;
+            for (int i = 0; ; i++)
+            {
+                string letter = LabelLetter(i);
+                if (!used.Contains(letter)) { unit.SetLabelSuffix(letter); return; }
+            }
+        }
+
+        /// <summary>0 -> "A", 25 -> "Z", 26 -> "AA" ...</summary>
+        internal static string LabelLetter(int index)
+            => index < 26 ? ((char)('A' + index)).ToString() : LabelLetter(index / 26 - 1) + (char)('A' + index % 26);
 
         void Register(BattleUnit unit, Dictionary<string, int> initialStatuses)
         {
@@ -1240,13 +1549,8 @@ namespace Abyss.Logic.Battle
             _active = false;
             _awaiting = false;
             if (result == BattleResult.Victory) RollRewards();
-            foreach (var m in _party)
-            {
-                if (m.Tp == 0) continue;
-                int before = m.Tp;
-                m.Tp = 0;
-                Emit(new TpChangeEvent { UnitId = m.Id, Tp = 0, MaxTp = m.MaxTp, Delta = -before });
-            }
+            foreach (var enemy in _enemies) ClearIntents(enemy);
+            SetChain(0); // the chain is battle-local; TP is kept and reported in the outcome (any result)
             _outcome = BuildOutcome(result);
             Emit(new BattleEndEvent { Result = result, Outcome = _outcome });
         }
@@ -1292,6 +1596,7 @@ namespace Abyss.Logic.Battle
             {
                 o.FinalHp[h.DefId] = h.Hp;
                 o.FinalMp[h.DefId] = h.Mp;
+                o.FinalTp[h.DefId] = h.IsAlive ? Gd.Clamp(h.Tp, 0, h.MaxTp) : 0;
                 var st = new Dictionary<string, int>();
                 if (h.IsAlive)
                     foreach (var s in h.Statuses) if (s.TurnsRemaining > 0) st[s.Id] = s.TurnsRemaining;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Abyss.Logic;
 using Abyss.Logic.Battle;
+using Abyss.Logic.Game;
 using Abyss.Presentation.Audio;
 using Abyss.Presentation.Vfx;
 using Abyss.Runtime.Art;
@@ -65,7 +66,7 @@ namespace Abyss.Runtime.Battle
         float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
-        int _round, _wave, _eventIndex;
+        int _round, _wave, _eventIndex, _displayChain;
         string _active, _strikeClip;
         IReadOnlyList<BattleEvent> _events;
         bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced, _perHitProjectile, _flashed;
@@ -96,7 +97,7 @@ namespace Abyss.Runtime.Battle
             // Created before the HUD so the ultimate dim sits over the arena but under the cut-in and gauges.
             _dim = UIFactory.Fill(app.UI.Content, new Color(0, 0, 0, 0), "Battle dim");
             _hud = gameObject.AddComponent<BattleHUD>();
-            _hud.Initialize(app.UI.Content, _camera, app.DB, Submit, ToggleAuto, PreviewTarget);
+            _hud.Initialize(app.UI.Content, _camera, app.DB, Submit, ToggleAuto, PreviewTarget, () => _app != null && _app.Paused);
             _hud.EnableSpeedToggle(SpeedLabel, ToggleSpeed);
             _flash = UIFactory.Fill(app.UI.Content, new Color(1, 1, 1, 0), "Battle flash");
             Engine = new BattleEngine(app.DB, setup);
@@ -109,11 +110,17 @@ namespace Abyss.Runtime.Battle
             StartCoroutine(Replay(Engine.Start(), true));
         }
 
-        public void Submit(BattleCommand command)
+        /// <summary>
+        /// Starts the replay for a player command. False when the view is not accepting input (paused, already
+        /// replaying, finished or not awaiting a command); the HUD then keeps its menu open. True means this view owns
+        /// the replay, including an engine rejection, which is replayed and then reopens the commands.
+        /// </summary>
+        public bool Submit(BattleCommand command)
         {
-            if (_finished || Playing || _app.Paused || Engine.State != BattleEngineState.AwaitingCommand) return;
+            if (_finished || Playing || _app.Paused || Engine.State != BattleEngineState.AwaitingCommand) return false;
             _hud.Lock(); Playing = true;
             StartCoroutine(Replay(Engine.Submit(command), false));
+            return true;
         }
         public void SetAuto(bool enabled)
         {
@@ -191,6 +198,14 @@ namespace Abyss.Runtime.Battle
                     Popup(e.UnitId, e.Broken ? "BREAK · 행동 불가" : "행동 불가", new Color(1, .7f, .25f));
                     yield return Wait(.35f); break;
                 case ActionStartEvent e:
+                    if (e.IsChargeAnnounce)
+                    {
+                        // Capture announcement scope for ChargeStarted, but never stage an attack or reuse a stale take.
+                        _action = e; _presentation = null; _actionElapsed = _actionLength = 0;
+                        _hitCounts.Clear(); _hitTotals.Clear(); _impactTargets.Clear();
+                        _hud.Log((Find(e.ActorId, out var announcer) ? announcer.Name + " · " : "") + e.DisplayName + " · 준비 중!");
+                        break;
+                    }
                     yield return StartAction(e); break;
                 case ActionEndEvent e:
                     yield return EndAction(e); break;
@@ -251,7 +266,10 @@ namespace Abyss.Runtime.Battle
                 case BreakEvent e:
                     if (Find(e.UnitId, out var broken))
                     {
-                        broken.Broken = true; Sync(broken); Popup(e.UnitId, "BREAK!", new Color(1, .75f, .2f), 64f);
+                        broken.Broken = true; Sync(broken);
+                        // A pending charge gets one bounded combined interruption call-out at cancellation.
+                        // Ordinary BREAK retains its world popup; never inspect future engine state here.
+                        if (broken.DisplayCharge == null) Popup(e.UnitId, "BREAK!", new Color(1, .75f, .2f), 64f);
                         Effect("break", HitPoint(broken), new Color(1, .65f, .15f), 1.4f * ImpactScale(broken) / 1.2f, 0, null, broken.Home.y);
                         PlaySound("sfx_critical");
                         if (!Reduced) { AddTrauma(.5f); _fovPunch = Mathf.Min(_fovPunch, -3f); ScreenFlash(new Color(1, .7f, .25f), .35f); }
@@ -265,7 +283,7 @@ namespace Abyss.Runtime.Battle
                 case UnitDownEvent e:
                     if (Find(e.UnitId, out var down))
                     {
-                        down.Alive = false; down.Hp = 0; down.Guarding = false; Sync(down);
+                        down.Alive = false; down.Hp = 0; down.Guarding = false; down.ClearWarnings(); Sync(down);
                         down.Model.Play("Die", .075f); PlaySound("sfx_death");
                         yield return Wait(Mathf.Max(.35f, down.Model.Anim.Length("Die")));
                         if (down.Side == BattleSide.Enemy) yield return down.Model.DissolveOut(Reduced ? .15f : .45f);
@@ -339,6 +357,38 @@ namespace Abyss.Runtime.Battle
                         foreach (var fleeing in _units.Values) if (fleeing.Side == BattleSide.Party && fleeing.Alive)
                         { fleeing.Model.transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0); fleeing.Model.Play("Run"); }
                     yield return Wait(.5f); break;
+                case EnemyIntentPlannedEvent e:
+                    if (Find(e.EnemyUnitId, out var planner)) { planner.Plan(e.Intent); _hud.Sync(planner); }
+                    break;
+                case IntentClearedEvent e:
+                    if (Find(e.EnemyUnitId, out var cleared)) { cleared.ClearIntent(e.Slot); _hud.Sync(cleared); }
+                    break;
+                case ChargeStartedEvent e:
+                    if (Find(e.EnemyUnitId, out var charger))
+                    {
+                        charger.StartCharge(e.SkillId, e.TargetUnitId, _round, _action != null && _action.ActorId == e.EnemyUnitId ? _action.Scope : Scope.Single);
+                        _hud.Sync(charger); Popup(e.EnemyUnitId, "준비 중!", UITheme.Warning);
+                        yield return Wait(.35f);
+                    }
+                    break;
+                case ChargeReleasedEvent e:
+                    if (Find(e.EnemyUnitId, out var released)) { released.ClearCharge(); _hud.Sync(released); }
+                    break;
+                case ChargeCancelledEvent e:
+                    if (Find(e.EnemyUnitId, out var cancelled))
+                    {
+                        if (e.Reason == ChargeCancelReason.Removed) cancelled.ClearWarnings(); else cancelled.CancelCharge();
+                        _hud.Sync(cancelled);
+                    }
+                    if (e.Reason == ChargeCancelReason.Break)
+                    {
+                        _hud.HideSkillBanner(); _hud.Log("BREAK! · 저지!");
+                        yield return CeremonyWait(.5f);
+                    }
+                    break;
+                case ChainChangedEvent e:
+                    _displayChain = e.NewValue; _hud.SetChain(_displayChain);
+                    break;
                 case BattleEndEvent e:
                     yield return Finish(e.Outcome); break;
                 default:
@@ -614,6 +664,8 @@ namespace Abyss.Runtime.Battle
                     case MissEvent next: return next.SourceId == _action.ActorId && !_waveTargets.Contains(next.TargetId);
                     case MpChangeEvent _: case TpChangeEvent _: case ShieldChangeEvent _: case StatusRemovedEvent _:
                     case MessageEvent _: case WeaknessDiscoveredEvent _:
+                    case EnemyIntentPlannedEvent _: case IntentClearedEvent _: case ChargeStartedEvent _: case ChargeReleasedEvent _:
+                    case ChargeCancelledEvent _: case ChainChangedEvent _:
                         continue;
                     default: return false;
                 }
@@ -694,7 +746,8 @@ namespace Abyss.Runtime.Battle
             _cameraRate = 2.4f; Establishing(false);
             _flashAlpha = .6f; _flash.color = new Color(1, 1, 1, _flashAlpha);
             var names = new List<string>();
-            foreach (var unit in _units.Values) if (unit.Side == BattleSide.Enemy && !names.Contains(unit.Name)) names.Add(unit.Name);
+            // The encounter call-out names each kind once (display letters are for telling units apart later).
+            foreach (var unit in _units.Values) if (unit.Side == BattleSide.Enemy && !names.Contains(unit.BaseName)) names.Add(unit.BaseName);
             bool boss = _setup.Kind == BattleKind.Boss, foe = _setup.Kind == BattleKind.Foe;
             _hud.Announce(boss ? "BOSS BATTLE" : foe ? "F.O.E" : "ENCOUNTER", string.Join(" · ", names) + (boss || foe ? " 출현!" : " 이(가) 나타났다!"),
                 boss || foe ? UITheme.Danger : UITheme.Dawn, .8f);
@@ -723,7 +776,12 @@ namespace Abyss.Runtime.Battle
         IEnumerator Finish(BattleOutcome outcome)
         {
             _hud.Lock(); Establishing(false);
-            if (!Reduced) StageOutcome(outcome.Result);
+            // Resolve exactly once and use that cached report for both routing and the result UI. Save before
+            // any ceremony/toast/acknowledgement; never compute eligibility by applying the outcome again.
+            var resolution = _app.Dungeon.ResolveBattle(outcome);
+            _app.Save();
+            bool fast = PartyStats.CanUseFastResults(_app.DB, _setup, outcome, resolution.Report);
+            if (!Reduced && !fast) StageOutcome(outcome.Result);
             foreach (var unit in _units.Values)
                 if (unit.Side == BattleSide.Party && unit.Alive)
                     unit.Model.Play(outcome.Result == BattleResult.Victory ? "Victory" : outcome.Result == BattleResult.Fled ? "Run" : "Idle");
@@ -744,19 +802,25 @@ namespace Abyss.Runtime.Battle
                     yield return null;
                 }
             }
+            else if (fast) yield return CeremonyWait(.8f);
             else yield return Wait(Reduced ? .6f : 2.1f);
             _cameraRate = 7f;
-            // Commit every outcome before showing acknowledgement UI: closing the player must not replay this battle.
-            var resolution = _app.Dungeon.ResolveBattle(outcome);
-            _app.Save();
             bool acknowledged = false;
-            _hud.Rewards(outcome, resolution.Report, () => acknowledged = true);
+            Action acknowledge = () => { if (!acknowledged) acknowledged = true; };
+            if (fast) _hud.FastRewards(resolution.Report, acknowledge);
+            else _hud.Rewards(outcome, resolution.Report, acknowledge);
             while (!acknowledged) yield return null;
             yield return Wait(.12f);
             _finished = true; Playing = false;
             Restore();
             var callback = _completed; _completed = null;
             callback?.Invoke(outcome);
+        }
+        IEnumerator CeremonyWait(float seconds)
+        {
+            float elapsed = 0;
+            while (elapsed < seconds || _app.Paused)
+            { if (!_app.Paused) elapsed += Time.unscaledDeltaTime; yield return null; }
         }
         /// <summary>Victory: the camera swings round in front of the party for their poses. Defeat: it lifts away and the arena dims.</summary>
         void StageOutcome(BattleResult result)
@@ -897,7 +961,6 @@ namespace Abyss.Runtime.Battle
         void LateUpdate()
         {
             if (!_initialized || _restored || _camera == null) return;
-            _hud.Paused = _app.Paused;
             foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed);
             if (_vfx != null) _vfx.TimeScale = _app.Paused ? 0 : Speed;
             if (_app.Paused) return;

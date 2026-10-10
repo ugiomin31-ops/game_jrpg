@@ -328,6 +328,7 @@ namespace Abyss.Logic.Game
                 HpRegen = stats.HpRegen,
                 MpRegen = stats.MpRegen,
                 TpStart = stats.TpStart,
+                Tp = hero.Hp > 0 ? Math.Max(0, Math.Min(HeroState.MaxTp, hero.Tp)) : 0,
             };
             if (hero.Hp > 0)
                 foreach (var kv in hero.Statuses) if (kv.Value > 0) spec.Statuses[kv.Key] = kv.Value;
@@ -357,7 +358,10 @@ namespace Abyss.Logic.Game
             return setup;
         }
 
-        /// <summary>Full HP/MP, revives KO'd heroes, clears statuses (inn, spring, defeat recovery).</summary>
+        /// <summary>
+        /// Full HP/MP, revives KO'd heroes, clears statuses (inn, spring, defeat recovery). Carried TP is kept: only the town
+        /// routes and a successful inn rest clear it (<see cref="GameState.ClearCarriedTp"/>).
+        /// </summary>
         public static void RestoreParty(GameDB db, GameState state)
         {
             foreach (var hero in state.Party)
@@ -430,7 +434,7 @@ namespace Abyss.Logic.Game
         }
 
         /// <summary>
-        /// Applies a finished battle to the campaign (any result): vitals/statuses, consumed items, bestiary
+        /// Applies a finished battle to the campaign (any result): vitals/statuses/carried TP, consumed items, bestiary
         /// (seen, kills, weaknesses). On victory also: win count, gold, drops, XP to every hero still standing
         /// (KO'd heroes get none; <see cref="BattleOutcome.Experience"/> is already difficulty/FOE scaled), and
         /// kill/foe/boss quest progress. Map consequences (FOE removal, cleared cells, boss flags) are
@@ -444,6 +448,8 @@ namespace Abyss.Logic.Game
                 var stats = EffectiveStats(db, hero);
                 if (outcome.FinalHp.TryGetValue(hero.Id, out int hp)) hero.Hp = Math.Max(0, Math.Min(stats.MaxHp, hp));
                 if (outcome.FinalMp.TryGetValue(hero.Id, out int mp)) hero.Mp = Math.Max(0, Math.Min(stats.MaxMp, mp));
+                if (outcome.FinalTp != null && outcome.FinalTp.TryGetValue(hero.Id, out int tp)) hero.Tp = Math.Max(0, Math.Min(HeroState.MaxTp, tp));
+                if (hero.Hp <= 0) hero.Tp = 0;
                 hero.Statuses.Clear();
                 if (hero.Hp > 0 && outcome.FinalStatuses != null && outcome.FinalStatuses.TryGetValue(hero.Id, out var statuses))
                     foreach (var kv in statuses) if (kv.Value > 0 && !string.IsNullOrEmpty(kv.Key)) hero.Statuses[kv.Key] = kv.Value;
@@ -504,6 +510,47 @@ namespace Abyss.Logic.Game
             }
             QuestLog.Refresh(db, state, report.QuestUpdates);
             return report;
+        }
+
+        /// <summary>
+        /// Pure routing of an already-settled result. Never settles, rolls rewards, or inspects mutable campaign state.
+        /// Unknown enemies/positive drops fail closed to the full screen. Active means the encounter's party, not reserves.
+        /// </summary>
+        public static bool CanUseFastResults(GameDB db, BattleSetup setup, BattleOutcome outcome, BattleReport report)
+        {
+            if (db == null || setup == null || outcome == null || report == null || setup.Kind != BattleKind.Random
+                || outcome.Result != BattleResult.Victory || report.Result != BattleResult.Victory
+                || setup.Party == null || setup.Party.Count == 0 || setup.EnemyGroup == null || setup.EnemyGroup.Count == 0)
+                return false;
+            bool Ordinary(IEnumerable<string> ids)
+            {
+                if (ids == null) return true;
+                foreach (string id in ids)
+                    if (string.IsNullOrEmpty(id) || !db.Enemies.TryGetValue(id, out var enemy) || enemy.IsBoss || enemy.Rank == 1 || enemy.Rank == 2) return false;
+                return true;
+            }
+            bool CommonDrops(Dictionary<string, int> drops)
+            {
+                if (drops == null) return true;
+                foreach (var drop in drops)
+                {
+                    if (drop.Value <= 0) continue;
+                    if (string.IsNullOrEmpty(drop.Key)) return false;
+                    if (db.Items.TryGetValue(drop.Key, out var item)) { if (item.Rarity >= 1) return false; }
+                    else if (db.Equipment.TryGetValue(drop.Key, out var gear)) { if (gear.Rarity >= 1) return false; }
+                    else return false;
+                }
+                return true;
+            }
+            if (!Ordinary(setup.EnemyGroup) || !Ordinary(outcome.SeenEnemies) || !Ordinary(outcome.DefeatedEnemies)
+                || !CommonDrops(report.Drops) || !CommonDrops(outcome.Drops)
+                || (report.NewBestiaryEntries != null && report.NewBestiaryEntries.Count > 0)) return false;
+            if (report.LevelUps != null)
+                foreach (var level in report.LevelUps)
+                    if (level != null && level.NewLevel > level.OldLevel)
+                        foreach (var hero in setup.Party)
+                            if (hero != null && hero.HeroId == level.HeroId) return false;
+            return true;
         }
 
         /// <summary>Consumables offered in battle: not materials, seeds, key items or field-only items (camp tent).</summary>

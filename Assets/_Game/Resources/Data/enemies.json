@@ -6,10 +6,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 5,
-  "max_hp": 258,
+  "max_hp": 290,
   "max_mp": 0,
-  "attack": 28,
-  "magic": 24,
+  "attack": 36,
+  "magic": 31,
   "defense": 11,
   "resistance": 13,
   "speed": 23,
@@ -126,14 +126,13 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 45,
   "max_hp": 23285,
   "max_mp": 0,
-  "attack": 308,
-  "magic": 330,
+  "attack": 324,
+  "magic": 347,
   "defense": 95,
   "resistance": 107,
   "speed": 47,
@@ -233,6 +232,7 @@
    1.0,
    1.0
   ],
+  "charge_skill": "sk_soul_reap",
   "_file": "boss"
  },
  {
@@ -315,10 +315,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 41,
-  "max_hp": 2992,
+  "max_hp": 3325,
   "max_mp": 24,
-  "attack": 142,
-  "magic": 76,
+  "attack": 149,
+  "magic": 80,
   "defense": 105,
   "resistance": 65,
   "speed": 35,
@@ -1691,14 +1691,13 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 34,
-  "max_hp": 14888,
+  "max_hp": 17144,
   "max_mp": 60,
-  "attack": 170,
-  "magic": 164,
+  "attack": 181,
+  "magic": 175,
   "defense": 67,
   "resistance": 72,
   "speed": 39,
@@ -1785,6 +1784,7 @@
    1.0,
    1.0
   ],
+  "charge_skill": "sk_sun_judgment",
   "_file": "flame_sphinx"
  },
  {
@@ -1835,14 +1835,13 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 12,
-  "max_hp": 4386,
+  "max_hp": 4752,
   "max_mp": 40,
-  "attack": 171,
-  "magic": 198,
+  "attack": 209,
+  "magic": 242,
   "defense": 28,
   "resistance": 31,
   "speed": 17,
@@ -1923,6 +1922,7 @@
    1.0,
    1.0
   ],
+  "charge_skill": "strong_attack",
   "_file": "forest_guardian"
  },
  {
@@ -1985,7 +1985,6 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 23,
@@ -2071,6 +2070,7 @@
    1.0,
    1.0
   ],
+  "charge_skill": "sk_freezing_tide",
   "_file": "frost_kraken"
  },
  {
@@ -2153,10 +2153,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 39,
-  "max_hp": 1638,
+  "max_hp": 1820,
   "max_mp": 40,
-  "attack": 79,
-  "magic": 114,
+  "attack": 83,
+  "magic": 120,
   "defense": 40,
   "resistance": 110,
   "speed": 46,
@@ -2462,10 +2462,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 3,
-  "max_hp": 200,
+  "max_hp": 225,
   "max_mp": 8,
-  "attack": 24,
-  "magic": 12,
+  "attack": 28,
+  "magic": 14,
   "defense": 10,
   "resistance": 8,
   "speed": 20,
@@ -2758,10 +2758,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 4,
-  "max_hp": 210,
+  "max_hp": 236,
   "max_mp": 10,
-  "attack": 27,
-  "magic": 16,
+  "attack": 35,
+  "magic": 21,
   "defense": 10,
   "resistance": 10,
   "speed": 27,
@@ -2834,10 +2834,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 42,
-  "max_hp": 2014,
+  "max_hp": 2238,
   "max_mp": 80,
-  "attack": 76,
-  "magic": 151,
+  "attack": 80,
+  "magic": 159,
   "defense": 52,
   "resistance": 118,
   "speed": 42,
@@ -3831,10 +3831,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 40,
-  "max_hp": 2056,
+  "max_hp": 2285,
   "max_mp": 0,
-  "attack": 112,
-  "magic": 84,
+  "attack": 118,
+  "magic": 88,
   "defense": 89,
   "resistance": 58,
   "speed": 40,
@@ -3906,10 +3906,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 3,
-  "max_hp": 216,
+  "max_hp": 243,
   "max_mp": 0,
-  "attack": 22,
-  "magic": 19,
+  "attack": 26,
+  "magic": 22,
   "defense": 10,
   "resistance": 11,
   "speed": 12,
@@ -5032,10 +5032,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 43,
-  "max_hp": 2333,
+  "max_hp": 2592,
   "max_mp": 60,
-  "attack": 86,
-  "magic": 138,
+  "attack": 90,
+  "magic": 145,
   "defense": 98,
   "resistance": 84,
   "speed": 42,
@@ -5267,10 +5267,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 44,
-  "max_hp": 1946,
+  "max_hp": 2162,
   "max_mp": 12,
-  "attack": 141,
-  "magic": 110,
+  "attack": 148,
+  "magic": 116,
   "defense": 69,
   "resistance": 78,
   "speed": 67,
@@ -5422,10 +5422,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 45,
-  "max_hp": 2130,
+  "max_hp": 2343,
   "max_mp": 20,
-  "attack": 155,
-  "magic": 84,
+  "attack": 163,
+  "magic": 88,
   "defense": 92,
   "resistance": 72,
   "speed": 52,
@@ -5499,10 +5499,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 46,
-  "max_hp": 1794,
+  "max_hp": 1973,
   "max_mp": 40,
-  "attack": 140,
-  "magic": 112,
+  "attack": 147,
+  "magic": 118,
   "defense": 65,
   "resistance": 91,
   "speed": 73,
@@ -6058,10 +6058,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 50,
-  "max_hp": 2254,
+  "max_hp": 2479,
   "max_mp": 60,
-  "attack": 109,
-  "magic": 174,
+  "attack": 114,
+  "magic": 183,
   "defense": 57,
   "resistance": 157,
   "speed": 56,
@@ -6466,10 +6466,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 1,
-  "max_hp": 144,
+  "max_hp": 162,
   "max_mp": 10,
-  "attack": 18,
-  "magic": 15,
+  "attack": 21,
+  "magic": 18,
   "defense": 8,
   "resistance": 7,
   "speed": 10,
@@ -6542,10 +6542,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 6,
-  "max_hp": 290,
+  "max_hp": 326,
   "max_mp": 12,
-  "attack": 31,
-  "magic": 26,
+  "attack": 40,
+  "magic": 34,
   "defense": 12,
   "resistance": 15,
   "speed": 24,
@@ -7233,10 +7233,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 44,
-  "max_hp": 1990,
+  "max_hp": 2189,
   "max_mp": 40,
-  "attack": 132,
-  "magic": 125,
+  "attack": 139,
+  "magic": 131,
   "defense": 69,
   "resistance": 111,
   "speed": 37,
@@ -7309,10 +7309,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 48,
-  "max_hp": 1934,
+  "max_hp": 2127,
   "max_mp": 20,
-  "attack": 162,
-  "magic": 105,
+  "attack": 170,
+  "magic": 110,
   "defense": 67,
   "resistance": 97,
   "speed": 85,
@@ -7386,10 +7386,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 49,
-  "max_hp": 2174,
+  "max_hp": 2391,
   "max_mp": 40,
-  "attack": 106,
-  "magic": 154,
+  "attack": 111,
+  "magic": 162,
   "defense": 55,
   "resistance": 152,
   "speed": 55,
@@ -7462,7 +7462,7 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 58,
-  "max_hp": 3117,
+  "max_hp": 3472,
   "max_mp": 12,
   "attack": 203,
   "magic": 159,
@@ -7690,10 +7690,10 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 2,
-  "max_hp": 166,
+  "max_hp": 187,
   "max_mp": 10,
-  "attack": 21,
-  "magic": 11,
+  "attack": 24,
+  "magic": 13,
   "defense": 9,
   "resistance": 6,
   "speed": 19,
@@ -7842,7 +7842,7 @@
   "is_boss": false,
   "hit": 0.95,
   "level": 56,
-  "max_hp": 5597,
+  "max_hp": 6233,
   "max_mp": 14,
   "attack": 213,
   "magic": 115,
@@ -8945,7 +8945,7 @@
    1.0
   ],
   "model": "",
-  "max_hp": 2895,
+  "max_hp": 3224,
   "attack": 122,
   "magic": 206,
   "defense": 94,
@@ -9100,7 +9100,7 @@
    1.0
   ],
   "model": "",
-  "max_hp": 4440,
+  "max_hp": 4944,
   "attack": 220,
   "magic": 156,
   "defense": 124,
@@ -9179,7 +9179,7 @@
    1.0
   ],
   "model": "",
-  "max_hp": 3859,
+  "max_hp": 4297,
   "attack": 202,
   "magic": 139,
   "defense": 174,
@@ -9256,7 +9256,7 @@
    1.0
   ],
   "model": "",
-  "max_hp": 4314,
+  "max_hp": 4804,
   "attack": 193,
   "magic": 209,
   "defense": 131,
@@ -9335,7 +9335,7 @@
    1.0
   ],
   "model": "",
-  "max_hp": 4235,
+  "max_hp": 4716,
   "attack": 217,
   "magic": 205,
   "defense": 134,
@@ -9691,7 +9691,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 56,
@@ -9822,13 +9821,14 @@
    }
   ],
   "max_hp": 32624,
-  "attack": 350,
-  "magic": 329,
+  "attack": 379,
+  "magic": 356,
   "defense": 139,
   "resistance": 157,
   "speed": 59,
   "experience_reward": 24676,
   "gold_reward": 5190,
+  "charge_skill": "sk_lev_abyss_breath",
   "_file": "leviathan"
  },
  {
@@ -9838,7 +9838,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 67,
@@ -9985,13 +9984,14 @@
    }
   ],
   "max_hp": 43622,
-  "attack": 443,
-  "magic": 418,
+  "attack": 466,
+  "magic": 441,
   "defense": 198,
   "resistance": 225,
   "speed": 75,
   "experience_reward": 49903,
   "gold_reward": 6180,
+  "charge_skill": "sk_lord_annihilation",
   "_file": "abyss_lord"
  },
  {
@@ -10001,7 +10001,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 7,
@@ -10114,6 +10113,7 @@
     "chance": 0.5
    }
   ],
+  "charge_skill": "sk_crow_swarm",
   "_file": "subway_bat_lord"
  },
  {
@@ -10123,7 +10123,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 18,
@@ -10233,6 +10232,7 @@
     "chance": 0.5
    }
   ],
+  "charge_skill": "sk_titan_crash",
   "_file": "scrap_colossus"
  },
  {
@@ -10242,7 +10242,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 29,
@@ -10352,6 +10351,7 @@
     "chance": 0.5
    }
   ],
+  "charge_skill": "sk_e_crystal_spike",
   "_file": "crystal_cave_lord"
  },
  {
@@ -10361,7 +10361,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 40,
@@ -10440,9 +10439,9 @@
     "line": ""
    }
   ],
-  "max_hp": 16375,
-  "attack": 405,
-  "magic": 381,
+  "max_hp": 18602,
+  "attack": 449,
+  "magic": 422,
   "defense": 98,
   "resistance": 109,
   "speed": 42,
@@ -10474,6 +10473,7 @@
     "chance": 0.3
    }
   ],
+  "charge_skill": "sk_crow_swarm",
   "_file": "festival_pumpkin_king"
  },
  {
@@ -10483,7 +10483,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 51,
@@ -10596,6 +10595,7 @@
     "chance": 0.5
    }
   ],
+  "charge_skill": "sk_spirit_fire",
   "_file": "plague_lich"
  },
  {
@@ -10605,7 +10605,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 61,
@@ -10683,8 +10682,8 @@
    }
   ],
   "max_hp": 38688,
-  "attack": 508,
-  "magic": 507,
+  "attack": 563,
+  "magic": 561,
   "defense": 178,
   "resistance": 203,
   "speed": 66,
@@ -10716,6 +10715,7 @@
     "chance": 0.5
    }
   ],
+  "charge_skill": "sk_soul_reap",
   "_file": "abyss_herald"
  },
  {
@@ -10787,14 +10787,13 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 70,
   "max_hp": 121462,
   "max_mp": 40,
-  "attack": 887,
-  "magic": 1074,
+  "attack": 979,
+  "magic": 1186,
   "defense": 174,
   "resistance": 223,
   "speed": 52,
@@ -10862,6 +10861,7 @@
    1.0
   ],
   "model": "forest_guardian",
+  "charge_skill": "sk_ex_ancient_wrath",
   "_file": "forest_guardian_ex"
  },
  {
@@ -10928,7 +10928,6 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 71,
@@ -11001,6 +11000,7 @@
    1.0
   ],
   "model": "frost_kraken",
+  "charge_skill": "sk_ex_abyss_tide",
   "_file": "frost_kraken_ex"
  },
  {
@@ -11071,7 +11071,6 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 72,
@@ -11148,6 +11147,7 @@
    1.0
   ],
   "model": "flame_sphinx",
+  "charge_skill": "sk_sun_judgment",
   "_file": "flame_sphinx_ex"
  },
  {
@@ -11223,7 +11223,6 @@
    }
   ],
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 73,
@@ -11297,6 +11296,7 @@
    1.0
   ],
   "model": "boss",
+  "charge_skill": "sk_ex_requiem",
   "_file": "boss_ex"
  },
  {
@@ -11306,7 +11306,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 73,
@@ -11437,6 +11436,7 @@
   "speed": 73,
   "experience_reward": 26134,
   "gold_reward": 6720,
+  "charge_skill": "sk_lev_abyss_breath",
   "_file": "leviathan_ex"
  },
  {
@@ -11446,7 +11446,6 @@
   "is_boss": true,
   "hit": 0.95,
   "gimmicks": [
-   "cc_immune",
    "dot_resist"
   ],
   "level": 74,
@@ -11588,6 +11587,7 @@
   "speed": 81,
   "experience_reward": 32962,
   "gold_reward": 6810,
+  "charge_skill": "sk_ex_true_void",
   "_file": "abyss_lord_ex"
  }
 ]

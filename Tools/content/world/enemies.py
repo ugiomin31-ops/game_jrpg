@@ -130,7 +130,8 @@ EXTRA_DROPS = {
 REPLACE_DROPS = {
     'boss': {'sword_dawn': 'sword_runic', 'staff_starlight': 'staff_bone', 'bow_star': 'bow_wraith', 'mace_dawn': 'mace_requiem'},
 }
-RENAME = {'boss': '심연의 전령 모르데인'}
+RENAME = {'boss': '심연의 전령 모르데인', 'elite_sand_golem': '철광 거인',
+          'slime': '점액 슬라임', 'scrap_golem': '고철 로봇', 'bandage_ghost': '붕대 미라'}
 
 
 def _ratios(row, level):
@@ -191,6 +192,17 @@ BOSS_EXP = {'forest_guardian': 30, 'frost_kraken': 32, 'flame_sphinx': 34, 'boss
             'subway_bat_lord': 30, 'scrap_colossus': 32, 'crystal_cave_lord': 34, 'festival_pumpkin_king': 36,
             'plague_lich': 38, 'abyss_herald': 40}
 BOSS_GOLD = 25
+
+# O3: boss-owned prepared payloads. Shared skills (including non-boss users) stay byte-identical.
+CHARGE_SKILLS = {
+    'boss': 'sk_soul_reap', 'flame_sphinx': 'sk_sun_judgment', 'forest_guardian': 'strong_attack',
+    'frost_kraken': 'sk_freezing_tide', 'leviathan': 'sk_lev_abyss_breath', 'abyss_lord': 'sk_lord_annihilation',
+    'subway_bat_lord': 'sk_crow_swarm', 'scrap_colossus': 'sk_titan_crash', 'crystal_cave_lord': 'sk_e_crystal_spike',
+    'festival_pumpkin_king': 'sk_crow_swarm', 'plague_lich': 'sk_spirit_fire', 'abyss_herald': 'sk_soul_reap',
+    'forest_guardian_ex': 'sk_ex_ancient_wrath', 'frost_kraken_ex': 'sk_ex_abyss_tide',
+    'flame_sphinx_ex': 'sk_sun_judgment', 'boss_ex': 'sk_ex_requiem',
+    'leviathan_ex': 'sk_lev_abyss_breath', 'abyss_lord_ex': 'sk_ex_true_void',
+}
 
 
 # ------------------------------------------------------------------ palette variants
@@ -737,14 +749,26 @@ def build_superbosses(rows, spec):
 # Battle-length tuning from the campaign simulation (Tools/LogicTests/CampaignBalanceTests): normal monsters get
 # more HP so a random fight lasts 3-5 rounds; elites a little; bosses per row (HP multiplier, ATK/MAG multiplier).
 # Per zone (the old chapter values of the zones that took their place).
-NORMAL_HP = {1: 2.0, 2: 2.0, 3: 2.45, 4: 2.45, 5: 2.0, 6: 2.0, 7: 2.25, 8: 2.25, 9: 2.0, 10: 2.0, 11: 2.2, 12: 2.2, 13: 1.9}
+NORMAL_HP = {1: 2.25, 2: 2.0, 3: 2.45, 4: 2.45, 5: 2.0, 6: 2.0, 7: 2.25, 8: 2.5, 9: 2.2, 10: 2.0, 11: 2.45, 12: 2.2, 13: 1.9}
+# O9 cold-start resource pressure, applied AFTER XP/gold/drop construction so progression is unchanged.
+# Actor stats only: no shared player/enemy skill, formula, AUTO or encounter-schedule modifications.
+NORMAL_OFF = {1: 1.3, 8: 1.05, 9: 1.05}
 ELITE_HP = 1.25
+# Selected starter final offense: baseline post-G ATK/MAG x .90, Python nearest-even
+# rounding, clamped to at least one. Canonical assignments after ordinary tuning:
+# no compounding across complete builds, no variant inheritance, no reward changes.
+STARTER_FINAL_OFFENSE = {
+    'sewer_slime': (21, 18),
+    'sewer_rat': (24, 13),
+    'slime': (26, 22),
+    'horned_rabbit': (28, 14),
+}
 BOSS_TUNE = {
-    'subway_bat_lord': (1.0, 2.3), 'forest_guardian': (0.96, 1.8), 'scrap_colossus': (1.5, 1.85),
-    'frost_kraken': (1.5, 0.82), 'crystal_cave_lord': (1.4, 2.02), 'flame_sphinx': (1.65, 1.05),
-    'festival_pumpkin_king': (1.25, 1.85), 'boss': (1.316, 1.15), 'plague_lich': (1.2, 2.0),
-    'leviathan': (1.2, 0.95), 'abyss_herald': (1.3, 1.4), 'abyss_lord': (0.975, 0.8736),
-    'forest_guardian_ex': (2.5, 1.45), 'frost_kraken_ex': (1.425, 0.858), 'flame_sphinx_ex': (1.2, 0.99),
+    'subway_bat_lord': (1.0, 2.3), 'forest_guardian': (1.04, 2.2), 'scrap_colossus': (1.5, 1.85),
+    'frost_kraken': (1.5, 0.82), 'crystal_cave_lord': (1.4, 2.02), 'flame_sphinx': (1.9, 1.12),
+    'festival_pumpkin_king': (1.42, 2.05), 'boss': (1.316, 1.21), 'plague_lich': (1.2, 2.0),
+    'leviathan': (1.2, 1.03), 'abyss_herald': (1.3, 1.55), 'abyss_lord': (0.975, 0.92),
+    'forest_guardian_ex': (2.5, 1.6), 'frost_kraken_ex': (1.425, 0.858), 'flame_sphinx_ex': (1.2, 0.99),
     'boss_ex': (1.3, 0.84), 'leviathan_ex': (1.125, 0.94), 'abyss_lord_ex': (1.1385, 0.744),
 }
 
@@ -754,7 +778,8 @@ def tune(rows):
         if r['id'] in BOSS_TUNE:
             hp, off = BOSS_TUNE[r['id']]
         elif r['rank'] == 0 and r.get('ai_profile') != 'runner' and r['id'] != 'golden_mimic':
-            hp, off = NORMAL_HP[ZONE_OF.get(r['id'], 13)], 1.0
+            zone = ZONE_OF.get(r['id'], 13)
+            hp, off = NORMAL_HP[zone], NORMAL_OFF.get(zone, 1.0)
         elif r['rank'] == 1:
             hp, off = ELITE_HP, 1.0
         else:
@@ -774,4 +799,18 @@ def build(spec):
     rows += zone_boss_rows(spec, rows)
     rows += build_superbosses(rows, spec)
     tune(rows)
+    for row in rows:
+        if row['id'] in STARTER_FINAL_OFFENSE:
+            assert row['rank'] == 0
+            row['attack'], row['magic'] = STARTER_FINAL_OFFENSE[row['id']]
+    for row in rows:
+        if row['id'] in RENAME:
+            row['display_name'] = RENAME[row['id']]
+        if row.get('is_boss'):
+            row['charge_skill'] = CHARGE_SKILLS[row['id']]
+            row['gimmicks'] = [g for g in row.get('gimmicks', []) if g != 'cc_immune']
+        else:
+            row.pop('charge_skill', None)
+    assert {r['id'] for r in rows if r.get('is_boss')} == set(CHARGE_SKILLS)
+    assert all(r['display_name'] == RENAME[r['id']] for r in rows if r['id'] in RENAME)
     return rows

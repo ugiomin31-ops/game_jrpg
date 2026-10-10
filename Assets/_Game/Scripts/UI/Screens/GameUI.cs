@@ -20,9 +20,9 @@ namespace Abyss.UI
                 || (app.Screen == GameScreen.Battle && app.Battle != null && !app.Battle.Playing));
         GameApp app;
         UIRoot root;
-        RectTransform hud, partyRow, padPanel;
+        RectTransform hud, townPanel, partyRow, padPanel;
         float hudFitWidth = -1f;
-        TextMeshProUGUI area, resources;
+        TextMeshProUGUI area, resources, townObjective, townReadiness, townIssues;
         DungeonMapGraphic minimap;
         readonly List<HeroHud> heroHud = new List<HeroHud>();
         sealed class HeroHud
@@ -47,7 +47,7 @@ namespace Abyss.UI
         }
         void ClearHud()
         {
-            heroHud.Clear(); area = null; resources = null; minimap = null; partyRow = null; padPanel = null; hudFitWidth = -1f;
+            heroHud.Clear(); area = null; resources = null; townPanel = null; townObjective = null; townReadiness = null; townIssues = null; minimap = null; partyRow = null; padPanel = null; hudFitWidth = -1f;
             if (hud != null) { hud.gameObject.SetActive(false); Destroy(hud.gameObject); }
             hud = null;
             // BattleView owns children under Content and releases them when its route closes.
@@ -246,7 +246,9 @@ namespace Abyss.UI
                 if (grid.Cell(cell) == '#') continue;
                 total++; if (grid.Progress.Explored.Contains(cell)) explored++;
             }
-            resources.text = $"{app.State.Gold:N0}만원  ·  열쇠 {grid.Progress.Keys}  ·  탐사 {Math.Min(100, total == 0 ? 0 : explored * 100 / total)}%";
+            resources.text = grid.Cell(app.State.Position) == 'H'
+                ? T(app.State.IsSpringSpent(grid.Floor.Id, app.State.Position) ? "spring_cell_spent" : "spring_cell_unused")
+                : $"{app.State.Gold:N0}만원  ·  열쇠 {grid.Progress.Keys}  ·  탐사 {Math.Min(100, total == 0 ? 0 : explored * 100 / total)}%";
             minimap.SetMap(grid, app.State);
             RefreshVitals();
         }
@@ -257,14 +259,28 @@ namespace Abyss.UI
             bool touch = TouchFirst;
             hud = UIFactory.Rect(Content, dungeon ? "Dungeon HUD" : "Town HUD").Stretch();
             var heading = UIFactory.Panel(hud);
-            heading.Rect.TopStrip(UIRoot.Compact ? 104 : 128, 0, 30, dungeon || UIRoot.Compact ? 450 : 30);
-            area = UIFactory.Label(heading.Rect, "", 36, color: UITheme.GoldBright);
-            area.Rt().TopStrip(54, UIRoot.Compact ? 8 : 16, 25, 25);
-            resources = UIFactory.Label(heading.Rect, "", UIRoot.Compact ? 25 : 23, color: UITheme.TextDim);
-            resources.Rt().BottomStrip(40, UIRoot.Compact ? 6 : 12, 25, 25);
+            if (!dungeon)
+            {
+                float width = UIRoot.Compact ? 680f : 620f;
+                float height = UIRoot.Compact ? 300f : 284f;
+                heading.Rect.Place(UIAnchor.TopLeft, new Vector2(24, -20), new Vector2(width, height));
+                townPanel = heading.Rect;
+                area = UIFactory.Label(heading.Rect, "", 34, color: UITheme.GoldBright);
+                area.Rt().TopStrip(42, 16, 24, 24);
+                resources = UIFactory.Label(heading.Rect, "", 21, color: UITheme.TextDim);
+                resources.Rt().TopStrip(30, 52, 24, 24);
+            }
+            else
+            {
+                heading.Rect.TopStrip(UIRoot.Compact ? 104 : 128, 0, 30, UIRoot.Compact ? 450 : 30);
+                area = UIFactory.Label(heading.Rect, "", 36, color: UITheme.GoldBright);
+                area.Rt().TopStrip(54, UIRoot.Compact ? 8 : 16, 25, 25);
+                resources = UIFactory.Label(heading.Rect, "", UIRoot.Compact ? 25 : 23, color: UITheme.TextDim);
+                resources.Rt().BottomStrip(40, UIRoot.Compact ? 6 : 12, 25, 25);
+            }
             // Party cards live in one row that shrinks (FitHud) when the screen is too narrow for cards + pad.
             partyRow = UIFactory.Rect(hud, "Party Row");
-            partyRow.Place(UIAnchor.BottomLeft, new Vector2(30, 28), new Vector2(app.State.Party.Count * 350 - 20, 176));
+            partyRow.Place(UIAnchor.BottomLeft, new Vector2(30, 26), new Vector2(app.State.Party.Count * 350 - 20, 150));
             for (int i = 0; i < app.State.Party.Count; i++)
             {
                 var hero = app.State.Party[i];
@@ -274,8 +290,8 @@ namespace Abyss.UI
                 view.Portrait = UIFactory.Portrait(panel.Rect, 58);
                 view.Portrait.Rt().Place(UIAnchor.TopLeft, new Vector2(12, -8), new Vector2(58, 58));
                 view.Portrait.SetSprite(UIArtwork.Hero(hero.Id));
-                view.Name = UIFactory.Label(panel.Rect, "", 24, color: UITheme.GoldBright);
-                view.Name.Rt().TopStrip(30, 12, 82, 12);
+                view.Name = UIFactory.Label(panel.Rect, "", 23, color: UITheme.GoldBright);
+                view.Name.Rt().TopStrip(30, 10, 82, 12);
                 view.Hp = UIFactory.Gauge(panel.Rect, UIGaugeKind.Hp, 228, 14, UIGaugeText.Above);
                 view.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(82, -74), new Vector2(228, 14));
                 view.Mp = UIFactory.Gauge(panel.Rect, UIGaugeKind.Mp, 290, 12, UIGaugeText.Above);

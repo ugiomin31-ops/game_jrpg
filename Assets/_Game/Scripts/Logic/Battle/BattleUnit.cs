@@ -21,8 +21,15 @@ namespace Abyss.Logic.Battle
         public string Id { get; private set; }
         /// <summary>Hero id or enemy id (heroes.json / enemies.json).</summary>
         public string DefId { get; private set; }
-        /// <summary>Localised display name.</summary>
+        /// <summary>
+        /// Localised display name as shown in battle: <see cref="BaseName"/> plus the display-only letter suffix
+        /// (e.g. "Slime B") when several enemies share a name. Never used as a key.
+        /// </summary>
         public string DisplayName { get; private set; }
+        /// <summary>Localised name from data, without any battle label suffix.</summary>
+        public string BaseName { get; private set; }
+        /// <summary>Display-only letter ("A", "B", ...) telling same-named enemies apart; "" when unique.</summary>
+        public string LabelSuffix { get; private set; } = "";
         /// <summary>Team.</summary>
         public BattleSide Side { get; private set; }
         /// <summary>Formation index (party order / enemy order; summons get the next free index).</summary>
@@ -64,9 +71,18 @@ namespace Abyss.Logic.Battle
         public bool Guarding { get; internal set; }
 
         public bool IsBoss { get; private set; }
+        /// <summary>
+        /// Bosses: crowd-control statuses (stun/sleep/freeze, refreshes included) that landed since the current phase
+        /// began; scales later CC chances (see <see cref="BattleEngine.BossCcChanceScale"/>). Reset when a phase activates.
+        /// </summary>
+        public int PhaseCcSuccesses { get; internal set; }
         public int Rank { get; private set; }
         public string AiProfile { get; private set; } = "basic";
         public int ActionsPerTurn { get; internal set; } = 1;
+        public string ChargeSkill { get; private set; } = "";
+        /// <summary>Immutable announced charge; costs already paid. Null when not charging.</summary>
+        public PendingCharge PendingCharge { get; internal set; }
+        internal SkillDef PendingChargeSkill;
         public bool Summoned { get; internal set; }
         public string SummonerId { get; internal set; } = "";
         public bool Enraged { get; internal set; }
@@ -112,7 +128,7 @@ namespace Abyss.Logic.Battle
                 Row = spec.Row,
             };
             u.Id = MakeId(BattleSide.Party, index, u.DefId);
-            u.DisplayName = !string.IsNullOrEmpty(spec.DisplayName) ? spec.DisplayName
+            u.DisplayName = u.BaseName = !string.IsNullOrEmpty(spec.DisplayName) ? spec.DisplayName
                 : (db.Heroes.TryGetValue(u.DefId, out var hd) ? hd.DisplayName : u.DefId);
             u.Level = Math.Max(1, spec.Level);
             u.MaxHp = Math.Max(1, spec.MaxHp);
@@ -136,7 +152,8 @@ namespace Abyss.Logic.Battle
             u.AttackElement = Math.Max(0, spec.AttackElement);
             u.HpRegenRatio = Gd.Clamp(Gd.D(spec.HpRegen), 0.0, 1.0);
             u.MpRegenPerTurn = Math.Max(0, spec.MpRegen);
-            if (u.Hp > 0) u.Tp = Gd.Clamp(spec.TpStart, 0, u.MaxTp);
+            // Carried TP (previous battle) or the gear start value, whichever is higher; KO'd heroes start at 0.
+            if (u.Hp > 0) u.Tp = Gd.Clamp(Math.Max(spec.Tp, spec.TpStart), 0, u.MaxTp);
             return u;
         }
 
@@ -151,7 +168,7 @@ namespace Abyss.Logic.Battle
                 Row = def.BattleRow,
             };
             u.Id = MakeId(BattleSide.Enemy, index, def.Id);
-            u.DisplayName = string.IsNullOrEmpty(def.DisplayName) ? def.Id : def.DisplayName;
+            u.DisplayName = u.BaseName = string.IsNullOrEmpty(def.DisplayName) ? def.Id : def.DisplayName;
             u.Level = Math.Max(1, def.Level);
             u.MaxHp = Math.Max(1, build.MaxHp);
             u.Hp = u.MaxHp;
@@ -182,12 +199,20 @@ namespace Abyss.Logic.Battle
             u.IsBoss = def.IsBoss || def.Rank == 2;
             u.AiProfile = string.IsNullOrEmpty(def.AiProfile) ? "basic" : def.AiProfile.ToLowerInvariant();
             u.ActionsPerTurn = Gd.Clamp(def.ActionsPerTurn, 1, 6);
+            u.ChargeSkill = u.IsBoss ? def.ChargeSkill ?? "" : "";
             u.SkillWeights.AddRange(def.SkillWeights);
             u.Phases.AddRange(def.Phases);
             u.Summons.AddRange(def.Summons);
             u.SummonLimit = Math.Max(0, def.SummonLimit);
             if (def.Gimmicks != null) u._gimmicks.AddRange(def.Gimmicks);
             return u;
+        }
+
+        /// <summary>Sets the display-only label suffix (ids, DefId and data names are untouched).</summary>
+        internal void SetLabelSuffix(string suffix)
+        {
+            LabelSuffix = suffix ?? "";
+            DisplayName = LabelSuffix.Length == 0 ? BaseName : BaseName + " " + LabelSuffix;
         }
 
         static string MakeId(BattleSide side, int index, string defId)
@@ -245,6 +270,25 @@ namespace Abyss.Logic.Battle
         {
             foreach (var key in _immunities) if (effect.Matches(key)) return true;
             return HasGimmick("cc_immune") && IsCrowdControl(effect.EffectType);
+        }
+
+        /// <summary>
+        /// True while INVINCIBLE, a BARRIER with absorption left, or a MANA_SHIELD with MP to spend would absorb
+        /// part of an incoming hit (previews show pre-absorption damage plus this flag).
+        /// </summary>
+        public bool HasDamageShield
+        {
+            get
+            {
+                foreach (var s in _statuses)
+                {
+                    if (s.TurnsRemaining <= 0) continue;
+                    if (s.Invincible) return true;
+                    if (s.EffectType == StatusEffectType.Barrier && (s.BarrierFullHit || s.BarrierRemaining > 0)) return true;
+                    if (s.ManaShieldRatio > 0.0 && Mp > 0) return true;
+                }
+                return false;
+            }
         }
 
         internal static bool IsCrowdControl(StatusEffectType t)
@@ -425,7 +469,7 @@ namespace Abyss.Logic.Battle
             foreach (var s in _statuses) statuses.Add(new StatusSnapshot(s));
             return new UnitSnapshot
             {
-                Id = Id, DefId = DefId, DisplayName = DisplayName, Side = Side, Slot = Slot, Row = Row, Level = Level,
+                Id = Id, DefId = DefId, DisplayName = DisplayName, BaseName = BaseName, LabelSuffix = LabelSuffix, Side = Side, Slot = Slot, Row = Row, Level = Level,
                 Hp = Hp, MaxHp = MaxHp, Mp = Mp, MaxMp = MaxMp, Tp = Tp, MaxTp = MaxTp,
                 Shield = Shield, MaxShield = MaxShield, Broken = Broken, Guarding = Guarding,
                 IsAlive = IsAlive, IsBoss = IsBoss, Summoned = Summoned, Statuses = statuses,
@@ -456,6 +500,8 @@ namespace Abyss.Logic.Battle
     public sealed class UnitSnapshot
     {
         public string Id, DefId, DisplayName;
+        /// <summary>Data name without the battle label suffix; <see cref="LabelSuffix"/> is "" when unique.</summary>
+        public string BaseName, LabelSuffix = "";
         public BattleSide Side;
         public int Slot, Row, Level, Hp, MaxHp, Mp, MaxMp, Tp, MaxTp, Shield, MaxShield;
         public bool Broken, Guarding, IsAlive, IsBoss, Summoned;

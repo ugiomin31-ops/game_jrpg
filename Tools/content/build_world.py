@@ -121,7 +121,17 @@ def validate(enemy_rows, skills, floors, quests, items, equipment, statuses, pre
         for st in [s.get('status_effect')] + s.get('extra_statuses', []):
             if st and st not in statuses:
                 problems.append('skill %s status %s' % (s['id'], st))
+    bosses = {e['id']: e.get('charge_skill') for e in enemy_rows if e.get('is_boss')}
+    if bosses != W_enemies.CHARGE_SKILLS:
+        problems.append('boss charge_skill mapping must match all 18 approved bosses')
     for e in enemy_rows:
+        charge = e.get('charge_skill', '')
+        if not e.get('is_boss') and charge:
+            problems.append('non-boss %s has charge_skill' % e['id'])
+        if charge and (charge not in skills or skills[charge]['kind'] != 0 or charge not in e['skills']):
+            problems.append('boss %s invalid charge_skill %s' % (e['id'], charge))
+        if e.get('is_boss') and 'cc_immune' in e.get('gimmicks', []):
+            problems.append('boss %s still has cc_immune' % e['id'])
         for sk in e['skills'] + [x for p in e.get('phases', []) for x in p['skills']]:
             if sk not in skills:
                 problems.append('enemy %s skill %s' % (e['id'], sk))

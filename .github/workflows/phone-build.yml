@@ -11,7 +11,7 @@ name: Phone build
 
 on:
   push:
-    branches: [claude/project-thread-65bpbq, claude/project-thread-1cwvmu, claude/project-thread-s545ws, claude/hunter-theme-xi1u14]
+    branches: [claude/project-thread-65bpbq, claude/project-thread-1cwvmu, claude/project-thread-s545ws, claude/hunter-theme-xi1u14, codex/hunter-experience-pr6]
     paths: ["Assets/**", "Packages/**", "ProjectSettings/**", "Tools/web/**", ".github/workflows/phone-build.yml"]
   workflow_dispatch:
 

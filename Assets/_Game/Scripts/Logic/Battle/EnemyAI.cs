@@ -1,5 +1,5 @@
-// Enemy decision making (port of enemy_ai.gd, CONTENT_DESIGN §7.1). Pure: reads units, returns one
-// action; the engine validates targets and handles PROVOKE, phases, enrage and multi-action turns.
+// Enemy decision making (port of enemy_ai.gd, CONTENT_DESIGN §7.1). Reads units and consumes only the
+// supplied battle RNG; returns one action. The engine freezes it at planning and handles execution fallback.
 // Profiles: basic (weighted random), aggressive (lowest HP % target), caster (75 % non-basic skills),
 // support (revive / heal below 60 % / cleanse first), summoner (35 % summon while slots are free),
 // berserker (lowest HP % target once enraged), boss (phase skills/weights). Hard: basic acts
@@ -19,6 +19,9 @@ namespace Abyss.Logic.Battle
         public ItemDef Item;
         /// <summary>0 single, 1 all, 2 random (filled by target resolution).</summary>
         public int Scope;
+        public bool FrozenSingleTarget, LowestHpTarget;
+        public bool IsChargeAnnounce, IsChargeRelease;
+        public double PowerScale = 1.0;
 
         public static BattleAction Make(ActionKind kind, string actorId, IEnumerable<string> targets = null, string payloadId = "", SkillDef skill = null)
         {
@@ -45,13 +48,16 @@ namespace Abyss.Logic.Battle
         }
 
         public static BattleAction Choose(BattleUnit actor, List<BattleUnit> opponents, List<BattleUnit> allies,
-            GodotRng rng, Difficulty difficulty, int summonSlots)
+            GodotRng rng, Difficulty difficulty, int summonSlots, bool excludeCharge = false)
         {
+            excludeCharge |= actor.PendingCharge != null;
             var livingOpponents = Living(opponents);
             var livingAllies = Living(allies);
             if (livingOpponents.Count == 0)
                 return BattleAction.Make(ActionKind.Guard, actor.Id, new[] { actor.Id });
 
+            if (actor.AiProfile == RunnerProfile && rng.Randf() < RunnerFleeChance)
+                return BattleAction.Make(ActionKind.Flee, actor.Id);
             string profile = actor.AiProfile;
             if (profile == "basic" && difficulty == Difficulty.Hard && rng.Randf() < HardAggressiveChance)
                 profile = "aggressive";
@@ -71,7 +77,7 @@ namespace Abyss.Logic.Battle
                 }
             }
 
-            var options = SkillOptions(actor, livingAllies, fallenAllies);
+            var options = SkillOptions(actor, livingAllies, fallenAllies, excludeCharge);
             bool lowestHp = profile == "aggressive" || (profile == "berserker" && actor.Enraged);
 
             if (options.Count == 0) return AttackAction(actor, livingOpponents, lowestHp, rng);
@@ -89,15 +95,18 @@ namespace Abyss.Logic.Battle
                 selected = WeightedSkill(options, rng);
             }
             if (selected.Id == "basic_attack") return AttackAction(actor, livingOpponents, lowestHp, rng);
-            return SkillAction(actor, selected, livingOpponents, livingAllies, fallenAllies, lowestHp, rng);
+            var action = SkillAction(actor, selected, livingOpponents, livingAllies, fallenAllies, lowestHp, rng);
+            action.LowestHpTarget = lowestHp;
+            return action;
         }
 
-        static List<Option> SkillOptions(BattleUnit actor, List<BattleUnit> livingAllies, List<BattleUnit> fallenAllies)
+        static List<Option> SkillOptions(BattleUnit actor, List<BattleUnit> livingAllies, List<BattleUnit> fallenAllies, bool excludeCharge)
         {
             var options = new List<Option>();
             for (int i = 0; i < actor.SkillList.Count; i++)
             {
                 var skill = actor.SkillList[i];
+                if (excludeCharge && skill.Id == actor.ChargeSkill) continue;
                 if (!IsAffordable(actor, skill)) continue;
                 double weight = i < actor.SkillWeights.Count ? actor.SkillWeights[i] : 1.0;
                 if (weight <= 0.0) continue;
@@ -187,13 +196,30 @@ namespace Abyss.Logic.Battle
             return MakeSkill(actor, skill, target);
         }
 
+        /// <summary>Retarget the selected payload, never reroll its skill. Used only when its frozen target is invalid.</summary>
+        internal static string Retarget(BattleUnit actor, BattleAction action, List<BattleUnit> opponents, List<BattleUnit> allies, GodotRng rng)
+        {
+            var living = Living(allies);
+            var skill = action.Skill;
+            BattleUnit target = null;
+            if (skill?.TargetType == TargetType.Self) target = actor;
+            else if (skill?.Kind == SkillKind.Revive) { var fallen = Fallen(allies); if (fallen.Count > 0) target = fallen[0]; }
+            else if (skill?.Kind == SkillKind.Heal) target = MostInjured(living, 0.999) ?? PickTarget(living, false, rng);
+            else if (skill?.Kind == SkillKind.Cleanse) target = Afflicted(living) ?? PickTarget(living, false, rng);
+            else if (skill?.Kind == SkillKind.Buff) target = PickTarget(living.FindAll(a => NeedsBuff(a, skill)), false, rng) ?? PickTarget(living, false, rng);
+            else target = PickTarget(skill?.TargetType == TargetType.Ally ? living : Living(opponents), action.LowestHpTarget, rng);
+            return target?.Id;
+        }
+
         static BattleAction MakeSkill(BattleUnit actor, SkillDef skill, BattleUnit target)
             => BattleAction.Make(ActionKind.Skill, actor.Id, target != null ? new[] { target.Id } : null, skill.Id, skill);
 
         static BattleAction AttackAction(BattleUnit actor, List<BattleUnit> livingOpponents, bool lowestHp, GodotRng rng)
         {
             var target = PickTarget(livingOpponents, lowestHp, rng);
-            return BattleAction.Make(ActionKind.Attack, actor.Id, new[] { target.Id });
+            var action = BattleAction.Make(ActionKind.Attack, actor.Id, new[] { target.Id });
+            action.LowestHpTarget = lowestHp;
+            return action;
         }
 
         static SkillDef WeightedSkill(List<Option> options, GodotRng rng)

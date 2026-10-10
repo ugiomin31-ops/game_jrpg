@@ -62,6 +62,11 @@ namespace Abyss.LogicTests
         {
             switch (e)
             {
+                case EnemyIntentPlannedEvent p: return $"intent r{p.Round} {p.EnemyUnitId} s{p.Slot} {p.Kind} {p.SkillId} payload{p.PayloadId} ->{p.TargetUnitId} {p.Scope} prep{p.IsChargeAnnounce} release{p.IsChargeRelease}";
+                case IntentClearedEvent c: return $"intent_clear {c.EnemyUnitId} s{c.Slot}";
+                case ChargeStartedEvent c: return $"charge_start {c.EnemyUnitId} {c.SkillId} ->{c.TargetUnitId}";
+                case ChargeReleasedEvent c: return $"charge_release {c.EnemyUnitId} {c.SkillId}";
+                case ChargeCancelledEvent c: return $"charge_cancel {c.EnemyUnitId} {c.Reason}";
                 case DamageEvent d: return $"dmg {d.TargetId} {d.Amount} c{(d.Critical ? 1 : 0)} {d.Type} e{d.Element} {d.Effectiveness} hp{d.HpAfter}";
                 case HealEvent h: return $"heal {h.TargetId} {h.Amount} hp{h.HpAfter}";
                 case MissEvent m: return $"miss {m.TargetId}";

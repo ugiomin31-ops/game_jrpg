@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Abyss.Logic.Dungeon;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Abyss.Logic.Game
 {
@@ -24,6 +25,13 @@ namespace Abyss.Logic.Game
         public int Xp;
         /// <summary>Current HP/MP (0 HP = knocked out). Always within the effective maximum.</summary>
         public int Hp, Mp;
+        /// <summary>
+        /// TP carried between battles (0..<see cref="MaxTp"/>; 0 while knocked out). Kept by springs, tents and healing items;
+        /// cleared for every hunter whenever the party is put in town (<see cref="GameState.ClearCarriedTp"/>). Saves without it load as 0.
+        /// </summary>
+        public int Tp;
+        /// <summary>TP cap (same as the battle cap).</summary>
+        public const int MaxTp = Battle.BattleUnit.MaxTpValue;
         /// <summary>slot ("weapon" | "armor" | "accessory") -> equipment id, "" when empty. All three keys always exist.</summary>
         public Dictionary<string, string> Equipment = new Dictionary<string, string>();
         /// <summary>Skill ids usable in battle (basic_attack, Lv1 skills and every learnset entry reached), in learn order.</summary>
@@ -68,12 +76,44 @@ namespace Abyss.Logic.Game
         public SortedSet<GridPos> TakenKeys = new SortedSet<GridPos>();
         /// <summary>`X` cells already triggered (drawn on the map from then on; they keep triggering).</summary>
         public SortedSet<GridPos> SteppedTraps = new SortedSet<GridPos>();
+        /// <summary>`H` cells used this outing; refilled only on town arrival or successful inn rest.</summary>
+        [JsonConverter(typeof(SpentSpringCellsConverter))]
+        public SortedSet<GridPos> SpentSprings = new SortedSet<GridPos>();
         /// <summary>`L` doors opened with a key (permanently open).</summary>
         public SortedSet<GridPos> OpenedDoors = new SortedSet<GridPos>();
         /// <summary>FOE ids defeated since the last inn rest.</summary>
         public SortedSet<string> DefeatedFoes = new SortedSet<string>(StringComparer.Ordinal);
         /// <summary>Unused keys of this floor.</summary>
         public int Keys;
+    }
+
+    /// <summary>
+    /// Tolerant reader for the additive spring field only. Valid cells use the codec's existing GridPos converter;
+    /// malformed/null entries are discarded without weakening validation of any other saved progress.
+    /// </summary>
+    sealed class SpentSpringCellsConverter : JsonConverter<SortedSet<GridPos>>
+    {
+        public override void WriteJson(JsonWriter writer, SortedSet<GridPos> value, JsonSerializer serializer)
+        {
+            writer.WriteStartArray();
+            if (value != null) foreach (var cell in value) serializer.Serialize(writer, cell);
+            writer.WriteEndArray();
+        }
+        public override SortedSet<GridPos> ReadJson(JsonReader reader, Type objectType, SortedSet<GridPos> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var cells = new SortedSet<GridPos>();
+            var token = JToken.Load(reader);
+            if (!(token is JArray entries)) return cells;
+            foreach (var entry in entries)
+            {
+                bool valid = entry is JArray a && a.Count == 2 && a[0].Type == JTokenType.Integer && a[1].Type == JTokenType.Integer
+                    || entry is JObject o && o["x"]?.Type == JTokenType.Integer && o["y"]?.Type == JTokenType.Integer;
+                if (!valid) continue;
+                try { cells.Add(entry.ToObject<GridPos>(serializer)); }
+                catch (Exception e) when (e is JsonException || e is FormatException || e is InvalidCastException || e is OverflowException) { }
+            }
+            return cells;
+        }
     }
 
     /// <summary>Campaign state. Create with <see cref="NewGame"/> or <see cref="SaveCodec.Deserialize(string, GameDB)"/>.</summary>
@@ -159,6 +199,26 @@ namespace Abyss.Logic.Game
         {
             foreach (var h in Party) yield return h;
             foreach (var h in Reserve) yield return h;
+        }
+
+        /// <summary>
+        /// Clears carried TP for every recruited hunter (party and reserve). The one reset used by every route that puts the
+        /// party in town (return to town, town arrival, prologue, ending, defeat recovery) and by a successful inn rest.
+        /// </summary>
+        public void ClearCarriedTp()
+        {
+            foreach (var hero in AllHunters()) if (hero != null) hero.Tp = 0;
+        }
+
+        /// <summary>Pure spring readiness query; never creates or repairs a floor record.</summary>
+        public bool IsSpringSpent(string floorId, GridPos cell) => floorId != null && Floors != null
+            && Floors.TryGetValue(floorId, out var progress) && (progress?.SpentSprings?.Contains(cell) ?? false);
+
+        /// <summary>Refills every visited floor's springs without resetting map or FOE progress. Idempotent.</summary>
+        public void RefillSprings()
+        {
+            if (Floors == null) return;
+            foreach (var progress in Floors.Values) progress?.SpentSprings?.Clear();
         }
 
         /// <summary>Progress record for a floor id (created on first access).</summary>
@@ -274,6 +334,12 @@ namespace Abyss.Logic.Game
                 p.ClearedBattles ??= new SortedSet<GridPos>();
                 p.TakenKeys ??= new SortedSet<GridPos>();
                 p.SteppedTraps ??= new SortedSet<GridPos>();
+                p.SpentSprings ??= new SortedSet<GridPos>();
+                // Invalid/stale spring cells must not affect valid map progress or consume an unrelated spring.
+                FloorDef springFloor = null;
+                foreach (var floor in db.Floors) if (floor.Id == id) { springFloor = floor; break; }
+                p.SpentSprings.RemoveWhere(cell => springFloor == null || cell.Y < 0 || cell.Y >= springFloor.Rows.Count
+                    || cell.X < 0 || cell.X >= springFloor.Rows[cell.Y].Length || springFloor.Rows[cell.Y][cell.X] != 'H');
                 p.OpenedDoors ??= new SortedSet<GridPos>();
                 p.DefeatedFoes ??= new SortedSet<string>(StringComparer.Ordinal);
                 p.Keys = Math.Max(0, p.Keys);
@@ -346,6 +412,7 @@ namespace Abyss.Logic.Game
             var stats = PartyStats.EffectiveStats(db, hero);
             hero.Hp = hero.Hp < 0 ? stats.MaxHp : Math.Min(hero.Hp, stats.MaxHp);
             hero.Mp = hero.Mp < 0 ? stats.MaxMp : Math.Min(hero.Mp, stats.MaxMp);
+            hero.Tp = hero.Hp <= 0 ? 0 : Math.Max(0, Math.Min(HeroState.MaxTp, hero.Tp));
         }
 
         /// <summary>Authored starter piece per empty slot; when absent, the cheapest eligible tier-1 piece (original rule).</summary>

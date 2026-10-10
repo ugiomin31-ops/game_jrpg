@@ -459,6 +459,10 @@ TEXT = {
     'overwrite_body': '새 게임을 시작하면 현재 저장된 모험을 덮어씁니다. 이 작업은 되돌릴 수 없습니다.',
     'overwrite_accept': '새 모험으로 덮어쓰기',
     'trap_poisoned': '%s이(가) 독에 걸렸다.',
+    # spring feedback and current-cell HUD (one use per cell per outing)
+    'spring_spent': '이 회복 샘은 이번 출정에서 이미 사용했습니다. 마을로 복귀하거나 의무실에서 쉬면 다시 회복됩니다.',
+    'spring_cell_unused': '회복 샘 · 이번 출정 1회',
+    'spring_cell_spent': '회복 샘 · 소진됨 — 마을 복귀 시 회복',
 }
 
 # ------------------------------------------------------------------ bestiary notes (text_ko enemy_desc_<id>)

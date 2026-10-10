@@ -217,8 +217,10 @@ namespace Abyss.Logic.Dungeon
                     if (!stepping) break;
                     Grid.Progress.SteppedTraps.Add(at); result.Effect = DungeonEffect.Trap; result.TextKey = "trap_triggered";
                     result.Trap = PartyStats.ApplyTrap(db, State, trapRoll); break;
-                case 'H':
-                    PartyStats.RestoreParty(db, State); result.Effect = DungeonEffect.Spring; result.TextKey = "spring_used"; break;
+                case 'H': // one use per cell per outing; generic restoration keeps carried TP
+                    result.Effect = DungeonEffect.Spring;
+                    if (!Grid.Progress.SpentSprings.Add(at)) { result.TextKey = "spring_spent"; break; }
+                    PartyStats.RestoreParty(db, State); result.TextKey = "spring_used"; break;
                 case 'N':
                     result.Effect = DungeonEffect.Lore; result.StoryText = Grid.LoreAt(at);
                     if (string.IsNullOrEmpty(result.StoryText)) result.TextKey = "lore_empty";
@@ -265,7 +267,7 @@ namespace Abyss.Logic.Dungeon
                 result.PostText = request.PostText;
                 if (IsEndingFloor(State.FloorIndex) && !State.Flags.Contains(GameFlow.FlagCleared))
                 {
-                    State.Flags.Add(GameFlow.FlagCleared); State.Location = GameLocation.Town;
+                    State.Flags.Add(GameFlow.FlagCleared); State.Location = GameLocation.Town; State.ClearCarriedTp(); State.RefillSprings();
                     result.Ending = true; result.ReturnToTown = true;
                 }
             }
@@ -291,6 +293,8 @@ namespace Abyss.Logic.Dungeon
         {
             if (PendingBattle != null) throw new InvalidOperationException("Resolve the battle before leaving");
             State.Location = GameLocation.Town;
+            State.ClearCarriedTp();
+            State.RefillSprings();
         }
         uint NextUInt()
         {
