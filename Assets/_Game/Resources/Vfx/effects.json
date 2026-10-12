@@ -1596,7 +1596,8 @@
           "life": 0.25,
           "size": 3.52,
           "height": 0.88,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -3551,7 +3552,8 @@
           "size": 4.86,
           "height": 0.81,
           "delay": 0.5,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -8762,8 +8764,8 @@
           "life": 0.22,
           "size": 3.38,
           "height": 0.78,
-          "rotation": 75,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -10597,8 +10599,8 @@
           "life": 0.22,
           "size": 3.38,
           "height": 0.78,
-          "rotation": 75,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -11345,8 +11347,8 @@
           "life": 0.22,
           "size": 3.25,
           "height": 0.75,
-          "rotation": 75,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -12034,8 +12036,8 @@
           "life": 0.22,
           "size": 3.25,
           "height": 0.75,
-          "rotation": 75,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -12969,8 +12971,9 @@
           "life": 0.22,
           "size": 3.64,
           "height": 0.84,
-          "rotation": 87,
-          "y": 0.0
+          "rotation": 12,
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -12979,9 +12982,10 @@
           "life": 0.22,
           "size": 3.64,
           "height": 0.84,
-          "rotation": 63,
+          "rotation": -12,
           "delay": 0.04,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -12990,9 +12994,9 @@
           "life": 0.22,
           "size": 3.64,
           "height": 0.84,
-          "rotation": 75,
           "delay": 0.08,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -13090,9 +13094,9 @@
           "life": 0.25,
           "size": 5.2,
           "height": 1.04,
-          "rotation": 75,
           "delay": 0.12,
-          "y": 0.0
+          "y": 0.0,
+          "align": true
         },
         {
           "kind": "quad",
@@ -13210,8 +13214,8 @@
           "life": 0.3,
           "size": 6.0,
           "height": 1.0,
-          "rotation": 75,
-          "delay": 0.45
+          "delay": 0.45,
+          "align": true
         },
         {
           "kind": "quad",

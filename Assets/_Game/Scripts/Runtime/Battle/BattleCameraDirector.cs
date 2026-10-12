@@ -58,6 +58,12 @@ namespace Abyss.Runtime.Battle
         /// <summary>Orbit around <see cref="OrbitPivot"/>: total degrees swept over <see cref="OrbitTime"/> battle seconds, centred on the fitted pose.</summary>
         public float Orbit, OrbitTime;
         public Vector3 OrbitPivot;
+        /// <summary>
+        /// Orbit sweeps (degrees) to try in order, with the side insets for the centre fit. Set: every resolve (first play
+        /// and every re-fit) re-selects <see cref="Orbit"/> and <see cref="ExtraInset"/> from these, validating samples
+        /// across the sweep; a trailing 0 means hold still.
+        /// </summary>
+        public float[] Sweeps, SweepInsets;
         /// <summary>Validate against arena geometry (walls, props) and fall back to the establishing shot when blocked.</summary>
         public bool CheckOcclusion = true;
         /// <summary>
@@ -158,7 +164,8 @@ namespace Abyss.Runtime.Battle
         readonly Camera _camera;
         readonly Transform _arena;
         readonly BattleHUD _hud;
-        readonly IEnumerable<BattleDisplayUnit> _units;
+        // The view's live roster. Concrete type on purpose: foreach uses the struct enumerator (LivingSignature runs per frame).
+        readonly Dictionary<string, BattleDisplayUnit>.ValueCollection _units;
         readonly Vector3 _oldPosition;
         readonly Quaternion _oldRotation;
         readonly float _oldFov;
@@ -192,7 +199,7 @@ namespace Abyss.Runtime.Battle
         /// <summary>True while a blend toward the current shot is still running.</summary>
         public bool Blending => _blendElapsed < _blendLength;
 
-        public BattleCameraDirector(Camera camera, Transform arena, BattleHUD hud, IEnumerable<BattleDisplayUnit> units)
+        public BattleCameraDirector(Camera camera, Transform arena, BattleHUD hud, Dictionary<string, BattleDisplayUnit>.ValueCollection units)
         {
             _camera = camera ?? throw new ArgumentNullException(nameof(camera));
             _arena = arena ?? throw new ArgumentNullException(nameof(arena));
@@ -379,27 +386,10 @@ namespace Abyss.Runtime.Battle
             shot.OrbitPivot = _arena.TransformPoint(pivot);
             shot.Position = _arena.TransformPoint(new Vector3(party.x + VictoryOffset.x, VictoryOffset.y, party.z + VictoryOffset.z));
             shot.Look = shot.OrbitPivot;
-            // Validate bounded samples across the sweep (framing and arena), shortening it, then holding still, if needed.
-            // The centre pose is fitted inside a narrower rect (extra side inset) so the sweep has room; the samples are
-            // checked against the normal rect. The first inset / sweep pair that holds wins.
-            bool ok = false; float sweep = 0f, inset = VictoryInsets[0];
-            foreach (float candidate in VictorySweeps)
-            {
-                if (candidate == 0f) break;
-                foreach (float tryInset in VictoryInsets)
-                {
-                    shot.ExtraInset = tryInset;
-                    var pose = Resolve(shot, out ok);
-                    if (ok && OrbitHolds(shot, pose, candidate)) { sweep = candidate; inset = tryInset; break; }
-                }
-                if (sweep > 0f) break;
-            }
-            shot.ExtraInset = inset;
-            if (sweep == 0f) Resolve(shot, out ok);
-            shot.Orbit = sweep;
-            string note = " orbit " + sweep + (ok ? "" : " (centre pose failed: " + _reason + ")");
+            // Sweep selection (25° -> 12° -> still) runs in Resolve, so HUD / roster re-fits re-test it too.
+            shot.Sweeps = VictorySweeps; shot.SweepInsets = VictoryInsets;
             Play(shot);
-            LastChoice += note;
+            LastChoice += " orbit " + shot.Orbit;
         }
 
         /// <summary>True when every sampled pose of a <paramref name="sweep"/>° orbit still frames the bodies and clears the arena.</summary>
@@ -599,8 +589,11 @@ namespace Abyss.Runtime.Battle
                 if (_hud != null) _resolvedVersion = _hud.OcclusionVersion;
                 _signature = signature;
                 var candidates = _candidates ?? new List<BattleShot> { _shot };
+                // Resolve may re-select the active shot's orbit sweep (25° / 12° / still): a changed sweep moves the camera
+                // even with the same centre pose, so it also blends from the current pose (the orbit clock keeps running).
+                float orbit = _shot.Orbit;
                 if (!Choose(candidates, out var chosen, out var pose)) { _shot = null; PlayFirst(EstablishingShots()); }
-                else if (chosen != _shot || Differs(pose, _to))
+                else if (chosen != _shot || Differs(pose, _to) || !Mathf.Approximately(orbit, chosen.Orbit))
                 {
                     _shot = chosen;
                     _blendLength = _reduced ? 0f : Mathf.Max(RefitBlend, _blendLength - _blendElapsed);
@@ -748,6 +741,27 @@ namespace Abyss.Runtime.Battle
         /// and validates against arena occlusion. <paramref name="ok"/> is false when no fitted pose works.
         /// </summary>
         CameraPose Resolve(BattleShot shot, out bool ok)
+        {
+            if (shot.Sweeps == null || shot.Sweeps.Length == 0 || !shot.Fit) return ResolveFixed(shot, out ok);
+            // Orbit shots: the first sweep / inset pair whose centre pose fits and whose sampled sweep still frames the
+            // bodies and clears the arena; otherwise hold still with the first inset. The orbit clock is not touched here.
+            var insets = shot.SweepInsets != null && shot.SweepInsets.Length > 0 ? shot.SweepInsets : new[] { shot.ExtraInset };
+            foreach (float sweep in shot.Sweeps)
+            {
+                if (sweep <= 0f) break;
+                foreach (float inset in insets)
+                {
+                    shot.ExtraInset = inset;
+                    var pose = ResolveFixed(shot, out ok);
+                    if (ok && OrbitHolds(shot, pose, sweep)) { shot.Orbit = sweep; return pose; }
+                }
+            }
+            shot.Orbit = 0f; shot.ExtraInset = insets[0];
+            return ResolveFixed(shot, out ok);
+        }
+
+        /// <summary>Fit of one fixed shot (no orbit selection): see <see cref="Resolve"/>.</summary>
+        CameraPose ResolveFixed(BattleShot shot, out bool ok)
         {
             ok = true; _reason = ""; _lastBlocked = false;
             if (shot.AllLiving)
@@ -959,12 +973,13 @@ namespace Abyss.Runtime.Battle
         bool Clear(BattleShot shot, CameraPose pose)
         {
             _all.Clear(); _allRequired.Clear();
-            int lead = -1;
+            int lead = -1, track = -1;
             var first = shot.Required.Count > 0 ? shot.Required[0] : null;
             foreach (var unit in _units)
             {
                 if (!unit.Alive || unit.Model == null || unit == shot.Ignore || !BodyBox(unit, out var box)) continue;
                 if (unit == first) lead = _all.Count;
+                if (unit == shot.Track) track = _all.Count;
                 _all.Add(box); _allRequired.Add(shot.Required.Contains(unit));
             }
             // Extra boxes (a melee enemy at its strike mark) can hide a required body, but are never bystanders.
@@ -998,7 +1013,9 @@ namespace Abyss.Runtime.Battle
             if (shot.BystanderVsTargets)
             {
                 foreground = 0f; limit = MaxBystanderVsTargets;
-                for (int i = 0; i < n; i++) if (_allRequired[i] && i != lead && visible[i]) foreground = Mathf.Max(foreground, rects[i].height);
+                // Reference: the tallest required body other than the acting enemy (Track). A melee S6 holds only the
+                // targeted heroes as required units, so the first of them must count too.
+                for (int i = 0; i < n; i++) if (_allRequired[i] && i != track && visible[i]) foreground = Mathf.Max(foreground, rects[i].height);
             }
             for (int i = 0; i < n; i++)
             {
@@ -1061,6 +1078,46 @@ namespace Abyss.Runtime.Battle
         }
 
         /// <summary>
+        /// The merged props shell is one renderer, so its bounds say nothing about the single posts, machines and pillars inside it.
+        /// Welded connected triangle groups of a readable shell give those objects their own boxes (same compact-prop rule as
+        /// separate renderers); big connected groups (walls, floor trim) stay out. One-time cost per arena.
+        /// </summary>
+        void AddShellProps(MeshFilter filter)
+        {
+            var mesh = filter.sharedMesh;
+            if (mesh == null || !mesh.isReadable) return;
+            var local = mesh.vertices; var triangles = mesh.triangles;
+            var toWorld = filter.transform.localToWorldMatrix;
+            var parent = new int[local.Length]; var world = new Vector3[local.Length];
+            var welded = new Dictionary<(int, int, int), int>(local.Length);
+            for (int i = 0; i < local.Length; i++)
+            {
+                parent[i] = i; world[i] = toWorld.MultiplyPoint3x4(local[i]);
+                var key = (Mathf.RoundToInt(world[i].x * 50f), Mathf.RoundToInt(world[i].y * 50f), Mathf.RoundToInt(world[i].z * 50f));
+                if (welded.TryGetValue(key, out int first)) parent[i] = first; else welded.Add(key, i);
+            }
+            int Find(int i) { while (parent[i] != i) { parent[i] = parent[parent[i]]; i = parent[i]; } return i; }
+            for (int t = 0; t + 2 < triangles.Length; t += 3)
+            {
+                int a = Find(triangles[t]), b = Find(triangles[t + 1]), c = Find(triangles[t + 2]);
+                parent[b] = a; parent[Find(c)] = Find(a);
+            }
+            var groups = new Dictionary<int, Bounds>();
+            for (int t = 0; t < triangles.Length; t++)
+            {
+                int v = triangles[t], root = Find(v);
+                if (groups.TryGetValue(root, out var box)) { box.Encapsulate(world[v]); groups[root] = box; }
+                else groups.Add(root, new Bounds(world[v], Vector3.zero));
+            }
+            foreach (var box in groups.Values)
+            {
+                if (box.size.x >= 3.5f || box.size.z >= 3.5f || box.size.y <= .3f) continue;
+                var prop = box; prop.Expand(.2f);
+                _props.Add(prop);
+            }
+        }
+
+        /// <summary>
         /// Arena interior from its renderers: the wall ring (backdrop) bounds give the radius, the ceiling its height.
         /// Compact standalone props (benches, bins, crates) become occluder boxes; the merged shells are too coarse for that.
         /// </summary>
@@ -1079,6 +1136,7 @@ namespace Abyss.Runtime.Battle
                     _interiorRadius = Mathf.Min(_interiorRadius, Mathf.Min(b.extents.x, b.extents.z) - 1.2f);
                 }
                 else if (name.Contains("ceiling")) _ceiling = Mathf.Min(_ceiling, b.min.y - .3f);
+                else if (name.Contains("props") && r.TryGetComponent(out MeshFilter shell)) AddShellProps(shell);
                 else if (b.size.x < 3.5f && b.size.z < 3.5f && b.size.y > .3f)
                 {
                     b.Expand(.2f);

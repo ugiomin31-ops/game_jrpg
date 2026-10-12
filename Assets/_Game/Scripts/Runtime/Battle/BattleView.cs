@@ -75,11 +75,12 @@ namespace Abyss.Runtime.Battle
         // Boss entrance: camera push in toward the boss and back (each leg), and the cap on the whole entrance.
         const float BossPushLeg = .3f, BossEntranceMax = 1.6f;
         // Battle-only lighting: the arena's stage anchor (5 m over the centre) blew out the cream floor, so it is dropped,
-        // the edge anchors are dimmed, bloom only catches real highlights, and a cool rim light separates the units.
-        // The rim light is owned by this view and removed in Restore(); dungeon and town lighting never reach this code.
-        const float BattleEdgeLightIntensity = 1.1f, BattleEdgeLightRange = 5f, BattleBloomThreshold = 1.05f, BattleRimIntensity = .5f;
-        static readonly Color BattleRimColor = new Color(.5f, .7f, 1f);
-        Light _rim;
+        // the four edge anchors (flank walls, 2.2 m up, outside the floor disc) only wash the walls evenly, bloom only catches
+        // real highlights, and a cool + warm directional rim pair separates the units without ever pooling on the floor.
+        // The rim lights are owned by this view and removed in Restore(); dungeon and town lighting never reach this code.
+        const float BattleEdgeLightIntensity = 1.6f, BattleEdgeLightRange = 14f, BattleBloomThreshold = 1.05f, BattleRimIntensity = .5f, BattleWarmRimIntensity = .7f;
+        static readonly Color BattleRimColor = new Color(.5f, .7f, 1f), BattleWarmRimColor = new Color(1f, .74f, .46f);
+        Light _rim, _warmRim;
         static bool BattleLightPolicy(string anchor, ref float intensity, ref float range)
         {
             if (anchor == "LightAnchor_stage") return false;
@@ -87,10 +88,10 @@ namespace Abyss.Runtime.Battle
             return true;
         }
         /// <summary>
-        /// The arena FBX is exported turned 180 degrees about Z from a scene whose empties were never re-evaluated
-        /// (Blender/environment/_kit_common_b.py export_arena_turned), so every LightAnchor lands at the arena origin on the
-        /// floor and the four "edge" lights stack into one white pool between the lines. An anchor light that still sits
-        /// at the origin has no authored position: it is dropped. Anchors with a real position keep their light.
+        /// Safety net only. Arena FBXs exported before the export_arena_turned fix (Blender/environment/_kit_common_b.py)
+        /// had every empty collapsed to the arena origin, so the four "edge" lights stacked into one white pool on the
+        /// floor. The arenas are re-exported with real anchor positions; an anchor light that still sits at the origin
+        /// (an arena that was not re-exported) has no authored position and is dropped. Anchors with a real position keep their light.
         /// </summary>
         static void DropCollapsedAnchorLights(IList<Light> lights)
         {
@@ -127,7 +128,8 @@ namespace Abyss.Runtime.Battle
             var arena = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(floor.Tileset, "arena"), transform);
             var arenaLights = EnvironmentProcessor.Process(arena, atmosphere.TorchColor, anchorPolicy: BattleLightPolicy);
             DropCollapsedAnchorLights(arenaLights.Lights);
-            _rim = CreateRimLight();
+            _rim = CreateRimLight("Battle rim light", BattleRimColor, BattleRimIntensity, new Vector3(0f, -.35f, -1f));
+            _warmRim = CreateRimLight("Battle warm rim light", BattleWarmRimColor, BattleWarmRimIntensity, new Vector3(.55f, -.3f, -1f));
             _ui = UIRoot.Create(); _ui.Numbers.Camera = _camera;
             _vfx = VfxLibrary.Create(); _vfx.Camera = _camera;
             // Created before the HUD so the ultimate dim sits over the arena but under the cut-in and gauges.
@@ -662,7 +664,7 @@ namespace Abyss.Runtime.Battle
             if (_presentation != null && !string.IsNullOrEmpty(_presentation.AreaVfx) && e.TargetIds != null && AreaCenter(e.TargetIds, out var center))
             {
                 // Field / group spells: one big effect over the whole target group, then the per-hit impacts.
-                Effect(_presentation.AreaVfx, center, tint, Mathf.Max(.1f, _presentation.AreaScale), 0, null, center.y - .9f);
+                Effect(_presentation.AreaVfx, center, tint, Mathf.Max(.1f, _presentation.AreaScale), 0, null, center.y - .9f, AreaFacing(actor, center));
                 _dimTarget = Mathf.Min(_dimTarget, .12f);   // the effect itself plays over a near-full-bright arena
                 if (!Reduced && _presentation.ScreenFlash) ScreenFlash(tint, .45f);
                 if (!Reduced) AddTrauma(_presentation.Shake * .6f);
@@ -1117,6 +1119,13 @@ namespace Abyss.Runtime.Battle
             Vector3 direction = target.Model.CenterPoint - source.Model.CenterPoint;
             return direction.sqrMagnitude > .01f ? direction : (Vector3?)null;
         }
+        /// <summary>Direction from the caster to a group effect's center for `align` layers; null when the caster stands on it.</summary>
+        static Vector3? AreaFacing(BattleDisplayUnit actor, Vector3 center)
+        {
+            if (actor == null || actor.Model == null) return null;
+            Vector3 direction = center - actor.Model.CenterPoint;
+            return direction.sqrMagnitude > .01f ? direction : (Vector3?)null;
+        }
         /// <summary>Hostile impacts sit on the camera side of the body so sparks are not buried in large models.</summary>
         void Impact(string key, BattleDisplayUnit unit, Color tint, bool hostile, Vector3? facing = null) =>
             Effect(key, hostile ? HitPoint(unit) : unit.Model.CenterPoint, tint, ImpactScale(unit), 0, null, unit.Home.y, facing);
@@ -1298,16 +1307,16 @@ namespace Abyss.Runtime.Battle
             { case "warrior": return "sfx_sword"; case "archer": return "sfx_bow"; case "mage": case "cleric": return "sfx_staff"; default: return "sfx_hit"; }
         }
         static void PlaySound(string id) { if (!string.IsNullOrEmpty(id)) AudioManager.Instance.PlaySfx(id); }
-        /// <summary>Cool directional rim from behind the enemy line, aimed back over them toward the party (silhouette separation).</summary>
-        Light CreateRimLight()
+        /// <summary>Directional rim from behind the enemy line, aimed back over them toward the party (silhouette separation). The cool one is straight on, the warm one comes in from the side for a warm edge on the enemies.</summary>
+        Light CreateRimLight(string name, Color color, float intensity, Vector3 direction)
         {
-            var go = new GameObject("Battle rim light");
+            var go = new GameObject(name);
             go.transform.SetParent(transform, false);
-            go.transform.rotation = Quaternion.LookRotation(new Vector3(0f, -.35f, -1f));
+            go.transform.rotation = Quaternion.LookRotation(direction);
             var light = go.AddComponent<Light>();
             light.type = LightType.Directional;
-            light.color = BattleRimColor;
-            light.intensity = BattleRimIntensity;
+            light.color = color;
+            light.intensity = intensity;
             light.shadows = LightShadows.None;
             return light;
         }
@@ -1320,6 +1329,7 @@ namespace Abyss.Runtime.Battle
             if (_flash != null) { _flash.gameObject.SetActive(false); Destroy(_flash.gameObject); }
             if (_dim != null) { _dim.gameObject.SetActive(false); Destroy(_dim.gameObject); }
             if (_rim != null) { Destroy(_rim.gameObject); _rim = null; }
+            if (_warmRim != null) { Destroy(_warmRim.gameObject); _warmRim = null; }
             if (_hud != null) { _hud.Lock(); _hud.enabled = false; }
             _director?.Restore();
             if (_app != null && _oldAtmosphere != null) { _app.Atmosphere.Apply(_oldAtmosphere); _app.Atmosphere.SetupCamera(_camera, _oldOutline); }

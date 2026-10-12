@@ -1011,10 +1011,14 @@ namespace Abyss.Logic.Battle
             Emit(ev);
         }
 
-        /// <summary>Per-hero basic attack staging (attack_warrior, attack_archer, ...), attack_enemy for monsters.</summary>
+        /// <summary>
+        /// Per-class basic attack staging (attack_warrior, attack_archer, attack_mage, attack_cleric), attack_enemy for monsters.
+        /// Keyed by the hero's class, not the hero id: "attack_h_jiho" never exists, so every hero used to fall through to the
+        /// generic slash staging and a bow shot landed a blade crescent.
+        /// </summary>
         string AttackPresentation(BattleUnit actor)
         {
-            string id = actor.Side == BattleSide.Enemy ? "attack_enemy" : "attack_" + actor.DefId;
+            string id = actor.Side == BattleSide.Enemy ? "attack_enemy" : "attack_" + _db.ClassOf(actor.DefId);
             if (_db.Presentations.ContainsKey(id)) return id;
             return actor.Side == BattleSide.Party && _db.Presentations.ContainsKey("attack_party") ? "attack_party" : null;
         }

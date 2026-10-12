@@ -201,7 +201,7 @@ def battle_effects():
            burst('feather', 'FFF2D0', 18, life=1.2, size=.22, speed=1.8, gravity=.15, delay=.1),
            emitter('ember', 'FFF8E0', 30, .8, .1, 2.0, .6, y=FLOOR), duration=1.3)
     effect('pierce', 'Arrow hit: light-arrow streak, small hit spark, tight shock ring, focused sparks',
-           quad('arrow_streak', 'E0F4FF', .25, 2.2, height=.55),
+           quad('arrow_streak', 'E0F4FF', .25, 2.2, height=.55, align=True),
            flash('FFFFFF', .3, 1.0, .14, delay=.03), shock('D8F0FF', .2, 1.2, .25, delay=.03),
            sparks('E8F8FF', 14, 4.0, .3, .25), duration=.8)
     effect('blunt', 'Heavy blow: hit spark, shock ring, floor ring, dust cloud, flying rock chips and sparks',
@@ -356,7 +356,7 @@ def jobs():
     effect('job_sniper', 'Sniper: lock-on reticle and ring converge, then a piercing light arrow, focus lines and sharp burst',
            quad('magic_circle_c', 'D0F0FF', .6, 1.8, 1.0, spin=120),
            quad('ring', 'FFFFFF', .5, 2.4, .6),
-           quad('arrow_streak', 'E8F8FF', .25, 3.6, height=.6, delay=.5),
+           quad('arrow_streak', 'E8F8FF', .25, 3.6, height=.6, align=True, delay=.5),
            quad('speed_lines', 'C0E8FF', .3, 3.0, 2.4, delay=.5),
            flash('FFFFFF', .4, 1.6, .16, delay=.55), shock('C8ECFF', .3, 2.4, .35, delay=.55),
            sparks('E0F6FF', 20, 6.0, .35, .3, delay=.55), duration=1.4)
@@ -771,7 +771,7 @@ def signature_impacts():
     """impact_vfx / area_vfx per skill family."""
     # ---- fire ---------------------------------------------------------------------------------------
     effect('fire_arrow_hit', 'Flame arrow hit: arrow streak punches in, hit spark, burst of flame, ember spray, smoke wisp',
-           quad('arrow_streak', 'FFE8C0', .22, 2.6, height=.6, rotation=75), flash('FFF0D0', .6, 2.0, .15, delay=.03),
+           quad('arrow_streak', 'FFE8C0', .22, 2.6, height=.6, align=True), flash('FFF0D0', .6, 2.0, .15, delay=.03),
            quad('explosion_sheet', 'FFD9A0', .55, 1.2, 2.4, tiles=4, delay=.04),
            quad('flame_sheet', 'FFC890', .6, 1.2, 1.6, y=.3, tiles=4, delay=.1),
            embers('FFD090', 22, 3.2, .8, .14), smoke('3A2A30', 5, .8, .9, .7, delay=.15), duration=1.0)
@@ -898,7 +898,7 @@ def signature_impacts():
            burst('square', 'E0F8FF', 30, life=1.0, size=.3, speed=6.0, gravity=1.0, radius=1.4, delay=.65),
            smoke('E8F4FF', 16, 1.6, 1.6, 1.4, radius=2.6, delay=.7), duration=2.4)
     effect('ice_arrow_hit', 'Frost arrow hit: arrow streak, frost bloom of crystals and snowflake, hit spark, shards and mist',
-           quad('arrow_streak', 'E8FAFF', .22, 2.6, height=.6, rotation=75), flash('E8FCFF', .5, 1.8, .14, delay=.03),
+           quad('arrow_streak', 'E8FAFF', .22, 2.6, height=.6, align=True), flash('E8FCFF', .5, 1.8, .14, delay=.03),
            quad('snowflake', 'F0FCFF', .6, .4, 2.2, spin=150, delay=.03), quad('crystal', 'E0F8FF', .7, .8, 2.0, y=-.1, delay=.05),
            burst('ice_shard', 'C8F0FF', 18, life=.7, size=.32, speed=4.0, gravity=.6), smoke('E0F4FF', 4, .5, .9, .7, delay=.1),
            duration=1.0)
@@ -945,7 +945,7 @@ def signature_impacts():
            emitter('spark', 'F0FAFF', 100, .35, .34, 4.0, 3.6, y=FLOOR, delay=.35),
            embers('E0F0FF', 40, 3.0, 1.2, .14, delay=.45, gravity=-.2, radius=2.0), duration=2.3)
     effect('thunder_arrow_hit', 'Thunder arrow hit: arrow streak, a bolt answers from the sky onto the arrow, flash, sparks, ring',
-           quad('arrow_streak', 'FFF8D0', .22, 2.6, height=.6, rotation=75), bolt('F0F8FF', 1.4, 4.0, .4, delay=.05),
+           quad('arrow_streak', 'FFF8D0', .22, 2.6, height=.6, align=True), bolt('F0F8FF', 1.4, 4.0, .4, delay=.05),
            flash('FFFFFF', .7, 2.2, .15, delay=.06), ground_ring('E0F0FF', .4, 3.0, .4, delay=.06),
            sparks('F0FAFF', 26, 5.5, .32, .3, delay=.06), duration=1.0)
     effect('giga_slash', 'Giga slash: a colossal lightning-charged crescent cleaves the whole field, thunder column at the centre, '
@@ -998,7 +998,7 @@ def signature_impacts():
            burst('feather', 'FFF6E0', 36, life=1.4, size=.3, speed=3.4, gravity=.12, radius=1.6, delay=.4),
            emitter('ember', 'FFF8E0', 70, 1.0, .12, 3.0, 3.4, y=FLOOR, delay=.3), duration=2.2)
     effect('holy_arrow_hit', 'Holy arrow hit: golden streak, small light pillar, cross glint, star burst and feathers',
-           quad('arrow_streak', 'FFF8E0', .22, 2.6, height=.6, rotation=75), pillar('FFF6D8', .8, 3.6, .5, delay=.04),
+           quad('arrow_streak', 'FFF8E0', .22, 2.6, height=.6, align=True), pillar('FFF6D8', .8, 3.6, .5, delay=.04),
            quad('cross', 'FFFFFF', .45, .6, height=1.2, y=.3, delay=.05), flash('FFF8E0', .6, 2.0, .15, delay=.04),
            burst('star4', 'FFF4C8', 16, life=.6, size=.3, speed=3.4, delay=.05),
            burst('feather', 'FFF2D0', 10, life=1.0, size=.24, speed=2.0, gravity=.15, delay=.06), duration=1.1)
@@ -1064,14 +1064,14 @@ def signature_impacts():
            sparks('D0A8FF', 18, 4.0, .35, .28, delay=.15), duration=1.3)
     # ---- physical / arrows ------------------------------------------------------------------------
     effect('pierce_triple', 'Triple shot hit: three light-arrow streaks fan into the target, hit spark, tight shock, sparks',
-           quad('arrow_streak', 'E8F8FF', .22, 2.6, height=.6, rotation=87),
-           quad('arrow_streak', 'E0F4FF', .22, 2.6, height=.6, rotation=63, delay=.04),
-           quad('arrow_streak', 'F0FAFF', .22, 2.6, height=.6, rotation=75, delay=.08),
+           quad('arrow_streak', 'E8F8FF', .22, 2.6, height=.6, rotation=12, align=True),
+           quad('arrow_streak', 'E0F4FF', .22, 2.6, height=.6, rotation=-12, align=True, delay=.04),
+           quad('arrow_streak', 'F0FAFF', .22, 2.6, height=.6, align=True, delay=.08),
            flash('FFFFFF', .45, 1.6, .14, delay=.04), shock('D8F0FF', .3, 2.0, .28, delay=.05),
            sparks('E8F8FF', 18, 4.6, .3, .26, delay=.04), duration=.9)
     effect('snipe_hit', 'Weak-point snipe: lock-on reticle snaps shut, a long piercing light streak, critical burst and shock ring',
            quad('reticle', 'FFFFFF', .3, 2.4, .9, spin=200),
-           quad('arrow_streak', 'FFFFFF', .25, 4.0, height=.8, rotation=75, delay=.12), quad('speed_lines', 'FFFFFF', .3, 3.4, 2.6, delay=.12),
+           quad('arrow_streak', 'FFFFFF', .25, 4.0, height=.8, align=True, delay=.12), quad('speed_lines', 'FFFFFF', .3, 3.4, 2.6, delay=.12),
            flash('FFFFFF', .7, 2.4, .16, delay=.14), quad('sunburst', 'FFF0C8', .4, .5, 3.0, delay=.15, spin=40),
            shock('FFFFFF', .5, 3.2, .35, delay=.15), sparks('FFFFFF', 26, 6.5, .35, .3, delay=.14), duration=1.1)
     effect('deadeye', 'Deadeye: a giant lock-on reticle and rings close on the target, time stops, then a single lance of light '
@@ -1079,7 +1079,7 @@ def signature_impacts():
            quad('reticle', 'F0FAFF', .6, 4.0, 1.2, spin=160), quad('ring', 'FFFFFF', .5, 3.4, .6),
            quad('magic_circle_c', 'D0F0FF', .6, 3.0, 1.0, spin=-120),
            quad('speed_lines', 'FFFFFF', .4, 6.0, 3.0, delay=.4),
-           quad('arrow_streak', 'FFFFFF', .3, 6.0, height=1.0, rotation=75, delay=.45),
+           quad('arrow_streak', 'FFFFFF', .3, 6.0, height=1.0, align=True, delay=.45),
            flash('FFFFFF', 1.0, 3.6, .2, delay=.5), shock('E8F8FF', .6, 4.4, .4, delay=.5),
            seal('shockwave', 'D8F0FF', .6, life=.6, end=6.0, spin=0, delay=.5),
            burst('star4', 'FFFFFF', 24, life=.7, size=.36, speed=5.0, delay=.5), sparks('E0F6FF', 30, 7.0, .4, .32, delay=.5),
@@ -1556,6 +1556,18 @@ def widen(recipe, factor):
                     item[field] = round(item[field] * factor) if field == 'count' else round(item[field] * factor, 2)
 
 
+# Impact arrow streaks that point along the shot (`align`). grow() appends "y" after the authored keys, so align is
+# moved to the end of those layers to keep the key order of the shipped effects.json.
+ALIGNED_STREAK_RECIPES = ('pierce', 'job_sniper', 'fire_arrow_hit', 'ice_arrow_hit', 'thunder_arrow_hit', 'holy_arrow_hit',
+                          'pierce_triple', 'snipe_hit', 'deadeye')
+
+
+def align_last(recipe):
+    for item in recipe['layers']:
+        if item['kind'] == 'quad' and item['texture'] == 'arrow_streak' and 'align' in item:
+            item['align'] = item.pop('align')
+
+
 # --- shared effect meshes (Tripo -> Blender, see ArtSource/_briefs/skills_vfx.md) --------------------------------
 # Mesh layers are staged PER LAYER: a layer carrying "mesh" is emitted only when BOTH Resources/Vfx/Meshes/<mesh>.fbx
 # and its texture (default Textures/mesh_<mesh>.png) exist. Every other layer of the same recipe still emits, so
@@ -2017,7 +2029,9 @@ def main():
         grow(EFFECTS[key], factor)
     for key, factor in WIDEN.items():
         widen(EFFECTS[key], factor)
-    required = {p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
+    for key in ALIGNED_STREAK_RECIPES:
+        align_last(EFFECTS[key])
+    required ={p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
                 for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()
     if missing:

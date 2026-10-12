@@ -649,13 +649,19 @@ def export_arena_turned(tileset, objs):
     the enemies at Unity +Z (Blender -Y), so the arena is exported turned 180 degrees about Z and turned back after."""
     turn = Matrix.Rotation(math.pi, 4, "Z")
     tops = [o for o in objs if o.parent is None]
+    # Objects created in this session (the Spot_* / LightAnchor_* empties above all) have a stale identity
+    # matrix_world until the depsgraph evaluates them; without this update `turn @ o.matrix_world` below overwrote
+    # their authored locations with the bare rotation and every empty collapsed to the arena origin in the FBX.
+    bpy.context.view_layer.update()
     for o in tops:
         o.matrix_world = turn @ o.matrix_world
+    bpy.context.view_layer.update()
     try:
         return export_piece(tileset, "arena", objs)
     finally:
         for o in tops:
             o.matrix_world = turn @ o.matrix_world
+        bpy.context.view_layer.update()
 
 
 def all_desc(objs):

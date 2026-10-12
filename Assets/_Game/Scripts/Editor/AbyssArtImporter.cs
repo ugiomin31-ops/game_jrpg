@@ -135,6 +135,12 @@ namespace Abyss.EditorTools
             return rel.Contains("/Art/Environment/") || rel.Contains("/Art/Town/") || rel.Contains("/Art/Props/");
         }
 
+        static bool ReadableArena(string path)
+        {
+            string rel = path.Replace('\\', '/');
+            return rel.Contains("/Art/Environment/") && rel.EndsWith("/arena.fbx", System.StringComparison.OrdinalIgnoreCase);
+        }
+
         void OnPreprocessModel()
         {
             if (IsVfxMesh(assetPath)) { PreprocessVfxMesh((ModelImporter)assetImporter); return; }
@@ -165,7 +171,8 @@ namespace Abyss.EditorTools
             mi.importLights = false;
             mi.importBlendShapes = false;
             mi.importVisibility = false;
-            mi.isReadable = false;
+            // Battle arenas stay readable: the camera director derives occluder boxes for the posts and machines of the merged props shell.
+            mi.isReadable = ReadableArena(assetPath);
             mi.meshCompression = ModelImporterMeshCompression.Off;
             mi.importNormals = ModelImporterNormals.Import;
             mi.materialImportMode = ModelImporterMaterialImportMode.ImportStandard;

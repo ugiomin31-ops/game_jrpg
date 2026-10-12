@@ -42,7 +42,7 @@ namespace Abyss.Presentation.Vfx
             public bool alpha, horizontal;
             /// <summary>Particles keep the texture upright (no random spin): falling arrows, rain streaks.</summary>
             public bool upright;
-            /// <summary>Billboard quads turn their +U axis along a projectile's screen-space travel direction.</summary>
+            /// <summary>Billboard quads turn their +U axis along a projectile's screen-space travel direction, or along the blow (caster toward target) for a non-travelling impact that was given a facing.</summary>
             public bool align;
             /// <summary>Resources/Vfx/Meshes/&lt;id&gt;: one baked mesh (axes, scale, pivot), see skills_vfx.md. Kinds mesh, orbit, burst, emitter.</summary>
             public string mesh;
@@ -471,8 +471,22 @@ namespace Abyss.Presentation.Vfx
             if ((b - a).sqrMagnitude > .01f) e.Angle = Mathf.Atan2(b.y - a.y, b.x - a.x) * Mathf.Rad2Deg;
         }
 
+        /// <summary>
+        /// Screen-space heading (degrees, +U of an `align` quad) of a non-travelling blow, so impact streaks continue from caster through
+        /// target instead of always pointing screen-right. Uses the same readable direction as the mesh layers; refreshed each tick because
+        /// the battle camera keeps moving.
+        /// </summary>
+        void AimFacing(Effect effect)
+        {
+            Vector3 d = ReadableFacing(effect.Facing);
+            Quaternion view = _viewRotation;
+            float x = Vector3.Dot(d, view * Vector3.right), y = Vector3.Dot(d, view * Vector3.up);
+            if (x * x + y * y > 1e-4f) effect.Angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+        }
+
         void Tick(Effect effect, float dt)
         {
+            if (!effect.Travel && effect.HasFacing) AimFacing(effect);
             foreach (var layer in effect.Layers)
             {
                 var r = layer.Recipe;
