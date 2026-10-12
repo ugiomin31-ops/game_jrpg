@@ -49,3 +49,6 @@ Risk noted: thin handrail wing struts may thin out in image-to-3D.
 - Icon: `Assets/_Game/Resources/Icons/Enemies/subway_bat_lord.png` via `Blender/ui/render_icons.py -- Enemies/subway_bat_lord --own-model`.
 - Note: Tripo's "Other" auto-rig weights are rough: ~30 % of each wing and the upper body are weighted to `Head`, the chest to the
   clavicles, the belly partly to the thighs/upper arms. Animations keep head motion small and spread wing angles over clavicle/upperarm/forearm.
+
+## Installed 2026-10-12 (marker only, Sonnet 5.5 F1-INSTALL, 0 credits)
+Model unchanged. Added the missing empty `TRIPO` marker to Assets/_Game/Resources/Art/Enemies/subway_bat_lord/ so AbyssArtImporter.IsTripo() is true: new/untouched materials get the Tripo outline defaults, and an existing material still at the untouched VRoid values (_OutlineWidth 0.011, _OutlineZOffset 0 = current subway_bat_lord_mat) is migrated by TexturedMaterials.Sync on the next Unity import/sync (AbyssArtImporter.cs:549-556). Unity import not run in this step (unverified).

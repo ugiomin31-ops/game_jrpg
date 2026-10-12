@@ -22,6 +22,9 @@ namespace Abyss.EditorTools
         public const string MaterialDir = "Assets/_Game/Materials";
         static readonly string[] AnimatedFolders = { "Characters/", "Enemies/", "NPCs/" };
         const string HumanoidAnimations = "HumanoidAnimations/";
+        // Per-class takes (Art/HumanoidAnimationsByClass/<class>/<Take>.fbx) override the shared ones by name at spawn time.
+        // A sibling folder, not a subfolder: Resources.LoadAll(HumanoidAnimations) is recursive and would return duplicate names.
+        const string HumanoidAnimationsByClass = "HumanoidAnimationsByClass/";
         static readonly string[] SlotNames = { "M_Toon", "M_Emit", "M_Clear" };
         static readonly HashSet<string> LoopClips = new HashSet<string> { "Idle", "Run", "Walk", "Fly", "Float", "BattleIdle", "Swim", "Hover" };
 
@@ -97,7 +100,11 @@ namespace Abyss.EditorTools
             return false;
         }
 
-        static bool IsHumanoidAnimation(string path) => path.Replace('\\', '/').Substring(ArtRoot.Length).StartsWith(HumanoidAnimations);
+        static bool IsHumanoidAnimation(string path)
+        {
+            string rel = path.Replace('\\', '/').Substring(ArtRoot.Length);
+            return rel.StartsWith(HumanoidAnimations) || rel.StartsWith(HumanoidAnimationsByClass);
+        }
 
         /// <summary>A character folder opts into Unity Humanoid with an empty "HUMANOID" marker file next to its model.</summary>
         static bool IsHumanoid(string path) =>
@@ -336,7 +343,7 @@ namespace Abyss.EditorTools
             {
                 Make("M_Toon", env, shader, m =>
                 {
-                    m.SetFloat("_OutlineWidth", env ? 0.004f : 0.011f);
+                    m.SetFloat("_OutlineWidth", env ? 0.004f : TexturedMaterials.VRoidOutlineWidth);
                     m.SetFloat("_NoiseStrength", env ? 0.10f : 0f);
                     m.SetFloat("_RimStrength", env ? 0.12f : 0.35f);
                 });
@@ -546,15 +553,8 @@ namespace Abyss.EditorTools
             {
                 bool dirty = false;
                 if (mat.GetTexture(BaseMapId) == null) { mat.SetTexture(BaseMapId, texture); dirty = true; }
-                // Existing Tripo character materials created with the plain 0.011 hull: move them to the Tripo values.
-                // Only the untouched defaults are replaced, so hand tuning survives.
-                if (AbyssArtImporter.IsTripo(modelPath) && !AbyssArtImporter.IsEnvironment(modelPath) && !IsDecal(name)
-                    && Mathf.Approximately(mat.GetFloat("_OutlineWidth"), CharacterOutlineWidth)
-                    && Mathf.Approximately(mat.GetFloat("_OutlineZOffset"), 0f))
-                {
-                    ApplyTripoOutline(mat);
-                    dirty = true;
-                }
+                // Outline widths of existing materials are NOT migrated here (a folder can hold stale materials the model
+                // never binds): see MigrateBoundOutlines, which only touches materials the model's renderers use.
                 if (dirty)
                 {
                     EditorUtility.SetDirty(mat);
@@ -564,18 +564,119 @@ namespace Abyss.EditorTools
             return mat;
         }
 
-        const float CharacterOutlineWidth = 0.011f;
-        // Tripo meshes are dense, noisy and layered (clothes over body, eyes inside lids). The 0.011 screen-space hull
-        // of the VRoid models pokes through those layers as black bars across the eyes and streaks over the clothes
-        // (verified: hull off = clean, thin hull alone still streaks on the chest). A thin hull pushed 6 cm away from
-        // the camera stays hidden behind the shell and only shows as a silhouette line.
-        public const float TripoOutlineWidth = 0.004f;
+        // Stock (shader / importer default) values that the outline migration recognises. Anything else is hand tuning.
+        const float StockCharacterOutlineWidth = 0.011f;   // old VRoid characters and the first Tripo import
+        const float StockTripoOutlineWidth = 0.004f;       // first Tripo hull (2 px at 1080p)
+        static readonly Color StockOutlineColor = new Color(0.10f, 0.07f, 0.12f, 1f);
+        const float StockOutlineTintMix = 0.35f;
+
+        // Role widths, in NDC (1 unit = half the screen height; 0.0028 is about 1.5 px at 1080p). Tripo meshes are dense,
+        // noisy and layered (clothes over body, eyes inside lids). A thick screen-space hull pokes through those layers as
+        // black bars across the eyes and streaks over the clothes (verified: hull off = clean). A thin hull pushed 6 cm
+        // away from the camera stays hidden behind the shell and only shows as a silhouette line.
+        public const float TripoOutlineWidth = 0.0028f;
         public const float TripoOutlineZOffset = 0.06f;
+        /// <summary>Remaining VRoid hunters (until they are replaced by Tripo models).</summary>
+        public const float VRoidOutlineWidth = 0.006f;
+        /// <summary>Softer line: a dark tint of the surface (vertex colour) instead of a black stroke.</summary>
+        public static readonly Color SoftOutlineColor = new Color(0.16f, 0.13f, 0.20f, 1f);
+        public const float SoftOutlineTintMix = 0.55f;
 
         static void ApplyTripoOutline(Material m)
         {
             m.SetFloat("_OutlineWidth", TripoOutlineWidth);
             m.SetFloat("_OutlineZOffset", TripoOutlineZOffset);
+            ApplySoftOutlineColor(m);
+        }
+
+        static void ApplySoftOutlineColor(Material m)
+        {
+            if (m.HasProperty("_OutlineColor") && SameColor(m.GetColor("_OutlineColor"), StockOutlineColor))
+                m.SetColor("_OutlineColor", SoftOutlineColor);
+            if (m.HasProperty("_OutlineTintMix") && Mathf.Approximately(m.GetFloat("_OutlineTintMix"), StockOutlineTintMix))
+                m.SetFloat("_OutlineTintMix", SoftOutlineTintMix);
+        }
+
+        static bool SameColor(Color a, Color b) =>
+            Mathf.Abs(a.r - b.r) < 0.003f && Mathf.Abs(a.g - b.g) < 0.003f && Mathf.Abs(a.b - b.b) < 0.003f;
+        static bool Near(float a, float b) => Mathf.Abs(a - b) < 0.00015f;
+
+        /// <summary>
+        /// Moves an existing character material from the stock outline values to the role widths. Only identified stock
+        /// values are replaced (hand tuning survives); decals (width 0) and environment models are never touched.
+        /// Returns true when the material changed.
+        /// </summary>
+        public static bool MigrateOutline(Material m, string modelPath)
+        {
+            if (m == null || m.shader == null || m.shader.name != "Abyss/Toon" || AbyssArtImporter.IsEnvironment(modelPath)) return false;
+            float width = m.GetFloat("_OutlineWidth"), z = m.GetFloat("_OutlineZOffset");
+            if (width < 0.0001f) return false; // decal: no hull
+            bool changed = false;
+            if (AbyssArtImporter.IsTripo(modelPath))
+            {
+                bool plain = Near(width, StockCharacterOutlineWidth) && Near(z, 0f);
+                bool firstHull = Near(width, StockTripoOutlineWidth) && z >= 0.0099f;
+                if (plain) { ApplyTripoOutline(m); changed = true; }
+                else if (firstHull) { m.SetFloat("_OutlineWidth", TripoOutlineWidth); ApplySoftOutlineColor(m); changed = true; }
+            }
+            else if (Near(width, StockCharacterOutlineWidth))
+            {
+                m.SetFloat("_OutlineWidth", VRoidOutlineWidth);
+                ApplySoftOutlineColor(m);
+                changed = true;
+            }
+            if (changed) EditorUtility.SetDirty(m);
+            return changed;
+        }
+
+        /// <summary>
+        /// Outline migration of one model: only the materials its prefab's renderers actually bind (and that live in the
+        /// model's own _mat folder) are migrated, so stale VRoid materials left in a Tripo folder keep their GUIDs and values.
+        /// </summary>
+        public static int MigrateBoundOutlines(string modelPath, List<string> log = null)
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(modelPath);
+            if (prefab == null) return 0;
+            string folder = MaterialFolder(modelPath) + "/";
+            var seen = new HashSet<Material>();
+            int count = 0;
+            foreach (var r in prefab.GetComponentsInChildren<Renderer>(true))
+                foreach (var m in r.sharedMaterials)
+                {
+                    if (m == null || !seen.Add(m)) continue;
+                    string path = AssetDatabase.GetAssetPath(m);
+                    if (!path.StartsWith(folder, System.StringComparison.Ordinal)) continue;
+                    float w0 = m.GetFloat("_OutlineWidth");
+                    if (MigrateOutline(m, modelPath)) { count++; log?.Add(path + ": " + w0.ToString("0.####") + " -> " + m.GetFloat("_OutlineWidth").ToString("0.####")); }
+                }
+            if (count > 0) AssetDatabase.SaveAssets();
+            return count;
+        }
+
+        /// <summary>Every textured character, enemy, NPC and weapon model (environment excluded).</summary>
+        [MenuItem("Abyss/Migrate Bound Outline Widths")]
+        public static void MigrateAllBoundOutlines()
+        {
+            var log = new List<string>();
+            foreach (string guid in AssetDatabase.FindAssets("t:Model", new[] { AbyssArtImporter.ArtRoot.TrimEnd('/') }))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                if (!path.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase) || !HasTextures(path)) continue;
+                if (path.Contains("/HumanoidAnimations/") || path.Contains("/HumanoidAnimationsByClass/")) continue;
+                MigrateBoundOutlines(path, log);
+            }
+            // The shared character toon material is bound by the town villagers / innkeeper (and old procedural models):
+            // same stock 0.011 -> VRoid-role width. The environment set and M_Emit are left alone.
+            var shared = AbyssMaterials.Get("M_Toon", false);
+            if (shared != null && Near(shared.GetFloat("_OutlineWidth"), StockCharacterOutlineWidth))
+            {
+                shared.SetFloat("_OutlineWidth", VRoidOutlineWidth);
+                ApplySoftOutlineColor(shared);
+                EditorUtility.SetDirty(shared);
+                AssetDatabase.SaveAssets();
+                log.Add(AbyssMaterials.PathFor("M_Toon", false) + ": 0.011 -> " + VRoidOutlineWidth.ToString("0.####"));
+            }
+            Debug.Log("Outline migration: " + log.Count + " material(s)\n" + string.Join("\n", log));
         }
 
         static void Configure(Material m, string name, bool environment, bool tripo = false)
@@ -583,8 +684,9 @@ namespace Abyss.EditorTools
             bool decal = IsDecal(name);
             // Character defaults of M_Toon_Char; the textures carry painted shading, so no toon specular blob
             // except on cloth.
-            m.SetFloat("_OutlineWidth", decal ? 0f : environment ? 0.004f : CharacterOutlineWidth);
+            m.SetFloat("_OutlineWidth", decal ? 0f : environment ? 0.004f : VRoidOutlineWidth);
             if (tripo && !environment && !decal) ApplyTripoOutline(m);
+            else if (!environment && !decal) ApplySoftOutlineColor(m);
             m.SetFloat("_RimStrength", environment ? 0.12f : 0.35f);
             m.SetFloat("_NoiseStrength", 0f);
             m.SetFloat("_Specular", HasSuffix(name, "_CLOTH") ? 0.12f : 0f);

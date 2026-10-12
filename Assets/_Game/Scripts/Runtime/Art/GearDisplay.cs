@@ -22,7 +22,9 @@ namespace Abyss.Runtime.Art
                 default: return 1.35f;
             }
         }
-        static readonly int RimColorId = Shader.PropertyToID("_RimColor");
+        /// <summary>Held-weapon outline widths (MaterialPropertyBlock): Tripo hull materials / everything else.</summary>
+        public const float TripoWeaponOutlineWidth = 0.003f, WeaponOutlineWidth = 0.008f;
+        static readonly int RimColorId =Shader.PropertyToID("_RimColor");
         static readonly int RimStrengthId = Shader.PropertyToID("_RimStrength");
         static readonly int OutlineWidthId = Shader.PropertyToID("_OutlineWidth");
         static readonly int OutlineZOffsetId = Shader.PropertyToID("_OutlineZOffset");
@@ -96,11 +98,12 @@ namespace Abyss.Runtime.Art
                 r.GetPropertyBlock(block);
                 block.SetColor(RimColorId, rim);
                 block.SetFloat(RimStrengthId, 0.9f + rank * 0.22f);
-                // Tripo weapon materials carry their own thin hull (width 0.004 + 6 cm Z offset, see TexturedMaterials); the
-                // 0.02 rank outline made them look like thick black halos, so they only get a slightly stronger line.
+                // Tripo weapon materials carry their own thin hull (6 cm Z offset, see TexturedMaterials), so they only get a
+                // slightly stronger line (0.003, about 1.6 px at 1080p); other weapons keep a bolder one (0.008). The old
+                // 0.02 rank outline made both look like thick black halos.
                 var shared = r.sharedMaterial;
                 bool tripoHull = shared != null && shared.HasProperty(OutlineZOffsetId) && shared.GetFloat(OutlineZOffsetId) >= 0.05f;
-                block.SetFloat(OutlineWidthId, tripoHull ? 0.006f : 0.02f);
+                block.SetFloat(OutlineWidthId, tripoHull ? TripoWeaponOutlineWidth : WeaponOutlineWidth);
                 block.SetColor(OutlineColorId, rank >= 2 ? Color.Lerp(new Color(0.08f, 0.06f, 0.1f), rim, 0.35f) : new Color(0.08f, 0.06f, 0.1f));
                 // Lifts the blade out of dark dungeon lighting; better weapons glow a little more.
                 block.SetFloat(EmissionId, 0.18f + rank * 0.08f);

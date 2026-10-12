@@ -39,8 +39,8 @@ Material:
     - _MidBand: 0.25
     - _NoiseScale: 1.6
     - _NoiseStrength: 0
-    - _OutlineWidth: 0.011
-    - _OutlineZOffset: 0
+    - _OutlineWidth: 0.004
+    - _OutlineZOffset: 0.06
     - _RimPower: 3.5
     - _RimStrength: 0.35
     - _ShadowSoftness: 0.06

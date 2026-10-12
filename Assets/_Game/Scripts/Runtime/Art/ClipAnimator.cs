@@ -23,6 +23,40 @@ namespace Abyss.Runtime.Art
         float _speed = 1f;
         bool _ready;
 
+        readonly Dictionary<string, float> _clipRates = new Dictionary<string, float>();
+        string _rest = "Idle";
+        /// <summary>Crossfade out of a finished one-shot into its follow-up (Attack/Cast/Skill/Hit back to the standing loop).</summary>
+        public const float ReturnFade = 0.22f;
+
+        /// <summary>
+        /// The standing loop that a request for "Idle" resolves to. Battle heroes use "BattleIdle" (a ready stance) so that
+        /// Attack/Cast/Skill/Hit start and end close to it; the town and everything without that take keep "Idle".
+        /// </summary>
+        public string RestClip
+        {
+            get => _rest;
+            set { if (HasClip(value)) _rest = value; }
+        }
+
+        string Resolve(string clip) => clip == "Idle" ? _rest : clip;
+
+        /// <summary>Playback-rate multiplier of one take on top of <see cref="SetSpeed"/> (e.g. Run matched to ground speed).</summary>
+        public void SetClipRate(string clip, float rate)
+        {
+            rate = Mathf.Max(0.05f, rate);
+            if (_clipRates.TryGetValue(clip, out var old) && Mathf.Approximately(old, rate)) return;
+            _clipRates[clip] = rate;
+            if (!_ready) return;
+            for (int i = 0; i < _playables.Length; i++) UpdateSpeed(i);
+        }
+
+        readonly Dictionary<string, float> _clipEnds = new Dictionary<string, float>();
+        /// <summary>Plays only the first part (0..1) of a one-shot before returning to its follow-up, e.g. cutting a held recovery pose.</summary>
+        public void SetClipEnd(string clip, float fraction) => _clipEnds[clip] = Mathf.Clamp(fraction, .1f, 1f);
+        public float EndFraction(string clip) => clip != null && _clipEnds.TryGetValue(clip, out var f) ? f : 1f;
+
+        float RateOf(int slot) => _clipRates.TryGetValue(_slotClips[slot].name, out var r) ? r : 1f;
+
         public string CurrentClip => _currentName;
         public IEnumerable<string> ClipNames => _clips.Keys;
         public float NormalizedTime => _current < 0 ? 0f :
@@ -89,6 +123,7 @@ namespace Abyss.Runtime.Art
         void Begin(string clip, float fade, bool restart, string then, float start)
         {
             if (!_ready) return;
+            clip = Resolve(clip); then = then == null ? null : Resolve(then);
             RequireClip(clip);
             if (then != null) RequireClip(then);
             _pendingName = null;
@@ -105,7 +140,7 @@ namespace Abyss.Runtime.Art
             Array.Copy(_weights, _fromWeights, _weights.Length);
             _current = slot; _currentName = clip; _queuedAfter = then;
             var playable = _playables[slot];
-            playable.SetTime(start * _slotClips[slot].length); playable.SetDone(false); playable.SetSpeed(_speed);
+            playable.SetTime(start * _slotClips[slot].length); playable.SetDone(false); playable.SetSpeed(_speed * RateOf(slot));
             _fadeTime = Mathf.Max(0f, fade);
             float total = 0f;
             for (int i = 0; i < _fromWeights.Length; i++) total += _fromWeights[i];
@@ -128,7 +163,7 @@ namespace Abyss.Runtime.Art
         void UpdateSpeed(int slot)
         {
             bool ended = !_slotClips[slot].isLooping && _playables[slot].GetTime() >= _slotClips[slot].length;
-            _playables[slot].SetSpeed((_weights[slot] > 0f || slot == _current) && !ended ? _speed : 0f);
+            _playables[slot].SetSpeed((_weights[slot] > 0f || slot == _current) && !ended ? _speed * RateOf(slot) : 0f);
         }
 
         void ApplyWeights()
@@ -158,11 +193,11 @@ namespace Abyss.Runtime.Art
                 string next = _pendingName, after = _pendingAfter;
                 Begin(next, _pendingFade, true, after, _pendingStart);
             }
-            else if (_queuedAfter != null && NormalizedTime >= 1f)
+            else if (_queuedAfter != null && NormalizedTime >= EndFraction(_currentName))
             {
                 string next = _queuedAfter;
                 _queuedAfter = null;
-                Play(next, 0.12f, false);
+                Play(next, ReturnFade, false);
             }
         }
 

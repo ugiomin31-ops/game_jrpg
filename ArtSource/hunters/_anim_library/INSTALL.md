@@ -100,3 +100,46 @@ After the first impact check, parallel work added `HUMANOID` markers. Now presen
 
 ## NPC elder: Tripo install (2026-10-12)
 See `ArtSource/npcs/elder/candidates/prompts.md` (section "Installed 2026-10-12") for the full record.
+
+## Follow-up (2026-10-12): class motions, STAGING ONLY (not in Assets)
+Source: `tripo_export_class/tripo_convert_14929035-...fbx` (shopkeeper rig, 7068-vertex mesh, 12 takes, 24 fps). Staged in `class_staging/`. Same exporter and rest-pose patch as above; each file carries the class FBX's own rest pose.
+- **Gate:** 0 of 7068 vertices unweighted; RightArm 60 deg moved 898 vertices (max 0.36 m). 65 bones, names/order/parents identical to the library source.
+- **Rest differences vs the library source:** this is a different body. Hips z 0.529 (lib 0.587), LeftArm head (0.105, 0.029, 0.766) vs (0.075, 0.036, 0.805), LeftFoot x 0.094 vs 0.124; max bone-head diff 0.073 m; bone-axis matrices differ up to 1.38 (roll differs on some bones). Unity Humanoid retargets per avatar, so a class file must keep its own rest; the staged files re-import with rest = the class FBX rest (7e-7 m) and posed bones within 9e-6 m of the source. Mixing these clips with the library clips onto one model is Unity's retarget job; unverified here.
+- **Skill timing in BattleView:** `Contact("Skill")` is **0.5** (`BattleView.cs:622`), not 0.6 (Cast .6, Ultimate 44/66, Attack .4). `Skill` is used when the actor has a "Skill" clip and the action is a Skill (`BattleView.cs:541`), played with a 0.05 s fade and `Idle` after. I timed Skill to 50%.
+- **Ranged note:** `rangedBasic` (non-warrior party basic attack) uses the Attack clip without the approach step, so archer/mage/cleric Attack stay in place.
+
+| File | Source take | Frames kept (of source) | Length | Key moment | Loop | Hips drift (XY range) | Verdict |
+|---|---|---|---|---|---|---|---|
+| `BattleIdle.fbx` | Combat ready stance | 12-47 of 72 | 1.5 s | n/a | yes (name `BattleIdle`) | 0.011 / 0.010 m, offset 0.03 | **staged**. A boxer-style guard with both hands at the face, not the "weapon low at side" in the prompt. Not perfectly seamless: first vs last pose difference 0.052 (quaternion norm over 52 bones) vs 0.005 for a normal step, about 0.8 deg rms per bone. The full take (1-72) was worse (0.111). Best loop point found by search, only trimming. |
+| `warrior/Attack.fbx` | From a combat ready stance, a powerful one-handed overhead swing | 1-44 of 48 | 1.83 s | right-hand peak speed at frame 18: 17/43 = 39.5% | no | 0.033 / 0.054 m | **staged**, caveat: right hand rises to head height (not fully overhead), then a forward lunge-down at frame 18; no weapon. |
+| `mage/Skill.fbx` | Spell channel | 12-72 of 72 | 2.5 s | both palms thrust forward at frames 41-43 (peak 42): 30/60 = 50.0% | no | 0.012 / 0.013 m | **staged**, caveat: modest. Hands gather at the chest, then both arms extend forward at waist-chest height and hold. Start and end poses differ (0.83), so it needs a fade back to Idle. |
+
+Rejected after rendering (not staged; renders in `scratchpad/s3/rc1/sheet_*.png`):
+- **Attack_archer**: right arm goes up beside the head like a wave or head scratch; no bow-draw, left arm never extends forward; start/end differ (0.51).
+- **Attack_mage**: crouching twist with hands at the waist; no forward wand flick; start/end differ (0.83).
+- **Attack_cleric**: the right arm does sweep horizontally across the body (reads fine) but the whole swing is frames 4-12 (hand-speed peak at frame 5 = 8% of the clip); with trim-only and a 1.2 s minimum the strike cannot reach 40%, and the arm rests on the left for the remaining 3/4 of the clip. Could be staged if the contact fraction is changed or the start is allowed to be cut.
+- **Skill_warrior**: the whole body travels and spins out of frame; hips XY range 0.53 x 0.49 m, not a constant offset, so it cannot be recentred.
+- **Skill_archer**: raised right arm waves; no bow, no three draws.
+- **Skill_cleric**: starts hunched (hips down 0.1 m), ends in a side-on upright pose; hips XY range 0.17 x 0.14 m; no raised cane or prayer reading.
+- Presets `standing_relax` (423 f, loops: first/last 0.019), `chop` (159 f, loops: first/last 0.0), `shoot` (218 f, hips travel 2.6 m forward) were not requested and not staged.
+
+## Follow-up (2026-10-12): cleric Attack, free presets, class mapping (still STAGING ONLY)
+New staged files (same exporter; re-import: rest 7e-7 m, posed bones within 1e-5 m of source):
+- `cleric/Attack.fbx` (Attack_cleric): frames 1-36 of 48, 1.5 s. Strike = right-hand peak speed at frame 5-6 (using 6): **contact fraction 5/35 = 14%** (the take starts with only a 4-frame wind-up, nothing earlier to keep). Renders (1/6/12/24/36): relaxed stance, right arm sweeps right to left across the chest, ends with hands on hips. Hips XY range 0.037 x 0.022 m. Staged.
+- `warrior/Attack.fbx` is now the **`chop` preset**, source frames 30-83 (54 f, 2.25 s), strike (peak hand speed, both fists slam down) at frame 51: **39.6%**. Two-handed overhead chop: fists go overhead at frame 42, slam at 51. Caveat: starts and ends in a forward-bent hunch (not a ready stance), so it needs fades; hips lean 0.06 x 0.12 m (body motion, not drift). Rest/rig as above (65 bones, same class rest). The earlier one-handed take is kept as `alt/warrior_1hand/Attack.fbx` (39.5%).
+- `alt/relaxed/BattleIdle.fbx` = **`standing_relax`**, frames 1-422 (17.6 s, duplicate end dropped). Calm standing, arms low and loose, weight on one leg, small head turns, smiling; NOT a combat stance (reads casual). Loops seamlessly only as the whole take: first vs last pose 0.019 (normal step 0.009); every window under 100 frames is worse (best 0.09). Hips drift 0.12 x 0.03 m (sway). Recommended as BattleIdle for weapon/staff holders (mage, cleric, archer).
+- `shoot` preset: rejected. The body travels 2.6 m forward in frames 1-41 and then kneels on one knee fiddling with both hands at the chest (hips z 0.17-0.2); no aiming or shooting reads; not recentrable.
+- `chop` and `standing_relax` rig notes: same class rig/rest as above, takes 159 f and 423 f.
+
+### Shared-library fallbacks (installed in `Assets/.../HumanoidAnimations/`)
+- `Attack` (short one-handed overhead swing, 1.75 s, contact 40.5%): serviceable for warrior and cleric; for archer/mage it reads as a melee swing.
+- `Cast` (forward palm release, 1.58 s, release 60.5%): good as the basic attack or Skill for mage and cleric (needs a per-clip contact value if used as Skill, runtime Skill is 0.5).
+- `Hit`, `Idle`, `Guard`, `Die`, `Revive`, `Victory`, `Run`, `Walk`, `Talk` are class-neutral; `Idle` is the upright attention pose and no shared clip is a combat-ready loop.
+
+### Final mapping (class x clip -> staged file, contact fraction)
+| class | BattleIdle | Attack | Skill |
+|---|---|---|---|
+| warrior | `class_staging/BattleIdle.fbx` (guard stance, loop gap 0.052) | `warrior/Attack.fbx` (chop) 39.6% (alt `alt/warrior_1hand/Attack.fbx` 39.5%) | missing (Skill_warrior rejected; fall back to shared `Attack` or `Cast`) |
+| archer | `alt/relaxed/BattleIdle.fbx` (relaxed, not ready) | missing (Attack_archer, shoot rejected; shared `Attack` is a melee swing) | missing (Skill_archer rejected) |
+| mage | `alt/relaxed/BattleIdle.fbx` | missing (Attack_mage rejected; fall back to shared `Cast` 60.5%) | `mage/Skill.fbx` 50.0% |
+| cleric | `alt/relaxed/BattleIdle.fbx` | `cleric/Attack.fbx` 14% (strike frame 6 of 1-36) | missing (Skill_cleric rejected; fall back to shared `Cast`) |

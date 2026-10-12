@@ -108,3 +108,58 @@ Exact take names in the FBX (as read from the file; the Friendly Conversation na
 Checks done: FBX binary header `Kaydara FBX Binary`. Counts `Skin` x1, `Cluster` x65, `LimbNode` x130, `Deformer` x133 (same rig as the earlier exports). Skin data is present.
 Not done: the Blender posing check (bone moves mesh). The main session must do it before import.
 Tripo tab closed after download.
+
+## CLASS-MOTIONS (2026-10-12, Haiku 5.5 worker, Tripo Studio web)
+
+Rig: shopkeeper task `bc94a7b1-e6ab-4ac7-9ec6-376808870742` (Humanoid Mixamo, already rigged on this account, not re-rigged). Animate page, AI Animation tab, Text to Motion, one generation per clip. Balance before the first Generate: 1720. Balance after the last Generate: 1540.
+
+Clips (cost 20 each, read on the Generate button before each click):
+
+| clip | duration set | balance after | FBX take name (exact, Tripo cuts at 63 chars) |
+|---|---|---|---|
+| BattleIdle | 3 s | 1700 | `Combat ready stance: feet shoulder-width apart, knees slightly ` |
+| Attack_warrior | 2 s | 1680 | `From a combat ready stance, a powerful one-handed overhead swin` |
+| Attack_archer | 2 s | 1660 | `Archery shot: from a ready stance, raise a bow held in the LEFT` |
+| Attack_mage | 2 s | 1640 | `From a ready stance, flick a short wand held in the right hand ` |
+| Attack_cleric | 2 s | 1620 | `From a ready stance, swing a walking cane held in the right han` |
+| Skill_warrior | 3 s (requested 2.5 s) | 1600 | `Spinning slash: from a ready stance, spin the whole body once w` |
+| Skill_archer | 3 s (requested 2.5 s) | 1580 | `Rapid triple shot: holding a bow in the LEFT hand extended forw` |
+| Skill_mage | 3 s (requested 2.5 s) | 1560 | `Spell channel: raise both hands in front of the chest, gather e` |
+| Skill_cleric | 3 s (requested 2.5 s) | 1540 | `Healing prayer: hold a cane upright in the right hand, raise it` |
+
+Prompts (typed exactly as given in the task):
+- BattleIdle (3 s): "Combat ready stance: feet shoulder-width apart, knees slightly bent, weight forward, right hand holding a short weapon low at the side, left hand relaxed in front, light rhythmic breathing bounce, eyes forward; ends in exactly the same pose it starts so it loops."
+- Attack_warrior (2 s): "From a combat ready stance, a powerful one-handed overhead swing with a short club in the right hand: quick wind-up over the right shoulder, hard downward strike in front, follow-through, then back to the ready stance. Feet planted."
+- Attack_archer (2 s): "Archery shot: from a ready stance, raise a bow held in the LEFT hand with the left arm straight forward at shoulder height, draw the string back to the cheek with the right hand, hold briefly, release, then lower back to the ready stance. Feet planted."
+- Attack_mage (2 s): "From a ready stance, flick a short wand held in the right hand forward toward the enemy with a snappy wrist and forearm thrust, small step forward, then return to the ready stance."
+- Attack_cleric (2 s): "From a ready stance, swing a walking cane held in the right hand in a horizontal arc from right to left in front of the body, then return to the ready stance. Feet planted."
+- Skill_warrior (2.5 s): "Spinning slash: from a ready stance, spin the whole body once while swinging a short club in the right hand in a wide horizontal circle, land balanced in the ready stance."
+- Skill_archer (2.5 s): "Rapid triple shot: holding a bow in the LEFT hand extended forward, quickly draw and release the string three times with the right hand, then return to the ready stance."
+- Skill_mage (2.5 s): "Spell channel: raise both hands in front of the chest, gather energy with a circular motion, then thrust both palms forward to release a spell, hold, return to the ready stance."
+- Skill_cleric (2.5 s): "Healing prayer: hold a cane upright in the right hand, raise it high, place the left hand on the chest, bow the head briefly, then lower the cane back to the ready stance."
+
+Duration deviation: the duration control accepts whole seconds only. Typing 2.5 shows 2.5 but rounds to 3 on blur, and the slider steps by 1 s. The four Skill clips were therefore generated at 3 s, not 2.5 s.
+
+Free presets applied (Preset tab, no cost badge on the cards, balance unchanged at each step): `shoot` (take `shoot`), `standing_relax` (take `standing_relax`), `chop` (take `chop`).
+
+Export: FBX, Blender preset, texture 512, Export Skeleton on, Number of Animations 12 (Choose Animations 12/12 after Select All; the 12 listed were exactly the 9 clips + 3 presets above), Animation stay in Place off. Export cost: 0 (balance 1540 before and after). One download: `Downloads/tactical+outfit+3d+model (1).zip` (6,831,521 bytes; the zip kept outside the project). Zip check with `python -I`: 6 entries, no absolute or `..` paths, testzip OK. Extracted into a new empty scratchpad dir, then copied to `ArtSource/hunters/_anim_library/tripo_export_class/`:
+- `tripo_convert_14929035-2017-4838-9393-54e539bdf647.fbx` (5,358,108 bytes)
+- `tripo_convert_14929035-2017-4838-9393-54e539bdf647.fbm/` (textures: basecolor, metallic, normal, roughness JPEG; rm PNG)
+
+Take names in the FBX (12 AnimStacks, read from the binary; the 63-char cut is Tripo's):
+1. `Combat ready stance: feet shoulder-width apart, knees slightly ` (BattleIdle)
+2. `From a combat ready stance, a powerful one-handed overhead swin` (Attack_warrior)
+3. `Archery shot: from a ready stance, raise a bow held in the LEFT` (Attack_archer)
+4. `From a ready stance, flick a short wand held in the right hand ` (Attack_mage, trailing space)
+5. `From a ready stance, swing a walking cane held in the right han` (Attack_cleric)
+6. `Spinning slash: from a ready stance, spin the whole body once w` (Skill_warrior)
+7. `Rapid triple shot: holding a bow in the LEFT hand extended forw` (Skill_archer)
+8. `Spell channel: raise both hands in front of the chest, gather e` (Skill_mage)
+9. `Healing prayer: hold a cane upright in the right hand, raise it` (Skill_cleric)
+10. `standing_relax` (preset)
+11. `shoot` (preset)
+12. `chop` (preset)
+
+Checks done: FBX header `Kaydara FBX Binary`. Counts: `Skin` x1, `Cluster` x65, `LimbNode` x130, `Deformer` x133 (same rig as the earlier exports).
+Not done: the Blender posing check (bone moves mesh). This worker has no Blender access in this task, so the main session must run it before any import. The motion quality itself was not visually verified beyond the Tripo viewport preview.
+Tripo tab closed after download.

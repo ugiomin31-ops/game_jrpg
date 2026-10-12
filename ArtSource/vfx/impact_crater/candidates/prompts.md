@@ -13,3 +13,19 @@
 - candidate_D.png: low chunky cracked rim, recessed centre, radial grooves, no floating pieces. Pass.
 
 - Suggested pick: candidate_D.png. Reason: closest to "low chunky cracked rim" with a clear recessed centre and broad radial grooves, and nothing floating.
+
+### Tripo pass (B4-VFX-TRIPO, 2026-10-12)
+- Main final pick: candidate_D.png (main-approved; matches sidecar suggestion)
+- Tripo task: ba838f8f-33ce-434a-b4f2-eb997553454a (https://studio.tripo3d.ai/workspace/generate/ba838f8f-33ce-434a-b4f2-eb997553454a). Tripo titled it "stone circular cracked platform".
+- Generate: H3.1 Best Quality, Geometry & Texture, 55 credits (2095 -> 2040)
+- Retopo: Triangle, Smart Mesh on, target 900 (Tripo returned 1017 faces, above target; exported as-is per instruction), 35 credits (1825 -> 1790)
+- Rig: none. Export: FBX, texture 1k, Blender preset (Tripo default)
+- Export path: ArtSource/vfx/impact_crater/tripo/ (tripo_convert_*.fbx + .fbm, see folder)
+- Faces after retopo: 1017 (target 900)
+
+### Installed 2026-10-12 (V1 VFX-MESH-INSTALL)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/impact_crater.fbx. Headless Blender (Blender/lib/abyss_bpy.py export_fbx, forward -Z / up Y, scale 1, one mesh, one plain M_Vfx slot, no Tripo marker so force=False). Tris 873 (Tripo 1017: 92 hidden underside faces deleted, then collapse-decimated).
+- Orientation/pivot/size: bottom-centre pivot, flat in Unity XZ, 2.4 m diameter, rim 0.34 m high; Col alpha fades to 0.3 over the outer 18% radius.
+- Col vertex colour: white RGB + alpha fade mask (body 1, tips/edges 0.3, tail 0 where the contract asks).
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_impact_crater.png, 512 px greyscale RGB, source Tripo albedo luminance; levels remapped by percentile (p5 -> .35 grooves, p50 -> .60 body, p95 -> .80 edges, clamp .30-.84).
+- Verified by re-importing the FBX in Blender (bounds in Unity axes, single mesh, UV + Col present). Unity import check still pending (later task). Scripts: scratchpad v1/build.py, tex.py, verify.py.

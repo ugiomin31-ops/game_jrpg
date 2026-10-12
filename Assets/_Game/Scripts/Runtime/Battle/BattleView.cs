@@ -63,7 +63,7 @@ namespace Abyss.Runtime.Battle
         // The full-height command panel starts farther left on a tablet than on
         // a compact phone. Move the shot as well as widening it to reserve that space.
         Vector3 FramingOffset => UIRoot.TouchFirst && !UIRoot.Compact ? Vector3.right * 1.5f : Vector3.zero;
-        float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
+        float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _actionEnd, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
         /// <summary>Share of normal speed that effect playback keeps while a hit-stop freezes the units.</summary>
@@ -73,12 +73,25 @@ namespace Abyss.Runtime.Battle
         IReadOnlyList<BattleEvent> _events;
         bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced, _perHitProjectile, _flashed;
         AtmospherePreset _oldAtmosphere;
+        Abyss.Runtime.Art.OutlineContext _oldOutline;
         FloorDef _floor;
         // Battle-local readability: enemies render larger than their authored ScaleMult so silhouettes read on a phone.
         // Bosses get more so they dominate the frame; heroes and HP plates are untouched.
         const float EnemyReadabilityScale = 1.25f, BossReadabilityScale = 1.5f;
         // Boss entrance: camera push in toward the boss and back (each leg), and the cap on the whole entrance.
         const float BossPushLeg = .3f, BossEntranceMax = 1.6f;
+        // Battle-only lighting: the arena's stage anchor (5 m over the centre) blew out the cream floor, so it is dropped,
+        // the edge anchors are dimmed, bloom only catches real highlights, and a cool rim light separates the units.
+        // The rim light is owned by this view and removed in Restore(); dungeon and town lighting never reach this code.
+        const float BattleEdgeLightIntensity = 1.1f, BattleEdgeLightRange = 5f, BattleBloomThreshold = 1.05f, BattleRimIntensity = .5f;
+        static readonly Color BattleRimColor = new Color(.5f, .7f, 1f);
+        Light _rim;
+        static bool BattleLightPolicy(string anchor, ref float intensity, ref float range)
+        {
+            if (anchor == "LightAnchor_stage") return false;
+            if (anchor.StartsWith("LightAnchor_edge", StringComparison.Ordinal)) { intensity = BattleEdgeLightIntensity; range = BattleEdgeLightRange; }
+            return true;
+        }
         bool Reduced => _app.Preferences != null && _app.Preferences.ReducedMotion;
         /// <summary>Battle pacing multiplier from settings (1x, 1.5x, 2x): scales waits, unit animation and action timers.</summary>
         float Speed => _app.Preferences != null ? _app.Preferences.BattleSpeed : 1f;
@@ -93,14 +106,18 @@ namespace Abyss.Runtime.Battle
             if (_camera == null) throw new InvalidOperationException("BattleView requires the application camera.");
             _oldPosition = _camera.transform.position; _oldRotation = _camera.transform.rotation; _oldFov = _camera.fieldOfView;
             _oldAtmosphere = app.Atmosphere.Current;
+            var outlineCamera = Abyss.Runtime.Art.OutlineCamera.Ensure(_camera); _oldOutline = outlineCamera.Context;
             FloorDef floor = null;
             foreach (var candidate in app.DB.Floors) if (candidate.Id == setup.FloorId) { floor = candidate; break; }
             if (floor == null) throw new InvalidOperationException("Battle floor not found: " + setup.FloorId);
             _floor = floor;
             var atmosphere = AtmospherePreset.ForFloor(floor, battle: true);
-            app.Atmosphere.Apply(atmosphere); app.Atmosphere.SetupCamera(_camera);
+            // A fresh preset per battle: the battle threshold is local to this view and Restore() re-applies the old look.
+            atmosphere.BloomThreshold = BattleBloomThreshold;
+            app.Atmosphere.Apply(atmosphere); app.Atmosphere.SetupCamera(_camera, Abyss.Runtime.Art.OutlineContext.Battle);
             var arena = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(floor.Tileset, "arena"), transform);
-            EnvironmentProcessor.Process(arena, atmosphere.TorchColor);
+            EnvironmentProcessor.Process(arena, atmosphere.TorchColor, anchorPolicy: BattleLightPolicy);
+            _rim = CreateRimLight();
             _ui = UIRoot.Create(); _ui.Numbers.Camera = _camera;
             _vfx = VfxLibrary.Create(); _vfx.Camera = _camera;
             // Created before the HUD so the ultimate dim sits over the arena but under the cut-in and gauges.
@@ -208,7 +225,7 @@ namespace Abyss.Runtime.Battle
                     if (e.IsChargeAnnounce)
                     {
                         // Capture announcement scope for ChargeStarted, but never stage an attack or reuse a stale take.
-                        _action = e; _presentation = null; _actionElapsed = _actionLength = 0;
+                        _action = e; _presentation = null; _actionElapsed = _actionLength = _actionEnd = 0;
                         _hitCounts.Clear(); _hitTotals.Clear(); _impactTargets.Clear();
                         _hud.Log((Find(e.ActorId, out var announcer) ? announcer.Name + " · " : "") + e.DisplayName + " · 준비 중!");
                         break;
@@ -407,6 +424,11 @@ namespace Abyss.Runtime.Battle
         {
             var unit = new BattleDisplayUnit(); unit.Apply(snapshot);
             unit.Model = snapshot.Side == BattleSide.Party ? ArtLibrary.SpawnHero(snapshot.DefId, transform, _app.State?.Hero(snapshot.DefId)?.Job) : ArtLibrary.SpawnEnemy(_app.DB, snapshot.DefId, transform);
+            // Heroes with a BattleIdle take stand in that ready stance for the whole battle: every "Idle" request resolves to it,
+            // so Attack/Cast/Skill/Hit start and end near the loop they fade back into.
+            if (unit.Model.Anim is ClipAnimator clips && clips.HasClip("BattleIdle")) { clips.RestClip = "BattleIdle"; clips.Play("Idle", 0f, false); }
+            // The shared Hit take is 1.3 s (it starts and ends crouched); a reaction should be over in about 0.8 s.
+            if (snapshot.Side == BattleSide.Party && unit.Model.Anim is ClipAnimator hitClips && hitClips.HasClip("BattleIdle")) hitClips.SetClipRate("Hit", HeroHitRate);
             if (snapshot.Side == BattleSide.Enemy)
             {
                 var def = _app.DB.Enemies[snapshot.DefId];
@@ -480,7 +502,7 @@ namespace Abyss.Runtime.Battle
                     throw new InvalidOperationException("Missing action presentation: " + e.PresentationId);
             }
             if (!Find(e.ActorId, out var actor)) yield break;
-            _actionElapsed = 0; _actionLength = 0;
+            _actionElapsed = 0; _actionLength = 0; _actionEnd = 0;
             BattleDisplayUnit target = null;
             if (e.TargetIds != null && e.TargetIds.Count > 0) Find(e.TargetIds[0], out target);
             _hud.Log(actor.Name + " · " + (e.DisplayName ?? ActionName(e.Kind)));
@@ -495,7 +517,7 @@ namespace Abyss.Runtime.Battle
             if (e.IsUltimate)
             {
                 if (ultimateTake) Swing(actor, "Ultimate", false);
-                else if (actor.Model.Anim.HasClip("Cast")) actor.Model.Anim.Play("Cast", .12f);
+                else if (actor.Model.Anim.HasClip("Cast")) actor.Model.Anim.Play("Cast", .2f);
                 if (actor.Side == BattleSide.Party)
                     _hud.UltimateCutIn(actor.DefId, actor.Name, e.DisplayName ?? "궁극기", PresentationColor(e.Element));
                 else _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
@@ -510,7 +532,7 @@ namespace Abyss.Runtime.Battle
                 actor.Guarding = true; Sync(actor);
                 if (actor.Side == BattleSide.Party)
                 {
-                    actor.Model.Anim.PlayOnce("Guard", "Idle", .08f);
+                    actor.Model.Anim.PlayOnce("Guard", "Idle", .18f);
                     _actionLength = actor.Model.Anim.Length("Guard");
                 }
                 Popup(actor.Id, "방어", new Color(.55f, .8f, 1)); PlaySound("sfx_guard");
@@ -524,6 +546,9 @@ namespace Abyss.Runtime.Battle
                 : e.Kind == ActionKind.Skill && actor.Model.Anim.HasClip("Skill") ? "Skill" : "Attack";
             bool rangedBasic = e.Kind == ActionKind.Attack &&
                 actor.Side == BattleSide.Party && _app.DB.ClassOf(actor.DefId) != "warrior";
+            // A mage has no authored basic Attack: the shared Cast (forward palm release) reads better than the melee swing.
+            if (clip == "Attack" && rangedBasic && _app.DB.ClassOf(actor.DefId) == "mage" &&
+                !actor.Model.HasClassClip("Attack") && actor.Model.Anim.HasClip("Cast")) clip = "Cast";
             bool approach = !Reduced && !cast && !rangedBasic && target != null && actor.Id != target.Id &&
                 ((_presentation != null && _presentation.Approach != "none") ||
                 (_presentation == null && e.Kind == ActionKind.Attack));
@@ -539,12 +564,14 @@ namespace Abyss.Runtime.Battle
                 float travel = Mathf.Max(0, distance - actor.Model.Radius - target.Model.Radius - .45f);
                 direction = distance > .001f ? direction / distance : Vector3.zero;
                 destination += direction * (lunge ? Mathf.Min(.7f, travel) : travel);
+                bool run = !lunge && travel > .01f;
+                // The run starts blending in while the body turns toward the foe (no standing pivot, no pop into the sprint).
+                if (run) { SetRunRate(actor, travel / ApproachTime(actor, travel)); actor.Model.Anim.Play("Run", RunFade, false); }
                 if (direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
-                if (!lunge && travel > .01f)
+                if (run)
                 {
-                    actor.Model.Anim.Play("Run", .05f, false);
-                    float time = MovementTime(travel), lead = Mathf.Min(.1f, time);
-                    StartCoroutine(Move(actor, destination, time));
+                    float time = ApproachTime(actor, travel), lead = Mathf.Min(.2f, time * .3f);
+                    StartCoroutine(Move(actor, destination, time, 0, true));
                     yield return Wait(time - lead);
                     // The wind-up overlaps the last strides so the blade lands as the feet plant.
                     if (ultimateTake) Resume(actor, "Ultimate", UltimateResume); else Swing(actor, clip, cast);
@@ -563,7 +590,7 @@ namespace Abyss.Runtime.Battle
                 _charge = Effect(_presentation.ChargeVfx, actor.Model.CenterPoint, tint, 1, _actionLength, actor.Model.transform, actor.Home.y);
             PlaySound(_presentation != null && !string.IsNullOrEmpty(_presentation.SfxCast) ? _presentation.SfxCast :
                 e.Kind == ActionKind.Item ? "sfx_item" : cast ? ElementSound(e.Element) : WeaponSound(actor));
-            float contactTime = _actionLength * Contact(_strikeClip ?? clip);
+            float contactTime = _actionLength * Contact(actor.Model, _strikeClip ?? clip);
             // The authored Attack contacts at 40%; the lunge belongs to that strike, not a tiny Run.
             if (lunge) yield return Move(actor, destination, Mathf.Max(.05f, contactTime - _actionElapsed));
             else yield return Wait(Mathf.Max(0, contactTime - _actionElapsed));
@@ -591,18 +618,36 @@ namespace Abyss.Runtime.Battle
         }
         void Swing(BattleDisplayUnit actor, string clip, bool cast)
         {
-            actor.Model.Anim.PlayOnce(clip, "Idle", cast ? .12f : .05f);
-            _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = 0; _strikeClip = clip;
+            float length = actor.Model.Anim.Length(clip);
+            // 0.15-0.25 s out of the stance (the strike must still be reached at full weight: cap by the time to contact).
+            float fade = Mathf.Min(cast ? .25f : .2f, Mathf.Max(.08f, length * Contact(actor.Model, clip) * .6f));
+            actor.Model.Anim.PlayOnce(clip, "Idle", fade);
+            _actionLength = length; _actionElapsed = 0; _strikeClip = clip; _actionEnd = length * EndFraction(actor, clip);
         }
         /// <summary>Continues a take from a normalized point (the Ultimate finisher after the dash to the target).</summary>
         void Resume(BattleDisplayUnit actor, string clip, float normalized)
         {
             actor.Model.Anim.PlayFrom(clip, normalized, .08f);
-            _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = _actionLength * normalized; _strikeClip = clip;
+            _actionLength = actor.Model.Anim.Length(clip); _actionElapsed = _actionLength * normalized; _strikeClip = clip; _actionEnd = 0;
         }
         // Contact / release points authored in Blender/lib_humanoid/motion.py (CONTACT).
         const float UltimateResume = 28f / 66f;
-        static float Contact(string clip) => clip == "Cast" ? .6f : clip == "Skill" ? .5f : clip == "Ultimate" ? 44f / 66f : .4f;
+        static float EndFraction(BattleDisplayUnit unit, string clip) => unit.Model.Anim is ClipAnimator clips ? clips.EndFraction(clip) : 1f;
+        static float DefaultContact(string clip) => clip == "Cast" ? .6f : clip == "Skill" ? .5f : clip == "Ultimate" ? 44f / 66f : .4f;
+        /// <summary>Strike point of a take: the per-class value when the model ships its own take, else the shared default.</summary>
+        static float Contact(CharacterModel model, string clip) => model.ContactFraction(clip, DefaultContact(clip));
+
+        // Locomotion: the hero Run take covers about RunStrideSpeed m/s of ground at 1x (measured in Unity on the 1.3 m hero scale: stance-foot speed 2.9-3.3 m/s); the
+        // approach and the return trip move at ApproachSpeed and play Run at the matching rate, so the feet do not skate.
+        const float HeroHitRate = 1.6f;
+        const float RunStrideSpeed = 3.1f, ApproachSpeed = 5.5f, RunFade = .15f;
+        static float ApproachTime(BattleDisplayUnit unit, float distance) =>
+            unit.Side == BattleSide.Party ? Mathf.Max(.25f, distance / ApproachSpeed) : MovementTime(distance);
+        static void SetRunRate(BattleDisplayUnit unit, float groundSpeed)
+        {
+            if (unit.Side == BattleSide.Party && unit.Model.Anim is ClipAnimator clips)
+                clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / RunStrideSpeed, .6f, 3f));
+        }
         /// <summary>Fires the presentation's projectile from the weapon socket at the target's hit point; returns its flight time.</summary>
         float Shoot(BattleDisplayUnit actor, BattleDisplayUnit target, Color tint)
         {
@@ -643,17 +688,30 @@ namespace Abyss.Runtime.Battle
             if (!_fleeSucceeded && Find(e.ActorId, out var actor) && actor.Alive)
             {
                 // Hit-stop freezes the take, so its held time must not steal the recovery pose.
-                while (_actionElapsed < _actionLength) yield return null;
-                if ((actor.Model.transform.position - actor.Home).sqrMagnitude > .01f)
+                while (_actionElapsed < (_actionEnd > 0 ? Mathf.Min(_actionEnd, _actionLength) : _actionLength)) yield return null;
+                Vector3 back = actor.Home - actor.Model.transform.position; back.y = 0;
+                if (back.sqrMagnitude > .01f)
                 {
-                    // Hop back onto the mark still facing the foe: no about-turn, no jog.
-                    actor.Model.Play("Idle", .1f);
-                    yield return Move(actor, actor.Home, Reduced ? 0 : .3f, .4f);
+                    if (Reduced || !actor.Model.Anim.HasClip("Run"))
+                    {
+                        actor.Model.Play("Idle", .1f);
+                        yield return Move(actor, actor.Home, Reduced ? 0 : .3f, .4f);
+                    }
+                    else
+                    {
+                        // Turn toward the mark and jog home at the same stride as the approach, then turn back to the foe.
+                        float distance = back.magnitude, time = ApproachTime(actor, distance);
+                        SetRunRate(actor, distance / time);
+                        actor.Model.Anim.Play("Run", RunFade, false);
+                        yield return Face(actor, Quaternion.LookRotation(back / distance));
+                        yield return Move(actor, actor.Home, time, 0, true);
+                        actor.Model.Play("Idle", ClipAnimator.ReturnFade);
+                    }
                 }
-                else actor.Model.Play("Idle", .12f);
+                else actor.Model.Play("Idle", ClipAnimator.ReturnFade);
                 yield return Face(actor, actor.Facing);
             }
-            _action = null; _presentation = null; _actionLength = 0; _strikeClip = null; _perHitProjectile = false;
+            _action = null; _presentation = null; _actionLength = 0; _actionEnd = 0; _strikeClip = null; _perHitProjectile = false;
             Establishing(false); yield return Wait(.12f);
         }
         /// <summary>
@@ -669,8 +727,8 @@ namespace Abyss.Runtime.Battle
             if (newWave && _wave > 1 && _strikeClip == "Attack" && !Reduced)
             {
                 float length = actor.Model.Anim.Length("Attack");
-                actor.Model.Anim.PlayFrom("Attack", .25f, .04f);
-                _actionLength = length; _actionElapsed = length * .25f;
+                actor.Model.Anim.PlayFrom("Attack", .25f, .1f);
+                _actionLength = length; _actionElapsed = length * .25f; _actionEnd = length * EndFraction(actor, "Attack");
                 yield return Wait(Mathf.Min(.1f, length * .15f));
             }
             if (_perHitProjectile) yield return Wait(Shoot(actor, target, PresentationColor(_action.Element)));
@@ -711,7 +769,7 @@ namespace Abyss.Runtime.Battle
                 _hitCounts.TryGetValue(e.TargetId, out int count); _hitCounts[e.TargetId] = count + 1;
                 _hitTotals.TryGetValue(e.TargetId, out int total); _hitTotals[e.TargetId] = total + e.Amount;
             }
-            if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce("Hit", "Idle", .045f);
+            if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce("Hit", "Idle", .15f);
             Color tint = PresentationColor(e.Element);
             if (e.Amount > 0) target.Model.Flash(e.Critical ? Color.white : tint, e.Critical ? .2f : Reduced ? .2f : .12f);
             // Recoil away from the attacker side; only from the home mark so it never fights a Move.
@@ -761,7 +819,7 @@ namespace Abyss.Runtime.Battle
                 if (!unit.Alive) continue;
                 Vector3 from = unit.Home + unit.Facing * Vector3.back * (unit.Side == BattleSide.Party ? 3.4f : 4.6f);
                 unit.Model.transform.position = from;
-                unit.Model.Play("Run");
+                SetRunRate(unit, (unit.Side == BattleSide.Party ? 3.4f : 4.6f) / .8f); unit.Model.Play("Run");
                 movers.Add((unit, from));
             }
             _cameraPosition = transform.TransformPoint(new Vector3(-7.8f, 1.5f, 5.2f));
@@ -1147,7 +1205,7 @@ namespace Abyss.Runtime.Battle
             model.rotation = facing;
         }
         /// <summary>Out-quad move; <paramref name="arc"/> lifts the path into a hop.</summary>
-        IEnumerator Move(BattleDisplayUnit unit, Vector3 destination, float seconds, float arc = 0)
+        IEnumerator Move(BattleDisplayUnit unit, Vector3 destination, float seconds, float arc = 0, bool linear = false)
         {
             if (unit.KnockTime > 0) { unit.KnockTime = 0; unit.Model.transform.position = unit.Home; }
             Vector3 from = unit.Model.transform.position; float elapsed = 0;
@@ -1156,7 +1214,7 @@ namespace Abyss.Runtime.Battle
                 if (!_app.Paused)
                 {
                     elapsed += Dt;
-                    float t = Mathf.Clamp01(elapsed / seconds), k = 1 - (1 - t) * (1 - t);
+                    float t = Mathf.Clamp01(elapsed / seconds), k = linear ? t : 1 - (1 - t) * (1 - t);
                     unit.Model.transform.position = Vector3.Lerp(from, destination, k) + Vector3.up * (Mathf.Sin(Mathf.PI * t) * arc);
                 }
                 yield return null;
@@ -1205,6 +1263,19 @@ namespace Abyss.Runtime.Battle
             { case "warrior": return "sfx_sword"; case "archer": return "sfx_bow"; case "mage": case "cleric": return "sfx_staff"; default: return "sfx_hit"; }
         }
         static void PlaySound(string id) { if (!string.IsNullOrEmpty(id)) AudioManager.Instance.PlaySfx(id); }
+        /// <summary>Cool directional rim from behind the enemy line, aimed back over them toward the party (silhouette separation).</summary>
+        Light CreateRimLight()
+        {
+            var go = new GameObject("Battle rim light");
+            go.transform.SetParent(transform, false);
+            go.transform.rotation = Quaternion.LookRotation(new Vector3(0f, -.35f, -1f));
+            var light = go.AddComponent<Light>();
+            light.type = LightType.Directional;
+            light.color = BattleRimColor;
+            light.intensity = BattleRimIntensity;
+            light.shadows = LightShadows.None;
+            return light;
+        }
         void Restore()
         {
             if (_restored) return; _restored = true;
@@ -1213,9 +1284,10 @@ namespace Abyss.Runtime.Battle
             if (_ui != null) { _ui.Numbers.Clear(); _ui.Dialog.Close(); }
             if (_flash != null) { _flash.gameObject.SetActive(false); Destroy(_flash.gameObject); }
             if (_dim != null) { _dim.gameObject.SetActive(false); Destroy(_dim.gameObject); }
+            if (_rim != null) { Destroy(_rim.gameObject); _rim = null; }
             if (_hud != null) { _hud.Lock(); _hud.enabled = false; }
             if (_camera != null) { _camera.transform.SetPositionAndRotation(_oldPosition, _oldRotation); _camera.fieldOfView = _oldFov; }
-            if (_app != null && _oldAtmosphere != null) { _app.Atmosphere.Apply(_oldAtmosphere); _app.Atmosphere.SetupCamera(_camera); }
+            if (_app != null && _oldAtmosphere != null) { _app.Atmosphere.Apply(_oldAtmosphere); _app.Atmosphere.SetupCamera(_camera, _oldOutline); }
         }
         void OnDestroy()
         {

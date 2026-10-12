@@ -140,6 +140,49 @@ namespace Abyss.Runtime.Art
             return null;
         }
 
+        /// <summary>Tilt of the held shaft from the knuckle line toward the fingers (degrees), like a weapon lying in the diagonal palm crease.</summary>
+        public static float GripPitchDegrees = -35f;
+        /// <summary>How far along the wrist-to-knuckles line the grip sits (0 wrist, 1 knuckles) and how far out of the palm, in hand lengths.</summary>
+        public static float GripAlongPalm = 0.6f, GripOutOfPalm = 0.22f, GripSlideAlongShaft = 0f;
+
+        /// <summary>
+        /// Grip of a Humanoid hand that stands in for a weapon socket, in the hand bone's local space. Weapons are authored
+        /// with the shaft / blade along +Y, the origin at the grip and the belly (a bow's outer curve) along +Z. The hand
+        /// bones of Humanoid rigs (Mixamo, VRoid) each have their own axes, so the pose comes from the finger bones: the
+        /// shaft runs along the knuckle line (little finger to index finger = thumb side) tilted by
+        /// <see cref="GripPitchDegrees"/> toward the fingers, +Z leaves the palm (mirrored for the left hand, whose
+        /// finger-by-knuckle cross product points out of the back of the hand) and the origin sits inside the closed fist.
+        /// The relation is rigid for a rig, so it is valid in any animation pose. False when the avatar lacks finger bones.
+        /// </summary>
+        bool TryHumanoidGrip(string socket, Transform hand, out Vector3 localPosition, out Quaternion localRotation)
+        {
+            localPosition = Vector3.zero; localRotation = Quaternion.identity;
+            if (_humanoid == null || hand == null) return false;
+            bool left = socket == "weapon.L";
+            Transform Finger(HumanBodyBones right, HumanBodyBones leftBone) => _humanoid.GetBoneTransform(left ? leftBone : right);
+            var index = Finger(HumanBodyBones.RightIndexProximal, HumanBodyBones.LeftIndexProximal);
+            var middle = Finger(HumanBodyBones.RightMiddleProximal, HumanBodyBones.LeftMiddleProximal);
+            var outer = Finger(HumanBodyBones.RightLittleProximal, HumanBodyBones.LeftLittleProximal)
+                        ?? Finger(HumanBodyBones.RightRingProximal, HumanBodyBones.LeftRingProximal);
+            if (index == null || outer == null) return false;
+            var across = middle != null ? middle : index;
+            Vector3 fingers = (across.position - hand.position);
+            float handLength = fingers.magnitude;
+            Vector3 knuckle = index.position - outer.position;
+            if (handLength < 1e-4f || knuckle.sqrMagnitude < 1e-10f) return false;
+            fingers /= handLength;
+            knuckle = (knuckle - fingers * Vector3.Dot(knuckle, fingers)).normalized;
+            Vector3 palmOut = left ? Vector3.Cross(knuckle, fingers) : Vector3.Cross(fingers, knuckle);
+            float pitch = GripPitchDegrees * Mathf.Deg2Rad;
+            Vector3 shaft = (knuckle * Mathf.Cos(pitch) + fingers * Mathf.Sin(pitch)).normalized;
+            Vector3 belly = (palmOut - shaft * Vector3.Dot(palmOut, shaft)).normalized;
+            Vector3 knuckles = middle != null ? (index.position + middle.position + outer.position) / 3f : (index.position + outer.position) * 0.5f;
+            Vector3 center = hand.position + (knuckles - hand.position) * GripAlongPalm + palmOut.normalized * (handLength * GripOutOfPalm) - shaft * (handLength * GripSlideAlongShaft);
+            localPosition = hand.InverseTransformPoint(center);
+            localRotation = Quaternion.Inverse(hand.rotation) * Quaternion.LookRotation(belly, shaft);
+            return true;
+        }
+
         static Transform FindDeep(Transform t, string n)
         {
             if (t.name == n) return t;
@@ -166,8 +209,12 @@ namespace Abyss.Runtime.Art
             var bone = FindBone(socket);
             if (bone == null) return null;
             var go = Instantiate(prefab, bone, false);
-            go.transform.localPosition = Vector3.zero;
-            go.transform.localRotation = Quaternion.identity;
+            // Authored sockets (Blender "weapon.R" / "weapon.L" bones) hold the weapon with identity; a Humanoid hand that
+            // stands in for a socket gets a grip derived from its finger bones instead.
+            Vector3 gripPosition = Vector3.zero; Quaternion gripRotation = Quaternion.identity;
+            bool grip = FindDeep(transform, socket) == null && TryHumanoidGrip(socket, bone, out gripPosition, out gripRotation);
+            go.transform.localPosition = grip ? gripPosition : Vector3.zero;
+            go.transform.localRotation = grip ? gripRotation : Quaternion.identity;
             // Undo the bone's accumulated scale so weapons keep their authored size.
             var s = bone.lossyScale;
             go.transform.localScale = new Vector3(1f / Mathf.Max(1e-4f, s.x), 1f / Mathf.Max(1e-4f, s.y), 1f / Mathf.Max(1e-4f, s.z)) * transform.lossyScale.x;
@@ -243,6 +290,28 @@ namespace Abyss.Runtime.Art
                 _mpb.SetColor(BaseColorId, _rendererTint.TryGetValue(r, out var own) ? _tint * _palette * own : _tint * _palette);
                 r.SetPropertyBlock(_mpb);
             }
+        }
+
+        string _classId;
+        HashSet<string> _classClips;
+        internal void SetClassClips(string classId, HashSet<string> names)
+        {
+            _classId = classId; _classClips = names;
+            if (names == null || !(Anim is ClipAnimator clips)) return;
+            foreach (string clip in names)
+            {
+                float end = ArtLibrary.ClassEndFraction(classId, clip);
+                if (end < 1f) clips.SetClipEnd(clip, end);
+            }
+        }
+        /// <summary>True when this humanoid ships its own per-class take of that name (not the shared one).</summary>
+        public bool HasClassClip(string clip) => _classClips != null && _classClips.Contains(clip);
+        /// <summary>Strike / release point of a take as a fraction of its length: a per-class take's authored value, else <paramref name="fallback"/>.</summary>
+        public float ContactFraction(string clip, float fallback)
+        {
+            if (!HasClassClip(clip)) return fallback;
+            float f = ArtLibrary.ClassContactFraction(_classId, clip);
+            return f > 0f ? f : fallback;
         }
 
         // Locomotion callers repeat this each frame; do not restart their stride or Idle breathing.

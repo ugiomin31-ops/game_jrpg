@@ -44,7 +44,7 @@ namespace Abyss.Runtime.World
             this.app = app;
             this.title = title;
             app.Atmosphere.Apply(AtmospherePreset.ForTileset(title ? "town_night" : "town_dawn"));
-            app.Atmosphere.SetupCamera(app.MainCamera);
+            app.Atmosphere.SetupCamera(app.MainCamera, Abyss.Runtime.Art.OutlineContext.Town);
             var town = ArtLibrary.SpawnStatic(ArtLibrary.TownPath, transform);
             layout = EnvironmentProcessor.Process(town, app.Atmosphere.Current.TorchColor, 2f, 7f);
             for (int i = 0; i < NpcIds.Length; i++)

@@ -60,7 +60,7 @@ namespace Abyss.Runtime.World
             this.run = run;
             tileset = run.Grid.Floor.Tileset;
             app.Atmosphere.Apply(AtmospherePreset.ForFloor(run.Grid.Floor));
-            app.Atmosphere.SetupCamera(app.MainCamera);
+            app.Atmosphere.SetupCamera(app.MainCamera, Abyss.Runtime.Art.OutlineContext.Dungeon);
             app.MainCamera.fieldOfView = 65;
             var grid = run.Grid;
             for (int y = 0; y < grid.Height; y++)

@@ -115,10 +115,69 @@ namespace Abyss.Runtime.Art
             // Approved exception (2026-10-12): flyers whose Tripo rig failed, by resolved model id AND enemy resource path,
             // and only while they ship no authored Idle (a listed flyer that still has takes keeps the strict clip path).
             bool flyer = IsRiglessFlyer(id) && path == EnemyPath(id) && !HasIdle(clips);
-            if (!rigless && !flyer && animator != null && animator.isHuman && !HasIdle(clips)) clips = LoadClips(HumanoidAnimationsPath);
+            string classId = null;
+            HashSet<string> classNames = null;
+            if (!rigless && !flyer && animator != null && animator.isHuman && !HasIdle(clips))
+            {
+                clips = LoadClips(HumanoidAnimationsPath);
+                classId = Abyss.Logic.GameDB.Instance?.ClassOf(id) ?? id;
+                clips = MergeClassClips(clips, classId, out classNames);
+            }
             model.Setup(id, visual, clips, rigless, flyer);
+            model.SetClassClips(classId, classNames);
             return model;
         }
+
+        /// <summary>
+        /// Per-class takes (Art/HumanoidAnimationsByClass/&lt;class&gt;/, a sibling of the shared folder because LoadAll is recursive)
+        /// replace the shared take of the same name; every take a class does not ship falls back to the shared one.
+        /// </summary>
+        public const string HumanoidClassAnimationsPath = "Art/HumanoidAnimationsByClass";
+
+        static readonly Dictionary<string, (AnimationClip[] Clips, HashSet<string> Names)> MergedCache =
+            new Dictionary<string, (AnimationClip[], HashSet<string>)>();
+
+        static AnimationClip[] MergeClassClips(AnimationClip[] shared, string classId, out HashSet<string> classNames)
+        {
+            string key = classId ?? "";
+            if (MergedCache.TryGetValue(key, out var cached)) { classNames = cached.Names; return cached.Clips; }
+            var own = LoadClips(HumanoidClassAnimationsPath + "/" + classId);
+            classNames = new HashSet<string>();
+            AnimationClip[] merged = shared;
+            if (own.Length > 0)
+            {
+                var byName = new Dictionary<string, AnimationClip>();
+                foreach (var clip in shared) if (clip != null) byName[clip.name] = clip;
+                foreach (var clip in own)
+                {
+                    if (clip == null || clip.name.StartsWith("__preview__", System.StringComparison.Ordinal)) continue;
+                    byName[clip.name] = clip; classNames.Add(clip.name);
+                }
+                merged = new AnimationClip[byName.Count];
+                byName.Values.CopyTo(merged, 0);
+            }
+            MergedCache[key] = (merged, classNames);
+            return merged;
+        }
+
+        /// <summary>
+        /// Contact / release point (fraction of the take) of per-class takes whose strike is not at the shared default
+        /// (Attack 40%, Cast 60%, Skill 50%). Authored values: ArtSource/hunters/_anim_library/INSTALL.md class mapping table.
+        /// </summary>
+        static readonly Dictionary<string, float> ClassContact = new Dictionary<string, float>
+        {
+            { "warrior/Attack", .396f }, { "cleric/Attack", .14f }, { "mage/Skill", .50f },
+        };
+
+        /// <summary>Per-class takes whose tail is a held recovery pose: only this fraction of the take plays before the return fade.</summary>
+        static readonly Dictionary<string, float> ClassEnd = new Dictionary<string, float> { { "warrior/Attack", .68f } };
+
+        public static float ClassEndFraction(string classId, string clip) =>
+            classId != null && ClassEnd.TryGetValue(classId + "/" + clip, out var f) ? f : 1f;
+
+        /// <summary>Contact fraction of <paramref name="clip"/> for a class that ships its own take of that name; -1 when none is known.</summary>
+        public static float ClassContactFraction(string classId, string clip) =>
+            classId != null && ClassContact.TryGetValue(classId + "/" + clip, out var f) ? f : -1f;
 
         /// <summary>
         /// Model ids with no skeleton and no authored takes; they animate through <see cref="RiglessBlobAnimator"/>.

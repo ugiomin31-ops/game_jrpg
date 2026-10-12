@@ -70,6 +70,19 @@
           "delay": 0.05,
           "gravity": 0.4,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8E0D0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 0.864,
+          "horizontal": true,
+          "delay": 0,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 1.44
         }
       ]
     },
@@ -135,6 +148,19 @@
           "radius": 0.192,
           "delay": 0.06,
           "gravity": 0,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "E8F6FF",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.52,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.901,
           "y": 0.0
         }
       ]
@@ -241,6 +267,19 @@
           "radius": 0.192,
           "delay": 0.1,
           "gravity": -0.2,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF2C0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.44,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.04,
+          "endSize": 1.8,
           "y": 0.0
         }
       ]
@@ -845,6 +884,16 @@
           "size": 0.168,
           "speed": 2.52,
           "radius": 0.84,
+          "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 1.0,
+          "size": 1.26,
+          "delay": 0,
           "y": -0.82
         }
       ]
@@ -1546,6 +1595,19 @@
           "radius": 0.192,
           "delay": 0,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8E0D0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 0.864,
+          "horizontal": true,
+          "delay": 0,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 1.44
         }
       ]
     },
@@ -1771,6 +1833,18 @@
           "radius": 1.0,
           "delay": 0.55,
           "gravity": -0.3
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF0D0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 2.4,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.5,
+          "endSize": 3.0
         }
       ]
     },
@@ -1951,6 +2025,19 @@
           "delay": 0.6,
           "tiles": 4,
           "alpha": true
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8B890",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.458,
+          "horizontal": true,
+          "delay": 0.45,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 2.43
         }
       ]
     },
@@ -2061,6 +2148,29 @@
           "radius": 4.59,
           "y": -0.82,
           "delay": 0.5
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "FFFFFF",
+          "mesh": "energy_arrow",
+          "rate": 24.3,
+          "life": 0.45,
+          "size": 0.7,
+          "speed": -10.0,
+          "radius": 4.725,
+          "y": 3.0,
+          "delay": 0.1
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.4,
+          "delay": 0.5,
+          "y": -0.82
         }
       ]
     },
@@ -2276,6 +2386,17 @@
           "delay": 0.45,
           "gravity": -0.2,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "A8D4FF",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 1.944,
+          "delay": 0.38,
+          "y": -0.82,
+          "endSize": 2.43
         }
       ]
     },
@@ -2370,6 +2491,27 @@
           "speed": 3.24,
           "radius": 1.08,
           "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.35,
+          "delay": 0.55,
+          "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "FFF3C2",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 1.944,
+          "delay": 0.55,
+          "y": -0.82,
+          "endSize": 2.43
         }
       ]
     },
@@ -2467,6 +2609,58 @@
           "speed": 2.025,
           "radius": 0.81,
           "y": -0.81
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FF6070",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.89,
+          "rotation": -25,
+          "scroll": 2,
+          "delay": 0.42,
+          "endSize": 2.363,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FF6070",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.89,
+          "rotation": 155,
+          "scroll": 2,
+          "delay": 0.5,
+          "endSize": 2.363,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FF6070",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.89,
+          "rotation": 70,
+          "scroll": 2,
+          "delay": 0.58,
+          "endSize": 2.363,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "FF6070",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.134,
+          "horizontal": true,
+          "delay": 0.42,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 1.89
         }
       ]
     },
@@ -2589,6 +2783,19 @@
           "delay": 0.4,
           "gravity": -0.25,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8E0D0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.62,
+          "horizontal": true,
+          "delay": 0.35,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 2.7
         }
       ]
     },
@@ -3198,6 +3405,19 @@
           "radius": 2.187,
           "y": -0.82,
           "delay": 0.5
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "FFF3C2",
+          "mesh": "energy_arrow",
+          "rate": 26.14,
+          "life": 0.45,
+          "size": 0.945,
+          "speed": -13.5,
+          "radius": 6.379,
+          "y": 3.6,
+          "delay": 0.1
         }
       ]
     },
@@ -3284,6 +3504,19 @@
           "gravity": 0.2,
           "delay": 0.55,
           "y": 0.0
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "D8FFB8",
+          "mesh": "energy_arrow",
+          "rate": 14.52,
+          "life": 0.45,
+          "size": 0.945,
+          "speed": -13.5,
+          "radius": 4.725,
+          "y": 3.6,
+          "delay": 0.1
         }
       ]
     },
@@ -3386,6 +3619,20 @@
           "tiles": 4,
           "alpha": true,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "C8A8FF",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.89,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.47,
+          "alpha": true,
+          "endSize": 2.363,
+          "y": 0.0
         }
       ]
     },
@@ -3458,6 +3705,16 @@
           "radius": 0.162,
           "delay": 0.4,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.35,
+          "delay": 0,
+          "y": -0.82
         }
       ]
     },
@@ -3545,6 +3802,16 @@
           "radius": 1.62,
           "y": -0.82,
           "delay": 0.4
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.62,
+          "delay": 0.6,
+          "y": -0.82
         }
       ]
     },
@@ -3997,6 +4264,19 @@
           "tiles": 4,
           "alpha": true,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFC890",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.425,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.782,
+          "y": 0.0
         }
       ]
     },
@@ -4074,6 +4354,19 @@
           "tiles": 4,
           "alpha": true,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "C8EEFF",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.425,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.782,
+          "y": 0.0
         }
       ]
     },
@@ -4146,6 +4439,19 @@
           "size": 0.45,
           "endSize": 3.6,
           "y": -0.7799999999999999
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF0A0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.425,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.782,
+          "y": 0.0
         }
       ]
     },
@@ -4220,6 +4526,19 @@
           "radius": 0.18,
           "gravity": 0.15,
           "delay": 0.08,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF3C2",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.425,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.782,
           "y": 0.0
         }
       ]
@@ -4633,6 +4952,36 @@
           "speed": 3.12,
           "radius": 4.914,
           "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.56,
+          "delay": 0.3,
+          "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.56,
+          "delay": 0.45,
+          "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.56,
+          "delay": 0.6,
+          "y": -0.82
         }
       ]
     },
@@ -4828,6 +5177,19 @@
           "radius": 2.633,
           "delay": 0,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8E0D0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.685,
+          "horizontal": true,
+          "delay": 0,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 2.808
         }
       ]
     },
@@ -5110,6 +5472,20 @@
           "speed": 1.56,
           "radius": 4.563,
           "y": -0.82
+        },
+        {
+          "kind": "burst",
+          "texture": "mesh_energy_orb",
+          "color": "A8E070",
+          "mesh": "energy_orb",
+          "count": 16,
+          "life": 0.8,
+          "size": 0.585,
+          "speed": 3.25,
+          "radius": 2.808,
+          "delay": 0,
+          "gravity": -0.3,
+          "y": 0.0
         }
       ]
     },
@@ -5425,6 +5801,16 @@
           "rotation": 12,
           "endSize": 4.68,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.3,
+          "delay": 0.5,
+          "y": -0.82
         }
       ]
     },
@@ -5496,6 +5882,17 @@
           "speed": 1.25,
           "radius": 3.25,
           "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "A8D8FF",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 1.6,
+          "delay": 0,
+          "y": -0.82,
+          "endSize": 2.0
         }
       ]
     },
@@ -5572,6 +5969,18 @@
           "tiles": 4,
           "alpha": true,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_orb",
+          "color": "B890FF",
+          "mesh": "energy_orb",
+          "life": 0.8,
+          "size": 0.9,
+          "delay": 0.65,
+          "y": 0.6,
+          "alpha": true,
+          "endSize": 0.3
         }
       ]
     },
@@ -5831,6 +6240,32 @@
           "radius": 2.633,
           "delay": 0.75,
           "gravity": -0.3,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF0D0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 3.12,
+          "rotation": -45,
+          "scroll": 2,
+          "delay": 0.7,
+          "endSize": 3.9,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF0D0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 3.12,
+          "rotation": 45,
+          "scroll": 2,
+          "delay": 0.76,
+          "endSize": 3.9,
           "y": 0.0
         }
       ]
@@ -7191,6 +7626,17 @@
           "speed": 3.0,
           "radius": 1.2,
           "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 1.4,
+          "size": 0.4,
+          "delay": 0.1,
+          "y": -0.82,
+          "height": 1.0
         }
       ]
     },
@@ -7311,6 +7757,15 @@
           "color": "D8ECFF",
           "life": 0.2,
           "size": 0.3
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_orb",
+          "color": "FFF0A0",
+          "mesh": "energy_orb",
+          "life": 1.0,
+          "size": 0.9,
+          "spin": 120
         }
       ]
     },
@@ -7350,6 +7805,15 @@
           "color": "9080FF",
           "life": 0.3,
           "size": 0.34
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_orb",
+          "color": "B890FF",
+          "mesh": "energy_orb",
+          "life": 1.0,
+          "size": 0.9,
+          "spin": 120
         }
       ]
     },
@@ -7391,6 +7855,15 @@
           "color": "FF9A50",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "FFC890",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -7432,6 +7905,15 @@
           "color": "A8E6FF",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "C8EEFF",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -7474,6 +7956,15 @@
           "color": "F0E890",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "FFF0A0",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -7513,6 +8004,15 @@
           "color": "FFE9A0",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "FFF3C2",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -7552,6 +8052,15 @@
           "color": "7A4ACC",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "B890FF",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -7591,6 +8100,15 @@
           "color": "90E050",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "A8E070",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -7630,6 +8148,15 @@
           "color": "B8C0FF",
           "life": 0.18,
           "size": 0.12
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "C8B0FF",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.0,
+          "align": true
         }
       ]
     },
@@ -8071,6 +8598,19 @@
           "tiles": 4,
           "alpha": true,
           "y": 0.4
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8B890",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.458,
+          "horizontal": true,
+          "delay": 0.15,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 2.43
         }
       ]
     },
@@ -8286,6 +8826,18 @@
           "radius": 4.32,
           "y": -0.82,
           "delay": 0.35
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_orb",
+          "color": "FFE0A0",
+          "mesh": "energy_orb",
+          "life": 0.8,
+          "size": 1.2,
+          "delay": 0,
+          "y": 1.4,
+          "spin": 60,
+          "endSize": 3.8
         }
       ]
     },
@@ -8485,6 +9037,29 @@
           "delay": 0.6,
           "tiles": 4,
           "alpha": true
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.9,
+          "size": 1.4,
+          "delay": 0,
+          "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "FFE0B0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.296,
+          "horizontal": true,
+          "delay": 0,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 2.16
         }
       ]
     },
@@ -8579,6 +9154,19 @@
           "radius": 4.32,
           "y": -0.82,
           "delay": 0.35
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "FFC890",
+          "mesh": "energy_arrow",
+          "rate": 18.9,
+          "life": 0.45,
+          "size": 0.7,
+          "speed": -10.0,
+          "radius": 4.725,
+          "y": 3.0,
+          "delay": 0.1
         }
       ]
     },
@@ -10012,6 +10600,18 @@
           "tiles": 4,
           "upright": true,
           "delay": 0.2
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "D8C8FF",
+          "mesh": "slash_crescent",
+          "life": 0.34,
+          "size": 2.4,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.12,
+          "endSize": 3.0
         }
       ]
     },
@@ -10097,6 +10697,16 @@
           "gravity": -0.4,
           "delay": 0.22,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFFFFF",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.08,
+          "delay": 0.2,
+          "y": -0.82
         }
       ]
     },
@@ -10203,6 +10813,16 @@
           "radius": 1.0,
           "y": -0.82,
           "delay": 0.2
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.0,
+          "delay": 0.22,
+          "y": -0.82
         }
       ]
     },
@@ -11151,6 +11771,19 @@
           "delay": 0.2,
           "tiles": 4,
           "alpha": true
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "C8A8FF",
+          "mesh": "slash_crescent",
+          "life": 0.34,
+          "size": 1.6,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.06,
+          "alpha": true,
+          "endSize": 2.0
         }
       ]
     },
@@ -11579,6 +12212,19 @@
           "endSize": 9.99,
           "y": -0.7799999999999999,
           "delay": 0.4
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "FFFFFF",
+          "mesh": "energy_arrow",
+          "rate": 29.7,
+          "life": 0.45,
+          "size": 0.8,
+          "speed": -10.0,
+          "radius": 4.725,
+          "y": 3.0,
+          "delay": 0.1
         }
       ]
     },
@@ -11660,6 +12306,19 @@
           "size": 0.32,
           "speed": 7.0,
           "radius": 1.62,
+          "delay": 0.1
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "FFFFFF",
+          "mesh": "energy_arrow",
+          "rate": 13.5,
+          "life": 0.45,
+          "size": 0.7,
+          "speed": 0,
+          "radius": 4.725,
+          "y": 1.2,
           "delay": 0.1
         }
       ]
@@ -11858,6 +12517,18 @@
           "speed": 6.0,
           "radius": 0.8,
           "delay": 0.5
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "D8F8E8",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.4,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.1,
+          "endSize": 1.75
         }
       ]
     },
@@ -11971,6 +12642,19 @@
           "tiles": 4,
           "alpha": true,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "C8A8FF",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.82,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.52,
+          "endSize": 2.275,
+          "y": 0.0
         }
       ]
     },
@@ -12050,6 +12734,20 @@
           "radius": 0.168,
           "delay": 0,
           "gravity": 0.2,
+          "y": 0.0
+        },
+        {
+          "kind": "burst",
+          "texture": "mesh_energy_orb",
+          "color": "A8E070",
+          "mesh": "energy_orb",
+          "count": 10,
+          "life": 0.8,
+          "size": 0.63,
+          "speed": 3.5,
+          "radius": 0.28,
+          "delay": 0,
+          "gravity": -0.3,
           "y": 0.0
         }
       ]
@@ -12131,6 +12829,20 @@
           "count": 3,
           "y": 0.54,
           "delay": 0.2
+        },
+        {
+          "kind": "burst",
+          "texture": "mesh_energy_orb",
+          "color": "C8FF70",
+          "mesh": "energy_orb",
+          "count": 10,
+          "life": 0.8,
+          "size": 0.608,
+          "speed": 3.375,
+          "radius": 0.27,
+          "delay": 0,
+          "gravity": -0.3,
+          "y": 0.0
         }
       ]
     },
@@ -12212,6 +12924,32 @@
           "endSize": 9.45,
           "y": -0.7799999999999999,
           "delay": 0.35
+        },
+        {
+          "kind": "emitter",
+          "texture": "mesh_energy_arrow",
+          "color": "A8E070",
+          "mesh": "energy_arrow",
+          "rate": 18.9,
+          "life": 0.45,
+          "size": 0.7,
+          "speed": -10.0,
+          "radius": 4.725,
+          "y": 3.0,
+          "delay": 0.1
+        },
+        {
+          "kind": "burst",
+          "texture": "mesh_energy_orb",
+          "color": "A8E070",
+          "mesh": "energy_orb",
+          "count": 14,
+          "life": 0.8,
+          "size": 0.45,
+          "speed": 2.5,
+          "radius": 3.24,
+          "delay": 0.4,
+          "gravity": -0.3
         }
       ]
     },
@@ -12278,6 +13016,19 @@
           "delay": 0.2,
           "tiles": 4,
           "alpha": true
+        },
+        {
+          "kind": "burst",
+          "texture": "mesh_energy_orb",
+          "color": "C8FF90",
+          "mesh": "energy_orb",
+          "count": 14,
+          "life": 0.8,
+          "size": 0.45,
+          "speed": 2.5,
+          "radius": 1.89,
+          "delay": 0,
+          "gravity": -0.3
         }
       ]
     },
@@ -12434,6 +13185,19 @@
           "delay": 0.05,
           "gravity": 0.4,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFF0D0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.62,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0,
+          "endSize": 2.025,
+          "y": 0.0
         }
       ]
     },
@@ -12525,6 +13289,19 @@
           "radius": 0.156,
           "delay": 0.05,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8E0D0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 0.702,
+          "horizontal": true,
+          "delay": 0,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 1.17
         }
       ]
     },
@@ -12612,6 +13389,32 @@
           "radius": 0.162,
           "delay": 0.03,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "E8F6FF",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.282,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.604,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "E8F6FF",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.282,
+          "rotation": 150,
+          "scroll": 2,
+          "delay": 0.13,
+          "endSize": 1.604,
+          "y": 0.0
         }
       ]
     },
@@ -12682,6 +13485,20 @@
           "spin": 0,
           "y": -0.82,
           "endSize": 9.99
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "E8F6FF",
+          "mesh": "slash_crescent",
+          "life": 0.32,
+          "size": 3.24,
+          "rotation": 0,
+          "scroll": 2,
+          "delay": 0.05,
+          "horizontal": true,
+          "y": -0.3,
+          "endSize": 4.05
         }
       ]
     },
@@ -12755,6 +13572,21 @@
           "spin": 0,
           "y": -0.82,
           "endSize": 8.91
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "C8A8FF",
+          "mesh": "slash_crescent",
+          "life": 0.32,
+          "size": 3.24,
+          "rotation": 0,
+          "scroll": 2,
+          "delay": 0.05,
+          "horizontal": true,
+          "y": -0.3,
+          "alpha": true,
+          "endSize": 4.05
         }
       ]
     },
@@ -12821,6 +13653,19 @@
           "speed": 5.4,
           "radius": 0.162,
           "delay": 0.03,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFB0B8",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.282,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.604,
           "y": 0.0
         }
       ]
@@ -12908,6 +13753,19 @@
           "radius": 0.91,
           "y": 1.3,
           "delay": 0.1
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFE0B0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.3,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0.02,
+          "endSize": 1.625,
+          "y": 0.0
         }
       ]
     },
@@ -12989,6 +13847,19 @@
           "count": 3,
           "y": 0.78,
           "delay": 0.15
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FFE0B0",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.3,
+          "rotation": -28,
+          "scroll": 2,
+          "delay": 0,
+          "endSize": 1.625,
+          "y": 0.0
         }
       ]
     },
@@ -13088,6 +13959,19 @@
           "spin": 0,
           "y": -0.82,
           "endSize": 9.45
+        },
+        {
+          "kind": "orbit",
+          "texture": "mesh_slash_crescent",
+          "color": "E8F6FF",
+          "mesh": "slash_crescent",
+          "life": 0.9,
+          "size": 0.9,
+          "radius": 2.16,
+          "count": 3,
+          "spin": 360,
+          "delay": 0,
+          "y": 0.3
         }
       ]
     },
@@ -13153,6 +14037,32 @@
           "speed": 6.75,
           "radius": 0.162,
           "delay": 0.03,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FF6070",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.282,
+          "rotation": -25,
+          "scroll": 2,
+          "delay": 0.03,
+          "endSize": 1.604,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_slash_crescent",
+          "color": "FF6070",
+          "mesh": "slash_crescent",
+          "life": 0.26,
+          "size": 1.282,
+          "rotation": 155,
+          "scroll": 2,
+          "delay": 0.13,
+          "endSize": 1.604,
           "y": 0.0
         }
       ]
@@ -13272,6 +14182,19 @@
           "radius": 2.7,
           "delay": 0.25,
           "gravity": -0.3
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "E8E0D0",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 1.458,
+          "horizontal": true,
+          "delay": 0.2,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 2.43
         }
       ]
     },
@@ -13406,6 +14329,19 @@
           "alpha": true,
           "y": -0.78,
           "gravity": 0.1
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_impact_crater",
+          "color": "B8A8C8",
+          "mesh": "impact_crater",
+          "life": 0.9,
+          "size": 0.624,
+          "horizontal": true,
+          "delay": 0.1,
+          "y": -0.7999999999999999,
+          "alpha": true,
+          "endSize": 1.04
         }
       ]
     },
@@ -13707,6 +14643,17 @@
           "speed": 2.4,
           "radius": 0.12,
           "delay": 0.1
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "FFE8A0",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 0.8800000000000001,
+          "delay": 0,
+          "y": -0.82,
+          "endSize": 1.1
         }
       ]
     },
@@ -13988,6 +14935,17 @@
           "speed": 2.6,
           "radius": 0.12,
           "delay": 0.5
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "A8D8FF",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 0.8800000000000001,
+          "delay": 0,
+          "y": -0.82,
+          "endSize": 1.1
         }
       ]
     },
@@ -14243,6 +15201,16 @@
           "y": 0.2,
           "delay": 0.3,
           "endSize": 2.2
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 0.8,
+          "delay": 0,
+          "y": -0.82
         }
       ]
     },
@@ -14391,6 +15359,16 @@
           "y": -0.82,
           "delay": 0.25,
           "endSize": 6.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "E8FFF0",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 1.0,
+          "delay": 0,
+          "y": -0.82
         }
       ]
     },
@@ -14478,6 +15456,17 @@
           "speed": 2.0,
           "radius": 3.0,
           "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "FFF3C2",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 1.1199999999999999,
+          "delay": 0,
+          "y": -0.82,
+          "endSize": 1.4
         }
       ]
     },
@@ -14617,6 +15606,17 @@
           "speed": 3.0,
           "radius": 2.0,
           "delay": 0.35
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "FFE8A0",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 1.2800000000000002,
+          "delay": 0,
+          "y": -0.82,
+          "endSize": 1.6
         }
       ]
     },
@@ -14977,6 +15977,18 @@
           "tiles": 4,
           "alpha": true,
           "y": -0.6
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "B8B0A0",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 0.8,
+          "delay": 0,
+          "y": -0.82,
+          "alpha": true,
+          "endSize": 1.0
         }
       ]
     },
@@ -15159,6 +16171,27 @@
           "size": 0.12,
           "speed": 2.4,
           "radius": 0.6,
+          "y": -0.82
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_shield_dome",
+          "color": "FFE8A0",
+          "mesh": "shield_dome",
+          "life": 1.3,
+          "size": 0.96,
+          "delay": 0,
+          "y": -0.82,
+          "endSize": 1.2
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "FFF3C2",
+          "mesh": "light_pillar",
+          "life": 0.8,
+          "size": 0.7,
+          "delay": 0,
           "y": -0.82
         }
       ]
@@ -16168,6 +17201,17 @@
           "y": -0.82,
           "delay": 0.3,
           "endSize": 10.8
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_light_pillar",
+          "color": "E8D8FF",
+          "mesh": "light_pillar",
+          "life": 0.9,
+          "size": 0.35,
+          "delay": 0.3,
+          "y": -0.82,
+          "height": 1.0
         }
       ]
     },
@@ -16276,6 +17320,16 @@
           "color": "E8F4FF",
           "life": 0.12,
           "size": 0.095,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_arrow",
+          "color": "FFFFFF",
+          "mesh": "energy_arrow",
+          "life": 1.0,
+          "size": 1.35,
+          "align": true,
           "y": 0.0
         }
       ]
@@ -16408,6 +17462,16 @@
           "life": 0.24,
           "size": 0.392,
           "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_orb",
+          "color": "B890FF",
+          "mesh": "energy_orb",
+          "life": 1.0,
+          "size": 1.26,
+          "spin": 120,
+          "y": 0.0
         }
       ]
     },
@@ -16453,6 +17517,16 @@
           "color": "FF9A50",
           "life": 0.26,
           "size": 0.54,
+          "y": 0.0
+        },
+        {
+          "kind": "mesh",
+          "texture": "mesh_energy_orb",
+          "color": "FFC890",
+          "mesh": "energy_orb",
+          "life": 1.0,
+          "size": 1.5,
+          "spin": 120,
           "y": 0.0
         }
       ]

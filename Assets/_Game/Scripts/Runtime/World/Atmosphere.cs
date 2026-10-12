@@ -298,9 +298,12 @@ namespace Abyss.Runtime.World
         }
 
         /// <summary>Configure a camera for this look (post-processing on, background colour, HDR).</summary>
-        public void SetupCamera(Camera cam)
+        /// <param name="outline">Outline profile context of this camera (<see cref="Abyss.Runtime.Art.OutlineCamera"/>, applied only
+        /// inside that camera's own render); null keeps the context it already has.</param>
+        public void SetupCamera(Camera cam, Abyss.Runtime.Art.OutlineContext? outline = null)
         {
             if (cam == null) return;
+            Abyss.Runtime.Art.OutlineCamera.Ensure(cam, outline);
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = Current != null ? Current.BackgroundColor : Color.black;
             cam.allowHDR = true;

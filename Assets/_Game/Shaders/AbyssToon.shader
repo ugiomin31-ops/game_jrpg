@@ -28,7 +28,8 @@ Shader "Abyss/Toon"
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.5
         _OutlineWidth ("Outline Width", Range(0,0.05)) = 0.012
         _OutlineZOffset ("Outline Z Offset (m, away from camera)", Range(0,0.1)) = 0
-        _OutlineColor ("Outline Colour", Color) = (0.10,0.07,0.12,1)
+        _OutlineColor ("Outline Colour", Color) = (0.16,0.13,0.20,1)
+        _OutlineTintMix ("Outline Vertex-Colour Mix", Range(0,1)) = 0.35
         _FlashColor ("Flash Colour (a = amount)", Color) = (1,1,1,0)
         _Dissolve ("Dissolve", Range(0,1)) = 0
         _DissolveEdge ("Dissolve Edge Colour", Color) = (1,0.55,0.2,1)
@@ -64,6 +65,7 @@ Shader "Abyss/Toon"
             float _OutlineWidth;
             float _OutlineZOffset;
             half4 _OutlineColor;
+            half _OutlineTintMix;
             half4 _FlashColor;
             half _Dissolve;
             half4 _DissolveEdge;
@@ -269,6 +271,15 @@ Shader "Abyss/Toon"
             struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
             struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; half fogFactor : TEXCOORD1; half4 color : TEXCOORD2; float2 uv : TEXCOORD3; };
 
+            // Per-camera outline controls, written by OutlineCamera at each camera's render boundary. They are shader
+            // globals (set with Shader.SetGlobalFloat), so they stay OUTSIDE the UnityPerMaterial CBUFFER above.
+            // Unset globals read 0: _AbyssOutlineRefDepth <= 0 means "no controller" and gives the legacy look
+            // (scale 1, reference depth 6 m, no far fade).
+            float _AbyssOutlineScale;
+            float _AbyssOutlineRefDepth;
+            float _AbyssOutlineFadeStart;
+            float _AbyssOutlineFadeEnd;
+
             Varyings vert(Attributes v)
             {
                 Varyings o = (Varyings)0;
@@ -282,8 +293,14 @@ Shader "Abyss/Toon"
                     cs = TransformWViewToHClip(positionVS);
                 }
                 float3 nCS = mul((float3x3)UNITY_MATRIX_VP, TransformObjectToWorldNormal(v.normalOS));
-                // Screen-space constant width, clamped so distant objects don't get fat outlines.
-                float2 offset = normalize(nCS.xy + 1e-5) * _OutlineWidth * min(cs.w, 6.0);
+                // Screen-space constant width up to the reference depth, then shrinking with distance; optional far fade.
+                bool controlled = _AbyssOutlineRefDepth > 0.001;
+                float refDepth = controlled ? _AbyssOutlineRefDepth : 6.0;
+                float scale = controlled ? max(_AbyssOutlineScale, 0.0) : 1.0;
+                float fade = 1.0;
+                if (controlled && _AbyssOutlineFadeEnd > _AbyssOutlineFadeStart + 0.01)
+                    fade = saturate((_AbyssOutlineFadeEnd - cs.w) / max(_AbyssOutlineFadeEnd - _AbyssOutlineFadeStart, 0.01));
+                float2 offset = normalize(nCS.xy + 1e-5) * _OutlineWidth * scale * fade * min(cs.w, refDepth);
                 offset.x *= _ScreenParams.y / _ScreenParams.x;
                 cs.xy += offset * step(0.0001, _OutlineWidth);
                 o.positionCS = cs;
@@ -301,7 +318,8 @@ Shader "Abyss/Toon"
                 clip(_OutlineWidth - 0.0001);
                 ClipAlpha(i.uv, i.color.a);
                 clip(_Alpha - 0.99);
-                half3 c = _OutlineColor.rgb * lerp(half3(1,1,1), i.color.rgb, 0.35);
+                // Dark tint of the VERTEX colour (not the albedo / base map): _OutlineTintMix 0 = flat outline colour.
+                half3 c = _OutlineColor.rgb * lerp(half3(1,1,1), i.color.rgb, _OutlineTintMix);
                 return half4(MixFog(c, i.fogFactor), 1);
             }
             ENDHLSL

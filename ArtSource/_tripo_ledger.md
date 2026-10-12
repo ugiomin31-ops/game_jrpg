@@ -131,3 +131,12 @@ Generations: H3.1 Best Quality, Geometry & Texture, HD Model, 55 each (10 x 55 =
 | street_lamp | 9739745d-37d1-4fee-9ec1-fb83c8e526d1 | 2690 | none | none | props/street_lamp/tripo/ (1k) |
 
 Open items: Blender skin-weight/posing check on the five rigged exports (not run by this worker). killer_bee Animate page showed only "Walk" (see enemies/_other_rig_animation_options.md). Export files are the Tripo default names tripo_convert_<uuid>.fbx with .fbm texture folders.
+- slash_crescent | e27ca498-5f02-4923-a041-43bcaab1bdaf | H3.1 Best Quality, Geometry & Texture 55 (2260 -> 2205) + retopo Triangle 600 35 (1930 -> 1895) | 546 faces | export ArtSource/vfx/slash_crescent/tripo/ (FBX, 1k, no rig) | 2026-10-12
+- energy_arrow | b41ff4e5-eb91-43c4-ba1b-92757d5ece01 | H3.1 Best Quality, Geometry & Texture 55 (2205 -> 2150) + retopo Triangle 500 35 (1895 -> 1860) | 674 faces (above target) | export ArtSource/vfx/energy_arrow/tripo/ (FBX, 1k, no rig) | 2026-10-12
+- energy_orb | e71754a6-e6c6-47fe-8c3b-ca66e0881901 | H3.1 Best Quality, Geometry & Texture 55 (2150 -> 2095) + retopo Triangle 500 35 (1860 -> 1825) | 540 faces | export ArtSource/vfx/energy_orb/tripo/ (FBX, 1k, no rig) | 2026-10-12
+- impact_crater | ba838f8f-33ce-434a-b4f2-eb997553454a | H3.1 Best Quality, Geometry & Texture 55 (2095 -> 2040) + retopo Triangle 900 35 (1825 -> 1790) | 1017 faces (above target) | export ArtSource/vfx/impact_crater/tripo/ (FBX, 1k, no rig) | 2026-10-12
+- shield_dome | a65981fe-9c32-4b55-8fc5-2633735a3882 | H3.1 Best Quality, Geometry & Texture 55 (2040 -> 1985) + retopo Triangle 1000 35 (1790 -> 1755) | 1178 faces (above target) | export ArtSource/vfx/shield_dome/tripo/ (FBX, 1k, no rig) | 2026-10-12
+- light_pillar | a16d60a7-00b8-4e7a-86e9-ff1cee3ec7be | H3.1 Best Quality, Geometry & Texture 55 (1985 -> 1930) + retopo Triangle 600 35 (1755 -> 1720) | 460 faces (under target) | export ArtSource/vfx/light_pillar/tripo/ (FBX, 1k, no rig) | 2026-10-12
+
+### CLASS-MOTIONS batch (2026-10-12, second account, balance 1720 -> 1540, spent 180)
+Text-to-motion, 9 clips at 20 each (BattleIdle, Attack_warrior, Attack_archer, Attack_mage, Attack_cleric, Skill_warrior, Skill_archer, Skill_mage, Skill_cleric). Free presets: shoot, standing_relax, chop (0). Export: 0. Rig reused: task bc94a7b1-e6ab-4ac7-9ec6-376808870742 (not re-rigged). Export: ArtSource/hunters/_anim_library/tripo_export_class/ (FBX, texture 512, skeleton on, 12 takes). Skill clips at 3 s instead of 2.5 s (integer-only duration control). Blender posing check OPEN.

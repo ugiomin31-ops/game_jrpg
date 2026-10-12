@@ -13,3 +13,20 @@
 - candidate_D.png: hemispherical shell with larger irregular panels; base rim fine. Pass with reservation (panels less hexagonal).
 
 - Suggested pick: candidate_C.png. Reason: the most accurate hemisphere with connected hexagonal panels and a thick continuous base rim, and an open underside that reads clearly.
+
+### Tripo pass (B4-VFX-TRIPO, 2026-10-12)
+- Main final pick: candidate_A.png (main-approved; the sidecar suggestion above was candidate_C.png)
+- Tripo task: a65981fe-9c32-4b55-8fc5-2633735a3882 (https://studio.tripo3d.ai/workspace/generate/a65981fe-9c32-4b55-8fc5-2633735a3882). Tripo titled it "geodesic dome helmet".
+- Generate: H3.1 Best Quality, Geometry & Texture, 55 credits (2040 -> 1985)
+- Retopo: Triangle, Smart Mesh on, target 1000 (Tripo returned 1178 faces, above target; exported as-is per instruction), 35 credits (1790 -> 1755)
+- Visual note: after retopo several hex panels show dark circular recesses; check in Blender before import.
+- Rig: none. Export: FBX, texture 1k, Blender preset (Tripo default)
+- Export path: ArtSource/vfx/shield_dome/tripo/ (tripo_convert_*.fbx + .fbm, see folder)
+- Faces after retopo: 1178 (target 1000)
+
+### Installed 2026-10-12 (V1 VFX-MESH-INSTALL)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/shield_dome.fbx. Headless Blender (Blender/lib/abyss_bpy.py export_fbx, forward -Z / up Y, scale 1, one mesh, one plain M_Vfx slot, no Tripo marker so force=False). Tris 970 (Tripo 1178, collapse-decimated).
+- Orientation/pivot/size: base-centre pivot, +Y up, 2.4 m diameter / 1.62 m high, open underside with the inner shell kept; dark circular recesses of the albedo were normalised (grey-closing lift of blobs larger than the seams, mean lift 0.23, seams kept); Col alpha 0.3 at the base edge rising to 1 by 8% height.
+- Col vertex colour: white RGB + alpha fade mask (body 1, tips/edges 0.3, tail 0 where the contract asks).
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_shield_dome.png, 512 px greyscale RGB, source Tripo albedo luminance + recess normalisation; levels remapped by percentile (p5 -> .35 grooves, p50 -> .60 body, p95 -> .80 edges, clamp .30-.84).
+- Verified by re-importing the FBX in Blender (bounds in Unity axes, single mesh, UV + Col present). Unity import check still pending (later task). Scripts: scratchpad v1/build.py, tex.py, verify.py.
