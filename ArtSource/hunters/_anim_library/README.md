@@ -163,3 +163,37 @@ Take names in the FBX (12 AnimStacks, read from the binary; the 63-char cut is T
 Checks done: FBX header `Kaydara FBX Binary`. Counts: `Skin` x1, `Cluster` x65, `LimbNode` x130, `Deformer` x133 (same rig as the earlier exports).
 Not done: the Blender posing check (bone moves mesh). This worker has no Blender access in this task, so the main session must run it before any import. The motion quality itself was not visually verified beyond the Tripo viewport preview.
 Tripo tab closed after download.
+
+
+## B5 CLASS-MOTIONS2 account-switch checkpoint (2026-10-12)
+
+Tripo Studio web, https://studio.tripo3d.ai/workspace/animate/bc94a7b1-e6ab-4ac7-9ec6-376808870742; existing shopkeeper rig, no re-rig. Text-to-motion; model/effort selector not applicable to this Tripo UI.
+
+### Attack_archer2
+- UI name: Fist Snap Motion; duration 2 s; cost 20 (100 -> 80).
+- Exact prompt: "Stand sideways to the target. Extend the left arm straight forward at shoulder height with a closed fist. Bring the right hand to meet it, then pull the right hand straight back to the right cheek with the elbow high, hold a moment, then open the right hand quickly so it snaps back a little. Return to standing. Feet stay planted."
+- Exact AnimationStack name: `Stand sideways to the target. Extend the left arm straight forw` (trailing spaces preserved).
+
+### Skill_archer2
+- UI name: Arm Snap Motion; duration 3 s; cost 20 (80 -> 60).
+- Exact prompt: "Stand sideways, left arm extended straight forward at shoulder height. Three times in quick succession: pull the right hand back to the cheek and snap it open. Then lower both arms. Feet stay planted."
+- Exact AnimationStack name: `Stand sideways, left arm extended straight forward at shoulder ` (trailing spaces preserved).
+
+### Attack_mage2
+- UI name: Arm Pointing Gesture; duration 2 s; cost 20 (60 -> 40).
+- Exact prompt: "Bring the right hand to the left shoulder, then snap the right arm straight forward and point at chest height with the index finger, hold briefly, then return to standing. Feet stay planted."
+- Exact AnimationStack name: `Bring the right hand to the left shoulder, then snap the right ` (trailing spaces preserved).
+
+### Skill_warrior2
+- UI name: 360 Degree Turn in Place; duration 3 s; cost 20 (40 -> 20).
+- Exact prompt: "Without moving from the spot, turn the whole body 360 degrees in place with the right arm extended horizontally at shoulder height, and stop facing forward in a balanced stance. No travel."
+- Exact AnimationStack name: `Without moving from the spot, turn the whole body 360 degrees i` (trailing spaces preserved).
+
+Final export: C:/Users/User/Desktop/game/ArtSource/hunters/_anim_library/tripo_export_class2/tripo_convert_9e8509dd-6151-4883-b90f-1e439f620912.fbx (+ .fbm), **16 takes: prior 12 plus four new**. Filename retained from original four-take bundle; contents replaced with all-16 export from tactical+outfit+3d+model (5).zip / tripo_convert_e59590db-a3b0-4683-afdf-21c23d768a0f.fbx. Skeleton on, Blender preset, texture 512, stay-in-place off, export free.
+Base rig zero takes: C:/Users/User/Desktop/game/ArtSource/hunters/_anim_library/tripo_export_class2/rig_base/tripo_convert_15ba45ee-1840-4fe1-8b49-ca491318e680.fbx. Individual Attack_mage2: C:/Users/User/Desktop/game/ArtSource/hunters/_anim_library/tripo_export_class2/Attack_mage2/tripo_convert_f064a48b-3892-42b7-844e-ef10b422c60b.fbx. Three other per-take files not exported before urgent checkpoint; all four motions safely in complete bundle.
+Skill_cleric2 skipped for balance floor, no generation/cost. Requested prompt: "Stand upright, raise the right arm straight up above the head and hold it there, place the left palm on the chest, tilt the head up briefly, then lower the right arm. Feet stay planted."
+Checks: bundle 16 AnimationStacks, Skin 1, Cluster 65, LimbNode 65; base 0 stacks; single mage 1 stack. Zip traversal and CRC passed; Python -I used. No Unity/Blender/Assets writes or commits. Bone deformation and motion quality approval NOT performed. Final live balance 20, no in-flight jobs, tab closed without logout/account switch.
+
+
+## B5-TRIPO-2 motion review (2026-10-13)
+Blender skin-weight check of the 16-take bundle and the cleric2 export: 0 % unweighted vertices, posed bones move the mesh (details and the per-take verdicts in INSTALL.md, section "B5-TRIPO-2 motion review"). Installed: Attack_archer2 as `HumanoidAnimationsByClass/archer/Attack.fbx`. Rejected: Skill_archer2, Attack_mage2, Skill_warrior2, Skill_cleric2.

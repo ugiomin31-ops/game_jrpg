@@ -49,21 +49,15 @@ namespace Abyss.Runtime.Battle
         PresentationDef _presentation;
         VfxHandle _charge;
         Image _flash, _dim;
-        Vector3 _cameraPosition, _cameraLook, _cameraBasePosition, _oldPosition;
-        Quaternion _oldRotation, _cameraBaseRotation;
-        float _cameraRate = 7f;
-        // Establishing shot: close enough that 1.3 m heroes and the monsters read on a landscape phone.
-        static readonly Vector3 CameraHome = new Vector3(0f, 3.6f, -10.2f), CameraAim = new Vector3(1.4f, 1.05f, 0.6f);
-        const float CameraFov = 42f;
-        // Preserve the phone's horizontal composition on narrower landscape tablets.
-        // A fixed vertical FOV otherwise crops the outer two heroes behind the HUD.
-        float FramingFov => UIRoot.TouchFirst && _camera != null
-            ? Mathf.Atan(Mathf.Tan(CameraFov * Mathf.Deg2Rad * .5f) * Mathf.Max(1f, (20f / 9f) / _camera.aspect)) * 2f * Mathf.Rad2Deg
-            : CameraFov;
-        // The full-height command panel starts farther left on a tablet than on
-        // a compact phone. Move the shot as well as widening it to reserve that space.
-        Vector3 FramingOffset => UIRoot.TouchFirst && !UIRoot.Compact ? Vector3.right * 1.5f : Vector3.zero;
-        float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _actionEnd, _waveStop;
+        /// <summary>Shot selection, blends, framing and the shake / FOV-punch layers (see <see cref="BattleCameraDirector"/>).</summary>
+        BattleCameraDirector _director;
+        /// <summary>Hero whose command menu is open (S1 / S2 camera); null while replaying or in auto battle.</summary>
+        string _commandUnit;
+        /// <summary>Set once Finish stages the outcome: target-preview resets no longer move the camera.</summary>
+        bool _outcome;
+        /// <summary>Battle intro: one eased sweep from the low enemy-side angle into the establishing shot.</summary>
+        const float IntroSweep = 1.2f;
+        float _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _actionEnd, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
         /// <summary>Share of normal speed that effect playback keeps while a hit-stop freezes the units.</summary>
@@ -71,7 +65,7 @@ namespace Abyss.Runtime.Battle
         int _round, _wave, _eventIndex, _displayChain;
         string _active, _strikeClip;
         IReadOnlyList<BattleEvent> _events;
-        bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced, _perHitProjectile, _flashed;
+        bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _perHitProjectile, _flashed;
         AtmospherePreset _oldAtmosphere;
         Abyss.Runtime.Art.OutlineContext _oldOutline;
         FloorDef _floor;
@@ -92,6 +86,22 @@ namespace Abyss.Runtime.Battle
             if (anchor.StartsWith("LightAnchor_edge", StringComparison.Ordinal)) { intensity = BattleEdgeLightIntensity; range = BattleEdgeLightRange; }
             return true;
         }
+        /// <summary>
+        /// The arena FBX is exported turned 180 degrees about Z from a scene whose empties were never re-evaluated
+        /// (Blender/environment/_kit_common_b.py export_arena_turned), so every LightAnchor lands at the arena origin on the
+        /// floor and the four "edge" lights stack into one white pool between the lines. An anchor light that still sits
+        /// at the origin has no authored position: it is dropped. Anchors with a real position keep their light.
+        /// </summary>
+        static void DropCollapsedAnchorLights(IList<Light> lights)
+        {
+            for (int i = lights.Count - 1; i >= 0; i--)
+            {
+                var light = lights[i];
+                if (light == null || light.transform.position.sqrMagnitude > .01f) continue;
+                Destroy(light);
+                lights.RemoveAt(i);
+            }
+        }
         bool Reduced => _app.Preferences != null && _app.Preferences.ReducedMotion;
         /// <summary>Battle pacing multiplier from settings (1x, 1.5x, 2x): scales waits, unit animation and action timers.</summary>
         float Speed => _app.Preferences != null ? _app.Preferences.BattleSpeed : 1f;
@@ -104,7 +114,6 @@ namespace Abyss.Runtime.Battle
             _setup = setup ?? throw new ArgumentNullException(nameof(setup)); _completed = completed;
             _camera = app.MainCamera;
             if (_camera == null) throw new InvalidOperationException("BattleView requires the application camera.");
-            _oldPosition = _camera.transform.position; _oldRotation = _camera.transform.rotation; _oldFov = _camera.fieldOfView;
             _oldAtmosphere = app.Atmosphere.Current;
             var outlineCamera = Abyss.Runtime.Art.OutlineCamera.Ensure(_camera); _oldOutline = outlineCamera.Context;
             FloorDef floor = null;
@@ -116,7 +125,8 @@ namespace Abyss.Runtime.Battle
             atmosphere.BloomThreshold = BattleBloomThreshold;
             app.Atmosphere.Apply(atmosphere); app.Atmosphere.SetupCamera(_camera, Abyss.Runtime.Art.OutlineContext.Battle);
             var arena = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(floor.Tileset, "arena"), transform);
-            EnvironmentProcessor.Process(arena, atmosphere.TorchColor, anchorPolicy: BattleLightPolicy);
+            var arenaLights = EnvironmentProcessor.Process(arena, atmosphere.TorchColor, anchorPolicy: BattleLightPolicy);
+            DropCollapsedAnchorLights(arenaLights.Lights);
             _rim = CreateRimLight();
             _ui = UIRoot.Create(); _ui.Numbers.Camera = _camera;
             _vfx = VfxLibrary.Create(); _vfx.Camera = _camera;
@@ -124,6 +134,8 @@ namespace Abyss.Runtime.Battle
             _dim = UIFactory.Fill(app.UI.Content, new Color(0, 0, 0, 0), "Battle dim");
             _hud = gameObject.AddComponent<BattleHUD>();
             _hud.Initialize(app.UI.Content, _camera, app.DB, Submit, ToggleAuto, PreviewTarget, () => _app != null && _app.Paused);
+            _director = new BattleCameraDirector(_camera, transform, _hud, _units.Values);
+            _director.SetArenaGeometry(arena.transform);
             _hud.EnableSpeedToggle(SpeedLabel, ToggleSpeed);
             _flash = UIFactory.Fill(app.UI.Content, new Color(1, 1, 1, 0), "Battle flash");
             Engine = new BattleEngine(app.DB, setup);
@@ -142,7 +154,7 @@ namespace Abyss.Runtime.Battle
         public bool Submit(BattleCommand command)
         {
             if (_finished || Playing || _app.Paused || Engine.State != BattleEngineState.AwaitingCommand) return false;
-            _hud.Lock(); Playing = true;
+            _commandUnit = null; _hud.Lock(); Playing = true;
             StartCoroutine(Replay(Engine.Submit(command), false));
             return true;
         }
@@ -153,7 +165,7 @@ namespace Abyss.Runtime.Battle
             _app.Preferences.AutoBattle = enabled; _app.SavePreferences();
             if (enabled && !Playing && Engine.State == BattleEngineState.AwaitingCommand)
             {
-                _hud.Lock(); Playing = true; StartCoroutine(AutoInput());
+                _commandUnit = null; _hud.Lock(); Playing = true; Establishing(false); StartCoroutine(AutoInput());
             }
         }
         public void ToggleAuto() => SetAuto(!Auto);
@@ -173,7 +185,7 @@ namespace Abyss.Runtime.Battle
         {
             yield return Wait(.4f);
             if (_finished) yield break;
-            if (!Auto) { Playing = false; _hud.ShowCommands(Engine); yield break; }
+            if (!Auto) { Playing = false; OpenCommands(); yield break; }
             yield return Replay(Engine.Submit(Engine.SuggestCommand(Engine.ActiveHero)), false);
         }
         IEnumerator Replay(IReadOnlyList<BattleEvent> events, bool initial)
@@ -190,10 +202,47 @@ namespace Abyss.Runtime.Battle
             Playing = false;
             if (Engine.State == BattleEngineState.AwaitingCommand)
             {
-                Establishing(false);
-                if (Auto) { Playing = true; StartCoroutine(AutoInput()); }
-                else _hud.ShowCommands(Engine);
+                // The command shot requested by CommandRequestedEvent stays: no establishing shot in between.
+                if (Auto) { Establishing(false); Playing = true; StartCoroutine(AutoInput()); }
+                else OpenCommands();
             }
+        }
+        /// <summary>Opens (or reopens) the command menu and frames the active hero over the shoulder (S1).</summary>
+        void OpenCommands()
+        {
+            _hud.ShowCommands(Engine);
+            var hero = Engine.ActiveHero;
+            _commandUnit = hero != null ? hero.Id : null;
+            if (hero != null && Find(hero.Id, out var unit)) _director.Command(unit); else Establishing(false);
+        }
+        /// <summary>
+        /// True when the next camera-bearing event of this replay is another action or (manual) command request with only
+        /// bookkeeping in between, so the camera goes straight there instead of passing through the establishing shot.
+        /// </summary>
+        bool NextShotFollows()
+        {
+            if (_events == null) return false;
+            for (int i = _eventIndex + 1; i < _events.Count; i++)
+            {
+                switch (_events[i])
+                {
+                    case ActionStartEvent _: return true;
+                    case CommandRequestedEvent _: return !Auto;
+                    case TurnEndEvent _: case TurnStartEvent _: case RoundStartEvent _: case EnemyIntentPlannedEvent _:
+                    case IntentClearedEvent _: case TpChangeEvent _: case MpChangeEvent _: case StatusRemovedEvent _:
+                    case ChainChangedEvent _: case MessageEvent _:
+                        continue;
+                    default: return false;
+                }
+            }
+            return false;
+        }
+        /// <summary>Display units of an action's targets (living or not; the director skips the fallen).</summary>
+        List<BattleDisplayUnit> Targets(ActionStartEvent e)
+        {
+            var list = new List<BattleDisplayUnit>();
+            if (e.TargetIds != null) foreach (string id in e.TargetIds) if (Find(id, out var unit)) list.Add(unit);
+            return list;
         }
 
         IEnumerator Present(BattleEvent battleEvent)
@@ -217,6 +266,9 @@ namespace Abyss.Runtime.Battle
                     break;
                 case CommandRequestedEvent e:
                     _active = e.UnitId; RefreshOrder();
+                    // S1 starts with the request; the replay's end opens the menu on the same shot (never re-establishes).
+                    if (Auto) Establishing(false);
+                    else if (Find(e.UnitId, out var commander)) _director.Command(commander);
                     break;
                 case TurnSkippedEvent e:
                     Popup(e.UnitId, e.Broken ? "BREAK · 행동 불가" : "행동 불가", new Color(1, .7f, .25f));
@@ -228,6 +280,7 @@ namespace Abyss.Runtime.Battle
                         _action = e; _presentation = null; _actionElapsed = _actionLength = _actionEnd = 0;
                         _hitCounts.Clear(); _hitTotals.Clear(); _impactTargets.Clear();
                         _hud.Log((Find(e.ActorId, out var announcer) ? announcer.Name + " · " : "") + e.DisplayName + " · 준비 중!");
+                        if (announcer != null && announcer.Side == BattleSide.Enemy) _director.EnemyTurn(announcer, Targets(e));
                         break;
                     }
                     yield return StartAction(e); break;
@@ -275,7 +328,7 @@ namespace Abyss.Runtime.Battle
                             Type = e.EffectType, Turns = e.Turns, Beneficial = e.Beneficial };
                         Sync(applied); Popup(e.UnitId, e.DisplayName, e.Beneficial ? new Color(.4f, 1, .75f) : new Color(1, .5f, .7f));
                         if (_impactTargets.Add(e.UnitId) && _action != null && _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx))
-                            Impact(_presentation.ImpactVfx, applied, PresentationColor(_action.Element), !e.Beneficial);
+                            Impact(_presentation.ImpactVfx, applied, PresentationColor(_action.Element), !e.Beneficial, FacingFrom(_action.ActorId, applied));
                         PlaySound(e.Beneficial ? "sfx_buff" : StatusSound(e.EffectType)); yield return Wait(.16f);
                     }
                     break;
@@ -296,7 +349,7 @@ namespace Abyss.Runtime.Battle
                         if (broken.DisplayCharge == null) Popup(e.UnitId, "BREAK!", new Color(1, .75f, .2f), 64f);
                         Effect("break", HitPoint(broken), new Color(1, .65f, .15f), 1.4f * ImpactScale(broken) / 1.2f, 0, null, broken.Home.y);
                         PlaySound("sfx_critical");
-                        if (!Reduced) { AddTrauma(.5f); _fovPunch = Mathf.Min(_fovPunch, -3f); ScreenFlash(new Color(1, .7f, .25f), .35f); }
+                        if (!Reduced) { AddTrauma(.5f); _director.Punch(-3f); ScreenFlash(new Color(1, .7f, .25f), .35f); }
                         yield return HitStop(.065f); yield return Wait(.28f);
                     }
                     break;
@@ -350,7 +403,7 @@ namespace Abyss.Runtime.Battle
                 case BossPhaseEvent e:
                     if (Find(e.UnitId, out var boss))
                     {
-                        ActiveShot(boss, null, true);
+                        _director.Action(boss, null, true);
                         boss.Model.PlayOnce("Cast");
                         float phaseStarted = Time.time;
                         _hud.CutIn(boss.Name + " · PHASE " + (e.PhaseIndex + 1), e.Line);
@@ -506,7 +559,8 @@ namespace Abyss.Runtime.Battle
             BattleDisplayUnit target = null;
             if (e.TargetIds != null && e.TargetIds.Count > 0) Find(e.TargetIds[0], out target);
             _hud.Log(actor.Name + " · " + (e.DisplayName ?? ActionName(e.Kind)));
-            ActiveShot(actor, target, e.IsUltimate);
+            if (actor.Side == BattleSide.Enemy) _director.EnemyTurn(actor, Targets(e), StrikePoint(e, actor, target));
+            else _director.Action(actor, target, e.IsUltimate);
             if (e.Kind == ActionKind.Skill && !string.IsNullOrEmpty(e.DisplayName))
                 _hud.SkillBanner(e.DisplayName, PresentationColor(e.Element));
             bool grand = e.IsUltimate || (_presentation != null && _presentation.Tier >= 3);
@@ -616,6 +670,24 @@ namespace Abyss.Runtime.Battle
                 if (lead > 0) yield return Wait(lead);
             }
         }
+        /// <summary>
+        /// Where a melee enemy will strike from (the run's end mark), predicted with the same rules as the approach below,
+        /// so the S6 reverse angle frames the strike instead of the spot the enemy leaves. Null for casts, lunges, guard,
+        /// flee and reduced motion (the enemy acts from its mark).
+        /// </summary>
+        Vector3? StrikePoint(ActionStartEvent e, BattleDisplayUnit actor, BattleDisplayUnit target)
+        {
+            if (Reduced || target == null || actor.Id == target.Id || e.Kind == ActionKind.Guard || e.Kind == ActionKind.Flee) return null;
+            bool cast = e.Kind == ActionKind.Item || e.Kind == ActionKind.Summon || (_presentation != null && _presentation.ActorAction == "cast");
+            bool approach = !cast && ((_presentation != null && _presentation.Approach != "none") || (_presentation == null && e.Kind == ActionKind.Attack));
+            if (!approach || (_presentation != null && _presentation.Approach == "lunge" && e.Scope != Scope.Single)) return null;
+            Vector3 from = actor.Model.transform.position, direction = target.Model.transform.position - from;
+            direction.y = 0;
+            float distance = direction.magnitude;
+            if (distance < .001f) return null;
+            float travel = Mathf.Max(0, distance - actor.Model.Radius - target.Model.Radius - .45f);
+            return from + direction / distance * travel;
+        }
         void Swing(BattleDisplayUnit actor, string clip, bool cast)
         {
             float length = actor.Model.Anim.Length(clip);
@@ -682,7 +754,7 @@ namespace Abyss.Runtime.Battle
                 _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx))
                 foreach (string id in _action.TargetIds)
                     if (_impactTargets.Add(id) && Find(id, out var affected) && Find(_action.ActorId, out var source))
-                        Impact(_presentation.ImpactVfx, affected, PresentationColor(_action.Element), affected.Side != source.Side);
+                        Impact(_presentation.ImpactVfx, affected, PresentationColor(_action.Element), affected.Side != source.Side, FacingFrom(_action.ActorId, affected));
             foreach (var pair in _hitCounts)
                 if (pair.Value > 1 && Find(pair.Key, out var hit)) _ui.Numbers.SpawnHits(hit.Model.HeadPoint, pair.Value, _hitTotals[pair.Key]);
             if (!_fleeSucceeded && Find(e.ActorId, out var actor) && actor.Alive)
@@ -712,7 +784,8 @@ namespace Abyss.Runtime.Battle
                 yield return Face(actor, actor.Facing);
             }
             _action = null; _presentation = null; _actionLength = 0; _actionEnd = 0; _strikeClip = null; _perHitProjectile = false;
-            Establishing(false); yield return Wait(.12f);
+            if (!NextShotFollows()) Establishing(false);
+            yield return Wait(.12f);
         }
         /// <summary>
         /// Wave bookkeeping before a strike lands. Hits on fresh targets of a group action share a wave; a repeat target
@@ -784,12 +857,12 @@ namespace Abyss.Runtime.Battle
             }
             string impact = _presentation != null ? _presentation.ImpactVfx : "impact";
             if (!string.IsNullOrEmpty(impact))
-                Effect(impact, HitPoint(target), tint, ImpactScale(target) * (e.Critical ? 1.3f : 1), 0, null, target.Home.y);
+                Effect(impact, HitPoint(target), tint, ImpactScale(target) * (e.Critical ? 1.3f : 1), 0, null, target.Home.y, FacingFrom(e.SourceId, target));
             PlaySound(e.Critical ? "sfx_critical" : _presentation != null && !string.IsNullOrEmpty(_presentation.SfxImpact) ? _presentation.SfxImpact : "sfx_hit");
             if (!Reduced)
             {
                 AddTrauma((_presentation != null ? _presentation.Shake : .08f) * (e.Critical ? 1.4f : 1));
-                if (strike) _fovPunch = Mathf.Min(_fovPunch, e.Critical ? -3f : -1.5f);
+                if (strike) _director.Punch(e.Critical ? -3f : -1.5f);
                 if (e.Critical) ScreenFlash(Color.white, .22f);
                 else if (strike && !_flashed && _presentation != null && _presentation.ScreenFlash) ScreenFlash(tint, .3f);
             }
@@ -822,10 +895,9 @@ namespace Abyss.Runtime.Battle
                 SetRunRate(unit, (unit.Side == BattleSide.Party ? 3.4f : 4.6f) / .8f); unit.Model.Play("Run");
                 movers.Add((unit, from));
             }
-            _cameraPosition = transform.TransformPoint(new Vector3(-7.8f, 1.5f, 5.2f));
-            _cameraLook = transform.TransformPoint(new Vector3(0f, 1.3f, 2.2f));
-            _fov = FramingFov + 10f; SetCamera();
-            _cameraRate = 2.4f; Establishing(false);
+            // Low enemy-side angle, then one eased sweep into the establishing shot while both sides run onto their marks.
+            _director.CutTo(new Vector3(-7.8f, 1.5f, 5.2f), new Vector3(0f, 1.3f, 2.2f), BattleCameraDirector.HomeFov + 10f);
+            _director.Establishing(false, IntroSweep, CameraEase.InOutCubic);
             _flashAlpha = .6f; _flash.color = new Color(1, 1, 1, _flashAlpha);
             var names = new List<string>();
             // The encounter call-out names each kind once (display letters are for telling units apart later).
@@ -852,7 +924,6 @@ namespace Abyss.Runtime.Battle
             }
             yield return Wait(foe ? .9f : .55f);
             foreach (var (unit, _) in movers) unit.Model.Play("Idle");
-            _cameraRate = 7f;
         }
 
         /// <summary>Reduced motion: no run-on or camera move. Boss battles still get a short static name card.</summary>
@@ -880,18 +951,13 @@ namespace Abyss.Runtime.Battle
             float clip = PlayEntranceClip(boss);
             _flashAlpha = .3f; _flash.color = new Color(UITheme.Danger.r, UITheme.Danger.g, UITheme.Danger.b, _flashAlpha);
             AddTrauma(.2f);
-            // Each leg settles ~90% at this rate; scaling it by Speed keeps the same shape at 1.5x / 2x.
-            _cameraRate = 8f * Speed;
-            Vector3 focus = boss.Model.CenterPoint;
-            _cameraPosition = Vector3.Lerp(transform.TransformPoint(CameraHome + FramingOffset), focus, .22f);
-            _cameraLook = Vector3.Lerp(transform.TransformPoint(CameraAim + FramingOffset), focus, .65f);
-            _fov = FramingFov - 4f;
+            // Push in toward the boss and back out, each leg one eased blend (blends already scale with battle speed).
+            _director.BossPush(boss, BossPushLeg);
             yield return Wait(BossPushLeg);
-            Establishing(false);
+            _director.Establishing(false, BossPushLeg, CameraEase.InOutCubic);
             yield return Wait(BossPushLeg);
             // Let the roar read, but never run the entrance past its cap.
             yield return Wait(Mathf.Min(BossEntranceMax - 2f * BossPushLeg, Mathf.Max(.15f, clip - 2f * BossPushLeg)));
-            _cameraRate = 7f;
         }
         /// <summary>The unit whose data is a boss (EnemyDef.IsBoss); the first living enemy if the group has none.</summary>
         BattleDisplayUnit EntranceBoss()
@@ -933,13 +999,13 @@ namespace Abyss.Runtime.Battle
 
         IEnumerator Finish(BattleOutcome outcome)
         {
-            _hud.Lock(); Establishing(false);
+            _commandUnit = null; _hud.Lock(); _outcome = true;
             // Resolve exactly once and use that cached report for both routing and the result UI. Save before
             // any ceremony/toast/acknowledgement; never compute eligibility by applying the outcome again.
             var resolution = _app.Dungeon.ResolveBattle(outcome);
             _app.Save();
             bool fast = PartyStats.CanUseFastResults(_app.DB, _setup, outcome, resolution.Report);
-            if (!Reduced && !fast) StageOutcome(outcome.Result);
+            if (!Reduced && !fast) StageOutcome(outcome.Result); else Establishing(false);
             foreach (var unit in _units.Values)
                 if (unit.Side == BattleSide.Party && unit.Alive)
                     unit.Model.Play(outcome.Result == BattleResult.Victory ? "Victory" : outcome.Result == BattleResult.Fled ? "Run" : "Idle");
@@ -962,7 +1028,6 @@ namespace Abyss.Runtime.Battle
             }
             else if (fast) yield return CeremonyWait(.8f);
             else yield return Wait(Reduced ? .6f : 2.1f);
-            _cameraRate = 7f;
             bool acknowledged = false;
             Action acknowledge = () => { if (!acknowledged) acknowledged = true; };
             if (fast) _hud.FastRewards(resolution.Report, acknowledge);
@@ -983,26 +1048,19 @@ namespace Abyss.Runtime.Battle
         /// <summary>Victory: the camera swings round in front of the party for their poses. Defeat: it lifts away and the arena dims.</summary>
         void StageOutcome(BattleResult result)
         {
-            Vector3 party = Vector3.zero; int count = 0;
-            foreach (var unit in _units.Values)
-                if (unit.Side == BattleSide.Party) { party += transform.InverseTransformPoint(unit.Home); count++; }
-            party = count > 0 ? party / count : new Vector3(0f, 0f, -3f);
-            _cameraRate = 2.2f;
             switch (result)
             {
                 case BattleResult.Victory:
-                    _cameraPosition = transform.TransformPoint(party + new Vector3(.6f, 1.55f, 5.2f));
-                    _cameraLook = transform.TransformPoint(party + new Vector3(0f, .85f, 0f));
-                    _fov = 40f;
+                    _director.Victory();
                     _hud.Announce("VICTORY", "전투에서 승리했다!", UITheme.GoldBright, 1.2f);
                     break;
                 case BattleResult.Defeat:
-                    _cameraPosition = transform.TransformPoint(new Vector3(0f, 8.5f, -12.5f));
-                    _cameraLook = transform.TransformPoint(party);
+                    _director.Defeat();
                     _dimTarget = .45f;
                     _hud.Announce("전멸…", "파티가 쓰러졌다", UITheme.Danger, 1.2f);
                     break;
                 case BattleResult.Fled:
+                    Establishing(false);
                     _hud.Announce("도주 성공", "무사히 빠져나왔다", UITheme.TextDim, .5f);
                     break;
             }
@@ -1047,20 +1105,28 @@ namespace Abyss.Runtime.Battle
                         Mathf.Max(.7f, unit.Model.Radius * 1.4f), 0, unit.Model.transform, unit.Home.y));
                 }
         }
-        VfxHandle Effect(string key, Vector3 position, Color tint, float scale = 1, float duration = 0, Transform follow = null, float ground = float.NaN)
+        VfxHandle Effect(string key, Vector3 position, Color tint, float scale = 1, float duration = 0, Transform follow = null, float ground = float.NaN,
+            Vector3? facing = null)
         {
-            var handle = _vfx.Play(key, position, tint, scale, duration, follow, ground); TrackEffect(handle); return handle;
+            var handle = _vfx.Play(key, position, tint, scale, duration, follow, ground, facing); TrackEffect(handle); return handle;
+        }
+        /// <summary>Direction of a blow (acting unit toward the target) for impact meshes that point along it; null when unknown or the same unit.</summary>
+        Vector3? FacingFrom(string sourceId, BattleDisplayUnit target)
+        {
+            if (string.IsNullOrEmpty(sourceId) || target == null || target.Model == null || !Find(sourceId, out var source) || source == target || source.Model == null) return null;
+            Vector3 direction = target.Model.CenterPoint - source.Model.CenterPoint;
+            return direction.sqrMagnitude > .01f ? direction : (Vector3?)null;
         }
         /// <summary>Hostile impacts sit on the camera side of the body so sparks are not buried in large models.</summary>
-        void Impact(string key, BattleDisplayUnit unit, Color tint, bool hostile) =>
-            Effect(key, hostile ? HitPoint(unit) : unit.Model.CenterPoint, tint, ImpactScale(unit), 0, null, unit.Home.y);
+        void Impact(string key, BattleDisplayUnit unit, Color tint, bool hostile, Vector3? facing = null) =>
+            Effect(key, hostile ? HitPoint(unit) : unit.Model.CenterPoint, tint, ImpactScale(unit), 0, null, unit.Home.y, facing);
         Vector3 HitPoint(BattleDisplayUnit unit)
         {
             Vector3 center = unit.Model.CenterPoint;
             return center + (_camera.transform.position - center).normalized * (unit.Model.Radius * .8f + .1f);
         }
         static float ImpactScale(BattleDisplayUnit unit) => Mathf.Clamp(unit.Model.Height / 1.3f, 1f, 2f) * 1.2f;
-        void AddTrauma(float shake) => _trauma = Mathf.Clamp01(_trauma + shake * 1.5f);
+        void AddTrauma(float shake) => _director.AddTrauma(shake);
         void ScreenFlash(Color color, float alpha)
         {
             _flash.color = new Color(color.r, color.g, color.b, alpha); _flashAlpha = alpha; _flashed = true;
@@ -1085,37 +1151,26 @@ namespace Abyss.Runtime.Battle
         void Popup(string id, string text, Color color, float size = 34f)
         { if (Find(id, out var unit)) _ui.Numbers.SpawnText(unit.Model.HeadPoint, text, color, size); }
         void RefreshOrder() => _hud.ShowOrder(_round, _order, _active);
+        /// <summary>
+        /// HUD target focus. A focused target frames actor and target (S2); clearing the focus goes back to the command
+        /// shot while the menu is open (cancel / back), else to the establishing shot.
+        /// </summary>
         void PreviewTarget(string id)
         {
             foreach (var unit in _units.Values) unit.Model.SetTint(unit.Id == id ? new Color(1.12f, 1.05f, .8f) : Color.white);
-            if (id != null && Find(id, out var target)) ActiveShot(target, null, false);
+            // The outcome shot (victory orbit / defeat lift) holds through the results; the HUD's Lock must not end it.
+            if (_director == null || _outcome) return;
+            BattleDisplayUnit actor = null;
+            bool commanding = _commandUnit != null && !Playing && Find(_commandUnit, out actor);
+            if (id != null && Find(id, out var target))
+            {
+                if (commanding) _director.Target(actor, target);
+                else _director.Action(target, null, false);
+            }
+            else if (commanding) _director.Command(actor);
             else Establishing(false);
         }
-        void Establishing(bool instant)
-        {
-            _cameraPosition = transform.TransformPoint(CameraHome + FramingOffset);
-            _cameraLook = transform.TransformPoint(CameraAim + FramingOffset); _fov = FramingFov;
-            if (instant) SetCamera();
-        }
-        void ActiveShot(BattleDisplayUnit actor, BattleDisplayUnit target, bool ultimate)
-        {
-            if (Reduced) return;
-            Vector3 center = target != null ? (actor.Model.CenterPoint + target.Model.CenterPoint) * .5f : actor.Model.CenterPoint;
-            Vector3 local = transform.InverseTransformPoint(center);
-            // Keep the four-hero establishing composition; action emphasis is a small dolly, not a cut.
-            Vector3 emphasis = new Vector3(Mathf.Clamp(local.x - CameraAim.x, -3f, 3f) * .16f, 0,
-                Mathf.Clamp(local.z, -3f, 3f) * .1f);
-            _cameraPosition = transform.TransformPoint(CameraHome + FramingOffset + emphasis);
-            _cameraLook = transform.TransformPoint(CameraAim + FramingOffset + emphasis);
-            _fov = ultimate ? FramingFov - 5f : FramingFov - 2f;
-        }
-        void SetCamera()
-        {
-            _cameraBasePosition = _cameraPosition;
-            _cameraBaseRotation = Quaternion.LookRotation(_cameraLook - _cameraPosition);
-            _camera.transform.SetPositionAndRotation(_cameraBasePosition, _cameraBaseRotation);
-            _camera.fieldOfView = _fovBase = _fov; _fovPunch = 0;
-        }
+        void Establishing(bool instant) => _director?.Establishing(instant);
         void LateUpdate()
         {
             if (!_initialized || _restored || _camera == null) return;
@@ -1126,8 +1181,7 @@ namespace Abyss.Runtime.Battle
             if (!_hitstop && _actionLength > 0) _actionElapsed += Dt;
             if (Reduced)
             {
-                if (!_wasReduced) Establishing(true);
-                _trauma = 0; _fovPunch = 0; _dimTarget = 0;
+                _dimTarget = 0;
                 if (_flashAlpha > 0) { _flashAlpha = 0; _flash.color = new Color(1, 1, 1, 0); }
             }
             foreach (var unit in _units.Values)
@@ -1143,27 +1197,8 @@ namespace Abyss.Runtime.Battle
                 _dimAlpha = Mathf.MoveTowards(_dimAlpha, _dimTarget, Time.unscaledDeltaTime * 2.2f);
                 var d = _dim.color; d.a = _dimAlpha; _dim.color = d;
             }
-            _wasReduced = Reduced;
-            float blend = 1 - Mathf.Exp(-Time.unscaledDeltaTime * _cameraRate);
-            _cameraBasePosition = Vector3.Lerp(_cameraBasePosition, _cameraPosition, blend);
-            Quaternion rotation = Quaternion.LookRotation(_cameraLook - _cameraBasePosition);
-            _cameraBaseRotation = Quaternion.Slerp(_cameraBaseRotation, rotation, blend);
-            Vector3 position = _cameraBasePosition;
-            Quaternion view = _cameraBaseRotation;
-            if (!Reduced && _trauma > .001f)
-            {
-                // Camera-relative Perlin trauma; squared so light knocks stay subtle and big ones read.
-                float shake = _trauma * _trauma, time = Time.unscaledTime * 24f;
-                float x = Mathf.PerlinNoise(time, .5f) * 2 - 1, y = Mathf.PerlinNoise(.5f, time + 37f) * 2 - 1;
-                float roll = Mathf.PerlinNoise(time + 71f, 13.5f) * 2 - 1;
-                position += view * new Vector3(x, y, 0) * (shake * .22f);
-                view *= Quaternion.Euler(0, 0, roll * .6f * shake);
-                _trauma = Mathf.MoveTowards(_trauma, 0, Time.unscaledDeltaTime * 1.6f);
-            }
-            _camera.transform.SetPositionAndRotation(position, view);
-            _fovBase = Mathf.Lerp(_fovBase, _fov, blend);
-            _fovPunch = Mathf.Lerp(_fovPunch, 0, 1 - Mathf.Exp(-Time.unscaledDeltaTime * 9f));
-            _camera.fieldOfView = _fovBase + _fovPunch;
+            // Camera framing runs here, before the HUD (execution order 200) places its tags from this frame's camera.
+            _director.Tick(Speed, Reduced);
             if (_flashAlpha > 0)
             {
                 _flashAlpha = Mathf.MoveTowards(_flashAlpha, 0, Time.unscaledDeltaTime * 2.5f);
@@ -1286,7 +1321,7 @@ namespace Abyss.Runtime.Battle
             if (_dim != null) { _dim.gameObject.SetActive(false); Destroy(_dim.gameObject); }
             if (_rim != null) { Destroy(_rim.gameObject); _rim = null; }
             if (_hud != null) { _hud.Lock(); _hud.enabled = false; }
-            if (_camera != null) { _camera.transform.SetPositionAndRotation(_oldPosition, _oldRotation); _camera.fieldOfView = _oldFov; }
+            _director?.Restore();
             if (_app != null && _oldAtmosphere != null) { _app.Atmosphere.Apply(_oldAtmosphere); _app.Atmosphere.SetupCamera(_camera, _oldOutline); }
         }
         void OnDestroy()

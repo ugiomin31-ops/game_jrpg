@@ -521,6 +521,70 @@
         "Street_Lamp_2",
         "Street_Lamp_3"
       ]
+    },
+    {
+      "id": "food_cart",
+      "material": "M_FoodCart_Tripo",
+      "replaces": [
+        "food_cart"
+      ],
+      "instances": [
+        "FoodCart_west",
+        "FoodCart_east"
+      ]
+    },
+    {
+      "id": "tree",
+      "material": "M_Tree_Tripo",
+      "replaces": [
+        "tree"
+      ],
+      "instances": [
+        "Tree_plaza_1",
+        "Tree_plaza_2",
+        "Tree_plaza_3",
+        "Tree_plaza_4",
+        "Tree_plaza_5",
+        "Tree_north_1",
+        "Tree_north_2",
+        "Tree_north_3",
+        "Tree_north_4",
+        "Tree_north_5"
+      ]
+    },
+    {
+      "id": "market_crates",
+      "material": "M_MarketCrates_Tripo",
+      "replaces": [
+        "market_crates"
+      ],
+      "instances": [
+        "Market_Crates"
+      ]
+    },
+    {
+      "id": "cargo",
+      "material": "M_Cargo_Tripo",
+      "replaces": [
+        "cargo"
+      ],
+      "instances": [
+        "Workshop_Cargo"
+      ]
+    },
+    {
+      "id": "barricade",
+      "material": "M_Barricade_Tripo",
+      "replaces": [
+        "barricade"
+      ],
+      "instances": [
+        "Barricade_Tripo_1",
+        "Barricade_Tripo_2",
+        "Barricade_Tripo_3",
+        "Barricade_Tripo_4",
+        "Barricade_Tripo_5"
+      ]
     }
   ]
 }

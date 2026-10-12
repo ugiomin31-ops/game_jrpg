@@ -19,3 +19,17 @@ Suggested pick: candidate_A.png. Reason: the only candidate that is an elongated
 - Generate: task 21346cd6-d137-4f51-8560-5ede491b2d62, https://studio.tripo3d.ai/workspace/generate/21346cd6-d137-4f51-8560-5ede491b2d62, H3.1 Best Quality, Geometry & Texture, HD Model, 55 credits (1155 -> 1100)
 - Retopo: Triangle, Smart Mesh on, target 500, 35 credits (855 -> 820), result 578 faces (above target, exported anyway)
 - Export: FBX, Blender preset, texture 1K, no rig. Path: ArtSource/vfx/ice_shard/tripo/
+
+
+### Account-switch verification addendum (2026-10-12)
+- Main final pick: candidate_A.png (task-selected; main-session final approval not performed by this worker).
+- Source task: 21346cd6-d137-4f51-8560-5ede491b2d62; https://studio.tripo3d.ai/workspace/generate/21346cd6-d137-4f51-8560-5ede491b2d62
+- Final stage: retopo FBX, Triangle, Smart Mesh on, requested 500; **binary-verified 576 faces**, superseding earlier screenshot readings. No second paid retopo.
+- H3.1 Best Quality / Geometry & Texture: 55 (1155 -> 1100); retopo 35 (855 -> 820); export free.
+- Exact local export: C:/Users/User/Desktop/game/ArtSource/vfx/ice_shard/tripo/tripo_convert_36a10cf5-a8c5-436e-8fff-38865555400c.fbx with adjacent .fbm textures; 1024px requested, no rig. Unity/Blender not run; no import approval implied.
+
+### Installed 2026-10-12 (B5-INSTALL, headless Blender, Blender/lib/abyss_bpy.py export_fbx)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/ice_shard.fbx. Tripo 576 tris -> 268 tris (budget per skills_vfx.md section 4). Single mesh, one plain M_Vfx slot, `Col` white + alpha fade mask, Tripo UVs kept.
+- Unity-axis bbox min [-0.099, -0.112, -0.4] max [0.099, 0.112, 0.4] (size [0.199, 0.224, 0.8] m); pivot and orientation per the brief table.
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_ice_shard.png, 256 px greyscale from the Tripo albedo luminance, percentile levels p5->.35 / p50->.60 / p95->.80 (out p5 0.357, p50 0.6, p95 0.796).
+- Unity import checked only through the running editor log (no import errors); orientation of tip-aligned meshes still to be confirmed in a battle capture.

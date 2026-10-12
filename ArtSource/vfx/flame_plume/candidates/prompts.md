@@ -19,3 +19,17 @@ Suggested pick: candidate_B.png. Reason: thickest connected lobes with a clean s
 - Generate: task 3d9ce602-4f42-4ca3-bbe9-d89275a5c43e, https://studio.tripo3d.ai/workspace/generate/3d9ce602-4f42-4ca3-bbe9-d89275a5c43e, H3.1 Best Quality, Geometry & Texture, HD Model, 55 credits (1320 -> 1265)
 - Retopo: Triangle, Smart Mesh on, target 600, 35 credits (960 -> 925), result 548 faces
 - Export: FBX, Blender preset, texture 1K, no rig. Path: ArtSource/vfx/flame_plume/tripo/
+
+
+### Account-switch verification addendum (2026-10-12)
+- Main final pick: candidate_A.png (task-selected; main-session final approval not performed by this worker).
+- Source task: 3d9ce602-4f42-4ca3-bbe9-d89275a5c43e; https://studio.tripo3d.ai/workspace/generate/3d9ce602-4f42-4ca3-bbe9-d89275a5c43e
+- Final stage: retopo FBX, Triangle, Smart Mesh on, requested 600; **binary-verified 548 faces**, superseding earlier screenshot readings. No second paid retopo.
+- H3.1 Best Quality / Geometry & Texture: 55 (1320 -> 1265); retopo 35 (960 -> 925); export free.
+- Exact local export: C:/Users/User/Desktop/game/ArtSource/vfx/flame_plume/tripo/tripo_convert_b19dc028-0aa4-496e-a192-eac299a80cb5.fbx with adjacent .fbm textures; 1024px requested, no rig. Unity/Blender not run; no import approval implied.
+
+### Installed 2026-10-12 (B5-INSTALL, headless Blender, Blender/lib/abyss_bpy.py export_fbx)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/flame_plume.fbx. Tripo 548 tris -> 548 tris (budget per skills_vfx.md section 4). Single mesh, one plain M_Vfx slot, `Col` white + alpha fade mask, Tripo UVs kept.
+- Unity-axis bbox min [-0.461, -0.0, -0.252] max [0.461, 1.2, 0.252] (size [0.923, 1.2, 0.505] m); pivot and orientation per the brief table.
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_flame_plume.png, 512 px greyscale from the Tripo albedo luminance, percentile levels p5->.35 / p50->.60 / p95->.80 (out p5 0.349, p50 0.596, p95 0.8).
+- Unity import checked only through the running editor log (no import errors); orientation of tip-aligned meshes still to be confirmed in a battle capture.

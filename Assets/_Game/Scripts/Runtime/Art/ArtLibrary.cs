@@ -166,11 +166,11 @@ namespace Abyss.Runtime.Art
         /// </summary>
         static readonly Dictionary<string, float> ClassContact = new Dictionary<string, float>
         {
-            { "warrior/Attack", .396f }, { "cleric/Attack", .14f }, { "mage/Skill", .50f },
+            { "warrior/Attack", .396f }, { "cleric/Attack", .14f }, { "mage/Skill", .50f }, { "archer/Attack", .51f },
         };
 
         /// <summary>Per-class takes whose tail is a held recovery pose: only this fraction of the take plays before the return fade.</summary>
-        static readonly Dictionary<string, float> ClassEnd = new Dictionary<string, float> { { "warrior/Attack", .68f } };
+        static readonly Dictionary<string, float> ClassEnd = new Dictionary<string, float> { { "warrior/Attack", .68f }, { "archer/Attack", .85f } };
 
         public static float ClassEndFraction(string classId, string clip) =>
             classId != null && ClassEnd.TryGetValue(classId + "/" + clip, out var f) ? f : 1f;

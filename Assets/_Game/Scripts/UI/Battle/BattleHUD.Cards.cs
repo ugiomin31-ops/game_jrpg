@@ -391,6 +391,8 @@ namespace Abyss.UI.Battle
             bool reduced = UIRoot.Instance != null && UIRoot.Instance.ReducedMotion;
             foreach (var card in _cards.Values)
             {
+                // Teardown (BattleView.Restore while play mode stops) can run after the plates died with the UI root.
+                if (card.Plate == null || card.Root == null) continue;
                 bool threat = card.EnemyThreat;
                 bool active = card.Party && _input && _actor != null && _actor.Id == card.Unit.Id;
                 bool target = card.Marked;

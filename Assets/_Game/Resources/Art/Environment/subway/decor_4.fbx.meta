@@ -17,6 +17,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_SubwayVending_Tripo
+    second: {fileID: 2100000, guid: 7d3742b51e88ced4882a86f4e73cf835, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: 42b88e088e10be54fb8136bcd5eeaa12, type: 2}
   materials:

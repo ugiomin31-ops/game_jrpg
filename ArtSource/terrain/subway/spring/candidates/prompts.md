@@ -13,3 +13,22 @@ Results (one response, 4 images):
 - candidate_D.png: white cabinet with blue beacon, green status plate, navy base band and hinges.
 
 Suggested pick: candidate_A.png. Reason: compact blue beacon, a clear green status panel, white body and no red-cross emblem, with the cleanest silhouette. candidate_D is the alternative.
+
+## Tripo pass (B5-TRIPO-1, 2026-10-12, second account)
+- Main final pick: candidate_A.png (as specified)
+- Generate: task 7db8b1e1-c6b1-4cd1-ae17-349a7f0f285c, https://studio.tripo3d.ai/workspace/generate/7db8b1e1-c6b1-4cd1-ae17-349a7f0f285c, H3.1 Best Quality, Geometry & Texture, HD Model, 55 credits (600 -> 545)
+- Retopo: Triangle, Smart Mesh on, target 4000, 35 credits (240 -> 205), result 3712 faces
+- Export: FBX, Blender preset, texture 1K, no rig. Path: ArtSource/terrain/subway/spring/tripo/ (Tripo model name "retro washing machine")
+
+
+### Account-switch verification addendum (2026-10-12)
+- Main final pick: candidate_A.png (task-selected; main-session final approval not performed by this worker).
+- Source task: 7db8b1e1-c6b1-4cd1-ae17-349a7f0f285c; https://studio.tripo3d.ai/workspace/generate/7db8b1e1-c6b1-4cd1-ae17-349a7f0f285c
+- Final stage: retopo FBX, Triangle, Smart Mesh on, requested 4000; **binary-verified 3212 faces**, superseding earlier screenshot readings. No second paid retopo.
+- H3.1 Best Quality / Geometry & Texture: 55 (600 -> 545); retopo 35 (240 -> 205); export free.
+- Exact local export: C:/Users/User/Desktop/game/ArtSource/terrain/subway/spring/tripo/tripo_convert_43ed4aaa-a045-493d-bfe3-616ae7e83ed2.fbx with adjacent .fbm textures; 1024px requested, no rig. Unity/Blender not run; no import approval implied.
+
+### Installed 2026-10-12 (B5-INSTALL)
+- spring.fbx: washing-machine style healing station, uniform x1.638 to 1.6 m tall (1.293 x 0.704 x 1.6 m), base-centre pivot, 3212 tris (Tripo 3212). Material M_SubwaySpring_Tripo.
+- Installed 2026-10-12 (B5-INSTALL) into Assets/_Game/Resources/Art/Environment/subway/ ; originals + .meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True (marker written by the install).
+- Unity not run by this worker: import/material creation and in-game facing still to be verified.

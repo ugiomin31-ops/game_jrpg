@@ -1618,8 +1618,20 @@ def m_pillar(color=HOLY, size=1.0, life=.8, delay=AtHit(), y=FLOOR, **v):
     return mesh_layer('light_pillar', color, life, size, delay=delay, y=y, **v)
 
 
+# thrust_spike is 1.6 wide x 1.39 long (tip +Z). `align` points the tip along the blow (attacker -> target, see
+# VfxLibrary.Play `facing`); SPIKE_SCALE keeps it ~1.3 m long on a small enemy after the recipe GROW and the impact
+# scale (1.39 m * size * GROW 1.6 * ImpactScale 1.2) instead of the 3 m slab a size-1 mesh gave. VfxUnlit's additive
+# branch ignores the texture RGB (vertex colour * tint * 1.6 HDR), so brightness is set by the layer tint: SPIKE_DIM
+# scales it so a white spike peaks near the bloom threshold instead of burning out where its faces overlap.
+SPIKE_SCALE, SPIKE_DIM = .45, .68
+
+
+def dim_hex(color, k):
+    return ''.join('%02X' % round(int(color[i:i + 2], 16) * k) for i in (0, 2, 4))
+
+
 def m_spike(color=W, size=1.0, life=.22, delay=AtHit(), **v):
-    return mesh_layer('thrust_spike', color, life, size, size * 1.25, delay=delay, **v)
+    return mesh_layer('thrust_spike', dim_hex(color, SPIKE_DIM), life, size * SPIKE_SCALE, size * SPIKE_SCALE * 1.25, delay=delay, align=True, **v)
 
 
 def m_arrow(color=W, size=1.0):

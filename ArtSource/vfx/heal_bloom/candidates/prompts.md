@@ -19,3 +19,17 @@ Suggested pick: candidate_A.png. Reason: eight broad open petals around a clearl
 - Generate: task 1f52ed1c-6abf-4c66-93a9-e99a7c5a31d5, https://studio.tripo3d.ai/workspace/generate/1f52ed1c-6abf-4c66-93a9-e99a7c5a31d5, H3.1 Best Quality, Geometry & Texture, HD Model, 55 credits (1265 -> 1210)
 - Retopo: Triangle, Smart Mesh on, target 800, 35 credits (925 -> 890), result 854 faces (above target by 54, exported anyway)
 - Export: FBX, Blender preset, texture 1K, no rig. Path: ArtSource/vfx/heal_bloom/tripo/
+
+
+### Account-switch verification addendum (2026-10-12)
+- Main final pick: candidate_A.png (task-selected; main-session final approval not performed by this worker).
+- Source task: 1f52ed1c-6abf-4c66-93a9-e99a7c5a31d5; https://studio.tripo3d.ai/workspace/generate/1f52ed1c-6abf-4c66-93a9-e99a7c5a31d5
+- Final stage: retopo FBX, Triangle, Smart Mesh on, requested 800; **binary-verified 854 faces**, superseding earlier screenshot readings. No second paid retopo.
+- H3.1 Best Quality / Geometry & Texture: 55 (1265 -> 1210); retopo 35 (925 -> 890); export free.
+- Exact local export: C:/Users/User/Desktop/game/ArtSource/vfx/heal_bloom/tripo/tripo_convert_b9eee497-df96-41fc-997c-29355ec802d3.fbx with adjacent .fbm textures; 1024px requested, no rig. Unity/Blender not run; no import approval implied.
+
+### Installed 2026-10-12 (B5-INSTALL, headless Blender, Blender/lib/abyss_bpy.py export_fbx)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/heal_bloom.fbx. Tripo 854 tris -> 776 tris (budget per skills_vfx.md section 4). Single mesh, one plain M_Vfx slot, `Col` white + alpha fade mask, Tripo UVs kept.
+- Unity-axis bbox min [-0.801, -0.001, -0.753] max [0.801, 0.554, 0.753] (size [1.603, 0.555, 1.506] m); pivot and orientation per the brief table.
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_heal_bloom.png, 512 px greyscale from the Tripo albedo luminance, percentile levels p5->.35 / p50->.60 / p95->.80 (out p5 0.361, p50 0.592, p95 0.796).
+- Unity import checked only through the running editor log (no import errors); orientation of tip-aligned meshes still to be confirmed in a battle capture.

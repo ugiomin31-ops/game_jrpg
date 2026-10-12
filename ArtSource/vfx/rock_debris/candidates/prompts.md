@@ -13,3 +13,16 @@ Results (one response, 4 images):
 - candidate_D.png: five rocks, one tall rock at top-centre, the others separated; most compact and readable.
 
 Suggested pick: candidate_D.png. Reason: five angular rocks in a compact cluster with the most separation between the pieces. Note: no candidate is fully separated; candidate_A is the alternative.
+
+## Tripo (B5-TRIPO-2, 2026-10-12, third account)
+- Image uploaded: candidates/candidate_D.png (the suggested pick above).
+- Image-to-3D: studio.tripo3d.ai web, AI Model H3.1 Best Quality, Geometry & Texture: Ultra Mesh Quality on, Texture on, Texture Quality 2K, PBR on. Generate cost 45. Task id: 99061e0a-19f5-4d52-bad4-aad75ec4f635
+- Balance: 3620 -> 3575
+- Retopology: Topology Triangle, Smart Mesh on, polygon count 800 target, result 958 faces (binary count). Cost 35. Balance: 3575 -> 3540
+- Export: FBX, Blender preset, texture 2k. Local file: ArtSource/vfx/rock_debris/tripo/tripo_convert_3f37eedf-0d02-434a-94a6-424e28813eb4.fbx (+ adjacent .fbm)
+
+### Installed 2026-10-13 (B5-INSTALL-2, headless Blender, Blender/lib/abyss_bpy.py export_fbx)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/rock_debris.fbx. Tripo 958 tris -> 388 tris (budget 400). Single mesh, one plain M_Vfx slot, `Col` white / alpha 1, Tripo UVs kept. Cluster of rock chunks, pivot = bbox centre, longest side 0.6 m.
+- Unity-axis bbox min [-0.303, -0.244, -0.244] max [0.301, 0.242, 0.245] (size [0.604, 0.486, 0.489] m).
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_rock_debris.png, 256 px greyscale, levels p5 0.361 / p50 0.600 / p95 0.796.
+- gen_effects.py: see shadow_tendril (mesh layers 202 -> 217 in total).

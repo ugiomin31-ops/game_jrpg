@@ -288,6 +288,25 @@ namespace Abyss.EditorTools
             foreach (var model in models) TexturedMaterials.Sync(model);
         }
 
+        /// <summary>
+        /// Blender de-duplicates material names inside one session ("M_SubwayWall_Tripo.001" for the second tile exported
+        /// from a scene that already holds "M_SubwayWall_Tripo"), and the FBX carries that name. The name-keyed remaps in
+        /// <see cref="OnPreprocessModel"/> and <see cref="TexturedMaterials.Sync"/> then miss it and Unity builds a private
+        /// URP/Lit copy. Strip the numeric duplicate suffix here so b/c variants bind exactly what the a variant binds:
+        /// the model's own textured material, or the shared Abyss/Toon slot material.
+        /// </summary>
+        Material OnAssignMaterialModel(Material material, Renderer renderer)
+        {
+            if (material == null || !IsArt(assetPath) || IsHumanoid(assetPath)) return null;
+            string name = material.name;
+            int dot = name.LastIndexOf('.');
+            if (dot <= 0 || name.Length - dot != 4 || !char.IsDigit(name[dot + 1]) || !char.IsDigit(name[dot + 2]) || !char.IsDigit(name[dot + 3])) return null;
+            string baseName = name.Substring(0, dot);
+            if (TexturedMaterials.Existing(assetPath).TryGetValue(baseName, out var own)) return own;
+            if (System.Array.IndexOf(SlotNames, baseName) >= 0) return AbyssMaterials.Get(baseName, IsEnvironment(assetPath));
+            return null;
+        }
+
         // Shadows + light probes on every renderer of imported art.
         void OnPostprocessModel(GameObject root)
         {

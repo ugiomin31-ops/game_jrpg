@@ -555,6 +555,347 @@
     "festoon_z_end": 3.3,
     "festoon_pole_h": 3.4
    }
+  },
+  {
+   "id": "food_cart",
+   "fbx": "ArtSource/town/food_cart/staging/food_cart.fbx",
+   "material": "M_FoodCart_Tripo",
+   "texture": "ArtSource/town/food_cart/staging/food_cart_tex/M_FoodCart_Tripo.png",
+   "tris": 5614,
+   "bounds_local": {
+    "min": [
+     -1.2,
+     -0.843,
+     0.0
+    ],
+    "max": [
+     1.2,
+     0.843,
+     2.09
+    ]
+   },
+   "replaces": [
+    "food_cart"
+   ],
+   "instances": [
+    {
+     "object": "FoodCart_west",
+     "location": [
+      -16.6,
+      -6.6,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "FoodCart_east",
+     "location": [
+      10.6,
+      -11.4,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ]
+  },
+  {
+   "id": "tree",
+   "fbx": "ArtSource/town/tree/staging/tree.fbx",
+   "material": "M_Tree_Tripo",
+   "texture": "ArtSource/town/tree/staging/tree_tex/M_Tree_Tripo.png",
+   "tris": 4305,
+   "bounds_local": {
+    "min": [
+     -1.786,
+     -1.772,
+     0.0
+    ],
+    "max": [
+     1.786,
+     1.772,
+     3.6
+    ]
+   },
+   "replaces": [
+    "tree"
+   ],
+   "instances": [
+    {
+     "object": "Tree_plaza_1",
+     "location": [
+      -9.5,
+      -12.5,
+      0.0
+     ],
+     "rotation_z_deg": 0.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_plaza_2",
+     "location": [
+      19.8,
+      -15.6,
+      0.0
+     ],
+     "rotation_z_deg": 70.0,
+     "scale": 1.1
+    },
+    {
+     "object": "Tree_plaza_3",
+     "location": [
+      9.5,
+      4.0,
+      0.0
+     ],
+     "rotation_z_deg": 140.0,
+     "scale": 1.2
+    },
+    {
+     "object": "Tree_plaza_4",
+     "location": [
+      -9.0,
+      13.0,
+      0.0
+     ],
+     "rotation_z_deg": 210.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_plaza_5",
+     "location": [
+      -14.0,
+      1.0,
+      0.0
+     ],
+     "rotation_z_deg": 280.0,
+     "scale": 0.9
+    },
+    {
+     "object": "Tree_north_1",
+     "location": [
+      -26.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 30.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_2",
+     "location": [
+      -12.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 100.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_3",
+     "location": [
+      2.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 170.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_4",
+     "location": [
+      16.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 240.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_5",
+     "location": [
+      30.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 310.0,
+     "scale": 1.0
+    }
+   ]
+  },
+  {
+   "id": "market_crates",
+   "fbx": "ArtSource/town/market_crates/staging/market_crates.fbx",
+   "material": "M_MarketCrates_Tripo",
+   "texture": "ArtSource/town/market_crates/staging/market_crates_tex/M_MarketCrates_Tripo.png",
+   "tris": 4556,
+   "bounds_local": {
+    "min": [
+     -1.058,
+     -0.445,
+     0.0
+    ],
+    "max": [
+     1.058,
+     0.445,
+     1.9
+    ]
+   },
+   "replaces": [
+    "market_crates"
+   ],
+   "instances": [
+    {
+     "object": "Market_Crates",
+     "location": [
+      14.9,
+      -3.0,
+      0.0
+     ],
+     "rotation_z_deg": -90.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Market_Crates",
+     "min": [
+      -1.06,
+      -0.45,
+      0.0
+     ],
+     "max": [
+      1.06,
+      0.45,
+      1.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cargo",
+   "fbx": "ArtSource/town/cargo/staging/cargo.fbx",
+   "material": "M_Cargo_Tripo",
+   "texture": "ArtSource/town/cargo/staging/cargo_tex/M_Cargo_Tripo.png",
+   "tris": 4506,
+   "bounds_local": {
+    "min": [
+     -1.2,
+     -0.589,
+     0.0
+    ],
+    "max": [
+     1.2,
+     0.589,
+     1.348
+    ]
+   },
+   "replaces": [
+    "cargo"
+   ],
+   "instances": [
+    {
+     "object": "Workshop_Cargo",
+     "location": [
+      14.6,
+      5.2,
+      0.0
+     ],
+     "rotation_z_deg": -90.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Workshop_Cargo",
+     "min": [
+      -1.2,
+      -0.59,
+      0.0
+     ],
+     "max": [
+      1.2,
+      0.59,
+      1.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "barricade",
+   "fbx": "ArtSource/town/barricade/staging/barricade.fbx",
+   "material": "M_Barricade_Tripo",
+   "texture": "ArtSource/town/barricade/staging/barricade_tex/M_Barricade_Tripo.png",
+   "tris": 2991,
+   "bounds_local": {
+    "min": [
+     -1.225,
+     -0.468,
+     0.0
+    ],
+    "max": [
+     1.225,
+     0.468,
+     1.282
+    ]
+   },
+   "replaces": [
+    "barricade"
+   ],
+   "instances": [
+    {
+     "object": "Barricade_Tripo_1",
+     "location": [
+      -19.75,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_2",
+     "location": [
+      -17.25,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_3",
+     "location": [
+      -14.75,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_4",
+     "location": [
+      -13.6,
+      -16.85,
+      0.0
+     ],
+     "rotation_z_deg": 90.0,
+     "scale": [
+      0.53,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "object": "Barricade_Tripo_5",
+     "location": [
+      -12.915,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0,
+     "scale": [
+      0.478,
+      1.0,
+      1.0
+     ]
+    }
+   ]
   }
  ]
 }

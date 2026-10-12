@@ -103,6 +103,12 @@ def repo_path(p):
     return p if os.path.isabs(p) else os.path.normpath(os.path.join(REPO_ROOT, p))
 
 
+def inst_scale(inst):
+    """Optional per-instance scale (number or [sx, sy, sz], in the instance's local axes), baked into the instance's mesh."""
+    s = inst.get("scale", 1.0)
+    return (s, s, s) if isinstance(s, (int, float)) else tuple(s)
+
+
 def inst_matrix(inst):
     return T(*inst["location"]) @ RZ(inst.get("rotation_z_deg", 0.0))
 
@@ -219,10 +225,12 @@ def car(x, y, yaw, variant):
 # ---------------------------------------------------------------- nature
 
 def tree(m, x, y, s=1.0, tag=""):
-    m.cyl(0.13 * s, 2.0 * s, (x, y, 1.0 * s), WOOD_D, seg=8)
-    for dx, dy, dz, r, c in ((0, 0, 2.7, 1.05, TREE_A), (0.6, 0.3, 2.3, 0.75, TREE_B),
-                             (-0.55, -0.2, 2.35, 0.7, TREE_C), (0.1, -0.45, 3.2, 0.7, TREE_D)):
-        m.ico(r * s, (x + dx * s, y + dy * s, dz * s), c, sub=2, jitter=0.10, seed=dx + dz)
+    """Plaza / street tree. Tripo tree: the meshes are JSON instances (Tree_<tag>_<x*10>_<y*10>), only the trunk collider is made here."""
+    if not replaced("tree"):
+        m.cyl(0.13 * s, 2.0 * s, (x, y, 1.0 * s), WOOD_D, seg=8)
+        for dx, dy, dz, r, c in ((0, 0, 2.7, 1.05, TREE_A), (0.6, 0.3, 2.3, 0.75, TREE_B),
+                                 (-0.55, -0.2, 2.35, 0.7, TREE_C), (0.1, -0.45, 3.2, 0.7, TREE_D)):
+            m.ico(r * s, (x + dx * s, y + dy * s, dz * s), c, sub=2, jitter=0.10, seed=dx + dz)
     colb("Tree_%s_%d_%d" % (tag, round(x * 10), round(y * 10)), x - 0.2 * s, y - 0.2 * s, 0.0,
          x + 0.2 * s, y + 0.2 * s, 1.2 * s)
 
@@ -368,7 +376,11 @@ def build_fountain(m):
 
 
 def food_cart(m, x, y, awn_a, awn_b, body, tag):
-    """Street food stall, 2.2 m wide, serving side toward -Y, striped awning on four posts."""
+    """Street food stall, 2.2 m wide, serving side toward -Y, striped awning on four posts. Tripo food_cart: the stalls are JSON
+    instances (FoodCart_west / FoodCart_east) and only the collider is made here."""
+    if replaced("food_cart"):
+        colb("FoodCart_%s" % tag, x - 1.2, y - 0.8, 0.0, x + 1.2, y + 0.8, COUNTER_H)   # fits the Tripo stall (2.4 x 1.7 m)
+        return
     with m.at(T(x, y, 0.0)):
         m.box((2.2, 1.1, 1.0), (0, 0, 0.5), body)
         m.box((2.36, 0.56, 0.08), (0, -0.78, 1.04), CREAM)
@@ -716,7 +728,7 @@ def build_gate(m):
     # warning tape along the top of the barricades
     x = -20.9
     k = 0
-    while x < -13.6:
+    while x < -13.6 and not replaced("barricade"):    # the Tripo barricades carry their own hazard stripes
         bb(m, x, BARRIER_Y - 0.36, 0.92, x + 0.42, BARRIER_Y - 0.28, 1.04, YELLOW if k % 2 == 0 else BLACK)
         x += 0.5
         k += 1
@@ -738,11 +750,14 @@ def build_gate(m):
 
 
 def build_kit_gate():
+    tb = replaced("barricade")     # Tripo barricade: the five segments are JSON instances (Barricade_Tripo_1..5), colliders stay here
     for x in (-19.75, -17.25, -14.75):
-        kit_m("kd", "barrier", T(x, BARRIER_Y, 0.0) @ Matrix.Diagonal((0.625, 1.0, 1.0, 1.0)))
+        if not tb:
+            kit_m("kd", "barrier", T(x, BARRIER_Y, 0.0) @ Matrix.Diagonal((0.625, 1.0, 1.0, 1.0)))
         colb("Barricade_%d" % round(x * 10), x - 1.25, BARRIER_Y - 0.25, 0.0, x + 1.25, BARRIER_Y + 0.25, 1.1)
-    kit_m("kd", "barrier", T(-13.6, -16.85, 0.0) @ RZ(90.0) @ Matrix.Diagonal((0.325, 1.0, 1.0, 1.0)))
-    if replaced("hq") and HQ_X0 > -13.45:
+    if not tb:
+        kit_m("kd", "barrier", T(-13.6, -16.85, 0.0) @ RZ(90.0) @ Matrix.Diagonal((0.325, 1.0, 1.0, 1.0)))
+    if replaced("hq") and HQ_X0 > -13.45 and not tb:
         # close the barricade line between its last piece (x -13.5) and the narrower Tripo HQ wall (collider: Barricade_Corner)
         gap = HQ_X0 + 13.5
         kit_m("kd", "barrier", T(-13.5 + gap / 2, BARRIER_Y, 0.0) @ Matrix.Diagonal((gap / 4.0, 1.0, 1.0, 1.0)))
@@ -752,16 +767,18 @@ def build_storefront_kits():
     # clinic front
     kit("kr", "menu", -13.3, -0.8, 0.0, 90.0, 1.5)
     # market front: crates, a drinks fridge and an A-board
-    kit("kr", "crate_tomatoes", 13.2, -3.6, 0.0, 0.0, 0.5)
-    kit("kr", "crate_potatoes", 13.2, -2.4, 0.0, 0.0, 0.5)
-    kit("kr", "crate_carrots", 13.7, -3.0, 0.5, 0.0, 0.5)
-    kit_m("kr", "fridge_A", T(14.5, -6.6, 0.0) @ Matrix.Diagonal((0.45, 0.4, 0.7, 1.0)))
+    if not replaced("market_crates"):    # Tripo market_crates: one grouped prop (crates, fridge, A-board) = JSON instance Market_Crates
+        kit("kr", "crate_tomatoes", 13.2, -3.6, 0.0, 0.0, 0.5)
+        kit("kr", "crate_potatoes", 13.2, -2.4, 0.0, 0.0, 0.5)
+        kit("kr", "crate_carrots", 13.7, -3.0, 0.5, 0.0, 0.5)
+        kit_m("kr", "fridge_A", T(14.5, -6.6, 0.0) @ Matrix.Diagonal((0.45, 0.4, 0.7, 1.0)))
     kit("kr", "menu", 12.9, 0.9, 0.0, 0.0, 1.5)
     # workshop: stacked cargo, a steel bench
-    kit("ks", "cargo_A", 14.6, 6.0, 0.0, 0.0, 2.0)
-    kit("ks", "cargo_A", 14.6, 6.0, 1.0, 0.0, 2.0)
-    kit("ks", "cargo_B", 13.5, 5.4, 0.0, 0.0, 2.0)
-    kit("kf", "table_low", 13.6, 4.5, 0.0, 90.0, 0.8)
+    if not replaced("cargo"):            # Tripo cargo: cargo boxes + low workbench as one JSON instance (Workshop_Cargo)
+        kit("ks", "cargo_A", 14.6, 6.0, 0.0, 0.0, 2.0)
+        kit("ks", "cargo_A", 14.6, 6.0, 1.0, 0.0, 2.0)
+        kit("ks", "cargo_B", 13.5, 5.4, 0.0, 0.0, 2.0)
+        kit("kf", "table_low", 13.6, 4.5, 0.0, 90.0, 0.8)
 
 
 def build_lights():
@@ -836,6 +853,10 @@ def install_tripo_piece(e):
             poly.material_index = 0
         o.name = inst["object"]
         o.data.name = inst["object"]
+        sc = inst_scale(inst)
+        if sc != (1.0, 1.0, 1.0):
+            o.data.transform(Matrix.Diagonal((sc[0], sc[1], sc[2], 1.0)))
+            o.data.update()
         o.matrix_world = inst_matrix(inst)
         if e.get("tris") and tris_of(o) != e["tris"]:
             raise RuntimeError("tripo piece %s: %d triangles, expected %d" % (e["id"], tris_of(o), e["tris"]))

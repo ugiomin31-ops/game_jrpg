@@ -19,3 +19,17 @@ Suggested pick: candidate_A.png. Reason: the bevelled diamond core and four poin
 - Generate: task e227e311-1225-47b5-9b75-eae1b6de2175, https://studio.tripo3d.ai/workspace/generate/e227e311-1225-47b5-9b75-eae1b6de2175, H3.1 Best Quality, Geometry & Texture, HD Model, 55 credits (1375 -> 1320)
 - Retopo: Triangle, Smart Mesh on, target 600, 35 credits (995 -> 960), result 580 faces
 - Export: FBX, Blender preset, texture 1K, no rig. Path: ArtSource/vfx/holy_cross/tripo/
+
+
+### Account-switch verification addendum (2026-10-12)
+- Main final pick: candidate_C.png (task-selected; main-session final approval not performed by this worker).
+- Source task: e227e311-1225-47b5-9b75-eae1b6de2175; https://studio.tripo3d.ai/workspace/generate/e227e311-1225-47b5-9b75-eae1b6de2175
+- Final stage: retopo FBX, Triangle, Smart Mesh on, requested 600; **binary-verified 590 faces**, superseding earlier screenshot readings. No second paid retopo.
+- H3.1 Best Quality / Geometry & Texture: 55 (1375 -> 1320); retopo 35 (995 -> 960); export free.
+- Exact local export: C:/Users/User/Desktop/game/ArtSource/vfx/holy_cross/tripo/tripo_convert_186c7cc2-a821-4423-a20c-3a864bf009b1.fbx with adjacent .fbm textures; 1024px requested, no rig. Unity/Blender not run; no import approval implied.
+
+### Installed 2026-10-12 (B5-INSTALL, headless Blender, Blender/lib/abyss_bpy.py export_fbx)
+- Mesh: Assets/_Game/Resources/Vfx/Meshes/holy_cross.fbx. Tripo 590 tris -> 484 tris (budget per skills_vfx.md section 4). Single mesh, one plain M_Vfx slot, `Col` white + alpha fade mask, Tripo UVs kept.
+- Unity-axis bbox min [-0.8, -0.8, -0.218] max [0.8, 0.8, 0.218] (size [1.6, 1.6, 0.435] m); pivot and orientation per the brief table.
+- Texture: Assets/_Game/Resources/Vfx/Textures/mesh_holy_cross.png, 512 px greyscale from the Tripo albedo luminance, percentile levels p5->.35 / p50->.60 / p95->.80 (out p5 0.349, p50 0.6, p95 0.796).
+- Unity import checked only through the running editor log (no import errors); orientation of tip-aligned meshes still to be confirmed in a battle capture.

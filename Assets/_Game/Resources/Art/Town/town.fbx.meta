@@ -12,6 +12,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_Barricade_Tripo
+    second: {fileID: 2100000, guid: 7d956074f44ce4142a37dd37bcd6f2cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cargo_Tripo
+    second: {fileID: 2100000, guid: 8f042e07daf41a24aa72808056870b7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Clear
     second: {fileID: 2100000, guid: cd3cb0a1c8f3cae4a982de8971a87e49, type: 2}
   - first:
@@ -19,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_Emit
     second: {fileID: 2100000, guid: 5343ea984a58d524ca4aa2f67adf8213, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FoodCart_Tripo
+    second: {fileID: 2100000, guid: b79bcf20919919a4b802e6be51092ffe, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -57,6 +72,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_MarketCrates_Tripo
+    second: {fileID: 2100000, guid: 516777cd0d1f28c45bfe847c26c9d304, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_NoticeBoard_Tripo
     second: {fileID: 2100000, guid: bacf648fe1ba52a44984efb1fad358dc, type: 2}
   - first:
@@ -69,6 +89,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: 42b88e088e10be54fb8136bcd5eeaa12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Tree_Tripo
+    second: {fileID: 2100000, guid: 770437ff7504d33448037fa001c7932a, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

@@ -152,6 +152,14 @@ namespace Abyss.UI.Battle
             _blockers.Add(new Rect(0f, 0f, width, _partyBand + (AnyBottomChip() ? ChipBand : 0f)));
             if (_menu != null && _menu.gameObject.activeSelf) _blockers.Add(CanvasRect(_menu, width));
             if (_autoBanner != null && _autoBanner.gameObject.activeSelf) _blockers.Add(CanvasRect(_autoBanner, width));
+            // The skill ribbon (top-centre, just under the top band) covers whatever sits behind it: tags keep out of its resting
+            // rectangle, not the slide-in position, so they do not shuffle while it animates. Tags still never feed the camera.
+            if (_banner != null && _banner.gameObject.activeSelf)
+            {
+                Vector2 size = _banner.sizeDelta;
+                float top = height - (_topH + 14f);
+                _blockers.Add(Inflate(new Rect((width - size.x) * 0.5f, top - size.y, size.x, size.y), TagGap * 0.5f));
+            }
         }
 
         /// <summary>Rect of a bottom-right anchored HUD element in the same 0-based canvas units as the tag packer.</summary>

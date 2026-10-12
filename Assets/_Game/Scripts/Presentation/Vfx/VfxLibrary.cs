@@ -85,6 +85,9 @@ namespace Abyss.Presentation.Vfx
             /// <summary>World-space unit tangent of the travel arc (guarded), valid once HasTangent is set.</summary>
             public Vector3 Tangent;
             public bool HasTangent;
+            /// <summary>World direction of the blow (attacker toward target) for non-travelling impacts; `align` mesh layers point +Z along it.</summary>
+            public Vector3 Facing;
+            public bool HasFacing;
             /// <summary>World floor height for ground layers (y &lt;= GroundLayerY), NaN when unset.</summary>
             public float Ground;
             public Color Tint;
@@ -167,8 +170,9 @@ namespace Abyss.Presentation.Vfx
         /// <paramref name="groundY"/> (world height of the floor under the anchor) pins ground layers to the floor
         /// instead of offsetting them from <paramref name="position"/> by a scaled amount; NaN keeps the authored offset.
         /// </summary>
+        /// <param name="facing">Direction of the blow (attacker toward target); `align` mesh layers of a non-travelling effect point their +Z along it.</param>
         public VfxHandle Play(string key, Vector3 position, Color? tint = null, float scale = 1f, float duration = 0f, Transform follow = null,
-            float groundY = float.NaN)
+            float groundY = float.NaN, Vector3? facing = null)
         {
             if (string.IsNullOrEmpty(key)) return default;
             if (!_recipes.TryGetValue(key, out var recipe)) throw new ArgumentException("Unknown VFX key: " + key, nameof(key));
@@ -179,6 +183,8 @@ namespace Abyss.Presentation.Vfx
             effect.Active = true; effect.Ending = false; effect.Travel = false;
             effect.Age = 0; effect.Drain = 0; effect.Angle = 0; effect.Ground = groundY;
             effect.Tangent = Vector3.forward; effect.HasTangent = false;
+            effect.HasFacing = facing.HasValue && facing.Value.sqrMagnitude > 1e-4f;
+            effect.Facing = effect.HasFacing ? facing.Value.normalized : Vector3.forward;
             effect.Follow = follow; effect.HadFollow = follow != null;
             effect.Offset = follow != null ? position - follow.position : Vector3.zero;
             effect.Duration = duration > 0 ? duration : recipe.loop ? float.PositiveInfinity : recipe.duration;
@@ -555,7 +561,26 @@ namespace Abyss.Presentation.Vfx
                 return layer.Mesh.FlatXZ ? Quaternion.Euler(0, r.rotation + spin, 0) : Quaternion.Euler(90, 0, r.rotation + spin);
             if (r.align && effect.Travel && effect.HasTangent)
                 return Quaternion.LookRotation(effect.Tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin);
+            if (r.align && !effect.Travel && effect.HasFacing)
+                return Quaternion.LookRotation(ReadableFacing(effect.Facing), _viewRotation * Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin);
             return _viewYaw * Quaternion.Euler(0, 0, r.rotation) * Quaternion.Euler(0, spin, 0);
+        }
+
+        /// <summary>
+        /// A pointed mesh seen head-on collapses into a flat star. When the blow runs closer than ~58 degrees to the view axis the
+        /// direction is swung toward the screen plane so the tip still reads as a spike, keeping the sign of its depth.
+        /// </summary>
+        Vector3 ReadableFacing(Vector3 direction)
+        {
+            const float MinLateral = .85f;
+            Vector3 view = _viewRotation * Vector3.forward;
+            float depth = Vector3.Dot(direction, view);
+            Vector3 lateral = direction - view * depth;
+            float length = lateral.magnitude;
+            if (length >= MinLateral) return direction;
+            Vector3 side = length > 1e-3f ? lateral / length : _viewRotation * Vector3.right;
+            float sign = depth < 0f ? -1f : 1f;
+            return side * MinLateral + view * (sign * Mathf.Sqrt(1f - MinLateral * MinLateral));
         }
 
         /// <summary>Floor layers keep the anchor's x/z but sit just above the floor, unscaled by the effect size.</summary>

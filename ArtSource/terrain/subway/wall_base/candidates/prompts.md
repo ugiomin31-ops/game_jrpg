@@ -19,3 +19,16 @@ Suggested pick: candidate_A.png. Reason: restrained panel joints, one green band
 - Generate: task 34e23ce8-b515-4b74-9108-d33efc972c2c, https://studio.tripo3d.ai/workspace/generate/34e23ce8-b515-4b74-9108-d33efc972c2c, H3.1 Best Quality, Geometry & Texture, HD Model, 55 credits (820 -> 765)
 - Retopo: Triangle, Smart Mesh on, target 2000, 35 credits (380 -> 345), result 2088 faces
 - Export: FBX, Blender preset, texture 2K, no rig. Path: ArtSource/terrain/subway/wall_base/tripo/
+
+
+### Account-switch verification addendum (2026-10-12)
+- Main final pick: candidate_A.png (task-selected; main-session final approval not performed by this worker).
+- Source task: 34e23ce8-b515-4b74-9108-d33efc972c2c; https://studio.tripo3d.ai/workspace/generate/34e23ce8-b515-4b74-9108-d33efc972c2c
+- Final stage: retopo FBX, Triangle, Smart Mesh on, requested 2000; **binary-verified 2088 faces**, superseding earlier screenshot readings. No second paid retopo.
+- H3.1 Best Quality / Geometry & Texture: 55 (820 -> 765); retopo 35 (380 -> 345); export free.
+- Exact local export: C:/Users/User/Desktop/game/ArtSource/terrain/subway/wall_base/tripo/tripo_convert_ddc5b1fc-07ef-48da-a81f-d22c6a56a422.fbx with adjacent .fbm textures; 2048px requested, no rig. Unity/Blender not run; no import approval implied.
+
+### Installed 2026-10-12 (B5-INSTALL)
+- wall_a/wall_b/wall_c (all three = the base module for now): 4 rotated copies Face_N/E/S/W + Core box (+-1.80), module = Tripo front re-sampled as a watertight heightfield slab (Blender/environment/tripo_tiles.py process_shell for fit/flat bands, then 125x140 ray-sampled grid, 2 mm quantised, planar dissolved) with planar UV u=(x+2)/4, v=z/4.5 from a flat front render of the Tripo albedo (M_SubwayWall_Tripo.png). 134 tris per face, 548 per block. tripo_tiles validate: 0 FAIL 0 WARN for wall_a/b/c.
+- Installed 2026-10-12 (B5-INSTALL) into Assets/_Game/Resources/Art/Environment/subway/ ; originals + .meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True (marker written by the install).
+- Unity not run by this worker: import/material creation and in-game facing still to be verified.
