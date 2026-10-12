@@ -178,14 +178,15 @@ namespace Abyss.Logic.Game
         }
 
         /// <summary>
-        /// "마을에서 다시 시작" after a defeat: loses 50 % gold (normal/hard, rounded down; easy loses none),
-        /// then a free inn rest (full recovery, FOEs respawn, carried TP cleared) in town. Returns the gold lost (text key "recovered").
+        /// "마을에서 다시 시작" after a defeat: loses gold by difficulty (easy none, normal 25 %, hard 50 %, rounded down;
+        /// <see cref="TownServices.DefeatGoldLossAmount"/>), then a free inn rest (full recovery, FOEs respawn, carried TP
+        /// cleared) in town. Returns the gold lost (text key "defeat_gold_lost", shown only when above 0).
         /// No-op returning 0 when no defeat is pending.
         /// </summary>
         public static int RecoverFromDefeat(GameDB db, GameState state)
         {
             if (!state.Flags.Remove(FlagDefeatPending)) return 0;
-            int lost = (int)Math.Floor(state.Gold * (double)TownServices.DefeatGoldLoss(state.Difficulty));
+            int lost = TownServices.DefeatGoldLossAmount(state);
             state.Gold -= lost;
             TownServices.RestAtInn(db, state, free: true);
             state.Location = GameLocation.Town;

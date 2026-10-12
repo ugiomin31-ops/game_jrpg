@@ -70,8 +70,9 @@ namespace Abyss.LogicTests
                     for (int s = 0; s < 6; s++) CampaignSim.Fight(db, party, f.Group, BattleKind.Foe, f.Power, floor.Id, FoeSeed(floor.Index) + s, foe);
                 if (foe.Battles > 0) table.Foes.Add(foe);
                 var ev = new CampaignSim.Result();
-                // Trial-corridor superboss events are measured with the bosses below.
-                foreach (var e in floor.Events.Where(e => !e.Group.Any(id => db.Enemies[id].IsBoss)))
+                // Only events that start a battle: ambushes and choice events with an enemy group (rescue events and empty
+                // groups never fight). Trial-corridor superboss events are measured with the bosses below.
+                foreach (var e in floor.Events.Where(e => (e.IsAmbush || e.IsChoice) && e.Group.Count > 0 && !e.Group.Any(id => db.Enemies[id].IsBoss)))
                     for (int s = 0; s < 2; s++) CampaignSim.Fight(db, party, e.Group, BattleKind.Event, 1f, floor.Id, seed++, ev);
                 var boss = new CampaignSim.Result();
                 if (floor.BossGroup.Count > 0 && c <= GameFlow.MainChapters)
@@ -142,7 +143,9 @@ namespace Abyss.LogicTests
                 Check(kv.Value.AvgAttrition >= 0.08 && kv.Value.AvgAttrition <= 0.20, $"expected: chapter {kv.Key} cold-start attrition is 8-20% ({kv.Value.Resources})");
                 var trips = expected.Trips[kv.Key];
                 Check(trips.Count(t => t.Complete) >= trips.Count * 0.8, $"expected: chapter {kv.Key} four-fight trips complete at least 80% ({trips.Count(t => t.Complete)}/{trips.Count})");
-                Check(kv.Value.AvgRounds >= 2.5 && kv.Value.AvgRounds <= 6, $"expected: chapter {kv.Key} random fights take 2.5-6 rounds ({kv.Value})");
+                // T2 battle length: a regular fight of the expected player averages 2-4 rounds in every zone (world/enemies.py
+                // REGULAR_HP_TRIM; the under-prepared player above keeps its original 2.5-6 bound).
+                Check(kv.Value.AvgRounds >= 2 && kv.Value.AvgRounds <= 4, $"expected: chapter {kv.Key} random fights take 2-4 rounds ({kv.Value})");
             }
             int foesOver60 = expected.Foes.Count(f => f.WinRate >= 0.6);
             Check(foesOver60 * 3 >= expected.Foes.Count * 2, $"expected: FOEs are mostly won at 60% or more ({foesOver60} of {expected.Foes.Count} floors)");

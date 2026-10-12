@@ -1,6 +1,10 @@
 """Render production FBX geometry to transparent Unity sprites (no surrogate art).
 Run: C:/Users/User/Tools/Blender/blender.exe -b --factory-startup -P Blender/ui/render_icons.py
-Optional: -- Heroes/warrior Gear/sword_bronze (only render selected entries).
+Optional: -- Heroes/warrior Gear/sword_bronze (only render selected entries); add --own-model to shoot selected
+enemies from their own Enemies/<id>/<id>.fbx even when their data row still names another "model".
+--output-root DIR: DIR mirrors the repo root (a staging folder). Selected sources are read from DIR/Assets/... when they
+exist there, sprites (+ .meta) are written to DIR/Assets/_Game/Resources/Icons/..., and Icons/manifest.json is left
+untouched: the records that would be added go to DIR/manifest_record.json (paths are the final repo paths).
 Palette variants: a data row's optional "model" names the FBX to shoot (default: its own id) and "tint" (RGBA)
 multiplies that model's vertex colours (sRGB), matching the runtime _BaseColor multiply. Enemies are tinted only when
 "model" differs from the id (own-model elites already bake their colours), equipment/items whenever "tint" is set.
@@ -22,6 +26,26 @@ from asset_import import texture_meta
 sys.path.insert(0, str(ROOT / 'Tools/content'))
 import spec  # noqa: E402 (hunter roster: Tools/content/spec.py HUNTERS)
 HUNTER_IDS = {h['id'] for h in spec.HUNTERS}
+
+STAGE = None   # --output-root (see the module docstring)
+
+
+def art_file(rel):
+    """Art source: the staged copy under --output-root when there is one, else the project file."""
+    if STAGE is not None and (STAGE / 'Assets/_Game/Resources/Art' / rel).is_file():
+        return STAGE / 'Assets/_Game/Resources/Art' / rel
+    return ART / rel
+
+
+def repo_rel(path):
+    """Final repo path of a project or staged file."""
+    for base in ((STAGE,) if STAGE is not None else ()) + (ROOT,):
+        try:
+            return path.relative_to(base).as_posix()
+        except ValueError:
+            pass
+    raise ValueError(path)
+
 
 ELEMENTS = ('slash', 'blunt', 'pierce', 'fire', 'ice', 'thunder', 'dark', 'holy')
 PORTRAIT_EXPOSURE = .55
@@ -257,20 +281,32 @@ def render(family, ident, source, tint=None):
     scene.render.image_settings.file_format = 'PNG'
     scene.render.image_settings.color_mode = 'RGBA'
     scene.render.image_settings.color_depth = '8'
-    output = OUTPUT / family / (ident + '.png')
+    output = (OUTPUT if STAGE is None else STAGE / 'Assets/_Game/Resources/Icons') / family / (ident + '.png')
     output.parent.mkdir(parents=True, exist_ok=True)
     scene.render.filepath = str(output)
     bpy.ops.render.render(write_still=True)
     if cel:
         cel_portrait(scene, output)
     texture_meta(output, sprite=True)
-    record = dict(id=ident, family=family, source=source.relative_to(ROOT).as_posix(), **({'tint': tint} if tint is not None else {}), output=output.relative_to(ROOT).as_posix(), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
+    record = dict(id=ident, family=family, source=repo_rel(source), **({'tint': tint} if tint is not None else {}), output=repo_rel(output), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
     print('ARTWORK_RENDERED ' + family + '/' + ident, flush=True)
     return record
 
 
 def main():
-    selection = set(sys.argv[sys.argv.index('--') + 1:]) if '--' in sys.argv else set()
+    global STAGE
+    args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+    if '--output-root' in args:
+        i = args.index('--output-root')
+        STAGE = Path(args[i + 1]).resolve()
+        del args[i:i + 2]
+    selection = set(args)
+    if STAGE is not None and not selection:
+        raise ValueError('--output-root needs an explicit selection (e.g. Enemies/<id>)')
+    # --own-model: selected enemies whose data row still borrows another model ("model"/"tint") are shot from
+    # their own Enemies/<id>/<id>.fbx instead (a new model rendered before the data row is repointed).
+    own_model = '--own-model' in selection
+    selection.discard('--own-model')
     rows = catalog()
     expected = expected_coverage()
     actual = {family: sum(row[0] == family for row in rows) for family in expected}
@@ -280,15 +316,30 @@ def main():
     known = {(family, ident) for family, ident, _, _ in rows}
     for name in sorted(selection):
         family, _, ident = name.partition('/')
-        if family == 'Enemies' and (family, ident) not in known and (ART / f'Enemies/{ident}/{ident}.fbx').is_file():
-            rows.append(('Enemies', ident, ART / f'Enemies/{ident}/{ident}.fbx', None))
+        if family == 'Enemies' and (family, ident) not in known and art_file(f'Enemies/{ident}/{ident}.fbx').is_file():
+            rows.append(('Enemies', ident, art_file(f'Enemies/{ident}/{ident}.fbx'), None))
         # Hunters (spec.HUNTERS) named on the command line before heroes.json has their rows render from their FBX too.
         if family == 'Heroes' and ident in HUNTER_IDS and (family, ident) not in known and (ART / f'Characters/{ident}/{ident}.fbx').is_file():
             rows.append(('Heroes', ident, ART / f'Characters/{ident}/{ident}.fbx', None))
+    if own_model:
+        for i, (family, ident, source, tint) in enumerate(rows):
+            own = art_file(f'Enemies/{ident}/{ident}.fbx')
+            if family == 'Enemies' and family + '/' + ident in selection and own.is_file():
+                rows[i] = (family, ident, own, None)
+    if STAGE is not None:
+        rows = [(f, i, art_file(src.relative_to(ART).as_posix()) if f + '/' + i in selection and src.is_relative_to(ART) else src, t)
+                for f, i, src, t in rows]
     missing = [f'{family}/{ident}: {source}' for family, ident, source, _ in rows
                if (not selection or family + '/' + ident in selection) and not source.is_file()]
     if missing:
         raise FileNotFoundError('Missing source FBX:\n' + '\n'.join(missing))
+    if STAGE is not None:
+        staged = [render(family, ident, source, tint) for family, ident, source, tint in rows
+                  if family + '/' + ident in selection]
+        record_path = STAGE / 'manifest_record.json'
+        record_path.write_text(json.dumps(staged, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\r\n')
+        print('ARTWORK_STAGED ' + str(len(staged)) + ' -> ' + str(record_path), flush=True)
+        return
     manifest_path = OUTPUT / 'manifest.json'
     prior = json.loads(manifest_path.read_text(encoding='utf-8'))['assets'] if selection and manifest_path.exists() else []
     records = {(row['family'], row['id']): row for row in prior}

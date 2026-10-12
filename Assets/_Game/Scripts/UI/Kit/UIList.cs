@@ -28,6 +28,10 @@ namespace Abyss.UI
         public Color? LabelColor;
         /// <summary>Free payload for the owner (skill id, item def…).</summary>
         public object Tag;
+        /// <summary>Short tag pinned to the icon's lower-right corner ("1차"); null or empty hides it (default).</summary>
+        public string Badge;
+        /// <summary>Badge plate colour override (defaults to the theme gold).</summary>
+        public Color? BadgeColor;
 
         /// <summary>Creates an item.</summary>
         public UIListItem(string label, string cost = null, bool enabled = true, string disabledReason = null, Sprite icon = null, object tag = null)
@@ -52,8 +56,8 @@ namespace Abyss.UI
         sealed class Row
         {
             public RectTransform Rect;
-            public Image Card, Highlight, Icon;
-            public TextMeshProUGUI Label, Reason, Cost;
+            public Image Card, Highlight, Icon, Badge;
+            public TextMeshProUGUI Label, Reason, Cost, BadgeText;
             public UIListRowHandler Handler;
         }
 
@@ -166,6 +170,17 @@ namespace Abyss.UI
             float labelSize = _rowHeight >= 72f ? Mathf.Clamp(_rowHeight * 0.34f, UITheme.SizeLabel, 36f) : UITheme.SizeLabel;
             r.Icon = UIFactory.Icon(r.Rect, null, iconSize);
             r.Icon.rectTransform.Place(UIAnchor.Left, new Vector2(10f, 0f), new Vector2(iconSize, iconSize));
+            // Optional badge: a small theme plate on the icon's lower-right corner, hidden unless the item sets one.
+            float badgeHeight = Mathf.Max(20f, iconSize * 0.4f);
+            r.Badge = UIFactory.Image(r.Icon.rectTransform, UISprites.PanelWhite, UITheme.Gold, "Badge", borderScale: 3f);
+            var badgeRect = r.Badge.rectTransform;
+            badgeRect.anchorMin = badgeRect.anchorMax = new Vector2(1f, 0f);
+            badgeRect.pivot = new Vector2(1f, 0f);
+            badgeRect.sizeDelta = new Vector2(badgeHeight * 1.8f, badgeHeight);
+            badgeRect.anchoredPosition = new Vector2(6f, -4f);
+            r.BadgeText = UIFactory.Label(badgeRect, "", Mathf.Max(14f, badgeHeight * 0.68f), UIFont.Heavy, UITheme.Ink, TextAlignmentOptions.Center, UITextFx.Plain, "BadgeText");
+            r.BadgeText.rectTransform.Stretch();
+            r.Badge.gameObject.SetActive(false);
             r.Label = UIFactory.Label(r.Rect, "", labelSize, UIFont.Bold, UITheme.Text, TextAlignmentOptions.MidlineLeft, UITextFx.Shadow, "Label");
             r.Label.overflowMode = TextOverflowModes.Ellipsis;
             r.Reason = UIFactory.Label(r.Rect, "", _rowHeight >= 72f ? UITheme.SizeCaption + 3f : UITheme.SizeCaption, UIFont.Bold, ReasonColor, TextAlignmentOptions.MidlineRight, UITextFx.Shadow, "Reason");
@@ -289,6 +304,14 @@ namespace Abyss.UI
                 r.Icon.sprite = it.Icon;
                 r.Icon.enabled = icon;
                 r.Icon.color = it.Enabled ? Color.white : new Color(0.55f, 0.55f, 0.6f, 0.65f);
+                bool badge = icon && !string.IsNullOrEmpty(it.Badge);
+                r.Badge.gameObject.SetActive(badge);
+                if (badge)
+                {
+                    r.BadgeText.text = it.Badge;
+                    var plate = it.BadgeColor ?? UITheme.Gold;
+                    r.Badge.color = it.Enabled ? plate : Color.Lerp(plate, UITheme.TextDisabled, 0.6f);
+                }
 
                 r.Cost.text = it.Cost ?? "";
                 r.Cost.color = !it.Enabled ? UITheme.TextDisabled : it.CostColor ?? UITheme.GoldBright;

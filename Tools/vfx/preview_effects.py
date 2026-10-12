@@ -17,6 +17,7 @@ import argparse
 import json
 import math
 import os
+import sys
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -379,6 +380,20 @@ def quad_uv(lx, ly):
     return u, v, (u >= 0) & (u <= 1) & (v >= 0) & (v <= 1)
 
 
+_MESH_WARNED = set()
+
+
+def skip_mesh_layer(recipe, raw):
+    """Mesh layers (kind mesh, or orbit/burst/emitter carrying "mesh") need the Unity capture; skip with one warning per key."""
+    if not (raw.get("mesh") or raw.get("kind") == "mesh"):
+        return False
+    key = recipe.get("key", "?")
+    if key not in _MESH_WARNED:
+        _MESH_WARNED.add(key)
+        print(f"warning: {key}: mesh layers are not drawn by this preview (use the Unity capture)", file=sys.stderr)
+    return True
+
+
 def render_effect(cv, recipe, t, origin=(0, 0.9, 0), tint=(1, 1, 1), scale=1.0, tex_dir=TEX_DIR, seed=0):
     origin = np.asarray(origin, dtype=np.float64)
     tint = np.asarray(tint, dtype=np.float32)
@@ -386,6 +401,8 @@ def render_effect(cv, recipe, t, origin=(0, 0.9, 0), tint=(1, 1, 1), scale=1.0, 
     duration = recipe.get("duration", 1.2)
     view_rot = 0.0
     for li, raw in enumerate(recipe["layers"]):
+        if skip_mesh_layer(recipe, raw):
+            continue
         L = norm_layer(raw)
         elapsed = t - L["delay"]
         if elapsed < 0:

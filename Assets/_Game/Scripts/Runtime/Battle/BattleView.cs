@@ -66,11 +66,19 @@ namespace Abyss.Runtime.Battle
         float _oldFov, _fov = 43, _fovBase = 43, _fovPunch, _trauma, _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _waveStop;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
+        /// <summary>Share of normal speed that effect playback keeps while a hit-stop freezes the units.</summary>
+        const float HitStopVfxRate = .1f;
         int _round, _wave, _eventIndex, _displayChain;
         string _active, _strikeClip;
         IReadOnlyList<BattleEvent> _events;
         bool _initialized, _finished, _restored, _hitstop, _fleeSucceeded, _wasReduced, _perHitProjectile, _flashed;
         AtmospherePreset _oldAtmosphere;
+        FloorDef _floor;
+        // Battle-local readability: enemies render larger than their authored ScaleMult so silhouettes read on a phone.
+        // Bosses get more so they dominate the frame; heroes and HP plates are untouched.
+        const float EnemyReadabilityScale = 1.25f, BossReadabilityScale = 1.5f;
+        // Boss entrance: camera push in toward the boss and back (each leg), and the cap on the whole entrance.
+        const float BossPushLeg = .3f, BossEntranceMax = 1.6f;
         bool Reduced => _app.Preferences != null && _app.Preferences.ReducedMotion;
         /// <summary>Battle pacing multiplier from settings (1x, 1.5x, 2x): scales waits, unit animation and action timers.</summary>
         float Speed => _app.Preferences != null ? _app.Preferences.BattleSpeed : 1f;
@@ -88,6 +96,7 @@ namespace Abyss.Runtime.Battle
             FloorDef floor = null;
             foreach (var candidate in app.DB.Floors) if (candidate.Id == setup.FloorId) { floor = candidate; break; }
             if (floor == null) throw new InvalidOperationException("Battle floor not found: " + setup.FloorId);
+            _floor = floor;
             var atmosphere = AtmospherePreset.ForFloor(floor, battle: true);
             app.Atmosphere.Apply(atmosphere); app.Atmosphere.SetupCamera(_camera);
             var arena = ArtLibrary.SpawnStatic(ArtLibrary.EnvPath(floor.Tileset, "arena"), transform);
@@ -102,9 +111,7 @@ namespace Abyss.Runtime.Battle
             _flash = UIFactory.Fill(app.UI.Content, new Color(1, 1, 1, 0), "Battle flash");
             Engine = new BattleEngine(app.DB, setup);
             Auto = app.Preferences.AutoBattle; _hud.SetAuto(Auto);
-            string music = setup.Kind == BattleKind.Boss ? "bgm_boss" : "bgm_battle";
-            if (floor.Index == 11 && setup.Kind == BattleKind.Boss) music = "bgm_finalboss";
-            AudioManager.Instance.PlayBgm(music);
+            AudioManager.Instance.PlayBgm(BattleMusicPolicy.Select(setup.Kind, setup.EnemyGroup));
             Establishing(true);
             Playing = true;
             StartCoroutine(Replay(Engine.Start(), true));
@@ -161,7 +168,7 @@ namespace Abyss.Runtime.Battle
                 _events = events; _eventIndex = i;
                 yield return Present(events[i]);
                 if (_finished) yield break;
-                if (initial && events[i] is BattleStartEvent) yield return Reduced ? Wait(.35f) : Intro();
+                if (initial && events[i] is BattleStartEvent) yield return Reduced ? ReducedIntro() : Intro();
             }
             Playing = false;
             if (Engine.State == BattleEngineState.AwaitingCommand)
@@ -403,7 +410,7 @@ namespace Abyss.Runtime.Battle
             if (snapshot.Side == BattleSide.Enemy)
             {
                 var def = _app.DB.Enemies[snapshot.DefId];
-                unit.Model.transform.localScale = Vector3.one * def.ScaleMult;
+                unit.Model.transform.localScale = Vector3.one * (def.ScaleMult * (def.IsBoss ? BossReadabilityScale : EnemyReadabilityScale));
                 unit.Model.RecomputeBounds();
             }
             int lane = snapshot.Slot;
@@ -418,10 +425,7 @@ namespace Abyss.Runtime.Battle
                 if (snapshot.Slot < count)
                     lane = count == 1 ? 2 : count == 2 ? 1 + snapshot.Slot * 2 :
                         count == 3 ? 1 + snapshot.Slot : count == 4 && snapshot.Slot >= 2 ? snapshot.Slot + 1 : snapshot.Slot;
-                else
-                {
-                    lane = 0; while (lane < occupied.Length && occupied[lane]) lane++;
-                }
+                else lane = SummonLane(occupied);
                 if (lane >= occupied.Length || occupied[lane]) throw new InvalidOperationException("No free arena lane for " + snapshot.Id);
                 unit.ArenaLane = lane;
             }
@@ -445,6 +449,25 @@ namespace Abyss.Runtime.Battle
             if (!unit.Alive) unit.Model.Play("Die");
             _units.Add(unit.Id, unit); _hud.AddUnit(unit); Sync(unit);
             return unit;
+        }
+
+        /// <summary>
+        /// Free lane for a summon. With a living boss on the field, the lane farthest from it comes first so the larger
+        /// boss model and its plate keep clear neighbours; otherwise the lowest free lane, as before.
+        /// </summary>
+        int SummonLane(bool[] occupied)
+        {
+            int bossLane = -1;
+            foreach (var existing in _units.Values)
+                if (existing.Side == BattleSide.Enemy && existing.Alive && existing.Boss) { bossLane = existing.ArenaLane; break; }
+            int best = occupied.Length, bestDistance = -1;
+            for (int lane = 0; lane < occupied.Length; lane++)
+            {
+                if (occupied[lane]) continue;
+                int distance = bossLane < 0 ? 0 : Mathf.Abs(lane - bossLane);
+                if (distance > bestDistance) { best = lane; bestDistance = distance; }
+            }
+            return best;
         }
 
         IEnumerator StartAction(ActionStartEvent e)
@@ -727,10 +750,11 @@ namespace Abyss.Runtime.Battle
 
         /// <summary>
         /// Battle entrance: both sides run onto their marks while the camera sweeps from a low enemy-side angle into
-        /// the establishing shot, under an ENCOUNTER / BOSS call-out.
+        /// the establishing shot, under an ENCOUNTER / F.O.E call-out. Boss battles use <see cref="BossEntrance"/> instead.
         /// </summary>
         IEnumerator Intro()
         {
+            if (_setup.Kind == BattleKind.Boss) { yield return BossEntrance(); yield break; }
             var movers = new List<(BattleDisplayUnit Unit, Vector3 From)>();
             foreach (var unit in _units.Values)
             {
@@ -748,9 +772,9 @@ namespace Abyss.Runtime.Battle
             var names = new List<string>();
             // The encounter call-out names each kind once (display letters are for telling units apart later).
             foreach (var unit in _units.Values) if (unit.Side == BattleSide.Enemy && !names.Contains(unit.BaseName)) names.Add(unit.BaseName);
-            bool boss = _setup.Kind == BattleKind.Boss, foe = _setup.Kind == BattleKind.Foe;
-            _hud.Announce(boss ? "BOSS BATTLE" : foe ? "F.O.E" : "ENCOUNTER", string.Join(" · ", names) + (boss || foe ? " 출현!" : " 이(가) 나타났다!"),
-                boss || foe ? UITheme.Danger : UITheme.Dawn, .8f);
+            bool foe = _setup.Kind == BattleKind.Foe;
+            _hud.Announce(foe ? "F.O.E" : "ENCOUNTER", string.Join(" · ", names) + (foe ? " 출현!" : " 이(가) 나타났다!"),
+                foe ? UITheme.Danger : UITheme.Dawn, .8f);
             AudioManager.Instance.PlaySfx("sfx_encounter"); AudioManager.Instance.PlaySfx("sfx_wind", .55f, 1.2f);
             float elapsed = 0f, length = .8f;
             while (elapsed < length)
@@ -766,11 +790,87 @@ namespace Abyss.Runtime.Battle
             foreach (var (unit, _) in movers)
             {
                 unit.Model.transform.position = unit.Home;
-                unit.Model.Play(unit.Side == BattleSide.Enemy && (boss || foe) ? "Cast" : "Idle");
+                unit.Model.Play(unit.Side == BattleSide.Enemy && foe ? "Cast" : "Idle");
             }
-            yield return Wait(boss || foe ? .9f : .55f);
+            yield return Wait(foe ? .9f : .55f);
             foreach (var (unit, _) in movers) unit.Model.Play("Idle");
             _cameraRate = 7f;
+        }
+
+        /// <summary>Reduced motion: no run-on or camera move. Boss battles still get a short static name card.</summary>
+        IEnumerator ReducedIntro()
+        {
+            if (_setup.Kind != BattleKind.Boss) { yield return Wait(.35f); yield break; }
+            PlaceAtHomes();
+            AnnounceBoss(EntranceBoss(), .5f);
+            AudioManager.Instance.PlaySfx("sfx_encounter");
+            yield return Wait(.6f);
+        }
+
+        /// <summary>
+        /// Boss entrance, capped at <see cref="BossEntranceMax"/> seconds of battle time: everyone already stands on their
+        /// marks, the boss roars (or strikes) under its name card and the area name, and the camera pushes in toward it
+        /// and back. Replaces the run-on intro for boss battles; it is never stacked on it.
+        /// </summary>
+        IEnumerator BossEntrance()
+        {
+            var boss = EntranceBoss();
+            PlaceAtHomes();
+            AnnounceBoss(boss, .8f);
+            AudioManager.Instance.PlaySfx("sfx_encounter");
+            if (boss == null) { yield return Wait(.55f); yield break; }
+            float clip = PlayEntranceClip(boss);
+            _flashAlpha = .3f; _flash.color = new Color(UITheme.Danger.r, UITheme.Danger.g, UITheme.Danger.b, _flashAlpha);
+            AddTrauma(.2f);
+            // Each leg settles ~90% at this rate; scaling it by Speed keeps the same shape at 1.5x / 2x.
+            _cameraRate = 8f * Speed;
+            Vector3 focus = boss.Model.CenterPoint;
+            _cameraPosition = Vector3.Lerp(transform.TransformPoint(CameraHome + FramingOffset), focus, .22f);
+            _cameraLook = Vector3.Lerp(transform.TransformPoint(CameraAim + FramingOffset), focus, .65f);
+            _fov = FramingFov - 4f;
+            yield return Wait(BossPushLeg);
+            Establishing(false);
+            yield return Wait(BossPushLeg);
+            // Let the roar read, but never run the entrance past its cap.
+            yield return Wait(Mathf.Min(BossEntranceMax - 2f * BossPushLeg, Mathf.Max(.15f, clip - 2f * BossPushLeg)));
+            _cameraRate = 7f;
+        }
+        /// <summary>The unit whose data is a boss (EnemyDef.IsBoss); the first living enemy if the group has none.</summary>
+        BattleDisplayUnit EntranceBoss()
+        {
+            BattleDisplayUnit first = null;
+            foreach (var unit in _units.Values)
+            {
+                if (unit.Side != BattleSide.Enemy || !unit.Alive) continue;
+                if (_app.DB.Enemies.TryGetValue(unit.DefId, out var def) && def.IsBoss) return unit;
+                if (first == null) first = unit;
+            }
+            return first;
+        }
+        void PlaceAtHomes()
+        {
+            foreach (var unit in _units.Values)
+            {
+                unit.KnockTime = 0;
+                unit.Model.transform.SetPositionAndRotation(unit.Home, unit.Facing);
+                if (unit.Alive && unit.Model.Anim.HasClip("Idle")) unit.Model.Anim.Play("Idle", .1f, false);
+            }
+        }
+        /// <summary>Roar when the rig has one, else Attack, then back to Idle. Returns the take's length (0 when none).</summary>
+        static float PlayEntranceClip(BattleDisplayUnit boss)
+        {
+            var anim = boss.Model.Anim;
+            string take = anim.HasClip("Roar") ? "Roar" : anim.HasClip("Attack") ? "Attack" : null;
+            string idle = anim.HasClip("Idle") ? "Idle" : null;
+            if (take == null) return 0f;
+            anim.PlayOnce(take, idle, .1f);
+            return anim.Length(take);
+        }
+        void AnnounceBoss(BattleDisplayUnit boss, float hold)
+        {
+            string area = _floor != null && !string.IsNullOrEmpty(_floor.AreaName) ? _floor.AreaName : "BOSS BATTLE";
+            // The card runs on unscaled UI time; shorten its hold so it clears with the faster entrance at 1.5x / 2x.
+            _hud.Announce(boss != null ? boss.Name : "BOSS BATTLE", area, UITheme.Danger, hold / Mathf.Max(1f, Speed));
         }
 
         IEnumerator Finish(BattleOutcome outcome)
@@ -962,7 +1062,8 @@ namespace Abyss.Runtime.Battle
         {
             if (!_initialized || _restored || _camera == null) return;
             foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed);
-            if (_vfx != null) _vfx.TimeScale = _app.Paused ? 0 : Speed;
+            // Hit-stop freezes the units and drags effect playback to a crawl (never in reduced mode, where HitStop is skipped).
+            if (_vfx != null) _vfx.TimeScale = _app.Paused ? 0 : _hitstop && !Reduced ? Speed * HitStopVfxRate : Speed;
             if (_app.Paused) return;
             if (!_hitstop && _actionLength > 0) _actionElapsed += Dt;
             if (Reduced)

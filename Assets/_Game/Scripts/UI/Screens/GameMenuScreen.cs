@@ -178,9 +178,10 @@ namespace Abyss.UI
                 UIInput.Consume();
             }
         }
-        public void Add(string label, Action action, string description = "", string cost = null, bool enabled = true, string reason = null, Sprite icon = null, Color? labelColor = null)
+        /// <param name="badge">Optional short tag drawn on the icon's corner (needs <paramref name="icon"/>); null keeps the plain row.</param>
+        public void Add(string label, Action action, string description = "", string cost = null, bool enabled = true, string reason = null, Sprite icon = null, Color? labelColor = null, string badge = null, Color? badgeColor = null)
         {
-            rows.Add(new UIListItem(label, cost, enabled, reason, icon, tag: action) { Description = description, LabelColor = labelColor });
+            rows.Add(new UIListItem(label, cost, enabled, reason, icon, tag: action) { Description = description, LabelColor = labelColor, Badge = badge, BadgeColor = badgeColor });
         }
         protected override void OnFocus() { if (list != null) { list.Focused = true; Refresh(); } }
         protected override void OnBlur() { if (list != null) list.Focused = false; }

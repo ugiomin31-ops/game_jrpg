@@ -191,10 +191,19 @@ namespace Abyss.UI
             Clear();
             Menu(T("game_over"), T("game_over_body"), m =>
             {
-                m.Add(T("recover"), app.RecoverFromDefeat, T(app.State.Difficulty == Difficulty.Easy ? "defeat_easy" : "defeat_penalty"));
+                m.Add(T("recover"), app.RecoverFromDefeat, DefeatPenaltyText());
                 m.Add("저장 불러오기", () => ShowSlots(false));
                 m.Add(T("title_return"), ReturnTitle);
             }, cancel: false);
+        }
+        /// <summary>Defeat menu hint: the gold the guild restart takes (percent and amount), or the no-loss line when it takes none.</summary>
+        string DefeatPenaltyText()
+        {
+            var state = app.State;
+            int lost = TownServices.DefeatGoldLossAmount(state);
+            if (lost <= 0) return T(state.Difficulty == Difficulty.Easy ? "defeat_easy" : "defeat_no_loss");
+            int percent = (int)Math.Round(TownServices.DefeatGoldLoss(state.Difficulty) * 100);
+            return app.DB.T("defeat_penalty", percent, lost.ToString("N0", System.Globalization.CultureInfo.InvariantCulture));
         }
         public void ShowPause()
         {

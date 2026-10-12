@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace Abyss.Logic.Dungeon
 {
     public enum ArrivalMode { Resume = 0, Town = 1, Descending = 2, Ascending = 3 }
-    public enum DungeonEffect { None = 0, Blocked = 1, DoorOpened = 2, DoorLocked = 3, Treasure = 4, Key = 5, Trap = 6, Spring = 7, Warp = 8, Lore = 9, Stairs = 10, Wait = 11 }
+    public enum DungeonEffect { None = 0, Blocked = 1, DoorOpened = 2, DoorLocked = 3, Treasure = 4, Key = 5, Trap = 6, Spring = 7, Warp = 8, Lore = 9, Stairs = 10, Wait = 11, Rescue = 12, Choice = 13 }
 
     /// <summary>Persisted encounter identity; battle vitals are rebuilt from the saved party on resume.</summary>
     public sealed class DungeonBattleRequest
@@ -18,7 +18,27 @@ namespace Abyss.Logic.Dungeon
         public List<string> EnemyGroup = new List<string>();
         public float FoePower = 1f;
         public int Seed;
+        /// <summary>Choice events: contents paid once with the victory (copied from the event row). Old saves omit it.</summary>
+        public TreasureContents ExtraReward;
         [JsonIgnore] public BattleSetup Setup;
+    }
+    /// <summary>
+    /// In-memory offer of a choice event (never saved: resuming on the cell re-opens it via Interact). Answer it once
+    /// with <see cref="DungeonRun.ResolveChoice"/>; a stale or repeated answer is rejected.
+    /// </summary>
+    public sealed class DungeonChoice
+    {
+        public const int Accept = 0, Leave = 1;
+        public string FloorId;
+        public GridPos Cell, RetreatCell;
+        public EventDef Event;
+    }
+    public sealed class DungeonChoiceResult
+    {
+        /// <summary>Accept: the saved event battle to start now.</summary>
+        public DungeonBattleRequest Battle;
+        public bool Accepted, Left;
+        public bool Rejected => !Accepted && !Left;
     }
     public sealed class DungeonStepResult
     {
@@ -31,12 +51,18 @@ namespace Abyss.Logic.Dungeon
         public TreasureContents Treasure;
         public TrapReport Trap;
         public DungeonBattleRequest Battle;
+        /// <summary>Rescue/choice event row met on this step (rescue reward is in <see cref="Treasure"/>, already granted).</summary>
+        public EventDef Event;
+        /// <summary>Pending choice to present; dungeon actions stay blocked until it is resolved or dismissed.</summary>
+        public DungeonChoice Choice;
     }
     public sealed class DungeonBattleResolution
     {
         public BattleReport Report;
         public bool ReturnToTown, Ending, Defeat;
         public string PostText = "", TextKey = "battle_return";
+        /// <summary>Choice-event contents granted by this victory (already in the state); null when none.</summary>
+        public TreasureContents ExtraReward;
     }
 
     /// <summary>
@@ -51,7 +77,11 @@ namespace Abyss.Logic.Dungeon
         public DungeonGrid Grid { get; private set; }
         public DungeonBattleRequest PendingBattle => State.PendingBattle;
         public StoryNotice ArrivalNotice { get; private set; }
-        public bool CanAct => State.Location == GameLocation.Dungeon && PendingBattle == null && !State.Flags.Contains(GameFlow.FlagDefeatPending);
+        /// <summary>Unanswered choice offer (in memory only).</summary>
+        public DungeonChoice PendingChoice { get; private set; }
+        public bool CanAct => State.Location == GameLocation.Dungeon && PendingBattle == null && PendingChoice == null && !State.Flags.Contains(GameFlow.FlagDefeatPending);
+        /// <summary>Hunter reaction lines appended to lore stones (text_ko keys).</summary>
+        public static readonly string[] LoreReactionKeys = { "lore_reaction_1", "lore_reaction_2", "lore_reaction_3", "lore_reaction_4", "lore_reaction_5", "lore_reaction_6" };
         DungeonBattleResolution lastResolution;
 
         public DungeonRun(GameDB db, GameState state, int floorIndex, ArrivalMode mode = ArrivalMode.Resume, int seed = 7331)
@@ -118,8 +148,13 @@ namespace Abyss.Logic.Dungeon
             if (bumped >= 0) { result.Battle = StartFoe(bumped, from); return result; }
             int caught = Grid.AdvanceFoes(target, from);
             if (StartFixed(result, from)) return result;
-            ApplyCell(result, true);
-            if (caught >= 0) result.Battle = StartFoe(caught, from);
+            ApplyCell(result, true, from);
+            if (caught >= 0)
+            {
+                // A FOE catching the party wins over an offer; the choice stays unspent and re-opens on Interact.
+                if (result.Choice != null) { PendingChoice = null; result.Choice = null; result.Effect = DungeonEffect.None; }
+                result.Battle = StartFoe(caught, from);
+            }
             else if (result.Effect == DungeonEffect.None && State.DungeonEncounterSteps >= Grid.Floor.MinEncounterSteps
                 && (EncounterGuaranteed() || NextFloat() < Grid.Floor.EncounterRate))
             {
@@ -143,7 +178,7 @@ namespace Abyss.Logic.Dungeon
             if (Grid.IsClosedDoor(front)) return OpenDoor(front, result);
             // Resume on an uncleared fixed cell remains playable without walking away and back.
             if (StartFixed(result, State.Position)) return result;
-            ApplyCell(result, false);
+            ApplyCell(result, false, State.Position);
             return result.Effect == DungeonEffect.None ? WaitTurn() : result;
         }
         public DungeonStepResult WaitTurn()
@@ -178,12 +213,14 @@ namespace Abyss.Logic.Dungeon
             }
             if (marker == 'E')
             {
+                var row = Grid.EventAt(State.Position);
+                if (row != null && !row.IsAmbush) return false;   // rescue/choice: handled by ApplyCell, never a battle on entry
                 var group = Grid.EventGroup(State.Position);
                 if (group.Count > 0) { result.Battle = StartBattle(BattleKind.Event, group, State.Position, from); return true; }
             }
             return false;
         }
-        void ApplyCell(DungeonStepResult result, bool stepping)
+        void ApplyCell(DungeonStepResult result, bool stepping, GridPos from)
         {
             var at = State.Position;
             switch (Grid.Cell(at))
@@ -224,8 +261,89 @@ namespace Abyss.Logic.Dungeon
                 case 'N':
                     result.Effect = DungeonEffect.Lore; result.StoryText = Grid.LoreAt(at);
                     if (string.IsNullOrEmpty(result.StoryText)) result.TextKey = "lore_empty";
+                    else
+                    {
+                        string reaction = LoreReaction();
+                        if (reaction != null) result.StoryText += "\n\n" + reaction;
+                    }
                     State.Flags.Add("lore_" + Grid.Floor.Id + "_" + at); break;
+                case 'E':
+                    ApplyEvent(result, at, from); break;
             }
+        }
+        /// <summary>Rescue: commit spent + reward now. Choice: open an in-memory offer. Spent/won/ambush cells do nothing here.</summary>
+        void ApplyEvent(DungeonStepResult result, GridPos at, GridPos from)
+        {
+            var row = Grid.EventAt(at);
+            if (row == null || row.IsAmbush || Grid.IsEventSpent(at)) return;
+            if (row.IsRescue)
+            {
+                Grid.Progress.SpentEvents.Add(at);
+                result.Effect = DungeonEffect.Rescue; result.Event = row;
+                result.Treasure = CopyContents(row.Reward) ?? new TreasureContents();
+                State.AddContents(db, result.Treasure);
+            }
+            else if (row.IsChoice && row.Group.Count > 0)
+            {
+                PendingChoice = new DungeonChoice { FloorId = Grid.Floor.Id, Cell = at, RetreatCell = from, Event = row };
+                result.Effect = DungeonEffect.Choice; result.Event = row; result.Choice = PendingChoice;
+            }
+        }
+        /// <summary>
+        /// Answers the pending choice once. Leave spends the event for good (no reward); accept starts (and saves as
+        /// pending) the event battle with the row's group at power 1 and its reward as <see cref="DungeonBattleRequest.ExtraReward"/>.
+        /// Stale, repeated or mismatched answers are rejected without changing anything.
+        /// </summary>
+        public DungeonChoiceResult ResolveChoice(DungeonChoice choice, int option)
+        {
+            var result = new DungeonChoiceResult();
+            if (choice == null || !ReferenceEquals(choice, PendingChoice)) return result;
+            if (option != DungeonChoice.Accept && option != DungeonChoice.Leave) return result;
+            PendingChoice = null;
+            if (!ChoiceStillValid(choice)) return result;
+            if (option == DungeonChoice.Leave)
+            {
+                Grid.Progress.SpentEvents.Add(choice.Cell);
+                result.Left = true;
+                return result;
+            }
+            result.Battle = StartBattle(BattleKind.Event, choice.Event.Group, choice.Cell, choice.RetreatCell);
+            result.Battle.ExtraReward = CopyContents(choice.Event.Reward);   // same object as State.PendingBattle
+            result.Accepted = true;
+            return result;
+        }
+        /// <summary>Closes the offer without deciding (the event stays and re-opens on Interact). False when stale.</summary>
+        public bool DismissChoice(DungeonChoice choice)
+        {
+            if (choice == null || !ReferenceEquals(choice, PendingChoice)) return false;
+            PendingChoice = null;
+            return true;
+        }
+        bool ChoiceStillValid(DungeonChoice choice) =>
+            State.Location == GameLocation.Dungeon && PendingBattle == null && !State.Flags.Contains(GameFlow.FlagDefeatPending)
+            && choice.FloorId == Grid.Floor.Id && choice.Cell == State.Position && Grid.Cell(choice.Cell) == 'E'
+            && choice.Event != null && ReferenceEquals(Grid.EventAt(choice.Cell), choice.Event) && choice.Event.IsChoice
+            && choice.Event.Group.Count > 0 && !Grid.IsEventSpent(choice.Cell);
+        static TreasureContents CopyContents(TreasureContents source) => source == null ? null : new TreasureContents
+        {
+            Gold = Math.Max(0, source.Gold),
+            Items = new Dictionary<string, int>(source.Items ?? new Dictionary<string, int>()),
+            Equipment = new Dictionary<string, int>(source.Equipment ?? new Dictionary<string, int>()),
+        };
+        /// <summary>One active (preferably standing) hunter's line, by actual display name; reserves never speak.</summary>
+        string LoreReaction()
+        {
+            var speakers = new List<HeroDef>();
+            foreach (var hero in State.Party)
+                if (hero != null && hero.Hp > 0 && db.Heroes.TryGetValue(hero.Id, out var def) && !string.IsNullOrEmpty(def.DisplayName)) speakers.Add(def);
+            if (speakers.Count == 0)
+                foreach (var hero in State.Party)
+                    if (hero != null && db.Heroes.TryGetValue(hero.Id, out var def) && !string.IsNullOrEmpty(def.DisplayName)) speakers.Add(def);
+            var lines = new List<string>();
+            foreach (string key in LoreReactionKeys) if (db.Text.TryGetValue(key, out var line) && !string.IsNullOrEmpty(line)) lines.Add(line);
+            if (speakers.Count == 0 || lines.Count == 0) return null;
+            var speaker = speakers[(int)(NextUInt() % (uint)speakers.Count)];
+            return speaker.DisplayName + ": " + lines[(int)(NextUInt() % (uint)lines.Count)];
         }
         DungeonBattleRequest StartFoe(int i, GridPos retreat)
         {
@@ -258,7 +376,18 @@ namespace Abyss.Logic.Dungeon
             }
             else if (request.Kind == BattleKind.Boss || request.Kind == BattleKind.Event)
             {
-                if (victory) Grid.Progress.ClearedBattles.Add(request.Cell);
+                if (victory)
+                {
+                    Grid.Progress.ClearedBattles.Add(request.Cell);
+                    var row = request.Kind == BattleKind.Event ? Grid.EventAt(request.Cell) : null;
+                    // Choice victory: spend the event and pay its extra contents exactly once (the spent cell guards repeats).
+                    if ((row != null && row.IsChoice) || request.ExtraReward != null)
+                        if (Grid.Progress.SpentEvents.Add(request.Cell) && request.ExtraReward != null)
+                        {
+                            State.AddContents(db, request.ExtraReward);
+                            result.ExtraReward = request.ExtraReward;
+                        }
+                }
                 else Retreat(request, result);
             }
             if (victory && request.Kind == BattleKind.Boss)

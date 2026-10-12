@@ -161,6 +161,29 @@ namespace Abyss.Runtime.World
                 changed = true;
             }
             if (changed) RefreshEquipment();
+            RefreshLoungeJobs();
+        }
+
+        /// <summary>
+        /// Benched hunters in the lounge are dressed once at spawn (outfit + promotion rim for the job they had then)
+        /// and never pass through <see cref="RefreshEquipment"/>, so a job change respawns that hunter in place with
+        /// the new job's outfit and branch-colour rim.
+        /// </summary>
+        void RefreshLoungeJobs()
+        {
+            for (int i = 0; i < lounge.Count; i++)
+            {
+                var old = lounge[i];
+                if (old == null) continue;
+                var hero = app.State.Hero(old.ModelId);
+                if (hero == null || (hero.Job ?? "") == (old.PromotionJob ?? "")) continue;
+                var model = ArtLibrary.SpawnHero(old.ModelId, transform, hero.Job);
+                model.transform.SetPositionAndRotation(old.transform.position, old.transform.rotation);
+                model.Play("Idle");
+                lounge[i] = model;
+                old.gameObject.SetActive(false);
+                Destroy(old.gameObject);
+            }
         }
 
         public void RefreshEquipment()

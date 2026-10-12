@@ -561,7 +561,7 @@ SUPERBOSS = {
                     drops=D(('trial_emblem', 1.0), ('robe_dawn', 1.0), ('garb_dawn', 1.0), ('acc_lich_phylactery', 1.0), ('seed_guard', 1.0))),
     'leviathan_ex': dict(level=73, mult=(1.25, 1.15), sig='sk_ex_abyss_tide', summon=['naga_priestess'],
                          drops=D(('trial_emblem', 1.0), ('armor_dawn', 1.0), ('acc_dragon_fang', 1.0), ('seed_swift', 1.0), ('megalixir', 1.0))),
-    'abyss_lord_ex': dict(level=74, mult=(1.3, 1.0), sig='sk_ex_true_void', summon=['void_reaper', 'fallen_angel'],
+    'abyss_lord_ex': dict(level=74, mult=(1.3, 1.0), sig='sk_ex_true_void', summon=['void_reaper', 'fallen_angel'], exp_of_base=1.2,
                           drops=D(('trial_emblem', 1.0), ('sword_dawn', 1.0), ('acc_ribbon', 1.0), ('acc_abyss_heart', 1.0), ('seed_power', 1.0), ('megalixir', 1.0))),
 }
 
@@ -661,6 +661,9 @@ def zone_boss_rows(spec, rows):
     out = []
     for zid, cfg in ZONE_BOSS_CFG.items():
         _, name, base, tint, zone, _, _ = entries[zid]
+        own = zid in spec.OWN_MODEL_VARIANTS
+        if own:
+            tint = (1.0, 1.0, 1.0)
         level = LEVELS[zid]
         phases = [dict(hp_below=hp, actions_per_turn=2, skills=sk, weights=w, summon=sm, line='') for hp, sk, w, sm in cfg['phases']]
         row = {
@@ -669,7 +672,7 @@ def zone_boss_rows(spec, rows):
             'resistances': cfg['resist'], 'scale_mult': 1.0, 'actions_per_turn': 2, 'ai_profile': 'boss', 'summons': [],
             'summon_limit': 0, 'skill_weights': [1] * len(cfg['skills']), 'skills': cfg['skills'],
             'archetype': archetypes.get(base) or by_id[base]['archetype'], 'battle_row': 1,
-            'tint': [tint[0], tint[1], tint[2], 1.0], 'model': base, 'phases': phases, '_file': zid,
+            'tint': [tint[0], tint[1], tint[2], 1.0], 'model': zid if own else base, 'phases': phases, '_file': zid,
         }
         _apply(row, level, dict(zip(STATS, cfg['ratios'])), 2, exp_mult=BOSS_EXP[zid], gold_mult=BOSS_GOLD)
         drops, seen = [], set()
@@ -719,6 +722,9 @@ def build_superbosses(rows, spec):
         ratios['attack'] *= offm
         ratios['magic'] *= offm
         _apply(row, level, ratios, 2, exp_mult=BOSS_EXP[xid], gold_mult=BOSS_GOLD)
+        if 'exp_of_base' in cfg:
+            # The last echo pays more than the story boss it echoes (1.2x abyss_lord), not the level-curve value.
+            row['experience_reward'] = int(round(base['experience_reward'] * cfg['exp_of_base']))
         row['break_shield'] = base['break_shield'] + 2
         sig = cfg['sig']
         if sig not in row['skills']:
@@ -763,6 +769,27 @@ STARTER_FINAL_OFFENSE = {
     'slime': (26, 22),
     'horned_rabbit': (28, 14),
 }
+# T2 battle length: a random-encounter regular (rank 0, not a runner) of zone 3 or later keeps REGULAR_HP_TRIM of its
+# tuned HP, so a regular fight of the expected player averages 2-4 rounds in every zone (CampaignBalanceTests). One rule
+# for the whole regular tier: elites, bosses, superbosses and every monster an enemy summons (a "summons" entry or a boss
+# phase "summon") keep their HP, so elite, FOE and boss fights are unchanged. Zones 1-2 are the starter pacing
+# (StarterProgressionTests) and already sit in the band. Shorter fights mean fewer enemy turns, so zones whose cold-start
+# party HP loss would fall under 8 % get the same regulars' ATK/MAG raised (REGULAR_OFF_TRIM, zone 12 to about 10-12 %).
+REGULAR_HP_TRIM = 0.8
+REGULAR_TRIM_FROM_ZONE = 3
+REGULAR_OFF_TRIM = {4: 1.2, 8: 1.05, 9: 1.1, 10: 1.25, 12: 1.5}
+
+
+def summoned_ids(rows):
+    """Every monster an enemy can call in: its "summons" list or a boss phase's "summon" list."""
+    out = set()
+    for r in rows:
+        out |= set(r.get('summons') or [])
+        for p in r.get('phases') or []:
+            out |= set(p.get('summon') or [])
+    return out
+
+
 BOSS_TUNE = {
     'subway_bat_lord': (1.0, 2.3), 'forest_guardian': (1.04, 2.2), 'scrap_colossus': (1.5, 1.85),
     'frost_kraken': (1.5, 0.82), 'crystal_cave_lord': (1.4, 2.02), 'flame_sphinx': (1.9, 1.12),
@@ -774,12 +801,16 @@ BOSS_TUNE = {
 
 
 def tune(rows):
+    summoned = summoned_ids(rows)
     for r in rows:
         if r['id'] in BOSS_TUNE:
             hp, off = BOSS_TUNE[r['id']]
         elif r['rank'] == 0 and r.get('ai_profile') != 'runner' and r['id'] != 'golden_mimic':
             zone = ZONE_OF.get(r['id'], 13)
             hp, off = NORMAL_HP[zone], NORMAL_OFF.get(zone, 1.0)
+            if zone >= REGULAR_TRIM_FROM_ZONE and r['id'] not in summoned and not r.get('is_boss'):
+                hp *= REGULAR_HP_TRIM
+                off *= REGULAR_OFF_TRIM.get(zone, 1.0)
         elif r['rank'] == 1:
             hp, off = ELITE_HP, 1.0
         else:

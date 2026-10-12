@@ -60,7 +60,19 @@ namespace Abyss.LogicTests
                 if (grid.FindCells('L').Any()) Assert.True(grid.FindCells('K').Any(free.Contains), floor.FloorLabel + " first key reachable");
                 Assert.True(floor.LoreStones.Count >= 1 && floor.LoreStones.All(s => grid.Cell(GridPos.FromArray(s.Cell)) == 'N' && s.Text.Length > 0), floor.FloorLabel + " lore stones");
                 Assert.Equal(grid.FindCells('T').Count(), floor.Treasures.Count, floor.FloorLabel + " every chest has contents");
-                Assert.Equal(grid.FindCells('E').Count(), floor.Events.Count, floor.FloorLabel + " every event cell has a group");
+                Assert.Equal(grid.FindCells('E').Count(), floor.Events.Count, floor.FloorLabel + " every event cell has a row");
+                // Typed events: ambush rows fight their group on entry; rescue rows never fight and carry a reward;
+                // choice rows offer an elite group and carry the victory reward.
+                foreach (var ev in floor.Events)
+                {
+                    var at = GridPos.FromArray(ev.Cell);
+                    Assert.Equal('E', grid.Cell(at), floor.FloorLabel + " event row on an E cell " + at);
+                    if (ev.IsRescue) Assert.True(ev.Group.Count == 0 && ev.Reward != null, floor.FloorLabel + " rescue " + at);
+                    else if (ev.IsChoice) Assert.True(ev.Group.Count > 0 && ev.Reward != null && grid.EventGroup(at).Count == 0, floor.FloorLabel + " choice " + at);
+                    else Assert.True(ev.Group.Count > 0 && grid.EventGroup(at) == ev.Group, floor.FloorLabel + " ambush " + at);
+                }
+                Assert.Equal(k == 1 ? 1 : 0, floor.Events.Count(e => e.IsRescue), floor.FloorLabel + " one rescue on each zone's floor 2");
+                Assert.Equal(k == 2 ? 1 : 0, floor.Events.Count(e => e.IsChoice), floor.FloorLabel + " one elite choice on each zone's floor 3");
                 foreach (var foe in floor.Foes)
                     foreach (var p in foe.Patrol) Assert.True(grid.FoePassable(GridPos.FromArray(p)), floor.FloorLabel + " FOE route " + foe.Id);
                 Assert.True(floor.EncounterRate > 0 && floor.EncounterRate < 0.2 && floor.MaxEncounterSteps > floor.MinEncounterSteps, floor.FloorLabel + " encounter pacing");
@@ -79,7 +91,7 @@ namespace Abyss.LogicTests
             Assert.True(db.Floors[GameFlow.MainChapters * GameFlow.FloorsPerChapter - 1].Ending, "12-3's boss ends the story");
             // The three red gate floors each hold a superboss echo (event battles before the stairs).
             for (int i = GameFlow.MainChapters * GameFlow.FloorsPerChapter; i < db.Floors.Count; i++)
-                Assert.True(db.Floors[i].Events.Any(e => e.Group.Any(id => id.EndsWith("_ex"))), db.Floors[i].FloorLabel + " superboss");
+                Assert.True(db.Floors[i].Events.Any(e => e.IsAmbush && e.Group.Any(id => id.EndsWith("_ex"))), db.Floors[i].FloorLabel + " superboss");
         }
 
         static DungeonBattleResolution WinBoss(GameDB db, GameState state, int floorIndex)

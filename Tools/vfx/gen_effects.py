@@ -1556,6 +1556,438 @@ def widen(recipe, factor):
                     item[field] = round(item[field] * factor) if field == 'count' else round(item[field] * factor, 2)
 
 
+# --- shared effect meshes (Tripo -> Blender, see ArtSource/_briefs/skills_vfx.md) --------------------------------
+# Mesh layers are staged PER LAYER: a layer carrying "mesh" is emitted only when BOTH Resources/Vfx/Meshes/<mesh>.fbx
+# and its texture (default Textures/mesh_<mesh>.png) exist. Every other layer of the same recipe still emits, so
+# meshes can land batch by batch and with no meshes installed effects.json is identical to the mesh-less build.
+# `size` of a mesh layer is a multiplier of the mesh's native size (brief section 4), `height` scales Y only.
+MESH_DIR = ROOT/'Assets/_Game/Resources/Vfx/Meshes'
+TEX_DIR = ROOT/'Assets/_Game/Resources/Vfx/Textures'
+MESH_IDS = frozenset((
+    'ground_seal slash_crescent light_pillar thrust_spike energy_arrow nova_wave shadow_tendril holy_cross flame_plume '
+    'heal_bloom impact_crater energy_orb tornado_funnel chain_ring lightning_bolt rock_debris ice_shard shield_dome '
+    'energy_lance sword_phantom feather crystal_prism rift_gate barrier_panel ice_spike_cluster vine_coil bite_jaws '
+    'meteor_rock').split())
+MESH_KINDS = {'mesh', 'orbit', 'burst', 'emitter'}   # layer kinds that may carry a "mesh" field
+MESH_ONLY_FIELDS = {'scroll': {'mesh'}}               # field -> kinds allowed to use it
+HIT_TEXTURES = ('hit_flash', 'shockwave', 'sunburst', 'explosion_sheet')
+
+
+class AtHit:
+    """Delay resolved against the recipe: the first impact flash/shockwave (0 when it has none) plus `offset`."""
+    def __init__(self, offset=0.0):
+        self.offset = offset
+
+
+def mesh_layer(mesh, color, life, size, end=0, **v):
+    texture = v.pop('texture', 'mesh_' + mesh)
+    if end:
+        v['endSize'] = round(end, 3)
+    return layer('mesh', texture, color, mesh=mesh, life=life, size=size, **v)
+
+
+def mesh_burst(mesh, color, count, life, size, speed, radius=.15, **v):
+    texture = v.pop('texture', 'mesh_' + mesh)
+    return layer('burst', texture, color, mesh=mesh, count=count, life=life, size=size, speed=speed, radius=radius, **v)
+
+
+def mesh_emitter(mesh, color, rate, life, size, speed, radius, **v):
+    texture = v.pop('texture', 'mesh_' + mesh)
+    return layer('emitter', texture, color, mesh=mesh, rate=rate, life=life, size=size, speed=speed, radius=radius, **v)
+
+
+def mesh_orbit(mesh, color, life, size, radius, count=4, spin=160, **v):
+    texture = v.pop('texture', 'mesh_' + mesh)
+    return layer('orbit', texture, color, mesh=mesh, life=life, size=size, radius=radius, count=count, spin=spin, **v)
+
+
+W, FIRE, ICE, THU, HOLY, VOID, HEAL, ARC = 'FFFFFF', 'FFC890', 'C8EEFF', 'FFF0A0', 'FFF3C2', 'B890FF', 'C8FFE0', 'E8D8FF'
+STONE, BLOOD, POISON = 'C8B090', 'FF6070', 'A8E070'
+SMALL, BIG, HUGE = .6, 1.6, 2.4
+
+
+def m_seal(color=W, size=1.1, life=1.4, **v):
+    return mesh_layer('ground_seal', color, life, size, size * 1.12, horizontal=True, spin=v.pop('spin', 40), y=v.pop('y', FLOOR), **v)
+
+
+def m_crescent(color='E8F6FF', size=.95, rotation=-28, life=.26, delay=AtHit(), **v):
+    return mesh_layer('slash_crescent', color, life, size, size * 1.25, rotation=rotation, scroll=2, delay=delay, **v)
+
+
+def m_pillar(color=HOLY, size=1.0, life=.8, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('light_pillar', color, life, size, delay=delay, y=y, **v)
+
+
+def m_spike(color=W, size=1.0, life=.22, delay=AtHit(), **v):
+    return mesh_layer('thrust_spike', color, life, size, size * 1.25, delay=delay, **v)
+
+
+def m_arrow(color=W, size=1.0):
+    return mesh_layer('energy_arrow', color, 1.0, size, align=True)
+
+
+def m_nova(color=W, size=1.0, life=.55, delay=AtHit(), y=FLOOR + .04, **v):
+    return mesh_layer('nova_wave', color, life, size * .5, size * 1.9, horizontal=True, delay=delay, y=y, **v)
+
+
+def m_tendril(color=VOID, size=.9, life=.7, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('shadow_tendril', color, life, size, size * 1.15, delay=delay, y=y, alpha=True, **v)
+
+
+def m_cross(color=HOLY, size=1.0, life=.5, delay=AtHit(), **v):
+    return mesh_layer('holy_cross', color, life, size * .7, size * 1.3, delay=delay, **v)
+
+
+def m_plume(color=FIRE, size=.8, life=.7, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('flame_plume', color, life, size, size * 1.2, delay=delay, y=y, **v)
+
+
+def m_plume_burst(color=FIRE, count=6, size=.55, **v):
+    return mesh_burst('flame_plume', color, count, v.pop('life', .75), size, v.pop('speed', 3.0), v.pop('radius', .25),
+                      delay=v.pop('delay', AtHit()), gravity=v.pop('gravity', -.1), **v)
+
+
+def m_plume_ring(radius=2.4, rate=8, size=.7, **v):
+    """Flame tongues erupting from the floor around the target (emitter)."""
+    return mesh_emitter('flame_plume', FIRE, rate, v.pop('life', .8), size, v.pop('speed', 1.2), radius,
+                        y=FLOOR, delay=v.pop('delay', AtHit()), **v)
+
+
+def m_bloom(color=HEAL, size=1.0, life=1.0, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('heal_bloom', color, life, size * .7, size * 1.1, delay=delay, y=y, **v)
+
+
+def m_crater(color='E8E0D0', size=.9, life=.9, delay=AtHit(), y=FLOOR + .02, **v):
+    return mesh_layer('impact_crater', color, life, size * .6, size, horizontal=True, delay=delay, y=y, alpha=True, **v)
+
+
+def m_orb(color=W, size=.9):
+    return mesh_layer('energy_orb', color, 1.0, size, spin=120)
+
+
+def m_orb_burst(color=POISON, count=8, size=.45, **v):
+    return mesh_burst('energy_orb', color, count, v.pop('life', .8), size, v.pop('speed', 2.5), v.pop('radius', .2),
+                      delay=v.pop('delay', AtHit()), gravity=v.pop('gravity', -.3), **v)
+
+
+def m_funnel(color='D8ECFF', size=.9, life=1.2, delay=0, y=FLOOR, **v):
+    return mesh_layer('tornado_funnel', color, life, size, size * 1.15, spin=v.pop('spin', 300), delay=delay, y=y, **v)
+
+
+def m_chain(color='D8C8FF', size=1.0, life=.8, delay=AtHit(), y=-.2, **v):
+    return mesh_layer('chain_ring', color, life, size * 1.3, size * .8, horizontal=True, spin=60, delay=delay, y=y, **v)
+
+
+def m_bolt(color=THU, size=1.0, life=.35, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('lightning_bolt', color, life, size, delay=delay, y=y, **v)
+
+
+def m_debris(color=STONE, count=7, size=.5, **v):
+    return mesh_burst('rock_debris', color, count, v.pop('life', .9), size, v.pop('speed', 4.5), v.pop('radius', .2),
+                      delay=v.pop('delay', AtHit()), gravity=v.pop('gravity', 1.2), alpha=True, **v)
+
+
+def m_shard(color=ICE, size=1.0):
+    return mesh_layer('ice_shard', color, 1.0, size, align=True)
+
+
+def m_shard_burst(color=ICE, count=6, size=.6, **v):
+    return mesh_burst('ice_shard', color, count, v.pop('life', .8), size, v.pop('speed', 3.5), v.pop('radius', .2),
+                      delay=v.pop('delay', AtHit()), gravity=v.pop('gravity', .6), **v)
+
+
+def m_dome(color='A8D8FF', size=1.1, life=1.3, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('shield_dome', color, life, size * .8, size, delay=delay, y=y, **v)
+
+
+def m_lance(color=HOLY, size=1.0, delay=0, **v):
+    return mesh_layer('energy_lance', color, 1.0, size, align=True, delay=delay, **v)
+
+
+def m_phantom(color='E0F0FF', size=.8, **v):
+    return mesh_layer('sword_phantom', color, v.pop('life', .7), size, size * 1.2, y=v.pop('y', .5), delay=v.pop('delay', 0), **v)
+
+
+def m_phantom_orbit(color='E0F0FF', size=.9, radius=1.4, **v):
+    return mesh_orbit('sword_phantom', color, v.pop('life', 1.2), size, radius, count=v.pop('count', 4), spin=v.pop('spin', 220),
+                      delay=v.pop('delay', AtHit(-.2)), y=v.pop('y', .2), **v)
+
+
+def m_feathers(color='FFF2D0', count=8, size=.9, **v):
+    return mesh_burst('feather', color, count, v.pop('life', 1.3), size, v.pop('speed', 1.8), v.pop('radius', .3),
+                      delay=v.pop('delay', AtHit()), gravity=v.pop('gravity', .15), **v)
+
+
+def m_prism_burst(color=ARC, count=6, size=.6, **v):
+    return mesh_burst('crystal_prism', color, count, v.pop('life', .8), size, v.pop('speed', 3.2), v.pop('radius', .2),
+                      delay=v.pop('delay', AtHit()), gravity=v.pop('gravity', .5), **v)
+
+
+def m_prism(color=ARC, size=1.0, life=.8, delay=AtHit(), y=0, **v):
+    return mesh_layer('crystal_prism', color, life, size * .7, size * 1.2, spin=90, delay=delay, y=y, **v)
+
+
+def m_rift(color=VOID, size=1.0, life=.8, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('rift_gate', color, life, size * .6, size, delay=delay, y=y, alpha=True, **v)
+
+
+def m_panel(color='A8D8FF', size=1.0, life=1.2, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('barrier_panel', color, life, size * .85, size, delay=delay, y=y, **v)
+
+
+def m_spikes(color=ICE, size=1.0, life=1.0, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('ice_spike_cluster', color, life, size * .4, size, delay=delay, y=y, **v)
+
+
+def m_vine(color='90D870', size=1.0, life=1.0, delay=AtHit(), y=FLOOR, **v):
+    return mesh_layer('vine_coil', color, life, size, size * 1.1, spin=40, delay=delay, y=y, alpha=True, **v)
+
+
+def m_jaws(color='F0E0D0', size=1.0, life=.3, delay=AtHit(), **v):
+    return mesh_layer('bite_jaws', color, life, size * .6, size * 1.3, delay=delay, **v)
+
+
+def m_meteor(color=FIRE, size=1.6, life=.4, delay=AtHit(-.4), **v):
+    return mesh_layer('meteor_rock', color, life, size * .3, size, delay=delay, y=v.pop('y', 1.2), spin=200, **v)
+
+
+def m_arrows_falling(color=W, rate=60, size=.7, **v):
+    return mesh_emitter('energy_arrow', color, rate, v.pop('life', .45), size, v.pop('speed', -10.0), v.pop('radius', 3.5),
+                        y=v.pop('y', 3.0), delay=v.pop('delay', .1), **v)
+
+
+def m_tendril_burst(**v):
+    return mesh_burst('shadow_tendril', VOID, 6, .9, .9, 2.4, .6, y=FLOOR, delay=v.pop('delay', AtHit(.1)), alpha=True,
+                      gravity=-.1, **v)
+
+
+# recipe key -> mesh layers appended to that recipe (brief section 8). Shape and key are validated on every build;
+# a layer is only emitted once its FBX + texture exist (see apply_mesh_upgrades).
+MESH_UPGRADES = {
+    # charge
+    'magic_circle': [m_seal('E8F0FF', .9, 1.4, delay=0)],
+    'charge_grand': [m_seal(W, 1.7, 1.8, delay=0), m_pillar(HOLY, .4, 1.4, delay=.1, height=1.0)],
+    'charge_fire': [m_seal(FIRE, delay=0)], 'charge_holy': [m_seal(HOLY, delay=0)], 'charge_heal': [m_seal(HEAL, delay=0)],
+    'charge_ice': [m_seal(ICE, delay=0)], 'charge_thunder': [m_seal(THU, delay=0)], 'charge_dark': [m_seal(VOID, delay=0)],
+    'enchant': [m_phantom('E8F4FF', delay=0)],
+    'aura': [m_funnel('A8D8FF', .8, 1.2)],
+    'warcry': [m_nova('FFE0B0', 1.0, delay=0)],
+    # travel
+    'bolt_dark': [m_orb(VOID)], 'bolt_holy': [m_lance(HOLY, .5)], 'orb_fire': [m_orb(FIRE, 1.0), m_plume(FIRE, .45, y=0)],
+    'orb_spark': [m_orb(THU)], 'orb_spirit': [m_orb(VOID)],
+    'arrow': [m_arrow()], 'arrow_fire': [m_arrow(FIRE)], 'arrow_holy': [m_arrow(HOLY)], 'arrow_ice': [m_arrow(ICE)],
+    'arrow_poison': [m_arrow(POISON)], 'arrow_sleep': [m_arrow('C8B0FF')], 'arrow_shadow': [m_arrow(VOID)],
+    'arrow_thunder': [m_arrow(THU)],
+    'lance_ice': [m_shard(ICE, 1.4)], 'bolt_ice': [m_shard(ICE, 1.0)], 'lance_void': [m_lance(VOID, .8)],
+    # impact: blades
+    'slash': [m_crescent()],
+    'twin_slash': [m_crescent(), m_crescent(rotation=150, delay=AtHit(.1))],
+    'bleed_slash': [m_crescent('FFB0B8')],
+    'crimson_slash': [m_crescent(BLOOD, rotation=-25), m_crescent(BLOOD, rotation=155, delay=AtHit(.1))],
+    'power_break': [m_crescent('FFE0B0', 1.0), m_debris()],
+    'armor_break': [m_crescent('FFE0B0', 1.0), m_debris()],
+    'strong_hit': [m_crescent('FFF0D0', 1.2)],
+    'critical': [m_crescent('FFF2C0', .9), m_spike('FFE0A0', .9)],
+    'blade_fire': [m_crescent(FIRE), m_plume(FIRE, .5)],
+    'blade_ice': [m_crescent(ICE), m_shard_burst()],
+    'blade_thunder': [m_crescent(THU), m_bolt(THU, SMALL)],
+    'blade_holy': [m_crescent(HOLY), m_cross(HOLY, SMALL)],
+    'twin_bite': [m_jaws()],
+    # impact: heavy
+    'blunt': [m_crater(), m_debris()], 'impact': [m_crater()], 'stun_slam': [m_crater(), m_debris()],
+    'tentacle_crush': [m_tendril(VOID, .9), m_crater('B8A8C8', .8)],
+    # impact: fire / ice
+    'fire': [m_plume_burst()], 'flame': [m_plume_burst()],
+    'fire_arrow_hit': [m_spike(FIRE), m_plume(FIRE, .6)],
+    'ice': [m_shard_burst()], 'ice_lance_hit': [m_shard_burst()],
+    'ice_arrow_hit': [m_spike(ICE), m_shard_burst()],
+    # impact: pierce
+    'pierce': [m_spike()],
+    'pierce_triple': [m_spike(rotation=-15), m_spike(delay=AtHit(.08)), m_spike(rotation=15, delay=AtHit(.16))],
+    'snipe_hit': [m_spike('FFF0D0', BIG)],
+    'void_pierce': [m_spike(VOID), m_rift(VOID, SMALL)],
+    'shadow_stitch': [m_spike(VOID), m_chain(VOID)],
+    'hunter_mark': [m_spike('FFD0A0', .8, y=.9), m_seal('FFD0A0', .6, 1.0, delay=0)],
+    # impact: thunder / holy / arcane / void
+    'thunder_arrow_hit': [m_spike(THU), m_bolt(THU, SMALL)],
+    'spark_hit': [m_bolt(THU, SMALL)], 'chain_spark_hit': [m_bolt(THU, SMALL)], 'thunder': [m_bolt(THU, 1.0)],
+    'holy_arrow_hit': [m_spike(HOLY), m_cross(HOLY, SMALL)],
+    'light_hit': [m_cross(HOLY, SMALL)], 'holy': [m_cross(HOLY, SMALL)], 'judgment_cross': [m_cross(HOLY, 1.0)],
+    'arcane_hit': [m_prism_burst()], 'prism_hit': [m_prism_burst()],
+    'dark': [m_tendril()], 'dread_stare': [m_tendril('9060D0', .8)],
+    'spirit_fire_hit': [m_plume('9070FF', .8, alpha=True)],
+    'banish': [m_pillar(W, .9)],
+    # impact: support / guard / hex
+    'heal': [m_bloom()], 'regen': [m_bloom(HEAL, SMALL)], 'photosynthesis': [m_bloom('B8FF90')],
+    'cleanse': [m_bloom('E0FFF0'), m_nova('E8FFF0', .8)],
+    'revive': [m_pillar(HOLY, .9, 1.0), m_feathers()],
+    'barrier': [m_dome()], 'protect': [m_dome('FFE8A0')], 'guard': [m_panel()], 'abyss_wall': [m_panel(VOID)],
+    'haste': [m_funnel('D8F4FF', SMALL, 1.0, delay=AtHit())],
+    'buff': [m_nova('FFE8B0', SMALL)],
+    'blessing': [m_seal(HOLY, .8, 1.2, delay=AtHit()), m_feathers()],
+    'harden': [m_dome('B8B0A0', 1.0, alpha=True), m_debris()],
+    'sun_aegis': [m_dome('FFE8A0', 1.2), m_pillar(HOLY, .7)],
+    'blood_rage': [m_plume(BLOOD, .8), m_nova(BLOOD, .8)],
+    'provoke_roar': [m_nova('FFD0A0', 1.0)], 'screech': [m_nova('E0C8FF', 1.0)],
+    'curse_screech': [m_nova('D0A8FF', 1.0), m_chain(VOID, .9)],
+    'debuff': [m_chain()], 'silence_hit': [m_chain('C8D8FF')], 'riddle_silence': [m_chain('C8D8FF')],
+    'lullaby': [m_feathers('C8D0FF', 6)],
+    'hawk_eye': [m_seal('FFD0A0', .6, 1.0, delay=AtHit())],
+    'mana_focus': [mesh_orbit('crystal_prism', ARC, 1.2, .35, 1.0, count=4, spin=140, delay=AtHit(), y=0)],
+    'poison_hit': [m_orb_burst()], 'acid_spit': [m_orb_burst('C8FF70')],
+    'root_bind': [m_vine()], 'vine_lash': [m_vine('90D870', 1.1)],
+    # area / ultimate
+    'cleave_sweep': [m_crescent('E8F6FF', 2.4, rotation=0, life=.32, horizontal=True, y=-.3)],
+    'harvest_reap': [m_crescent('C8A8FF', 2.4, rotation=0, life=.32, horizontal=True, y=-.3, alpha=True)],
+    'whirlwind': [mesh_orbit('slash_crescent', 'E8F6FF', .9, .9, 1.6, count=3, spin=360, delay=0, y=.3),
+                  m_funnel('D8ECFF', 1.2, 1.2, delay=.1)],
+    'area_quake': [m_crater(size=1.6), m_debris(count=10, radius=1.2)],
+    'cataclysm': [m_crater(size=1.8), m_debris(count=10, radius=1.2), m_nova(W, 1.8)],
+    'job_berserker': [m_crescent(BLOOD, 1.4, rotation=-25), m_crescent(BLOOD, 1.4, rotation=155, delay=AtHit(.08)),
+                      m_crescent(BLOOD, 1.4, rotation=70, delay=AtHit(.16)), m_crater(BLOOD, 1.4)],
+    'arcana_nova': [m_prism_burst(count=10, size=.8, radius=1.5, speed=5.0), m_nova(ARC, 2.4, life=.8)],
+    'prism_ray': [m_prism(ARC, 1.2), m_pillar(ARC, .35, .9, height=1.0)],
+    'blaze_rain': [m_arrows_falling(FIRE, 14), m_plume_burst(FIRE, count=8, radius=2.4, delay=.4)],
+    'fire_breath': [m_plume_burst(FIRE, count=9, size=.7, speed=5.0, radius=.6, delay=.15)],
+    'flame_wave': [m_nova(FIRE, 2.6), m_plume_ring(3.0)],
+    'inferno': [m_plume_ring(2.4, 10, .9, life=.9), m_funnel('FFB070', 1.4, 1.4, delay=AtHit())],
+    'blaze': [m_plume_ring(2.0)],
+    'hellfire': [m_crater('E8B890', 1.8), m_plume_ring(2.6, 10, .8)],
+    'solar_flare': [mesh_layer('energy_orb', 'FFE0A0', .8, 1.2, 3.8, delay=AtHit(-.2), y=1.4, spin=60), m_nova('FFE8B0', 2.4)],
+    'sun_judgment': [m_pillar(HOLY, 1.4, .9), m_cross(HOLY, 1.4, y=1.0), m_crater('FFE0B0', 1.6)],
+    'blizzard': [m_funnel('D8F4FF', 1.4, 1.6, delay=.1), m_shard_burst(count=10, radius=2.0, delay=.3)],
+    'freezing_tide': [m_nova(ICE, 2.6, life=.7), m_spikes(ICE, 1.2)],
+    'frost_nova': [m_spikes(ICE, 1.3)],
+    'absolute_zero': [m_spikes(ICE, 1.6), m_nova(W, 2.4, life=.7)],
+    'glacier_spike': [m_spikes(ICE, BIG)],
+    'venom_rain': [m_arrows_falling(POISON, 14), m_orb_burst(POISON, count=10, radius=2.4, delay=.4)],
+    'spore_burst': [m_orb_burst('C8FF90', count=10, radius=1.4)], 'area_poison': [m_orb_burst(POISON, count=10, radius=1.6)],
+    'sandstorm': [m_funnel('D8B880', 1.6, 1.4, delay=.1, alpha=True)],
+    'indra': [m_bolt(THU, HUGE, delay=AtHit(-.03)), m_bolt(THU, HUGE, delay=AtHit(.12), rotation=25),
+              m_bolt(THU, HUGE, delay=AtHit(.24), rotation=-25)],
+    'lightning_bolt': [m_bolt(THU, 1.4, delay=.15)],
+    'thunder_storm': [m_bolt(THU, 1.6, delay=.15), m_bolt(THU, 1.6, delay=.3, rotation=30),
+                      m_bolt(THU, 1.6, delay=.45, rotation=-30), m_bolt(THU, 1.6, delay=.6)],
+    'giga_slash': [m_crescent('D8C8FF', HUGE, life=.34), m_bolt(THU, 1.4, delay=AtHit(.05))],
+    'grand_cross': [mesh_layer('holy_cross', HOLY, .9, 1.6, 2.4, horizontal=True, y=FLOOR + .05, delay=AtHit())],
+    'abyss_gate': [m_rift(VOID, BIG, life=1.2), m_tendril_burst()],
+    'abyss_wave': [m_nova(VOID, 2.6, life=.7, alpha=True)],
+    'soul_reap': [m_crescent('C8A8FF', 1.6, life=.34, alpha=True), m_tendril(VOID, 1.0, delay=AtHit(.1))],
+    'arrow_rain': [m_arrows_falling(W, 22, .8)],
+    'piercing_gale': [m_funnel('D8F8E8', 1.4, 1.4, delay=.1), m_arrows_falling(W, 10, .7, y=1.2, speed=0)],
+    'gale_dance': [m_funnel('D8F8E8', 1.3, 1.2, delay=.1), m_crescent('D8F8E8', 1.4, delay=AtHit(.1))],
+    'crow_swarm': [m_feathers('302838', 12, 1.0, radius=2.0, speed=3.0, alpha=True)],
+    'flash_burst': [m_nova(W, 2.0, life=.5)],
+    'deadeye': [m_lance(W, 1.4, delay=AtHit(-.1)), m_spike('FFF0D0', BIG)],
+    'holy_lance': [m_lance(HOLY, 1.6, delay=AtHit(-.1), y=1.6), m_pillar(HOLY, 1.0)],
+    'area_holy': [m_pillar(HOLY, 1.2, delay=.3), m_pillar(HOLY, 1.2, delay=.45), m_pillar(HOLY, 1.2, delay=.6)],
+    'job_paladin': [m_cross(HOLY, 1.3), m_pillar(HOLY, 1.0), m_dome(HOLY, 1.8)],
+    'job_exorcist': [m_cross(HOLY, 1.4), m_chain(HOLY, 1.5)],
+    'job_inquisitor': [m_cross('FFD8C0', 1.5), m_lance(HOLY, 1.4, delay=AtHit(-.1), y=1.6)],
+    'job_divine_archer': [m_arrows_falling(HOLY, 16), m_feathers(count=10, radius=2.4, delay=.5)],
+    'job_ranger': [m_arrows_falling('D8FFB8', 12), m_vine('90D870', 1.6)],
+    'job_sniper': [m_lance(W, 1.4, delay=AtHit(-.1)), m_spike('FFF0D0', BIG)],
+    'ultimate_archer': [m_arrows_falling(W, 18), m_pillar(HOLY, 1.4)],
+    'job_priest': [m_bloom(HEAL, 1.2), m_pillar(HOLY, 1.0)],
+    'job_saint': [m_feathers(count=10, radius=1.8), m_pillar(HOLY, 1.2), m_bloom(HEAL, 1.3)],
+    'ultimate_cleric': [m_bloom(HEAL, HUGE), m_feathers(count=14, radius=3.0)],
+    'area_revive': [m_pillar(HOLY, 1.0), m_feathers()],
+    'job_abyssal': [m_rift(VOID, 1.8), m_lance(VOID, 1.2, delay=AtHit(.05))],
+    'job_warlock': [m_rift(VOID, 1.5), m_tendril_burst()],
+    'job_shadow_stalker': [m_phantom_orbit(VOID, alpha=True), m_crescent('C8A8FF', 1.4, alpha=True)],
+    'phantom_raid': [m_phantom_orbit('D8C8FF', alpha=True), m_crescent('C8A8FF', 1.4)],
+    'job_knight': [m_phantom_orbit(), m_dome('A8D4FF', 1.8)],
+    'ultimate_warrior': [m_phantom_orbit('FFE8B0', 1.0, radius=2.0), m_crescent('FFF0D0', HUGE)],
+    'ultimate_warrior2': [m_crescent('FFF0D0', HUGE, rotation=-45), m_crescent('FFF0D0', HUGE, rotation=45, delay=AtHit(.06)), m_nova(W, 2.4)],
+    'job_warlord': [m_crater(size=2.0), m_debris(count=12, radius=1.4), m_nova(W, 2.2)],
+    'job_archmage': [m_meteor(FIRE, BIG), m_seal(FIRE, 1.6, 1.2, delay=AtHit())],
+    'ultimate_mage': [m_meteor(FIRE, HUGE), m_crater('E8B890', 1.8), m_plume_ring(2.8, 8, .8)],
+    'job_elementalist': [m_prism(ARC, 1.2), m_plume(FIRE, .7, delay=AtHit(.05)), m_shard_burst(delay=AtHit(.08)),
+                         m_bolt(THU, SMALL, delay=AtHit(.1))],
+    'area_heal': [m_bloom(HEAL, BIG)], 'heal_bloom': [m_bloom(HEAL, 1.2)],
+    'greater_heal': [m_bloom(HEAL, 1.3), m_pillar(HOLY, .8)],
+    'purify_light': [m_pillar('E8FFF0', 1.0), m_nova('E8FFF0', 1.8)],
+    'rebirth_flame': [m_plume(FIRE, 1.1), m_feathers('FFD8A0')],
+    'area_buff': [m_seal('FFE8B0', 1.4, 1.2, delay=AtHit()), m_nova('FFE8B0', 1.8)],
+    'hymn_swift': [m_funnel('D8F4FF', 1.0, 1.2, delay=AtHit())],
+    'protect_all': [m_dome('FFE8A0', BIG)], 'aegis': [m_dome('A8D8FF', BIG)],
+    'sanctuary': [m_seal(HOLY, 1.4, 1.3, delay=AtHit()), m_dome(HOLY, 1.4)],
+    'iron_wall': [m_panel('B8C8D8', 1.0), m_panel('B8C8D8', 1.0, delay=AtHit(.1), rotation=35),
+                  m_panel('B8C8D8', 1.0, delay=AtHit(.2), rotation=-35)],
+    'war_cry_party': [m_nova('FFE0B0', 2.0), m_seal('FFE0B0', 1.4, 1.2, delay=AtHit())],
+    'silence_field': [m_chain('C8D8FF', 2.0), m_seal('C8D8FF', 1.5, 1.4, delay=AtHit())],
+    'sleep_mist': [m_seal('C8B0FF', 1.4, 1.4, delay=AtHit())],
+    'drain': [m_tendril(VOID, 1.0), mesh_layer('energy_orb', VOID, .8, .6, .2, delay=AtHit(.15), y=.4, alpha=True)],
+}
+
+
+def check_mesh_layer(key, item):
+    """Shape validation of a layer carrying mesh/scroll fields; file checks happen in mesh_ready/validate_effects."""
+    where = f"{key}: {item['kind']} layer {item.get('texture')!r}"
+    if item['kind'] == 'mesh' and 'mesh' not in item:
+        raise ValueError(f"{where}: kind 'mesh' needs a mesh field")
+    if 'mesh' in item:
+        if item['kind'] not in MESH_KINDS:
+            raise ValueError(f"{where}: mesh field is not allowed on this kind (use {sorted(MESH_KINDS)})")
+        if item['mesh'] not in MESH_IDS:
+            raise ValueError(f"{where}: unknown mesh id {item['mesh']!r}")
+    for field, kinds in MESH_ONLY_FIELDS.items():
+        if field in item and (item['kind'] not in kinds or 'mesh' not in item):
+            raise ValueError(f"{where}: field {field!r} only works on a mesh-kind layer with a mesh")
+
+
+def mesh_ready(item):
+    """True when the layer's FBX and texture are both installed."""
+    return (MESH_DIR/(item['mesh']+'.fbx')).is_file() and (TEX_DIR/(item['texture']+'.png')).is_file()
+
+
+def hit_time(recipe):
+    times = [l.get('delay', 0) for l in recipe['layers'] if l['texture'] in HIT_TEXTURES]
+    return min(times) if times else 0
+
+
+def apply_mesh_upgrades():
+    """Append the installed mesh layers of MESH_UPGRADES; runs before GROW/WIDEN so those scale the mesh layers too."""
+    applied = 0
+    pending = {}
+    for key, layers in MESH_UPGRADES.items():
+        if key not in EFFECTS:
+            raise KeyError(f'MESH_UPGRADES: unknown recipe key {key!r}')
+        recipe = EFFECTS[key]
+        base = hit_time(recipe)
+        for src in layers:
+            item = dict(src)
+            if isinstance(item.get('delay'), AtHit):
+                item['delay'] = round(min(max(0, base + item['delay'].offset), max(recipe['duration'] - .05, 0)), 3)
+            check_mesh_layer(key, item)
+            if mesh_ready(item):
+                recipe['layers'].append(item)
+                applied += 1
+            else:
+                pending[item['mesh']] = pending.get(item['mesh'], 0) + 1
+    print(f"Mesh layers: {applied} emitted, {sum(pending.values())} waiting for meshes "
+          f"({len(pending)} of {len(MESH_IDS)} mesh ids not installed)")
+
+
+def validate_effects():
+    allowed = {'kind', 'texture', 'color', 'life', 'size', 'endSize', 'height', 'speed', 'gravity', 'rate', 'radius',
+               'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright', 'align',
+               'mesh', 'scroll'}
+    kinds = {'quad', 'orbit', 'burst', 'emitter', 'ring', 'sphere', 'trail', 'arc', 'mesh'}
+    for recipe in EFFECTS.values():
+        for item in recipe['layers']:
+            if not (TEX_DIR / (item['texture']+'.png')).is_file():
+                raise FileNotFoundError(item['texture'])
+            unknown = set(item) - allowed
+            if unknown or item['kind'] not in kinds:
+                raise ValueError(f"{recipe['key']}: unsupported layer field/kind {unknown or item['kind']}")
+            check_mesh_layer(recipe['key'], item)
+            if 'mesh' in item and not (MESH_DIR/(item['mesh']+'.fbx')).is_file():
+                raise FileNotFoundError(f"{recipe['key']}: missing mesh {item['mesh']}.fbx")
+            if not recipe['loop'] and item.get('delay', 0) >= recipe['duration']:
+                raise ValueError(f"{recipe['key']}: layer delay {item['delay']} never starts (duration {recipe['duration']})")
+
+
 def main():
     battle_effects()
     ultimates()
@@ -1568,6 +2000,7 @@ def main():
     # Hand-authored recipes (aligned projectiles, looping guard/BREAK markers) live beside this script.
     for recipe in json.loads((ROOT/'Tools/vfx/effects_extra.json').read_text(encoding='utf-8'))['effects']:
         EFFECTS[recipe['key']] = recipe
+    apply_mesh_upgrades()
     for key, factor in GROW.items():
         grow(EFFECTS[key], factor)
     for key, factor in WIDEN.items():
@@ -1577,18 +2010,7 @@ def main():
     missing = required - EFFECTS.keys()
     if missing:
         raise ValueError('Missing authored recipes: ' + ', '.join(sorted(missing)))
-    allowed = {'kind', 'texture', 'color', 'life', 'size', 'endSize', 'height', 'speed', 'gravity', 'rate', 'radius',
-               'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright', 'align'}
-    kinds = {'quad', 'orbit', 'burst', 'emitter', 'ring', 'sphere', 'trail', 'arc'}
-    for recipe in EFFECTS.values():
-        for item in recipe['layers']:
-            if not (ROOT/'Assets/_Game/Resources/Vfx/Textures' / (item['texture']+'.png')).is_file():
-                raise FileNotFoundError(item['texture'])
-            unknown = set(item) - allowed
-            if unknown or item['kind'] not in kinds:
-                raise ValueError(f"{recipe['key']}: unsupported layer field/kind {unknown or item['kind']}")
-            if not recipe['loop'] and item.get('delay', 0) >= recipe['duration']:
-                raise ValueError(f"{recipe['key']}: layer delay {item['delay']} never starts (duration {recipe['duration']})")
+    validate_effects()
     dest = ROOT/'Assets/_Game/Resources/Vfx/effects.json'
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(dict(effects=list(EFFECTS.values())), ensure_ascii=False, indent=2), encoding='utf-8')

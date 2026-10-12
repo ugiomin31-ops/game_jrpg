@@ -15,10 +15,36 @@ namespace Abyss.Runtime.Art
         static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
 
         public string ModelId { get; private set; }
-        public ClipAnimator Anim { get; private set; }
+        /// <summary>Animation backend: <see cref="ClipAnimator"/> (authored takes), <see cref="RiglessBlobAnimator"/> (listed blobs only)
+        /// or <see cref="RiglessFlyerAnimator"/> (listed winged creatures only).</summary>
+        public IModelAnimator Anim { get; private set; }
         public Transform Visual { get; private set; }
         public float Height { get; private set; } = 1.2f;
         public float Radius { get; private set; } = 0.4f;
+
+        /// <summary>
+        /// Promotion dressing (<see cref="GearDisplay.DressPromotion"/>): the hunter job the body rim was last dressed
+        /// for (stored at spawn; the fallback when no game state is running), its branch colour and its rim intensity
+        /// (0 for base jobs). Composed with the armour rim by <see cref="GearDisplay.DressBody"/>; no extra objects.
+        /// </summary>
+        public string PromotionJob { get; private set; }
+        public Color PromotionColor { get; private set; } = Color.white;
+        public float PromotionIntensity { get; private set; }
+        /// <summary>Armour rank of the last <see cref="GearDisplay.DressBody"/> (0 until dressed), so a promotion refresh keeps it.</summary>
+        public int BodyArmorRank { get; private set; }
+
+        internal void SetPromotion(string jobId, Color color, float intensity)
+        {
+            PromotionJob = jobId;
+            PromotionColor = color;
+            PromotionIntensity = Mathf.Max(0f, intensity);
+        }
+
+        /// <summary>True once a body rim was written (armour dressing or a promotion), i.e. renderers carry rim overrides.</summary>
+        public bool BodyRimDressed { get; private set; }
+
+        internal void SetBodyArmorRank(int rank) => BodyArmorRank = rank;
+        internal void MarkBodyRimDressed() => BodyRimDressed = true;
 
         readonly List<Renderer> _renderers = new List<Renderer>();
         readonly Dictionary<string, GameObject> _attachments = new Dictionary<string, GameObject>();
@@ -31,18 +57,43 @@ namespace Abyss.Runtime.Art
         Coroutine _flashRoutine;
         Animator _humanoid;
 
-        internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips)
+        /// <param name="rigless">Only <see cref="ArtLibrary.SpawnCharacter"/> sets this (listed blob id without an Animator / takes);
+        /// every other model keeps the strict authored-take path.</param>
+        /// <param name="flyer">Only <see cref="ArtLibrary.SpawnCharacter"/> sets this (listed flyer id on its enemy resource path without
+        /// authored takes): three-part model animated by <see cref="RiglessFlyerAnimator"/>; a broken hierarchy throws.</param>
+        internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips, bool rigless = false, bool flyer = false)
         {
             ModelId = id;
             Visual = visual;
             _mpb = new MaterialPropertyBlock();
             _renderers.AddRange(GetComponentsInChildren<Renderer>(true));
             var animator = visual.GetComponent<Animator>();
+            if (flyer)
+            {
+                if (animator != null) animator.enabled = false;
+                _humanoid = null;
+                var wings = visual.gameObject.AddComponent<RiglessFlyerAnimator>();
+                wings.Init();
+                Anim = wings;
+                RecomputeBounds();
+                return;
+            }
+            if (rigless)
+            {
+                if (animator != null) animator.enabled = false;   // nothing authored to play; code drives the Visual transform
+                _humanoid = null;
+                var blob = visual.gameObject.AddComponent<RiglessBlobAnimator>();
+                blob.Init();
+                Anim = blob;
+                RecomputeBounds();
+                return;
+            }
             if (animator == null)
                 throw new System.InvalidOperationException("Missing Generic-rig or Humanoid Animator: " + id);
             _humanoid = animator.isHuman ? animator : null;
-            Anim = visual.gameObject.AddComponent<ClipAnimator>();
-            Anim.Init(clips);
+            var clipAnimator = visual.gameObject.AddComponent<ClipAnimator>();
+            clipAnimator.Init(clips);
+            Anim = clipAnimator;
             RecomputeBounds();
         }
 
@@ -51,6 +102,9 @@ namespace Abyss.Runtime.Art
         {
             var b = new Bounds(transform.position, Vector3.zero);
             bool any = false;
+            // A flyer measures its REST pose, so hover / flapping wings never change Height / Radius (approach clearance).
+            if (Anim is RiglessFlyerAnimator flyer) { b = flyer.RestWorldBounds(); any = true; }
+            else
             foreach (var r in _renderers)
             {
                 if (r == null || r is ParticleSystemRenderer) continue;

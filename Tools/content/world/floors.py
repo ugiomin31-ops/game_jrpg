@@ -364,7 +364,6 @@ def build_floors(spec, enemies, originals):
             'area_description': desc,
             'rows': rows,
             'tileset': ch['tileset'],
-            'battle_backdrop': tmpl.get('battle_backdrop', ''),
             'encounter_groups': groups,
             'showcase_group': list(groups[0]),
             'boss_group': boss_group,

@@ -4,7 +4,7 @@
   "coverage": {
     "Heroes": 20,
     "NPCs": 8,
-    "Enemies": 108,
+    "Enemies": 123,
     "Gear": 115,
     "Items": 65,
     "Status": 22,
@@ -10114,6 +10114,483 @@
           0.3097030222415924
         ],
         "ortho_scale": 5.82172155380249
+      }
+    },
+    {
+      "id": "subway_bat_lord",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/subway_bat_lord/subway_bat_lord.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/subway_bat_lord.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6401740312576294,
+          -4.938435077667236,
+          1.919714093208313
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3662490844726562
+      }
+    },
+    {
+      "id": "sewer_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "tint": [
+        0.62,
+        0.78,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/sewer_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9646897315979004
+      }
+    },
+    {
+      "id": "tunnel_bat",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/bat/bat.fbx",
+      "tint": [
+        0.75,
+        0.75,
+        0.85,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/tunnel_bat.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6398001909255981,
+          -5.104154109954834,
+          2.1065073013305664
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.8163208961486816
+      }
+    },
+    {
+      "id": "scrap_golem",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/scrap_bot/scrap_bot.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/scrap_golem.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1554865837097168,
+          -3.7720255851745605,
+          1.2436425685882568
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1717710494995117
+      }
+    },
+    {
+      "id": "oil_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
+      "tint": [
+        0.42,
+        0.36,
+        0.5,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/oil_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.319218397140503,
+          -4.036342144012451,
+          1.1495150327682495
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.0238515138626099
+      }
+    },
+    {
+      "id": "spark_wisp",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/wisp/wisp.fbx",
+      "tint": [
+        1.0,
+        0.95,
+        0.45,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/spark_wisp.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.5859049558639526,
+          -5.025679588317871,
+          2.0179145336151123
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.615959882736206
+      }
+    },
+    {
+      "id": "iron_beetle",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/rhino_beetle/rhino_beetle.fbx",
+      "tint": [
+        0.72,
+        0.78,
+        0.86,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/iron_beetle.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.4670629501342773,
+          -4.5846381187438965,
+          1.234238624572754
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.364490270614624
+      }
+    },
+    {
+      "id": "crystal_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "tint": [
+        0.7,
+        0.6,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/crystal_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9646897315979004
+      }
+    },
+    {
+      "id": "cave_spider",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/frost_spider/frost_spider.fbx",
+      "tint": [
+        0.8,
+        0.62,
+        0.45,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/cave_spider.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.3031904697418213,
+          -4.072596073150635,
+          1.157078504562378
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.3205453157424927
+      }
+    },
+    {
+      "id": "locker_mimic",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mimic/mimic.fbx",
+      "tint": [
+        0.6,
+        0.72,
+        0.9,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/locker_mimic.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.2045962810516357,
+          -3.7653634548187256,
+          1.0412724018096924
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.8562734723091125
+      }
+    },
+    {
+      "id": "school_ghost",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+      "tint": [
+        0.85,
+        0.9,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/school_ghost.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1285609006881714,
+          -3.744561195373535,
+          1.4353022575378418
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9881591796875
+      }
+    },
+    {
+      "id": "pill_slime",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
+      "tint": [
+        1.0,
+        0.7,
+        0.8,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/pill_slime.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1862578392028809,
+          -3.741180896759033,
+          1.1238336563110352
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.9646897315979004
+      }
+    },
+    {
+      "id": "syringe_bee",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/killer_bee/killer_bee.fbx",
+      "tint": [
+        0.75,
+        0.95,
+        1.0,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/syringe_bee.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.230318546295166,
+          -3.6956777572631836,
+          1.800001859664917
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.1062045097351074
+      }
+    },
+    {
+      "id": "bandage_ghost",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/mummy_pup/mummy_pup.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/bandage_ghost.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.1661162376403809,
+          -3.636401891708374,
+          1.0391701459884644
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 0.7980462312698364
+      }
+    },
+    {
+      "id": "street_hound",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/hellhound/hellhound.fbx",
+      "tint": [
+        0.6,
+        0.6,
+        0.7,
+        1.0
+      ],
+      "output": "Assets/_Game/Resources/Icons/Enemies/street_hound.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          1.6961723566055298,
+          -5.273590087890625,
+          1.5289944410324097
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.2075937986373901
       }
     }
   ]

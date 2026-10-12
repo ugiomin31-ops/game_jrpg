@@ -252,10 +252,28 @@ namespace Abyss.Logic
         public TreasureContents Contents = new TreasureContents();
     }
 
+    /// <summary>
+    /// `E` cell. <see cref="Type"/> "ambush" (default; older data omits it) fights <see cref="Group"/> on entry;
+    /// "rescue" grants <see cref="Reward"/> once; "choice" offers <see cref="Group"/> (at power 1) once, paying
+    /// <see cref="Reward"/> on victory, or is passed by for good.
+    /// </summary>
     public sealed class EventDef
     {
+        public const string TypeAmbush = "ambush", TypeRescue = "rescue", TypeChoice = "choice";
         public int[] Cell;
         public List<string> Group = new List<string>();
+        public string Type = TypeAmbush;
+        public string Title = "";
+        public string Text = "";
+        public string AcceptLabel = "";
+        public string LeaveLabel = "";
+        /// <summary>Rescue: granted on discovery. Choice: extra contents granted with the victory. Null = none.</summary>
+        public TreasureContents Reward;
+
+        [JsonIgnore] public bool IsRescue => Type == TypeRescue;
+        [JsonIgnore] public bool IsChoice => Type == TypeChoice;
+        /// <summary>Unknown or missing types keep the original fixed-battle behaviour.</summary>
+        [JsonIgnore] public bool IsAmbush => !IsRescue && !IsChoice;
     }
 
     public sealed class FoeDef

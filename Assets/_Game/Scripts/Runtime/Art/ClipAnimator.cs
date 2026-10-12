@@ -8,7 +8,7 @@ namespace Abyss.Runtime.Art
 {
     /// <summary>Named Generic-rig takes, with interruptible cross-fades and held one-shot end poses.</summary>
     [RequireComponent(typeof(Animator))]
-    public sealed class ClipAnimator : MonoBehaviour
+    public sealed class ClipAnimator : MonoBehaviour, IModelAnimator
     {
         readonly Dictionary<string, AnimationClip> _clips = new Dictionary<string, AnimationClip>();
         readonly Dictionary<string, int> _slots = new Dictionary<string, int>();

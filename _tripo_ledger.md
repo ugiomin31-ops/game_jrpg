@@ -1,0 +1,2 @@
+- shopkeeper / smith / guild_clerk: see the three rows above and in each candidates/prompts.md (guild_clerk task 2dd8ce6f-b837-4928-bd19-b8e6021fa016, H3.1 Best Quality, Geometry & Texture, 55 credits, 3590 -> 3535, picked v2_C per user choice)
+- innkeeper | NO TASK | skipped, candidate_C.png shows a nurse, not an innkeeper; 0 credits spent

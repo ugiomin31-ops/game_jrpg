@@ -44,6 +44,10 @@ namespace Abyss.Presentation.Vfx
             public bool upright;
             /// <summary>Billboard quads turn their +U axis along a projectile's screen-space travel direction.</summary>
             public bool align;
+            /// <summary>Resources/Vfx/Meshes/&lt;id&gt;: one baked mesh (axes, scale, pivot), see skills_vfx.md. Kinds mesh, orbit, burst, emitter.</summary>
+            public string mesh;
+            /// <summary>Mesh layers: texture U offset travelled over the layer life (needs a Repeat-wrapped texture).</summary>
+            public float scroll;
             [NonSerialized] public Color tint;
         }
         sealed class Layer
@@ -57,6 +61,15 @@ namespace Abyss.Presentation.Vfx
             public bool Started;
             public Transform[] Orbit;
             public Renderer[] OrbitRenderers;
+            /// <summary>Set when the layer draws a mesh asset (kind mesh, or orbit with a mesh).</summary>
+            public MeshAsset Mesh;
+        }
+        /// <summary>An imported effect mesh: a shared asset (cached, never destroyed) plus how its native axes lie.</summary>
+        sealed class MeshAsset
+        {
+            public Mesh Mesh;
+            /// <summary>The thinnest bounds axis is Y: the mesh already lies in XZ, so `horizontal` must not tilt it again.</summary>
+            public bool FlatXZ;
         }
         sealed class Effect
         {
@@ -69,6 +82,9 @@ namespace Abyss.Presentation.Vfx
             public Transform Follow;
             public bool HadFollow;
             public float Age, Duration, TravelTime, Drain, Angle;
+            /// <summary>World-space unit tangent of the travel arc (guarded), valid once HasTangent is set.</summary>
+            public Vector3 Tangent;
+            public bool HasTangent;
             /// <summary>World floor height for ground layers (y &lt;= GroundLayerY), NaN when unset.</summary>
             public float Ground;
             public Color Tint;
@@ -96,6 +112,7 @@ namespace Abyss.Presentation.Vfx
         readonly Dictionary<string, Recipe> _recipes = new Dictionary<string, Recipe>(StringComparer.Ordinal);
         readonly Dictionary<string, Stack<int>> _free = new Dictionary<string, Stack<int>>(StringComparer.Ordinal);
         readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>(StringComparer.Ordinal);
+        readonly Dictionary<string, MeshAsset> _meshes = new Dictionary<string, MeshAsset>(StringComparer.Ordinal);
         readonly List<Effect> _effects = new List<Effect>(128);
         Mesh _quad, _ring, _arc, _sphere;
         Shader _shader;
@@ -161,6 +178,7 @@ namespace Abyss.Presentation.Vfx
             effect.Generation++;
             effect.Active = true; effect.Ending = false; effect.Travel = false;
             effect.Age = 0; effect.Drain = 0; effect.Angle = 0; effect.Ground = groundY;
+            effect.Tangent = Vector3.forward; effect.HasTangent = false;
             effect.Follow = follow; effect.HadFollow = follow != null;
             effect.Offset = follow != null ? position - follow.position : Vector3.zero;
             effect.Duration = duration > 0 ? duration : recipe.loop ? float.PositiveInfinity : recipe.duration;
@@ -172,6 +190,7 @@ namespace Abyss.Presentation.Vfx
             {
                 layer.Started = false;
                 layer.Transform.gameObject.SetActive(false);
+                ResetProperties(layer);
                 if (layer.Particles != null) layer.Particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                 if (layer.Trail != null) { layer.Trail.emitting = false; layer.Trail.Clear(); }
             }
@@ -276,6 +295,19 @@ namespace Abyss.Presentation.Vfx
                     sheet.cycleCount = 1;
                 }
                 var renderer = go.GetComponent<ParticleSystemRenderer>();
+                if (!string.IsNullOrEmpty(recipe.mesh))
+                {
+                    // Mesh particles: random 3D tumble, or `upright` (falling arrows, shards) pointing the mesh's +Z along its velocity.
+                    renderer.renderMode = ParticleSystemRenderMode.Mesh;
+                    renderer.mesh = MeshFor(recipe.mesh).Mesh;
+                    renderer.alignment = recipe.upright ? ParticleSystemRenderSpace.Velocity : ParticleSystemRenderSpace.Local;
+                    main.startRotation3D = !recipe.upright;
+                    if (!recipe.upright)
+                    {
+                        var tumble = new ParticleSystem.MinMaxCurve(-Mathf.PI, Mathf.PI);
+                        main.startRotationX = tumble; main.startRotationY = tumble; main.startRotationZ = tumble;
+                    }
+                }
                 renderer.sharedMaterial = material;
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
                 renderer.receiveShadows = false;
@@ -295,14 +327,20 @@ namespace Abyss.Presentation.Vfx
             {
                 if (recipe.kind == "orbit")
                 {
+                    if (!string.IsNullOrEmpty(recipe.mesh)) layer.Mesh = MeshFor(recipe.mesh);
                     layer.Orbit = new Transform[Mathf.Max(1, recipe.count)];
                     layer.OrbitRenderers = new Renderer[layer.Orbit.Length];
                     for (int n = 0; n < layer.Orbit.Length; n++)
                     {
                         var child = new GameObject("Orbit glyph"); child.transform.SetParent(go.transform, false);
-                        layer.OrbitRenderers[n] = AddMesh(child, _quad, material);
+                        layer.OrbitRenderers[n] = AddMesh(child, layer.Mesh != null ? layer.Mesh.Mesh : _quad, material);
                         layer.Orbit[n] = child.transform;
                     }
+                }
+                else if (recipe.kind == "mesh")
+                {
+                    layer.Mesh = MeshFor(recipe.mesh);
+                    layer.Renderer = AddMesh(go, layer.Mesh.Mesh, material);
                 }
                 else layer.Renderer = AddMesh(go, recipe.kind == "ring" ? _ring : recipe.kind == "arc" ? _arc : recipe.kind == "sphere" ? _sphere : _quad, material);
             }
@@ -315,6 +353,41 @@ namespace Abyss.Presentation.Vfx
             var renderer = go.AddComponent<MeshRenderer>();
             renderer.sharedMaterial = material; renderer.shadowCastingMode = ShadowCastingMode.Off; renderer.receiveShadows = false;
             return renderer;
+        }
+
+        /// <summary>A pooled layer starts clean: no tint, flipbook frame or scroll offset left over from its previous play.</summary>
+        static void ResetProperties(Layer layer)
+        {
+            layer.Properties.Clear();
+            if (layer.Particles != null || layer.Trail != null) return;
+            if (layer.Renderer != null) layer.Renderer.SetPropertyBlock(layer.Properties);
+            if (layer.OrbitRenderers != null) foreach (var renderer in layer.OrbitRenderers) renderer.SetPropertyBlock(layer.Properties);
+        }
+
+        const float MinMeshExtent = .05f, MaxMeshExtent = 6f;
+
+        /// <summary>
+        /// Loads Resources/Vfx/Meshes/&lt;id&gt; once. The asset must be exactly one mesh whose axes, scale and pivot are baked
+        /// by the importer (node transforms are ignored here): sharedMesh is taken and its imported bounds are validated.
+        /// The mesh is a shared asset: cached for the library's life and never destroyed.
+        /// </summary>
+        MeshAsset MeshFor(string id)
+        {
+            if (string.IsNullOrEmpty(id)) throw new InvalidOperationException("VFX mesh layer without a mesh id.");
+            if (_meshes.TryGetValue(id, out var cached)) return cached;
+            var prefab = Resources.Load<GameObject>("Vfx/Meshes/" + id);
+            if (prefab == null) throw new InvalidOperationException("Missing VFX mesh: " + id);
+            var filters = prefab.GetComponentsInChildren<MeshFilter>(true);
+            if (filters.Length != 1 || filters[0].sharedMesh == null || prefab.GetComponentInChildren<SkinnedMeshRenderer>(true) != null)
+                throw new InvalidOperationException("VFX mesh must be exactly one static mesh: " + id);
+            var mesh = filters[0].sharedMesh;
+            Vector3 size = mesh.bounds.size;
+            float longest = Mathf.Max(size.x, Mathf.Max(size.y, size.z));
+            if (!(longest >= MinMeshExtent && longest <= MaxMeshExtent) || float.IsNaN(mesh.bounds.center.x + mesh.bounds.center.y + mesh.bounds.center.z))
+                throw new InvalidOperationException("VFX mesh " + id + " has implausible imported bounds " + size + " (expected 0.05-6 m, scale baked at 1).");
+            var asset = new MeshAsset { Mesh = mesh, FlatXZ = size.y <= size.x && size.y <= size.z };
+            _meshes.Add(id, asset);
+            return asset;
         }
 
         Material MaterialFor(string texture, bool alpha)
@@ -333,7 +406,7 @@ namespace Abyss.Presentation.Vfx
         void Update()
         {
             var camera = Camera != null ? Camera : UnityEngine.Camera.main;
-            if (camera != null) _viewRotation = camera.transform.rotation;
+            if (camera != null) { _viewRotation = camera.transform.rotation; _viewYaw = FlatLook(camera.transform, _viewYaw); }
             float dt = Time.deltaTime * _timeScale;
             for (int i = 0; i < _effects.Count; i++)
             {
@@ -358,13 +431,35 @@ namespace Abyss.Presentation.Vfx
             }
         }
         Quaternion _viewRotation = Quaternion.identity;
+        /// <summary>Camera heading flattened onto the floor: upright mesh layers face the camera by yaw only.</summary>
+        Quaternion _viewYaw = Quaternion.identity;
+
+        static Quaternion FlatLook(Transform camera, Quaternion previous)
+        {
+            Vector3 forward = camera.forward; forward.y = 0;
+            if (forward.sqrMagnitude < 1e-4f) { forward = camera.up; forward.y = 0; }
+            return forward.sqrMagnitude < 1e-4f ? previous : Quaternion.LookRotation(forward.normalized, Vector3.up);
+        }
 
         static Vector3 TravelPoint(Effect e, float p) =>
             Vector3.Lerp(e.From, e.To, p) + Vector3.up * (Mathf.Sin(p * Mathf.PI) * Mathf.Min(.7f, Vector3.Distance(e.From, e.To) * .1f));
 
+        static Vector3 TravelTangent(Effect e, float p)
+        {
+            Vector3 d = e.To - e.From;
+            return d + Vector3.up * (Mathf.Cos(p * Mathf.PI) * Mathf.PI * Mathf.Min(.7f, d.magnitude * .1f));
+        }
+
         /// <summary>Screen-space heading of a projectile at progress <paramref name="p"/>, for `align` layers.</summary>
         static void Aim(Effect e, Camera camera, float p)
         {
+            // World-space tangent of the same arc TravelPoint draws; kept when the arc degenerates (From == To) or is not finite.
+            if (p < 1)
+            {
+                Vector3 tangent = TravelTangent(e, p);
+                float sqr = tangent.sqrMagnitude;
+                if (sqr > 1e-6f && !float.IsInfinity(sqr)) { e.Tangent = tangent / Mathf.Sqrt(sqr); e.HasTangent = true; }
+            }
             if (camera == null || p >= 1) return;
             Vector3 a = camera.WorldToScreenPoint(TravelPoint(e, p)), b = camera.WorldToScreenPoint(TravelPoint(e, Mathf.Min(1, p + .05f)));
             if ((b - a).sqrMagnitude > .01f) e.Angle = Mathf.Atan2(b.y - a.y, b.x - a.x) * Mathf.Rad2Deg;
@@ -413,7 +508,13 @@ namespace Abyss.Presentation.Vfx
                 layer.Transform.localScale = new Vector3(size, r.height > 0 ? r.height : size, size);
                 if (r.kind == "ring") layer.Transform.localScale = Vector3.one * size;
                 float roll = r.rotation + elapsed * r.spin + (r.align ? effect.Angle : 0);
-                layer.Transform.rotation = r.horizontal || r.kind == "ring" ? Quaternion.Euler(90, 0, roll) : _viewRotation * Quaternion.Euler(0, 0, roll);
+                if (layer.Mesh != null && layer.Orbit == null)
+                {
+                    layer.Transform.rotation = MeshRotation(effect, layer, elapsed);
+                    // Scroll sweeps the texture along U; every other mesh layer keeps the default offset (properties are reset per play).
+                    if (r.scroll != 0) layer.Properties.SetVector(TexStId, new Vector4(1, 1, p * r.scroll, 0));
+                }
+                else layer.Transform.rotation = r.horizontal || r.kind == "ring" ? Quaternion.Euler(90, 0, roll) : _viewRotation * Quaternion.Euler(0, 0, roll);
                 if (r.kind == "sphere") layer.Transform.rotation = Quaternion.Euler(0, elapsed * r.spin, 0);
                 if (layer.Orbit != null)
                 {
@@ -425,13 +526,36 @@ namespace Abyss.Presentation.Vfx
                         float angle = elapsed * r.spin * Mathf.Deg2Rad + n * Mathf.PI * 2 / layer.Orbit.Length;
                         var glyph = layer.Orbit[n];
                         glyph.localPosition = new Vector3(Mathf.Cos(angle) * r.radius, Mathf.Sin(elapsed * 2 + n) * .08f, Mathf.Sin(angle) * r.radius);
-                        glyph.localScale = Vector3.one * size; glyph.rotation = _viewRotation;
+                        glyph.localScale = Vector3.one * size;
+                        if (layer.Mesh != null)
+                        {
+                            // Mesh glyphs point (+Z) along their orbit tangent instead of billboarding.
+                            var tangent = new Vector3(-Mathf.Sin(angle), 0, Mathf.Cos(angle)) * (r.spin < 0 ? -1f : 1f);
+                            glyph.localRotation = Quaternion.LookRotation(tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation);
+                        }
+                        else glyph.rotation = _viewRotation;
                         layer.OrbitRenderers[n].SetPropertyBlock(layer.Properties);
                     }
                 }
                 else layer.Renderer.SetPropertyBlock(layer.Properties);
                 if (!effect.Recipe.loop && p >= 1) layer.Transform.gameObject.SetActive(false);
             }
+        }
+
+        /// <summary>
+        /// Orientation of a mesh layer. `horizontal`: native-XZ meshes only yaw (no quad-style 90 degree tilt), XY meshes tilt flat like the
+        /// quad. `align` while travelling: +Z along the world trajectory tangent, `rotation`/`spin` roll about it. Otherwise upright: yaw to the
+        /// camera, `rotation` tilts about the facing axis (Z) and `spin` turns the mesh about its own up axis (Y).
+        /// </summary>
+        Quaternion MeshRotation(Effect effect, Layer layer, float elapsed)
+        {
+            var r = layer.Recipe;
+            float spin = elapsed * r.spin;
+            if (r.horizontal)
+                return layer.Mesh.FlatXZ ? Quaternion.Euler(0, r.rotation + spin, 0) : Quaternion.Euler(90, 0, r.rotation + spin);
+            if (r.align && effect.Travel && effect.HasTangent)
+                return Quaternion.LookRotation(effect.Tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin);
+            return _viewYaw * Quaternion.Euler(0, 0, r.rotation) * Quaternion.Euler(0, spin, 0);
         }
 
         /// <summary>Floor layers keep the anchor's x/z but sit just above the floor, unscaled by the effect size.</summary>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Abyss.Logic;
+using Abyss.Logic.Game;
 using UnityEngine;
 
 namespace Abyss.Runtime.Art
@@ -24,6 +25,7 @@ namespace Abyss.Runtime.Art
         static readonly int RimColorId = Shader.PropertyToID("_RimColor");
         static readonly int RimStrengthId = Shader.PropertyToID("_RimStrength");
         static readonly int OutlineWidthId = Shader.PropertyToID("_OutlineWidth");
+        static readonly int OutlineZOffsetId = Shader.PropertyToID("_OutlineZOffset");
         static readonly int OutlineColorId = Shader.PropertyToID("_OutlineColor");
         static readonly int EmissionId = Shader.PropertyToID("_EmissionStrength");
         static Material _sparkMaterial, _glowMaterial;
@@ -94,7 +96,11 @@ namespace Abyss.Runtime.Art
                 r.GetPropertyBlock(block);
                 block.SetColor(RimColorId, rim);
                 block.SetFloat(RimStrengthId, 0.9f + rank * 0.22f);
-                block.SetFloat(OutlineWidthId, 0.02f);
+                // Tripo weapon materials carry their own thin hull (width 0.004 + 6 cm Z offset, see TexturedMaterials); the
+                // 0.02 rank outline made them look like thick black halos, so they only get a slightly stronger line.
+                var shared = r.sharedMaterial;
+                bool tripoHull = shared != null && shared.HasProperty(OutlineZOffsetId) && shared.GetFloat(OutlineZOffsetId) >= 0.05f;
+                block.SetFloat(OutlineWidthId, tripoHull ? 0.006f : 0.02f);
                 block.SetColor(OutlineColorId, rank >= 2 ? Color.Lerp(new Color(0.08f, 0.06f, 0.1f), rim, 0.35f) : new Color(0.08f, 0.06f, 0.1f));
                 // Lifts the blade out of dark dungeon lighting; better weapons glow a little more.
                 block.SetFloat(EmissionId, 0.18f + rank * 0.08f);
@@ -104,25 +110,119 @@ namespace Abyss.Runtime.Art
             return weapon;
         }
 
-        /// <summary>Armour rank tints the body rim; accessory rank adds a small gem of light circling the hero.</summary>
+        /// <summary>
+        /// Armour rank tints the body rim; accessory rank adds a small gem of light circling the hero. The hunter's
+        /// current job is re-read from the running game (<see cref="GameDB.Instance"/> + GameApp state) so a persistent
+        /// model picks up a promotion on its next equipment refresh; without state the job stored at spawn is kept.
+        /// </summary>
         public static void DressBody(CharacterModel model, int armorRank, int accessoryRank)
         {
-            var block = new MaterialPropertyBlock();
-            foreach (var r in model.GetComponentsInChildren<Renderer>(true))
+            if (model == null) return;
+            model.SetBodyArmorRank(armorRank);
+            ResolvePromotion(model, CurrentJob(model));
+            ApplyBodyRim(model);
+            // Detach before the deferred Destroy so a second dress in the same frame cannot find (and keep) a stale orb.
+            for (int i = model.transform.childCount - 1; i >= 0; i--)
             {
-                if (r is ParticleSystemRenderer || r.GetComponentInParent<GearTag>() != null) continue;
-                r.GetPropertyBlock(block);
-                block.SetColor(RimColorId, Color.Lerp(new Color(1f, 0.95f, 0.85f), RankColor(armorRank), armorRank >= 2 ? 0.75f : 0.2f));
-                block.SetFloat(RimStrengthId, 0.35f + armorRank * 0.14f);
-                r.SetPropertyBlock(block);
+                var old = model.transform.GetChild(i);
+                if (old.name != AccessoryOrbName) continue;
+                old.gameObject.SetActive(false);
+                old.SetParent(null, false);
+                Object.Destroy(old.gameObject);
             }
-            var old = model.transform.Find("Accessory Orb");
-            if (old != null) Object.Destroy(old.gameObject);
             if (accessoryRank < 1) return;
-            var orb = new GameObject("Accessory Orb");
+            var orb = new GameObject(AccessoryOrbName);
             orb.transform.SetParent(model.transform, false);
             orb.AddComponent<GearTag>();
             orb.AddComponent<GearOrbit>().Setup(model.Height, RankColor(Mathf.Max(2, accessoryRank)), accessoryRank);
+        }
+
+        const string AccessoryOrbName = "Accessory Orb";
+        static readonly Color BaseRim = new Color(1f, 0.95f, 0.85f);
+        static MaterialPropertyBlock _bodyBlock;
+
+        /// <summary>
+        /// Promotion dressing for a hunter model (called by <see cref="ArtLibrary.SpawnHero"/>): stores the job's branch
+        /// colour and tier intensity on the model and re-applies the body rim. Idempotent: no objects, no materials.
+        /// </summary>
+        public static void DressPromotion(CharacterModel model, string jobId)
+        {
+            if (model == null) return;
+            ResolvePromotion(model, jobId);
+            // A base-job model nobody has dressed yet already shows the material's default rim: leave its renderers alone.
+            if (model.PromotionIntensity > 0f || model.BodyRimDressed) ApplyBodyRim(model);
+        }
+
+        /// <summary>Rim intensity a job tier adds: base (Tier 1) 0, advanced (Tier 2) .18, master (Tier 3) .32.</summary>
+        public static float PromotionIntensity(int tier) => tier >= 3 ? 0.32f : tier == 2 ? 0.18f : 0f;
+
+        /// <summary>Fixed branch colour of a promoted job (advanced and master job of a branch share it).</summary>
+        public static Color PromotionColor(GameDB db, string jobId)
+        {
+            for (int depth = 0; depth < 4 && !string.IsNullOrEmpty(jobId); depth++)
+            {
+                switch (jobId)
+                {
+                    case "knight": case "paladin": return new Color(0.36f, 0.6f, 1f);           // blue
+                    case "berserker": case "warlord": return new Color(0.92f, 0.16f, 0.26f);    // crimson
+                    case "elementalist": case "archmage": return new Color(0.3f, 0.92f, 1f);    // cyan
+                    case "warlock": case "abyssal": return new Color(0.68f, 0.38f, 1f);         // violet
+                    case "sniper": case "divine_archer": return new Color(1f, 0.8f, 0.28f);     // gold
+                    case "ranger": case "shadow_stalker": return new Color(0.2f, 0.82f, 0.7f);  // teal
+                    case "priest": case "saint": return new Color(1f, 0.93f, 0.68f);            // ivory-gold
+                    case "exorcist": case "inquisitor": return new Color(1f, 0.5f, 0.42f);      // coral
+                }
+                // Unlisted promoted jobs inherit their parent branch's colour.
+                if (db == null || !db.Jobs.TryGetValue(jobId, out var job)) break;
+                jobId = job.Parent;
+            }
+            return BaseRim;
+        }
+
+        /// <summary>The hunter's job in the running game, else the job the model was spawned / last dressed with.</summary>
+        static string CurrentJob(CharacterModel model)
+        {
+            var db = GameDB.Instance;
+            var app = Abyss.Runtime.GameApp.Instance;
+            var hero = db != null && app != null && app.State != null ? app.State.Hero(model.ModelId) : null;
+            if (hero == null) return model.PromotionJob;
+            return PartyStats.JobOf(db, hero)?.Id ?? db.ClassOf(hero.Id);
+        }
+
+        static void ResolvePromotion(CharacterModel model, string jobId)
+        {
+            var db = GameDB.Instance;
+            int tier = db != null && !string.IsNullOrEmpty(jobId) && db.Jobs.TryGetValue(jobId, out var job) ? job.Tier : 1;
+            float intensity = PromotionIntensity(tier);
+            model.SetPromotion(jobId, intensity > 0f ? PromotionColor(db, jobId) : BaseRim, intensity);
+        }
+
+        /// <summary>
+        /// Body rim = armour-rank rim with the promotion branch colour blended in (static, subtle). Only the rim
+        /// properties are written; the block is read first so hit flash, dissolve and palette colour survive, and
+        /// gear (weapons, orb) is skipped so weapon rims keep their rank colour.
+        /// </summary>
+        static void ApplyBodyRim(CharacterModel model)
+        {
+            int armorRank = model.BodyArmorRank;
+            Color rim = Color.Lerp(BaseRim, RankColor(armorRank), armorRank >= 2 ? 0.75f : 0.2f);
+            float strength = 0.35f + armorRank * 0.14f;
+            float promotion = model.PromotionIntensity;
+            if (promotion > 0f)
+            {
+                rim = Color.Lerp(rim, model.PromotionColor, Mathf.Clamp01(promotion * 2f));
+                strength += promotion;
+            }
+            var block = _bodyBlock ?? (_bodyBlock = new MaterialPropertyBlock());
+            foreach (var r in model.GetComponentsInChildren<Renderer>(true))
+            {
+                if (r is ParticleSystemRenderer || r.GetComponentInParent<GearTag>(true) != null) continue;
+                r.GetPropertyBlock(block);
+                block.SetColor(RimColorId, rim);
+                block.SetFloat(RimStrengthId, strength);
+                r.SetPropertyBlock(block);
+            }
+            model.MarkBodyRimDressed();
         }
 
         static void AddSparkles(GameObject weapon, Color color, int rank)

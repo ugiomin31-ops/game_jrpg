@@ -105,8 +105,12 @@ namespace Abyss.Logic.Game
     /// <summary>Town service rules. Every mutating call returns a <see cref="ServiceResult"/>; failures change nothing.</summary>
     public static class TownServices
     {
-        /// <summary>Defeat gold-loss ratio per difficulty (easy keeps all gold).</summary>
-        public static float DefeatGoldLoss(Difficulty d) => d == Difficulty.Easy ? 0f : 0.5f;
+        /// <summary>Defeat gold-loss ratio per difficulty: easy keeps all gold, normal loses 25 %, hard 50 %.</summary>
+        public static float DefeatGoldLoss(Difficulty d) => d == Difficulty.Hard ? 0.5f : d == Difficulty.Normal ? 0.25f : 0f;
+
+        /// <summary>Gold a defeat recovery takes right now (<see cref="DefeatGoldLoss"/> of the purse, rounded down). Pure.</summary>
+        public static int DefeatGoldLossAmount(GameState state) =>
+            state == null || state.Gold <= 0 ? 0 : (int)Math.Floor(state.Gold * (double)DefeatGoldLoss(state.Difficulty));
 
         // ------------------------------------------------------------------ inn
 

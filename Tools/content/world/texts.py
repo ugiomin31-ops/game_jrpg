@@ -433,15 +433,17 @@ TEXT = {
     'recovered': '의무실에서 깨어났습니다. 잃은 금액: %d만원',
     'game_over': '헌터의 불빛이 꺼졌다',
     'game_over_body': '게이트는 아직 닫히지 않았습니다. 길드 의무실에서 몸을 추스르고 다시 도전할 수 있습니다.',
-    'defeat_penalty': '길드에서 다시 시작하면 보유 금액의 50%를 잃습니다. HP·MP는 무료로 회복됩니다.',
+    # defeat gold loss (TownServices.DefeatGoldLoss: easy 0 %, normal 25 %, hard 50 %): percent, amount
+    'defeat_penalty': '길드에서 다시 시작하면 보유 금액의 %d%%인 %s만원을 잃습니다. HP·MP는 무료로 회복됩니다.',
+    'defeat_no_loss': '잃을 금액이 없습니다. HP·MP는 무료로 회복됩니다.',
     'defeat_easy': '쉬움 난이도에서는 금액을 잃지 않습니다. HP·MP는 무료로 회복됩니다.',
     'recover': '길드에서 다시 시작',
     'defeat_subtitle': '파티가 쓰러졌다… 게이트 밖으로 후퇴한다.',
     'defeat_return': '정신을 차려 보니 길드 의무실이었다.',
-    'difficulty_hint': '쉬움은 적이 약해지고 패배해도 금액을 잃지 않습니다. 보통·어려움에서는 패배 시 보유 금액의 절반을 잃습니다.',
+    'difficulty_hint': '쉬움은 적이 약해지고 패배해도 금액을 잃지 않습니다. 패배하면 보통은 보유 금액의 25%, 어려움은 절반을 잃습니다.',
     'gold': '만원',
     'gold_amount': '%d만원',
-    'defeat_gold_lost': '%d만원을 잃었다.',
+    'defeat_gold_lost': '패배로 %s만원을 잃었다.',
     'reason_not_enough_gold': '금액이 부족합니다.',
     'reason_insufficient_gold': '금액이 부족합니다.',
     'reason_tier_locked': '더 깊은 게이트를 공략하면 구매할 수 있습니다.',
@@ -460,9 +462,9 @@ TEXT = {
     'overwrite_accept': '새 모험으로 덮어쓰기',
     'trap_poisoned': '%s이(가) 독에 걸렸다.',
     # spring feedback and current-cell HUD (one use per cell per outing)
-    'spring_spent': '이 회복 샘은 이번 출정에서 이미 사용했습니다. 마을로 복귀하거나 의무실에서 쉬면 다시 회복됩니다.',
+    'spring_spent': '이 회복 샘은 이번 출정에서 이미 사용했습니다. 길드로 복귀하거나 의무실에서 쉬면 다시 회복됩니다.',
     'spring_cell_unused': '회복 샘 · 이번 출정 1회',
-    'spring_cell_spent': '회복 샘 · 소진됨 — 마을 복귀 시 회복',
+    'spring_cell_spent': '회복 샘 · 소진됨 — 길드 복귀 시 회복',
 }
 
 # ------------------------------------------------------------------ bestiary notes (text_ko enemy_desc_<id>)

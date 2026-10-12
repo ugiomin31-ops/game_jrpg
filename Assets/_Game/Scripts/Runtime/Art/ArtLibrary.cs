@@ -62,7 +62,10 @@ namespace Abyss.Runtime.Art
             return HeroPath(Abyss.Logic.GameDB.Instance?.ClassOf(heroId) ?? heroId);
         }
 
-        /// <summary>Spawns a hero (model id = hero id) wearing the outfit of <paramref name="jobId"/> when it has one.</summary>
+        /// <summary>
+        /// Spawns a hero (model id = hero id) wearing the outfit of <paramref name="jobId"/> when it has one; an
+        /// advanced / master job also tints its body rim with the branch colour (<see cref="GearDisplay.DressPromotion"/>).
+        /// </summary>
         public static CharacterModel SpawnHero(string heroId, Transform parent = null, string jobId = null)
         {
             var model = SpawnCharacter(HeroModelPath(heroId, jobId), heroId, parent);
@@ -71,6 +74,7 @@ namespace Abyss.Runtime.Art
                 model.transform.localScale *= HeroDisplayHeight / model.Height;
                 model.RecomputeBounds();
             }
+            GearDisplay.DressPromotion(model, jobId);
             return model;
         }
         public static CharacterModel SpawnNpc(string npcId, Transform parent = null) => SpawnCharacter(NpcPath(npcId), npcId, parent);
@@ -106,10 +110,34 @@ namespace Abyss.Runtime.Art
             var model = root.AddComponent<CharacterModel>();
             var clips = LoadClips(path);
             var animator = visual.GetComponent<Animator>();
-            if (animator != null && animator.isHuman && !HasIdle(clips)) clips = LoadClips(HumanoidAnimationsPath);
-            model.Setup(id, visual, clips);
+            // Explicit D1 rule: only the listed blobs, and only while they ship no authored Idle take.
+            bool rigless = IsRiglessBlob(id) && !HasIdle(clips);
+            // Approved exception (2026-10-12): flyers whose Tripo rig failed, by resolved model id AND enemy resource path,
+            // and only while they ship no authored Idle (a listed flyer that still has takes keeps the strict clip path).
+            bool flyer = IsRiglessFlyer(id) && path == EnemyPath(id) && !HasIdle(clips);
+            if (!rigless && !flyer && animator != null && animator.isHuman && !HasIdle(clips)) clips = LoadClips(HumanoidAnimationsPath);
+            model.Setup(id, visual, clips, rigless, flyer);
             return model;
         }
+
+        /// <summary>
+        /// Model ids with no skeleton and no authored takes; they animate through <see cref="RiglessBlobAnimator"/>.
+        /// Every other model must ship its takes (a missing one is a content error).
+        /// </summary>
+        static readonly HashSet<string> RiglessBlobIds = new HashSet<string>
+        {
+            "slime", "magma_slime", "giant_clam", "sea_urchin", "chaos_spawn",
+        };
+
+        public static bool IsRiglessBlob(string modelId) => modelId != null && RiglessBlobIds.Contains(modelId);
+
+        /// <summary>
+        /// Winged enemy model ids animated by code (<see cref="RiglessFlyerAnimator"/>) because their Tripo skin failed the rig gate.
+        /// The list is explicit; a model id is never treated as a flyer merely because it lacks takes.
+        /// </summary>
+        static readonly HashSet<string> RiglessFlyerIds = new HashSet<string> { "bat", "killer_bee", "elite_bat" };
+
+        public static bool IsRiglessFlyer(string modelId) => modelId != null && RiglessFlyerIds.Contains(modelId);
 
         static bool HasIdle(AnimationClip[] clips)
         {

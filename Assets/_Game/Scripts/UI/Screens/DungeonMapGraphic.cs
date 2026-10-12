@@ -38,6 +38,7 @@ namespace Abyss.UI
                     var p = new GridPos(x, y);
                     char marker = grid.MapMarker(p);
                     if (marker == ' ') continue;
+                    if (marker == 'E') marker = EventMarker(grid, p);
                     var c = TileColor(marker);
                     Quad(vh, left + x * unit + 1, top - (y + 1) * unit + 1, unit - 2, c);
                     if (marker != '#' && marker != '.' && marker != 'S')
@@ -58,13 +59,23 @@ namespace Abyss.UI
             vh.AddVert(new Vector3(px - forward.x * unit * 0.27f - side.x * unit * 0.3f, py - forward.y * unit * 0.27f - side.y * unit * 0.3f), UITheme.DawnBright, Vector2.zero);
             vh.AddTriangle(start, start + 1, start + 2);
         }
+        /// <summary>
+        /// Display-only marker for an unspent `E` cell: a rescue (no enemies, a free reward) — or a choice row with no
+        /// group, which never fights — draws as 'R' in the helpful colour; ambushes and choice events with a group keep
+        /// the hostile 'E'.
+        /// </summary>
+        internal static char EventMarker(DungeonGrid grid, GridPos p)
+        {
+            var row = grid.EventAt(p);
+            return row != null && (row.IsRescue || (row.IsChoice && row.Group.Count == 0)) ? 'R' : 'E';
+        }
         static Color TileColor(char marker)
         {
             switch (marker)
             {
                 case '#': return UITheme.Ink;
                 case 'W': return UITheme.Mp;
-                case 'H': return UITheme.Positive;
+                case 'H': case 'R': return UITheme.Positive;
                 case 'B': case 'E': case 'X': return UITheme.Danger;
                 case 'L': case 'K': case 'T': return UITheme.GoldDim;
                 case '<': case '>': return UITheme.Dawn;
@@ -76,7 +87,7 @@ namespace Abyss.UI
         {
             float x = rect.center.x, y = rect.center.y, u = Mathf.Min(rect.width, rect.height);
             Color color = marker == 'F' || marker == 'B' || marker == 'E' || marker == 'X' ? UITheme.Danger
-                : marker == 'f' ? UITheme.Dawn : marker == 'H' ? UITheme.Positive : marker == 'W' ? UITheme.Mp : UITheme.GoldBright;
+                : marker == 'f' ? UITheme.Dawn : marker == 'H' || marker == 'R' ? UITheme.Positive : marker == 'W' ? UITheme.Mp : UITheme.GoldBright;
             float thin = Mathf.Max(1, u * 0.08f), arm = u * 0.28f;
             switch (marker)
             {

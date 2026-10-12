@@ -72,7 +72,7 @@ namespace Abyss.Runtime.World
                 if (marker == '#')
                 {
                     // Walls buried among walls can never be seen: skip them (about a third of a floor's blocks).
-                    if (TouchesOpenCell(grid, cell)) Spawn("wall_" + (char)('a' + variant), cell);
+                    if (TouchesOpenCell(grid, cell)) HideBuriedWallFaces(Spawn("wall_" + (char)('a' + variant), cell), grid, cell);
                     continue;
                 }
                 // stairs_down carries its own opening into the floor; a floor tile would cap it.
@@ -189,6 +189,21 @@ namespace Abyss.Runtime.World
             renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
             renderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
             return go.transform;
+        }
+
+        /// <summary>
+        /// Tiled wall models export per-face children (Face_N/E/S/W, N = cell y-1 = Blender -Y). A face pressed against a
+        /// neighbouring wall block can never be seen, so it is switched off. Walls without those children (procedural
+        /// kits) have nothing to find and stay exactly as built.
+        /// </summary>
+        static void HideBuriedWallFaces(GameObject wall, DungeonGrid grid, GridPos cell)
+        {
+            for (int facing = 0; facing < 4; facing++)
+            {
+                if (grid.Cell(cell.Step((Facing)facing)) != '#') continue;
+                var face = EnvironmentProcessor.Find(wall.transform, "Face_" + "NESW"[facing]);
+                if (face != null) face.gameObject.SetActive(false);
+            }
         }
 
         static bool TouchesOpenCell(DungeonGrid grid, GridPos cell)

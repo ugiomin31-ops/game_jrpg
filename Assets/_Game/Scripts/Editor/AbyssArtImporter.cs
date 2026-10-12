@@ -27,6 +27,68 @@ namespace Abyss.EditorTools
 
         static bool IsArt(string path) => path.Replace('\\', '/').StartsWith(ArtRoot);
 
+        // Shared effect meshes (Resources/Vfx/Meshes/<id>.fbx) and their textures: see ArtSource/_briefs/skills_vfx.md section 5.
+        public const string VfxMeshFolder = "/Resources/Vfx/Meshes/";
+        const string VfxMeshTexturePrefix = "/Resources/Vfx/Textures/mesh_";
+        const float VfxMeshMinExtent = .05f, VfxMeshMaxExtent = 6f;
+        const int VfxMeshMaxTriangles = 1200;
+
+        static bool IsVfxMesh(string path) =>
+            path.Replace('\\', '/').Contains(VfxMeshFolder) && path.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>One static mesh: no materials, rig, clips or blend shapes; Blender's axis conversion is baked into the vertices.</summary>
+        static void PreprocessVfxMesh(ModelImporter mi)
+        {
+            mi.materialImportMode = ModelImporterMaterialImportMode.None;
+            mi.animationType = ModelImporterAnimationType.None;
+            mi.importAnimation = false;
+            mi.importBlendShapes = false;
+            mi.isReadable = false;
+            mi.globalScale = 1f;
+            mi.useFileScale = true;
+            mi.bakeAxisConversion = true;
+            mi.importCameras = false;
+            mi.importLights = false;
+            mi.importVisibility = false;
+            mi.meshCompression = ModelImporterMeshCompression.Off;
+            mi.importNormals = ModelImporterNormals.Import;
+            mi.importTangents = ModelImporterTangents.None;
+            mi.generateSecondaryUV = false;
+            mi.swapUVChannels = false;
+        }
+
+        /// <summary>
+        /// The runtime takes sharedMesh and ignores node transforms, so the imported prefab must already be final:
+        /// exactly one mesh on an identity node chain, native size 0.05-6 m, UVs present. Violations are import errors.
+        /// </summary>
+        static void ValidateVfxMesh(GameObject root, string path)
+        {
+            var filters = root.GetComponentsInChildren<MeshFilter>(true);
+            if (filters.Length != 1 || filters[0].sharedMesh == null)
+            {
+                Debug.LogError($"VFX mesh {path}: expected exactly one mesh, found {filters.Length}. Join or remove the extra objects in Blender.");
+                return;
+            }
+            if (root.GetComponentInChildren<SkinnedMeshRenderer>(true) != null || root.GetComponentInChildren<Animator>(true) != null)
+                Debug.LogError($"VFX mesh {path}: must be a static mesh without armature or animation.");
+            for (var t = filters[0].transform; t != null && t != root.transform.parent; t = t.parent)
+            {
+                if (t.localPosition.sqrMagnitude > 1e-6f || Quaternion.Angle(t.localRotation, Quaternion.identity) > .01f ||
+                    (t.localScale - Vector3.one).sqrMagnitude > 1e-6f)
+                    Debug.LogError($"VFX mesh {path}: node '{t.name}' carries a transform (pos {t.localPosition}, euler {t.localEulerAngles}, scale {t.localScale}). " +
+                                   "Apply transforms and export Unity axes at scale 1 so axes, scale and pivot are baked into the vertices.");
+            }
+            var mesh = filters[0].sharedMesh;
+            Vector3 size = mesh.bounds.size;
+            float longest = Mathf.Max(size.x, Mathf.Max(size.y, size.z));
+            if (!(longest >= VfxMeshMinExtent && longest <= VfxMeshMaxExtent))
+                Debug.LogError($"VFX mesh {path}: imported bounds {size} are outside {VfxMeshMinExtent}-{VfxMeshMaxExtent} m (check export scale).");
+            if (mesh.uv.Length == 0) Debug.LogError($"VFX mesh {path}: no UV0.");
+            if (mesh.colors.Length == 0) Debug.LogWarning($"VFX mesh {path}: no 'Col' vertex colour (fade mask); it renders fully opaque.");
+            if (mesh.triangles.Length / 3 > VfxMeshMaxTriangles)
+                Debug.LogWarning($"VFX mesh {path}: {mesh.triangles.Length / 3} triangles (budget about 1000).");
+        }
+
         static bool IsAnimated(string path)
         {
             string rel = path.Replace('\\', '/').Substring(ArtRoot.Length);
@@ -41,6 +103,25 @@ namespace Abyss.EditorTools
         static bool IsHumanoid(string path) =>
             IsHumanoidAnimation(path) || (IsAnimated(path) && File.Exists(Path.Combine(Path.GetDirectoryName(path), "HUMANOID")));
 
+        /// <summary>
+        /// Winged enemy whose Tripo skin failed the rig gate (approved code-animation exception, 2026-10-12): an explicitly
+        /// listed id (<see cref="Abyss.Runtime.Art.ArtLibrary.IsRiglessFlyer"/>) at Enemies/&lt;id&gt;/&lt;id&gt;.fbx whose folder
+        /// holds a "FLYER" marker (written by the install step). It imports as a static three-part model (Body, Wing_L,
+        /// Wing_R): no rig, no takes. Listed flyers still shipping rigged takes (no marker) keep the Generic import.
+        /// </summary>
+        public static bool IsRiglessFlyerModel(string path)
+        {
+            string rel = path.Replace('\\', '/');
+            if (!rel.StartsWith(ArtRoot + "Enemies/", System.StringComparison.Ordinal)) return false;
+            string id = Path.GetFileNameWithoutExtension(rel);
+            return rel == $"{ArtRoot}Enemies/{id}/{id}.fbx" && Abyss.Runtime.Art.ArtLibrary.IsRiglessFlyer(id) &&
+                   File.Exists(Path.Combine(Path.GetDirectoryName(path), "FLYER"));
+        }
+
+        public static bool IsTripo(string path) =>
+            File.Exists(Path.Combine(Path.GetDirectoryName(path), "TRIPO")) ||
+            File.Exists(Path.ChangeExtension(path, ".tripo"));
+
         public static bool IsEnvironment(string path)
         {
             string rel = path.Replace('\\', '/');
@@ -49,6 +130,7 @@ namespace Abyss.EditorTools
 
         void OnPreprocessModel()
         {
+            if (IsVfxMesh(assetPath)) { PreprocessVfxMesh((ModelImporter)assetImporter); return; }
             if (!IsArt(assetPath)) return;
             var mi = (ModelImporter)assetImporter;
             if (IsHumanoid(assetPath))
@@ -60,6 +142,14 @@ namespace Abyss.EditorTools
                 mi.importCameras = false;
                 mi.importLights = false;
                 mi.materialImportMode = IsHumanoidAnimation(assetPath) ? ModelImporterMaterialImportMode.None : ModelImporterMaterialImportMode.ImportStandard;
+                if (IsTripo(assetPath))
+                {
+                    mi.globalScale = 1f;
+                    mi.useFileScale = true;
+                    mi.materialLocation = ModelImporterMaterialLocation.InPrefab;
+                    foreach (var pair in TexturedMaterials.Existing(assetPath))
+                        mi.AddRemap(new AssetImporter.SourceAssetIdentifier(typeof(Material), pair.Key), pair.Value);
+                }
                 return;
             }
             mi.globalScale = 1f;
@@ -86,7 +176,13 @@ namespace Abyss.EditorTools
             foreach (var pair in TexturedMaterials.Existing(assetPath))
                 mi.AddRemap(new AssetImporter.SourceAssetIdentifier(typeof(Material), pair.Key), pair.Value);
 
-            if (IsAnimated(assetPath))
+            if (IsRiglessFlyerModel(assetPath))
+            {
+                mi.animationType = ModelImporterAnimationType.None;
+                mi.importAnimation = false;
+                mi.optimizeGameObjects = false;
+            }
+            else if (IsAnimated(assetPath))
             {
                 mi.animationType = ModelImporterAnimationType.Generic;
                 mi.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
@@ -119,7 +215,7 @@ namespace Abyss.EditorTools
                 mi.clipAnimations = new[] { take };
                 return;
             }
-            if (!IsAnimated(assetPath)) return;
+            if (!IsAnimated(assetPath) || IsRiglessFlyerModel(assetPath)) return;
             var clips = mi.defaultClipAnimations;
             var outClips = new List<ModelImporterClipAnimation>();
             var seen = new HashSet<string>();
@@ -143,7 +239,17 @@ namespace Abyss.EditorTools
         // Textures of textured heroes (<id>_tex/*.png): sRGB, mipmapped, mobile-sized; cut-out layers keep their coverage.
         void OnPreprocessTexture()
         {
-            if (!IsArt(assetPath) || TexturedMaterials.ModelForTexture(assetPath) == null) return;
+            // Effect mesh masks: U repeats so `scroll` can sweep a highlight along the mesh; V stays clamped.
+            if (assetPath.Replace('\\', '/').Contains(VfxMeshTexturePrefix))
+            {
+                var vfx = (TextureImporter)assetImporter;
+                vfx.wrapModeU = TextureWrapMode.Repeat;
+                vfx.wrapModeV = TextureWrapMode.Clamp;
+                return;
+            }
+            if (!IsArt(assetPath)) return;
+            string model = TexturedMaterials.ModelForTexture(assetPath);
+            if (model == null) return;
             var ti = (TextureImporter)assetImporter;
             string name = Path.GetFileNameWithoutExtension(assetPath);
             ti.textureType = TextureImporterType.Default;
@@ -151,7 +257,9 @@ namespace Abyss.EditorTools
             ti.alphaSource = TextureImporterAlphaSource.FromInput;
             ti.alphaIsTransparency = true;
             ti.mipmapEnabled = true;
-            ti.maxTextureSize = 1024;
+            // Tripo heroes and town buildings keep 2k; dungeon props stay at 1k.
+            bool town = model.Contains("/Art/Town/");
+            ti.maxTextureSize = IsTripo(model) && (town || !IsEnvironment(model)) ? 2048 : 1024;
             ti.textureCompression = TextureImporterCompression.Compressed;
             ti.mipMapsPreserveCoverage = TexturedMaterials.IsCutout(name);
             ti.alphaTestReferenceValue = 0.5f;
@@ -167,7 +275,7 @@ namespace Abyss.EditorTools
                 if (!IsArt(path)) continue;
                 string model = path.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase)
                     ? path : TexturedMaterials.ModelForTexture(path);
-                if (model == null || !IsArt(model) || IsHumanoid(model) || !TexturedMaterials.HasTextures(model)) continue;
+                if (model == null || !IsArt(model) || (IsHumanoid(model) && !IsTripo(model)) || !TexturedMaterials.HasTextures(model)) continue;
                 if (AssetImporter.GetAtPath(model) is ModelImporter) models.Add(model);
             }
             foreach (var model in models) TexturedMaterials.Sync(model);
@@ -176,6 +284,7 @@ namespace Abyss.EditorTools
         // Shadows + light probes on every renderer of imported art.
         void OnPostprocessModel(GameObject root)
         {
+            if (IsVfxMesh(assetPath)) { ValidateVfxMesh(root, assetPath); return; }
             if (!IsArt(assetPath)) return;
             foreach (var r in root.GetComponentsInChildren<Renderer>(true))
             {
@@ -386,7 +495,7 @@ namespace Abyss.EditorTools
             {
                 string d = Normalize(dir);
                 string model = d.Substring(0, d.Length - TextureSuffix.Length) + ".fbx";
-                if (File.Exists(model) && !File.Exists(Path.Combine(Path.GetDirectoryName(model), "HUMANOID"))) Sync(model);
+                if (File.Exists(model) && (!File.Exists(Path.Combine(Path.GetDirectoryName(model), "HUMANOID")) || AbyssArtImporter.IsTripo(model))) Sync(model);
             }
         }
 
@@ -429,26 +538,54 @@ namespace Abyss.EditorTools
             if (mat == null)
             {
                 mat = new Material(shader) { name = name, enableInstancing = true };
-                Configure(mat, name);
+                Configure(mat, name, AbyssArtImporter.IsEnvironment(modelPath), AbyssArtImporter.IsTripo(modelPath));
                 mat.SetTexture(BaseMapId, texture);
                 AssetDatabase.CreateAsset(mat, path);
             }
-            else if (mat.GetTexture(BaseMapId) == null)
+            else
             {
-                mat.SetTexture(BaseMapId, texture);
-                EditorUtility.SetDirty(mat);
-                AssetDatabase.SaveAssetIfDirty(mat);
+                bool dirty = false;
+                if (mat.GetTexture(BaseMapId) == null) { mat.SetTexture(BaseMapId, texture); dirty = true; }
+                // Existing Tripo character materials created with the plain 0.011 hull: move them to the Tripo values.
+                // Only the untouched defaults are replaced, so hand tuning survives.
+                if (AbyssArtImporter.IsTripo(modelPath) && !AbyssArtImporter.IsEnvironment(modelPath) && !IsDecal(name)
+                    && Mathf.Approximately(mat.GetFloat("_OutlineWidth"), CharacterOutlineWidth)
+                    && Mathf.Approximately(mat.GetFloat("_OutlineZOffset"), 0f))
+                {
+                    ApplyTripoOutline(mat);
+                    dirty = true;
+                }
+                if (dirty)
+                {
+                    EditorUtility.SetDirty(mat);
+                    AssetDatabase.SaveAssetIfDirty(mat);
+                }
             }
             return mat;
         }
 
-        static void Configure(Material m, string name)
+        const float CharacterOutlineWidth = 0.011f;
+        // Tripo meshes are dense, noisy and layered (clothes over body, eyes inside lids). The 0.011 screen-space hull
+        // of the VRoid models pokes through those layers as black bars across the eyes and streaks over the clothes
+        // (verified: hull off = clean, thin hull alone still streaks on the chest). A thin hull pushed 6 cm away from
+        // the camera stays hidden behind the shell and only shows as a silhouette line.
+        public const float TripoOutlineWidth = 0.004f;
+        public const float TripoOutlineZOffset = 0.06f;
+
+        static void ApplyTripoOutline(Material m)
+        {
+            m.SetFloat("_OutlineWidth", TripoOutlineWidth);
+            m.SetFloat("_OutlineZOffset", TripoOutlineZOffset);
+        }
+
+        static void Configure(Material m, string name, bool environment, bool tripo = false)
         {
             bool decal = IsDecal(name);
             // Character defaults of M_Toon_Char; the textures carry painted shading, so no toon specular blob
             // except on cloth.
-            m.SetFloat("_OutlineWidth", decal ? 0f : 0.011f);
-            m.SetFloat("_RimStrength", 0.35f);
+            m.SetFloat("_OutlineWidth", decal ? 0f : environment ? 0.004f : CharacterOutlineWidth);
+            if (tripo && !environment && !decal) ApplyTripoOutline(m);
+            m.SetFloat("_RimStrength", environment ? 0.12f : 0.35f);
             m.SetFloat("_NoiseStrength", 0f);
             m.SetFloat("_Specular", HasSuffix(name, "_CLOTH") ? 0.12f : 0f);
             // Eyes should not go dull in the shadow band.

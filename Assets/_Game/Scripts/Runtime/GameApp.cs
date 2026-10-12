@@ -223,6 +223,23 @@ namespace Abyss.Runtime
             NotifyVisibleFoe();
             if (result.Effect == DungeonEffect.Treasure && result.Treasure != null) UI.ShowLoot(result.Treasure);
             else if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
+            if (result.Battle == null && result.Effect == DungeonEffect.Rescue && result.Event != null)
+            {
+                // Spent flag and reward are already in the state: save before the story so a quit cannot replay or lose it.
+                Save();
+                var rescue = result.Event; var reward = result.Treasure;
+                ShowStory(string.IsNullOrEmpty(rescue.Title) ? DB.T("lore") : rescue.Title, new[] { rescue.Text ?? "" }, () =>
+                {
+                    Screen = GameScreen.Dungeon; UI.ShowDungeon();
+                    UI.ShowEventReward(DB.T("event_rescue_reward_title"), reward);
+                });
+                return;
+            }
+            if (result.Battle == null && result.Effect == DungeonEffect.Choice && result.Choice != null)
+            {
+                UI.ShowDungeonChoice(result.Choice, ResolveDungeonChoice, DismissDungeonChoice);
+                return;
+            }
             if (result.Battle != null)
             {
                 Save();
@@ -234,6 +251,24 @@ namespace Abyss.Runtime
                 ShowStory(DB.T("lore"), new[] { result.StoryText }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); });
             else if (result.BiomeNotice != null)
                 ShowStory(DB.T(result.BiomeNotice.TitleKey), new[] { DB.T(result.BiomeNotice.TextKey) }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); Save(); });
+        }
+
+        /// <summary>Choice modal answer: leave spends the event; accept saves the pending event battle, then starts it.</summary>
+        public void ResolveDungeonChoice(DungeonChoice choice, int option)
+        {
+            if (Dungeon == null || Screen != GameScreen.Dungeon) return;
+            var outcome = Dungeon.ResolveChoice(choice, option);
+            if (outcome.Rejected) { UI.RefreshDungeon(); return; }
+            Save();
+            if (outcome.Accepted && outcome.Battle != null) { BeginBattle(outcome.Battle.Setup); return; }
+            dungeonWorld?.RefreshProgress();
+            UI.RefreshDungeon();
+            Notify(DB.T("event_choice_left"));
+        }
+        /// <summary>Choice modal closed without deciding: the nest stays and re-opens on Interact.</summary>
+        public void DismissDungeonChoice(DungeonChoice choice)
+        {
+            if (Dungeon != null && Dungeon.DismissChoice(choice)) Notify(DB.T("event_choice_reopen"));
         }
 
         public void BeginBattle(BattleSetup setup)
@@ -251,11 +286,18 @@ namespace Abyss.Runtime
             if (Dungeon == null) throw new InvalidOperationException("Battle has no campaign encounter.");
             var resolution = Dungeon.ResolveBattle(outcome);
             if (resolution.Defeat) { UI.Clear(); UI.ShowDefeat(); return; }
+            // Choice-event contents were committed (and saved by the battle view) inside ResolveBattle; only show them here.
+            var extra = resolution.ExtraReward;
+            if (extra != null) Save();
             Action route = () =>
             {
                 if (resolution.Ending) ShowEnding();
                 else if (resolution.ReturnToTown) EnterTown();
-                else EnterDungeonVisual();
+                else
+                {
+                    EnterDungeonVisual();
+                    if (extra != null) UI.ShowEventReward(DB.T("event_choice_reward_title"), extra);
+                }
             };
             if (!string.IsNullOrEmpty(resolution.PostText)) ShowStory(DB.T("lore"), new[] { resolution.PostText }, route);
             else route();
@@ -266,7 +308,13 @@ namespace Abyss.Runtime
             Dungeon?.ReturnToTown();
             EnterTown();
         }
-        public void RecoverFromDefeat() { GameFlow.RecoverFromDefeat(DB, State); EnterTown(); }
+        public void RecoverFromDefeat()
+        {
+            int lost = GameFlow.RecoverFromDefeat(DB, State);
+            EnterTown();
+            // The return screen names the gold the defeat took; nothing extra when it took none (easy, or an empty purse).
+            if (lost > 0) Notify(DB.T("defeat_gold_lost", lost.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)));
+        }
         public void SetPaused(bool paused)
         {
             Paused = paused;
@@ -336,7 +384,9 @@ namespace Abyss.Runtime
             {
                 case "verdant_ruins": return "bgm_forest";
                 case "frost_grotto": return "bgm_frost";
-                case "ember_caverns": return "bgm_desert";
+                case "ember_caverns":
+                case "cave": return "bgm_desert";
+                case "guild_street": return "bgm_town";
                 default: return "bgm_abyss";
             }
         }

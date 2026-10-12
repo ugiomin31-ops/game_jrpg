@@ -39,13 +39,13 @@ namespace Abyss.UI
             legend.Rect.anchorMin = new Vector2(1, 0); legend.Rect.anchorMax = Vector2.one;
             legend.Rect.offsetMin = new Vector2(-420, 110); legend.Rect.offsetMax = new Vector2(-45, -165);
             UIFactory.Label(legend.Rect, "범례", 28, color: UITheme.GoldBright).Rt().TopStrip(42, 14, 20, 20);
-            char[] markers = { '>', '<', 'W', 'H', 'L', 'T', 'K', 'X', 'N', 'B', 'E', 'F', 'f' };
-            string[] labels = { "내려가는 계단", "올라가는 계단", "이동 게이트", "응급 키트", "잠긴 문", "보물 상자", "열쇠", "발견한 함정", "기록 단말기", "게이트 보스", "강적의 기척", "배회 강적", "추격 중인 강적" };
+            char[] markers = { '>', '<', 'W', 'H', 'L', 'T', 'K', 'X', 'N', 'B', 'E', 'R', 'F', 'f' };
+            string[] labels = { "내려가는 계단", "올라가는 계단", "이동 게이트", "응급 키트", "잠긴 문", "보물 상자", "열쇠", "발견한 함정", "기록 단말기", "게이트 보스", "강적의 기척", "구조 요청", "배회 강적", "추격 중인 강적" };
             for (int i = 0; i < labels.Length; i++)
             {
                 var sample = UIFactory.Add<DungeonMapSymbol>(legend.Rect, labels[i]);
                 sample.Marker = markers[i];
-                float step = compact ? 37f : 42f;
+                float step = compact ? 35f : 42f;
                 sample.Rt().Place(UIAnchor.TopLeft, new Vector2(22, -70 - i * step), new Vector2(28, 28));
                 UIFactory.Label(legend.Rect, labels[i], compact ? 24 : 23).Rt().Place(UIAnchor.TopLeft, new Vector2(66, -66 - i * step), new Vector2(285, 36));
             }

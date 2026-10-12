@@ -7,6 +7,11 @@ are rewritten beside this script. Preview renders go to PREVIEW_DIR (GUILD_PREVI
 
 Run:  blender -b --factory-startup --python-exit-code 1 -P Blender/town/guild.py [-- --no-preview]
 
+Tripo pieces: Blender/town/tripo_pieces.json lists staged Tripo meshes (guild HQ, gate portal, guard booths, fountain, later the
+B2 pieces) with their placement, colliders, marker moves and the procedural builds they replace. load_tripo_pieces() reads it;
+a piece whose files are missing (or GUILD_NO_TRIPO=1) falls back to the procedural build. Installed pieces keep their own
+material M_<Id>_Tripo; their PNGs are copied to Art/Town/town_tex/ (the importer's <model>_tex/<material>.png convention).
+
 Layout (Blender metres, Z up, characters face -Y; Unity sees (x, z, -y)):
   Walkable plaza x -21..21, y -24..14 (same bounds as before). Paved plaza with a sunrise medallion and a fountain.
   Back (south, -Y): the Dawn Guild HQ, 4 storeys, front face y=-17.5 facing the plaza, entrance steps, canopy,
@@ -23,6 +28,7 @@ import json
 import math
 import os
 import random
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -79,6 +85,55 @@ MARKET = (15.6, 20.8, -5.6, 2.6, 5.6)                                # east, fac
 WORKSHOP = (15.6, 20.8, 7.2, 14.0, 6.0)                              # east north, facing -X
 COUNTER_H = 1.2   # storefront / booth colliders: keep under the follow camera's ray (0.8 m + 1.2 m per m of run)
 BOUND_H = 1.2     # plaza boundary walls
+
+# ---------------------------------------------------------------- Tripo pieces (data-driven replacements)
+TRIPO_JSON = os.path.join(HERE, "tripo_pieces.json")
+REPO_ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
+TRIPO = []        # installed piece entries of tripo_pieces.json
+REPLACED = set()  # tokens of procedural builds that an installed piece replaces
+SPOT_AT = {}      # Spot_ name -> (x, y, z) moves from installed pieces
+PARAMS = {}       # free build parameters from installed pieces
+
+
+def replaced(token):
+    return token in REPLACED
+
+
+def repo_path(p):
+    return p if os.path.isabs(p) else os.path.normpath(os.path.join(REPO_ROOT, p))
+
+
+def inst_matrix(inst):
+    return T(*inst["location"]) @ RZ(inst.get("rotation_z_deg", 0.0))
+
+
+def load_tripo_pieces():
+    """Read tripo_pieces.json; keep only pieces whose FBX and texture exist (the rest stay procedural)."""
+    global HQ_X0, HQ_X1, HQ_YB, HQ_YF
+    for c in (TRIPO, REPLACED, SPOT_AT, PARAMS):
+        c.clear()
+    if os.environ.get("GUILD_NO_TRIPO") or not os.path.isfile(TRIPO_JSON):
+        print("TRIPO none (procedural town)", flush=True)
+        return
+    with open(TRIPO_JSON, encoding="utf-8") as f:
+        data = json.load(f)
+    for e in data["pieces"]:
+        missing = [e[k] for k in ("fbx", "texture") if not os.path.isfile(repo_path(e[k]))]
+        if missing:
+            print("TRIPO_FALLBACK %s: missing %s -> procedural %s" % (e["id"], missing, e.get("replaces")), flush=True)
+            continue
+        TRIPO.append(e)
+        REPLACED.update(e.get("replaces", []))
+        for k, v in e.get("spots", {}).items():
+            SPOT_AT[k] = tuple(v)
+        PARAMS.update(e.get("params", {}))
+        if "hq" in e.get("replaces", []) and "body_local" in e:
+            m = inst_matrix(e["instances"][0])
+            x0, y0, x1, y1 = e["body_local"]
+            pts = [m @ Vector((x, y, 0.0)) for x in (x0, x1) for y in (y0, y1)]
+            HQ_X0, HQ_X1 = min(p.x for p in pts), max(p.x for p in pts)
+            HQ_YB, HQ_YF = min(p.y for p in pts), max(p.y for p in pts)
+        print("TRIPO installed %s replaces=%s" % (e["id"], e.get("replaces")), flush=True)
 
 
 def bb(m, x0, y0, z0, x1, y1, z1, col, mat="M_Toon"):
@@ -150,8 +205,11 @@ def bench(x, y, yaw, tag):
 
 
 def street_lamp(x, y):
-    kit("kc", "streetlight", x, y, 0.0, 0.0, KC)
-    anchor((x, y, 4.1), "street")
+    """KayKit streetlight; with the Tripo street_lamp the lamp is a JSON instance and only the LightAnchor is made here
+    (same name and x/y, z = params.lamp_anchor_z under the lamp head)."""
+    if not replaced("street_lamp"):
+        kit("kc", "streetlight", x, y, 0.0, 0.0, KC)
+    anchor((x, y, PARAMS.get("lamp_anchor_z", 4.1)), "street")
 
 
 def car(x, y, yaw, variant):
@@ -250,8 +308,9 @@ def build_ground(m):
 def build_plaza(m):
     # paved plaza (x -21..21, y -17.5..14) and the two south side strips beside the HQ (y -24.5..-17.5)
     pave_rect(m, -21.0, 21.0, -17.5, 14.0)
-    pave_rect(m, -21.0, -13.5, -24.5, -17.5)
-    pave_rect(m, 13.5, 21.0, -24.5, -17.5)
+    tuck = 0.1 if replaced("hq") else 0.0     # strips run 0.1 m under the Tripo HQ side walls
+    pave_rect(m, -21.0, HQ_X0 + tuck, -24.5, -17.5)
+    pave_rect(m, HQ_X1 - tuck, 21.0, -24.5, -17.5)
     # kerbs along the plaza edge (inside the walkable area; the boundary walls sit just outside)
     bb(m, -20.8, -17.5, 0.0, -20.3, 14.0, 0.14, STONE)
     bb(m, 20.3, -17.5, 0.0, 20.8, 14.0, 0.14, STONE)
@@ -259,7 +318,8 @@ def build_plaza(m):
     # sunrise medallion on the walkway
     emblem(m, T(0.0, -5.5, 0.03), 2.2)
     m.torus(2.55, 0.06, (0.0, -5.5, 0.04), GOLD, seg=48, minor=6)
-    build_fountain(m)
+    if not replaced("fountain"):
+        build_fountain(m)
     # trees and planters
     for i, (x, y) in enumerate(((-9.5, -12.5), (19.8, -15.6), (9.5, 4.0), (-9.0, 13.0), (-14.0, 1.0))):
         tree(m, x, y, 1.0 + 0.1 * (i % 3), tag="plaza")
@@ -358,7 +418,9 @@ def flower_bed(m, x, y, tag):
 
 
 def notice_board(m, x, y, tag):
-    """Cork notice board on two posts, front facing -Y (the spawn side)."""
+    """Cork notice board on two posts, front facing -Y (the spawn side). Tripo notice_board: visuals and colliders come from the JSON."""
+    if replaced("notice_board"):
+        return
     with m.at(T(x, y, 0.0)):
         m.cyl(0.04, 1.3, (-0.85, 0, 0.65), WOOD_D, seg=6)
         m.cyl(0.04, 1.3, (0.85, 0, 0.65), WOOD_D, seg=6)
@@ -371,7 +433,9 @@ def notice_board(m, x, y, tag):
 
 
 def banner(m, x, y, col, tag):
-    """Guild pennant on a steel pole, crest facing -Y."""
+    """Guild pennant on a steel pole, crest facing -Y. Tripo banner: the three pennants are JSON instances."""
+    if replaced("banner"):
+        return
     m.cyl(0.05, 4.8, (x, y, 2.4), STEEL, seg=6)
     m.box((0.9, 0.05, 2.2), (x, y - 0.04, 3.0), col)
     m.box((0.9, 0.06, 0.12), (x, y - 0.05, 1.95), GOLD)
@@ -420,9 +484,11 @@ def build_street_life(m):
     scooter(m, -24.6, 21.6, 0.0, RED)
     scooter(m, -22.9, 21.6, 0.0, BLUE)
     # festoon strings across the plaza, hung from the lamp posts (poles at the ends)
-    m.cyl(0.05, 4.1, (19.6, -9.5, 2.05), STEEL, seg=6)
-    string_lights(m, -11.0, 10.5, 8.6, 4.0, 0.9, 16, "north")
-    string_lights(m, -18.0, 19.6, -9.5, 4.0, 0.9, 24, "south")
+    fz = PARAMS.get("festoon_z_end", 4.0)      # strings follow the lamp head height (Tripo lamps are 3.4 m, KayKit ones 4.1 m)
+    ph = PARAMS.get("festoon_pole_h", 4.1)
+    m.cyl(0.05, ph, (19.6, -9.5, ph / 2), STEEL, seg=6)
+    string_lights(m, -11.0, 10.5, 8.6, fz, 0.9, 16, "north")
+    string_lights(m, -18.0, 19.6, -9.5, fz, 0.9, 24, "south")
 
 
 # skyline: two rows of KayKit City buildings around the block (9.2 m footprints, 10 m pitch)
@@ -462,6 +528,13 @@ def build_skyline():
 # ---------------------------------------------------------------- Dawn Guild HQ (back of the plaza)
 
 def build_hq(m):
+    """Procedural HQ (fallback when the Tripo piece is missing): body, canopy, plinth, kiosk and quest board in one mesh."""
+    build_hq_body(m)
+    build_hq_kiosk(m)
+    build_quest_board(m)
+
+
+def build_hq_body(m):
     X0, X1, YF, YB, H = HQ_X0, HQ_X1, HQ_YF, HQ_YB, HQ_H
     bb(m, X0, YB, 0.0, X1, YF, H, IVORY)
     # roof: dark deck inside a blue parapet, a couple of plant boxes and the guild beacon
@@ -520,11 +593,22 @@ def build_hq(m):
     colb("HQ_Body", X0, YB, 0.0, X1, YF, H)
     colb("HQ_Plinth_W", -9.5, YF, 0.0, -3.0, -14.4, 0.9)
     colb("HQ_Plinth_E", 3.0, YF, 0.0, 9.5, -14.4, 0.9)
-    # reception kiosk under the canopy (east of the door)
-    bb(m, 4.0, -15.9, 0.9, 8.4, -14.6, 1.9, NAVY)
-    bb(m, 3.9, -16.0, 1.9, 8.5, -14.5, 2.0, CREAM)
-    bb(m, 5.0, -14.6, 1.2, 7.4, -14.57, 1.7, SKY, "M_Emit")
-    colb("Reception_Kiosk", 4.0, -15.9, 0.9, 8.4, -14.6, 2.0)
+
+
+def build_hq_kiosk(m):
+    """Reception kiosk (Spot_guild_clerk stands behind it, facing +Y). Fallback: on the plinth east of the door.
+    With the Tripo HQ the box and base height come from PARAMS['kiosk'] (no plinth: it stands on the paving)."""
+    k = PARAMS.get("kiosk")
+    x0, y0, x1, y1 = k["box"] if k else (4.0, -15.9, 8.4, -14.6)
+    b = k["base_z"] if k else 0.9
+    inset = min(1.0, 0.2 * (x1 - x0) + 0.2)
+    bb(m, x0, y0, b, x1, y1, b + 1.0, NAVY)
+    bb(m, x0 - 0.1, y0 - 0.1, b + 1.0, x1 + 0.1, y1 + 0.1, b + 1.1, CREAM)
+    bb(m, x0 + inset, y1, b + 0.3, x1 - inset, y1 + 0.03, b + 0.8, SKY, "M_Emit")
+    colb("Reception_Kiosk", x0, y0, b, x1, y1, b + 1.1)
+
+
+def build_quest_board(m):
     # quest board on posts, posters on the plaza side, lit header
     for xc in (9.1, 11.6):
         m.cyl(0.07, 3.2, (xc, -15.75, 1.6), WOOD_D, seg=8)
@@ -539,6 +623,9 @@ def build_hq(m):
 
 def build_clinic(m):
     X0, X1, Y0, Y1, H = CLINIC
+    if replaced("clinic"):          # Tripo guild_clinic: same footprint, the collider stays
+        colb("Clinic", X0, Y0, 0.0, X1, Y1, COUNTER_H)
+        return
     bb(m, X0, Y0, 0.0, X1, Y1, H, MINT_W)
     bb(m, X0 - 0.15, Y0 - 0.15, H, X1 + 0.15, Y1 + 0.15, H + 0.3, TEAL_D)
     bb(m, X0, Y0, 3.3, X1 + 0.15, Y1, 3.5, TEAL)
@@ -559,6 +646,9 @@ def build_clinic(m):
 
 def build_market(m):
     X0, X1, Y0, Y1, H = MARKET
+    if replaced("market"):          # Tripo guild_market: same footprint, the collider stays (Sign_Market is part of the piece)
+        colb("Market", X0, Y0, 0.0, X1, Y1, COUNTER_H)
+        return
     bb(m, X0, Y0, 0.0, X1, Y1, H, YELLOW)
     bb(m, X0 - 0.14, Y0 + 0.2, 4.2, X0, Y1 - 0.2, 5.1, "#fff1c2", "M_Emit")   # lit sign band
     bb(m, X0 - 0.2, Y0, 5.1, X0, Y1, 5.6, RED)
@@ -574,6 +664,9 @@ def build_market(m):
 
 def build_workshop(m):
     X0, X1, Y0, Y1, H = WORKSHOP
+    if replaced("workshop"):        # Tripo guild_workshop: same footprint, the collider stays (Sign_Workshop is part of the piece)
+        colb("Workshop", X0, Y0, 0.0, X1, Y1, COUNTER_H)
+        return
     bb(m, X0, Y0, 0.0, X1, Y1, H, STEEL_B)
     bb(m, X0 - 0.2, Y0 - 0.2, H, X1 + 0.2, Y1 + 0.2, H + 0.3, ROOF)
     # open garage bay on the plaza side: dark interior with a furnace glow
@@ -596,27 +689,30 @@ def build_plaza_props(m):
     m.cyl(0.05, 3.6, (-13.0, 5.2, 1.8), STEEL, seg=6)
     bb(m, -13.0, 5.18, 2.9, -12.4, 5.22, 3.5, GREEN_D)
     bb(m, -13.0, 0.4, 0.0, -12.6, 0.6, 0.6, WOOD)  # small sandwich board
-    for x, y in ((-14.6, -2.6), (-14.6, 6.0)):
-        planter(m, x, y, "clinic_%d" % round(y))
+    # clinic planters; tags stay "clinic_-3" / "clinic_6". The Tripo clinic's entrance steps (y -2.8..5.6) need them moved out
+    for (x, y), tag in zip(PARAMS.get("clinic_planters", ((-14.6, -2.6), (-14.6, 6.0))), ("clinic_-3", "clinic_6")):
+        planter(m, x, y, tag)
 
 
 def build_gate(m):
     GX, GY = GATE_X, GATE_Y
-    # stone pillars with gold caps and an arch
-    for dx in (-2.15, 2.15):
-        bb(m, GX + dx - 0.4, GY - 0.4, 0.0, GX + dx + 0.4, GY + 0.4, 3.4, STONE_D)
-        bb(m, GX + dx - 0.5, GY - 0.5, 3.4, GX + dx + 0.5, GY + 0.5, 3.62, GOLD)
-        bb(m, GX + dx - 0.5, GY - 0.5, 0.0, GX + dx + 0.5, GY + 0.5, 0.25, STONE)
-        bb(m, GX + dx - 0.3, GY + 0.4, 1.7, GX + dx + 0.3, GY + 0.46, 2.4, YELLOW)
-        bb(m, GX + dx - 0.3, GY + 0.46, 2.0, GX + dx + 0.3, GY + 0.5, 2.1, BLACK)
-    m.torus(2.15, 0.18, (GX, GY, 3.4), GOLD, seg=40, minor=8, m=RX(90), arc=0.5)
-    # the portal: a violet emissive ring and a glowing disc (the gate's visual hero)
-    m.torus(1.5, 0.13, (GX, GY, 1.63), VIOLET_L, mat="M_Emit", seg=48, minor=8, m=RX(90))
-    m.cyl(1.38, 0.06, (GX, GY + 0.02, 1.63), VIOLET, mat="M_Emit", seg=40, rr=(90, 0, 0))
-    m.cyl(0.62, 0.07, (GX, GY + 0.03, 1.63), VIOLET_L, mat="M_Emit", seg=32, rr=(90, 0, 0))
-    # violet rune circle on the pocket floor
-    m.cyl(2.6, 0.01, (GX, GY, 0.04), VIOLET_D, seg=48)
-    m.torus(2.25, 0.05, (GX, GY, 0.05), VIOLET_L, mat="M_Emit", seg=48, minor=6)
+    if not replaced("gate_arch"):   # the Tripo gate_portal carries pillars, arch, ring and disc
+        # stone pillars with gold caps and an arch
+        for dx in (-2.15, 2.15):
+            bb(m, GX + dx - 0.4, GY - 0.4, 0.0, GX + dx + 0.4, GY + 0.4, 3.4, STONE_D)
+            bb(m, GX + dx - 0.5, GY - 0.5, 3.4, GX + dx + 0.5, GY + 0.5, 3.62, GOLD)
+            bb(m, GX + dx - 0.5, GY - 0.5, 0.0, GX + dx + 0.5, GY + 0.5, 0.25, STONE)
+            bb(m, GX + dx - 0.3, GY + 0.4, 1.7, GX + dx + 0.3, GY + 0.46, 2.4, YELLOW)
+            bb(m, GX + dx - 0.3, GY + 0.46, 2.0, GX + dx + 0.3, GY + 0.5, 2.1, BLACK)
+        m.torus(2.15, 0.18, (GX, GY, 3.4), GOLD, seg=40, minor=8, m=RX(90), arc=0.5)
+        # the portal: a violet emissive ring and a glowing disc (the gate's visual hero)
+        m.torus(1.5, 0.13, (GX, GY, 1.63), VIOLET_L, mat="M_Emit", seg=48, minor=8, m=RX(90))
+        m.cyl(1.38, 0.06, (GX, GY + 0.02, 1.63), VIOLET, mat="M_Emit", seg=40, rr=(90, 0, 0))
+        m.cyl(0.62, 0.07, (GX, GY + 0.03, 1.63), VIOLET_L, mat="M_Emit", seg=32, rr=(90, 0, 0))
+    if not replaced("gate_rune"):
+        # violet rune circle on the pocket floor
+        m.cyl(2.6, 0.01, (GX, GY, 0.04), VIOLET_D, seg=48)
+        m.torus(2.25, 0.05, (GX, GY, 0.05), VIOLET_L, mat="M_Emit", seg=48, minor=6)
     # warning tape along the top of the barricades
     x = -20.9
     k = 0
@@ -625,14 +721,20 @@ def build_gate(m):
         x += 0.5
         k += 1
     # guard booths: left (west) and right (east) of the gate, windows facing the barricade
+    # (the Tripo guard_booth replaces the boxes; the colliders stay and fit inside its footprint)
     for x0, x1, tag in ((-20.7, -18.9, "W"), (-14.6, -13.0, "E")):
         y0, y1, h = -15.1, -13.5, 2.0
-        bb(m, x0, y0, 0.0, x1, y1, h, NAVY)
-        bb(m, x0 - 0.15, y0 - 0.15, h, x1 + 0.15, y1 + 0.15, h + 0.2, BLUE)
-        bb(m, x0 + 0.2, y0 - 0.02, 1.0, x1 - 0.2, y0, 1.7, SKY, "M_Emit")
-        bb(m, x0 + 0.85, y0 - 0.02, 0.1, x0 + 0.95, y0, 0.9, DARK)
+        if not replaced("guard_booths"):
+            bb(m, x0, y0, 0.0, x1, y1, h, NAVY)
+            bb(m, x0 - 0.15, y0 - 0.15, h, x1 + 0.15, y1 + 0.15, h + 0.2, BLUE)
+            bb(m, x0 + 0.2, y0 - 0.02, 1.0, x1 - 0.2, y0, 1.7, SKY, "M_Emit")
+            bb(m, x0 + 0.85, y0 - 0.02, 0.1, x0 + 0.95, y0, 0.9, DARK)
         colb("Booth_" + tag, x0, y0, 0.0, x1, y1, COUNTER_H)
-    colb("Barricade_Corner", -13.85, -17.5, 0.0, -13.35, -16.2, 1.1)
+    if replaced("hq"):
+        # the Tripo HQ is narrower than the old block: the corner collider runs on to its west wall (no gap into the pocket)
+        colb("Barricade_Corner", -13.85, -17.5, 0.0, HQ_X0 + 0.05, BARRIER_Y + 0.25, 1.1)
+    else:
+        colb("Barricade_Corner", -13.85, -17.5, 0.0, -13.35, -16.2, 1.1)
 
 
 def build_kit_gate():
@@ -640,6 +742,10 @@ def build_kit_gate():
         kit_m("kd", "barrier", T(x, BARRIER_Y, 0.0) @ Matrix.Diagonal((0.625, 1.0, 1.0, 1.0)))
         colb("Barricade_%d" % round(x * 10), x - 1.25, BARRIER_Y - 0.25, 0.0, x + 1.25, BARRIER_Y + 0.25, 1.1)
     kit_m("kd", "barrier", T(-13.6, -16.85, 0.0) @ RZ(90.0) @ Matrix.Diagonal((0.325, 1.0, 1.0, 1.0)))
+    if replaced("hq") and HQ_X0 > -13.45:
+        # close the barricade line between its last piece (x -13.5) and the narrower Tripo HQ wall (collider: Barricade_Corner)
+        gap = HQ_X0 + 13.5
+        kit_m("kd", "barrier", T(-13.5 + gap / 2, BARRIER_Y, 0.0) @ Matrix.Diagonal((gap / 4.0, 1.0, 1.0, 1.0)))
 
 
 def build_storefront_kits():
@@ -675,6 +781,91 @@ def build_boundaries():
     col_box("BoundaryNorth", (44.0, 1.0, BOUND_H), (0.0, 14.5, BOUND_H / 2))
 
 
+def tripo_material(e):
+    """Own material M_<Id>_Tripo with the staged base-colour PNG (Unity remaps it to town_tex/<name>.png)."""
+    mat = bpy.data.materials.new(e["material"])
+    mat.use_nodes = True
+    nt = mat.node_tree
+    bsdf = nt.nodes["Principled BSDF"]
+    tex = nt.nodes.new("ShaderNodeTexImage")
+    tex.image = bpy.data.images.load(repo_path(e["texture"]), check_existing=True)
+    nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+    bsdf.inputs["Roughness"].default_value = 0.8
+    return mat
+
+
+def tris_of(o):
+    me = o.data
+    me.calc_loop_triangles()
+    return len(me.loop_triangles)
+
+
+def install_tripo_piece(e):
+    """Import the staged FBX, bake its import rotation into the mesh, and add one object per instance (own mesh copy)."""
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.fbx(filepath=repo_path(e["fbx"]))
+    new = [o for o in bpy.data.objects if o not in before]
+    meshes = [o for o in new if o.type == "MESH"]
+    if len(meshes) != 1:
+        raise RuntimeError("tripo piece %s: expected one mesh, got %d" % (e["id"], len(meshes)))
+    src = meshes[0]
+    for o in new:
+        if o is not src:
+            bpy.data.objects.remove(o)
+    me = src.data
+    me.transform(src.matrix_world)
+    src.matrix_world = Matrix()
+    me.update()
+    for old in list(me.materials):
+        if old:
+            bpy.data.materials.remove(old)
+    mat = tripo_material(e)
+    lo = [min(v.co[i] for v in me.vertices) for i in range(3)]
+    hi = [max(v.co[i] for v in me.vertices) for i in range(3)]
+    want = e["bounds_local"]
+    if any(abs(lo[i] - want["min"][i]) > 0.02 or abs(hi[i] - want["max"][i]) > 0.02 for i in range(3)):
+        raise RuntimeError("tripo piece %s: bounds %s %s differ from tripo_pieces.json %s" % (e["id"], lo, hi, want))
+    for i, inst in enumerate(e["instances"]):
+        o = src if i == len(e["instances"]) - 1 else src.copy()
+        if o is not src:
+            o.data = me.copy()
+            bpy.context.scene.collection.objects.link(o)
+        o.data.materials.clear()
+        o.data.materials.append(mat)
+        for poly in o.data.polygons:
+            poly.material_index = 0
+        o.name = inst["object"]
+        o.data.name = inst["object"]
+        o.matrix_world = inst_matrix(inst)
+        if e.get("tris") and tris_of(o) != e["tris"]:
+            raise RuntimeError("tripo piece %s: %d triangles, expected %d" % (e["id"], tris_of(o), e["tris"]))
+    for c in e.get("colliders", []):
+        inst = e["instances"][c.get("instance", 0)]
+        fm = inst_matrix(inst)
+        lo_, hi_ = c["min"], c["max"]
+        ctr = fm @ Vector([(lo_[i] + hi_[i]) / 2 for i in range(3)])
+        col_box(c["name"], tuple(hi_[i] - lo_[i] for i in range(3)), tuple(ctr), inst.get("rotation_z_deg", 0.0))
+
+
+def install_tripo_pieces():
+    for e in TRIPO:
+        install_tripo_piece(e)
+    if not TRIPO:
+        return
+    # the importer's textured-material convention: <model>_tex/<material>.png next to town.fbx, plus the .tripo marker
+    town_dir = os.path.dirname(os.path.join(A.ASSETS, "Town", "town.fbx"))
+    tex_dir = os.path.join(town_dir, "town_tex")
+    os.makedirs(tex_dir, exist_ok=True)
+    for e in TRIPO:
+        dst = os.path.join(tex_dir, e["material"] + ".png")
+        shutil.copyfile(repo_path(e["texture"]), dst)    # always copy: a changed PNG of equal size must not stay stale
+    marker = os.path.join(town_dir, "town.tripo")
+    if not os.path.isfile(marker):
+        with open(marker, "w", encoding="utf-8") as f:
+            f.write("Town combined FBX with Tripo pieces (%s) installed by Blender/town/guild.py from tripo_pieces.json.\n"
+                    % ", ".join(e["id"] for e in TRIPO))
+
+
 def build_scene():
     g = MB()
     build_ground(g)
@@ -682,14 +873,23 @@ def build_scene():
     plaza = MB()
     build_plaza(plaza)
     plaza.build("Plaza")
-    hq = MB()
-    build_hq(hq)
-    hq.build("Guild_HQ")
+    if replaced("hq"):
+        kiosk = MB()
+        build_hq_kiosk(kiosk)
+        kiosk.build("Reception_Kiosk")
+        board = MB()
+        build_quest_board(board)
+        board.build("Quest_Board")
+    else:
+        hq = MB()
+        build_hq(hq)
+        hq.build("Guild_HQ")
     shops = MB()
     build_clinic(shops)
     build_market(shops)
     build_workshop(shops)
-    shops.build("Storefronts")
+    if shops.F:                      # all three Tripo storefronts installed: nothing procedural left to bake
+        shops.build("Storefronts")
     gate = MB()
     build_gate(gate)
     gate.build("Dungeon_Gate")
@@ -707,6 +907,7 @@ def build_scene():
     col_box("Ground", (120.0, 120.0, 0.4), (0, 0, -0.23))
     build_boundaries()
     build_lights()
+    install_tripo_pieces()
 
 
 def markers():
@@ -715,15 +916,15 @@ def markers():
         ("Spot_innkeeper", (-13.2, 1.8, 0.0), 90.0),
         ("Spot_shopkeeper", (13.4, -0.5, 0.0), -90.0),
         ("Spot_smith", (13.2, 9.8, 0.0), -90.0),
-        ("Spot_guild_clerk", (6.2, -16.4, 0.9), 180.0),
-        ("Spot_elder", (-3.6, -16.4, 0.9), 180.0),
+        ("Spot_guild_clerk", (6.2, -16.4, 0.9), 180.0),     # Tripo HQ: no plinth, stands on the paving behind the kiosk
+        ("Spot_elder", (-3.6, -16.4, 0.9), 180.0),          # Tripo HQ: in the doorway on the 0.29 m landing
         ("Spot_gate", (-16.5, -15.0, 0.0), 0.0),
         ("Spot_villager_1", (-8.5, 0.5, 0.0), 0.0),
         ("Spot_villager_2", (-4.2, -10.8, 0.0), 180.0),
         ("Spot_villager_3", (-10.8, -10.5, 0.0), 90.0),
     ]
     for name, loc, yaw in spots:
-        spot(name, loc, yaw)
+        spot(name, SPOT_AT.get(name, loc), yaw)
     staff = [Vector(SPOTS[n].location) for n in ("Spot_innkeeper", "Spot_smith", "Spot_elder")]
     target = sum(staff, Vector()) / 3 + Vector((0, 0, 1.5))
     cam_loc = Vector((-4.0, 42.0, 24.0))
@@ -753,11 +954,19 @@ def write_manifest(target):
                      "kiosk, barricades, planters, benches, trunks and the fountain collide; the plaza boundary walls are 1.2 m "
                      "high. Roads, lamps, cars, bushes, signs and the skyline are visual only. Colliders north-east of the player "
                      "stay low so the follow camera (offset +10 x, +14 y, +12 z) is not pulled in.",
-        "doors": "HQ entrance: plinth steps centre x -3..3 (rise 0.225 m each), walkable top 0.9 m. "
-                 "Gate pocket: barricades at y -16.2 from x -21 to -13.5 close it; Spot_gate stands in front at y -15.",
+        "doors": ("HQ entrance (Tripo HQ): doorway x -3.2..3.1 on a 0.29 m landing (Col_HQ_Stoop), Spot_elder in the doorway, "
+                  "Spot_guild_clerk on the paving behind the kiosk. " if replaced("hq") else
+                  "HQ entrance: plinth steps centre x -3..3 (rise 0.225 m each), walkable top 0.9 m. ")
+                 + "Gate pocket: barricades at y -16.2 from x -21 to %s close it; Spot_gate stands in front at y -15."
+                 % ("the HQ west wall" if replaced("hq") else "-13.5"),
         "light_anchors": [{"name": e.name, "blender_position": list(e.location),
                            "unity_position": [e.location.x, e.location.z, -e.location.y]} for e in ANCHORS],
     }
+    if TRIPO:
+        manifest["tripo_pieces"] = [{"id": e["id"], "material": e["material"], "replaces": e.get("replaces", []),
+                                     "instances": [i["object"] for i in e["instances"]]} for e in TRIPO]
+        manifest["collision"] += (" Tripo pieces: HQ body, canopy columns and the 0.29 m doorway landing (Col_HQ_Stoop) replace the HQ "
+                                  "plinth colliders; the Tripo fountain keeps Col_Fountain.")
     for name, e in SPOTS.items():
         q = e.matrix_world.to_quaternion()
         p = e.location
@@ -840,11 +1049,13 @@ def main():
     ANCHORS.clear()
     COLS.clear()
     KIT.clear()
+    load_tripo_pieces()
     build_scene()
     target = markers()
     write_manifest(tuple(target))
     objects = [o for o in bpy.context.scene.objects if o.type in ("MESH", "EMPTY")]
-    A.export_fbx("Town/town.fbx", objects)
+    # install_tripo_pieces() just (re)wrote town.tripo; with GUILD_NO_TRIPO / no pieces the guard protects town.fbx
+    A.export_fbx("Town/town.fbx", objects, force=bool(TRIPO))
     A.save_blend("town_guild")
     if "--no-preview" not in sys.argv:
         render_previews(target)

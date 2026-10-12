@@ -24,7 +24,6 @@
    "#################"
   ],
   "tileset": "subway",
-  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
     "sewer_slime",
@@ -192,7 +191,7 @@
   "area_description": "전기가 끊긴 선로 위로 박쥐 떼가 날아다닌다. 자갈이 보랏빛으로 희미하게 빛난다.",
   "rows": [
    "#################",
-   "#TL....K#H..X...#",
+   "#TL....K#H..X..E#",
    "#####.#####E#.#.#",
    "#####.#####T#...#",
    "#####.#######.#N#",
@@ -210,7 +209,6 @@
    "#################"
   ],
   "tileset": "subway",
-  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
     "sewer_slime",
@@ -351,6 +349,23 @@
   "events": [
    {
     "cell": [
+     15,
+     1
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "선로 터널 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 100,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
      11,
      2
     ],
@@ -423,7 +438,7 @@
   "area_description": "게이트에 전력을 끌어가는 변전실. 계기판이 미친 듯 깜빡이고, 천장에는 박쥐 군주가 매달려 있다.",
   "rows": [
    "#################",
-   "#.....S<#..N..LT#",
+   "#.....S<#.EN..LT#",
    "#.#######.#.#####",
    "#.#######...###K#",
    "#.#######N#.###.#",
@@ -441,7 +456,6 @@
    "#################"
   ],
   "tileset": "subway",
-  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
     "tunnel_bat",
@@ -586,6 +600,28 @@
   "events": [
    {
     "cell": [
+     10,
+     1
+    ],
+    "group": [
+     "elite_bat",
+     "bat"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "변전실 깊은 곳, 정예 마물 「밤의 박쥐 군주」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 200,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
      2,
      13
     ],
@@ -647,66 +683,47 @@
    "###################"
   ],
   "tileset": "verdant_ruins",
-  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
-   [
-    "goblin",
-    "pixie"
-   ],
-   [
-    "goblin",
-    "goblin_shaman",
-    "sprout"
-   ],
-   [
-    "mandragora",
-    "pixie"
-   ],
-   [
-    "mandragora",
-    "poison_mushroom"
-   ],
-   [
-    "mushroom",
-    "rhino_beetle"
-   ],
-   [
-    "mushroom",
-    "mandragora",
-    "rhino_beetle",
-    "rhino_beetle"
-   ],
-   [
-    "sprout",
-    "mushroom",
-    "poison_mushroom"
-   ],
-   [
-    "sprout",
-    "sprout",
-    "rhino_beetle",
-    "poison_mushroom"
-   ],
-   [
-    "goblin",
-    "pixie"
-   ],
-   [
-    "goblin",
-    "goblin_shaman",
-    "sprout"
-   ],
-   [
-    "mandragora",
-    "pixie"
-   ],
-   [
-    "mandragora",
-    "poison_mushroom"
-   ],
    [
     "gold_slime",
     "sprout"
+   ],
+   [
+    "mushroom",
+    "mandragora"
+   ],
+   [
+    "mushroom",
+    "mandragora"
+   ],
+   [
+    "goblin",
+    "mandragora",
+    "mandragora"
+   ],
+   [
+    "mushroom",
+    "mandragora",
+    "rhino_beetle"
+   ],
+   [
+    "mandragora",
+    "mandragora"
+   ],
+   [
+    "sprout",
+    "mushroom",
+    "mandragora",
+    "poison_mushroom"
+   ],
+   [
+    "mushroom",
+    "mandragora",
+    "rhino_beetle"
+   ],
+   [
+    "mandragora",
+    "mandragora"
    ]
   ],
   "showcase_group": [
@@ -897,7 +914,7 @@
    "#########.###L#####",
    "#.........#T#X#T#T#",
    "#...#.#.###E#.#.#E#",
-   "#...#.#...#.......#",
+   "#...#.#..E#.......#",
    "###.#.#######.#...#",
    "#<#.......#>#.#...#",
    "#S#.###.###.#.###.#",
@@ -905,12 +922,23 @@
    "###################"
   ],
   "tileset": "verdant_ruins",
-  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
+    "gold_slime",
+    "sprout"
+   ],
+   [
+    "mushroom",
+    "mandragora"
+   ],
+   [
+    "mushroom",
+    "mandragora"
+   ],
+   [
     "goblin",
-    "pixie",
-    "poison_mushroom"
+    "mandragora",
+    "mandragora"
    ],
    [
     "mushroom",
@@ -918,18 +946,8 @@
     "rhino_beetle"
    ],
    [
-    "mushroom",
-    "mandragora"
-   ],
-   [
     "mandragora",
     "mandragora"
-   ],
-   [
-    "goblin",
-    "goblin_shaman",
-    "poison_mushroom",
-    "poison_mushroom"
    ],
    [
     "sprout",
@@ -938,6 +956,25 @@
     "poison_mushroom"
    ],
    [
+    "mushroom",
+    "mandragora",
+    "rhino_beetle"
+   ],
+   [
+    "mandragora",
+    "mandragora"
+   ],
+   [
+    "goblin",
+    "pixie",
+    "poison_mushroom"
+   ],
+   [
+    "goblin",
+    "pixie",
+    "poison_mushroom"
+   ],
+   [
     "goblin_shaman",
     "mushroom",
     "pixie",
@@ -945,30 +982,9 @@
    ],
    [
     "goblin",
-    "mandragora",
-    "mandragora"
-   ],
-   [
-    "goblin",
-    "pixie",
+    "goblin_shaman",
+    "poison_mushroom",
     "poison_mushroom"
-   ],
-   [
-    "mushroom",
-    "mandragora",
-    "rhino_beetle"
-   ],
-   [
-    "mushroom",
-    "mandragora"
-   ],
-   [
-    "mandragora",
-    "mandragora"
-   ],
-   [
-    "gold_slime",
-    "sprout"
    ]
   ],
   "showcase_group": [
@@ -1108,6 +1124,23 @@
      "goblin",
      "pixie"
     ]
+   },
+   {
+    "cell": [
+     9,
+     13
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "덩굴 회랑 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 200,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -1243,82 +1276,80 @@
    "#.....#>B.#T#.....#",
    "###.#.###.#E#.#.###",
    "#......H#.#...#.#T#",
-   "#.....###.#X###.#.#",
+   "#E....###.#X###.#.#",
    "#X........#.......#",
    "###################"
   ],
   "tileset": "verdant_ruins",
-  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
   "encounter_groups": [
    [
-    "goblin",
-    "sprout",
-    "rhino_beetle",
-    "rhino_beetle"
+    "gold_slime",
+    "sprout"
    ],
    [
-    "goblin",
-    "goblin",
-    "rhino_beetle",
-    "poison_mushroom"
-   ],
-   [
-    "goblin_shaman",
-    "mandragora",
-    "mandragora",
-    "pixie"
-   ],
-   [
-    "mushroom",
-    "rhino_beetle",
-    "poison_mushroom"
-   ],
-   [
-    "goblin_shaman",
-    "mandragora",
-    "poison_mushroom"
-   ],
-   [
-    "goblin",
-    "sprout",
     "mushroom",
     "mandragora"
    ],
    [
-    "goblin_shaman",
-    "pixie"
+    "mushroom",
+    "mandragora"
+   ],
+   [
+    "goblin",
+    "mandragora",
+    "mandragora"
+   ],
+   [
+    "mushroom",
+    "mandragora",
+    "rhino_beetle"
+   ],
+   [
+    "mandragora",
+    "mandragora"
+   ],
+   [
+    "sprout",
+    "mushroom",
+    "mandragora",
+    "poison_mushroom"
+   ],
+   [
+    "mushroom",
+    "mandragora",
+    "rhino_beetle"
+   ],
+   [
+    "mandragora",
+    "mandragora"
    ],
    [
     "goblin",
     "pixie",
-    "pixie"
+    "poison_mushroom"
    ],
    [
     "goblin",
-    "sprout",
-    "rhino_beetle",
-    "rhino_beetle"
-   ],
-   [
-    "goblin",
-    "goblin",
-    "rhino_beetle",
+    "pixie",
     "poison_mushroom"
    ],
    [
     "goblin_shaman",
-    "mandragora",
-    "mandragora",
-    "pixie"
-   ],
-   [
     "mushroom",
-    "rhino_beetle",
+    "pixie",
     "poison_mushroom"
    ],
    [
-    "gold_slime",
-    "sprout"
+    "goblin",
+    "goblin_shaman",
+    "poison_mushroom",
+    "poison_mushroom"
+   ],
+   [
+    "goblin",
+    "goblin_shaman",
+    "poison_mushroom",
+    "poison_mushroom"
    ]
   ],
   "showcase_group": [
@@ -1437,6 +1468,28 @@
      "rhino_beetle",
      "pixie"
     ]
+   },
+   {
+    "cell": [
+     1,
+     16
+    ],
+    "group": [
+     "elite_rhino_beetle",
+     "goblin_shaman"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "고목의 성소 깊은 곳, 정예 마물 「강철 투구왕」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 400,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -1563,81 +1616,58 @@
    "#####################"
   ],
   "tileset": "factory",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
-   [
-    "spark_wisp",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "oil_slime",
-    "spark_wisp",
-    "magma_slime"
-   ],
-   [
-    "scrap_golem",
-    "oil_slime",
-    "oil_slime"
-   ],
-   [
-    "oil_slime",
-    "iron_beetle",
-    "iron_beetle",
-    "sand_scorpion"
-   ],
-   [
-    "oil_slime",
-    "oil_slime",
-    "spark_wisp",
-    "sand_scorpion"
-   ],
-   [
-    "oil_slime",
-    "oil_slime",
-    "sand_scorpion"
-   ],
-   [
-    "scrap_golem",
-    "oil_slime",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "scrap_golem",
-    "scrap_golem",
-    "scrap_golem",
-    "magma_slime"
-   ],
-   [
-    "spark_wisp",
-    "spark_wisp",
-    "magma_slime"
-   ],
-   [
-    "spark_wisp",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "oil_slime",
-    "spark_wisp",
-    "magma_slime"
-   ],
-   [
-    "scrap_golem",
-    "oil_slime",
-    "oil_slime"
-   ],
-   [
-    "oil_slime",
-    "iron_beetle",
-    "iron_beetle",
-    "sand_scorpion"
-   ],
    [
     "gold_slime",
     "magma_slime"
+   ],
+   [
+    "scrap_golem",
+    "iron_beetle",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "scrap_golem",
+    "iron_beetle",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "scrap_golem",
+    "spark_wisp",
+    "sand_scorpion"
+   ],
+   [
+    "scrap_golem",
+    "oil_slime",
+    "oil_slime"
+   ],
+   [
+    "scrap_golem",
+    "scrap_golem",
+    "spark_wisp"
+   ],
+   [
+    "scrap_golem",
+    "oil_slime",
+    "oil_slime"
+   ],
+   [
+    "iron_beetle",
+    "iron_beetle",
+    "sand_scorpion"
+   ],
+   [
+    "iron_beetle",
+    "iron_beetle",
+    "sand_scorpion"
+   ],
+   [
+    "oil_slime",
+    "oil_slime",
+    "iron_beetle",
+    "iron_beetle"
    ]
   ],
   "showcase_group": [
@@ -1843,7 +1873,7 @@
    "#.#.#.#.#.###.###.###",
    "#.#.....#.###.###.###",
    "#.#.#.#.#.###.###.###",
-   "#...#.#.#.....#...S<#",
+   "#...#E#.#.....#...S<#",
    "#.###################",
    "#.###T###K###T###>###",
    "#X###.###.###L###.###",
@@ -1857,8 +1887,11 @@
    "#####################"
   ],
   "tileset": "factory",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
+   [
+    "gold_slime",
+    "magma_slime"
+   ],
    [
     "scrap_golem",
     "iron_beetle",
@@ -1866,20 +1899,20 @@
     "sand_scorpion"
    ],
    [
-    "oil_slime",
-    "oil_slime",
+    "scrap_golem",
     "iron_beetle",
-    "iron_beetle"
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "scrap_golem",
+    "spark_wisp",
+    "sand_scorpion"
    ],
    [
     "scrap_golem",
     "oil_slime",
     "oil_slime"
-   ],
-   [
-    "iron_beetle",
-    "iron_beetle",
-    "sand_scorpion"
    ],
    [
     "scrap_golem",
@@ -1887,39 +1920,6 @@
     "spark_wisp"
    ],
    [
-    "oil_slime",
-    "spark_wisp",
-    "iron_beetle"
-   ],
-   [
-    "scrap_golem",
-    "spark_wisp",
-    "sand_scorpion"
-   ],
-   [
-    "spark_wisp",
-    "spark_wisp",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "oil_slime",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "scrap_golem",
-    "iron_beetle",
-    "magma_slime",
-    "sand_scorpion"
-   ],
-   [
-    "oil_slime",
-    "oil_slime",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
     "scrap_golem",
     "oil_slime",
     "oil_slime"
@@ -1930,8 +1930,37 @@
     "sand_scorpion"
    ],
    [
-    "gold_slime",
-    "magma_slime"
+    "iron_beetle",
+    "iron_beetle",
+    "sand_scorpion"
+   ],
+   [
+    "oil_slime",
+    "oil_slime",
+    "iron_beetle",
+    "iron_beetle"
+   ],
+   [
+    "oil_slime",
+    "oil_slime",
+    "iron_beetle",
+    "iron_beetle"
+   ],
+   [
+    "oil_slime",
+    "iron_beetle",
+    "iron_beetle"
+   ],
+   [
+    "oil_slime",
+    "spark_wisp",
+    "iron_beetle"
+   ],
+   [
+    "spark_wisp",
+    "spark_wisp",
+    "iron_beetle",
+    "iron_beetle"
    ]
   ],
   "showcase_group": [
@@ -2062,6 +2091,23 @@
    }
   ],
   "events": [
+   {
+    "cell": [
+     5,
+     9
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "마석 창고 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 300,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
    {
     "cell": [
      18,
@@ -2205,7 +2251,7 @@
   "area_description": "공장 한가운데에서 고철이 뭉쳐 거대한 몸을 이룬 거상이 일어선다.",
   "rows": [
    "#####################",
-   "#X.....K#..........T#",
+   "#XE....K#..........T#",
    "#.#.#.###.###.###.###",
    "#.....###.###.###.###",
    "#.#.#.###.###.###.###",
@@ -2227,51 +2273,32 @@
    "#####################"
   ],
   "tileset": "factory",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
+   [
+    "gold_slime",
+    "magma_slime"
+   ],
+   [
+    "scrap_golem",
+    "iron_beetle",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "scrap_golem",
+    "iron_beetle",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "scrap_golem",
+    "spark_wisp",
+    "sand_scorpion"
+   ],
    [
     "scrap_golem",
     "oil_slime",
-    "magma_slime"
-   ],
-   [
-    "spark_wisp",
-    "spark_wisp",
-    "magma_slime",
-    "magma_slime"
-   ],
-   [
-    "scrap_golem",
-    "spark_wisp",
-    "sand_scorpion"
-   ],
-   [
-    "scrap_golem",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "scrap_golem",
-    "spark_wisp",
-    "iron_beetle",
-    "iron_beetle"
-   ],
-   [
-    "spark_wisp",
-    "spark_wisp",
-    "iron_beetle",
-    "sand_scorpion"
-   ],
-   [
-    "spark_wisp",
-    "iron_beetle",
-    "sand_scorpion",
-    "sand_scorpion"
-   ],
-   [
-    "iron_beetle",
-    "iron_beetle",
-    "sand_scorpion"
+    "oil_slime"
    ],
    [
     "scrap_golem",
@@ -2281,27 +2308,51 @@
    [
     "scrap_golem",
     "oil_slime",
-    "magma_slime"
+    "oil_slime"
    ],
    [
-    "spark_wisp",
-    "spark_wisp",
-    "magma_slime",
-    "magma_slime"
-   ],
-   [
-    "scrap_golem",
-    "spark_wisp",
+    "iron_beetle",
+    "iron_beetle",
     "sand_scorpion"
    ],
    [
-    "scrap_golem",
+    "iron_beetle",
+    "iron_beetle",
+    "sand_scorpion"
+   ],
+   [
+    "oil_slime",
+    "oil_slime",
     "iron_beetle",
     "iron_beetle"
    ],
    [
-    "gold_slime",
-    "magma_slime"
+    "oil_slime",
+    "oil_slime",
+    "iron_beetle",
+    "iron_beetle"
+   ],
+   [
+    "oil_slime",
+    "iron_beetle",
+    "iron_beetle"
+   ],
+   [
+    "oil_slime",
+    "spark_wisp",
+    "iron_beetle"
+   ],
+   [
+    "spark_wisp",
+    "spark_wisp",
+    "iron_beetle",
+    "iron_beetle"
+   ],
+   [
+    "spark_wisp",
+    "spark_wisp",
+    "iron_beetle",
+    "iron_beetle"
    ]
   ],
   "showcase_group": [
@@ -2421,6 +2472,28 @@
    }
   ],
   "events": [
+   {
+    "cell": [
+     2,
+     1
+    ],
+    "group": [
+     "elite_sand_golem",
+     "oil_slime"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "폐공장 중앙 라인 깊은 곳, 정예 마물 「철광 거인」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 600,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
+   },
    {
     "cell": [
      13,
@@ -2551,81 +2624,60 @@
    "#####################"
   ],
   "tileset": "frost_grotto",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
+   [
+    "metal_slime",
+    "jellyfish"
+   ],
    [
     "jellyfish",
     "snow_fairy",
-    "ice_golem",
-    "ice_slime"
-   ],
-   [
-    "snow_fairy",
-    "ice_golem",
-    "snow_rabbit"
-   ],
-   [
-    "coral_crab",
-    "ice_golem",
-    "frost_bee"
-   ],
-   [
-    "coral_crab",
     "penguin_mage",
-    "ice_slime"
-   ],
-   [
-    "ice_wolf",
-    "ice_wolf",
     "snow_rabbit"
-   ],
-   [
-    "yeti",
-    "yeti",
-    "ice_slime",
-    "frost_bee"
    ],
    [
     "frost_spider",
+    "coral_crab",
+    "ice_golem"
+   ],
+   [
+    "jellyfish",
+    "frost_spider",
+    "ice_golem",
+    "ice_slime"
+   ],
+   [
+    "jellyfish",
+    "frost_spider",
+    "ice_golem",
+    "ice_slime"
+   ],
+   [
     "snow_fairy",
     "penguin_mage",
+    "penguin_mage",
+    "ice_wolf"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "penguin_mage",
+    "ice_wolf"
+   ],
+   [
+    "snow_fairy",
+    "yeti",
+    "snow_rabbit"
+   ],
+   [
+    "jellyfish",
+    "ice_wolf",
     "yeti"
    ],
    [
     "snow_fairy",
-    "ice_wolf",
-    "frost_bee",
-    "frost_bee"
-   ],
-   [
-    "frost_spider",
-    "ice_slime",
+    "yeti",
     "snow_rabbit"
-   ],
-   [
-    "jellyfish",
-    "snow_fairy",
-    "ice_golem",
-    "ice_slime"
-   ],
-   [
-    "snow_fairy",
-    "ice_golem",
-    "snow_rabbit"
-   ],
-   [
-    "coral_crab",
-    "ice_golem",
-    "frost_bee"
-   ],
-   [
-    "coral_crab",
-    "penguin_mage",
-    "ice_slime"
-   ],
-   [
-    "metal_slime",
-    "jellyfish"
    ]
   ],
   "showcase_group": [
@@ -2820,7 +2872,7 @@
   "area_description": "빙판 갱도가 미끄럽다. 얼음 아래로 몬스터의 그림자가 물고기처럼 헤엄친다.",
   "rows": [
    "#####################",
-   "#...#T#...#...#...S<#",
+   "#...#T#E..#...#...S<#",
    "#.#.#E#.#.#.#.#.#####",
    "#>#.......#.#.......#",
    "###.###.#.#.#.###.#.#",
@@ -2842,8 +2894,40 @@
    "#####################"
   ],
   "tileset": "frost_grotto",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
+   [
+    "metal_slime",
+    "jellyfish"
+   ],
+   [
+    "jellyfish",
+    "snow_fairy",
+    "penguin_mage",
+    "snow_rabbit"
+   ],
+   [
+    "frost_spider",
+    "coral_crab",
+    "ice_golem"
+   ],
+   [
+    "jellyfish",
+    "frost_spider",
+    "ice_golem",
+    "ice_slime"
+   ],
+   [
+    "jellyfish",
+    "frost_spider",
+    "ice_golem",
+    "ice_slime"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "penguin_mage",
+    "ice_wolf"
+   ],
    [
     "snow_fairy",
     "penguin_mage",
@@ -2857,14 +2941,13 @@
    ],
    [
     "jellyfish",
-    "frost_spider",
-    "ice_golem",
-    "ice_slime"
-   ],
-   [
-    "ice_wolf",
     "ice_wolf",
     "yeti"
+   ],
+   [
+    "snow_fairy",
+    "yeti",
+    "snow_rabbit"
    ],
    [
     "coral_crab",
@@ -2877,46 +2960,14 @@
     "frost_bee"
    ],
    [
-    "jellyfish",
-    "ice_wolf",
-    "yeti"
-   ],
-   [
-    "frost_spider",
-    "coral_crab",
-    "ice_golem"
-   ],
-   [
-    "jellyfish",
-    "snow_fairy",
-    "penguin_mage",
-    "snow_rabbit"
-   ],
-   [
-    "snow_fairy",
-    "penguin_mage",
-    "penguin_mage",
-    "ice_wolf"
-   ],
-   [
-    "snow_fairy",
-    "yeti",
-    "snow_rabbit"
-   ],
-   [
-    "jellyfish",
-    "frost_spider",
-    "ice_golem",
-    "ice_slime"
-   ],
-   [
     "ice_wolf",
     "ice_wolf",
     "yeti"
    ],
    [
-    "metal_slime",
-    "jellyfish"
+    "ice_wolf",
+    "ice_wolf",
+    "yeti"
    ]
   ],
   "showcase_group": [
@@ -3047,6 +3098,23 @@
    }
   ],
   "events": [
+   {
+    "cell": [
+     7,
+     1
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "얼음 창고 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 400,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
    {
     "cell": [
      5,
@@ -3217,85 +3285,89 @@
    "#.#.###.#.#########.#",
    "#.#.....#.#W#...S<#.#",
    "#.###.#####.#.#####.#",
-   "#T#...X..T#.........#",
+   "#T#E..X..T#.........#",
    "#####################"
   ],
   "tileset": "frost_grotto",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
-   [
-    "frost_spider",
-    "yeti",
-    "frost_bee",
-    "frost_bee"
-   ],
-   [
-    "jellyfish",
-    "snow_fairy",
-    "ice_wolf"
-   ],
-   [
-    "jellyfish",
-    "frost_spider",
-    "penguin_mage",
-    "snow_rabbit"
-   ],
-   [
-    "jellyfish",
-    "coral_crab",
-    "snow_fairy"
-   ],
-   [
-    "frost_spider",
-    "snow_fairy",
-    "yeti"
-   ],
-   [
-    "penguin_mage",
-    "yeti",
-    "ice_slime",
-    "ice_slime"
-   ],
-   [
-    "frost_spider",
-    "ice_golem",
-    "frost_bee"
-   ],
-   [
-    "jellyfish",
-    "jellyfish",
-    "ice_golem"
-   ],
-   [
-    "ice_slime",
-    "frost_bee",
-    "frost_bee"
-   ],
-   [
-    "frost_spider",
-    "yeti",
-    "frost_bee",
-    "frost_bee"
-   ],
-   [
-    "jellyfish",
-    "snow_fairy",
-    "ice_wolf"
-   ],
-   [
-    "jellyfish",
-    "frost_spider",
-    "penguin_mage",
-    "snow_rabbit"
-   ],
-   [
-    "jellyfish",
-    "coral_crab",
-    "snow_fairy"
-   ],
    [
     "metal_slime",
     "jellyfish"
+   ],
+   [
+    "jellyfish",
+    "snow_fairy",
+    "penguin_mage",
+    "snow_rabbit"
+   ],
+   [
+    "frost_spider",
+    "coral_crab",
+    "ice_golem"
+   ],
+   [
+    "jellyfish",
+    "frost_spider",
+    "ice_golem",
+    "ice_slime"
+   ],
+   [
+    "jellyfish",
+    "frost_spider",
+    "ice_golem",
+    "ice_slime"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "penguin_mage",
+    "ice_wolf"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "penguin_mage",
+    "ice_wolf"
+   ],
+   [
+    "snow_fairy",
+    "yeti",
+    "snow_rabbit"
+   ],
+   [
+    "jellyfish",
+    "ice_wolf",
+    "yeti"
+   ],
+   [
+    "snow_fairy",
+    "yeti",
+    "snow_rabbit"
+   ],
+   [
+    "coral_crab",
+    "ice_wolf",
+    "ice_golem"
+   ],
+   [
+    "yeti",
+    "snow_rabbit",
+    "frost_bee"
+   ],
+   [
+    "ice_wolf",
+    "ice_wolf",
+    "yeti"
+   ],
+   [
+    "ice_wolf",
+    "ice_wolf",
+    "yeti"
+   ],
+   [
+    "yeti",
+    "snow_rabbit",
+    "frost_bee"
    ]
   ],
   "showcase_group": [
@@ -3430,6 +3502,28 @@
      "snow_rabbit",
      "coral_crab"
     ]
+   },
+   {
+    "cell": [
+     3,
+     19
+    ],
+    "group": [
+     "elite_yeti",
+     "ice_wolf"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "얼음 심장부 깊은 곳, 정예 마물 「설산의 폭군」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 800,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -3551,88 +3645,67 @@
    "#######################"
   ],
   "tileset": "cave",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
-    "sand_golem",
-    "lizardman",
-    "grave_bat",
-    "flame_elemental"
-   ],
-   [
-    "crystal_slime",
-    "cave_mole",
-    "grave_bat"
-   ],
-   [
-    "crystal_slime",
-    "sand_golem",
-    "grave_bat",
-    "flame_elemental",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
-    "sand_golem",
-    "lizardman"
-   ],
-   [
-    "crystal_slime",
-    "crystal_slime",
-    "lizardman",
-    "grave_bat"
-   ],
-   [
-    "cave_spider",
-    "cave_spider",
-    "cave_mole",
-    "lizardman"
-   ],
-   [
-    "crystal_slime",
-    "crystal_slime",
-    "cave_mole",
-    "grave_bat",
-    "grave_bat"
-   ],
-   [
-    "crystal_slime",
-    "cave_spider",
-    "cave_spider",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
-    "cave_mole",
-    "cave_mole",
-    "lizardman",
-    "flame_elemental"
-   ],
-   [
-    "sand_golem",
-    "lizardman",
-    "grave_bat",
-    "flame_elemental"
-   ],
-   [
-    "crystal_slime",
-    "cave_mole",
-    "grave_bat"
-   ],
-   [
-    "crystal_slime",
-    "sand_golem",
-    "grave_bat",
-    "flame_elemental",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
-    "sand_golem",
-    "lizardman"
-   ],
-   [
     "metal_slime",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "cave_mole",
+    "sand_golem",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "crystal_slime",
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "crystal_slime",
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "cave_spider",
+    "sand_golem",
+    "lizardman",
+    "grave_bat",
+    "flame_elemental"
+   ],
+   [
+    "cave_spider",
+    "sand_golem",
+    "lizardman",
+    "grave_bat",
     "flame_elemental"
    ]
   ],
@@ -3847,7 +3920,7 @@
    "#####.#.###.#########.#",
    "#####...#......K#####.#",
    "#######.#.#.#.#######.#",
-   "###.....#.....#####>..#",
+   "###.....#E....#####>..#",
    "###.###################",
    "###.............#####N#",
    "#####.###.#.#.#.#####.#",
@@ -3861,94 +3934,93 @@
    "#######################"
   ],
   "tileset": "cave",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
-   [
-    "cave_spider",
-    "sand_golem",
-    "lizardman",
-    "grave_bat",
-    "flame_elemental"
-   ],
-   [
-    "cave_mole",
-    "lizardman",
-    "lizardman",
-    "flame_elemental"
-   ],
-   [
-    "crystal_slime",
-    "crystal_slime",
-    "cave_mole",
-    "grave_bat"
-   ],
-   [
-    "crystal_slime",
-    "cave_mole",
-    "sand_golem",
-    "sand_golem",
-    "lizardman"
-   ],
-   [
-    "cave_mole",
-    "sand_golem",
-    "sand_golem",
-    "lizardman"
-   ],
-   [
-    "crystal_slime",
-    "crystal_slime",
-    "cave_spider",
-    "sand_golem",
-    "lizardman"
-   ],
-   [
-    "cave_mole",
-    "lizardman",
-    "flame_elemental"
-   ],
-   [
-    "crystal_slime",
-    "cave_mole",
-    "lizardman",
-    "lizardman"
-   ],
-   [
-    "cave_mole",
-    "cave_mole",
-    "sand_golem",
-    "lizardman",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
-    "sand_golem",
-    "lizardman",
-    "grave_bat",
-    "flame_elemental"
-   ],
-   [
-    "cave_mole",
-    "lizardman",
-    "lizardman",
-    "flame_elemental"
-   ],
-   [
-    "crystal_slime",
-    "crystal_slime",
-    "cave_mole",
-    "grave_bat"
-   ],
-   [
-    "crystal_slime",
-    "cave_mole",
-    "sand_golem",
-    "sand_golem",
-    "lizardman"
-   ],
    [
     "metal_slime",
     "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "cave_mole",
+    "sand_golem",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "crystal_slime",
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "crystal_slime",
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "cave_spider",
+    "sand_golem",
+    "lizardman",
+    "grave_bat",
+    "flame_elemental"
+   ],
+   [
+    "cave_spider",
+    "sand_golem",
+    "lizardman",
+    "grave_bat",
+    "flame_elemental"
+   ],
+   [
+    "crystal_slime",
+    "cave_mole",
+    "lizardman",
+    "lizardman"
+   ],
+   [
+    "crystal_slime",
+    "crystal_slime",
+    "cave_spider",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "crystal_slime",
+    "crystal_slime",
+    "cave_mole",
+    "grave_bat"
+   ],
+   [
+    "crystal_slime",
+    "crystal_slime",
+    "cave_mole",
+    "grave_bat"
    ]
   ],
   "showcase_group": [
@@ -4105,6 +4177,23 @@
      "crystal_slime",
      "grave_bat"
     ]
+   },
+   {
+    "cell": [
+     9,
+     11
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "게이트 맥 통로 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 500,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -4245,46 +4334,68 @@
    "###.#.#.#.###.#.#.###.#",
    "#<S.............L.....#",
    "#####.#.#.#.#.#.#.#.###",
-   "###.....#.......#.....#",
+   "###.....#.......#....E#",
    "#######################"
   ],
   "tileset": "cave",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
+    "metal_slime",
+    "flame_elemental"
+   ],
+   [
     "cave_mole",
     "lizardman",
-    "flame_elemental",
     "flame_elemental"
    ],
    [
-    "lizardman",
-    "lizardman",
-    "lizardman",
-    "grave_bat",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
-    "cave_spider",
-    "grave_bat",
-    "grave_bat",
-    "grave_bat"
-   ],
-   [
-    "cave_spider",
-    "cave_spider",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
     "cave_mole",
-    "grave_bat",
-    "flame_elemental",
+    "lizardman",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "cave_mole",
+    "lizardman",
+    "lizardman",
+    "flame_elemental"
+   ],
+   [
+    "cave_mole",
+    "cave_mole",
+    "sand_golem",
+    "lizardman",
     "flame_elemental"
    ],
    [
     "crystal_slime",
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "crystal_slime",
+    "cave_mole",
+    "sand_golem",
+    "sand_golem",
+    "lizardman"
+   ],
+   [
+    "cave_spider",
+    "sand_golem",
+    "lizardman",
+    "grave_bat",
+    "flame_elemental"
+   ],
+   [
+    "cave_spider",
     "sand_golem",
     "lizardman",
     "grave_bat",
@@ -4292,49 +4403,35 @@
    ],
    [
     "crystal_slime",
-    "cave_spider",
-    "flame_elemental"
-   ],
-   [
     "cave_mole",
     "lizardman",
-    "lizardman",
-    "grave_bat"
+    "lizardman"
    ],
    [
+    "crystal_slime",
+    "crystal_slime",
     "cave_spider",
-    "grave_bat",
-    "grave_bat",
-    "grave_bat"
+    "sand_golem",
+    "lizardman"
    ],
    [
+    "crystal_slime",
+    "crystal_slime",
     "cave_mole",
-    "lizardman",
-    "flame_elemental",
-    "flame_elemental"
-   ],
-   [
-    "lizardman",
-    "lizardman",
-    "lizardman",
-    "grave_bat",
-    "flame_elemental"
-   ],
-   [
-    "cave_spider",
-    "cave_spider",
-    "grave_bat",
-    "grave_bat",
     "grave_bat"
    ],
    [
-    "cave_spider",
-    "cave_spider",
-    "flame_elemental"
+    "crystal_slime",
+    "crystal_slime",
+    "cave_mole",
+    "grave_bat"
    ],
    [
-    "metal_slime",
-    "flame_elemental"
+    "crystal_slime",
+    "crystal_slime",
+    "cave_spider",
+    "sand_golem",
+    "lizardman"
    ]
   ],
   "showcase_group": [
@@ -4467,6 +4564,28 @@
      "grave_bat",
      "cave_mole"
     ]
+   },
+   {
+    "cell": [
+     21,
+     21
+    ],
+    "group": [
+     "elite_hellhound",
+     "grave_bat"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "수정 동굴 심장 깊은 곳, 정예 마물 「오르트로스」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 1000,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -4588,92 +4707,64 @@
    "#######################"
   ],
   "tileset": "ember_caverns",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
-   [
-    "phoenix",
-    "harpy",
-    "fire_drake",
-    "ember_bee",
-    "lava_beetle"
-   ],
-   [
-    "hellhound",
-    "hellhound",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "phoenix",
-    "ember_bee",
-    "ember_bee",
-    "lava_beetle",
-    "flame_wisp"
-   ],
-   [
-    "harpy",
-    "fire_drake",
-    "fire_drake"
-   ],
-   [
-    "hellhound",
-    "harpy",
-    "fire_drake"
-   ],
-   [
-    "hellhound",
-    "phoenix",
-    "ember_bee",
-    "lava_beetle"
-   ],
-   [
-    "hellhound",
-    "hellhound",
-    "fire_drake",
-    "ember_bee",
-    "crimson_scorpion"
-   ],
-   [
-    "fire_drake",
-    "ember_bee",
-    "flame_wisp",
-    "crimson_scorpion",
-    "crimson_scorpion"
-   ],
-   [
-    "harpy",
-    "ember_bee",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "phoenix",
-    "harpy",
-    "fire_drake",
-    "ember_bee",
-    "lava_beetle"
-   ],
-   [
-    "hellhound",
-    "hellhound",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "phoenix",
-    "ember_bee",
-    "ember_bee",
-    "lava_beetle",
-    "flame_wisp"
-   ],
-   [
-    "harpy",
-    "fire_drake",
-    "fire_drake"
-   ],
    [
     "metal_slime",
     "hellhound"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "fire_drake",
+    "ember_bee"
+   ],
+   [
+    "phoenix",
+    "phoenix",
+    "phoenix",
+    "fire_drake"
+   ],
+   [
+    "hellhound",
+    "ember_bee",
+    "lava_beetle"
+   ],
+   [
+    "phoenix",
+    "phoenix",
+    "ember_bee",
+    "lava_beetle"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "lava_beetle",
+    "lava_beetle",
+    "flame_wisp"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "lava_beetle",
+    "lava_beetle",
+    "flame_wisp"
+   ],
+   [
+    "phoenix",
+    "ember_bee",
+    "lava_beetle",
+    "crimson_scorpion"
+   ],
+   [
+    "phoenix",
+    "ember_bee",
+    "lava_beetle",
+    "crimson_scorpion"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "lava_beetle"
    ]
   ],
   "showcase_group": [
@@ -4905,7 +4996,7 @@
    "#.#.#...#.#.....###.###",
    "#.......#.......#.....#",
    "#.###...###.#.###.###.#",
-   "#.......#.#.#...#.....#",
+   "#.......#.#E#...#.....#",
    "#.#.#.###.###.#.#...###",
    "#...#...#.......#.....#",
    "#S###.#.#.###.###...#.#",
@@ -4913,38 +5004,10 @@
    "#######################"
   ],
   "tileset": "ember_caverns",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
    [
-    "hellhound",
-    "hellhound",
-    "lava_beetle",
-    "lava_beetle",
-    "flame_wisp"
-   ],
-   [
-    "ember_bee",
-    "lava_beetle",
-    "flame_wisp",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "phoenix",
-    "ember_bee",
-    "lava_beetle",
-    "crimson_scorpion"
-   ],
-   [
-    "ember_bee",
-    "lava_beetle",
-    "lava_beetle"
-   ],
-   [
-    "phoenix",
-    "phoenix",
-    "phoenix",
-    "fire_drake"
+    "metal_slime",
+    "hellhound"
    ],
    [
     "hellhound",
@@ -4955,16 +5018,17 @@
    [
     "phoenix",
     "phoenix",
+    "phoenix",
+    "fire_drake"
+   ],
+   [
+    "hellhound",
     "ember_bee",
     "lava_beetle"
    ],
    [
-    "lava_beetle",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "hellhound",
+    "phoenix",
+    "phoenix",
     "ember_bee",
     "lava_beetle"
    ],
@@ -4976,10 +5040,16 @@
     "flame_wisp"
    ],
    [
+    "hellhound",
+    "hellhound",
+    "lava_beetle",
+    "lava_beetle",
+    "flame_wisp"
+   ],
+   [
+    "phoenix",
     "ember_bee",
     "lava_beetle",
-    "flame_wisp",
-    "flame_wisp",
     "crimson_scorpion"
    ],
    [
@@ -4994,8 +5064,28 @@
     "lava_beetle"
    ],
    [
-    "metal_slime",
-    "hellhound"
+    "ember_bee",
+    "lava_beetle",
+    "lava_beetle"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "flame_wisp",
+    "flame_wisp",
+    "crimson_scorpion"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "flame_wisp",
+    "flame_wisp",
+    "crimson_scorpion"
+   ],
+   [
+    "lava_beetle",
+    "flame_wisp",
+    "crimson_scorpion"
    ]
   ],
   "showcase_group": [
@@ -5163,6 +5253,23 @@
      "hellhound",
      "ember_bee"
     ]
+   },
+   {
+    "cell": [
+     11,
+     17
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "용암 협곡 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 600,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -5295,7 +5402,7 @@
    "#.#.###.#####.#####.#.#",
    "#...#K..#K......#...#.#",
    "###################.###",
-   "#.B>#T#T#.........#...#",
+   "#.B>#T#T#E........#...#",
    "#.###.#E#####.###.#.###",
    "#.......#K..#.#T#.....#",
    "#.#.#...###.#.#.###.#.#",
@@ -5307,86 +5414,95 @@
    "#######################"
   ],
   "tileset": "ember_caverns",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
-   [
-    "hellhound",
-    "harpy",
-    "lava_beetle",
-    "crimson_scorpion"
-   ],
-   [
-    "harpy",
-    "harpy",
-    "ember_bee",
-    "flame_wisp"
-   ],
-   [
-    "hellhound",
-    "harpy",
-    "ember_bee",
-    "lava_beetle"
-   ],
-   [
-    "flame_wisp",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "hellhound",
-    "hellhound",
-    "ember_bee"
-   ],
-   [
-    "phoenix",
-    "phoenix",
-    "fire_drake",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
-   [
-    "ember_bee",
-    "ember_bee",
-    "lava_beetle"
-   ],
-   [
-    "ember_bee",
-    "flame_wisp",
-    "flame_wisp",
-    "crimson_scorpion",
-    "crimson_scorpion"
-   ],
-   [
-    "phoenix",
-    "harpy",
-    "ember_bee"
-   ],
-   [
-    "hellhound",
-    "harpy",
-    "lava_beetle",
-    "crimson_scorpion"
-   ],
-   [
-    "harpy",
-    "harpy",
-    "ember_bee",
-    "flame_wisp"
-   ],
-   [
-    "hellhound",
-    "harpy",
-    "ember_bee",
-    "lava_beetle"
-   ],
-   [
-    "flame_wisp",
-    "flame_wisp",
-    "crimson_scorpion"
-   ],
    [
     "metal_slime",
     "hellhound"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "fire_drake",
+    "ember_bee"
+   ],
+   [
+    "phoenix",
+    "phoenix",
+    "phoenix",
+    "fire_drake"
+   ],
+   [
+    "hellhound",
+    "ember_bee",
+    "lava_beetle"
+   ],
+   [
+    "phoenix",
+    "phoenix",
+    "ember_bee",
+    "lava_beetle"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "lava_beetle",
+    "lava_beetle",
+    "flame_wisp"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "lava_beetle",
+    "lava_beetle",
+    "flame_wisp"
+   ],
+   [
+    "phoenix",
+    "ember_bee",
+    "lava_beetle",
+    "crimson_scorpion"
+   ],
+   [
+    "phoenix",
+    "ember_bee",
+    "lava_beetle",
+    "crimson_scorpion"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "lava_beetle"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "lava_beetle"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "flame_wisp",
+    "flame_wisp",
+    "crimson_scorpion"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "flame_wisp",
+    "flame_wisp",
+    "crimson_scorpion"
+   ],
+   [
+    "lava_beetle",
+    "flame_wisp",
+    "crimson_scorpion"
+   ],
+   [
+    "ember_bee",
+    "lava_beetle",
+    "flame_wisp",
+    "flame_wisp",
+    "crimson_scorpion"
    ]
   ],
   "showcase_group": [
@@ -5520,6 +5636,28 @@
   "events": [
    {
     "cell": [
+     9,
+     13
+    ],
+    "group": [
+     "elite_fire_drake",
+     "lava_beetle"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "불꽃 신전 제단 깊은 곳, 정예 마물 「홍염 비룡」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 1200,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
      7,
      14
     ],
@@ -5651,58 +5789,43 @@
    "#######################"
   ],
   "tileset": "school",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
+    "school_ghost",
+    "scarecrow",
+    "scarecrow",
+    "mimic",
+    "mimic"
+   ],
+   [
     "locker_mimic",
-    "dark_pixie",
-    "dark_pixie"
+    "scarecrow",
+    "wisp"
    ],
    [
     "school_ghost",
+    "scarecrow",
+    "wisp",
+    "wisp"
+   ],
+   [
+    "dark_pixie",
+    "dark_pixie",
     "ghost_mushroom",
+    "ghost_mushroom",
+    "mimic"
+   ],
+   [
+    "school_ghost",
+    "locker_mimic",
+    "dark_pixie",
+    "scarecrow",
+    "scarecrow"
+   ],
+   [
+    "locker_mimic",
+    "scarecrow",
     "ghost_mushroom"
-   ],
-   [
-    "locker_mimic",
-    "wisp",
-    "wisp"
-   ],
-   [
-    "school_ghost",
-    "locker_mimic",
-    "dark_pixie",
-    "scarecrow",
-    "wisp"
-   ],
-   [
-    "dark_pixie",
-    "scarecrow",
-    "wisp",
-    "wisp",
-    "mimic"
-   ],
-   [
-    "wisp",
-    "ghost_mushroom",
-    "mimic"
-   ],
-   [
-    "school_ghost",
-    "school_ghost",
-    "wisp"
-   ],
-   [
-    "school_ghost",
-    "locker_mimic",
-    "mimic",
-    "mimic",
-    "mimic"
-   ],
-   [
-    "dark_pixie",
-    "scarecrow",
-    "mimic"
    ]
   ],
   "showcase_group": [
@@ -5931,7 +6054,7 @@
    "#####.#####.#####.#####",
    "#####.#####.#####.#####",
    "#TE.....#TL.....#....T#",
-   "###.###.###.###.###.###",
+   "###.###E###.###.###.###",
    "###.###.###.###.###.###",
    "###.###E###.###.###.###",
    "###>###T###T###K###K###",
@@ -5940,7 +6063,6 @@
    "#######################"
   ],
   "tileset": "school",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
     "school_ghost",
@@ -5950,22 +6072,17 @@
     "mimic"
    ],
    [
+    "locker_mimic",
+    "scarecrow",
+    "wisp"
+   ],
+   [
     "school_ghost",
     "scarecrow",
     "wisp",
     "wisp"
    ],
    [
-    "school_ghost",
-    "school_ghost",
-    "scarecrow"
-   ],
-   [
-    "locker_mimic",
-    "scarecrow",
-    "wisp"
-   ],
-   [
     "dark_pixie",
     "dark_pixie",
     "ghost_mushroom",
@@ -5978,23 +6095,28 @@
     "dark_pixie",
     "scarecrow",
     "scarecrow"
-   ],
-   [
-    "school_ghost",
-    "locker_mimic",
-    "wisp"
-   ],
-   [
-    "school_ghost",
-    "school_ghost",
-    "school_ghost",
-    "dark_pixie",
-    "mimic"
    ],
    [
     "locker_mimic",
     "scarecrow",
     "ghost_mushroom"
+   ],
+   [
+    "school_ghost",
+    "school_ghost",
+    "school_ghost",
+    "dark_pixie",
+    "mimic"
+   ],
+   [
+    "school_ghost",
+    "school_ghost",
+    "scarecrow"
+   ],
+   [
+    "school_ghost",
+    "locker_mimic",
+    "wisp"
    ]
   ],
   "showcase_group": [
@@ -6155,6 +6277,23 @@
    {
     "cell": [
      7,
+     16
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "교실 복도 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 700,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     7,
      18
     ],
     "group": [
@@ -6299,7 +6438,7 @@
    "###X#######.###.###.###",
    "#T.....H#TL.....L....W#",
    "###.#X#####.#####.#####",
-   "###.#...###..T###.#.###",
+   "###.#...###..T###.#E###",
    "###.###B###.#####.#.###",
    "###...#>###.....#...###",
    "#####.#########.#.#####",
@@ -6315,63 +6454,66 @@
    "#######################"
   ],
   "tileset": "school",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
-    "scarecrow",
-    "scarecrow",
-    "scarecrow",
-    "ghost_mushroom",
-    "ghost_mushroom"
-   ],
-   [
     "school_ghost",
-    "locker_mimic",
     "scarecrow",
-    "ghost_mushroom"
-   ],
-   [
-    "locker_mimic",
-    "dark_pixie",
     "scarecrow",
-    "ghost_mushroom"
-   ],
-   [
-    "dark_pixie",
-    "wisp",
-    "wisp",
     "mimic",
     "mimic"
    ],
    [
     "locker_mimic",
-    "locker_mimic",
     "scarecrow",
+    "wisp"
+   ],
+   [
+    "school_ghost",
+    "scarecrow",
+    "wisp",
+    "wisp"
+   ],
+   [
+    "dark_pixie",
+    "dark_pixie",
+    "ghost_mushroom",
+    "ghost_mushroom",
     "mimic"
    ],
    [
     "school_ghost",
     "locker_mimic",
     "dark_pixie",
+    "scarecrow",
+    "scarecrow"
+   ],
+   [
+    "locker_mimic",
+    "scarecrow",
     "ghost_mushroom"
    ],
    [
     "school_ghost",
+    "school_ghost",
+    "school_ghost",
     "dark_pixie",
-    "wisp",
-    "ghost_mushroom"
+    "mimic"
+   ],
+   [
+    "school_ghost",
+    "school_ghost",
+    "scarecrow"
    ],
    [
     "school_ghost",
     "locker_mimic",
-    "scarecrow",
-    "scarecrow",
     "wisp"
    ],
    [
-    "dark_pixie",
-    "wisp",
-    "wisp",
+    "school_ghost",
+    "scarecrow",
+    "scarecrow",
+    "mimic",
     "mimic"
    ]
   ],
@@ -6519,6 +6661,28 @@
      "dark_pixie",
      "locker_mimic"
     ]
+   },
+   {
+    "cell": [
+     19,
+     9
+    ],
+    "group": [
+     "elite_mimic",
+     "ghost_mushroom"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "축제 무대 깊은 곳, 정예 마물 「판도라 상자」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 1400,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -6642,59 +6806,40 @@
    "#########################"
   ],
   "tileset": "haunted_crypt",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
     "skeleton",
     "ghost",
-    "lich",
-    "crypt_hound"
+    "ghost",
+    "ghost"
    ],
    [
     "skeleton",
-    "skeleton_mage",
-    "lich",
-    "crypt_hound",
-    "crypt_hound"
+    "dark_knight",
+    "lich"
    ],
    [
-    "ghost",
+    "skeleton_mage",
     "dark_knight",
     "dark_knight"
    ],
    [
     "skeleton",
     "skeleton_mage",
-    "ghost"
-   ],
-   [
-    "skeleton",
-    "ghost",
-    "ghost",
     "lich"
    ],
    [
+    "skeleton_mage",
+    "skeleton_mage",
     "ghost",
     "dark_knight",
-    "lich"
-   ],
-   [
-    "ghost",
-    "dark_knight",
-    "lich",
-    "lich",
     "crypt_hound"
    ],
    [
     "skeleton",
-    "skeleton",
-    "dark_knight",
-    "dark_knight",
-    "lich"
-   ],
-   [
-    "skeleton",
-    "dark_knight",
+    "ghost",
+    "crypt_hound",
+    "crypt_hound",
     "crypt_hound"
    ]
   ],
@@ -6932,18 +7077,21 @@
    "#.#####.#.###.###.#.#.###",
    "#.......#...#...#...#...#",
    "###.#X#.#.#.#.###.###...#",
-   "#...#...#X..#...#.S<#...#",
+   "#E..#...#X..#...#.S<#...#",
    "#########################"
   ],
   "tileset": "haunted_crypt",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
-    "skeleton_mage",
-    "skeleton_mage",
+    "skeleton",
     "ghost",
+    "ghost",
+    "ghost"
+   ],
+   [
+    "skeleton",
     "dark_knight",
-    "crypt_hound"
+    "lich"
    ],
    [
     "skeleton_mage",
@@ -6951,45 +7099,41 @@
     "dark_knight"
    ],
    [
-    "skeleton_mage",
-    "dark_knight",
-    "crypt_hound",
-    "crypt_hound",
-    "crypt_hound"
-   ],
-   [
-    "skeleton_mage",
-    "lich",
-    "lich",
-    "crypt_hound"
-   ],
-   [
-    "skeleton",
-    "ghost",
-    "crypt_hound",
-    "crypt_hound",
-    "crypt_hound"
-   ],
-   [
-    "skeleton_mage",
-    "lich",
-    "crypt_hound"
-   ],
-   [
-    "skeleton",
-    "dark_knight",
-    "lich"
-   ],
-   [
     "skeleton",
     "skeleton_mage",
     "lich"
    ],
    [
+    "skeleton_mage",
+    "skeleton_mage",
+    "ghost",
+    "dark_knight",
+    "crypt_hound"
+   ],
+   [
     "skeleton",
     "ghost",
-    "ghost",
-    "ghost"
+    "crypt_hound",
+    "crypt_hound",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "lich",
+    "lich",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "lich",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "dark_knight",
+    "crypt_hound",
+    "crypt_hound",
+    "crypt_hound"
    ]
   ],
   "showcase_group": [
@@ -7161,6 +7305,23 @@
      "crypt_hound",
      "dark_knight"
     ]
+   },
+   {
+    "cell": [
+     1,
+     23
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "납골실 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 800,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -7298,7 +7459,7 @@
    "###...#.#...#.#.#.#.#.#.#",
    "#.....#.#...#.....#.....#",
    "#.###.#.#.###.###.#.###.#",
-   "#..N#.#.#.....LT#.......#",
+   "#..N#.#E#.....LT#.......#",
    "#L#######################",
    "#.#...X.#...#...#K#.....#",
    "#.#.###.#X#.#.###.#.###.#",
@@ -7314,60 +7475,66 @@
    "#########################"
   ],
   "tileset": "haunted_crypt",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
-    "skeleton_mage",
-    "dark_knight",
-    "lich",
-    "crypt_hound",
-    "crypt_hound"
-   ],
-   [
-    "skeleton",
-    "skeleton",
-    "skeleton_mage",
-    "skeleton_mage",
-    "skeleton_mage"
-   ],
-   [
-    "skeleton_mage",
-    "ghost",
-    "lich",
-    "lich"
-   ],
-   [
     "skeleton",
     "ghost",
-    "dark_knight"
-   ],
-   [
-    "skeleton",
     "ghost",
     "ghost"
    ],
    [
-    "ghost",
-    "lich",
-    "crypt_hound"
+    "skeleton",
+    "dark_knight",
+    "lich"
    ],
    [
-    "skeleton",
     "skeleton_mage",
-    "lich",
-    "crypt_hound"
-   ],
-   [
-    "skeleton",
-    "skeleton",
-    "skeleton_mage",
-    "skeleton_mage"
-   ],
-   [
-    "skeleton",
-    "skeleton_mage",
-    "ghost",
+    "dark_knight",
     "dark_knight"
+   ],
+   [
+    "skeleton",
+    "skeleton_mage",
+    "lich"
+   ],
+   [
+    "skeleton_mage",
+    "skeleton_mage",
+    "ghost",
+    "dark_knight",
+    "crypt_hound"
+   ],
+   [
+    "skeleton",
+    "ghost",
+    "crypt_hound",
+    "crypt_hound",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "lich",
+    "lich",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "lich",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "dark_knight",
+    "crypt_hound",
+    "crypt_hound",
+    "crypt_hound"
+   ],
+   [
+    "skeleton_mage",
+    "skeleton_mage",
+    "ghost",
+    "dark_knight",
+    "crypt_hound"
    ]
   ],
   "showcase_group": [
@@ -7514,6 +7681,28 @@
      "lich",
      "skeleton"
     ]
+   },
+   {
+    "cell": [
+     7,
+     11
+    ],
+    "group": [
+     "elite_dark_knight",
+     "skeleton_mage"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "묘소 심부 깊은 곳, 정예 마물 「칠흑의 기사단장」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 1600,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -7637,84 +7826,69 @@
    "#########################"
   ],
   "tileset": "hospital",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
     "pill_slime",
-    "bandage_ghost",
-    "bandage_ghost",
-    "phantom",
-    "storm_harpy"
-   ],
-   [
-    "syringe_bee",
-    "bandage_ghost",
-    "phantom"
+    "storm_harpy",
+    "storm_harpy",
+    "storm_harpy",
+    "swamp_lizardman"
    ],
    [
     "pill_slime",
     "syringe_bee",
-    "phantom"
+    "storm_harpy",
+    "storm_harpy",
+    "swamp_lizardman"
    ],
    [
+    "pill_slime",
+    "pill_slime",
     "syringe_bee",
     "phantom",
     "swamp_lizardman"
    ],
    [
     "pill_slime",
-    "syringe_bee",
-    "bandage_ghost",
-    "storm_harpy"
-   ],
-   [
     "pill_slime",
     "syringe_bee",
-    "storm_harpy"
-   ],
-   [
-    "pill_slime",
     "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "phantom",
+    "swamp_lizardman",
+    "swamp_lizardman"
+   ],
+   [
+    "phantom",
+    "swamp_lizardman",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "bandage_ghost",
+    "phantom"
+   ],
+   [
+    "bandage_ghost",
+    "bandage_ghost",
     "storm_harpy",
     "swamp_lizardman",
     "swamp_lizardman"
    ],
    [
     "syringe_bee",
-    "syringe_bee",
     "bandage_ghost",
-    "phantom",
+    "storm_harpy",
     "swamp_lizardman"
    ],
    [
+    "syringe_bee",
     "bandage_ghost",
-    "bandage_ghost",
+    "storm_harpy",
     "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "bandage_ghost",
-    "bandage_ghost",
-    "phantom",
-    "storm_harpy"
-   ],
-   [
-    "syringe_bee",
-    "bandage_ghost",
-    "phantom"
-   ],
-   [
-    "pill_slime",
-    "syringe_bee",
-    "phantom"
-   ],
-   [
-    "syringe_bee",
-    "phantom",
-    "swamp_lizardman"
-   ],
-   [
-    "golden_mimic"
    ]
   ],
   "showcase_group": [
@@ -7963,17 +8137,38 @@
    "###.###.###.###.###.#####",
    "###.###.###.###.###.#####",
    "###X###.###X###L###.#####",
-   "###T###H###T###T###.#####",
+   "###T###H###T###T###E#####",
    "#########################",
    "#########################",
    "#########################"
   ],
   "tileset": "hospital",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
+    "pill_slime",
+    "storm_harpy",
+    "storm_harpy",
+    "storm_harpy",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
     "syringe_bee",
-    "bandage_ghost",
+    "storm_harpy",
+    "storm_harpy",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "syringe_bee",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "syringe_bee",
     "phantom",
     "swamp_lizardman"
    ],
@@ -7983,23 +8178,8 @@
     "swamp_lizardman"
    ],
    [
-    "pill_slime",
-    "pill_slime",
-    "syringe_bee",
     "phantom",
-    "swamp_lizardman"
-   ],
-   [
-    "syringe_bee",
-    "bandage_ghost",
-    "storm_harpy",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "syringe_bee",
-    "storm_harpy",
-    "storm_harpy",
+    "swamp_lizardman",
     "swamp_lizardman"
    ],
    [
@@ -8009,11 +8189,6 @@
     "phantom"
    ],
    [
-    "syringe_bee",
-    "bandage_ghost",
-    "bandage_ghost"
-   ],
-   [
     "bandage_ghost",
     "bandage_ghost",
     "storm_harpy",
@@ -8021,28 +8196,9 @@
     "swamp_lizardman"
    ],
    [
-    "pill_slime",
-    "storm_harpy",
-    "storm_harpy",
-    "storm_harpy",
-    "swamp_lizardman"
-   ],
-   [
     "syringe_bee",
     "bandage_ghost",
-    "phantom",
-    "swamp_lizardman"
-   ],
-   [
-    "phantom",
-    "swamp_lizardman",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "pill_slime",
-    "syringe_bee",
-    "phantom",
+    "storm_harpy",
     "swamp_lizardman"
    ],
    [
@@ -8053,6 +8209,23 @@
    ],
    [
     "golden_mimic"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "bandage_ghost"
    ]
   ],
   "showcase_group": [
@@ -8234,6 +8407,23 @@
      "phantom",
      "phantom"
     ]
+   },
+   {
+    "cell": [
+     19,
+     21
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "병동 복도 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 900,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -8381,92 +8571,102 @@
    "###.###.###.###X###.#####",
    "###.###.###X###.###.#####",
    "###.###.###.###L###.#####",
-   "###.###T###T###T###T#####",
+   "###E###T###T###T###T#####",
    "#########################",
    "#########################",
    "#########################"
   ],
   "tileset": "hospital",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
     "pill_slime",
-    "bandage_ghost",
-    "phantom",
+    "storm_harpy",
+    "storm_harpy",
     "storm_harpy",
     "swamp_lizardman"
    ],
    [
     "pill_slime",
-    "phantom",
-    "storm_harpy"
-   ],
-   [
-    "bandage_ghost",
-    "bandage_ghost",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "pill_slime",
-    "pill_slime",
-    "swamp_lizardman",
-    "swamp_lizardman"
-   ],
-   [
     "syringe_bee",
-    "bandage_ghost",
+    "storm_harpy",
+    "storm_harpy",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "syringe_bee",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "syringe_bee",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "phantom",
     "swamp_lizardman",
     "swamp_lizardman"
    ],
    [
     "phantom",
-    "phantom",
+    "swamp_lizardman",
+    "swamp_lizardman"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "bandage_ghost",
     "phantom"
    ],
    [
-    "pill_slime",
-    "bandage_ghost",
-    "storm_harpy",
-    "storm_harpy"
-   ],
-   [
     "bandage_ghost",
     "bandage_ghost",
     "storm_harpy",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "syringe_bee",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "bandage_ghost",
-    "phantom",
-    "storm_harpy",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "phantom",
-    "storm_harpy"
-   ],
-   [
-    "bandage_ghost",
-    "bandage_ghost",
-    "swamp_lizardman"
-   ],
-   [
-    "pill_slime",
-    "pill_slime",
-    "pill_slime",
     "swamp_lizardman",
+    "swamp_lizardman"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "storm_harpy",
+    "swamp_lizardman"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "storm_harpy",
     "swamp_lizardman"
    ],
    [
     "golden_mimic"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "phantom",
+    "swamp_lizardman"
+   ],
+   [
+    "syringe_bee",
+    "bandage_ghost",
+    "bandage_ghost"
+   ],
+   [
+    "pill_slime",
+    "pill_slime",
+    "syringe_bee",
+    "phantom",
+    "swamp_lizardman"
    ]
   ],
   "showcase_group": [
@@ -8624,6 +8824,28 @@
      "swamp_lizardman",
      "storm_harpy"
     ]
+   },
+   {
+    "cell": [
+     3,
+     21
+    ],
+    "group": [
+     "elite_skeleton",
+     "pill_slime"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "격리 병동 깊은 곳, 정예 마물 「해골 장군」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 1800,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -8747,92 +8969,61 @@
    "#########################"
   ],
   "tileset": "frost_grotto",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
-    "puffer",
-    "siren",
-    "coral_golem",
-    "temple_guardian",
-    "temple_guardian"
-   ],
-   [
-    "siren",
-    "sea_serpent",
-    "coral_golem",
-    "coral_golem",
-    "temple_guardian"
+    "golden_mimic"
    ],
    [
     "puffer",
+    "sea_urchin",
     "sea_urchin",
     "coral_golem"
    ],
    [
     "puffer",
     "sea_urchin",
-    "angler",
-    "giant_clam",
+    "sea_urchin",
+    "coral_golem"
+   ],
+   [
+    "puffer",
+    "sea_urchin",
+    "deep_jelly",
     "sea_serpent"
    ],
    [
     "puffer",
-    "giant_clam",
-    "temple_guardian"
+    "sea_urchin",
+    "deep_jelly",
+    "sea_serpent"
    ],
    [
-    "deep_jelly",
-    "merfolk_guard",
-    "merfolk_guard",
-    "coral_golem"
+    "sea_urchin",
+    "angler",
+    "angler"
+   ],
+   [
+    "sea_urchin",
+    "angler",
+    "angler"
    ],
    [
     "puffer",
-    "merfolk_guard",
-    "giant_clam",
+    "sea_urchin",
     "siren",
-    "temple_guardian"
-   ],
-   [
-    "deep_jelly",
-    "merfolk_guard",
-    "giant_clam",
+    "siren",
     "siren"
    ],
    [
     "sea_urchin",
-    "sea_serpent",
-    "coral_golem",
-    "temple_guardian"
-   ],
-   [
-    "puffer",
-    "siren",
-    "coral_golem",
-    "temple_guardian",
-    "temple_guardian"
-   ],
-   [
-    "siren",
-    "sea_serpent",
-    "coral_golem",
-    "coral_golem",
-    "temple_guardian"
-   ],
-   [
-    "puffer",
-    "sea_urchin",
-    "coral_golem"
-   ],
-   [
-    "puffer",
-    "sea_urchin",
     "angler",
-    "giant_clam",
-    "sea_serpent"
+    "angler",
+    "tide_drake"
    ],
    [
-    "golden_mimic"
+    "deep_jelly",
+    "siren",
+    "temple_guardian"
    ]
   ],
   "showcase_group": [
@@ -9077,7 +9268,7 @@
    "#.###########.#X#####.#.#",
    "#.......#.........#.#.#H#",
    "###.###.#.###.###X#.#.###",
-   "#....T#...#...#.#.......#",
+   "#....T#...#...#E#.......#",
    "#...###.#.#.#.#.#####...#",
    "#....T#.#.......#.......#",
    "###.###.#...###.#.###...#",
@@ -9085,17 +9276,15 @@
    "#########################"
   ],
   "tileset": "frost_grotto",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
-    "deep_jelly",
-    "siren",
-    "temple_guardian"
+    "golden_mimic"
    ],
    [
+    "puffer",
     "sea_urchin",
-    "angler",
-    "angler"
+    "sea_urchin",
+    "coral_golem"
    ],
    [
     "puffer",
@@ -9110,27 +9299,20 @@
     "sea_serpent"
    ],
    [
+    "puffer",
+    "sea_urchin",
+    "deep_jelly",
+    "sea_serpent"
+   ],
+   [
     "sea_urchin",
     "angler",
-    "angler",
-    "tide_drake"
+    "angler"
    ],
    [
     "sea_urchin",
-    "merfolk_guard",
-    "temple_guardian",
-    "temple_guardian",
-    "tide_drake"
-   ],
-   [
-    "coral_golem",
-    "temple_guardian",
-    "tide_drake"
-   ],
-   [
     "angler",
-    "sea_serpent",
-    "coral_golem"
+    "angler"
    ],
    [
     "puffer",
@@ -9140,29 +9322,37 @@
     "siren"
    ],
    [
+    "sea_urchin",
+    "angler",
+    "angler",
+    "tide_drake"
+   ],
+   [
+    "deep_jelly",
+    "siren",
+    "temple_guardian"
+   ],
+   [
     "deep_jelly",
     "siren",
     "temple_guardian"
    ],
    [
     "sea_urchin",
-    "angler",
-    "angler"
+    "merfolk_guard",
+    "temple_guardian",
+    "temple_guardian",
+    "tide_drake"
    ],
    [
-    "puffer",
-    "sea_urchin",
-    "sea_urchin",
+    "angler",
+    "sea_serpent",
     "coral_golem"
    ],
    [
-    "puffer",
-    "sea_urchin",
-    "deep_jelly",
-    "sea_serpent"
-   ],
-   [
-    "golden_mimic"
+    "coral_golem",
+    "temple_guardian",
+    "tide_drake"
    ]
   ],
   "showcase_group": [
@@ -9331,6 +9521,23 @@
    },
    {
     "cell": [
+     15,
+     19
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "진주 회랑 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 1000,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
      2,
      23
     ],
@@ -9486,7 +9693,7 @@
    "#.###.#.#...###.#.#.###X#",
    "#.#.....#.......#.......#",
    "#.#.#.#.###.###.###.#.###",
-   "#.#.....#T....#.#T..#...#",
+   "#.#.....#T....#E#T..#...#",
    "#.#.#.#####X#.#######...#",
    "#...#..W#K#.X...#.......#",
    "#.###.###.#.###.#.###...#",
@@ -9494,89 +9701,90 @@
    "#########################"
   ],
   "tileset": "frost_grotto",
-  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
   "encounter_groups": [
    [
-    "puffer",
-    "siren",
-    "coral_golem",
-    "tide_drake"
+    "golden_mimic"
    ],
    [
     "puffer",
-    "angler",
-    "temple_guardian"
+    "sea_urchin",
+    "sea_urchin",
+    "coral_golem"
    ],
    [
     "puffer",
+    "sea_urchin",
+    "sea_urchin",
+    "coral_golem"
+   ],
+   [
+    "puffer",
+    "sea_urchin",
     "deep_jelly",
+    "sea_serpent"
+   ],
+   [
+    "puffer",
+    "sea_urchin",
+    "deep_jelly",
+    "sea_serpent"
+   ],
+   [
+    "sea_urchin",
     "angler",
-    "coral_golem"
-   ],
-   [
-    "merfolk_guard",
-    "giant_clam",
-    "coral_golem",
-    "coral_golem"
+    "angler"
    ],
    [
     "sea_urchin",
+    "angler",
+    "angler"
+   ],
+   [
+    "puffer",
     "sea_urchin",
+    "siren",
+    "siren",
     "siren"
    ],
    [
     "sea_urchin",
-    "giant_clam",
-    "giant_clam",
-    "sea_serpent",
+    "angler",
+    "angler",
+    "tide_drake"
+   ],
+   [
+    "deep_jelly",
+    "siren",
+    "temple_guardian"
+   ],
+   [
+    "deep_jelly",
+    "siren",
     "temple_guardian"
    ],
    [
     "sea_urchin",
-    "deep_jelly",
-    "deep_jelly",
-    "angler",
-    "giant_clam"
-   ],
-   [
-    "giant_clam",
-    "siren",
-    "coral_golem",
-    "coral_golem",
-    "temple_guardian"
-   ],
-   [
-    "angler",
-    "giant_clam",
-    "temple_guardian",
-    "temple_guardian",
-    "tide_drake"
-   ],
-   [
-    "puffer",
-    "siren",
-    "coral_golem",
-    "tide_drake"
-   ],
-   [
-    "puffer",
-    "angler",
-    "temple_guardian"
-   ],
-   [
-    "puffer",
-    "deep_jelly",
-    "angler",
-    "coral_golem"
-   ],
-   [
     "merfolk_guard",
-    "giant_clam",
-    "coral_golem",
+    "temple_guardian",
+    "temple_guardian",
+    "tide_drake"
+   ],
+   [
+    "angler",
+    "sea_serpent",
     "coral_golem"
    ],
    [
-    "golden_mimic"
+    "coral_golem",
+    "temple_guardian",
+    "tide_drake"
+   ],
+   [
+    "sea_urchin",
+    "merfolk_guard",
+    "temple_guardian",
+    "temple_guardian",
+    "tide_drake"
    ]
   ],
   "showcase_group": [
@@ -9735,6 +9943,28 @@
      "temple_guardian",
      "merfolk_guard"
     ]
+   },
+   {
+    "cell": [
+     15,
+     19
+    ],
+    "group": [
+     "turtle_titan",
+     "sea_serpent"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "레비아탄의 수문 깊은 곳, 정예 마물 「거북 타이탄」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 2000,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -9860,88 +10090,61 @@
    "###########################"
   ],
   "tileset": "guild_street",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
-    "street_hound",
-    "nightmare",
-    "nightmare",
-    "void_eye",
-    "void_eye"
-   ],
-   [
-    "street_hound",
-    "shadow_beast",
-    "nightmare",
-    "doppelganger"
-   ],
-   [
-    "shadow_beast",
-    "shadow_beast",
-    "gargoyle",
-    "gargoyle"
-   ],
-   [
-    "orc",
-    "gargoyle",
-    "nightmare"
-   ],
-   [
-    "street_hound",
-    "orc",
-    "shadow_beast",
-    "doppelganger"
-   ],
-   [
-    "orc",
-    "orc",
-    "orc",
-    "gargoyle"
-   ],
-   [
-    "orc",
-    "nightmare",
-    "doppelganger",
-    "void_eye"
-   ],
-   [
-    "orc",
-    "shadow_beast",
-    "nightmare",
-    "doppelganger"
-   ],
-   [
-    "street_hound",
-    "orc",
-    "gargoyle",
-    "nightmare"
-   ],
-   [
-    "street_hound",
-    "nightmare",
-    "nightmare",
-    "void_eye",
-    "void_eye"
-   ],
-   [
-    "street_hound",
-    "shadow_beast",
-    "nightmare",
-    "doppelganger"
-   ],
-   [
-    "shadow_beast",
-    "shadow_beast",
-    "gargoyle",
-    "gargoyle"
-   ],
-   [
-    "orc",
-    "gargoyle",
-    "nightmare"
-   ],
-   [
     "golden_mimic"
+   ],
+   [
+    "shadow_beast",
+    "gargoyle",
+    "void_eye"
+   ],
+   [
+    "orc",
+    "shadow_beast",
+    "gargoyle"
+   ],
+   [
+    "street_hound",
+    "orc",
+    "orc"
+   ],
+   [
+    "orc",
+    "shadow_beast",
+    "gargoyle"
+   ],
+   [
+    "street_hound",
+    "orc",
+    "orc"
+   ],
+   [
+    "street_hound",
+    "orc",
+    "orc",
+    "gargoyle",
+    "gargoyle"
+   ],
+   [
+    "shadow_beast",
+    "shadow_beast",
+    "gargoyle",
+    "gargoyle"
+   ],
+   [
+    "orc",
+    "orc",
+    "orc",
+    "nightmare",
+    "nightmare"
+   ],
+   [
+    "street_hound",
+    "shadow_beast",
+    "nightmare",
+    "nightmare",
+    "void_eye"
    ]
   ],
   "showcase_group": [
@@ -10182,7 +10385,7 @@
    "#######.#####.#####L#######",
    "#.#####.#####.#####.#####T#",
    "#.#####.#####.#####.#####.#",
-   "#.........#...X..T#.......#",
+   "#.........#E..X..T#.......#",
    "#.#####.#####.#####.#####.#",
    "#.#####.#####.#####.#####.#",
    "#.#####.#####.#####.#####.#",
@@ -10198,13 +10401,13 @@
    "###########################"
   ],
   "tileset": "guild_street",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
-    "street_hound",
+    "golden_mimic"
+   ],
+   [
     "shadow_beast",
-    "nightmare",
-    "nightmare",
+    "gargoyle",
     "void_eye"
    ],
    [
@@ -10214,9 +10417,13 @@
    ],
    [
     "street_hound",
-    "street_hound",
-    "nightmare",
-    "doppelganger"
+    "orc",
+    "orc"
+   ],
+   [
+    "orc",
+    "shadow_beast",
+    "gargoyle"
    ],
    [
     "street_hound",
@@ -10232,14 +10439,9 @@
    ],
    [
     "shadow_beast",
+    "shadow_beast",
     "gargoyle",
-    "void_eye"
-   ],
-   [
-    "nightmare",
-    "doppelganger",
-    "doppelganger",
-    "void_eye"
+    "gargoyle"
    ],
    [
     "orc",
@@ -10249,10 +10451,11 @@
     "nightmare"
    ],
    [
+    "street_hound",
     "shadow_beast",
-    "shadow_beast",
-    "gargoyle",
-    "gargoyle"
+    "nightmare",
+    "nightmare",
+    "void_eye"
    ],
    [
     "street_hound",
@@ -10262,9 +10465,10 @@
     "void_eye"
    ],
    [
-    "orc",
-    "shadow_beast",
-    "gargoyle"
+    "nightmare",
+    "doppelganger",
+    "doppelganger",
+    "void_eye"
    ],
    [
     "street_hound",
@@ -10274,11 +10478,9 @@
    ],
    [
     "street_hound",
-    "orc",
-    "orc"
-   ],
-   [
-    "golden_mimic"
+    "street_hound",
+    "nightmare",
+    "doppelganger"
    ]
   ],
   "showcase_group": [
@@ -10461,6 +10663,23 @@
      "nightmare",
      "orc"
     ]
+   },
+   {
+    "cell": [
+     11,
+     13
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "상가 골목 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 1100,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -10598,7 +10817,7 @@
    "#.#####.#####L#####.#####S#",
    "#X#####N#####T#####.#####<#",
    "#X#########################",
-   "#.#####.#####T#####T#####T#",
+   "#.#####E#####T#####T#####T#",
    "#.#####.#####.#####.#####.#",
    "#.................L.......#",
    "#.#####.#####.#########.###",
@@ -10616,88 +10835,92 @@
    "###########################"
   ],
   "tileset": "guild_street",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
-    "street_hound",
-    "street_hound",
-    "orc",
-    "nightmare"
-   ],
-   [
-    "street_hound",
-    "street_hound",
-    "shadow_beast",
-    "doppelganger",
-    "void_eye"
-   ],
-   [
-    "street_hound",
-    "street_hound",
-    "orc",
-    "void_eye"
-   ],
-   [
-    "shadow_beast",
-    "shadow_beast",
-    "nightmare",
-    "nightmare"
-   ],
-   [
-    "doppelganger",
-    "doppelganger",
-    "void_eye"
-   ],
-   [
-    "street_hound",
-    "orc",
-    "orc",
-    "shadow_beast"
-   ],
-   [
-    "orc",
-    "shadow_beast",
-    "nightmare"
+    "golden_mimic"
    ],
    [
     "shadow_beast",
     "gargoyle",
+    "void_eye"
+   ],
+   [
+    "orc",
+    "shadow_beast",
+    "gargoyle"
+   ],
+   [
+    "street_hound",
+    "orc",
+    "orc"
+   ],
+   [
+    "orc",
+    "shadow_beast",
+    "gargoyle"
+   ],
+   [
+    "street_hound",
+    "orc",
+    "orc"
+   ],
+   [
+    "street_hound",
+    "orc",
+    "orc",
+    "gargoyle",
+    "gargoyle"
+   ],
+   [
+    "shadow_beast",
+    "shadow_beast",
+    "gargoyle",
+    "gargoyle"
+   ],
+   [
+    "orc",
+    "orc",
+    "orc",
+    "nightmare",
+    "nightmare"
+   ],
+   [
+    "street_hound",
+    "shadow_beast",
+    "nightmare",
+    "nightmare",
+    "void_eye"
+   ],
+   [
+    "street_hound",
+    "shadow_beast",
+    "nightmare",
+    "nightmare",
+    "void_eye"
+   ],
+   [
+    "nightmare",
+    "doppelganger",
+    "doppelganger",
+    "void_eye"
+   ],
+   [
+    "street_hound",
+    "street_hound",
+    "nightmare",
     "doppelganger"
    ],
    [
     "street_hound",
-    "shadow_beast",
+    "street_hound",
+    "nightmare",
+    "doppelganger"
+   ],
+   [
     "nightmare",
     "doppelganger",
-    "void_eye"
-   ],
-   [
-    "street_hound",
-    "street_hound",
-    "orc",
-    "nightmare"
-   ],
-   [
-    "street_hound",
-    "street_hound",
-    "shadow_beast",
     "doppelganger",
     "void_eye"
-   ],
-   [
-    "street_hound",
-    "street_hound",
-    "orc",
-    "void_eye"
-   ],
-   [
-    "shadow_beast",
-    "shadow_beast",
-    "nightmare",
-    "nightmare"
-   ],
-   [
-    "golden_mimic"
    ]
   ],
   "showcase_group": [
@@ -10846,6 +11069,28 @@
   "events": [
    {
     "cell": [
+     7,
+     11
+    ],
+    "group": [
+     "crystal_horror",
+     "nightmare"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "길드 본부 앞 광장 깊은 곳, 정예 마물 「수정 괴수」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 2200,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
      4,
      25
     ],
@@ -10981,62 +11226,45 @@
    "###########################"
   ],
   "tileset": "haunted_crypt",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
     "void_wisp",
     "void_wisp",
+    "void_wisp",
+    "chaos_spawn"
+   ],
+   [
+    "void_wisp",
     "shadow_hound",
-    "abyss_worm",
-    "elder_lich"
-   ],
-   [
-    "void_wisp",
-    "void_wisp",
-    "void_knight",
-    "abyss_worm"
-   ],
-   [
-    "void_wisp",
-    "abyss_crab",
-    "abyss_worm"
-   ],
-   [
-    "chaos_spawn",
-    "shadow_hound",
-    "abyss_crab",
-    "void_knight",
-    "void_knight"
-   ],
-   [
-    "abyss_crab",
-    "void_knight",
-    "abyss_worm",
-    "elder_lich"
-   ],
-   [
-    "void_wisp",
-    "void_wisp",
     "abyss_crab"
    ],
    [
-    "abyss_crab",
-    "abyss_worm",
-    "abyss_worm",
-    "elder_lich",
-    "elder_lich"
-   ],
-   [
-    "void_wisp",
-    "void_knight",
-    "void_knight",
-    "abyss_worm",
-    "elder_lich"
-   ],
-   [
-    "void_wisp",
+    "chaos_spawn",
+    "chaos_spawn",
     "shadow_hound",
-    "void_knight"
+    "abyss_crab",
+    "abyss_worm"
+   ],
+   [
+    "void_wisp",
+    "chaos_spawn",
+    "shadow_hound",
+    "shadow_hound",
+    "elder_lich"
+   ],
+   [
+    "void_wisp",
+    "chaos_spawn",
+    "abyss_crab",
+    "void_knight",
+    "abyss_worm"
+   ],
+   [
+    "shadow_hound",
+    "shadow_hound",
+    "abyss_crab",
+    "abyss_crab",
+    "elder_lich"
    ]
   ],
   "showcase_group": [
@@ -11269,7 +11497,7 @@
    "#.#S#.#.#.#.#####.#.#...#.#",
    "#.#<#.....#X#.....#.#...#.#",
    "#.###.#.#.#.#.###.#.#...#.#",
-   "#N#...#.#N#.#.#.#.#.....#.#",
+   "#N#...#.#N#.#.#E#.#.....#.#",
    "###...#.###.#.#.#.###.#.#.#",
    "#.....#...#.#...#T#T..#.#.#",
    "#.#.#####.#.#.#.#####.#.#.#",
@@ -11293,40 +11521,7 @@
    "###########################"
   ],
   "tileset": "haunted_crypt",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
-   [
-    "shadow_hound",
-    "shadow_hound",
-    "void_knight",
-    "elder_lich"
-   ],
-   [
-    "shadow_hound",
-    "shadow_hound",
-    "abyss_crab",
-    "abyss_crab",
-    "elder_lich"
-   ],
-   [
-    "void_wisp",
-    "shadow_hound",
-    "abyss_crab"
-   ],
-   [
-    "shadow_hound",
-    "abyss_crab",
-    "elder_lich",
-    "elder_lich",
-    "elder_lich"
-   ],
-   [
-    "void_wisp",
-    "chaos_spawn",
-    "shadow_hound",
-    "shadow_hound",
-    "elder_lich"
-   ],
    [
     "void_wisp",
     "void_wisp",
@@ -11334,6 +11529,11 @@
     "chaos_spawn"
    ],
    [
+    "void_wisp",
+    "shadow_hound",
+    "abyss_crab"
+   ],
+   [
     "chaos_spawn",
     "chaos_spawn",
     "shadow_hound",
@@ -11342,8 +11542,10 @@
    ],
    [
     "void_wisp",
-    "void_knight",
-    "abyss_worm"
+    "chaos_spawn",
+    "shadow_hound",
+    "shadow_hound",
+    "elder_lich"
    ],
    [
     "void_wisp",
@@ -11351,6 +11553,31 @@
     "abyss_crab",
     "void_knight",
     "abyss_worm"
+   ],
+   [
+    "shadow_hound",
+    "shadow_hound",
+    "abyss_crab",
+    "abyss_crab",
+    "elder_lich"
+   ],
+   [
+    "void_wisp",
+    "void_knight",
+    "abyss_worm"
+   ],
+   [
+    "shadow_hound",
+    "shadow_hound",
+    "void_knight",
+    "elder_lich"
+   ],
+   [
+    "shadow_hound",
+    "abyss_crab",
+    "elder_lich",
+    "elder_lich",
+    "elder_lich"
    ]
   ],
   "showcase_group": [
@@ -11507,6 +11734,23 @@
    }
   ],
   "events": [
+   {
+    "cell": [
+     15,
+     5
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "공허의 회랑 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 1200,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
    {
     "cell": [
      20,
@@ -11683,62 +11927,73 @@
    "#.#####.#.#.#####.#.###.#.#",
    "#.#.......#...X...#...#.#W#",
    "#.#.#.###.#.#.#.#.#.#.#.###",
-   "#...#..K#.#.#.#...#.#...S<#",
+   "#...#..K#E#.#.#...#.#...S<#",
    "###########################"
   ],
   "tileset": "haunted_crypt",
-  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
   "encounter_groups": [
    [
+    "void_wisp",
+    "void_wisp",
+    "void_wisp",
+    "chaos_spawn"
+   ],
+   [
+    "void_wisp",
+    "shadow_hound",
+    "abyss_crab"
+   ],
+   [
     "chaos_spawn",
+    "chaos_spawn",
+    "shadow_hound",
     "abyss_crab",
-    "abyss_worm",
+    "abyss_worm"
+   ],
+   [
+    "void_wisp",
+    "chaos_spawn",
+    "shadow_hound",
+    "shadow_hound",
     "elder_lich"
    ],
    [
+    "void_wisp",
+    "chaos_spawn",
+    "abyss_crab",
+    "void_knight",
+    "abyss_worm"
+   ],
+   [
+    "shadow_hound",
+    "shadow_hound",
+    "abyss_crab",
+    "abyss_crab",
+    "elder_lich"
+   ],
+   [
+    "void_wisp",
+    "void_knight",
+    "abyss_worm"
+   ],
+   [
+    "shadow_hound",
     "shadow_hound",
     "void_knight",
     "elder_lich"
    ],
    [
-    "void_wisp",
     "shadow_hound",
     "abyss_crab",
+    "elder_lich",
     "elder_lich",
     "elder_lich"
    ],
    [
-    "chaos_spawn",
-    "abyss_crab",
-    "abyss_crab",
-    "void_knight"
-   ],
-   [
-    "void_wisp",
-    "chaos_spawn",
-    "shadow_hound"
-   ],
-   [
-    "chaos_spawn",
-    "abyss_worm",
-    "abyss_worm",
-    "abyss_worm"
-   ],
-   [
-    "void_wisp",
-    "chaos_spawn",
-    "chaos_spawn",
-    "void_knight",
-    "abyss_worm"
-   ],
-   [
-    "chaos_spawn",
     "shadow_hound",
-    "abyss_worm"
-   ],
-   [
-    "void_wisp",
-    "abyss_worm",
+    "abyss_crab",
+    "elder_lich",
+    "elder_lich",
     "elder_lich"
    ]
   ],
@@ -11898,6 +12153,28 @@
      "elder_lich",
      "shadow_hound"
     ]
+   },
+   {
+    "cell": [
+     9,
+     25
+    ],
+    "group": [
+     "void_reaper",
+     "void_knight"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "심연의 옥좌 깊은 곳, 정예 마물 「공허의 사신」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 2400,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [
@@ -12031,64 +12308,41 @@
    "###########################"
   ],
   "tileset": "ember_caverns",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
    [
+    "void_knight",
+    "void_knight",
+    "abyss_worm"
+   ],
+   [
+    "elder_lich",
+    "void_knight",
+    "void_knight",
+    "abyss_worm"
+   ],
+   [
     "chaos_yeti",
-    "chaos_yeti",
+    "abyss_worm",
+    "abyss_worm",
+    "abyss_worm"
+   ],
+   [
+    "inferno_phoenix",
+    "elder_lich",
     "elder_lich",
     "elder_lich",
     "void_knight"
    ],
    [
     "inferno_phoenix",
-    "void_knight",
-    "void_knight",
-    "abyss_worm"
-   ],
-   [
-    "chaos_yeti",
-    "chaos_yeti",
-    "void_knight",
-    "void_knight",
-    "abyss_worm"
-   ],
-   [
-    "chaos_yeti",
-    "elder_lich",
-    "elder_lich",
-    "abyss_worm"
-   ],
-   [
-    "chaos_yeti",
-    "inferno_phoenix",
-    "inferno_phoenix",
-    "elder_lich"
-   ],
-   [
-    "chaos_yeti",
-    "chaos_yeti",
-    "chaos_yeti",
-    "elder_lich"
-   ],
-   [
-    "inferno_phoenix",
-    "elder_lich",
-    "void_knight",
     "abyss_worm",
     "abyss_worm"
    ],
    [
     "chaos_yeti",
-    "chaos_yeti",
     "inferno_phoenix",
-    "void_knight",
-    "abyss_worm"
-   ],
-   [
-    "inferno_phoenix",
-    "void_knight",
-    "abyss_worm"
+    "elder_lich",
+    "void_knight"
    ]
   ],
   "showcase_group": [
@@ -12336,7 +12590,7 @@
    "#.#.#.#.#.#.#.#.###.#...#.#",
    "#.#.....#.#.#....X#.....#.#",
    "###.#.#####.###...###...#.#",
-   "#.........#.#.....#.......#",
+   "#.........#.#.....#E......#",
    "#######.#########L###.#####",
    "#...X.....#...#K..#T.....T#",
    "#.###.#.#.###.###.###.#.###",
@@ -12356,7 +12610,6 @@
    "###########################"
   ],
   "tileset": "ember_caverns",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
    [
     "void_knight",
@@ -12364,43 +12617,18 @@
     "abyss_worm"
    ],
    [
-    "chaos_yeti",
-    "chaos_yeti",
-    "inferno_phoenix",
-    "abyss_worm"
-   ],
-   [
-    "chaos_yeti",
-    "chaos_yeti",
-    "inferno_phoenix",
-    "elder_lich",
-    "abyss_worm"
-   ],
-   [
-    "chaos_yeti",
-    "chaos_yeti",
-    "chaos_yeti",
-    "inferno_phoenix",
-    "void_knight"
-   ],
-   [
-    "chaos_yeti",
-    "abyss_worm",
-    "abyss_worm",
-    "abyss_worm"
-   ],
-   [
-    "inferno_phoenix",
-    "abyss_worm",
-    "abyss_worm"
-   ],
-   [
     "elder_lich",
     "void_knight",
     "void_knight",
     "abyss_worm"
    ],
    [
+    "chaos_yeti",
+    "abyss_worm",
+    "abyss_worm",
+    "abyss_worm"
+   ],
+   [
     "inferno_phoenix",
     "elder_lich",
     "elder_lich",
@@ -12408,10 +12636,35 @@
     "void_knight"
    ],
    [
+    "inferno_phoenix",
+    "abyss_worm",
+    "abyss_worm"
+   ],
+   [
     "chaos_yeti",
     "inferno_phoenix",
     "elder_lich",
     "void_knight"
+   ],
+   [
+    "chaos_yeti",
+    "chaos_yeti",
+    "inferno_phoenix",
+    "elder_lich",
+    "abyss_worm"
+   ],
+   [
+    "chaos_yeti",
+    "chaos_yeti",
+    "chaos_yeti",
+    "inferno_phoenix",
+    "void_knight"
+   ],
+   [
+    "chaos_yeti",
+    "chaos_yeti",
+    "inferno_phoenix",
+    "abyss_worm"
    ]
   ],
   "showcase_group": [
@@ -12565,6 +12818,23 @@
    }
   ],
   "events": [
+   {
+    "cell": [
+     19,
+     9
+    ],
+    "group": [],
+    "type": "rescue",
+    "title": "고립된 헌터 구조",
+    "text": "메아리 회랑 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+    "reward": {
+     "gold": 1300,
+     "items": {
+      "healing_potion": 1
+     },
+     "equipment": {}
+    }
+   },
    {
     "cell": [
      21,
@@ -12752,52 +13022,37 @@
    "#.#.#.#.###.#.###.#.###.#.#",
    "#.#.......#.......#.....#.#",
    "#.#...#.#.#.#####.#####.#.#",
-   "#.........#.#.....#.......#",
+   "#.........#E#.....#.......#",
    "###########################"
   ],
   "tileset": "ember_caverns",
-  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
   "encounter_groups": [
    [
-    "chaos_yeti",
-    "inferno_phoenix",
-    "inferno_phoenix",
-    "inferno_phoenix"
+    "void_knight",
+    "void_knight",
+    "abyss_worm"
    ],
    [
-    "chaos_yeti",
-    "inferno_phoenix",
     "elder_lich",
     "void_knight",
-    "void_knight"
-   ],
-   [
-    "chaos_yeti",
-    "inferno_phoenix",
     "void_knight",
     "abyss_worm"
    ],
    [
     "chaos_yeti",
-    "inferno_phoenix",
-    "elder_lich",
-    "void_knight",
-    "abyss_worm"
-   ],
-   [
-    "void_knight",
+    "abyss_worm",
     "abyss_worm",
     "abyss_worm"
    ],
    [
-    "chaos_yeti",
-    "chaos_yeti",
     "inferno_phoenix",
-    "elder_lich"
+    "elder_lich",
+    "elder_lich",
+    "elder_lich",
+    "void_knight"
    ],
    [
-    "elder_lich",
-    "void_knight",
+    "inferno_phoenix",
     "abyss_worm",
     "abyss_worm"
    ],
@@ -12805,13 +13060,34 @@
     "chaos_yeti",
     "inferno_phoenix",
     "elder_lich",
-    "elder_lich",
     "void_knight"
    ],
    [
     "chaos_yeti",
+    "chaos_yeti",
+    "inferno_phoenix",
     "elder_lich",
     "abyss_worm"
+   ],
+   [
+    "chaos_yeti",
+    "chaos_yeti",
+    "chaos_yeti",
+    "inferno_phoenix",
+    "void_knight"
+   ],
+   [
+    "chaos_yeti",
+    "chaos_yeti",
+    "inferno_phoenix",
+    "abyss_worm"
+   ],
+   [
+    "inferno_phoenix",
+    "elder_lich",
+    "elder_lich",
+    "elder_lich",
+    "void_knight"
    ]
   ],
   "showcase_group": [
@@ -12977,6 +13253,28 @@
     "group": [
      "leviathan_ex"
     ]
+   },
+   {
+    "cell": [
+     11,
+     25
+    ],
+    "group": [
+     "void_reaper",
+     "void_knight"
+    ],
+    "type": "choice",
+    "title": "정예 마물의 둥지",
+    "text": "붉은 옥좌 깊은 곳, 정예 마물 「공허의 사신」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.\n\n도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.",
+    "accept_label": "도전한다",
+    "leave_label": "지나간다",
+    "reward": {
+     "gold": 2600,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
    }
   ],
   "foes": [

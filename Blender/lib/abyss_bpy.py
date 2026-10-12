@@ -21,6 +21,10 @@ import bmesh
 import bpy
 from mathutils import Euler, Matrix, Vector
 
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tripo_guard  # same folder; refuses to overwrite Tripo-installed FBXs (see export_fbx)
+
 REPO = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 ASSETS = os.path.join(REPO, "Assets", "_Game", "Resources", "Art")
 BLEND_DIR = os.path.join(REPO, "Blender", "blend")
@@ -479,10 +483,14 @@ def _fcurve(act, bone, path):
 
 # ---------------------------------------------------------------- output
 
-def export_fbx(rel_path, objects=None, animated=False, path_mode="STRIP"):
+def export_fbx(rel_path, objects=None, animated=False, path_mode="STRIP", force=False):
     """rel_path is relative to Assets/_Game/Art (e.g. 'Characters/warrior/warrior.fbx').
-    path_mode="RELATIVE" keeps texture references relative to the FBX (textured heroes)."""
+    path_mode="RELATIVE" keeps texture references relative to the FBX (textured heroes).
+    A Tripo-installed target (<name>.tripo next to it, or TRIPO in its folder) is skipped unless force=True or
+    ABYSS_OVERWRITE_TRIPO=1 (see tripo_guard.py); the path is still returned."""
     path = os.path.join(ASSETS, rel_path)
+    if tripo_guard.should_skip(path, force):
+        return path
     os.makedirs(os.path.dirname(path), exist_ok=True)
     bpy.ops.object.select_all(action="DESELECT")
     objs = objects or [o for o in bpy.context.scene.objects if o.type in ("MESH", "ARMATURE", "EMPTY")]

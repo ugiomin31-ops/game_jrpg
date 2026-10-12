@@ -79,6 +79,11 @@ namespace Abyss.Logic.Game
         /// <summary>`H` cells used this outing; refilled only on town arrival or successful inn rest.</summary>
         [JsonConverter(typeof(SpentSpringCellsConverter))]
         public SortedSet<GridPos> SpentSprings = new SortedSet<GridPos>();
+        /// <summary>
+        /// `E` rescue/choice events used up for good (rescued, passed by, or won). Never refilled by town arrival or
+        /// the inn; saves without the field load empty.
+        /// </summary>
+        public SortedSet<GridPos> SpentEvents = new SortedSet<GridPos>();
         /// <summary>`L` doors opened with a key (permanently open).</summary>
         public SortedSet<GridPos> OpenedDoors = new SortedSet<GridPos>();
         /// <summary>FOE ids defeated since the last inn rest.</summary>
@@ -340,6 +345,7 @@ namespace Abyss.Logic.Game
                 foreach (var floor in db.Floors) if (floor.Id == id) { springFloor = floor; break; }
                 p.SpentSprings.RemoveWhere(cell => springFloor == null || cell.Y < 0 || cell.Y >= springFloor.Rows.Count
                     || cell.X < 0 || cell.X >= springFloor.Rows[cell.Y].Length || springFloor.Rows[cell.Y][cell.X] != 'H');
+                p.SpentEvents ??= new SortedSet<GridPos>();
                 p.OpenedDoors ??= new SortedSet<GridPos>();
                 p.DefeatedFoes ??= new SortedSet<string>(StringComparer.Ordinal);
                 p.Keys = Math.Max(0, p.Keys);
