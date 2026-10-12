@@ -62,6 +62,17 @@ namespace Abyss.Runtime.Battle
         const float KnockLength = .25f, KnockOut = .05f;
         /// <summary>Share of normal speed that effect playback keeps while a hit-stop freezes the units.</summary>
         const float HitStopVfxRate = .1f;
+        // Enemy death staging (seconds at 1x battle speed, from the UnitDown event). A death never queues the replay: the unit
+        // collapses and dissolves beside it, so simultaneous deaths overlap, and the replay only waits for stragglers at action end
+        // and at the outcome (WaitDeaths). A regular enemy reads in ~DeathDissolveAt + DeathDissolve; a boss gets a longer finish.
+        const float DeathCollapse = .5f, DeathDissolveAt = .3f, DeathDissolve = .36f;
+        const float BossDeathCollapse = .8f, BossDeathDissolveAt = .6f, BossDeathDissolve = .65f;
+        const float ReducedDeathDissolve = .25f;
+        /// <summary>A Die take longer than this is a held pose (Tripo / Mixamo take): the fall is staged in code instead of waited out.</summary>
+        const float StaticDieTake = 2f;
+        const float DeathRateMax = 3f;
+        /// <summary>Death routines still running; the replay waits for them only where the next beat needs the field clear.</summary>
+        int _dying;
         int _round, _wave, _eventIndex, _displayChain;
         string _active, _strikeClip;
         IReadOnlyList<BattleEvent> _events;
@@ -201,6 +212,7 @@ namespace Abyss.Runtime.Battle
                 if (_finished) yield break;
                 if (initial && events[i] is BattleStartEvent) yield return Reduced ? ReducedIntro() : Intro();
             }
+            yield return WaitDeaths();   // deaths from a status tick or a counter have no action end to wait at
             Playing = false;
             if (Engine.State == BattleEngineState.AwaitingCommand)
             {
@@ -287,7 +299,8 @@ namespace Abyss.Runtime.Battle
                     }
                     yield return StartAction(e); break;
                 case ActionEndEvent e:
-                    yield return EndAction(e); break;
+                    yield return EndAction(e);
+                    yield return WaitDeaths(); break;
                 case DamageEvent e:
                     yield return Damage(e); break;
                 case MissEvent e:
@@ -363,16 +376,26 @@ namespace Abyss.Runtime.Battle
                     if (Find(e.UnitId, out var down))
                     {
                         down.Alive = false; down.Hp = 0; down.Guarding = false; down.ClearWarnings(); Sync(down);
-                        down.Model.Play("Die", .075f); PlaySound("sfx_death");
-                        yield return Wait(Mathf.Max(.35f, down.Model.Anim.Length("Die")));
-                        if (down.Side == BattleSide.Enemy) yield return down.Model.DissolveOut(Reduced ? .15f : .45f);
+                        PlaySound("sfx_death");
+                        if (down.Side == BattleSide.Enemy)
+                        {
+                            // Staged beside the replay: the next event (another hit, the action's end, the outcome) goes on at once.
+                            StartCoroutine(DeathRoutine(down)); RefreshOrder();
+                            break;
+                        }
+                        // A fallen hero lies down for the take, but a long held Die take must not stall the turn.
+                        down.Model.Play("Die", .075f);
+                        yield return Wait(Mathf.Clamp(down.Model.Anim.Length("Die"), .35f, 1.2f));
                         RefreshOrder();
                     }
                     break;
                 case ReviveEvent e:
                     if (Find(e.UnitId, out var revived))
                     {
+                        yield return WaitDeaths();   // a fallen enemy is mid-collapse: let it land before it stands again
                         revived.Alive = true; revived.Hp = e.Hp; revived.MaxHp = e.MaxHp;
+                        revived.DeathRate = 1;
+                        revived.Model.transform.SetPositionAndRotation(revived.Home, revived.Facing);
                         revived.Model.SetDissolve(0);
                         if (revived.Side == BattleSide.Party)
                             // Authored frame zero matches the held Die endpoint, including its grounded root.
@@ -396,6 +419,7 @@ namespace Abyss.Runtime.Battle
                     Popup(e.UnitId, BattleHUD.ElementName(e.Element) + " 약점 발견", new Color(1, .9f, .35f));
                     break;
                 case SummonEvent e:
+                    yield return WaitDeaths();   // the summon may take the lane of an enemy that is still dissolving
                     var summon = Spawn(e.Unit); summon.Model.SetDissolve(1);
                     Effect("summon", summon.Model.CenterPoint, new Color(.7f, .35f, 1), 1.2f, 0, null, summon.Home.y);
                     _hud.Log(summon.Name + " 등장!"); PlaySound("sfx_dark");
@@ -469,6 +493,7 @@ namespace Abyss.Runtime.Battle
                     _displayChain = e.NewValue; _hud.SetChain(_displayChain);
                     break;
                 case BattleEndEvent e:
+                    yield return WaitDeaths();
                     yield return Finish(e.Outcome); break;
                 default:
                     throw new InvalidOperationException("Unsupported battle event: " + battleEvent.GetType().Name);
@@ -878,7 +903,65 @@ namespace Abyss.Runtime.Battle
             // Let the recoil enter before freezing it; otherwise hit-stop freezes the untouched pose.
             if (!Reduced && e.Amount > 0) yield return Wait(KnockOut);
             yield return HitStop(strike ? _waveStop : stop);
+            // A killing blow flows straight into the fall; the beat between hits would only delay the death.
+            if (e.HpAfter <= 0 && target.Side == BattleSide.Enemy) yield break;
             yield return Wait(HitInterval());
+        }
+
+        /// <summary>
+        /// Enemy death: the Die take plays fast enough to fit the fall, a held take (Tripo / Mixamo) is replaced by a knock-back and
+        /// topple staged in code, a smoke burst marks the moment the body starts to dissolve, and a boss finishes with a stronger
+        /// burst and shake. Reduced motion skips the motion and burst and only fades. Runs beside the replay (see <see cref="_dying"/>).
+        /// </summary>
+        IEnumerator DeathRoutine(BattleDisplayUnit unit)
+        {
+            _dying++;
+            var model = unit.Model; var t = model.transform;
+            bool boss = unit.Boss, reduced = Reduced;
+            float collapse = boss ? BossDeathCollapse : DeathCollapse;
+            float dissolveAt = reduced ? 0 : boss ? BossDeathDissolveAt : DeathDissolveAt;
+            float dissolve = reduced ? ReducedDeathDissolve : boss ? BossDeathDissolve : DeathDissolve;
+            float length = model.Anim.Length("Die");
+            bool held = length > StaticDieTake;
+            unit.DeathRate = Mathf.Clamp(length / collapse, 1f, DeathRateMax);
+            unit.KnockTime = 0;
+            model.Play("Die", reduced ? .02f : .075f);
+            Vector3 from = t.position, back = unit.Facing * Vector3.back;
+            float push = reduced ? 0 : boss ? .12f : .4f;
+            float tilt = reduced || !held ? 0 : boss ? 70f : 80f, roll = (unit.Slot % 2 == 0 ? 1f : -1f) * 12f;
+            if (!reduced)
+            {
+                AddTrauma(boss ? .7f : .25f);
+                if (boss) { ScreenFlash(new Color(1, .95f, .8f), .3f); _director.Punch(-3f); }
+            }
+            bool burst = false;
+            float elapsed = 0, total = dissolveAt + dissolve;
+            while (elapsed < total || _app.Paused)
+            {
+                if (!_app.Paused)
+                {
+                    elapsed += Dt;
+                    float k = Mathf.Clamp01(elapsed / collapse), knock = Mathf.Clamp01(elapsed / (collapse * .5f));
+                    t.position = from + back * (push * (1 - (1 - knock) * (1 - knock)));
+                    if (tilt > 0) t.rotation = unit.Facing * Quaternion.Euler(-tilt * k * k * (3 - 2 * k), 0, roll * k);
+                    if (!burst && elapsed >= dissolveAt)
+                    {
+                        burst = true;
+                        if (!reduced)
+                            Effect(boss ? "break" : "smoke", model.CenterPoint, boss ? new Color(1, .8f, .45f) : new Color(.82f, .84f, .92f),
+                                ImpactScale(unit) * (boss ? 1.3f : .6f), 0, null, unit.Home.y);
+                    }
+                    model.SetDissolve((elapsed - dissolveAt) / dissolve);
+                }
+                yield return null;
+            }
+            model.SetDissolve(1);
+            _dying--;
+        }
+        /// <summary>Waits until every staged enemy death has finished (they run concurrently, so this is the slowest one's remainder).</summary>
+        IEnumerator WaitDeaths()
+        {
+            while (_dying > 0) yield return null;
         }
 
         /// <summary>
@@ -1183,7 +1266,7 @@ namespace Abyss.Runtime.Battle
         void LateUpdate()
         {
             if (!_initialized || _restored || _camera == null) return;
-            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed);
+            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed * unit.DeathRate);
             // Hit-stop freezes the units and drags effect playback to a crawl (never in reduced mode, where HitStop is skipped).
             if (_vfx != null) _vfx.TimeScale = _app.Paused ? 0 : _hitstop && !Reduced ? Speed * HitStopVfxRate : Speed;
             if (_app.Paused) return;
@@ -1227,7 +1310,7 @@ namespace Abyss.Runtime.Battle
             foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(0);
             yield return Wait(seconds);
             _hitstop = false;
-            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused ? 0 : Speed);
+            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused ? 0 : Speed * unit.DeathRate);
         }
         IEnumerator Face(BattleDisplayUnit unit, Quaternion facing)
         {

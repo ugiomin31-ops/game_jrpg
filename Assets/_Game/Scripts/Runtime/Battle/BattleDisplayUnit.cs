@@ -21,6 +21,8 @@ namespace Abyss.Runtime.Battle
         public Quaternion Facing;
         /// <summary>Hit recoil: seconds left and peak push (metres) away from the opponents' side.</summary>
         public float KnockTime, KnockAmount;
+        /// <summary>Playback rate of the unit's take on top of the battle speed: a death compresses its Die take to fit the fall (1 otherwise).</summary>
+        public float DeathRate = 1f;
         public readonly Dictionary<string, DisplayStatus> Statuses = new Dictionary<string, DisplayStatus>();
         public readonly List<int> Weaknesses = new List<int>();
         // These values deliberately do NOT come from UnitSnapshot / Engine. Apply() at TurnEnd must not

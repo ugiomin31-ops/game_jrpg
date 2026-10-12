@@ -16,6 +16,11 @@ namespace Abyss.UI
         /// instead of shrinking the whole floor into the panel, so corridors stay legible on a phone.
         /// </summary>
         public int Window;
+        /// <summary>
+        /// Draw the party arrow and live FOEs (the floor the party stands on). Off for another visited floor shown from
+        /// the map screen's floor tabs: its FOEs are not simulated there, so their positions would be stale.
+        /// </summary>
+        public bool ShowParty = true;
         public void SetMap(DungeonGrid value, GameState current)
         { grid = value; state = current; raycastTarget = false; SetVerticesDirty(); }
         protected override void OnPopulateMesh(VertexHelper vh)
@@ -26,7 +31,7 @@ namespace Abyss.UI
             float unit = Mathf.Min(bounds.width / grid.Width, bounds.height / grid.Height);
             float left = bounds.center.x - grid.Width * unit * 0.5f;
             float top = bounds.center.y + grid.Height * unit * 0.5f;
-            if (Window > 0)
+            if (Window > 0 && ShowParty)
             {
                 unit = Mathf.Min(bounds.width, bounds.height) / Window;
                 left = bounds.center.x - (state.Position.X + 0.5f) * unit;
@@ -44,6 +49,7 @@ namespace Abyss.UI
                     if (marker != '#' && marker != '.' && marker != 'S')
                         DrawSymbol(vh, marker, new Rect(left + x * unit, top - (y + 1) * unit, unit, unit));
                 }
+            if (!ShowParty) return;
             // FOEs only appear on explored cells; a chasing FOE ('f') gets an orange alert frame.
             foreach (var foe in grid.Foes)
                 if (foe.Alive && grid.Progress.Explored.Contains(foe.Position))

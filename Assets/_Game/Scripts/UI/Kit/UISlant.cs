@@ -254,12 +254,29 @@ namespace Abyss.UI
         RectTransform _visual;
         UISlantPlate _plate;
         Image _hit, _chipBg;
-        bool _interactable = true, _hover, _pressed, _focused;
+        bool _interactable = true, _hover, _pressed, _focused, _repeated;
         bool _ghost;
-        float _nextClickAt, _focusScale = 1.1f, _homeX, _homeY, _pivotX = 0.5f, _subLeft;
+        float _nextClickAt, _focusScale = 1.1f, _homeX, _homeY, _pivotX = 0.5f, _subLeft, _repeatAt;
         int _baseSibling = -1;
         UISlantKind _kind;
         Color _chipColor;
+        Color _restFill = UISlant.Navy, _restText = UITheme.Text, _highlightFill = UISlant.Coral;
+
+        /// <summary>
+        /// Seconds between repeated clicks while a pointer or finger is held on the plate (0 = off). The first repeat waits
+        /// <see cref="UIInput.RepeatDelay"/>; a release after repeats does not click again (same contract as <see cref="UIButton"/>).
+        /// </summary>
+        public float HoldRepeat { get; set; }
+
+        /// <summary>Resting fill / text colours (default navy plate, light text) and the hover/focus fill (default coral).</summary>
+        public void SetColors(Color restFill, Color restText, Color? highlightFill = null)
+        {
+            _restFill = restFill; _restText = restText; _highlightFill = highlightFill ?? UISlant.Coral;
+            ApplyState(true);
+        }
+
+        /// <summary>Focus grow factor (OutCubic, capped by the caller; 1 = no grow).</summary>
+        public float FocusScale { get => _focusScale; set { _focusScale = value; ApplyState(true); } }
 
         /// <summary>Optional leading icon.</summary>
         public Image Icon { get; private set; }
@@ -455,7 +472,8 @@ namespace Abyss.UI
         /// <summary>Activates the button as if clicked (flash, sound, event). Buzzer + shake when disabled.</summary>
         public void Click()
         {
-            if (Time.unscaledTime < _nextClickAt) return;
+            // Held movement plates keep repeating; everything else is debounced against double taps.
+            if (HoldRepeat <= 0f && Time.unscaledTime < _nextClickAt) return;
             _nextClickAt = Time.unscaledTime + 0.25f;
             UIInput.Consume();
             if (!_interactable)
@@ -483,8 +501,8 @@ namespace Abyss.UI
                 fill = new Color(0.1f, 0.12f, 0.15f, 0.85f); edge = UISlant.Rest; text = UITheme.TextDisabled;
             }
             else if (_pressed) { fill = UISlant.CoralDark; edge = UISlant.Rest; text = Color.white; }
-            else if (Highlighted) { fill = UISlant.Coral; edge = UISlant.Rest; text = Color.white; }
-            else { fill = UISlant.Navy; edge = UISlant.Rest; text = UITheme.Text; }
+            else if (Highlighted) { fill = _highlightFill; edge = UISlant.Rest; text = Color.white; }
+            else { fill = _restFill; edge = UISlant.Rest; text = _restText; }
             if (_ghost) { fill = Highlighted && _interactable ? UISlant.Coral : new Color(0.03f, 0.06f, 0.1f, _interactable ? 0.72f : 0.4f); if (_interactable) text = Highlighted ? Color.white : UITheme.TextDim; }
             _plate.SetColors(fill, edge);
             Label.color = text;
@@ -528,7 +546,18 @@ namespace Abyss.UI
         public void OnPointerDown(PointerEventData e)
         {
             if (e.button != PointerEventData.InputButton.Left) return;
-            _pressed = true; ApplyState(false);
+            _pressed = true; _repeated = false;
+            _repeatAt = Time.unscaledTime + Mathf.Max(HoldRepeat, UIInput.RepeatDelay);
+            ApplyState(false);
+        }
+
+        void Update()
+        {
+            if (HoldRepeat <= 0f || !_pressed || !_interactable || Time.unscaledTime < _repeatAt) return;
+            _repeatAt = Time.unscaledTime + HoldRepeat;
+            if (!UIInput.CanReceive(this)) return;
+            _repeated = true;
+            Click();
         }
 
         /// <inheritdoc/>
@@ -538,6 +567,7 @@ namespace Abyss.UI
         public void OnPointerClick(PointerEventData e)
         {
             if (e.button != PointerEventData.InputButton.Left) return;
+            if (_repeated) { _repeated = false; return; }
             if (!UIInput.CanReceive(this)) return;
             Click();
         }
@@ -564,6 +594,80 @@ namespace Abyss.UI
         public static readonly Color Threat = UITheme.Hex("ff3b4a");
         /// <summary>Threat plate fill (dark red).</summary>
         public static readonly Color ThreatFill = new Color(0.16f, 0.04f, 0.07f, 1f);
+
+        // ---- exploration / title palette (high-contrast night navy + coral / cyan signals) ----------------
+        /// <summary>Signal cyan: secondary accent (edges, eyebrows, compass, stairs).</summary>
+        public static readonly Color Cyan = UITheme.Hex("3ee6ff");
+        /// <summary>Deepest night ink (card backgrounds, dark text on coral).</summary>
+        public static readonly Color Night = UITheme.Hex("070b18");
+        /// <summary>HUD plate fill (darker than <see cref="Navy"/>).</summary>
+        public static readonly Color Deep = UITheme.Hex("0b1124");
+        /// <summary>Raised plate fill (menu rows, pad keys).</summary>
+        public static readonly Color Plate = UITheme.Hex("111a36");
+        /// <summary>Header / panel band fill.</summary>
+        public static readonly Color Band = UITheme.Hex("0e1630");
+        /// <summary>Thin rule / border colour.</summary>
+        public static readonly Color Line = UITheme.Hex("2a3a6a");
+        /// <summary>Paper white (primary text, the forward key, focus shadow).</summary>
+        public static readonly Color Paper = UITheme.Hex("f4f6ff");
+        /// <summary>Muted label text.</summary>
+        public static readonly Color Muted = UITheme.Hex("9aa6d0");
+        /// <summary>Money / treasure amber.</summary>
+        public static readonly Color Amber = UITheme.Hex("ffc94d");
+        /// <summary>Exploration HP fill.</summary>
+        public static readonly Color HpGreen = UITheme.Hex("4de38b");
+
+        /// <summary>Exploration HP colour: green, amber below half, coral below a quarter.</summary>
+        public static Color FieldHpColor(float ratio)
+        {
+            ratio = Mathf.Clamp01(ratio);
+            return ratio >= 0.5f ? HpGreen : ratio >= 0.25f ? Amber : Coral;
+        }
+
+        /// <summary>Paints a shadow under a plate in another colour/offset (e.g. the white offset shadow of a focused title plate).</summary>
+        public static void SetShadow(UISlantPlate plate, Color color, float offset)
+        {
+            if (plate == null || plate.Shadow == null) return;
+            plate.Shadow.color = color;
+            var r = plate.Shadow.rectTransform;
+            r.offsetMin = new Vector2(offset, -offset); r.offsetMax = new Vector2(offset, -offset);
+        }
+
+        /// <summary>
+        /// Slanted chip: a sheared fill with a coloured left edge and one upright label (resource / info chips).
+        /// The chip sizes itself to the label; returns the label for later updates (call <see cref="FitChip"/>).
+        /// </summary>
+        public static TextMeshProUGUI Chip(Transform parent, string name, Color edge, float fontSize, float height, Color? fill = null)
+        {
+            var plate = UISlantPlate.Create(parent, name, fill ?? Deep.WithAlpha(0.92f), edge, 2f, false, 0f, false);
+            // Left edge bar instead of the underline accent.
+            var e = plate.Edge.rectTransform;
+            e.anchorMin = Vector2.zero; e.anchorMax = new Vector2(0f, 1f); e.pivot = new Vector2(0f, 0.5f);
+            e.sizeDelta = new Vector2(Mathf.Max(4f, height * 0.08f), 0f); e.anchoredPosition = Vector2.zero;
+            plate.Rect.sizeDelta = new Vector2(120f, height);
+            var label = UIFactory.Label(plate.Rect, "", fontSize, UIFont.Heavy, Paper, TextAlignmentOptions.Center, UITextFx.Plain, "Text");
+            label.rectTransform.Stretch(height * 0.32f, 0f, height * 0.22f, 0f);
+            return label;
+        }
+
+        /// <summary>Sets a <see cref="Chip"/>'s text and resizes the chip to fit it.</summary>
+        public static float FitChip(TextMeshProUGUI label, string text)
+        {
+            label.text = text;
+            var plate = (RectTransform)label.transform.parent;
+            float h = plate.sizeDelta.y;
+            float w = Mathf.Ceil(label.GetPreferredValues(text).x + h * 0.54f + h * UISkew.Slope);
+            plate.sizeDelta = new Vector2(w, h);
+            return w;
+        }
+
+        /// <summary>Upright text helper with letter spacing (eyebrows such as "NOW ENTERING", "MAP").</summary>
+        public static TextMeshProUGUI Eyebrow(Transform parent, string text, float size, Color color, float spacing = 30f, string name = "Eyebrow")
+        {
+            var t = UIFactory.Label(parent, text, size, UIFont.Heavy, color, TextAlignmentOptions.MidlineLeft, UITextFx.Plain, name);
+            t.characterSpacing = spacing;
+            return t;
+        }
 
         /// <summary>Party HP: cyan, turning coral below half (the one critical accent).</summary>
         public static Color HpColor(float ratio)

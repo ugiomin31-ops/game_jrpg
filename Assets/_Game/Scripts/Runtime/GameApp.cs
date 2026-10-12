@@ -133,7 +133,8 @@ namespace Abyss.Runtime
                 case ResumeRoute.Dungeon:
                     Dungeon = new DungeonRun(DB, State, State.FloorIndex, ArrivalMode.Resume);
                     if (Dungeon.PendingBattle != null) BeginBattle(Dungeon.PendingBattle.Setup);
-                    else EnterDungeonVisual();
+                    // The floor is rebuilt under the area card instead of hard-cutting from the title town.
+                    else UI.Transition(() => UI.FloorCard(State.FloorIndex), EnterDungeonVisual);
                     break;
                 default: EnterTown(); break;
             }
@@ -146,14 +147,21 @@ namespace Abyss.Runtime
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException) { Notify("저장 실패: " + e.Message); }
         }
 
-        public void EnterTown()
+        /// <summary>
+        /// Arrives in town behind the town area card: the town state update, world rebuild and save run while the card
+        /// covers the screen. <paramref name="revealed"/> runs once the card has swept away (e.g. a toast to read).
+        /// </summary>
+        public void EnterTown(Action revealed = null)
         {
             SetPaused(false);
-            Dungeon = null;
-            var notices = GameFlow.EnterTown(DB, State);
-            EnterTownVisual();
-            Save();
-            ShowTownNotices(notices, 0);
+            UI.Transition(UI.TownCard, () =>
+            {
+                Dungeon = null;
+                var notices = GameFlow.EnterTown(DB, State);
+                EnterTownVisual();
+                Save();
+                ShowTownNotices(notices, 0);
+            }, revealed);
         }
 
         /// <summary>Tips and elder lines carry different speakers, so each notice is shown under its own title.</summary>
@@ -191,11 +199,15 @@ namespace Abyss.Runtime
             var result = TownServices.Depart(DB, State, floorIndex);
             if (!result.Success) { Notify(result.Message(DB)); return; }
             SetPaused(false);
-            Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Town);
-            EnterDungeonVisual();
-            Save();
-            var intro = Dungeon.ArrivalNotice;
-            if (intro != null) ShowStory(DB.T(intro.TitleKey), new[] { DB.T(intro.TextKey) }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); Save(); });
+            // Town -> gate (start or warp floor): the dungeon is built while the area card covers the screen.
+            UI.Transition(() => UI.FloorCard(State.FloorIndex), () =>
+            {
+                Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Town);
+                EnterDungeonVisual();
+                Save();
+                var intro = Dungeon.ArrivalNotice;
+                if (intro != null) ShowStory(DB.T(intro.TitleKey), new[] { DB.T(intro.TextKey) }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); Save(); });
+            });
         }
 
         void EnterDungeonVisual()
@@ -217,8 +229,19 @@ namespace Abyss.Runtime
         internal void HandleDungeonStep(DungeonStepResult result)
         {
             if (result.ReturnToTown) { EnterTown(); return; }
-            if (result.FloorChanged) { EnterDungeonVisual(); Save(); }
-            else { dungeonWorld.RefreshProgress(); UI.RefreshDungeon(); }
+            if (result.FloorChanged)
+            {
+                // Stairs: the logic has already moved the party; the new floor is built under the area card and the
+                // rest of the step (tips, notices, biome story) follows while it is still covered.
+                UI.Transition(() => UI.FloorCard(State.FloorIndex), () => { EnterDungeonVisual(); Save(); FinishDungeonStep(result); });
+                return;
+            }
+            dungeonWorld.RefreshProgress(); UI.RefreshDungeon();
+            FinishDungeonStep(result);
+        }
+
+        void FinishDungeonStep(DungeonStepResult result)
+        {
             if (result.Effect == DungeonEffect.Trap) NotifyTip("first_trap");
             NotifyVisibleFoe();
             if (result.Effect == DungeonEffect.Treasure && result.Treasure != null) UI.ShowLoot(result.Treasure);
@@ -311,9 +334,8 @@ namespace Abyss.Runtime
         public void RecoverFromDefeat()
         {
             int lost = GameFlow.RecoverFromDefeat(DB, State);
-            EnterTown();
-            // The return screen names the gold the defeat took; nothing extra when it took none (easy, or an empty purse).
-            if (lost > 0) Notify(DB.T("defeat_gold_lost", lost.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)));
+            // The return screen names the gold the defeat took (once the town card has gone); nothing extra when it took none.
+            EnterTown(() => { if (lost > 0) Notify(DB.T("defeat_gold_lost", lost.ToString("N0", System.Globalization.CultureInfo.InvariantCulture))); });
         }
         public void SetPaused(bool paused)
         {

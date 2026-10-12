@@ -58,6 +58,9 @@ namespace Abyss.UI
         /// <summary>Open/close menu (Tab/C, gamepad Start/North).</summary>
         public static bool Menu => Live && (Pressed(Kb?.tabKey) || Pressed(Kb?.cKey) || Pressed(Pad?.startButton) || Pressed(Pad?.buttonNorth));
 
+        /// <summary>Map toggle (M) this frame; respects <see cref="Consume"/> like every other action.</summary>
+        public static bool MapToggle => Live && Pressed(Kb?.mKey);
+
         /// <summary>Info / detail toggle (Shift/I, gamepad West).</summary>
         public static bool Info => Live && (Pressed(Kb?.leftShiftKey) || Pressed(Kb?.iKey) || Pressed(Pad?.buttonWest));
 
