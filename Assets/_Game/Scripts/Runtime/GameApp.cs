@@ -188,6 +188,9 @@ namespace Abyss.Runtime
         /// <summary>Respawns the guild party and lounge after a roster change (party formation, scouting).</summary>
         public void RefreshRosterVisuals() => townWorld?.RefreshRoster();
 
+        /// <summary>A facility screen opened: the town camera eases to a two-shot with that person when they are close.</summary>
+        public void BeginTownTalk(string id) => townWorld?.BeginTalk(id);
+
         public void OpenTownService(string id)
         {
             if (Screen != GameScreen.Town || Paused) return;

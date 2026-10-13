@@ -55,8 +55,8 @@ namespace Abyss.UI
                 button.Label.fontSizeMax = 25;
             }
             string help = UIRoot.TouchFirst
-                ? "이동 · 화면을 누른 채 끌기    대화 · 시설 근처에서 탭    수첩 · 오른쪽 아래 버튼"
-                : "이동 · WASD / 방향키 / 왼쪽 스틱    대화 · E / 확인    수첩 · Tab / Start";
+                ? "이동 · 왼쪽 화면 끌기    시점 · 오른쪽 화면 끌기·두 손가락 확대    대화 · 시설 근처에서 탭"
+                : "이동 · WASD / 왼쪽 스틱    시점 · Q E / 우클릭 드래그 / 오른쪽 스틱 · 휠    대화 · E    수첩 · Tab";
             UIFactory.Label(hud, help, 21, color: UITheme.TextDim)
                 .Rt().BottomStrip(38, 212, 30, 470);
             RefreshTownReadiness();
@@ -100,6 +100,7 @@ namespace Abyss.UI
         {
             if (app.State == null || app.Screen != GameScreen.Town) return;
             UIInput.Consume();
+            app.BeginTownTalk(id);
             switch (id)
             {
                 case "innkeeper": ShowInn(); break;

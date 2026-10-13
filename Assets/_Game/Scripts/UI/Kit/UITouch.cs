@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,10 +29,23 @@ namespace Abyss.UI
 
         static int _frame = -1;
         static int _finger = -1;
+        // Optional camera pad (the town): touches that begin on the right half rotate / pinch the camera.
+        static int _zoneFrame = -10;
+        static readonly CamTouch[] Cams = { CamTouch.None, CamTouch.None };
+        static Vector2 _lookDelta;
+        static float _pinch;
         static Vector2 _start, _current;
         static float _startTime;
         static bool _dragged, _tap;
         static Vector2Int _swipe;
+        struct CamTouch
+        {
+            public int Finger;
+            public Vector2 Start, Last;
+            public float StartTime;
+            public bool Dragged, Paired;
+            public static readonly CamTouch None = new CamTouch { Finger = -1 };
+        }
         static readonly List<RaycastResult> Hits = new List<RaycastResult>();
         static PointerEventData _probe;
         static EventSystem _probeSystem;
@@ -65,6 +79,21 @@ namespace Abyss.UI
         /// <summary>Dominant direction of a quick flick released this frame (x: -1 left / +1 right, y: +1 up / -1 down).</summary>
         public static Vector2Int Swipe { get { Refresh(); return _swipe; } }
 
+        /// <summary>
+        /// Asks for the right half of the screen to act as a camera pad this frame (call every frame from the world that
+        /// wants it): touches that begin there rotate / pinch the camera, the left half keeps the floating stick, and a
+        /// short still touch anywhere is still a tap.
+        /// </summary>
+        public static void RequestCameraZone() => _zoneFrame = Time.frameCount;
+
+        static bool CameraZone => Time.frameCount - _zoneFrame <= 1;
+
+        /// <summary>Screen pixels the camera-pad finger moved this frame (zero unless a single camera finger is down).</summary>
+        public static Vector2 LookDelta { get { Refresh(); return _lookDelta; } }
+
+        /// <summary>Change in distance (pixels) between two camera-pad fingers this frame; positive when spreading.</summary>
+        public static float Pinch { get { Refresh(); return _pinch; } }
+
         /// <summary>Converts physical inches to screen pixels (falls back to a phone-like density when DPI is unknown).</summary>
         public static float Inches(float inches) => inches * (Screen.dpi > 1f ? Screen.dpi : 320f);
 
@@ -78,14 +107,49 @@ namespace Abyss.UI
             _frame = f;
             _tap = false;
             _swipe = Vector2Int.zero;
-            if (!Supported) { _finger = -1; return; }
+            _lookDelta = Vector2.zero;
+            _pinch = 0f;
+            if (!Supported) { _finger = -1; Cams[0] = Cams[1] = CamTouch.None; return; }
             if (!EnhancedTouchSupport.enabled) EnhancedTouchSupport.Enable();
 
             bool seen = false;
+            bool zone = CameraZone;
+            float halfWidth = Screen.width * 0.5f;
+            bool hadPair = Cams[0].Finger >= 0 && Cams[1].Finger >= 0;
+            float previousSeparation = hadPair ? (Cams[0].Last - Cams[1].Last).magnitude : 0f;
+            Span<bool> camSeen = stackalloc bool[2];
             foreach (var t in ETouch.activeTouches)
             {
                 var phase = t.phase;
-                if (_finger < 0 && phase == ETouchPhase.Began && !OverUI(t.screenPosition))
+                int slot = CamSlot(t.finger.index);
+                if (slot < 0 && zone && phase == ETouchPhase.Began && t.finger.index != _finger && t.screenPosition.x >= halfWidth && !OverUI(t.screenPosition))
+                {
+                    slot = Cams[0].Finger < 0 ? 0 : Cams[1].Finger < 0 ? 1 : -1;
+                    if (slot >= 0)
+                    {
+                        Cams[slot] = new CamTouch { Finger = t.finger.index, Start = t.screenPosition, Last = t.screenPosition, StartTime = Time.unscaledTime };
+                        int other = 1 - slot;
+                        if (Cams[other].Finger >= 0) { Cams[other].Paired = true; Cams[slot].Paired = true; }
+                    }
+                }
+                if (slot >= 0)
+                {
+                    camSeen[slot] = true;
+                    var cam = Cams[slot];
+                    Vector2 step = t.screenPosition - cam.Last;
+                    cam.Last = t.screenPosition;
+                    if ((cam.Last - cam.Start).sqrMagnitude > Sq(Inches(TapSlopInches))) cam.Dragged = true;
+                    if (cam.Dragged && Cams[1 - slot].Finger < 0) _lookDelta += step;
+                    bool ended = phase == ETouchPhase.Ended || phase == ETouchPhase.Canceled;
+                    if (ended)
+                    {
+                        if (phase == ETouchPhase.Ended && !cam.Dragged && !cam.Paired && Time.unscaledTime - cam.StartTime <= TapMaxSeconds) _tap = true;
+                        cam = CamTouch.None;
+                    }
+                    Cams[slot] = cam;
+                    continue;
+                }
+                if (_finger < 0 && phase == ETouchPhase.Began && !OverUI(t.screenPosition) && !(zone && t.screenPosition.x >= halfWidth))
                 {
                     _finger = t.finger.index;
                     _start = _current = t.screenPosition;
@@ -102,9 +166,15 @@ namespace Abyss.UI
                     _finger = -1;
                 }
             }
+            // A camera finger vanished without an end phase (focus loss, missed frame): drop it silently.
+            for (int i = 0; i < 2; i++) if (!camSeen[i]) Cams[i] = CamTouch.None;
+            if (hadPair && Cams[0].Finger >= 0 && Cams[1].Finger >= 0)
+                _pinch = (Cams[0].Last - Cams[1].Last).magnitude - previousSeparation;
             // The tracked finger vanished without an end phase (focus loss, missed frame): drop it silently.
             if (!seen) _finger = -1;
         }
+
+        static int CamSlot(int finger) => finger < 0 ? -1 : Cams[0].Finger == finger ? 0 : Cams[1].Finger == finger ? 1 : -1;
 
         static void Classify()
         {

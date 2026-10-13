@@ -38,6 +38,12 @@ namespace Abyss.Runtime.World
         /// <summary>Benched hunters standing at the lounge spots (villager_1..3).</summary>
         readonly List<CharacterModel> lounge = new List<CharacterModel>();
         EnvironmentProcessor.Result layout;
+        TownCamera rig;
+        ServiceSpot talkSpot, pendingTalk;
+        float pendingTimer;
+        int talkFrame;
+        float talkIdle, runTimer;
+        bool lookDrag;
 
         public void Initialize(GameApp app, bool title)
         {
@@ -70,6 +76,8 @@ namespace Abyss.Runtime.World
             }
             var spawn = RequireSpot(layout, "spawn");
             SpawnParty(spawn.position, spawn.rotation);
+            rig = new TownCamera(app.MainCamera) { Reduced = app.Preferences.ReducedMotion };
+            rig.Collect(town.transform);
             FollowCamera(true);
         }
 
@@ -230,13 +238,32 @@ namespace Abyss.Runtime.World
                 }
                 return;
             }
+            bool labelsVisible = rig == null || rig.TalkWeight < 0.02f;
             foreach (var service in services)
-                if (service.Label != null) service.Label.transform.rotation = app.MainCamera.transform.rotation;
+                if (service.Label != null)
+                {
+                    service.Label.transform.rotation = app.MainCamera.transform.rotation;
+                    // Constant on-screen size: the orbit camera sits much closer than the old fixed one.
+                    float labelDistance = Vector3.Distance(app.MainCamera.transform.position, service.Label.transform.position);
+                    service.Label.transform.localScale = Vector3.one * Mathf.Clamp(labelDistance / 13f, 0.3f, 1f);
+                    if (service.Label.enabled != labelsVisible) service.Label.enabled = labelsVisible;
+                }
             if (app.Screen != GameScreen.Town || app.Paused || app.UI.BlocksWorldInput) { party[0].Play("Idle"); return; }
             UIRoot.Instance?.RequestTouchStick();
+            if (pendingTalk != null)
+            {
+                // Let the two-shot settle (and the person answer) before the facility screen covers the street.
+                party[0].Play("Idle");
+                pendingTimer -= Time.unscaledDeltaTime;
+                if (pendingTimer <= 0f) { var spot = pendingTalk; pendingTalk = null; app.OpenTownService(spot.Id); }
+                return;
+            }
             Vector2 input = ReadMove();
-            var forward = app.MainCamera.transform.forward; forward.y = 0; forward.Normalize();
-            var right = app.MainCamera.transform.right; right.y = 0; right.Normalize();
+            ReadCamera(input);
+            // Movement is relative to the orbit yaw the lens really uses (not the blended pose), so it stays stable through talk blends.
+            var yawRotation = Quaternion.Euler(0f, rig.ViewYaw, 0f);
+            var forward = yawRotation * Vector3.forward;
+            var right = yawRotation * Vector3.right;
             Vector3 motion = Vector3.ClampMagnitude(forward * input.y + right * input.x, 1f);
             // A fully deflected touch stick runs, like holding Shift.
             bool running = (Keyboard.current?.leftShiftKey.isPressed ?? false) || UITouch.Stick.sqrMagnitude > 0.8f;
@@ -265,17 +292,107 @@ namespace Abyss.Runtime.World
                 }
                 else follower.Play("Idle");
             }
+            runTimer = motion.sqrMagnitude > 0.01f ? runTimer + Time.unscaledDeltaTime : 0f;
             UpdateNearest();
             bool confirm = (Keyboard.current?.eKey.wasPressedThisFrame ?? false) || (Keyboard.current?.spaceKey.wasPressedThisFrame ?? false) || (Gamepad.current?.buttonSouth.wasPressedThisFrame ?? false);
             bool click = ((Mouse.current?.leftButton.wasPressedThisFrame ?? false) && !(EventSystem.current?.IsPointerOverGameObject() ?? false)) || UITouch.Tapped;
-            if (nearest != null && (confirm || click))
+            if (nearest != null && (confirm || click)) Interact(nearest);
+        }
+
+        /// <summary>Talks to a facility: a person in reach gets the two-shot first (the screen opens once it has settled).</summary>
+        void Interact(ServiceSpot spot)
+        {
+            spot.Npc?.PlayOnce("Talk");
+            AudioManager.Instance.PlaySfx("sfx_ui_confirm", ui: true);
+            if (spot.Npc != null && BeginTalk(spot.Id))
             {
-                nearest.Npc?.PlayOnce("Talk");
-                AudioManager.Instance.PlaySfx("sfx_ui_confirm", ui: true);
-                app.OpenTownService(nearest.Id);
+                pendingTalk = spot;
+                pendingTimer = app.Preferences.ReducedMotion ? 0.12f : 0.8f;
             }
+            else app.OpenTownService(spot.Id);
         }
         void LateUpdate() { if (!title && player != null && app.Screen == GameScreen.Town) FollowCamera(false); }
+
+        /// <summary>
+        /// Camera controls: right-mouse drag, Q / E (E is the talk key near a facility, so it only turns the view in the
+        /// open), right stick and one-finger drag on the right half rotate; wheel, triggers and pinch zoom.
+        /// After a few seconds of walking the view eases toward the direction of travel (never while standing, never with
+        /// reduced motion, never right after a manual turn).
+        /// </summary>
+        void ReadCamera(Vector2 move)
+        {
+            UITouch.RequestCameraZone();
+            float dt = Time.unscaledDeltaTime;
+            float yaw = 0f, zoom = 0f;
+            var keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                if (keyboard.qKey.isPressed) yaw -= 110f * dt;
+                if (keyboard.eKey.isPressed && nearest == null) yaw += 110f * dt;
+            }
+            var mouse = Mouse.current;
+            if (mouse != null)
+            {
+                if (mouse.rightButton.wasPressedThisFrame) lookDrag = !(EventSystem.current?.IsPointerOverGameObject() ?? false);
+                if (!mouse.rightButton.isPressed) lookDrag = false;
+                if (lookDrag) yaw += mouse.delta.ReadValue().x * 0.2f;
+                float wheel = mouse.scroll.ReadValue().y;
+                if (Mathf.Abs(wheel) > 0.01f && !(EventSystem.current?.IsPointerOverGameObject() ?? false))
+                    zoom -= Mathf.Sign(wheel) * (Mathf.Abs(wheel) > 10f ? Mathf.Clamp(Mathf.Abs(wheel) / 120f, 1f, 4f) : 1f) * 0.8f;
+            }
+            var pad = Gamepad.current;
+            if (pad != null)
+            {
+                yaw += pad.rightStick.ReadValue().x * 130f * dt;
+                zoom += (pad.rightTrigger.ReadValue() - pad.leftTrigger.ReadValue()) * 4.5f * dt;
+            }
+            if (UITouch.Supported)
+            {
+                // Dragging the pad "grabs" the street: the view follows the finger.
+                yaw -= UITouch.LookDelta.x / Mathf.Max(1f, Screen.width) * 200f;
+                zoom -= UITouch.Pinch / Mathf.Max(1f, Screen.width) * 9f;
+            }
+            bool manual = Mathf.Abs(yaw) > 0.001f || Mathf.Abs(zoom) > 0.001f;
+            if (manual) runTimer = 0f;
+            if (Mathf.Abs(yaw) > 0.001f) rig.AddYaw(yaw);
+            if (Mathf.Abs(zoom) > 0.001f) rig.AddZoom(zoom);
+            if (!app.Preferences.ReducedMotion && runTimer > 3f && move.y > 0.2f)
+            {
+                // Gentle: only a real turn (12-80 degrees off the view) nudges the camera, at most 10 degrees a second.
+                float turn = Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg;
+                if (Mathf.Abs(turn) > 12f && Mathf.Abs(turn) < 80f) rig.AddYaw(Mathf.Clamp(turn * 0.2f, -10f, 10f) * dt);
+            }
+        }
+
+        /// <summary>Called when a facility screen opens: eases to an over-the-shoulder two-shot when the person is close.</summary>
+        public bool BeginTalk(string id)
+        {
+            if (title || player == null || rig == null) return false;
+            foreach (var service in services)
+            {
+                if (service.Id != id || service.Npc == null) continue;
+                if (talkSpot == service) { talkFrame = Time.frameCount; return true; }
+                Vector3 delta = service.Marker.position - player.position; delta.y = 0;
+                if (delta.sqrMagnitude > 7.5f * 7.5f) return false;
+                talkSpot = service;
+                talkFrame = Time.frameCount;
+                talkIdle = 0f;
+                rig.BeginTalk(player.position, service.Npc.transform.position, service.Npc.Height);
+                return true;
+            }
+            return false;
+        }
+        void UpdateTalk(float dt)
+        {
+            if (talkSpot == null) return;
+            // The facility screen keeps world input blocked; a short grace avoids flicker between chained screens.
+            bool open = pendingTalk != null || app.UI.BlocksWorldInput || Time.frameCount <= talkFrame + 3;
+            talkIdle = open ? 0f : talkIdle + dt;
+            if (talkIdle > 0.25f) { talkSpot = null; rig.EndTalk(); return; }
+            Vector3 toNpc = talkSpot.Npc.transform.position - player.position; toNpc.y = 0;
+            if (toNpc.sqrMagnitude > 0.04f)
+                player.rotation = Quaternion.Slerp(player.rotation, Quaternion.LookRotation(toNpc), 1f - Mathf.Exp(-9f * dt));
+        }
         void UpdateNearest()
         {
             ServiceSpot candidate = null;
@@ -296,15 +413,11 @@ namespace Abyss.Runtime.World
         }
         void FollowCamera(bool snap)
         {
-            Vector3 target = player.position + Vector3.up * 0.8f;
-            Vector3 offset = new Vector3(6.5f, 8f, -9.5f);  // close enough that the hunters read as people on the street
-            var camera = app.MainCamera;
-            Vector3 desired = target + offset;
-            if (Physics.SphereCast(target, 0.35f, offset.normalized, out var hit, offset.magnitude, ~(1 << 8), QueryTriggerInteraction.Ignore))
-                desired = target + offset.normalized * Mathf.Max(2f, hit.distance - 0.45f);
-            camera.transform.position = snap ? desired : Vector3.Lerp(camera.transform.position, desired, 1f - Mathf.Exp(-5f * Time.unscaledDeltaTime));
-            camera.transform.LookAt(target);
-            camera.fieldOfView = 45;
+            if (rig == null) return;
+            float dt = Time.unscaledDeltaTime;
+            rig.Reduced = app.Preferences.ReducedMotion;
+            if (!snap) UpdateTalk(dt);
+            rig.Update(player.position, dt, snap);
         }
         static Vector2 ReadMove()
         {

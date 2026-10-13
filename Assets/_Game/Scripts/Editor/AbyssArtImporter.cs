@@ -138,7 +138,9 @@ namespace Abyss.EditorTools
         static bool ReadableArena(string path)
         {
             string rel = path.Replace('\\', '/');
-            return rel.Contains("/Art/Environment/") && rel.EndsWith("/arena.fbx", System.StringComparison.OrdinalIgnoreCase);
+            // The town stays readable too: the town camera voxelises awnings, parasols and the entrance canopy to stay out from under them.
+            return (rel.Contains("/Art/Environment/") && rel.EndsWith("/arena.fbx", System.StringComparison.OrdinalIgnoreCase))
+                || (rel.Contains("/Art/Town/") && rel.EndsWith("/town.fbx", System.StringComparison.OrdinalIgnoreCase));
         }
 
         void OnPreprocessModel()
@@ -171,7 +173,7 @@ namespace Abyss.EditorTools
             mi.importLights = false;
             mi.importBlendShapes = false;
             mi.importVisibility = false;
-            // Battle arenas stay readable: the camera director derives occluder boxes for the posts and machines of the merged props shell.
+            // Battle arenas stay readable (the camera director derives occluder boxes for the posts and machines of the merged props shell), and so does the town.
             mi.isReadable = ReadableArena(assetPath);
             mi.meshCompression = ModelImporterMeshCompression.Off;
             mi.importNormals = ModelImporterNormals.Import;
