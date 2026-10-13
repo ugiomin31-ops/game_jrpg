@@ -16,7 +16,7 @@ namespace Abyss.Runtime.Art
 
         public string ModelId { get; private set; }
         /// <summary>Animation backend: <see cref="ClipAnimator"/> (authored takes), <see cref="RiglessBlobAnimator"/> (listed blobs only)
-        /// or <see cref="RiglessFlyerAnimator"/> (listed winged creatures only).</summary>
+        /// , <see cref="RiglessFlyerAnimator"/> (listed winged creatures only) or <see cref="RiglessCrawlerAnimator"/> (listed rigid shells).</summary>
         public IModelAnimator Anim { get; private set; }
         public Transform Visual { get; private set; }
         public float Height { get; private set; } = 1.2f;
@@ -61,7 +61,7 @@ namespace Abyss.Runtime.Art
         /// every other model keeps the strict authored-take path.</param>
         /// <param name="flyer">Only <see cref="ArtLibrary.SpawnCharacter"/> sets this (listed flyer id on its enemy resource path without
         /// authored takes): three-part model animated by <see cref="RiglessFlyerAnimator"/>; a broken hierarchy throws.</param>
-        internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips, bool rigless = false, bool flyer = false)
+        internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips, bool rigless = false, bool flyer = false, bool crawler = false)
         {
             ModelId = id;
             Visual = visual;
@@ -75,6 +75,16 @@ namespace Abyss.Runtime.Art
                 var wings = visual.gameObject.AddComponent<RiglessFlyerAnimator>();
                 wings.Init();
                 Anim = wings;
+                RecomputeBounds();
+                return;
+            }
+            if (crawler)
+            {
+                if (animator != null) animator.enabled = false;   // static shell: code drives the Visual transform rigidly
+                _humanoid = null;
+                var shell = visual.gameObject.AddComponent<RiglessCrawlerAnimator>();
+                shell.Init();
+                Anim = shell;
                 RecomputeBounds();
                 return;
             }

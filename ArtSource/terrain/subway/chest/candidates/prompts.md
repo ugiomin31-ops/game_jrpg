@@ -32,3 +32,6 @@ Suggested pick: candidate_D.png. Reason: the only candidate that shows a separat
 - chest.fbx: toolbox split at the latch seam (z 0.385 m) into `chest` body and `Lid` (origin = back hinge (0, 0.549, 0.385), cap faces closed, same Lid hinge layout as the old chest). Uniform x1.3504, 1.32 x 1.098 x 0.747 m, 4211 tris (Tripo 4215). Material M_SubwayChest_Tripo.
 - Installed 2026-10-12 (B5-INSTALL) into Assets/_Game/Resources/Art/Environment/subway/ ; originals + .meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True (marker written by the install).
 - Unity not run by this worker: import/material creation and in-game facing still to be verified.
+
+### RESTORE-SUBWAY (2026-10-13, Claude Sonnet)
+Installed chest.fbx = raw geometry, uniform scale 1.35; existing faces above the latch seam (z>0.49275) split into child Lid (2054 tris) + body (2161) = 4215 = raw; Lid pivot at requested hinge (0, 0.5487, 0.385) unchanged; no caps. Closed/open captures (renders/chest_retained_hinge_open_a/b.png) at Euler(-105,0,0) show a clean open lid. UV 100%, raw 1024 texture. 0 credits.

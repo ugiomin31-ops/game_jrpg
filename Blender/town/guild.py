@@ -104,9 +104,15 @@ def repo_path(p):
 
 
 def inst_scale(inst):
-    """Optional per-instance scale (number or [sx, sy, sz], in the instance's local axes), baked into the instance's mesh."""
+    """Optional per-instance UNIFORM scale (a number), baked into the instance's mesh. Tripo geometry is never stretched: a per-axis
+    scale list is accepted only when all three components are equal (2026-10-13 fidelity restore)."""
     s = inst.get("scale", 1.0)
-    return (s, s, s) if isinstance(s, (int, float)) else tuple(s)
+    if not isinstance(s, (int, float)):
+        s = tuple(s)
+        if max(s) - min(s) > 1e-9:
+            raise RuntimeError("instance %s: anisotropic scale %s is not allowed (uniform only)" % (inst.get("object"), s))
+        s = s[0]
+    return (s, s, s)
 
 
 def inst_matrix(inst):
@@ -140,6 +146,19 @@ def load_tripo_pieces():
             HQ_X0, HQ_X1 = min(p.x for p in pts), max(p.x for p in pts)
             HQ_YB, HQ_YF = min(p.y for p in pts), max(p.y for p in pts)
         print("TRIPO installed %s replaces=%s" % (e["id"], e.get("replaces")), flush=True)
+
+
+def piece_box(pid, default):
+    """World footprint (x0, x1, y0, y1) of an installed Tripo building from its body_local box (behind the front wall) and its
+    instance placement; the procedural constants (CLINIC / MARKET / WORKSHOP x0..y1) are the fallback."""
+    for e in TRIPO:
+        if e["id"] == pid and "body_local" in e:
+            m = inst_matrix(e["instances"][0])
+            x0, y0, x1, y1 = e["body_local"]
+            pts = [m @ Vector((x, y, 0.0)) for x in (x0, x1) for y in (y0, y1)]
+            return (round(min(p.x for p in pts), 3), round(max(p.x for p in pts), 3),
+                    round(min(p.y for p in pts), 3), round(max(p.y for p in pts), 3))
+    return tuple(default)
 
 
 def bb(m, x0, y0, z0, x1, y1, z1, col, mat="M_Toon"):
@@ -635,8 +654,9 @@ def build_quest_board(m):
 
 def build_clinic(m):
     X0, X1, Y0, Y1, H = CLINIC
-    if replaced("clinic"):          # Tripo guild_clinic: same footprint, the collider stays
-        colb("Clinic", X0, Y0, 0.0, X1, Y1, COUNTER_H)
+    if replaced("clinic"):          # Tripo guild_clinic: the collider follows the (uniformly scaled) piece footprint
+        bx0, bx1, by0, by1 = piece_box("guild_clinic", (X0, X1, Y0, Y1))
+        colb("Clinic", bx0, by0, 0.0, bx1, by1, COUNTER_H)
         return
     bb(m, X0, Y0, 0.0, X1, Y1, H, MINT_W)
     bb(m, X0 - 0.15, Y0 - 0.15, H, X1 + 0.15, Y1 + 0.15, H + 0.3, TEAL_D)
@@ -658,8 +678,9 @@ def build_clinic(m):
 
 def build_market(m):
     X0, X1, Y0, Y1, H = MARKET
-    if replaced("market"):          # Tripo guild_market: same footprint, the collider stays (Sign_Market is part of the piece)
-        colb("Market", X0, Y0, 0.0, X1, Y1, COUNTER_H)
+    if replaced("market"):          # Tripo guild_market: the collider follows the piece footprint (Sign_Market is part of the piece)
+        bx0, bx1, by0, by1 = piece_box("guild_market", (X0, X1, Y0, Y1))
+        colb("Market", bx0, by0, 0.0, bx1, by1, COUNTER_H)
         return
     bb(m, X0, Y0, 0.0, X1, Y1, H, YELLOW)
     bb(m, X0 - 0.14, Y0 + 0.2, 4.2, X0, Y1 - 0.2, 5.1, "#fff1c2", "M_Emit")   # lit sign band
@@ -676,8 +697,9 @@ def build_market(m):
 
 def build_workshop(m):
     X0, X1, Y0, Y1, H = WORKSHOP
-    if replaced("workshop"):        # Tripo guild_workshop: same footprint, the collider stays (Sign_Workshop is part of the piece)
-        colb("Workshop", X0, Y0, 0.0, X1, Y1, COUNTER_H)
+    if replaced("workshop"):        # Tripo guild_workshop: the collider follows the piece footprint (Sign_Workshop is part of the piece)
+        bx0, bx1, by0, by1 = piece_box("guild_workshop", (X0, X1, Y0, Y1))
+        colb("Workshop", bx0, by0, 0.0, bx1, by1, COUNTER_H)
         return
     bb(m, X0, Y0, 0.0, X1, Y1, H, STEEL_B)
     bb(m, X0 - 0.2, Y0 - 0.2, H, X1 + 0.2, Y1 + 0.2, H + 0.3, ROOF)
@@ -781,12 +803,20 @@ def build_storefront_kits():
         kit("kf", "table_low", 13.6, 4.5, 0.0, 90.0, 0.8)
 
 
+def anchor_z(pid, old_height, z):
+    """Light anchor height scaled with the Tripo building (the uniform fit made the buildings lower than the procedural heights)."""
+    for e in TRIPO:
+        if e["id"] == pid:
+            return round(z * e["bounds_local"]["max"][2] / old_height, 2)
+    return z
+
+
 def build_lights():
     anchor((-16.5, -21.2, 3.0), "gate")
     anchor((0.0, -15.0, 3.6), "hq")
-    anchor((-14.6, 1.5, 5.6), "clinic")
-    anchor((14.6, -1.6, 4.0), "market")
-    anchor((14.8, 10.0, 3.0), "workshop")
+    anchor((-14.6, 1.5, anchor_z("guild_clinic", 6.8, 5.6)), "clinic")
+    anchor((14.6, -1.6, anchor_z("guild_market", 5.6, 4.0)), "market")
+    anchor((14.8, 10.0, anchor_z("guild_workshop", 6.0, 3.0)), "workshop")
 
 
 def build_boundaries():

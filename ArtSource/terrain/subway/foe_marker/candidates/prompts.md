@@ -32,3 +32,6 @@ Suggested pick: candidate_B.png. Reason: fractured orange ring, clear centre, an
 - foe_marker.fbx: ring uniform x2.25 to 2.2 m diameter then z x0.4 -> 0.246 m high, 3775 tris (Tripo 3775); Spot_foe empty kept. Not spawned by DungeonWorld at runtime (required by AbyssProjectSetup only). Material M_SubwayFoeMarker_Tripo.
 - Installed 2026-10-12 (B5-INSTALL) into Assets/_Game/Resources/Art/Environment/subway/ ; originals + .meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True (marker written by the install).
 - Unity not run by this worker: import/material creation and in-game facing still to be verified.
+
+### RESTORE-SUBWAY (2026-10-13, Claude Sonnet)
+Installed foe_marker.fbx = raw geometry, uniform scale 2.248654 (was anisotropic), 3775 tris = raw, UV 100%, raw 1024 texture, Spot_foe kept. 0 credits.

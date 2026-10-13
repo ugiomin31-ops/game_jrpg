@@ -176,8 +176,29 @@ namespace Abyss.UI.Battle
             return _chainPlate != null && _chainPlate.gameObject.activeSelf;
         }
 
+        CanvasGroup _tagGroup;
+        bool _tagsHidden;
+        const float TagFadeRate = 8f;
+
+        /// <summary>Fades the unit name tags out while a skill's impact plays over the units, and back in afterwards.</summary>
+        public void SetTagsHidden(bool hidden) => _tagsHidden = hidden;
+
+        void FadeTags()
+        {
+            if (_world == null) return;
+            if (_tagGroup == null)
+            {
+                _tagGroup = _world.GetComponent<CanvasGroup>();
+                if (_tagGroup == null) _tagGroup = _world.gameObject.AddComponent<CanvasGroup>();
+            }
+            float target = _tagsHidden ? 0f : 1f;
+            if (!Mathf.Approximately(_tagGroup.alpha, target))
+                _tagGroup.alpha = Mathf.MoveTowards(_tagGroup.alpha, target, Time.unscaledDeltaTime * TagFadeRate);
+        }
+
         void UpdateTags()
         {
+            FadeTags();
             if (_camera == null || _world == null || !BuildScreenMap()) return;
             float width = _canvasRect.width, height = _canvasRect.height;
             foreach (var card in _cards.Values)

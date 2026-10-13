@@ -55,6 +55,29 @@ namespace Abyss.Runtime.Battle
         string _commandUnit;
         /// <summary>Set once Finish stages the outcome: target-preview resets no longer move the camera.</summary>
         bool _outcome;
+        /// <summary>
+        /// How the current hero skill is staged (from presentation data): melee strike, projectile, area or support.
+        /// None for basic attacks, items, guard and every enemy action.
+        /// </summary>
+        enum SkillBeat { None, Melee, Projectile, Area, Support }
+        SkillBeat _beat;
+        /// <summary>One S7 hit-reaction hold per action at most.</summary>
+        bool _hitHeld;
+        /// <summary>First qualifying hero of the current hit wave (big or critical, survives the hit); consumed after the wave's hit-stop.</summary>
+        BattleDisplayUnit _pendingHit;
+        /// <summary>Signature cut-in hold (the ultimate keeps its 0.95 s) and the aftermath hold before the camera returns.</summary>
+        const float SignatureHold = .45f, AftermathHold = .15f;
+        /// <summary>
+        /// Pacing: the longest a hero waits on its follow-through before running home (the run itself no longer blocks the
+        /// next turn), the beat after an action's last hit, and the tier-2 speed-ups (projectile flight, multi-hit interval).
+        /// </summary>
+        const float RecoveryCap = .3f, LastHitBeat = .05f, Tier2Flight = .8f, Tier2HitInterval = .85f;
+        /// <summary>Units running home after an action; the next action waits only for the ones it involves.</summary>
+        readonly HashSet<BattleDisplayUnit> _returning = new HashSet<BattleDisplayUnit>();
+        /// <summary>Ownership token per returning unit; cancelled (down / revive / teardown / new action) so a cosmetic return never fights the next take.</summary>
+        readonly Dictionary<BattleDisplayUnit, object> _returnTokens = new Dictionary<BattleDisplayUnit, object>();
+        /// <summary>Longest a status tick / outcome waits for a cosmetic return (battle seconds) before the return is cancelled.</summary>
+        const float ReturnWaitCap = 1.5f;
         /// <summary>Battle intro: one eased sweep from the low enemy-side angle into the establishing shot.</summary>
         const float IntroSweep = 1.2f;
         float _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _actionEnd, _waveStop;
@@ -311,7 +334,11 @@ namespace Abyss.Runtime.Battle
                         _ui.Numbers.Spawn(missed.Model.HeadPoint, 0, UINumberStyle.Miss);
                         _impactTargets.Add(e.TargetId);
                         PlaySound("sfx_miss");
-                        yield return strike && NextHitJoinsWave() ? Wait(.03f) : Wait(HitInterval());
+                        if (strike && NextHitJoinsWave()) { yield return Wait(.03f); break; }
+                        // A miss can close a group wave whose earlier targets were hit: finish that wave's shared
+                        // hit-stop and its S7 beat here, exactly as the damage path does.
+                        if (strike && _waveStop > 0f) { yield return HitStop(_waveStop); yield return ConsumeHitReaction(); }
+                        yield return Wait(strike && !NextStrikeFollows() ? LastHitBeat : HitInterval());
                     }
                     break;
                 case HealEvent e:
@@ -375,6 +402,7 @@ namespace Abyss.Runtime.Battle
                 case UnitDownEvent e:
                     if (Find(e.UnitId, out var down))
                     {
+                        CancelReturn(down);   // a cosmetic return must never keep writing a fallen body's transform or Idle
                         down.Alive = false; down.Hp = 0; down.Guarding = false; down.ClearWarnings(); Sync(down);
                         PlaySound("sfx_death");
                         if (down.Side == BattleSide.Enemy)
@@ -392,6 +420,7 @@ namespace Abyss.Runtime.Battle
                 case ReviveEvent e:
                     if (Find(e.UnitId, out var revived))
                     {
+                        CancelReturn(revived);   // a revive take owns the body next, not a stale cosmetic return
                         yield return WaitDeaths();   // a fallen enemy is mid-collapse: let it land before it stands again
                         revived.Alive = true; revived.Hp = e.Hp; revived.MaxHp = e.MaxHp;
                         revived.DeathRate = 1;
@@ -457,8 +486,17 @@ namespace Abyss.Runtime.Battle
                     _hud.Log(e.Success ? "도주 성공" : "도주 실패");
                     _fleeSucceeded = e.Success;
                     if (e.Success)
-                        foreach (var fleeing in _units.Values) if (fleeing.Side == BattleSide.Party && fleeing.Alive)
-                        { fleeing.Model.transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0); fleeing.Model.Play("Run"); }
+                    {
+                        foreach (var fleeing in _units.Values)
+                        {
+                            if (fleeing.Side != BattleSide.Party || !fleeing.Alive) continue;
+                            // A teammate still jogging home must not turn back to the foe over the retreat.
+                            CancelReturn(fleeing);
+                            fleeing.Model.transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0); fleeing.Model.Play("Run");
+                        }
+                    }
+                    else if (_action != null && Find(_action.ActorId, out var stayer) && stayer.Alive)
+                        stayer.Model.Play("Idle", ClipAnimator.ReturnFade);   // the flee attempt's looping Run settles back to the stance
                     yield return Wait(.5f); break;
                 case EnemyIntentPlannedEvent e:
                     if (Find(e.EnemyUnitId, out var planner)) { planner.Plan(e.Intent); _hud.Sync(planner); }
@@ -586,8 +624,13 @@ namespace Abyss.Runtime.Battle
             BattleDisplayUnit target = null;
             if (e.TargetIds != null && e.TargetIds.Count > 0) Find(e.TargetIds[0], out target);
             _hud.Log(actor.Name + " · " + (e.DisplayName ?? ActionName(e.Kind)));
+            // The previous actor may still be jogging home: wait only when it is this action's actor or one of its targets,
+            // so its cosmetic return finishes before this take reuses the same body (token ownership makes that wait safe).
+            while (Involved(e, actor)) yield return null;
+            _beat = actor.Side == BattleSide.Party ? Beat(e, actor, target) : SkillBeat.None;
+            _hitHeld = false; _pendingHit = null;
             if (actor.Side == BattleSide.Enemy) _director.EnemyTurn(actor, Targets(e), StrikePoint(e, actor, target));
-            else _director.Action(actor, target, e.IsUltimate);
+            else if (_beat == SkillBeat.None) _director.Action(actor, target, e.IsUltimate);
             if (e.Kind == ActionKind.Skill && !string.IsNullOrEmpty(e.DisplayName))
                 _hud.SkillBanner(e.DisplayName, PresentationColor(e.Element));
             bool grand = e.IsUltimate || (_presentation != null && _presentation.Tier >= 3);
@@ -595,19 +638,34 @@ namespace Abyss.Runtime.Battle
             // Heroes power up with their own Ultimate take under the cut-in (frames 0-28), then leap / levitate into
             // the finisher; models without it fall back to the Cast wind-up and their normal strike.
             bool ultimateTake = e.IsUltimate && actor.Model.Anim.HasClip("Ultimate");
+            int tier = _presentation != null ? _presentation.Tier : 1;
             if (e.IsUltimate)
             {
                 if (ultimateTake) Swing(actor, "Ultimate", false);
                 else if (actor.Model.Anim.HasClip("Cast")) actor.Model.Anim.Play("Cast", .2f);
-                if (actor.Side == BattleSide.Party)
-                    _hud.UltimateCutIn(actor.DefId, actor.Name, e.DisplayName ?? "궁극기", PresentationColor(e.Element));
-                else _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
+                // S5: push onto the caster under the portrait band. Reduced motion: no band, no camera move.
+                if (actor.Side == BattleSide.Party) _director.SkillCutIn(actor, tier, true);
+                if (!Reduced)
+                {
+                    if (actor.Side == BattleSide.Party)
+                        _hud.UltimateCutIn(actor.DefId, actor.Name, e.DisplayName ?? "궁극기", PresentationColor(e.Element));
+                    else _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
+                }
                 string cls = actor.Side == BattleSide.Party ? _app.DB.ClassOf(actor.DefId) : actor.DefId;
                 string hero = cls == "archer" ? "ranger" : cls;
                 PlaySound("sfx_ultimate_" + hero);
-                yield return Wait(Reduced ? .5f : .95f); _hud.HideCutIn();
+                yield return Wait(Reduced ? .3f : .95f); _hud.HideCutIn();
+            }
+            else if (_beat != SkillBeat.None && IsSignature(e) && !Reduced)
+            {
+                // Signature skill: the charge builds at the feet while the camera pushes in under the slanted portrait band.
+                StartCharge(e, actor, PresentationColor(e.Element));
+                _director.SkillCutIn(actor, tier, false);
+                _hud.PlayCutIn(true, actor.DefId, actor.Name, e.DisplayName ?? "", PresentationColor(e.Element));
+                yield return Wait(SignatureHold); _hud.HideCutIn();
             }
             if (grand && _dimTarget > .4f) _dimTarget = .4f;   // keep framing the wind-up after the cut-in
+            if (_beat != SkillBeat.None) StageBeat(e, actor, target);
             if (e.Kind == ActionKind.Guard)
             {
                 actor.Guarding = true; Sync(actor);
@@ -667,14 +725,18 @@ namespace Abyss.Runtime.Battle
             }
             if (!swung && !ultimateTake) Swing(actor, clip, cast);
             Color tint = PresentationColor(e.Element);
-            if (_presentation != null && !string.IsNullOrEmpty(_presentation.ChargeVfx))
-                _charge = Effect(_presentation.ChargeVfx, actor.Model.CenterPoint, tint, 1, _actionLength, actor.Model.transform, actor.Home.y);
+            if (!_charge.IsPlaying) StartCharge(e, actor, tint);
             PlaySound(_presentation != null && !string.IsNullOrEmpty(_presentation.SfxCast) ? _presentation.SfxCast :
                 e.Kind == ActionKind.Item ? "sfx_item" : cast ? ElementSound(e.Element) : WeaponSound(actor));
             float contactTime = _actionLength * Contact(actor.Model, _strikeClip ?? clip);
             // The authored Attack contacts at 40%; the lunge belongs to that strike, not a tiny Run.
             if (lunge) yield return Move(actor, destination, Mathf.Max(.05f, contactTime - _actionElapsed));
             else yield return Wait(Mathf.Max(0, contactTime - _actionElapsed));
+            // S4 release: whip to the impact framing as the spell / shot leaves the hand.
+            if (_beat == SkillBeat.Projectile || _beat == SkillBeat.Area || _beat == SkillBeat.Support)
+                _director.CastShot(actor, Targets(e), true, CastStyleOf(_beat));
+            // Enemy / ally name tags step aside while a skill's impact plays (restored at the action's end).
+            if (_beat != SkillBeat.None) _hud.SetTagsHidden(true);
             bool projectile = _presentation != null && !string.IsNullOrEmpty(_presentation.TravelVfx) && e.TargetIds != null;
             // Multi-hit shots send one projectile per hit; area spells keep a single opening volley under the big effect.
             _perHitProjectile = projectile && e.HitCount > 1 && string.IsNullOrEmpty(_presentation.AreaVfx);
@@ -696,6 +758,51 @@ namespace Abyss.Runtime.Battle
                 float lead = Reduced ? Mathf.Min(.12f, _presentation.AreaWait) : _presentation.AreaWait;
                 if (lead > 0) yield return Wait(lead);
             }
+        }
+        /// <summary>
+        /// Staging family of a hero skill from its presentation data: allies targeted = support; a dash / lunge approach =
+        /// melee; an area effect or a group scope = area; anything else (shots, bolts, direct casts) = projectile.
+        /// </summary>
+        SkillBeat Beat(ActionStartEvent e, BattleDisplayUnit actor, BattleDisplayUnit target)
+        {
+            if (e.Kind != ActionKind.Skill) return SkillBeat.None;
+            if (target != null && target.Side == actor.Side) return SkillBeat.Support;
+            bool cast = _presentation != null && _presentation.ActorAction == "cast";
+            if (!cast && target != null && target.Id != actor.Id && _presentation != null && _presentation.Approach != "none") return SkillBeat.Melee;
+            if ((_presentation != null && !string.IsNullOrEmpty(_presentation.AreaVfx)) || e.Scope != Scope.Single) return SkillBeat.Area;
+            return SkillBeat.Projectile;
+        }
+        static bool IsSignature(ActionStartEvent e) => e.SkillId != null && e.SkillId.StartsWith("sig_", StringComparison.Ordinal);
+        static BattleCameraDirector.CastStyle CastStyleOf(SkillBeat beat) =>
+            beat == SkillBeat.Area ? BattleCameraDirector.CastStyle.Area : beat == SkillBeat.Support ? BattleCameraDirector.CastStyle.Support : BattleCameraDirector.CastStyle.Projectile;
+        /// <summary>Camera for the cast pose: S3 strike follow for melee, S4 behind the caster for everything else.</summary>
+        void StageBeat(ActionStartEvent e, BattleDisplayUnit actor, BattleDisplayUnit target)
+        {
+            if (_beat == SkillBeat.Melee && target != null)
+            {
+                Vector3 from = actor.Model.transform.position, direction = target.Model.transform.position - from; direction.y = 0;
+                float distance = direction.magnitude;
+                float travel = Mathf.Max(0, distance - actor.Model.Radius - target.Model.Radius - .45f);
+                bool lunge = _presentation != null && _presentation.Approach == "lunge" && e.Scope != Scope.Single;
+                Vector3 mark = distance > .001f ? from + direction / distance * (lunge ? Mathf.Min(.7f, travel) : travel) : from;
+                _director.StrikeFollow(actor, target, mark);
+            }
+            else _director.CastShot(actor, Targets(e), false, CastStyleOf(_beat));
+        }
+        /// <summary>
+        /// Charge at the caster's feet: the presentation's charge effect, or for a signature / ultimate without one a
+        /// class default (bow glint for archers, grand aura for ultimates, aura otherwise) when the library has it.
+        /// </summary>
+        void StartCharge(ActionStartEvent e, BattleDisplayUnit actor, Color tint)
+        {
+            string key = _presentation != null ? _presentation.ChargeVfx : null;
+            if (string.IsNullOrEmpty(key) && _beat != SkillBeat.None && (IsSignature(e) || e.IsUltimate))
+            {
+                key = e.IsUltimate ? "charge_grand" : _app.DB.ClassOf(actor.DefId) == "archer" ? "charge_bow" : "aura";
+                if (!_vfx.Supports(key)) key = null;
+            }
+            if (!string.IsNullOrEmpty(key))
+                _charge = Effect(key, actor.Model.CenterPoint, tint, 1, _actionLength, actor.Model.transform, actor.Home.y);
         }
         /// <summary>
         /// Where a melee enemy will strike from (the run's end mark), predicted with the same rules as the approach below,
@@ -752,7 +859,7 @@ namespace Abyss.Runtime.Battle
         {
             string key = _presentation.TravelVfx;
             Vector3 from = actor.Model.MuzzlePoint(_app.DB.ClassOf(actor.DefId) == "archer" ? "weapon.L" : "weapon.R"), to = HitPoint(target);
-            float time = Reduced ? .08f : TravelTime(key, Vector3.Distance(from, to));
+            float time = Reduced ? .08f : TravelTime(key, Vector3.Distance(from, to)) * (_presentation.Tier >= 2 ? Tier2Flight : 1f);
             TrackEffect(_vfx.Travel(key, from, to, time, tint));
             return time;
         }
@@ -784,17 +891,52 @@ namespace Abyss.Runtime.Battle
                         Impact(_presentation.ImpactVfx, affected, PresentationColor(_action.Element), affected.Side != source.Side, FacingFrom(_action.ActorId, affected));
             foreach (var pair in _hitCounts)
                 if (pair.Value > 1 && Find(pair.Key, out var hit)) _ui.Numbers.SpawnHits(hit.Model.HeadPoint, pair.Value, _hitTotals[pair.Key]);
+            if (_beat != SkillBeat.None && !Reduced)
+            {
+                // Aftermath: the impact framing holds briefly (overlapping the recovery pose when the take is still playing).
+                float end = _actionEnd > 0 ? Mathf.Min(_actionEnd, _actionLength) : _actionLength;
+                float remain = Mathf.Max(0f, end - _actionElapsed);
+                if (remain < AftermathHold) yield return Wait(AftermathHold - remain);
+            }
+            _hud.SetTagsHidden(false);
             if (!_fleeSucceeded && Find(e.ActorId, out var actor) && actor.Alive)
             {
-                // Hit-stop freezes the take, so its held time must not steal the recovery pose.
-                while (_actionElapsed < (_actionEnd > 0 ? Mathf.Min(_actionEnd, _actionLength) : _actionLength)) yield return null;
+                // Hit-stop freezes the take, so its held time must not steal the recovery pose; a hero away from its mark
+                // shows at most RecoveryCap of follow-through before it turns home. At its mark the take simply plays out
+                // into its idle (PlayOnce) while the battle moves on.
                 Vector3 back = actor.Home - actor.Model.transform.position; back.y = 0;
+                float end = _actionEnd > 0 ? Mathf.Min(_actionEnd, _actionLength) : _actionLength;
+                if (back.sqrMagnitude > .01f)
+                {
+                    float until = Mathf.Min(end, _actionElapsed + RecoveryCap);
+                    while (_actionElapsed < until) yield return null;
+                }
+                StartCoroutine(ReturnHome(actor, back));
+            }
+            _action = null; _presentation = null; _actionLength = 0; _actionEnd = 0; _strikeClip = null; _perHitProjectile = false;
+            _beat = SkillBeat.None; _pendingHit = null; _hitHeld = false;
+            // The camera goes back to S0 / S1 while the hero is still running home.
+            if (!NextShotFollows()) Establishing(false);
+            yield return Wait(.06f);
+        }
+        /// <summary>Runs (or hops) a unit back to its mark and turns it to face the foe, beside the replay.</summary>
+        IEnumerator ReturnHome(BattleDisplayUnit actor, Vector3 back)
+        {
+            if (actor == null || actor.Model == null) yield break;
+            // Per-unit ownership token: a down / revive / teardown cancels it, so this cosmetic run can never be the last
+            // writer of a fallen body's transform or animation. Any writing loop checks the token before it commits.
+            var token = new object();
+            CancelReturn(actor);
+            _returning.Add(actor); _returnTokens[actor] = token;
+            bool Owned() => _returnTokens.TryGetValue(actor, out var t) && ReferenceEquals(t, token);
+            try
+            {
                 if (back.sqrMagnitude > .01f)
                 {
                     if (Reduced || !actor.Model.Anim.HasClip("Run"))
                     {
                         actor.Model.Play("Idle", .1f);
-                        yield return Move(actor, actor.Home, Reduced ? 0 : .3f, .4f);
+                        yield return HopHome(actor, Owned);
                     }
                     else
                     {
@@ -802,17 +944,121 @@ namespace Abyss.Runtime.Battle
                         float distance = back.magnitude, time = ApproachTime(actor, distance);
                         SetRunRate(actor, distance / time);
                         actor.Model.Anim.Play("Run", RunFade, false);
-                        yield return Face(actor, Quaternion.LookRotation(back / distance));
-                        yield return Move(actor, actor.Home, time, 0, true);
-                        actor.Model.Play("Idle", ClipAnimator.ReturnFade);
+                        yield return TurnTo(actor, Quaternion.LookRotation(back / distance), Owned);
+                        if (!Owned()) yield break;
+                        yield return TraverseHome(actor, time, Owned);
+                        if (!Owned()) yield break;
+                        if (actor.Model.Anim.HasClip("Idle")) actor.Model.Play("Idle", ClipAnimator.ReturnFade);
                     }
                 }
-                else actor.Model.Play("Idle", ClipAnimator.ReturnFade);
-                yield return Face(actor, actor.Facing);
+                if (!Owned()) yield break;
+                yield return TurnTo(actor, actor.Facing, Owned);
             }
-            _action = null; _presentation = null; _actionLength = 0; _actionEnd = 0; _strikeClip = null; _perHitProjectile = false;
-            if (!NextShotFollows()) Establishing(false);
-            yield return Wait(.12f);
+            finally
+            {
+                // Clear only this return's records; ownership may already have moved to another action's cancel.
+                if (Owned()) { _returning.Remove(actor); _returnTokens.Remove(actor); }
+                else if (!_returning.Contains(actor)) _returnTokens.Remove(actor);
+            }
+        }
+        /// <summary>Cancels a pending cosmetic return for <paramref name="actor"/> (down / revive / teardown / new take) and snaps it to its Home / facing.</summary>
+        void CancelReturn(BattleDisplayUnit actor)
+        {
+            if (actor == null || !_returnTokens.Remove(actor)) return;
+            _returning.Remove(actor);
+            if (actor.Model != null) actor.Model.transform.SetPositionAndRotation(actor.Home, actor.Facing);
+        }
+        void CancelAllReturns()
+        {
+            _returning.Clear();
+            _returnTokens.Clear();
+        }
+        /// <summary>Token-checked easing turn; commits a rotation step only while this return still owns the unit, else yields out.</summary>
+        IEnumerator TurnTo(BattleDisplayUnit actor, Quaternion facing, System.Func<bool> owned)
+        {
+            var model = actor.Model.transform; Quaternion from = model.rotation;
+            if (!Reduced && Quaternion.Angle(from, facing) > 1f)
+            {
+                float elapsed = 0;
+                while (elapsed < .12f)
+                {
+                    if (!owned()) yield break;
+                    if (!_app.Paused)
+                    {
+                        elapsed += Dt;
+                        model.rotation = Quaternion.Slerp(from, facing, Mathf.SmoothStep(0, 1, elapsed / .12f));
+                    }
+                    yield return null;
+                }
+            }
+            if (owned()) model.rotation = facing;
+        }
+        /// <summary>Token-checked walk home; never commits a position step once the return is cancelled.</summary>
+        IEnumerator TraverseHome(BattleDisplayUnit actor, float seconds, System.Func<bool> owned)
+        {
+            var model = actor.Model.transform; Vector3 from = model.position, destination = actor.Home;
+            float elapsed = 0;
+            while (elapsed < seconds)
+            {
+                if (!owned()) yield break;
+                if (!_app.Paused)
+                {
+                    elapsed += Dt;
+                    float t = Mathf.Clamp01(elapsed / seconds);
+                    model.position = Vector3.Lerp(from, destination, t);
+                }
+                yield return null;
+            }
+            if (owned()) model.position = destination;
+        }
+        /// <summary>Token-checked settle home for reduced / clip-less models.</summary>
+        IEnumerator HopHome(BattleDisplayUnit actor, System.Func<bool> owned)
+        {
+            var model = actor.Model.transform; Vector3 from = model.position, destination = actor.Home;
+            float seconds = Reduced ? 0f : .3f, elapsed = 0;
+            while (elapsed < seconds)
+            {
+                if (!owned()) yield break;
+                if (!_app.Paused)
+                {
+                    elapsed += Dt;
+                    float t = Mathf.Clamp01(elapsed / seconds);
+                    model.position = Vector3.Lerp(from, destination, 1 - (1 - t) * (1 - t)) + Vector3.up * (Mathf.Sin(Mathf.PI * t) * .4f);
+                }
+                yield return null;
+            }
+            if (owned()) model.position = destination;
+        }
+        /// <summary>Waits (battle clock, bounded by <see cref="ReturnWaitCap"/>) for a unit's cosmetic return to finish; cancels it on timeout.</summary>
+        IEnumerator WaitReturn(BattleDisplayUnit unit)
+        {
+            float elapsed = 0;
+            while (_returning.Contains(unit) && elapsed < ReturnWaitCap)
+            { if (!_app.Paused) elapsed += Dt; yield return null; }
+            CancelReturn(unit);
+        }
+        /// <summary>True while the actor or one of the action's targets is still on its way home.</summary>
+        bool Involved(ActionStartEvent e, BattleDisplayUnit actor)
+        {
+            if (_returning.Count == 0) return false;
+            if (_returning.Contains(actor)) return true;
+            if (e.TargetIds != null) foreach (string id in e.TargetIds) if (Find(id, out var unit) && _returning.Contains(unit)) return true;
+            return false;
+        }
+        /// <summary>True when the current action has another strike (damage or miss from its actor) before it ends.</summary>
+        bool NextStrikeFollows()
+        {
+            if (_action == null || _events == null) return false;
+            for (int i = _eventIndex + 1; i < _events.Count; i++)
+            {
+                switch (_events[i])
+                {
+                    case ActionEndEvent _: return false;
+                    case DamageEvent next: if (next.StatusId == null && next.SourceId == _action.ActorId) return true; break;
+                    case MissEvent next: if (next.SourceId == _action.ActorId) return true; break;
+                }
+            }
+            return false;
         }
         /// <summary>
         /// Wave bookkeeping before a strike lands. Hits on fresh targets of a group action share a wave; a repeat target
@@ -857,6 +1103,9 @@ namespace Abyss.Runtime.Battle
         {
             if (!Find(e.TargetId, out var target)) yield break;
             bool strike = _action != null && e.StatusId == null && e.SourceId == _action.ActorId;
+            // A turn-end poison / burn tick (or a counter) on a unit still jogging home lands once it is back on its mark,
+            // instead of snapping it there mid-stride; the cancel below stays the hard guarantee.
+            if (!strike && _returning.Contains(target)) yield return WaitReturn(target);
             if (strike) yield return PrepareHit(target);
             target.Hp = e.HpAfter; target.MaxHp = e.MaxHp; Sync(target);
             _impactTargets.Add(e.TargetId);
@@ -872,6 +1121,8 @@ namespace Abyss.Runtime.Battle
             if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce("Hit", "Idle", .15f);
             Color tint = PresentationColor(e.Element);
             if (e.Amount > 0) target.Model.Flash(e.Critical ? Color.white : tint, e.Critical ? .2f : Reduced ? .2f : .12f);
+            // A hit owns the target's body from here: cancel any cosmetic return so it cannot overwrite the recoil or the fall.
+            CancelReturn(target);
             // Recoil away from the attacker side; only from the home mark so it never fights a Move.
             if (!Reduced && e.Amount > 0 && target.Alive && (target.KnockTime > 0 || (target.Model.transform.position - target.Home).sqrMagnitude < .01f))
             {
@@ -889,7 +1140,7 @@ namespace Abyss.Runtime.Battle
             if (!Reduced)
             {
                 AddTrauma((_presentation != null ? _presentation.Shake : .08f) * (e.Critical ? 1.4f : 1));
-                if (strike) _director.Punch(e.Critical ? -3f : -1.5f);
+                if (strike) _director.Punch(_beat == SkillBeat.Melee ? BattleCameraDirector.StrikePunch : e.Critical ? -3f : -1.5f);
                 if (e.Critical) ScreenFlash(Color.white, .22f);
                 else if (strike && !_flashed && _presentation != null && _presentation.ScreenFlash) ScreenFlash(tint, .3f);
             }
@@ -898,16 +1149,40 @@ namespace Abyss.Runtime.Battle
             if (e.Critical) stop *= 1.6f;
             else if (weak) stop *= 1.3f;
             _waveStop = Mathf.Max(_waveStop, stop);
+            // S7 candidate: a hero who survives a big or critical enemy hit. Recorded before a group wave returns early, so
+            // an earlier victim of the wave is not lost; consumed once after the wave's shared hit-stop.
+            if (!Reduced && !_hitHeld && _pendingHit == null && strike && target.Side == BattleSide.Party && e.HpAfter > 0 && e.Amount > 0 &&
+                (e.Critical || e.Amount >= target.MaxHp * .25f) && Find(_action.ActorId, out var striker) && striker.Side == BattleSide.Enemy)
+                _pendingHit = target;
             // Group hits land together: stagger the rest of the wave, then freeze once for all of it.
             if (strike && NextHitJoinsWave()) { yield return Wait(.03f); yield break; }
             // Let the recoil enter before freezing it; otherwise hit-stop freezes the untouched pose.
             if (!Reduced && e.Amount > 0) yield return Wait(KnockOut);
             yield return HitStop(strike ? _waveStop : stop);
+            yield return ConsumeHitReaction();
             // A killing blow flows straight into the fall; the beat between hits would only delay the death.
             if (e.HpAfter <= 0 && target.Side == BattleSide.Enemy) yield break;
-            yield return Wait(HitInterval());
+            // The full interval only separates strikes; after the last one a short beat hands over to the aftermath.
+            yield return Wait(strike && !NextStrikeFollows() ? LastHitBeat : HitInterval());
         }
 
+        /// <summary>
+        /// S7: the closed wave's recorded victim (still standing, HP above zero) gets a short hold, then the enemy-turn
+        /// shot resumes. Always consumes the record; never runs without an action (a later status tick has none).
+        /// </summary>
+        IEnumerator ConsumeHitReaction()
+        {
+            if (_pendingHit == null) yield break;
+            var victim = _pendingHit; _pendingHit = null;
+            if (_hitHeld || _action == null || Reduced) yield break;
+            Find(_action.ActorId, out var attacker);
+            if (victim.Alive && victim.Hp > 0 && _director.HitReaction(victim, attacker))
+            {
+                _hitHeld = true;
+                yield return Wait(BattleCameraDirector.HitHold);
+                _director.ResumeAfterHit();
+            }
+        }
         /// <summary>
         /// Enemy death: the Die take plays fast enough to fit the fall, a held take (Tripo / Mixamo) is replaced by a knock-back and
         /// topple staged in code, a smoke burst marks the moment the body starts to dissolve, and a boss finishes with a stronger
@@ -1085,6 +1360,10 @@ namespace Abyss.Runtime.Battle
         IEnumerator Finish(BattleOutcome outcome)
         {
             _commandUnit = null; _hud.Lock(); _outcome = true;
+            // Heroes still jogging home reach their marks before the outcome is staged.
+            float settle = 0;
+            while (_returning.Count > 0 && settle < ReturnWaitCap) { if (!_app.Paused) settle += Dt; yield return null; }
+            CancelAllReturns();
             // Resolve exactly once and use that cached report for both routing and the result UI. Save before
             // any ceremony/toast/acknowledgement; never compute eligibility by applying the outcome again.
             var resolution = _app.Dungeon.ResolveBattle(outcome);
@@ -1291,6 +1570,8 @@ namespace Abyss.Runtime.Battle
             }
             // Camera framing runs here, before the HUD (execution order 200) places its tags from this frame's camera.
             _director.Tick(Speed, Reduced);
+            // The signature cut-in band runs on the battle clock (speed scaled, frozen while paused: LateUpdate returned above).
+            _hud.AdvanceCutIn(Dt);
             if (_flashAlpha > 0)
             {
                 _flashAlpha = Mathf.MoveTowards(_flashAlpha, 0, Time.unscaledDeltaTime * 2.5f);
@@ -1349,7 +1630,9 @@ namespace Abyss.Runtime.Battle
             unit.Model.transform.position = destination;
         }
         static float MovementTime(float distance) => Mathf.Clamp(distance / 10f, .22f, .36f);
-        float HitInterval() => Mathf.Max(.12f, _presentation != null ? _presentation.HitInterval : .18f);
+        float HitInterval() => _presentation != null && _presentation.Tier >= 2
+            ? Mathf.Max(.1f, Mathf.Max(.12f, _presentation.HitInterval) * Tier2HitInterval)
+            : Mathf.Max(.12f, _presentation != null ? _presentation.HitInterval : .18f);
         static string ActionName(ActionKind kind)
         {
             switch (kind)
@@ -1406,6 +1689,7 @@ namespace Abyss.Runtime.Battle
         void Restore()
         {
             if (_restored) return; _restored = true;
+            CancelAllReturns(); _beat = SkillBeat.None; _pendingHit = null;   // no cosmetic return, skill beat or S7 record outlives the battle
             foreach (var effect in _effects) effect.Stop(); _effects.Clear(); _auras.Clear();
             if (_vfx != null) _vfx.TimeScale = 1;
             if (_ui != null) { _ui.Numbers.Clear(); _ui.Dialog.Close(); }

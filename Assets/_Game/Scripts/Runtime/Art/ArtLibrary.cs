@@ -107,6 +107,9 @@ namespace Abyss.Runtime.Art
             if (parent != null) root.transform.SetParent(parent, false);
             var visual = Object.Instantiate(prefab, root.transform, false).transform;
             visual.name = "Model";
+            // Per-model display scale for Tripo models authored smaller than their role (applied to the Visual, so battle
+            // and dungeon code that sets the root scale from EnemyDef.ScaleMult still multiplies on top).
+            if (ModelScale.TryGetValue(id, out float modelScale) && path == EnemyPath(id)) visual.localScale *= modelScale;
             var model = root.AddComponent<CharacterModel>();
             var clips = LoadClips(path);
             var animator = visual.GetComponent<Animator>();
@@ -115,15 +118,17 @@ namespace Abyss.Runtime.Art
             // Approved exception (2026-10-12): flyers whose Tripo rig failed, by resolved model id AND enemy resource path,
             // and only while they ship no authored Idle (a listed flyer that still has takes keeps the strict clip path).
             bool flyer = IsRiglessFlyer(id) && path == EnemyPath(id) && !HasIdle(clips);
+            // Rigid static creatures (Tripo shell, no skeleton): same explicit-list rule as the flyers.
+            bool crawler = IsRiglessCrawler(id) && path == EnemyPath(id) && !HasIdle(clips);
             string classId = null;
             HashSet<string> classNames = null;
-            if (!rigless && !flyer && animator != null && animator.isHuman && !HasIdle(clips))
+            if (!rigless && !flyer && !crawler && animator != null && animator.isHuman && !HasIdle(clips))
             {
                 clips = LoadClips(HumanoidAnimationsPath);
                 classId = Abyss.Logic.GameDB.Instance?.ClassOf(id) ?? id;
                 clips = MergeClassClips(clips, classId, out classNames);
             }
-            model.Setup(id, visual, clips, rigless, flyer);
+            model.Setup(id, visual, clips, rigless, flyer, crawler);
             model.SetClassClips(classId, classNames);
             return model;
         }
@@ -197,6 +202,21 @@ namespace Abyss.Runtime.Art
         static readonly HashSet<string> RiglessFlyerIds = new HashSet<string> { "bat", "killer_bee", "elite_bat" };
 
         public static bool IsRiglessFlyer(string modelId) => modelId != null && RiglessFlyerIds.Contains(modelId);
+
+        /// <summary>
+        /// Rigid creature model ids animated by code (<see cref="RiglessCrawlerAnimator"/>): their Tripo model is a static shell
+        /// (no skeleton, no takes). Palette variants that reuse the model (iron / lava / elite beetles) follow automatically.
+        /// </summary>
+        static readonly HashSet<string> RiglessCrawlerIds = new HashSet<string> { "rhino_beetle" };
+
+        /// <summary>
+        /// Enemy model ids whose Tripo mesh is authored smaller than the creature it plays. forest_guardian (zone-2 boss):
+        /// the 1.63 m Tripo model reads ~2.4 m in battle (×1.5 boss readability); ×1.4 makes it ~3.4 m, as dominant in
+        /// frame as scrap_colossus (2.2 m × 1.5) against the old 4.66 m tree giant.
+        /// </summary>
+        static readonly Dictionary<string, float> ModelScale = new Dictionary<string, float> { { "forest_guardian", 1.4f } };
+
+        public static bool IsRiglessCrawler(string modelId) => modelId != null && RiglessCrawlerIds.Contains(modelId);
 
         static bool HasIdle(AnimationClip[] clips)
         {

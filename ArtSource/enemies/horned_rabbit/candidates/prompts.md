@@ -42,3 +42,9 @@
 
 ## Floor fix 2026-10-12 (S14 follow-up)
 - Per clip, a CONSTANT offset was added to every key (and handles) of the Hips location curve (local Y axis, 1 m = 1 m world Z) so the lowest mesh vertex over the clip is 0: Idle -0.100 -> 0.000, Run -0.156 -> 0.000, Attack -0.129, Cast -0.133, Hit -0.141, Die -0.104 -> all 0.000. No keys authored, no rotation changed. Re-exported and reinstalled Assets/_Game/Resources/Art/Enemies/horned_rabbit/horned_rabbit.fbx (staging identical). Rig gate re-run: 0 unweighted, limbs deform; clips Idle 369, Run 31, Attack 60, Cast 54, Hit 32, Die 204 unchanged. Peaks of the strike/release unchanged. Hips are now ~0.1-0.16 m higher than the raw Tripo take, so Idle-to-Run cross-fades shift the body by up to ~0.06 m. Unity not run.
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Armature rest pose restored to raw x 0.90772 (max head error 3.5e-7 m, was 4.2 cm). Cause: the S14 build scaled edit-bone heads/tails in place while bones were CONNECTED, so every connected child was scaled twice (unintended). Rebuilt with the same script, bones disconnected before scaling (same method as elder_build_b), same Idle/Run/Attack/Cast/Hit/Die takes (369/31/60/54/32/204), per-clip floor offsets recomputed (lowest vertex 0.000 in every clip), mesh/UV/weights identical to the previous install (4509 tris, UV 100%). Rig gate: 0 unweighted.
+
+### RUNFIX-RAT-RABBIT (2026-10-13, Claude Sonnet)
+- Run take: forward Hips travel removed (linear detrend of the Hips fore/aft location curve, same as INSTALL-B6-2) so the body no longer slides forward and snaps back each loop. Everything else byte-equivalent (mesh/UV/weights/rest pose/texture, takes Idle/Attack/Cast/Hit/Die identical). Hips forward range over the Run cycle now ~2-3 cm (source hip sway), first->last 0.000 m. Re-exported with the same pipeline, installed in place (.meta untouched). Backup: ArtSource/_backup_20261013_runfix/. See ledger RUNFIX-RAT-RABBIT.

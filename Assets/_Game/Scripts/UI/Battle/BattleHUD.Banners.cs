@@ -136,5 +136,101 @@ namespace Abyss.UI.Battle
         }
 
         public void HideSkillBanner() { if (_banner != null) _banner.gameObject.SetActive(false); }
+
+        // ---- signature / ultimate cut-in ------------------------------------------------------------
+
+        /// <summary>
+        /// Slanted portrait band for a hero's signature technique or ultimate (hero portrait sliding in, big slanted TMP
+        /// skill name punching in, speed lines). The band runs on the battle clock (see <see cref="AdvanceCutIn"/>), so a
+        /// pause freezes the entrance, drift and exit and 1.5x / 2x scale them with the battle; the view holds it shorter
+        /// for a signature than for an ultimate and never shows a signature under reduced motion. Hide with <see cref="HideCutIn"/>.
+        /// </summary>
+        /// <param name="signature">True: caption as the hunter's signature technique; false: an ultimate call-out.</param>
+        public void PlayCutIn(bool signature, string heroId, string actor, string skill, Color accent)
+        {
+            if (_ult != null && _ultCompact != Compact) DiscardUltimate();
+            if (_ult == null) BuildUltimate();
+            UITween.Kill(_ult);
+            _ult.gameObject.SetActive(true);
+            _ult.SetAsLastSibling();
+            _ultGroup.alpha = 1f;
+            _ultFaceImage.sprite = UIArtwork.Hero(heroId);
+            _ultActor.text = signature ? actor + "  ·  시그니처" : actor;
+            _ultSkill.text = skill;
+            _ultSkill.color = Color.Lerp(UITheme.GoldBright, accent, .25f);
+            _ultTint.color = new Color(accent.r, accent.g, accent.b, .55f);
+            _ultEdgeTop.color = _ultEdgeBottom.color = Color.Lerp(UITheme.Gold, accent, .5f);
+            Color lineColor = Color.Lerp(Color.white, accent, .4f);
+            for (int i = 0; i < _ultLines.Count; i++)
+                _ultLines[i].GetComponent<Image>().color = new Color(lineColor.r, lineColor.g, lineColor.b, .18f + .3f * ((i * 37) % 10) / 10f);
+            _bandTime = 0f; _bandExit = -1f;
+            ApplyCutIn(0f);
+        }
+
+        // Band timeline in battle seconds (the same beats as the old per-tween UI: .14 snap, .24 face slide, .26 name punch,
+        // .32 lines), advanced by the view with the battle clock. -1 means no band is showing. Menus keep UITween time.
+        float _bandTime = -1f, _bandExit = -1f;
+        const float BandExitTime = .16f;
+
+        /// <summary>Advances the cut-in band by <paramref name="dt"/> battle seconds (no-op when none is showing).</summary>
+        public void AdvanceCutIn(float dt)
+        {
+            if (_bandTime < 0f) return;
+            if (_ult == null || !_ult.gameObject.activeSelf) { StopCutIn(); return; }
+            _bandTime += Mathf.Max(0f, dt);
+            ApplyCutIn(_bandTime);
+        }
+
+        /// <summary>Starts the timed exit of a showing band; false when none is (the caller hides an ultimate / the boss call-out).</summary>
+        bool HideBandCutIn()
+        {
+            if (_bandTime < 0f) return false;
+            if (_bandExit < 0f) _bandExit = _bandTime;
+            return true;
+        }
+
+        /// <summary>Clears the band state and hides the band (action cancelled, new battle or battle teardown): never leaves a frozen cut-in.</summary>
+        public void StopCutIn()
+        {
+            _bandTime = -1f; _bandExit = -1f;
+            if (_ult != null && _ult.gameObject.activeSelf) _ult.gameObject.SetActive(false);
+        }
+
+        void ApplyCutIn(float t)
+        {
+            float E(UIEase ease, float start, float duration) => UITween.Evaluate(ease, Mathf.Clamp01((t - start) / duration));
+            float width = _root.rect.width > 0f ? _root.rect.width : 2000f;
+            float faceX = Compact ? 250f : 330f, faceIn = -_ultFace.sizeDelta.x * .5f;
+            // Band snaps open from a line with a white-hot flash; edges draw outward.
+            _ultBand.localScale = new Vector3(1f, E(UIEase.OutCubic, 0f, .14f), 1f);
+            float edge = E(UIEase.OutCubic, 0f, .22f);
+            _ultEdgeTop.rectTransform.localScale = _ultEdgeBottom.rectTransform.localScale = new Vector3(edge, 1f, 1f);
+            _ultFlash.color = new Color(1f, 1f, 1f, .45f * (1f - E(UIEase.OutQuad, 0f, .3f)));
+            // Portrait slides in, then keeps drifting so the shot never freezes.
+            float face = t < .28f ? Mathf.Lerp(faceIn, faceX, E(UIEase.OutCubic, .04f, .24f)) : faceX + 40f * Mathf.Clamp01((t - .28f) / 1.2f);
+            _ultFace.anchoredPosition = new Vector2(face, -50f);
+            // Name lines punch in from the right.
+            float slide = E(UIEase.OutCubic, .1f, .22f);
+            _ultText.anchoredPosition = new Vector2(500f * (1f - slide), 0f);
+            _ultActor.alpha = slide;
+            float punch = E(UIEase.OutBack, .16f, .26f);
+            _ultSkill.transform.localScale = Vector3.one * Mathf.LerpUnclamped(1.35f, 1f, punch);
+            _ultSkill.alpha = Mathf.Clamp01((t - .16f) / .26f);
+            for (int i = 0; i < _ultLines.Count; i++)
+            {
+                var line = _ultLines[i];
+                float span = width * .5f + line.sizeDelta.x;
+                float u = Mathf.Clamp01((t - (i % 8) * .07f) / (.32f + (i % 4) * .06f));
+                line.anchoredPosition = new Vector2(Mathf.Lerp(span, -span, u), line.anchoredPosition.y);
+            }
+            float alpha = 1f;
+            if (_bandExit >= 0f)
+            {
+                float u = Mathf.Clamp01((t - _bandExit) / BandExitTime);
+                alpha = 1f - UITween.Evaluate(UIEase.InQuad, u);
+                if (u >= 1f) { _ult.gameObject.SetActive(false); StopCutIn(); }
+            }
+            _ultGroup.alpha = alpha;
+        }
     }
 }

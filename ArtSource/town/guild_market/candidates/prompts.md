@@ -35,3 +35,6 @@ Generate FOUR separate standalone images in this one response, each its own imag
 
 ## Installed in town.fbx 2026-10-12 (B2 town install)
 Guild_Market (7715 tris, M_GuildMarket_Tripo, 2048) at (15.6, -1.5, 0), rotation 90 (facade -X). Scale 8.37/9.05/8.67: body x 15.6..20.8, y -5.6..2.6, height 5.6 m; awning projects 0.71 m (tip x 14.89, <= 1.8). Replaces build_market's visuals incl. Sign_Market (removed; the sign band is in the texture). Col_Market kept. Spot_shopkeeper unchanged (2.5 m clear). The crates/fridge/menu kit props stay. Installed through Blender/town/guild.py + Blender/town/tripo_pieces.json (backup of the previous build in ArtSource/town/_backup_20261012/). Marker Assets/_Game/Resources/Art/Town/town.tripo. Staged by non-uniform fit (ArtSource/town/guild_market/staging: fbx, tex PNG, placement.json, .tripo). Credits: 0 in this step. Previews: scratchpad s8/town_{old,new}_*.png. No Unity run, no commit; the .mat is created on the next editor load by TexturedMaterials.SyncAll.
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Re-staged with ONE uniform scale 8.3748 (was 8.3748/9.0486/8.6729); 8.2 x 5.47 x 5.41 m. Raw basecolor 2048 px, UV 100%, 7715 tris. Col_Market follows the footprint.

@@ -48,6 +48,17 @@ namespace Abyss.Presentation.Vfx
             public string mesh;
             /// <summary>Mesh layers: texture U offset travelled over the layer life (needs a Repeat-wrapped texture).</summary>
             public float scroll;
+            /// <summary>
+            /// Big layer (ground seals, pillars, domes, wide flashes; marked by Tools/vfx/gen_effects.py): always dimmed,
+            /// semi-transparent and coloured by its element, so it never whites out the units it plays over.
+            /// </summary>
+            public bool big;
+            /// <summary>
+            /// Authored blend policy (Tools/vfx/gen_effects.py): "add" for brief sparks and cores, "alpha" for broad
+            /// sustained ground / pillar / area contributors that must stay translucent and keep their element colour.
+            /// Empty falls back to <see cref="alpha"/> (legacy recipes / hand-authored extras).
+            /// </summary>
+            public string blend;
             [NonSerialized] public Color tint;
         }
         sealed class Layer
@@ -70,6 +81,8 @@ namespace Abyss.Presentation.Vfx
             public Mesh Mesh;
             /// <summary>The thinnest bounds axis is Y: the mesh already lies in XZ, so `horizontal` must not tilt it again.</summary>
             public bool FlatXZ;
+            /// <summary>Rigid local basis only: preserves restored Tripo vertices, UVs and scale; composed after the presentation facing.</summary>
+            public Quaternion Basis;
         }
         sealed class Effect
         {
@@ -121,6 +134,10 @@ namespace Abyss.Presentation.Vfx
         Shader _shader;
         static readonly int TintId = Shader.PropertyToID("_Tint");
         static readonly int TexStId = Shader.PropertyToID("_MainTex_ST");
+        static readonly int GlowId = Shader.PropertyToID("_Glow");
+        // Brightness control by screen coverage: a layer covering more than CoverageStart of the view starts losing its white
+        // core, gain and opacity, fully at CoverageFull; `big` layers never go below BigFloor. Caps keep the target readable.
+        const float CoverageStart = .04f, CoverageFull = .3f, BigFloor = .6f, MinGain = .6f, MinOpacity = .35f, BigShellOpacity = .5f;
 
         public static VfxLibrary Create(Transform parent = null)
         {
@@ -247,7 +264,7 @@ namespace Abyss.Presentation.Vfx
             var go = new GameObject(recipe.kind + " " + recipe.texture);
             go.transform.SetParent(parent, false);
             var layer = new Layer { Recipe = recipe, Transform = go.transform, Properties = new MaterialPropertyBlock() };
-            var material = MaterialFor(recipe.texture, recipe.alpha);
+            var material = MaterialFor(recipe.texture, BlendAlpha(recipe));
             if (recipe.kind == "burst" || recipe.kind == "emitter")
             {
                 var ps = go.AddComponent<ParticleSystem>();
@@ -305,14 +322,16 @@ namespace Abyss.Presentation.Vfx
                 {
                     // Mesh particles: random 3D tumble, or `upright` (falling arrows, shards) pointing the mesh's +Z along its velocity.
                     renderer.renderMode = ParticleSystemRenderMode.Mesh;
-                    renderer.mesh = MeshFor(recipe.mesh).Mesh;
+                    layer.Mesh = MeshFor(recipe.mesh);
+                    renderer.mesh = layer.Mesh.Mesh;
                     renderer.alignment = recipe.upright ? ParticleSystemRenderSpace.Velocity : ParticleSystemRenderSpace.Local;
-                    main.startRotation3D = !recipe.upright;
-                    if (!recipe.upright)
-                    {
-                        var tumble = new ParticleSystem.MinMaxCurve(-Mathf.PI, Mathf.PI);
-                        main.startRotationX = tumble; main.startRotationY = tumble; main.startRotationZ = tumble;
-                    }
+                    // Velocity alignment supplies the presentation frame (+Z forward); start rotation supplies the native
+                    // mesh basis once. Tumbling debris has no facing constraint, but starts from that same local basis.
+                    main.startRotation3D = true;
+                    Vector3 basis = layer.Mesh.Basis.eulerAngles * Mathf.Deg2Rad;
+                    main.startRotationX = recipe.upright ? new ParticleSystem.MinMaxCurve(basis.x) : new ParticleSystem.MinMaxCurve(basis.x - Mathf.PI, basis.x + Mathf.PI);
+                    main.startRotationY = recipe.upright ? new ParticleSystem.MinMaxCurve(basis.y) : new ParticleSystem.MinMaxCurve(basis.y - Mathf.PI, basis.y + Mathf.PI);
+                    main.startRotationZ = recipe.upright ? new ParticleSystem.MinMaxCurve(basis.z) : new ParticleSystem.MinMaxCurve(basis.z - Mathf.PI, basis.z + Mathf.PI);
                 }
                 renderer.sharedMaterial = material;
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
@@ -391,10 +410,27 @@ namespace Abyss.Presentation.Vfx
             float longest = Mathf.Max(size.x, Mathf.Max(size.y, size.z));
             if (!(longest >= MinMeshExtent && longest <= MaxMeshExtent) || float.IsNaN(mesh.bounds.center.x + mesh.bounds.center.y + mesh.bounds.center.z))
                 throw new InvalidOperationException("VFX mesh " + id + " has implausible imported bounds " + size + " (expected 0.05-6 m, scale baked at 1).");
-            var asset = new MeshAsset { Mesh = mesh, FlatXZ = size.y <= size.x && size.y <= size.z };
+            // Restored originals keep their native axes: these three projectile bodies point up (+Y), not forward;
+            // the panel's convex face is +Z. Rotate at presentation time, never rewrite the downloaded mesh/UVs.
+            Quaternion basis = id == "thrust_spike" || id == "energy_arrow" || id == "ice_shard" ? Quaternion.Euler(90f, 0f, 0f)
+                : id == "barrier_panel" ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
+            var asset = new MeshAsset { Mesh = mesh, FlatXZ = size.y <= size.x && size.y <= size.z, Basis = basis };
             _meshes.Add(id, asset);
             return asset;
         }
+
+        /// <summary>
+        /// Blend policy for a layer (Tools/vfx/gen_effects.py): an explicit "alpha"/"add" wins; otherwise broad shapes
+        /// (big ground / pillar / area contributors and anything authored <see cref="LayerRecipe.alpha"/>) are alpha-blended
+        /// so they stay translucent and element-coloured, while brief sparks and cores stay additive. Broad layers therefore
+        /// keep a bounded, non-additive contribution no matter how many overlap.
+        /// </summary>
+        static bool BlendAlpha(LayerRecipe recipe) => recipe.blend switch
+        {
+            "alpha" => true,
+            "add" => false,
+            _ => recipe.big || recipe.alpha
+        };
 
         Material MaterialFor(string texture, bool alpha)
         {
@@ -492,6 +528,9 @@ namespace Abyss.Presentation.Vfx
                 var r = layer.Recipe;
                 float elapsed = effect.Age - r.delay;
                 if (elapsed < 0 || (!layer.Started && effect.Ending)) continue;
+                // Emit() on a system whose simulationSpeed is 0 (battle paused) births particles at NaN positions (invalid
+                // bounds and "Invalid AABB" spam every frame they live): particle layers start on the first unpaused tick.
+                if (!layer.Started && layer.Particles != null && _timeScale <= 0f) continue;
                 if (!layer.Started)
                 {
                     layer.Started = true;
@@ -512,13 +551,22 @@ namespace Abyss.Presentation.Vfx
                     }
                 }
                 if (effect.Follow != null && !float.IsNaN(effect.Ground) && r.y <= GroundLayerY) PlaceOnGround(effect, layer);
-                if (layer.Particles != null || layer.Trail != null) continue;
+                // Particles and trails keep their authored blend (BlendAlpha, fixed at build) but get the same
+                // coverage-driven brightness policy as meshes, so a wide flame/smoke emitter cannot white the target out.
+                if (layer.Particles != null || layer.Trail != null)
+                {
+                    ApplyGlow(layer);
+                    // Meshes set the block below; particles/trails take the early exit, so apply it here.
+                    if (layer.Renderer != null) layer.Renderer.SetPropertyBlock(layer.Properties);
+                    continue;
+                }
                 float p = effect.Recipe.loop && !effect.Ending ? Mathf.Repeat(elapsed / r.life, 1) : Mathf.Clamp01(elapsed / r.life);
                 // Looping projectile bodies stay solid in flight; looping markers breathe.
                 float alpha = effect.Recipe.loop && !effect.Ending ? (effect.Travel ? 1 : .65f + .2f * Mathf.Sin(elapsed * 3)) : Mathf.Min(p * 10, 1) * (1 - p);
                 if (effect.Ending) alpha *= Mathf.Clamp01(effect.Drain / Mathf.Max(.01f, r.life));
                 Color tint = r.tint * effect.Tint; tint.a *= alpha;
                 layer.Properties.SetColor(TintId, tint);
+                ApplyGlow(layer);
                 if (r.tiles > 1)
                 {
                     int frame = Mathf.Min(r.tiles * r.tiles - 1, Mathf.FloorToInt(p * r.tiles * r.tiles));
@@ -551,7 +599,7 @@ namespace Abyss.Presentation.Vfx
                         {
                             // Mesh glyphs point (+Z) along their orbit tangent instead of billboarding.
                             var tangent = new Vector3(-Mathf.Sin(angle), 0, Mathf.Cos(angle)) * (r.spin < 0 ? -1f : 1f);
-                            glyph.localRotation = Quaternion.LookRotation(tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation);
+                            glyph.localRotation = Quaternion.LookRotation(tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation) * layer.Mesh.Basis;
                         }
                         else glyph.rotation = _viewRotation;
                         layer.OrbitRenderers[n].SetPropertyBlock(layer.Properties);
@@ -560,6 +608,52 @@ namespace Abyss.Presentation.Vfx
                 else layer.Renderer.SetPropertyBlock(layer.Properties);
                 if (!effect.Recipe.loop && p >= 1) layer.Transform.gameObject.SetActive(false);
             }
+        }
+
+        /// <summary>
+        /// Glow control from the layer's screen coverage (its renderers' bounds projected by the view camera): the bigger the
+        /// layer on screen, the less white core, gain and opacity, the more element colour. `big` layers start at
+        /// <see cref="BigFloor"/>. Allocation-free.
+        /// </summary>
+        void ApplyGlow(Layer layer)
+        {
+            float coverage = 0f;
+            var camera = Camera != null ? Camera : UnityEngine.Camera.main;
+            if (camera != null)
+            {
+                if (layer.OrbitRenderers != null) foreach (var renderer in layer.OrbitRenderers) coverage += Coverage(camera, renderer);
+                // An empty particle system / trail has no valid bounds (reading them logs "Invalid AABB" every frame).
+                else if (layer.Renderer != null && (layer.Particles != null ? layer.Particles.particleCount > 0 : layer.Trail == null || layer.Trail.positionCount > 1))
+                    coverage = Coverage(camera, layer.Renderer);
+            }
+            float k = Mathf.SmoothStep(0f, 1f, (coverage - CoverageStart) / (CoverageFull - CoverageStart));
+            if (layer.Recipe.big) k = Mathf.Max(k, BigFloor);
+            // Alpha-blended broad layers keep a readable opacity floor; additive layers may drop lower (their gain already
+            // curbs the white-out), so a stack of overlapping additive sparks never over-brightens the target.
+            bool alpha = BlendAlpha(layer.Recipe);
+            float opacity = Mathf.Lerp(1f, alpha ? MinOpacity : MinOpacity * .5f, k);
+            // Big alpha-blended mesh shells (seals, pillars, domes, waves) cel-shade their baked grey texture into flat
+            // solid colour; at the usual floor they read as tinted plastic, so they stay a thin translucent shell.
+            if (alpha && layer.Recipe.big && layer.Mesh != null) opacity = Mathf.Lerp(BigShellOpacity, MinOpacity * .8f, k);
+            layer.Properties.SetVector(GlowId, new Vector4(1f - k, Mathf.Lerp(1f, MinGain, k), opacity, (layer.Recipe.big ? .8f : .4f) * k));
+        }
+
+        /// <summary>Share of the viewport covered by a renderer's world bounds (clipped to the screen; 1 when the camera is inside).</summary>
+        static float Coverage(Camera camera, Renderer renderer)
+        {
+            var b = renderer.bounds;
+            if (!(b.extents.sqrMagnitude < 1e8f)) return 0f;   // non-finite / degenerate bounds: no coverage
+            if (b.Contains(camera.transform.position)) return 1f;
+            float x0 = float.MaxValue, y0 = float.MaxValue, x1 = float.MinValue, y1 = float.MinValue;
+            Vector3 lo = b.min, hi = b.max;
+            for (int k = 0; k < 8; k++)
+            {
+                var v = camera.WorldToViewportPoint(new Vector3((k & 1) == 0 ? lo.x : hi.x, (k & 2) == 0 ? lo.y : hi.y, (k & 4) == 0 ? lo.z : hi.z));
+                if (v.z <= 0f) return 1f;   // straddles the camera: treat as full screen
+                if (v.x < x0) x0 = v.x; if (v.x > x1) x1 = v.x; if (v.y < y0) y0 = v.y; if (v.y > y1) y1 = v.y;
+            }
+            float w = Mathf.Min(x1, 1f) - Mathf.Max(x0, 0f), h = Mathf.Min(y1, 1f) - Mathf.Max(y0, 0f);
+            return w > 0f && h > 0f ? w * h : 0f;
         }
 
         /// <summary>
@@ -572,12 +666,12 @@ namespace Abyss.Presentation.Vfx
             var r = layer.Recipe;
             float spin = elapsed * r.spin;
             if (r.horizontal)
-                return layer.Mesh.FlatXZ ? Quaternion.Euler(0, r.rotation + spin, 0) : Quaternion.Euler(90, 0, r.rotation + spin);
+                return (layer.Mesh.FlatXZ ? Quaternion.Euler(0, r.rotation + spin, 0) : Quaternion.Euler(90, 0, r.rotation + spin)) * layer.Mesh.Basis;
             if (r.align && effect.Travel && effect.HasTangent)
-                return Quaternion.LookRotation(effect.Tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin);
+                return Quaternion.LookRotation(effect.Tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin) * layer.Mesh.Basis;
             if (r.align && !effect.Travel && effect.HasFacing)
-                return Quaternion.LookRotation(ReadableFacing(effect.Facing), _viewRotation * Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin);
-            return _viewYaw * Quaternion.Euler(0, 0, r.rotation) * Quaternion.Euler(0, spin, 0);
+                return Quaternion.LookRotation(ReadableFacing(effect.Facing), _viewRotation * Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin) * layer.Mesh.Basis;
+            return _viewYaw * Quaternion.Euler(0, 0, r.rotation) * Quaternion.Euler(0, spin, 0) * layer.Mesh.Basis;
         }
 
         /// <summary>

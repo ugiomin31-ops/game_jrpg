@@ -33,3 +33,6 @@ Suggested pick: candidate_B.png. Reason: a steel hatch with violet annular inset
 - warp.fbx: pad uniform x3.07 to 3.0 m diameter then z x0.5 -> 0.106 m high, 3480 tris (Tripo 3480); LightAnchor_warp empty at (0,0,0.8) kept. Material M_SubwayWarp_Tripo.
 - Installed 2026-10-12 (B5-INSTALL) into Assets/_Game/Resources/Art/Environment/subway/ ; originals + .meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True (marker written by the install).
 - Unity not run by this worker: import/material creation and in-game facing still to be verified.
+
+### RESTORE-SUBWAY (2026-10-13, Claude Sonnet)
+Installed warp.fbx = raw geometry, uniform scale 3.067877 (was anisotropic height-flatten), 3480 tris = raw, UV 100%, texture raw 1024 (already identical), LightAnchor_warp kept. 0 credits.

@@ -23,6 +23,8 @@ namespace Abyss.UI
         UIRoot root;
         RectTransform hud, townPanel, partyRow, padPanel;
         float hudFitWidth = -1f;
+        /// <summary>How much further from the right edge than its usual margin the pad / key sits (the town key moved beside the facility stack).</summary>
+        float padReserveExtra;
         TextMeshProUGUI area, resources, townObjective, townReadiness, townIssues;
         DungeonMapGraphic minimap;
         readonly List<HeroHud> heroHud = new List<HeroHud>();
@@ -53,7 +55,7 @@ namespace Abyss.UI
         }
         void ClearHud()
         {
-            heroHud.Clear(); area = null; resources = null; townPanel = null; townObjective = null; townReadiness = null; townIssues = null; minimap = null; partyRow = null; padPanel = null; hudFitWidth = -1f;
+            heroHud.Clear(); area = null; resources = null; townPanel = null; townObjective = null; townReadiness = null; townIssues = null; townReadyStrip = null; townBadge = null; minimap = null; partyRow = null; padPanel = null; hudFitWidth = -1f; padReserveExtra = 0f;
             ClearDungeonHud();
             if (hud != null) { hud.gameObject.SetActive(false); Destroy(hud.gameObject); }
             hud = null;
@@ -299,45 +301,8 @@ namespace Abyss.UI
                 FitHud();
                 return;
             }
-            // Town HUD (the exploration HUD lives in GameUI.DungeonHud.cs).
-            var heading = UIFactory.Panel(hud);
-            {
-                float width = UIRoot.Compact ? 680f : 620f;
-                float height = UIRoot.Compact ? 300f : 284f;
-                heading.Rect.Place(UIAnchor.TopLeft, new Vector2(24, -20), new Vector2(width, height));
-                townPanel = heading.Rect;
-                area = UIFactory.Label(heading.Rect, "", 34, color: UITheme.GoldBright);
-                area.Rt().TopStrip(42, 16, 24, 24);
-                resources = UIFactory.Label(heading.Rect, "", 21, color: UITheme.TextDim);
-                resources.Rt().TopStrip(30, 52, 24, 24);
-            }
-            // Party cards live in one row that shrinks (FitHud) when the screen is too narrow for cards + pad.
-            partyRow = UIFactory.Rect(hud, "Party Row");
-            partyRow.Place(UIAnchor.BottomLeft, new Vector2(30, 26), new Vector2(app.State.Party.Count * 350 - 20, 150));
-            for (int i = 0; i < app.State.Party.Count; i++)
-            {
-                var hero = app.State.Party[i];
-                var panel = UIFactory.Panel(partyRow);
-                panel.Rect.Place(UIAnchor.BottomLeft, new Vector2(i * 350, 0), new Vector2(330, 176));
-                var view = new HeroHud { Hero = hero };
-                view.Portrait = UIFactory.Portrait(panel.Rect, 58);
-                view.Portrait.Rt().Place(UIAnchor.TopLeft, new Vector2(12, -8), new Vector2(58, 58));
-                view.Portrait.SetSprite(UIArtwork.Hero(hero.Id));
-                view.Name = UIFactory.Label(panel.Rect, "", 23, color: UITheme.GoldBright);
-                view.Name.Rt().TopStrip(30, 10, 82, 12);
-                view.Hp = UIFactory.Gauge(panel.Rect, UIGaugeKind.Hp, 228, 14, UIGaugeText.Above);
-                view.Hp.Rt().Place(UIAnchor.TopLeft, new Vector2(82, -74), new Vector2(228, 14));
-                view.Mp = UIFactory.Gauge(panel.Rect, UIGaugeKind.Mp, 290, 12, UIGaugeText.Above);
-                view.Mp.Rt().Place(UIAnchor.TopLeft, new Vector2(20, -121), new Vector2(290, 12));
-                view.Status = UIFactory.Label(panel.Rect, "", 18, color: UITheme.TextDim);
-                view.Status.Rt().BottomStrip(28, 8, 18, 18);
-                heroHud.Add(view);
-            }
-            {
-                var menu = UIFactory.Button(hud, "모험 수첩", ShowPause);
-                menu.Rt().Place(UIAnchor.BottomRight, new Vector2(-30, 35), new Vector2(350, touch ? UIRoot.TouchTargetHeight : 76));
-                padPanel = menu.Rt();
-            }
+            // Town HUD (GameUI.TownHud.cs; the exploration HUD lives in GameUI.DungeonHud.cs).
+            BuildTownHud();
             RefreshVitals();
             FitHud();
         }
@@ -349,7 +314,7 @@ namespace Abyss.UI
             if (width <= 0f || Mathf.Approximately(width, hudFitWidth)) return;
             hudFitWidth = width;
             float padWidth = padPanel.rect.width * padPanel.localScale.x;
-            float available = width - 30f - padWidth - 30f - 24f;
+            float available = width - 30f - padWidth - padReserveExtra - 30f - 24f;
             if (minimap != null) available = width - 20f * hudUnit - padWidth - 36f * hudUnit - 24f * hudUnit;
             float scale = Mathf.Clamp(available / partyRow.sizeDelta.x, 0.55f, 1f);
             partyRow.localScale = new Vector3(scale, scale, 1f);

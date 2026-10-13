@@ -233,6 +233,10 @@ namespace Abyss.UI.Battle
             _input = false; SetHeroFocus(null); ClearMarks();
             if (_menu != null && _menu.gameObject.activeSelf && !_menuClosing) CloseMenu();
             _preview?.Invoke(null);
+            // Reset per-action presentation state: a cancelled action or teardown must never leave tags faded or a
+            // cut-in band on the battle clock (Lock runs on new battle, on Finish and in Restore).
+            SetTagsHidden(false);
+            StopCutIn();
         }
 
         public void CutIn(string title, string text)
@@ -254,10 +258,12 @@ namespace Abyss.UI.Battle
         public void HideCutIn()
         {
             _cutin.gameObject.SetActive(false);
-            if (_ult == null || !_ult.gameObject.activeSelf) return;
-            UITween.Kill(_ult);
-            UITween.To(_ult, .16f, t => _ultGroup.alpha = 1f - t, UIEase.InQuad)
-                .OnComplete(() => { if (_ult != null) _ult.gameObject.SetActive(false); });
+            if (_ult == null || !_ult.gameObject.activeSelf) { StopCutIn(); return; }
+            // Signature and ultimate share the battle-clock band (see AdvanceCutIn): start its timed exit, so a pause
+            // freezes it and 1.5x / 2x scale it; a band that is not on the clock (stale UI tween) just hides.
+            if (HideBandCutIn()) return;
+            _ult.gameObject.SetActive(false);
+            StopCutIn();
         }
 
         RectTransform _ult, _ultBand, _ultFace, _ultText;
@@ -333,50 +339,10 @@ namespace Abyss.UI.Battle
             _ult = null; _ultLines.Clear();
         }
 
-        /// <summary>Plays the hero ultimate call-out; <see cref="HideCutIn"/> fades it out.</summary>
+        /// <summary>Plays the hero ultimate call-out (same battle-clock band as a signature); <see cref="HideCutIn"/> fades it out.</summary>
         public void UltimateCutIn(string heroId, string actor, string skill, Color accent)
-        {
-            if (_ult != null && _ultCompact != Compact) DiscardUltimate();
-            if (_ult == null) BuildUltimate();
-            UITween.Kill(_ult);
-            _ult.gameObject.SetActive(true);
-            _ult.SetAsLastSibling();
-            _ultGroup.alpha = 1f;
-            _ultFaceImage.sprite = UIArtwork.Hero(heroId);
-            _ultActor.text = actor;
-            _ultSkill.text = skill;
-            _ultSkill.color = Color.Lerp(UITheme.GoldBright, accent, .25f);
-            _ultTint.color = new Color(accent.r, accent.g, accent.b, .55f);
-            _ultEdgeTop.color = _ultEdgeBottom.color = Color.Lerp(UITheme.Gold, accent, .5f);
-            Color lineColor = Color.Lerp(Color.white, accent, .4f);
-            float width = _root.rect.width > 0f ? _root.rect.width : 2000f;
-            float faceX = Compact ? 250f : 330f;
-            // Band snaps open from a line, with a white-hot flash behind it.
-            _ultBand.localScale = new Vector3(1f, 0f, 1f);
-            _ultEdgeTop.rectTransform.localScale = _ultEdgeBottom.rectTransform.localScale = new Vector3(0f, 1f, 1f);
-            UITween.To(_ult, .14f, t => _ultBand.localScale = new Vector3(1f, t, 1f), UIEase.OutCubic);
-            UITween.To(_ult, .22f, t => _ultEdgeTop.rectTransform.localScale = _ultEdgeBottom.rectTransform.localScale = new Vector3(t, 1f, 1f), UIEase.OutCubic);
-            UITween.To(_ult, .3f, t => _ultFlash.color = new Color(1f, 1f, 1f, .45f * (1f - t)), UIEase.OutQuad);
-            // Face slides in from the left, then keeps drifting so the shot never freezes.
-            _ultFace.anchoredPosition = new Vector2(-_ultFace.sizeDelta.x * .5f, -50f);
-            UITween.To(_ult, .24f, t => _ultFace.anchoredPosition = new Vector2(Mathf.Lerp(-_ultFace.sizeDelta.x * .5f, faceX, t), -50f), UIEase.OutCubic, .04f)
-                .OnComplete(() => UITween.To(_ult, 1.2f, t => _ultFace.anchoredPosition = new Vector2(faceX + 40f * t, -50f), UIEase.Linear));
-            // Name lines punch in from the right.
-            _ultText.anchoredPosition = new Vector2(500f, 0f);
-            _ultSkill.transform.localScale = Vector3.one * 1.35f;
-            _ultSkill.alpha = 0f; _ultActor.alpha = 0f;
-            UITween.To(_ult, .22f, t => { _ultText.anchoredPosition = new Vector2(500f * (1f - t), 0f); _ultActor.alpha = t; }, UIEase.OutCubic, .1f);
-            UITween.To(_ult, .26f, t => { _ultSkill.transform.localScale = Vector3.one * Mathf.Lerp(1.35f, 1f, t); _ultSkill.alpha = t; }, UIEase.OutBack, .16f);
-            for (int i = 0; i < _ultLines.Count; i++)
-            {
-                var line = _ultLines[i];
-                var image = line.GetComponent<Image>();
-                image.color = new Color(lineColor.r, lineColor.g, lineColor.b, .18f + .3f * ((i * 37) % 10) / 10f);
-                float y = line.anchoredPosition.y, span = width * .5f + line.sizeDelta.x;
-                line.anchoredPosition = new Vector2(span, y);
-                UITween.To(_ult, .32f + (i % 4) * .06f, t => line.anchoredPosition = new Vector2(Mathf.Lerp(span, -span, t), y), UIEase.Linear, (i % 8) * .07f);
-            }
-        }
+            => PlayCutIn(false, heroId, actor, skill, accent);
+
         // No modal layer and no full-screen raycast: this bounded toast is owned by the locked battle HUD.
         public void FastRewards(BattleReport report, Action confirmed)
         {

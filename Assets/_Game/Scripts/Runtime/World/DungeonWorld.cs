@@ -26,6 +26,16 @@ namespace Abyss.Runtime.World
         // into them instead of filling the screen from the inside.
         readonly List<(Transform Root, Vector3 Scale)> nearProps = new List<(Transform, Vector3)>();
         readonly Dictionary<GridPos, Transform> doors = new Dictionary<GridPos, Transform>();
+        /// <summary>
+        /// Doors that open by sinking whole into the floor (frame and leaf): restored Tripo doors whose glass is fused to the
+        /// frame, so swinging the `Door` leaf would leave shards. Kit doors keep the clean leaf swing. Passability is the
+        /// grid's (DungeonGrid.OpenDoor), never this visual.
+        /// </summary>
+        readonly Dictionary<GridPos, Transform> sinkingDoors = new Dictionary<GridPos, Transform>();
+        /// <summary>Boss gates close the corridor until their battle is won (Progress.ClearedBattles), then step aside.</summary>
+        readonly Dictionary<GridPos, GameObject> bossGates = new Dictionary<GridPos, GameObject>();
+        static readonly HashSet<string> SinkingDoorTilesets = new HashSet<string> { "subway" };
+        const float DoorSinkTime = .6f;
         readonly Dictionary<GridPos, GameObject> keys = new Dictionary<GridPos, GameObject>();
         readonly Dictionary<string, CharacterModel> foes = new Dictionary<string, CharacterModel>();
         readonly Dictionary<string, Vector3> foeStarts = new Dictionary<string, Vector3>();
@@ -75,19 +85,24 @@ namespace Abyss.Runtime.World
                     if (TouchesOpenCell(grid, cell)) HideBuriedWallFaces(Spawn("wall_" + (char)('a' + variant), cell), grid, cell);
                     continue;
                 }
-                // stairs_down carries its own opening into the floor; a floor tile would cap it.
-                if (marker != '>') Spawn("floor_" + (char)('a' + variant), cell);
+                // stairs_down carries its own opening into the floor; a floor tile would cap it. The tile's ceiling still
+                // closes the cell overhead (without it the stairwell looks up into the void).
+                var tile = Spawn("floor_" + (char)('a' + variant), cell);
+                if (marker == '>') KeepCeilingOnly(tile);
                 switch (marker)
                 {
                     case 'T':
                         var chest = Spawn("chest", cell);
-                        AgainstWall(chest, grid, cell, 1.3f);
-                        chests[cell] = EnvironmentProcessor.Find(chest.transform, "Lid");
+                        var lidPart = EnvironmentProcessor.Find(chest.transform, "Lid");
+                        AgainstWall(chest, grid, cell, ChestWallOffset(chest.transform, lidPart));
+                        chests[cell] = lidPart;
                         break;
                     case 'L':
                         var door = Spawn("door_locked", cell);
                         if (grid.Cell(cell.Step(Facing.North)) == '#' && grid.Cell(cell.Step(Facing.South)) == '#') door.transform.Rotate(0, 90, 0);
-                        doors[cell] = EnvironmentProcessor.Find(door.transform, "Door");
+                        var leaf = EnvironmentProcessor.Find(door.transform, "Door");
+                        if (SinkingDoorTilesets.Contains(tileset) || leaf == null) sinkingDoors[cell] = door.transform;
+                        else doors[cell] = leaf;
                         break;
                     case '>': Spawn("stairs_down", cell); break;
                     case '<': Spawn("stairs_up", cell); break;
@@ -101,7 +116,13 @@ namespace Abyss.Runtime.World
                     case 'W': Spawn("warp", cell); break;
                     case 'N': AgainstWall(Spawn("lore_stone", cell), grid, cell, 1.35f); break;
                     case 'X': Spawn("trap", cell); break;
-                    case 'B': Spawn("boss_gate", cell); break;
+                    case 'B':
+                        // Like the door, the gate spans its local X: turn it across an east-west corridor so it closes the
+                        // passage instead of standing edge-on in the middle of it.
+                        var gate = Spawn("boss_gate", cell);
+                        if (grid.Cell(cell.Step(Facing.North)) == '#' && grid.Cell(cell.Step(Facing.South)) == '#') gate.transform.Rotate(0, 90, 0);
+                        bossGates[cell] = gate;
+                        break;
                 }
                 // Sparse side dressing keeps the centre of every walkable cell clear.
                 int torchFacing = -1;
@@ -192,17 +213,63 @@ namespace Abyss.Runtime.World
         }
 
         /// <summary>
-        /// Tiled wall models export per-face children (Face_N/E/S/W, N = cell y-1 = Blender -Y). A face pressed against a
-        /// neighbouring wall block can never be seen, so it is switched off. Walls without those children (procedural
-        /// kits) have nothing to find and stay exactly as built.
+        /// Tiled wall models export per-face children (Face_N/E/S/W). A face pressed against a neighbouring wall block can
+        /// never be seen, so it is switched off. The side a face covers is read from where its mesh sits in the block, not
+        /// from its name: the restored subway kit names its east and west faces mirrored (Face_E sits on the -X side), and
+        /// trusting the name hid the face an open cell looks at, leaving a black hole. Walls without those children
+        /// (procedural kits) have nothing to find and stay exactly as built.
         /// </summary>
         static void HideBuriedWallFaces(GameObject wall, DungeonGrid grid, GridPos cell)
         {
-            for (int facing = 0; facing < 4; facing++)
+            var hide = new List<GameObject>();
+            foreach (var renderer in wall.GetComponentsInChildren<Renderer>())
             {
-                if (grid.Cell(cell.Step((Facing)facing)) != '#') continue;
-                var face = EnvironmentProcessor.Find(wall.transform, "Face_" + "NESW"[facing]);
-                if (face != null) face.gameObject.SetActive(false);
+                var face = FaceRoot(renderer.transform, wall.transform);
+                if (face == null) continue;
+                Vector3 offset = renderer.bounds.center - wall.transform.position;
+                Facing side = Mathf.Abs(offset.x) >= Mathf.Abs(offset.z)
+                    ? (offset.x > 0f ? Facing.East : Facing.West)
+                    : (offset.z > 0f ? Facing.North : Facing.South);   // grid north (y - 1) is world +Z
+                if (grid.Cell(cell.Step(side)) == '#') hide.Add(face.gameObject);
+            }
+            foreach (var face in hide) face.SetActive(false);
+        }
+
+        /// <summary>The Face_* transform a renderer belongs to (itself or an ancestor below the wall root), or null.</summary>
+        static Transform FaceRoot(Transform part, Transform wall)
+        {
+            for (var t = part; t != null && t != wall; t = t.parent)
+                if (t.name.StartsWith("Face_", System.StringComparison.Ordinal)) return t;
+            return null;
+        }
+
+        /// <summary>
+        /// Pulls a wall-side prop back toward its cell centre until its (turned) mesh bounds stop
+        /// <see cref="WallClearance"/> short of the wall face: deep props such as the bin with its bag otherwise reach into the tiles.
+        /// </summary>
+        static void KeepOffWall(GameObject prop, Vector3 cellCentre, Vector3 toWall)
+        {
+            bool any = false; Bounds bounds = default;
+            foreach (var renderer in prop.GetComponentsInChildren<Renderer>())
+            {
+                if (renderer is ParticleSystemRenderer) continue;
+                if (!any) { bounds = renderer.bounds; any = true; } else bounds.Encapsulate(renderer.bounds);
+            }
+            if (!any) return;
+            Vector3 axis = new Vector3(Mathf.Abs(toWall.x), 0f, Mathf.Abs(toWall.z));
+            float reach = Vector3.Dot(bounds.center - cellCentre, toWall) + Vector3.Dot(bounds.extents, axis);
+            float limit = CellSize * .5f - WallClearance;
+            if (reach > limit) prop.transform.position -= toWall * (reach - limit);
+        }
+
+        /// <summary>Switches off every part of a floor tile except its ceiling pieces (renderers and their colliders).</summary>
+        static void KeepCeilingOnly(GameObject tile)
+        {
+            foreach (var renderer in tile.GetComponentsInChildren<Renderer>())
+            {
+                if (renderer.name.StartsWith("Ceiling", System.StringComparison.Ordinal)) continue;
+                renderer.enabled = false;
+                foreach (var collider in renderer.GetComponents<Collider>()) collider.enabled = false;
             }
         }
 
@@ -243,11 +310,37 @@ namespace Abyss.Runtime.World
                     Vector3 side = Vector3.Cross(Vector3.up, toWall) * (((hash >> 20) & 1) == 0 ? -1f : 1f);
                     decor.transform.position += toWall * 1.45f + side * 1f;
                     decor.transform.rotation = Quaternion.LookRotation(-toWall) * Quaternion.Euler(0f, ((hash >> 21) % 5 - 2) * 12f, 0f);
+                    KeepOffWall(decor, Position(cell), toWall);
                     decorAllowed = false;
                 }
             }
         }
 
+        // Chest lid: opened angle about the hinge (local X) and the animation's peak overshoot share.
+        const float ChestOpenAngle = -92f, ChestOvershoot = .06f, ChestWallOffset0 = 1.3f, WallClearance = .08f;
+        /// <summary>
+        /// How far a chest may stand toward its wall: the authored 1.3 m, pulled in when the body or the swung-open lid
+        /// (at the animation's overshoot, from the lid's own mesh bounds about its hinge) would reach into the wall face.
+        /// </summary>
+        static float ChestWallOffset(Transform chest, Transform lid)
+        {
+            float back = 0f;   // furthest reach behind the chest origin (local -Z), body or open lid
+            foreach (var filter in chest.GetComponentsInChildren<MeshFilter>())
+            {
+                if (filter.sharedMesh == null) continue;
+                var b = filter.sharedMesh.bounds;
+                bool isLid = lid != null && filter.transform == lid;
+                Quaternion open = Quaternion.Euler(ChestOpenAngle * (1f + ChestOvershoot), 0, 0);
+                for (int k = 0; k < 8; k++)
+                {
+                    var corner = new Vector3((k & 1) == 0 ? b.min.x : b.max.x, (k & 2) == 0 ? b.min.y : b.max.y, (k & 4) == 0 ? b.min.z : b.max.z);
+                    Vector3 p = isLid ? lid.parent.TransformPoint(lid.localPosition + lid.localRotation * (open * Vector3.Scale(corner, lid.localScale)))
+                        : filter.transform.TransformPoint(corner);
+                    back = Mathf.Max(back, -chest.InverseTransformPoint(p).z);
+                }
+            }
+            return Mathf.Clamp(CellSize * .5f - WallClearance - back, 0f, ChestWallOffset0);
+        }
         /// <summary>
         /// Moves a cell prop from the centre (where the camera walks) against one of the cell's walls, facing the
         /// cell, and registers it for the near-camera fade. Open cells without a wall keep the prop centred.
@@ -308,10 +401,17 @@ namespace Abyss.Runtime.World
         {
             var progress = run.Grid.Progress;
             foreach (var pair in chests)
-                if (pair.Value != null) pair.Value.localRotation = progress.OpenedChests.Contains(pair.Key) ? Quaternion.Euler(-105, 0, 0) : Quaternion.identity;
+                if (pair.Value != null) pair.Value.localRotation = progress.OpenedChests.Contains(pair.Key) ? Quaternion.Euler(ChestOpenAngle, 0, 0) : Quaternion.identity;
             foreach (var pair in doors)
                 if (pair.Value != null) pair.Value.localRotation = progress.OpenedDoors.Contains(pair.Key) ? Quaternion.Euler(0, 95, 0) : Quaternion.identity;
+            foreach (var pair in sinkingDoors)
+                if (pair.Value != null && pair.Value.gameObject.activeSelf == progress.OpenedDoors.Contains(pair.Key))
+                {
+                    pair.Value.position = Position(pair.Key);
+                    pair.Value.gameObject.SetActive(!progress.OpenedDoors.Contains(pair.Key));
+                }
             foreach (var pair in keys) pair.Value.SetActive(!progress.TakenKeys.Contains(pair.Key));
+            foreach (var pair in bossGates) if (pair.Value != null) pair.Value.SetActive(!progress.ClearedBattles.Contains(pair.Key));
             foreach (var foe in run.Grid.Foes)
             {
                 if (!foes.TryGetValue(foe.Id, out var model)) continue;
@@ -372,6 +472,7 @@ namespace Abyss.Runtime.World
             foreach (var pair in foes) pair.Value.Play("Idle");
             camera.SetPositionAndRotation(destination, destinationRotation);
             if (result.Effect == DungeonEffect.Treasure) yield return OpenChestLid();
+            if (result.Effect == DungeonEffect.DoorOpened) yield return SinkDoor();
             busy = false;
             app.HandleDungeonStep(result);
         }
@@ -392,12 +493,42 @@ namespace Abyss.Runtime.World
             {
                 float k = Mathf.Clamp01(t / duration);
                 // Overshoot slightly past fully open, then settle.
-                float angle = -105f * (1f + 0.12f * Mathf.Sin(k * Mathf.PI)) * (1f - Mathf.Pow(1f - k, 3f));
+                float angle = ChestOpenAngle * (1f + ChestOvershoot * Mathf.Sin(k * Mathf.PI)) * (1f - Mathf.Pow(1f - k, 3f));
                 lid.localRotation = Quaternion.Euler(angle, 0, 0);
                 yield return null;
             }
-            lid.localRotation = Quaternion.Euler(-105, 0, 0);
+            lid.localRotation = Quaternion.Euler(ChestOpenAngle, 0, 0);
             yield return new WaitForSeconds(app.Preferences.ReducedMotion ? 0f : 0.15f);
+        }
+        /// <summary>
+        /// A sinking door that was just opened (opened cell, still standing) drops whole into the floor with an ease-in and
+        /// a dust puff, then hides. The door sound already played with the step. Reduced motion hides it at once.
+        /// </summary>
+        IEnumerator SinkDoor()
+        {
+            Transform door = null; GridPos at = default;
+            foreach (var pair in sinkingDoors)
+                if (pair.Value != null && pair.Value.gameObject.activeSelf && run.Grid.Progress.OpenedDoors.Contains(pair.Key)) { door = pair.Value; at = pair.Key; }
+            if (door == null) yield break;
+            Vector3 home = Position(at);
+            if (!app.Preferences.ReducedMotion)
+            {
+                float depth = 0f;
+                foreach (var r in door.GetComponentsInChildren<Renderer>()) depth = Mathf.Max(depth, r.bounds.max.y - home.y);
+                depth = Mathf.Max(1f, depth) + .05f;
+                var vfx = VfxLibrary.Create();
+                vfx.Camera = app.MainCamera;
+                vfx.Play("spark", home + Vector3.up * 1.3f, new Color(1f, .85f, .4f), 1.2f);   // the lock giving
+                vfx.Play("smoke", home + Vector3.up * .3f, new Color(.78f, .76f, .72f), 1.6f, 0, null, home.y);
+                for (float t = 0; t < DoorSinkTime; t += Time.deltaTime)
+                {
+                    float k = Mathf.Clamp01(t / DoorSinkTime);
+                    door.position = home + Vector3.down * (depth * k * k);   // ease-in: starts slow, drops away
+                    yield return null;
+                }
+            }
+            door.position = home;
+            door.gameObject.SetActive(false);
         }
         void Update()
         {

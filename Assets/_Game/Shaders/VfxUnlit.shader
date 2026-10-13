@@ -15,6 +15,11 @@ Shader "Abyss/VfxUnlit"
         _CoreRadius ("White Core Probe Radius (UV)", Range(0,0.05)) = 0.014
         _Intensity ("Additive HDR Intensity", Range(0,4)) = 1.6
         _Additive ("Additive Layer (set by VfxLibrary)", Float) = 1
+        // Per layer, set every frame by VfxLibrary from the layer's screen coverage (broad layers must not white the screen out):
+        // x white-core share, y gain, z opacity, w extra saturation (element colour for near-white tints). The blend mode
+        // itself (_DstBlend / _Additive, chosen per layer from the authored blend policy) keeps broad ground/pillar/area
+        // layers translucent and leaves only brief sparks and cores additive; there is no per-fragment luminance clamp.
+        _Glow ("Glow Control (core, gain, opacity, saturation)", Vector) = (1,1,1,0)
     }
     SubShader
     {
@@ -41,6 +46,7 @@ Shader "Abyss/VfxUnlit"
                 float _CoreRadius;
                 half _Intensity;
                 half _Additive;
+                half4 _Glow;
             CBUFFER_END
             struct Attributes { float4 positionOS : POSITION; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_INPUT_INSTANCE_ID };
             struct Varyings { float4 positionCS : SV_POSITION; half4 color : COLOR; float2 uv : TEXCOORD0; UNITY_VERTEX_OUTPUT_STEREO };
@@ -86,8 +92,15 @@ Shader "Abyss/VfxUnlit"
                                 + SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv + d.yx).a
                                 + SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv + d.yy).a) * 0.25;
                     half heat = banded * min(tex.r, solid);
-                    half core = smoothstep(_CoreStart, 1.0, heat);
-                    rgb = lerp(input.color.rgb, half3(1, 1, 1) + input.color.rgb * 0.25, core) * _Intensity;
+                    half core = smoothstep(_CoreStart, 1.0, heat) * _Glow.x;
+                    rgb = lerp(input.color.rgb, half3(1, 1, 1) + input.color.rgb * 0.25, core) * _Intensity * _Glow.y;
+                    // Element colour: big layers push the tint's saturation so near-white tints read as their element.
+                    half3 w = half3(0.299, 0.587, 0.114);
+                    half l = dot(rgb, w);
+                    rgb = max(lerp(l.xxx, rgb, 1.0 + _Glow.w), 0);
+                    // No per-fragment luminance clamp: the layer's blend mode (additive vs alpha) and its coverage-driven
+                    // glow control keep broad layers from any additive blow-out (VfxLibrary picks the blend per layer).
+                    alpha *= _Glow.z;
                 }
                 else
                 {
@@ -95,7 +108,12 @@ Shader "Abyss/VfxUnlit"
                     half lum = dot(tex.rgb, half3(0.299, 0.587, 0.114));
                     // Light and mid tones snap to two flat levels; dark ink (icon outlines) stays as authored.
                     half toon = lum > 0.55 ? 1.05 : (lum > 0.25 ? 0.62 : lum);
-                    rgb = input.color.rgb * lerp(tex.rgb, toon * (tex.rgb / max(lum, 1e-3)), 0.75);
+                    rgb = input.color.rgb * lerp(tex.rgb, toon * (tex.rgb / max(lum, 1e-3)), 0.75) * _Glow.y;
+                    // Element colour: broad layers push the tint's saturation so near-white tints read as their element.
+                    half3 w = half3(0.299, 0.587, 0.114);
+                    half l = dot(rgb, w);
+                    rgb = max(lerp(l.xxx, rgb, 1.0 + _Glow.w), 0);
+                    alpha *= _Glow.z;
                 }
                 return lerp(soft, half4(rgb, alpha), _Cel);
             }

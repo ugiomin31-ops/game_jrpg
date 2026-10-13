@@ -36,11 +36,10 @@ namespace Abyss.Runtime.World
         static readonly List<Vector3> MeshVertices = new List<Vector3>();
         static readonly List<int> MeshTriangles = new List<int>();
         readonly MaterialPropertyBlock block = new MaterialPropertyBlock();
-        static readonly int DissolveId = Shader.PropertyToID("_Dissolve");
-        static readonly int DissolveEdgeId = Shader.PropertyToID("_DissolveEdge");
+        static readonly int AlphaId = Shader.PropertyToID("_Alpha");
 
-        /// <summary>A tree: dissolves (see-through foliage) while it sits between the lens and the leader or right at the lens.</summary>
-        sealed class Crown { public Renderer Renderer; public Bounds Bounds; public float Fade; }
+        /// <summary>A tree: turns see-through while it covers the leader or holds the lens (Fade = eased ramp progress 0..1).</summary>
+        sealed class Crown { public Renderer Renderer; public Bounds Bounds; public float Fade; public Material[] Opaque, Clear; }
         readonly RaycastHit[] hits = new RaycastHit[32];
         bool reduced;
 
@@ -72,6 +71,7 @@ namespace Abyss.Runtime.World
         /// <summary>Indexes the buildings and props the camera must keep out of (once, after the town is processed).</summary>
         public void Collect(Transform townRoot)
         {
+            Release();
             walls.Clear(); covers.Clear(); crowns.Clear(); overhead.Clear();
             var raw = new HashSet<long>();
             foreach (var r in townRoot.GetComponentsInChildren<Renderer>())
@@ -208,7 +208,7 @@ namespace Abyss.Runtime.World
             reach = Mathf.Min(reach, ClearReach(pivot, back, reach));      // hard guarantee: never inside geometry
             Vector3 orbitPosition = pivot + back * reach;
 
-            UpdateCrowns(orbitPosition, snap ? 10f : dt);
+            UpdateCrowns(orbitPosition, playerPosition, snap ? 10f : dt);
 
             // Two-shot blend.
             float blendTime = reduced ? 0.25f : 0.5f;
@@ -228,26 +228,68 @@ namespace Abyss.Runtime.World
             ready = true;
         }
 
-        void UpdateCrowns(Vector3 lens, float dt)
+        /// <summary>
+        /// See-through trees: while a crown actually covers the leader's capsule from this lens (sight lines to the feet,
+        /// chest and head) or holds the lens, the whole tree eases to a translucent fade and back. The fade swaps in a
+        /// runtime clone of the tree's own material set to alpha blending (transparent queue, depth kept so the crown
+        /// stays one clean layer, shadow kept); the Tripo mesh, texture and shared material are never changed.
+        /// </summary>
+        void UpdateCrowns(Vector3 lens, Vector3 leader, float dt)
         {
-            Vector3 to = pivot - lens;
-            float length = to.magnitude;
-            var ray = new Ray(lens, to / Mathf.Max(0.01f, length));
             for (int i = 0; i < crowns.Count; i++)
             {
                 var crown = crowns[i];
-                Bounds near = crown.Bounds; near.Expand(1.4f);
-                bool block = (crown.Bounds.IntersectRay(ray, out float d) && d < length - 0.2f) || near.Contains(lens);
-                float target = block ? 0.62f : 0f;
-                if (Mathf.Approximately(crown.Fade, target)) continue;
-                crown.Fade = Mathf.MoveTowards(crown.Fade, target, dt * (reduced ? 4f : 2.2f));
+                Bounds near = crown.Bounds; near.Expand(1.0f);
+                bool cover = near.Contains(lens);
+                for (int k = 0; k < CapsuleHeights.Length && !cover; k++)
+                {
+                    Vector3 target = leader + Vector3.up * CapsuleHeights[k], to = target - lens;
+                    float length = to.magnitude;
+                    if (length < 0.01f) continue;
+                    cover = crown.Bounds.IntersectRay(new Ray(lens, to / length), out float d) && d < length - 0.35f;
+                }
+                float goal = cover ? 1f : 0f;
+                if (Mathf.Approximately(crown.Fade, goal)) continue;
+                crown.Fade = Mathf.MoveTowards(crown.Fade, goal, dt / (reduced ? CrownFadeTime * .35f : CrownFadeTime));
                 if (crown.Renderer == null) continue;
-                crown.Renderer.GetPropertyBlock(this.block);
-                this.block.SetFloat(DissolveId, crown.Fade);
-                this.block.SetColor(DissolveEdgeId, new Color(0.05f, 0.04f, 0.03f));
-                crown.Renderer.SetPropertyBlock(this.block);
+                bool faded = crown.Fade > 0.001f;
+                if (faded && crown.Opaque == null)
+                {
+                    crown.Opaque = crown.Renderer.sharedMaterials;
+                    crown.Clear = new Material[crown.Opaque.Length];
+                    for (int m = 0; m < crown.Opaque.Length; m++) crown.Clear[m] = SeeThrough(crown.Opaque[m]);
+                }
+                if (crown.Opaque != null) crown.Renderer.sharedMaterials = faded ? crown.Clear : crown.Opaque;
+                crown.Renderer.GetPropertyBlock(block);
+                block.SetFloat(AlphaId, faded ? 1f - CrownSeeThrough * Mathf.SmoothStep(0f, 1f, crown.Fade) : 1f);
+                crown.Renderer.SetPropertyBlock(block);
             }
         }
+        /// <summary>Alpha-blended clone of a tree material (runtime only; destroyed with the town in <see cref="Release"/>).</summary>
+        static Material SeeThrough(Material source)
+        {
+            if (source == null) return null;
+            var clone = new Material(source) { name = source.name + " (see-through)", renderQueue = 3000 };
+            clone.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            clone.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            clone.SetFloat("_ZWrite", 1f);
+            clone.SetFloat("_ShadowKeep", 1f);
+            clone.SetOverrideTag("RenderType", "Transparent");
+            return clone;
+        }
+        /// <summary>Restores the trees' own materials and destroys the see-through clones (town teardown).</summary>
+        public void Release()
+        {
+            foreach (var crown in crowns)
+            {
+                if (crown.Renderer != null && crown.Opaque != null) { crown.Renderer.sharedMaterials = crown.Opaque; crown.Renderer.SetPropertyBlock(null); }
+                if (crown.Clear != null) foreach (var m in crown.Clear) if (m != null) UnityEngine.Object.Destroy(m);
+                crown.Opaque = crown.Clear = null; crown.Fade = 0f;
+            }
+        }
+        /// <summary>Leader capsule sample heights (m), how much of a covering crown fades away, and the ramp time (s).</summary>
+        static readonly float[] CapsuleHeights = { 0.25f, 1.0f, 1.65f };
+        const float CrownSeeThrough = .68f, CrownFadeTime = .35f;
 
         /// <summary>Where the two-shot lens sits relative to the point it looks at, for one side and angle off the player-NPC line.</summary>
         void TalkOffset(Vector3 playerPosition, float side, float angleDegrees, out Vector3 look, out Vector3 dir, out float length)

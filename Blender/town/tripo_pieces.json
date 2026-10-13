@@ -9,9 +9,9 @@
   "tris": "expected triangle count (checked after import)",
   "bounds_local": "mesh bounds around the instance origin {min, max}",
   "replaces": "tokens of procedural builds that are skipped when the piece is installed (hq, fountain, clinic, market, workshop, notice_board = the plaza board at (-9.6,-1.5) (the HQ Quest_Board stays procedural), banner = all three street pennants, street_lamp = the three plaza street lamps (their LightAnchor_street_* keep x/y, z from params.lamp_anchor_z; festoon strings and the east pole follow params.festoon_*), gate_arch = pillars/arch/ring/disc, gate_rune = floor rune circle, guard_booths ...)",
-  "instances": "[{object, location, rotation_z_deg}] object name in town.fbx and its placement",
+  "instances": "[{object, location, rotation_z_deg, scale?}] object name in town.fbx and its placement; scale must be a single number (uniform: the Tripo geometry is never stretched)",
   "colliders": "[{name, min, max, instance}] boxes in the instance's local space; exported as Col_<name>. Procedural colliders of a replaced build are not made",
-  "body_local": "optional [x0, y0, x1, y1] footprint used for the HQ footprint / paving edges",
+  "body_local": "optional [x0, y0, x1, y1] footprint in the instance's local space (HQ footprint / paving edges; clinic, market and workshop use it for their Col_ boxes)",
   "spots": "{Spot_name: [x, y, z]} marker moves that only apply while this piece is installed (yaw is kept)",
   "params": "free build parameters read by guild.py while this piece is installed"
  },
@@ -266,14 +266,14 @@
    "tris": 10166,
    "bounds_local": {
     "min": [
-     -5.1,
+     -2.961,
      -5.2,
      0.0
     ],
     "max": [
-     5.1,
+     2.961,
      1.144,
-     6.8
+     4.432
     ]
    },
    "replaces": [
@@ -294,14 +294,14 @@
     {
      "name": "Clinic_Steps",
      "min": [
-      -4.1,
+      -2.38,
       0.0,
       0.0
      ],
      "max": [
-      4.3,
+      2.496,
       0.95,
-      0.8
+      0.521
      ]
     }
    ],
@@ -309,14 +309,20 @@
     "clinic_planters": [
      [
       -14.6,
-      -3.7
+      -2.4
      ],
      [
       -14.6,
-      6.5
+      5.4
      ]
     ]
-   }
+   },
+   "body_local": [
+    -2.961,
+    -5.2,
+    2.961,
+    0.0
+   ]
   },
   {
    "id": "guild_market",
@@ -327,13 +333,13 @@
    "bounds_local": {
     "min": [
      -4.1,
-     -5.2,
+     -4.813,
      0.0
     ],
     "max": [
      4.1,
-     0.712,
-     5.6
+     0.659,
+     5.408
     ]
    },
    "replaces": [
@@ -350,7 +356,13 @@
      "rotation_z_deg": 90.0
     }
    ],
-   "colliders": []
+   "colliders": [],
+   "body_local": [
+    -4.1,
+    -4.813,
+    4.1,
+    0.0
+   ]
   },
   {
    "id": "guild_workshop",
@@ -361,13 +373,13 @@
    "bounds_local": {
     "min": [
      -3.4,
-     -5.2,
+     -5.176,
      0.0
     ],
     "max": [
      3.4,
-     0.161,
-     6.0
+     0.16,
+     4.817
     ]
    },
    "replaces": [
@@ -384,7 +396,13 @@
      "rotation_z_deg": 90.0
     }
    ],
-   "colliders": []
+   "colliders": [],
+   "body_local": [
+    -3.4,
+    -5.176,
+    3.4,
+    0.0
+   ]
   },
   {
    "id": "notice_board",
@@ -394,12 +412,12 @@
    "tris": 2972,
    "bounds_local": {
     "min": [
-     -0.99,
+     -0.86,
      -0.181,
      0.0
     ],
     "max": [
-     0.99,
+     0.86,
      0.181,
      2.18
     ]
@@ -422,12 +440,12 @@
     {
      "name": "Notice_plaza_L",
      "min": [
-      -0.99,
+      -0.86,
       -0.18,
       0.0
      ],
      "max": [
-      -0.63,
+      -0.547,
       0.18,
       1.2
      ]
@@ -435,12 +453,12 @@
     {
      "name": "Notice_plaza_R",
      "min": [
-      0.63,
+      0.547,
       -0.18,
       0.0
      ],
      "max": [
-      0.99,
+      0.86,
       0.18,
       1.2
      ]
@@ -826,12 +844,12 @@
    "tris": 2991,
    "bounds_local": {
     "min": [
-     -1.225,
+     -1.053,
      -0.468,
      0.0
     ],
     "max": [
-     1.225,
+     1.053,
      0.468,
      1.282
     ]
@@ -843,7 +861,7 @@
     {
      "object": "Barricade_Tripo_1",
      "location": [
-      -19.75,
+      -19.947,
       -16.2,
       0.0
      ],
@@ -852,7 +870,7 @@
     {
      "object": "Barricade_Tripo_2",
      "location": [
-      -17.25,
+      -17.759,
       -16.2,
       0.0
      ],
@@ -861,7 +879,7 @@
     {
      "object": "Barricade_Tripo_3",
      "location": [
-      -14.75,
+      -15.571,
       -16.2,
       0.0
      ],
@@ -870,30 +888,20 @@
     {
      "object": "Barricade_Tripo_4",
      "location": [
-      -13.6,
-      -16.85,
+      -13.383,
+      -16.2,
       0.0
      ],
-     "rotation_z_deg": 90.0,
-     "scale": [
-      0.53,
-      1.0,
-      1.0
-     ]
+     "rotation_z_deg": 0.0
     },
     {
      "object": "Barricade_Tripo_5",
      "location": [
-      -12.915,
-      -16.2,
-      0.0
+      -12.9,
+      -16.9,
+      0.02
      ],
-     "rotation_z_deg": 0.0,
-     "scale": [
-      0.478,
-      1.0,
-      1.0
-     ]
+     "rotation_z_deg": 90.0
     }
    ]
   }

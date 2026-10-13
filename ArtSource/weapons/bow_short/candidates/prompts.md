@@ -66,3 +66,6 @@ Installed by a Sonnet 5.5 worker with headless Blender 5.2 (build script in the 
 - Result: 4499 tris (Decimate collapse from 9207, triangulated; UVs kept), bounds X -0.0394..0.0346, Y -0.1747..0.1158, Z -0.3999..0.4101 (old: X +-0.033, Y -0.056..0.1175, Z +-0.405). Uniform scale 0.828 (0.978 m -> 0.81 m).
 - Axis layout copied from the old bow: limbs along Z, grip at origin (centre of the teal grip), string on the -Y side, limb tips and stabiliser rod toward +Y, thickness along X. The Tripo bow had its draw plane yawed 20.3 deg around Z (string line offset sideways from the grip); corrected by a rigid rotation so the string sits on the centre plane.
 - Bowstring: PRESENT in the mesh (a thick tube from tip nock to tip nock, string at Y about -0.175). It survived decimation intact. The new bow is deeper than the old one (Y span 0.29 m vs 0.17 m) because the length was matched, and the limbs are wider in X.
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Reinstalled from the raw tripo_v2/afe3c233 FBX UNCHANGED: 9207 tris (was decimated to 4499), UV 100%, uniform 0.828, same grip pivot/orientation (grip centre at origin, draw axis -> -Y, same build as before minus the Decimate step; bbox identical to the previous install). Texture = raw 1024 (already identical).

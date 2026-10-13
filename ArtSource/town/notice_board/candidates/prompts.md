@@ -35,3 +35,6 @@ Generate FOUR separate standalone images in this one response, each its own imag
 
 ## Installed in town.fbx 2026-10-12 (B2 town install)
 Notice_Board (2972 tris, M_NoticeBoard_Tripo, 1024) at (-9.6, -1.5, 0), rotation 0 (front -Y). Scale 2.57/2.23/2.23: 1.98 m wide, 2.18 m high, 0.36 m deep (the brief's 0.12 m depth is not what the mesh has). CHOICE: it replaces the plaza notice_board(-9.6,-1.5,'plaza') (same 1.98 x 2.18 size), not the HQ Quest_Board, which stays procedural (3.1 x 3.45 m). The post colliders Col_Notice_plaza_L/R now follow the feet: x -10.59..-10.23 and -8.97..-8.61, y -1.68..-1.32, h 1.2. Installed through Blender/town/guild.py + Blender/town/tripo_pieces.json (backup of the previous build in ArtSource/town/_backup_20261012/). Marker Assets/_Game/Resources/Art/Town/town.tripo. Staged by non-uniform fit (ArtSource/town/notice_board/staging: fbx, tex PNG, placement.json, .tripo). Credits: 0 in this step. Previews: scratchpad s8/town_{old,new}_*.png. No Unity run, no commit; the .mat is created on the next editor load by TexturedMaterials.SyncAll.
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Re-staged with ONE uniform scale 2.2306 (was 2.5689/2.2306/2.2306); 1.72 x 0.36 x 2.18 m. Raw basecolor 1024 (native), UV 100%, 2972 tris. Post colliders narrowed to match.

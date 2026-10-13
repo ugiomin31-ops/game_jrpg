@@ -24,3 +24,6 @@ Suggested pick: candidate_B.png. Reason: three clear seats, green back stripe, b
 ### Installed 2026-10-13 (B5-INSTALL-2)
 - decor_2.fbx: stainless station bench, uniform x1.737 to 1.7 m wide (1.7 x 0.702 x 0.908 m), base-centre pivot, front (seat side) = Blender -Y = Unity +Z (Dress() turns it toward the cell), 3424 tris (Tripo 3424). Material M_SubwayBench_Tripo.
 - Installed 2026-10-13 (B5-INSTALL-2) into Assets/_Game/Resources/Art/Environment/subway/ ; original + .fbx.meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024 px) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True. Shared single material name, no .001 duplicates. Unity not run by this worker: import/material creation and in-game facing still to be verified.
+
+### RESTORE-SUBWAY (2026-10-13, Claude Sonnet)
+Texture-only: installed decor_2_tex/M_SubwayBench_Tripo.png replaced with raw 2048 basecolor pixels. Installed FBX already raw geometry (3424 tris, UV 100%, scale 1.7372 uniform) - untouched.

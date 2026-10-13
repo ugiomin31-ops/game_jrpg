@@ -3,6 +3,7 @@
 // Features: banded main light + soft secondary band, received shadows, additional lights (Forward+/cluster),
 // rim light, emission, world-space colour noise (breaks up flat environment colours), inverted-hull outline,
 // hit flash (_FlashColor.a) and dissolve (_Dissolve 0..1) driven from scripts via MaterialPropertyBlock.
+// _ShadowKeep 1 keeps the shadow of a material faded through _Alpha (the town's see-through tree clones).
 // Optional texture alpha cutout (_AlphaClip toggles keyword _ALPHATEST_ON, threshold _Cutoff) for textured heroes'
 // face layers, eyes and hair cards; with it off (the default) no pass reads the texture alpha. With _Cull Off the
 // back faces are lit with flipped normals and _OutlineZOffset pushes the outline hull behind single-layer cards.
@@ -33,6 +34,7 @@ Shader "Abyss/Toon"
         _FlashColor ("Flash Colour (a = amount)", Color) = (1,1,1,0)
         _Dissolve ("Dissolve", Range(0,1)) = 0
         _DissolveEdge ("Dissolve Edge Colour", Color) = (1,0.55,0.2,1)
+        _ShadowKeep ("Keep Shadow While Faded", Range(0,1)) = 0
         [Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend ("Src Blend", Float) = 1
         [Enum(UnityEngine.Rendering.BlendMode)] _DstBlend ("Dst Blend", Float) = 0
         [Enum(Off,0,On,1)] _ZWrite ("ZWrite", Float) = 1
@@ -69,6 +71,7 @@ Shader "Abyss/Toon"
             half4 _FlashColor;
             half _Dissolve;
             half4 _DissolveEdge;
+            half _ShadowKeep;
         CBUFFER_END
 
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
@@ -374,7 +377,7 @@ Shader "Abyss/Toon"
             {
                 half edge;
                 ClipDissolve(i.positionOS, edge);
-                clip(_Alpha - 0.5);
+                clip(max(_Alpha, _ShadowKeep) - 0.5);
                 ClipAlpha(i.uv, i.alpha);
                 return 0;
             }

@@ -312,6 +312,8 @@ namespace Abyss.Runtime.World
             else app.OpenTownService(spot.Id);
         }
         void LateUpdate() { if (!title && player != null && app.Screen == GameScreen.Town) FollowCamera(false); }
+        /// <summary>Destroys the see-through tree material clones the camera made (the trees' own materials are untouched).</summary>
+        void OnDestroy() => rig?.Release();
 
         /// <summary>
         /// Camera controls: right-mouse drag, Q / E (E is the talk key near a facility, so it only turns the view in the

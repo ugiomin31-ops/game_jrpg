@@ -1993,10 +1993,41 @@ def apply_mesh_upgrades():
           f"({len(pending)} of {len(MESH_IDS)} mesh ids not installed)")
 
 
+# --- big layers / blend policy -------------------------------------------------------------------------------------------
+# Layers that cover much of the frame (ground seals, pillars, domes, shock rings, wide flashes / beams) are marked "big":
+# the runtime keeps them dimmed, semi-transparent and coloured by their element (VfxLibrary.ApplyGlow), so a near-white
+# tint plus the additive white core plus bloom can no longer white out the units an impact plays over.
+# They are also given an explicit alpha *blend* policy: broad, sustained contributors are rendered translucent and
+# element-coloured, while the brief sparks / cores / arcs / orbits that give an impact its punch stay additive. The
+# runtime's BlendAlpha() treats an unset `blend` as: alpha when the layer is `big` or authored `alpha=True`, else add.
+BIG_MESHES = frozenset('light_pillar impact_crater nova_wave holy_cross heal_bloom ground_seal shield_dome barrier_panel tornado_funnel flame_plume'.split())
+BIG_QUAD_SIZE, BIG_GROUND_SIZE, BIG_HEIGHT = 3.0, 2.5, 3.0
+
+
+def mark_big_layers():
+    for recipe in EFFECTS.values():
+        for item in recipe['layers']:
+            kind = item['kind']
+            size = max(item.get('size', 1), item.get('endSize', 0))
+            # Mesh emitters were skipped by the old kind gate, leaving large flame plumes additive despite the policy.
+            # Smoke/flame sheets and wide trails are sustained surfaces too; tiny sparks/embers remain additive.
+            broad_particles = kind in ('burst', 'emitter') and (item.get('mesh') in BIG_MESHES
+                or (item.get('texture') in ('flame_sheet', 'smoke_sheet', 'explosion_sheet') and size >= .6))
+            big = (item.get('mesh') in BIG_MESHES
+                   or (kind in ('quad', 'ring', 'sphere') and size >= (BIG_GROUND_SIZE if item.get('horizontal') else BIG_QUAD_SIZE))
+                   or (kind in ('quad', 'ring', 'sphere') and item.get('height', 0) >= BIG_HEIGHT)
+                   or broad_particles or (kind == 'trail' and size >= .65))
+            if big:
+                item['big'] = True
+                # Broad sustained shape: alpha-blend it so it stays translucent and keeps its element colour instead of
+                # ever adding to the frame (VfxLibrary.BlendAlpha). Small cores keep the default additive blend.
+                item['blend'] = 'alpha'
+
+
 def validate_effects():
     allowed = {'kind', 'texture', 'color', 'life', 'size', 'endSize', 'height', 'speed', 'gravity', 'rate', 'radius',
                'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright', 'align',
-               'mesh', 'scroll'}
+               'mesh', 'scroll', 'big', 'blend'}
     kinds = {'quad', 'orbit', 'burst', 'emitter', 'ring', 'sphere', 'trail', 'arc', 'mesh'}
     for recipe in EFFECTS.values():
         for item in recipe['layers']:
@@ -2005,6 +2036,8 @@ def validate_effects():
             unknown = set(item) - allowed
             if unknown or item['kind'] not in kinds:
                 raise ValueError(f"{recipe['key']}: unsupported layer field/kind {unknown or item['kind']}")
+            if item.get('blend', 'add') not in ('add', 'alpha'):
+                raise ValueError(f"{recipe['key']}: unsupported blend {item['blend']!r} (expected 'add' or 'alpha')")
             check_mesh_layer(recipe['key'], item)
             if 'mesh' in item and not (MESH_DIR/(item['mesh']+'.fbx')).is_file():
                 raise FileNotFoundError(f"{recipe['key']}: missing mesh {item['mesh']}.fbx")
@@ -2031,6 +2064,7 @@ def main():
         widen(EFFECTS[key], factor)
     for key in ALIGNED_STREAK_RECIPES:
         align_last(EFFECTS[key])
+    mark_big_layers()
     required ={p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
                 for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()

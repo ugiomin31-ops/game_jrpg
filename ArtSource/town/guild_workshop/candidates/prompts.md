@@ -35,3 +35,6 @@ Generate FOUR separate standalone images in this one response, each its own imag
 
 ## Installed in town.fbx 2026-10-12 (B2 town install)
 Guild_Workshop (5789 tris, M_GuildWorkshop_Tripo, 2048) at (15.6, 10.6, 0), rotation 90 (facade -X). Scale 6.95/6.98/8.65: body x 15.6..20.8, y 7.2..14.0, height 6.0 m (roof <= 6.3); the door hood projects 0.16 m. Replaces build_workshop's visuals incl. Sign_Workshop (removed). Col_Workshop kept. Spot_smith unchanged (2.8 m clear). The anvil, barrel and cargo kit props stay. Installed through Blender/town/guild.py + Blender/town/tripo_pieces.json (backup of the previous build in ArtSource/town/_backup_20261012/). Marker Assets/_Game/Resources/Art/Town/town.tripo. Staged by non-uniform fit (ArtSource/town/guild_workshop/staging: fbx, tex PNG, placement.json, .tripo). Credits: 0 in this step. Previews: scratchpad s8/town_{old,new}_*.png. No Unity run, no commit; the .mat is created on the next editor load by TexturedMaterials.SyncAll.
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Re-staged with ONE uniform scale 6.948 (was 6.948/6.9798/8.6539); 6.8 x 5.34 x 4.82 m (height no longer stretched). Raw basecolor 2048 px, UV 100%, 5789 tris.

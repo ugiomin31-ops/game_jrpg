@@ -25,3 +25,6 @@ Suggested pick: candidate_C.png. Reason: stacked boxes beside a low steel workbe
 - Staging: ArtSource/town/cargo/staging/ (cargo.fbx 4506 tris = Tripo 4506, M_Cargo_Tripo 1024 px, placement.json, cargo.tripo). Uniform/stage scale [2.452, 2.452, 2.452], base-centre pivot at ground, bounds [-1.2, -0.589, 0.0]..[1.2, 0.589, 1.348] m.
 - Replaces the KayKit cargo_A/cargo_B boxes + table_low in front of the workshop (build_storefront_kits(), token `cargo`): one instance Workshop_Cargo at (14.6, 5.2), rot -90 (front toward -X), 2.4 x 1.179 x 1.348 m (uniform x2.452). Collider Col_Workshop_Cargo 2.4 x 1.18 x 1.2 m (new).
 - Town rebuilt with `blender -b --factory-startup --python-exit-code 1 -P Blender/town/guild.py -- --no-preview`; texture copied to Assets/_Game/Resources/Art/Town/town_tex/M_Cargo_Tripo.png (town.fbx.meta untouched). Backup of the previous town.fbx/.meta/.tripo, town_tex PNGs, guild.py, markers.json, guild_atmosphere.json, tripo_pieces.json and town_guild.blend: ArtSource/town/_backup_20261012c/. Unity not run by this worker: import, material creation and in-game look still to be verified.
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Basecolor replaced by the raw 2048 px (was downscaled to 1024); geometry unchanged (uniform 2.452).

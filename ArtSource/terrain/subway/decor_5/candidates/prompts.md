@@ -24,3 +24,6 @@ Suggested pick: candidate_A.png. Reason: the only candidate that shows the missi
 ### Installed 2026-10-13 (B5-INSTALL-2)
 - decor_5.fbx: broken escalator section, uniform x1.875 to 1.3 m wide (1.3 x 1.84 x 0.889 m; old piece 1.07 x 1.92), base-centre pivot, long axis along Y (perpendicular to the wall when Dress() places it 1.45 m toward the wall), 3734 tris (Tripo 3734). Material M_SubwayEscalator_Tripo.
 - Installed 2026-10-13 (B5-INSTALL-2) into Assets/_Game/Resources/Art/Environment/subway/ ; original + .fbx.meta backed up in ArtSource/terrain/subway/_backup_20261012/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (1024 px) written; Unity creates <piece>_mat. Export: Blender/lib/abyss_bpy.export_fbx, path_mode RELATIVE, force=True. Shared single material name, no .001 duplicates. Unity not run by this worker: import/material creation and in-game facing still to be verified.
+
+### RESTORE-SUBWAY (2026-10-13, Claude Sonnet)
+Texture-only: installed decor_5_tex/M_SubwayEscalator_Tripo.png replaced with raw 2048 basecolor pixels. Installed FBX already raw geometry (3734 tris, UV 100%, scale 1.8747 uniform) - untouched.

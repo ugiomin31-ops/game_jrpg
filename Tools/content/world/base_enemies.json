@@ -999,7 +999,8 @@
    1.0,
    1.0
   ],
-  "_file": "elite_mushroom"
+  "_file": "elite_mushroom",
+  "model": "mushroom"
  },
  {
   "id": "elite_rhino_beetle",
@@ -1078,7 +1079,8 @@
    1.0,
    1.0
   ],
-  "_file": "elite_rhino_beetle"
+  "_file": "elite_rhino_beetle",
+  "model": "rhino_beetle"
  },
  {
   "id": "elite_sand_golem",

@@ -273,9 +273,24 @@ namespace Abyss.EditorTools
             ti.alphaSource = TextureImporterAlphaSource.FromInput;
             ti.alphaIsTransparency = true;
             ti.mipmapEnabled = true;
-            // Tripo heroes and town buildings keep 2k; dungeon props stay at 1k.
-            bool town = model.Contains("/Art/Town/");
-            ti.maxTextureSize = IsTripo(model) && (town || !IsEnvironment(model)) ? 2048 : 1024;
+            // Tripo originals keep their native resolution (up to 2048) on Default and Android, not just Standalone:
+            // every Tripo model (hero, enemy, environment) is marked by its TRIPO/.tripo marker file. Non-Tripo
+            // (VRoid and other hand-made) textures stay at 1k and are never touched.
+            if (IsTripo(model))
+            {
+                ti.maxTextureSize = 2048;
+                foreach (string target in new[] { "DefaultTexturePlatform", "Android" })
+                {
+                    var platform = ti.GetPlatformTextureSettings(target);
+                    platform.maxTextureSize = 2048;
+                    platform.overridden = true;
+                    ti.SetPlatformTextureSettings(platform);
+                }
+            }
+            else
+            {
+                ti.maxTextureSize = 1024;
+            }
             ti.textureCompression = TextureImporterCompression.Compressed;
             ti.mipMapsPreserveCoverage = TexturedMaterials.IsCutout(name);
             ti.alphaTestReferenceValue = 0.5f;

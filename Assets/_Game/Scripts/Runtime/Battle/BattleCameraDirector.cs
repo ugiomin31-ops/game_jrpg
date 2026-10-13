@@ -37,11 +37,18 @@ namespace Abyss.Runtime.Battle
         public readonly List<BattleDisplayUnit> Required = new List<BattleDisplayUnit>();
         /// <summary>Extra world boxes the frame must hold (e.g. where a melee enemy will strike), fitted like bodies.</summary>
         public readonly List<Bounds> Extra = new List<Bounds>();
+        /// <summary>Live boxes that may not hide a required body but need not be framed (S7: the attacker where it stands).</summary>
+        public readonly List<Bounds> Occluders = new List<Bounds>();
         /// <summary>
         /// Bystander reference: false compares bystanders with the foreground subject (S1/S2: the hero); true with the
         /// tallest of the other required bodies (S6: the targeted heroes), so a nearer enemy never dominates a reverse angle.
         /// </summary>
         public bool BystanderVsTargets;
+        /// <summary>
+        /// Bystander size limit override (0 = the director default). S4's over-the-shoulder cast pose accepts a teammate at
+        /// the caster's side reading a little larger than the caster, which is the shot's natural composition.
+        /// </summary>
+        public float BystanderLimit;
         /// <summary>A unit left out of the clearance checks (S6: the acting enemy, framed at its strike mark instead).</summary>
         public BattleDisplayUnit Ignore;
         public bool Fit = true;
@@ -126,7 +133,34 @@ namespace Abyss.Runtime.Battle
             // Tight and high, for a long run whose strike mark sits just ahead of the enemy line.
             new Vector3(-.9f, 2.5f, 1.1f), new Vector3(.9f, 2.5f, 1.1f), new Vector3(0f, 3.3f, 1.6f)
         };
+        /// <summary>
+        /// S6 profile fallbacks: (distance beside the home-to-target line, height, shift back toward the enemy) from the
+        /// line's midpoint, aimed at <see cref="EnemySideLook"/> above it. Ordered by how often each held a melee run in QA.
+        /// </summary>
+        static readonly Vector3[] EnemySideOffsets =
+        {
+            new Vector3(5.5f, 3.2f, 0f), new Vector3(4.5f, 3.2f, 0f), new Vector3(4.5f, 3.2f, 2f), new Vector3(5.5f, 3.2f, 2f),
+            new Vector3(6.5f, 3.2f, 0f), new Vector3(6.5f, 2.2f, 0f), new Vector3(4.5f, 2.2f, 2f), new Vector3(5.5f, 2.2f, 0f)
+        };
+        const float EnemySideLook = .9f;
+        /// <summary>S6 last resort: (side, height, distance behind the targets' centre, away from the enemy), aimed at <see cref="EnemyShoulderLook"/> over the line's midpoint.</summary>
+        static readonly Vector3[] EnemyShoulderOffsets =
+        {
+            new Vector3(1.2f, 1.6f, 3.5f), new Vector3(-1.2f, 1.6f, 3.5f), new Vector3(1.2f, 2.4f, 3.5f), new Vector3(-1.2f, 2.4f, 3.5f),
+            new Vector3(1.2f, 2.4f, 4.5f), new Vector3(-1.2f, 2.4f, 4.5f), new Vector3(2.4f, 1.6f, 2.5f), new Vector3(-2.4f, 1.6f, 2.5f)
+        };
+        const float EnemyShoulderLook = 1.2f;
         public const float EnemyFov = 40f, EnemyBlend = .35f;
+        /// <summary>S3 strike follow: outside 3/4 track 4.2 m off the run line at 1.1 m.</summary>
+        public const float StrikeOffset = 4.2f, StrikeTightSide = 2.4f, StrikeTightBack = 2.8f, StrikeHeight = 1.1f, StrikeFov = 38f, StrikeBlend = .2f, StrikePunch = -4f;
+        /// <summary>S4 cast pose: low (0.9 m) behind the caster, 15° off its line to the targets.</summary>
+        public const float CastAngle = 15f, CastHeight = .9f, CastBack = 2.4f, CastFov = 40f, CastBlend = .3f, CastBystander = 1.45f;
+        /// <summary>S4 release: 0.18 s whip to the impact framing (projectile / area / support).</summary>
+        public const float ImpactBack = 3.4f, ImpactHeight = 1.3f, ImpactFov = 36f, ImpactBlend = .18f, AreaBack = 7.5f, AreaHeight = 3.2f, AreaHighHeight = 4.4f, AreaFov = 42f, AreaSide = 5.5f, AreaSideBack = 1.5f, AreaQuarter = 2.6f;
+        /// <summary>S5 cut-in push onto the caster: 0.22 s OutExpo to FOV 28 (dutch 8°, ultimate 12°).</summary>
+        public const float CutInDistance = 1.5f, CutInFov = 28f, CutInBlend = .22f;
+        /// <summary>S7 hit reaction: 0.3 s hold on the struck hero from the front.</summary>
+        public const float HitFov = 34f, HitBlend = .15f, HitDistance = 2.4f, HitSide = 2.2f, HitHold = .3f;
         /// <summary>S6 fitting room: hit recoil on the targets (BattleView caps it near 0.4 m) and the hop of a return trip.</summary>
         const float RecoilPad = .4f, HopPad = .45f;
         /// <summary>A tracked S6 actor may leave the frame this long (battle seconds) before the director holds S0.</summary>
@@ -177,9 +211,22 @@ namespace Abyss.Runtime.Battle
         bool _interiorKnown;
         Vector3 _interiorCentre;
         float _interiorRadius = float.PositiveInfinity, _ceiling = float.PositiveInfinity;
+        /// <summary>Open-air arenas (a backdrop on some sides only): allowed camera distance per compass sector; null for a wall ring.</summary>
+        float[] _sectorRadius;
+        const int InteriorSectors = 24;
+        /// <summary>
+        /// Clearance kept from the wall ring / backdrop; the height band backdrop walls are measured in (its top drops to
+        /// the ceiling cap where an overhead sheet covers the arena); near-horizontal sheets (|normal.y| at least
+        /// <see cref="HorizontalNormal"/>) at or above <see cref="OverheadMinHeight"/> over the centre cap the camera,
+        /// <see cref="CeilingClearance"/> below them. Walls are binned per degree.
+        /// </summary>
+        const float WallClearance = 1.2f, BackdropBandLow = .3f, BackdropBandHigh = 6f, HorizontalNormal = .9f, OverheadMinHeight = 3f, CeilingClearance = .3f;
+        const int ProfileBins = 360;
 
         BattleShot _shot;
         List<BattleShot> _candidates;
+        /// <summary>The request a hit-reaction hold interrupted (resumed by ResumeAfterHit).</summary>
+        List<BattleShot> _held;
         readonly List<Bounds> _all = new List<Bounds>(10);
         readonly List<bool> _allRequired = new List<bool>(10);
         CameraPose _from, _to, _base;
@@ -330,6 +377,38 @@ namespace Abyss.Runtime.Battle
                 shot.Look = look;
                 shots.Add(shot);
             }
+            // Profile two-shots across the whole home-to-target line, tried after the reverse angles. A camera behind a
+            // melee strike mark has the enemy's home behind it, so those can never hold both ends of the run; seen from
+            // the side, the run crosses the frame. The side facing the arena centre goes first (room to dolly back).
+            Vector3 lineEnd = new Vector3(look.x, enemy.Home.y, look.z), line = lineEnd - enemy.Home;
+            Vector3 mid = (enemy.Home + lineEnd) * .5f;
+            line.y = 0f;
+            Vector3 lineForward = line.sqrMagnitude > 1e-4f ? line.normalized : forward, lineRight = Vector3.Cross(Vector3.up, lineForward);
+            Vector3 toCentre = _arena.position - mid; toCentre.y = 0f;
+            float firstSide = Vector3.Dot(lineRight, toCentre) >= 0f ? 1f : -1f;
+            foreach (var side in EnemySideOffsets)
+                foreach (float sign in new[] { firstSide, -firstSide })
+                {
+                    var shot = NewShot(BattleShotKind.EnemyTurn, key, EnemyFov, EnemyBlend, CameraEase.OutCubic);
+                    shot.BystanderVsTargets = true; shot.Pad = RecoilPad; shot.Track = enemy;
+                    if (atMark.HasValue) { shot.Required.AddRange(aimed); shot.Extra.Add(atHome.Value); shot.Extra.Add(atMark.Value); shot.Ignore = enemy; }
+                    else { shot.Required.Add(enemy); shot.Required.AddRange(aimed); }
+                    shot.Position = mid + lineRight * (sign * side.x) + Vector3.up * side.y - lineForward * side.z;
+                    shot.Look = mid + Vector3.up * EnemySideLook;
+                    shots.Add(shot);
+                }
+            // Last, the reverse of the reverse: over the targeted heroes' shoulders toward the enemy. A boss-sized body
+            // fills any frame built on its own side; from behind the heroes it looms over them for the whole charge.
+            foreach (var offset in EnemyShoulderOffsets)
+            {
+                var shot = NewShot(BattleShotKind.EnemyTurn, key, EnemyFov, EnemyBlend, CameraEase.OutCubic);
+                shot.BystanderVsTargets = true; shot.Pad = RecoilPad; shot.Track = enemy;
+                if (atMark.HasValue) { shot.Required.AddRange(aimed); shot.Extra.Add(atHome.Value); shot.Extra.Add(atMark.Value); shot.Ignore = enemy; }
+                else { shot.Required.Add(enemy); shot.Required.AddRange(aimed); }
+                shot.Position = lineEnd + lineForward * offset.z + lineRight * offset.x + Vector3.up * offset.y;
+                shot.Look = mid + Vector3.up * EnemyShoulderLook;
+                shots.Add(shot);
+            }
             PlayFirst(shots);
         }
 
@@ -442,15 +521,227 @@ namespace Abyss.Runtime.Battle
             });
         }
 
-        // ---- W2-T3 hooks (S3 / S4 / S5 / S7). Safe no-ops until the skill-VFX pass implements them. ----------------
-        /// <summary>S3 strike follow (melee approach). Not implemented yet: keeps the current shot.</summary>
-        public void StrikeFollow(BattleDisplayUnit actor, BattleDisplayUnit target) { }
-        /// <summary>S4 shot/cast with a whip to the impact framing. Not implemented yet: keeps the current shot.</summary>
-        public void CastShot(BattleDisplayUnit actor, BattleDisplayUnit target, bool release) { }
-        /// <summary>S5 skill cut-in push on the caster (tier ≥ 2, ultimates). Not implemented yet: keeps the current shot.</summary>
-        public void SkillCutIn(BattleDisplayUnit caster, int tier, bool ultimate) { }
-        /// <summary>S7 hit reaction hold on a hero. Not implemented yet: keeps the current shot.</summary>
-        public void HitReaction(BattleDisplayUnit target) { }
+        // ---- skill beats: S3 strike follow / S4 cast + impact whip / S5 cut-in push / S7 hit reaction -------------
+
+        /// <summary>
+        /// S3 strike follow (melee skills). An outside 3/4 track at 1.1 m, 4.2 m off the run line: the frame holds the
+        /// actor at its home mark and at its strike mark (so, being convex, the whole run and the return) plus the target.
+        /// The camera does not chase: the actor runs through a composed frame. Falls back to S0 when no side clears.
+        /// </summary>
+        public void StrikeFollow(BattleDisplayUnit actor, BattleDisplayUnit target, Vector3 strikeFrom)
+        {
+            if (actor == null || actor.Model == null || target == null || target.Model == null) { Establishing(); return; }
+            if (!BodyBox(actor, out var body)) { Establishing(); return; }
+            Bounds atHome = body, atMark = body;
+            atMark.center += strikeFrom - actor.Home;
+            Vector3 run = strikeFrom - actor.Home; run.y = 0f;
+            run = run.sqrMagnitude > 1e-4f ? run.normalized : _arena.forward;
+            Vector3 side = Vector3.Cross(Vector3.up, run);
+            // Outside first: the side away from the arena centre line, so the rest of the party stays behind the action.
+            float outside = Mathf.Sign(Vector3.Dot(Local(actor.Home), _arena.InverseTransformDirection(side))) >= 0f ? 1f : -1f;
+            Vector3 mid = (actor.Home + strikeFrom) * .5f;
+            Vector3 look = Vector3.Lerp(mid, target.Home, .35f) + Vector3.up * (target.Model.Height * .55f);
+            var shots = new List<BattleShot>();
+            // A rear 3/4 first: the run is foreshortened, so run, strike and target fit with the hero ~25 % larger than the
+            // flat side-on track; the side-on track (4.2 m off the line) and a higher one remain as fallbacks.
+            foreach (var (sign, off, height, back) in new[] {
+                (outside, StrikeTightSide, StrikeHeight + .2f, StrikeTightBack), (-outside, StrikeTightSide, StrikeHeight + .2f, StrikeTightBack),
+                // Wider rear 3/4 when the hero would hide the target from straight behind.
+                (outside, StrikeTightSide + 1f, StrikeHeight + .3f, StrikeTightBack - 1f), (-outside, StrikeTightSide + 1f, StrikeHeight + .3f, StrikeTightBack - 1f),
+                (outside, StrikeOffset, StrikeHeight, .6f), (-outside, StrikeOffset, StrikeHeight, .6f),
+                (outside, StrikeOffset + 1.2f, StrikeHeight + 1f, .6f), (-outside, StrikeOffset + 1.2f, StrikeHeight + 1f, .6f) })
+            {
+                var shot = NewShot(BattleShotKind.StrikeFollow, "strike:" + actor.Id + ">" + target.Id, StrikeFov, StrikeBlend, CameraEase.OutCubic);
+                shot.Required.Add(target); shot.Extra.Add(atHome); shot.Extra.Add(atMark);
+                shot.Ignore = actor; shot.Track = actor; shot.BystanderVsTargets = true; shot.Pad = RecoilPad;
+                shot.Position = mid + side * (sign * off) + Vector3.up * height - run * back;
+                shot.Look = look;
+                shots.Add(shot);
+            }
+            PlayFirst(shots);
+        }
+
+        /// <summary>How a skill is staged after its cast pose (from presentation data, not per skill).</summary>
+        public enum CastStyle { Projectile, Area, Support }
+
+        /// <summary>
+        /// S4. <paramref name="release"/> false: the cast pose, low (0.9 m) behind the caster and 15° off its line to the
+        /// targets, caster and targets in frame. True: a quick whip (0.18 s) to the impact framing: the target and one
+        /// neighbour from the caster's side (projectile), the whole group from higher up (area), or the healed / buffed
+        /// allies from the front (support).
+        /// </summary>
+        public void CastShot(BattleDisplayUnit actor, IReadOnlyList<BattleDisplayUnit> targets, bool release, CastStyle style)
+        {
+            if (actor == null || actor.Model == null) { Establishing(); return; }
+            // Intended targets are kept even while fallen (a revive's ally): the fit skips the fallen at every resolve, and a
+            // re-fit after the revive frames them. With no living target a candidate fails and the next one (support: the
+            // caster too) or S0 takes over.
+            var aimed = new List<BattleDisplayUnit>();
+            Vector3 centre = Vector3.zero;
+            if (targets != null)
+                foreach (var t in targets) if (t != null && t.Model != null) { aimed.Add(t); centre += t.Home; }
+            if (aimed.Count == 0) { aimed.Add(actor); centre = actor.Home; }
+            centre /= aimed.Count;
+            string ids = ""; foreach (var t in aimed) ids += ">" + t.Id;
+            Vector3 toTargets = centre - actor.Home; toTargets.y = 0f;
+            toTargets = toTargets.sqrMagnitude > 1e-4f ? toTargets.normalized : actor.Facing * Vector3.forward;
+            var shots = new List<BattleShot>();
+            if (!release)
+            {
+                Vector3 look = centre + Vector3.up * .9f;
+                // Then tighter over-the-shoulder variants: a caster with teammates on both sides (an archer mid-line) keeps
+                // them outside the frame instead of losing the cast pose to a larger bystander.
+                foreach (var (angle, height, back) in new[] { (CastAngle, CastHeight, CastBack), (-CastAngle, CastHeight, CastBack), (CastAngle, CastHeight + .8f, CastBack + .6f), (-CastAngle, CastHeight + .8f, CastBack + .6f),
+                    (CastAngle * .6f, CastHeight + .3f, CastBack * .7f), (-CastAngle * .6f, CastHeight + .3f, CastBack * .7f), (0f, CastHeight + .5f, CastBack * .6f) })
+                {
+                    var shot = NewShot(BattleShotKind.Cast, "cast:" + actor.Id + ids, CastFov, CastBlend, CameraEase.OutCubic);
+                    shot.Required.Add(actor); shot.Required.AddRange(aimed); shot.BystanderLimit = CastBystander;
+                    Vector3 behind = Quaternion.AngleAxis(angle, Vector3.up) * -toTargets;
+                    shot.Position = actor.Home + behind * back + Vector3.up * height;
+                    shot.Look = look;
+                    shots.Add(shot);
+                }
+                PlayFirst(shots);
+                return;
+            }
+            string key = "impact:" + actor.Id + ids;
+            Vector3 toCaster = -toTargets, right = Vector3.Cross(Vector3.up, toCaster);
+            switch (style)
+            {
+                case CastStyle.Support:
+                    // Healed / buffed allies from the front (reverse angle, the S2 ally geometry); then the same angles with
+                    // the caster held too, the safe framing while the allies are still down (a revive before its event).
+                    // A higher copy of each angle, pulled in toward the party line, keeps an enemy behind the camera off the lens. Every pass
+                    // keeps the aimed allies required, so a re-fit after a revive (living cast changed) reacquires them.
+                    for (int pass = 0; pass < 2; pass++)
+                        for (int far = 0; far < 2; far++)
+                            foreach (var offset in AllyOffsets)
+                            {
+                                var shot = NewShot(BattleShotKind.Cast, key, TargetFov, ImpactBlend, CameraEase.OutCubic);
+                                shot.Required.AddRange(aimed);
+                                if (pass == 1 && !aimed.Contains(actor)) shot.Required.Add(actor);
+                                shot.Position = _arena.TransformPoint(Local(centre) + (far == 0 ? offset : new Vector3(offset.x * 1.3f, offset.y + .7f, offset.z * .75f)));
+                                shot.Look = centre + Vector3.up * .85f;
+                                shots.Add(shot);
+                            }
+                    // Last resort before S0: from behind the caster toward the allies (the cast-pose geometry), caster held.
+                    foreach (float angle in new[] { CastAngle, -CastAngle })
+                    {
+                        var shot = NewShot(BattleShotKind.Cast, key, CastFov, ImpactBlend, CameraEase.OutCubic);
+                        shot.Required.AddRange(aimed);
+                        if (!aimed.Contains(actor)) shot.Required.Add(actor);
+                        shot.Position = actor.Home + Quaternion.AngleAxis(angle, Vector3.up) * -toTargets * (CastBack + .6f) + Vector3.up * (CastHeight + .9f);
+                        shot.Look = centre + Vector3.up * .85f;
+                        shots.Add(shot);
+                    }
+                    break;
+                case CastStyle.Area:
+                    // Elevated 3/4 from the caster's side of the target group, so the group spreads across the frame (a camera
+                    // beside the group looks down the enemy line and stacks the targets behind each other); then the straighter
+                    // view, and the side angles only as a last resort.
+                    // The caster-side views sit high over the party line (AreaBack puts the camera behind it, not among it).
+                    foreach (var (lateral, back, height) in new[] {
+                        (AreaQuarter, AreaBack, AreaHighHeight), (-AreaQuarter, AreaBack, AreaHighHeight), (0f, AreaBack + 1f, AreaHighHeight + .8f),
+                        (AreaSide, AreaSideBack, AreaHeight), (-AreaSide, AreaSideBack, AreaHeight) })
+                    {
+                        var shot = NewShot(BattleShotKind.Cast, key, AreaFov, ImpactBlend, CameraEase.OutCubic);
+                        shot.Required.AddRange(aimed); shot.BystanderVsTargets = true;
+                        shot.Position = centre + toCaster * back + right * lateral + Vector3.up * height;
+                        shot.Look = centre + Vector3.up * .7f;
+                        shots.Add(shot);
+                    }
+                    break;
+                default:
+                    // Target plus its nearest neighbour first, then the target alone.
+                    BattleDisplayUnit neighbour = null; float best = float.MaxValue;
+                    foreach (var unit in _units)
+                    {
+                        if (!unit.Alive || unit.Model == null || unit.Side != aimed[0].Side || aimed.Contains(unit)) continue;
+                        float d = (unit.Home - aimed[0].Home).sqrMagnitude;
+                        if (d < best) { best = d; neighbour = unit; }
+                    }
+                    for (int pass = neighbour != null ? 0 : 1; pass < 2; pass++)
+                        foreach (float sign in new[] { 1f, -1f })
+                        {
+                            var shot = NewShot(BattleShotKind.Cast, key, ImpactFov, ImpactBlend, CameraEase.OutCubic);
+                            shot.Required.AddRange(aimed);
+                            if (pass == 0) shot.Required.Add(neighbour);
+                            shot.BystanderVsTargets = true;
+                            shot.Position = centre + toCaster * ImpactBack + right * (sign * 1.1f) + Vector3.up * ImpactHeight;
+                            shot.Look = centre + Vector3.up * .8f;
+                            shots.Add(shot);
+                        }
+                    break;
+            }
+            PlayFirst(shots);
+        }
+
+        /// <summary>
+        /// S5 skill cut-in push: a fast push (0.22 s OutExpo) onto the caster's upper body from the front, FOV 28, dutch 8°
+        /// (ultimate 12°). A deliberate close-up, so not fitted to the full body; it is still checked against the arena.
+        /// Returns false (nothing played) in reduced motion or when the arena blocks it.
+        /// </summary>
+        public bool SkillCutIn(BattleDisplayUnit caster, int tier, bool ultimate)
+        {
+            if (_reduced || caster == null || caster.Model == null) return false;
+            Vector3 forward = caster.Facing * Vector3.forward; forward.y = 0f; forward.Normalize();
+            Vector3 right = Vector3.Cross(Vector3.up, forward);
+            Vector3 chest = caster.Home + Vector3.up * (caster.Model.Height * .72f);
+            var shot = new BattleShot
+            {
+                Kind = BattleShotKind.CutIn, Key = "cutin:" + caster.Id, Fit = false, CheckOcclusion = true,
+                Position = chest + forward * CutInDistance + right * .35f + Vector3.up * .12f, Look = chest + Vector3.up * .05f,
+                Fov = CutInFov, Dutch = ultimate ? 12f : 8f, Blend = CutInBlend, Ease = CameraEase.OutExpo
+            };
+            _boxes.Clear();
+            if (BodyBox(caster, out var box)) _boxes.Add(box);
+            if (Blocked(shot.Position)) return false;
+            Play(shot);
+            return true;
+        }
+
+        /// <summary>
+        /// S7 hit reaction: a 0.3 s hold on a hero who took a big hit, from the front. <see cref="ResumeAfterHit"/> goes
+        /// back to the shot that was playing. Returns false (nothing played) in reduced motion or when it does not clear.
+        /// </summary>
+        public bool HitReaction(BattleDisplayUnit target, BattleDisplayUnit attacker = null)
+        {
+            if (_reduced || target == null || target.Model == null || !target.Alive || target.Hp <= 0 || _shot == null || _shot.Kind == BattleShotKind.HitReaction) return false;
+            var held = _candidates;
+            Vector3 forward = target.Facing * Vector3.forward; forward.y = 0f; forward.Normalize();
+            var shots = new List<BattleShot>();
+            // Front 3/4 from the side away from the attacker: a melee enemy still standing at the hero sits beside them, not
+            // in front of the lens. The attacker's live body may not hide the hero (occluder); then the straight front.
+            Vector3 across = Vector3.Cross(Vector3.up, forward);
+            float away = attacker != null && attacker.Model != null && Vector3.Dot(attacker.Model.transform.position - target.Home, across) > 0f ? -1f : 1f;
+            Bounds? attackerBox = null;
+            if (attacker != null && attacker.Model != null && BodyBox(attacker, out var live, atHome: false)) attackerBox = live;
+            foreach (var (sign, side, front) in new[] { (away, HitSide, HitDistance * .6f), (-away, HitSide, HitDistance * .6f), (away, .7f, HitDistance), (-away, .7f, HitDistance) })
+            {
+                var shot = NewShot(BattleShotKind.HitReaction, "hit:" + target.Id, HitFov, HitBlend, CameraEase.OutCubic);
+                shot.Required.Add(target); shot.Track = target; shot.Ignore = attacker;
+                if (attackerBox.HasValue) shot.Occluders.Add(attackerBox.Value);
+                shot.Position = target.Home + forward * front + across * (sign * side) + Vector3.up * 1.3f;
+                shot.Look = target.Home + Vector3.up * (target.Model.Height * .6f);
+                shots.Add(shot);
+            }
+            if (!Choose(shots, out var chosen, out var pose)) return false;
+            _held = held;
+            _candidates = shots;
+            Begin(chosen, pose, HitBlend, CameraEase.OutCubic);
+            return true;
+        }
+
+        /// <summary>Back to the shot that was playing before <see cref="HitReaction"/> (re-fitted, short blend).</summary>
+        public void ResumeAfterHit()
+        {
+            if (_shot == null || _shot.Kind != BattleShotKind.HitReaction) return;
+            var held = _held; _held = null;
+            if (held == null || held.Count == 0) { PlayFirst(EstablishingShots()); return; }
+            foreach (var shot in held) shot.Blend = HitBlend;
+            _shot = null;
+            PlayFirst(held);
+        }
 
         // ---- additive layers ---------------------------------------------------------------------------------------
         public void AddTrauma(float shake) { if (!_reduced) _trauma = Mathf.Clamp01(_trauma + shake * 1.5f); }
@@ -475,11 +766,13 @@ namespace Abyss.Runtime.Battle
             if (_shot != null && key != null && key == _shot.Key) return;
             if (!Choose(candidates, out var shot, out var pose))
             {
+                string why = LastChoice;
                 var fallback = EstablishingShots();
                 foreach (var f in fallback) { f.Blend = candidates[0].Blend; f.Ease = candidates[0].Ease; }
                 if (_shot != null && _shot.Key == fallback[0].Key) return;
                 candidates = fallback;
                 Choose(candidates, out shot, out pose);
+                LastChoice = why + " => " + LastChoice;   // keep why the request fell back (diagnostics)
             }
             _candidates = candidates;
             Begin(shot, pose, _reduced ? 0f : shot.Blend, shot.Ease);
@@ -592,7 +885,12 @@ namespace Abyss.Runtime.Battle
                 // Resolve may re-select the active shot's orbit sweep (25° / 12° / still): a changed sweep moves the camera
                 // even with the same centre pose, so it also blends from the current pose (the orbit clock keeps running).
                 float orbit = _shot.Orbit;
-                if (!Choose(candidates, out var chosen, out var pose)) { _shot = null; PlayFirst(EstablishingShots()); }
+                if (!Choose(candidates, out var chosen, out var pose))
+                {
+                    string why = "refit(" + (hudMoved ? "hud" : "cast") + "): " + LastChoice;
+                    _shot = null; PlayFirst(EstablishingShots());
+                    LastChoice = why + " => " + LastChoice;
+                }
                 else if (chosen != _shot || Differs(pose, _to) || !Mathf.Approximately(orbit, chosen.Orbit))
                 {
                     _shot = chosen;
@@ -781,7 +1079,14 @@ namespace Abyss.Runtime.Battle
                     _boxes.Add(box);
                 }
             foreach (var extra in shot.Extra) _boxes.Add(extra);
-            if (_boxes.Count == 0) return designed;
+            if (_boxes.Count == 0)
+            {
+                // Nothing left to frame (every subject fallen): only the establishing shot may keep its designed pose; a
+                // subject-dependent shot fails so the caller falls back to S0 (or its next candidate).
+                if (shot.Kind == BattleShotKind.Establishing) return designed;
+                ok = false; _reason = "no subjects";
+                return designed;
+            }
             Rect rect = FitRect(shot.ExtraInset);
             if (shot.MaxViewportY < rect.yMax && shot.MaxViewportY - rect.yMin > .2f) rect.yMax = shot.MaxViewportY;
             CameraPose best = designed; bool any = false;
@@ -862,8 +1167,8 @@ namespace Abyss.Runtime.Battle
             if (!_interiorKnown) LearnInterior();
             bool Inside(float d)
             {
-                Vector3 p = look - axis * d, flat = p - _interiorCentre; flat.y = 0f;
-                return flat.magnitude <= _interiorRadius && p.y <= _ceiling;
+                Vector3 p = look - axis * d;
+                return WithinInterior(p) && p.y <= _ceiling;
             }
             if (Inside(limit)) return limit;
             float lo = 0f, hi = limit;
@@ -985,6 +1290,7 @@ namespace Abyss.Runtime.Battle
             // Extra boxes (a melee enemy at its strike mark) can hide a required body, but are never bystanders.
             int units = _all.Count;
             foreach (var extra in shot.Extra) { _all.Add(extra); _allRequired.Add(false); }
+            foreach (var occluder in shot.Occluders) { _all.Add(occluder); _allRequired.Add(false); }
             Quaternion inverse = Quaternion.Inverse(pose.Rotation);
             float aspect = Mathf.Max(.1f, _camera.aspect), tanV = Mathf.Tan(pose.Fov * .5f * Mathf.Deg2Rad), tanH = tanV * aspect;
             var frame = Rect.MinMaxRect(-tanH, -tanV, tanH, tanV);
@@ -1009,7 +1315,7 @@ namespace Abyss.Runtime.Battle
                 rects[i] = visible[i] ? Rect.MinMaxRect(x0, y0, x1, y1) : default;
             }
             // The foreground subject is the shot's first required unit.
-            float foreground = lead >= 0 && visible[lead] ? rects[lead].height : 0f, limit = MaxBystander;
+            float foreground = lead >= 0 && visible[lead] ? rects[lead].height : 0f, limit = shot.BystanderLimit > 0f ? shot.BystanderLimit : MaxBystander;
             if (shot.BystanderVsTargets)
             {
                 foreground = 0f; limit = MaxBystanderVsTargets;
@@ -1058,8 +1364,7 @@ namespace Abyss.Runtime.Battle
         {
             if (_geometry == null) return false;
             if (!_interiorKnown) LearnInterior();
-            Vector3 flat = camera - _interiorCentre; flat.y = 0f;
-            if (flat.magnitude > _interiorRadius || camera.y > _ceiling || camera.y < _geometry.position.y + .25f) return true;
+            if (!WithinInterior(camera) || camera.y > _ceiling || camera.y < _geometry.position.y + .25f) return true;
             foreach (var prop in _props)
                 if (prop.Contains(camera)) return true;
             foreach (var box in _boxes)
@@ -1119,23 +1424,27 @@ namespace Abyss.Runtime.Battle
 
         /// <summary>
         /// Arena interior from its renderers: the wall ring (backdrop) bounds give the radius, the ceiling its height.
-        /// Compact standalone props (benches, bins, crates) become occluder boxes; the merged shells are too coarse for that.
+        /// Backdrops are measured from their triangles (<see cref="MeasureBackdrop"/>), once per arena: a backdrop is a
+        /// wall ring only when its bounds are centred and its walls close the full circle; otherwise (open-air kits,
+        /// the U-shaped school) the camera may go as far as the nearest wall in each compass sector, and past the floor
+        /// edge where the backdrop is open. Near-horizontal sheets over the arena centre (the hospital's merged ceiling
+        /// and light strips) cap the camera height instead of counting as walls. Compact standalone props (benches, bins,
+        /// crates) become occluder boxes; the merged shells are too coarse for that.
         /// </summary>
         void LearnInterior()
         {
-            _interiorKnown = true; _props.Clear();
+            _interiorKnown = true; _props.Clear(); _sectorRadius = null;
             _interiorCentre = _geometry.position; _interiorRadius = float.PositiveInfinity; _ceiling = float.PositiveInfinity;
+            float floorRadius = float.PositiveInfinity;
+            var backdrops = new List<Renderer>();
             foreach (var r in _geometry.GetComponentsInChildren<Renderer>(false))
             {
                 if (r is ParticleSystemRenderer || !r.enabled) continue;
                 string name = r.name;
                 var b = r.bounds;
-                if (name.Contains("backdrop"))
-                {
-                    _interiorCentre = new Vector3(b.center.x, _geometry.position.y, b.center.z);
-                    _interiorRadius = Mathf.Min(_interiorRadius, Mathf.Min(b.extents.x, b.extents.z) - 1.2f);
-                }
-                else if (name.Contains("ceiling")) _ceiling = Mathf.Min(_ceiling, b.min.y - .3f);
+                if (name.Contains("backdrop")) backdrops.Add(r);
+                else if (name == "arena" || name == "arena_floor") floorRadius = Mathf.Min(b.extents.x, b.extents.z);   // both FBX floor conventions
+                else if (name.Contains("ceiling")) _ceiling = Mathf.Min(_ceiling, b.min.y - CeilingClearance);
                 else if (name.Contains("props") && r.TryGetComponent(out MeshFilter shell)) AddShellProps(shell);
                 else if (b.size.x < 3.5f && b.size.z < 3.5f && b.size.y > .3f)
                 {
@@ -1143,6 +1452,188 @@ namespace Abyss.Runtime.Battle
                     _props.Add(b);
                 }
             }
+            Vector3 centre = _geometry.position;
+            // Pass 1: overhead sheets over the centre cap the camera height (and so the top of the wall band).
+            var meshes = new List<(Renderer Renderer, Vector3[] World, int[] Triangles)>();
+            foreach (var r in backdrops)
+            {
+                if (!r.TryGetComponent(out MeshFilter filter) || filter.sharedMesh == null || !filter.sharedMesh.isReadable) { meshes.Add((r, null, null)); continue; }
+                var local = filter.sharedMesh.vertices; var world = new Vector3[local.Length];
+                var toWorld = filter.transform.localToWorldMatrix;
+                for (int i = 0; i < local.Length; i++) world[i] = toWorld.MultiplyPoint3x4(local[i]);
+                var triangles = filter.sharedMesh.triangles;
+                meshes.Add((r, world, triangles));
+                float overhead = OverheadUnderside(world, triangles, centre, centre.y + OverheadMinHeight);
+                if (!float.IsInfinity(overhead)) _ceiling = Mathf.Min(_ceiling, overhead - CeilingClearance);
+            }
+            float bandLow = centre.y + BackdropBandLow, bandHigh = Mathf.Min(centre.y + BackdropBandHigh, _ceiling);
+            // Pass 2: walls in the band below that cap.
+            foreach (var (r, world, triangles) in meshes)
+            {
+                var b = r.bounds;
+                Vector3 offset = b.center - centre; offset.y = 0f;
+                float ring = Mathf.Min(b.extents.x, b.extents.z);
+                Vector3 boundsCentre = new Vector3(b.center.x, centre.y, b.center.z);
+                bool centred = offset.magnitude < ring * .25f;
+                // Unreadable meshes keep the bounds-only rule.
+                bool closed = world == null || (centred && MeasureBackdrop(world, triangles, boundsCentre, bandLow, bandHigh).Closed);
+                if (centred && closed)
+                {
+                    _interiorCentre = boundsCentre;
+                    _interiorRadius = Mathf.Min(_interiorRadius, ring - WallClearance);
+                }
+                else if (world != null) LearnOpenBackdrop(MeasureBackdrop(world, triangles, centre, bandLow, bandHigh), floorRadius);
+            }
+        }
+
+        /// <summary>Per-sector camera limit from an open backdrop's measured walls (neighbour sectors included); open sectors reach past the floor edge.</summary>
+        void LearnOpenBackdrop(BackdropProfile profile, float floorRadius)
+        {
+            var nearest = new float[InteriorSectors];
+            for (int i = 0; i < InteriorSectors; i++) nearest[i] = float.PositiveInfinity;
+            for (int bin = 0; bin < ProfileBins; bin++)
+            {
+                int sector = bin * InteriorSectors / ProfileBins;
+                nearest[sector] = Mathf.Min(nearest[sector], profile.Nearest[bin]);
+            }
+            float open = float.IsInfinity(floorRadius) ? float.PositiveInfinity : floorRadius + WallClearance;
+            if (_sectorRadius == null) { _sectorRadius = new float[InteriorSectors]; for (int i = 0; i < InteriorSectors; i++) _sectorRadius[i] = float.PositiveInfinity; }
+            for (int i = 0; i < InteriorSectors; i++)
+            {
+                float near = Mathf.Min(nearest[i], Mathf.Min(nearest[(i + 1) % InteriorSectors], nearest[(i + InteriorSectors - 1) % InteriorSectors]));
+                _sectorRadius[i] = Mathf.Min(_sectorRadius[i], float.IsInfinity(near) ? open : Mathf.Max(1f, near - WallClearance));
+            }
+        }
+
+        /// <summary>Walls of a backdrop seen from a centre: nearest wall distance per 1° bin (infinity = open) and whether they close the circle.</summary>
+        internal sealed class BackdropProfile
+        {
+            public readonly float[] Nearest = new float[ProfileBins];
+            public readonly bool[] Covered = new bool[ProfileBins];
+            public bool Closed { get { foreach (bool covered in Covered) if (!covered) return false; return true; } }
+        }
+
+        /// <summary>
+        /// Measures backdrop walls from world-space triangles: every non-horizontal triangle is clipped to the height band
+        /// [<paramref name="low"/>, <paramref name="high"/>] (a wall spanning the band counts even with no vertex inside
+        /// it); the clipped piece, seen from <paramref name="centre"/>, occupies an angular interval, and each 1° bin in it
+        /// takes the distance where a ray at that angle meets the piece. Pure; called once per arena (and by QA).
+        /// </summary>
+        internal static BackdropProfile MeasureBackdrop(Vector3[] world, int[] triangles, Vector3 centre, float low, float high)
+        {
+            var profile = new BackdropProfile();
+            for (int i = 0; i < ProfileBins; i++) profile.Nearest[i] = float.PositiveInfinity;
+            if (high <= low) return profile;
+            var poly = new Vector3[8]; var clipped = new Vector3[8]; var flat = new Vector2[8]; var angles = new float[8];
+            float binSize = 360f / ProfileBins;
+            for (int t = 0; t + 2 < triangles.Length; t += 3)
+            {
+                Vector3 a = world[triangles[t]], b = world[triangles[t + 1]], c = world[triangles[t + 2]];
+                Vector3 normal = Vector3.Cross(b - a, c - a);
+                float area = normal.magnitude;
+                if (area < 1e-8f || Mathf.Abs(normal.y) / area >= HorizontalNormal) continue;   // degenerate, or a floor / ceiling sheet
+                if (Mathf.Max(a.y, Mathf.Max(b.y, c.y)) < low || Mathf.Min(a.y, Mathf.Min(b.y, c.y)) > high) continue;
+                poly[0] = a; poly[1] = b; poly[2] = c;
+                int n = ClipY(poly, 3, clipped, low, true);
+                n = ClipY(clipped, n, poly, high, false);
+                if (n < 2) continue;
+                for (int i = 0; i < n; i++) { flat[i] = new Vector2(poly[i].x - centre.x, poly[i].z - centre.z); angles[i] = Mathf.Repeat(Mathf.Atan2(flat[i].x, flat[i].y) * Mathf.Rad2Deg, 360f); }
+                if (n >= 3 && ContainsOrigin(flat, n)) continue;   // a piece over the centre itself cannot bound a radius
+                // Angular interval: the complement of the largest gap between the sorted vertex angles.
+                Array.Sort(angles, 0, n);
+                float gap = 360f - angles[n - 1] + angles[0], from = angles[0];
+                for (int i = 1; i < n; i++) if (angles[i] - angles[i - 1] > gap) { gap = angles[i] - angles[i - 1]; from = angles[i]; }
+                float span = 360f - gap;
+                int first = Mathf.FloorToInt(from / binSize), last = Mathf.FloorToInt((from + span) / binSize);
+                for (int k = first; k <= last; k++)
+                {
+                    int bin = ((k % ProfileBins) + ProfileBins) % ProfileBins;
+                    profile.Covered[bin] = true;
+                    float angle = Mathf.Clamp((k + .5f) * binSize, from, from + span) * Mathf.Deg2Rad;
+                    float d = RayDistance(flat, n, new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)));
+                    if (d < profile.Nearest[bin]) profile.Nearest[bin] = d;
+                }
+            }
+            return profile;
+        }
+
+        /// <summary>Lowest point of the near-horizontal triangles at or above <paramref name="minY"/> whose XZ projection contains the centre (infinity = none).</summary>
+        internal static float OverheadUnderside(Vector3[] world, int[] triangles, Vector3 centre, float minY)
+        {
+            float lowest = float.PositiveInfinity;
+            var p = new Vector2(centre.x, centre.z);
+            for (int t = 0; t + 2 < triangles.Length; t += 3)
+            {
+                Vector3 a = world[triangles[t]], b = world[triangles[t + 1]], c = world[triangles[t + 2]];
+                float y = Mathf.Min(a.y, Mathf.Min(b.y, c.y));
+                if (y < minY || y >= lowest) continue;
+                Vector3 normal = Vector3.Cross(b - a, c - a);
+                float area = normal.magnitude;
+                if (area < 1e-8f || Mathf.Abs(normal.y) / area < HorizontalNormal) continue;
+                Vector2 a2 = new Vector2(a.x, a.z), b2 = new Vector2(b.x, b.z), c2 = new Vector2(c.x, c.z);
+                float d1 = Cross2(b2 - a2, p - a2), d2 = Cross2(c2 - b2, p - b2), d3 = Cross2(a2 - c2, p - c2);
+                bool negative = d1 < 0f || d2 < 0f || d3 < 0f, positive = d1 > 0f || d2 > 0f || d3 > 0f;
+                if (!(negative && positive)) lowest = y;
+            }
+            return lowest;
+        }
+
+        /// <summary>Sutherland-Hodgman clip of a polygon against the plane y = <paramref name="level"/> (keeps the side above when <paramref name="keepAbove"/>).</summary>
+        static int ClipY(Vector3[] input, int count, Vector3[] output, float level, bool keepAbove)
+        {
+            int n = 0;
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 current = input[i], next = input[(i + 1) % count];
+                bool inCurrent = keepAbove ? current.y >= level : current.y <= level;
+                bool inNext = keepAbove ? next.y >= level : next.y <= level;
+                if (inCurrent) output[n++] = current;
+                if (inCurrent != inNext) output[n++] = Vector3.Lerp(current, next, (level - current.y) / (next.y - current.y));
+            }
+            return n;
+        }
+
+        /// <summary>Distance along <paramref name="direction"/> (from the origin) to the polygon's edges; the nearest edge point when the ray grazes past.</summary>
+        static float RayDistance(Vector2[] polygon, int count, Vector2 direction)
+        {
+            float best = float.PositiveInfinity, nearest = float.PositiveInfinity;
+            for (int i = 0; i < count; i++)
+            {
+                Vector2 p = polygon[i], e = polygon[(i + 1) % count] - p;
+                float denom = Cross2(direction, e);
+                if (Mathf.Abs(denom) > 1e-8f)
+                {
+                    float t = Cross2(p, e) / denom, u = Cross2(p, direction) / denom;
+                    if (t >= 0f && u >= -1e-4f && u <= 1f + 1e-4f && t < best) best = t;
+                }
+                float along = e.sqrMagnitude > 1e-12f ? Mathf.Clamp01(Vector2.Dot(-p, e) / e.sqrMagnitude) : 0f;
+                nearest = Mathf.Min(nearest, (p + e * along).magnitude);
+            }
+            return float.IsInfinity(best) ? nearest : best;
+        }
+
+        static bool ContainsOrigin(Vector2[] polygon, int count)
+        {
+            bool negative = false, positive = false;
+            for (int i = 0; i < count; i++)
+            {
+                float d = Cross2(polygon[(i + 1) % count] - polygon[i], -polygon[i]);
+                if (d < -1e-6f) negative = true; else if (d > 1e-6f) positive = true;
+            }
+            return negative != positive;   // strictly inside a non-degenerate piece (a vertical wall projects to a segment)
+        }
+
+        static float Cross2(Vector2 a, Vector2 b) => a.x * b.y - a.y * b.x;
+
+        static int Sector(Vector3 flat) =>
+            Mathf.Clamp((int)(Mathf.Repeat(Mathf.Atan2(flat.x, flat.z) * Mathf.Rad2Deg, 360f) / (360f / InteriorSectors)), 0, InteriorSectors - 1);
+
+        /// <summary>Camera position inside the arena interior (wall ring radius, or the open-air sector limit).</summary>
+        bool WithinInterior(Vector3 position)
+        {
+            Vector3 flat = position - _interiorCentre; flat.y = 0f;
+            if (flat.magnitude > _interiorRadius) return false;
+            return _sectorRadius == null || flat.magnitude <= _sectorRadius[Sector(flat)];
         }
     }
 }

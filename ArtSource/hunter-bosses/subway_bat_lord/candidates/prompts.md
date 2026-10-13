@@ -52,3 +52,6 @@ Risk noted: thin handrail wing struts may thin out in image-to-3D.
 
 ## Installed 2026-10-12 (marker only, Sonnet 5.5 F1-INSTALL, 0 credits)
 Model unchanged. Added the missing empty `TRIPO` marker to Assets/_Game/Resources/Art/Enemies/subway_bat_lord/ so AbyssArtImporter.IsTripo() is true: new/untouched materials get the Tripo outline defaults, and an existing material still at the untouched VRoid values (_OutlineWidth 0.011, _OutlineZOffset 0 = current subway_bat_lord_mat) is migrated by TexturedMaterials.Sync on the next Unity import/sync (AbyssArtImporter.cs:549-556). Unity import not run in this step (unverified).
+
+### RESTORE-TOWN-CHARS (2026-10-13, Claude Sonnet)
+- Texture replaced by the raw 2048 px basecolor (was downscaled to 1024); the .meta (cap 1024 in Default) is NOT edited here - the importer/Unity owner must raise/reset the cap.
