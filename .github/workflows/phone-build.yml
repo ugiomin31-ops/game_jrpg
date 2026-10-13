@@ -70,6 +70,10 @@ jobs:
 
       - name: Build with Unity
         uses: game-ci/unity-builder@v6
+        env:
+          # Authenticates the builder's GitHub API lookup of its CLI release
+          # (unauthenticated calls hit the shared-runner rate limit, HTTP 403).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           buildName: ${{ matrix.targetPlatform == 'Android' && 'AbyssLabyrinth' || 'Web' }}
