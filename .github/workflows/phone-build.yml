@@ -14,6 +14,14 @@ on:
     branches: [claude/project-thread-65bpbq, claude/project-thread-1cwvmu, claude/project-thread-s545ws, claude/hunter-theme-xi1u14, codex/hunter-experience-pr6, claude/visual-overhaul-pr8]
     paths: ["Assets/**", "Packages/**", "ProjectSettings/**", "Tools/web/**", ".github/workflows/phone-build.yml"]
   workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'JSON list of targets, e.g. ["WebGL"]'
+        default: '["Android","WebGL"]'
+      publish:
+        description: 'Publish the APK release and gh-pages (false = workflow artifacts only, for review builds)'
+        type: boolean
+        default: true
 
 concurrency:
   group: phone-build-${{ github.ref }}
@@ -35,7 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        targetPlatform: [Android, WebGL]
+        targetPlatform: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.platforms || '["Android","WebGL"]') }}
     steps:
       - name: Check Unity license secrets
         run: |
@@ -90,7 +98,7 @@ jobs:
           retention-days: 14
 
       - name: Publish APK to the phone-latest release
-        if: matrix.targetPlatform == 'Android'
+        if: matrix.targetPlatform == 'Android' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -119,7 +127,7 @@ jobs:
           if [ -n "$big" ]; then echo "::error::GitHub Pages cannot host files over 100 MB: $big"; exit 1; fi
 
       - name: Publish web build to gh-pages
-        if: matrix.targetPlatform == 'WebGL'
+        if: matrix.targetPlatform == 'WebGL' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ github.token }}
@@ -128,7 +136,7 @@ jobs:
           force_orphan: true
 
       - name: Serve gh-pages with GitHub Pages
-        if: matrix.targetPlatform == 'WebGL'
+        if: matrix.targetPlatform == 'WebGL' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
@@ -138,7 +146,7 @@ jobs:
             || echo "::warning::GitHub Pages를 자동으로 켜지 못했습니다. Settings > Pages 에서 gh-pages 브랜치를 선택해 주세요."
 
       - name: Web link
-        if: matrix.targetPlatform == 'WebGL'
+        if: matrix.targetPlatform == 'WebGL' && (github.event_name != 'workflow_dispatch' || inputs.publish)
         run: |
           owner=${GITHUB_REPOSITORY%%/*}; repo=${GITHUB_REPOSITORY#*/}
           echo "Web: https://${owner,,}.github.io/${repo}/ (Settings > Pages 에서 gh-pages 브랜치를 선택해야 열립니다)" >> "$GITHUB_STEP_SUMMARY"
