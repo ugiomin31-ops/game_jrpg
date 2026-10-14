@@ -88,12 +88,23 @@ namespace Abyss.Runtime.World
             return text == key ? NpcLabels[i] : text;
         }
 
+        /// <summary>
+        /// A hunter in town: rests in the authored relaxed loop (weight shift, a breath, a look around) instead of the
+        /// library's near-static attention Idle, unless its class / own layer ships an Idle of its own.
+        /// </summary>
+        CharacterModel SpawnHunter(string heroId, Transform parent, string jobId)
+        {
+            var model = ArtLibrary.SpawnHero(heroId, parent, jobId);
+            if (model.Anim is ClipAnimator clips && clips.HasClip("RelaxLoop") && !model.HasClassClip("Idle")) clips.RestClip = "RelaxLoop";
+            return model;
+        }
+
         void SpawnParty(Vector3 position, Quaternion rotation)
         {
             var forward = rotation * Vector3.forward;
             foreach (var hero in app.State.Party)
             {
-                var model = ArtLibrary.SpawnHero(hero.Id, transform, hero.Job);
+                var model = SpawnHunter(hero.Id, transform, hero.Job);
                 model.transform.SetPositionAndRotation(position - forward * party.Count * 0.9f, rotation);
                 model.Play("Idle");
                 party.Add(model);
@@ -114,7 +125,7 @@ namespace Abyss.Runtime.World
             {
                 if (!layout.Spots.TryGetValue("villager_" + (i + 1), out var marker)) continue;
                 if (i >= bench.Count) break;
-                var npc = ArtLibrary.SpawnHero(bench[i].Id, transform, bench[i].Job);
+                var npc = SpawnHunter(bench[i].Id, transform, bench[i].Job);
                 npc.transform.SetPositionAndRotation(marker.position, marker.rotation);
                 npc.Play("Idle");
                 lounge.Add(npc);
@@ -158,7 +169,7 @@ namespace Abyss.Runtime.World
                 if (hero == null) continue;
                 string path = ArtLibrary.HeroModelPath(old.ModelId, hero.Job);
                 if (path == partyPaths[i]) continue;
-                var model = ArtLibrary.SpawnHero(old.ModelId, transform, hero.Job);
+                var model = SpawnHunter(old.ModelId, transform, hero.Job);
                 model.transform.SetPositionAndRotation(old.transform.position, old.transform.rotation);
                 model.Play("Idle");
                 party[i] = model;
@@ -185,7 +196,7 @@ namespace Abyss.Runtime.World
                 if (old == null) continue;
                 var hero = app.State.Hero(old.ModelId);
                 if (hero == null || (hero.Job ?? "") == (old.PromotionJob ?? "")) continue;
-                var model = ArtLibrary.SpawnHero(old.ModelId, transform, hero.Job);
+                var model = SpawnHunter(old.ModelId, transform, hero.Job);
                 model.transform.SetPositionAndRotation(old.transform.position, old.transform.rotation);
                 model.Play("Idle");
                 lounge[i] = model;

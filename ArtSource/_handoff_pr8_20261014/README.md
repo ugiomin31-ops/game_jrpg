@@ -34,3 +34,10 @@ No source geometry/texture has been reduced for archival.
 - Keep downloaded Tripo originals unchanged: no polygon reduction, non-uniform reshaping, UV replacement or native-texture quality reduction.
 - One Unity owner at a time. Close owned Tripo viewport tabs after export; preserve all completed exports before account switch. No duplicate paid generation.
 - Answer user in Korean. Do not merge PR8 without an explicit merge request.
+
+## Progress on claude/motion-polish-pr9 (2026-10-14, cloud session)
+
+- Item 2 done: `heal_vfx` is part of the presentation-reference validation in Tools/vfx/gen_effects.py.
+- New authored shared takes, motion styles, skill mechanics and audit fixes: see docs/MOTION_SKILL_EXPANSION.md.
+- Still open: Unity import / play-mode verification of everything since the WIP commit (no Unity in the cloud session);
+  Tripo work (crystal_cave_lord rig, new models) and ChatGPT image generation need the user's machine and accounts.

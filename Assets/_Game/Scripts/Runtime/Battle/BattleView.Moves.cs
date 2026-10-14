@@ -350,21 +350,32 @@ namespace Abyss.Runtime.Battle
         /// <summary>One full turn of the body about its vertical axis, centred on the strike (starts after <paramref name="delay"/>).</summary>
         IEnumerator SpinBody(BattleDisplayUnit unit, float delay, float seconds)
         {
-            float waited = 0;
-            while (waited < delay) { if (!_app.Paused) waited += Dt; yield return null; }
-            var t = unit.Model.transform; Quaternion start = YawOnly(t.rotation); float elapsed = 0;
-            PlaySound("sfx_wind");
-            while (elapsed < seconds)
+            // Registered as a flourish so the action end waits for the turn before the unit heads home.
+            _flourishing.Add(unit);
+            var t = unit.Model.transform; Quaternion start = YawOnly(t.rotation);
+            try
             {
-                if (!_app.Paused)
+                float waited = 0;
+                while (waited < delay) { if (!_app.Paused) waited += Dt; yield return null; }
+                start = YawOnly(t.rotation); float elapsed = 0;
+                PlaySound("sfx_wind");
+                while (elapsed < seconds)
                 {
-                    elapsed += Dt;
-                    float k = Mathf.Clamp01(elapsed / seconds);
-                    t.rotation = start * Quaternion.Euler(0f, 360f * (1 - (1 - k) * (1 - k)), 0f);
+                    if (!unit.Alive) yield break;
+                    if (!_app.Paused)
+                    {
+                        elapsed += Dt;
+                        float k = Mathf.Clamp01(elapsed / seconds);
+                        t.rotation = start * Quaternion.Euler(0f, 360f * (1 - (1 - k) * (1 - k)), 0f);
+                    }
+                    yield return null;
                 }
-                yield return null;
             }
-            t.rotation = start;
+            finally
+            {
+                _flourishing.Remove(unit);
+                if (t != null && unit.Alive) t.rotation = start;
+            }
         }
 
         /// <summary>A monster's way back after a blink or burrow strike; false when it returns the ordinary way (run / hop).</summary>

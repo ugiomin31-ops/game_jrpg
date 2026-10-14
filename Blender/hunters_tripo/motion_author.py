@@ -356,7 +356,10 @@ def main():
         print("TAKE", name, json.dumps(report[name]))
         if rest_err > 1e-4 or bones != 65:
             raise SystemExit(f"{name}: rest/bone check failed ({rest_err}, {bones})")
-    C.write_json(os.path.join(C.REPO, "docs", "verification", "authored_takes_report.json"), report)
+    path = os.path.join(C.REPO, "docs", "verification", "authored_takes_report.json")
+    merged = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {}
+    merged.update(report)   # an --only run refreshes its takes and keeps the others' records
+    C.write_json(path, merged)
 
 
 if __name__ == "__main__":

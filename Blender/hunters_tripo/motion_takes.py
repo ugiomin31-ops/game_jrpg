@@ -198,3 +198,23 @@ TAKES["Kneel"] = [
     (34, st(ease="inout")),
 ]
 contact("Kneel", 16)
+
+# RelaxLoop: the town stance (TownWorld makes it the hunters' rest loop in place of the library's near-static attention
+# Idle). Weight on the right leg, weapon lowered, a breath, a look to the side and back; the last key equals the first.
+_relax = dict(
+    hips=(0.012, 0.0, -0.012), hips_rot=(1, -4, 2), spine=(1, 2, -1), chest=(1, 2, 0), chest2=(0, 0, 0), neck=(-2, 0, 0), head=(-1, -3, 0),
+    handR=(0.15, 0.015, 0.535), poleR=(0.35, -0.9, -0.3), weaponR=(0.1, 0.6, -0.8), gripR=1.0,
+    handL=(-0.15, 0.005, 0.53), poleL=(-0.35, -0.9, -0.3), gripL=0.3,
+    footR=(0.1, -0.015, 0.09), footL=(-0.125, 0.045, 0.09), footYawR=-8, footYawL=14,
+    kneeR=(0.2, 1, 0), kneeL=(-0.3, 1, 0), shoulderR=(0, 0, 0), shoulderL=(0, 0, 0),
+)
+TAKES["RelaxLoop"] = [
+    (1, dict(_relax)),
+    (24, dict(chest=(-2, 2, 0), chest2=(-1, 0, 0), hips=(0.012, 0.0, -0.007), shoulderR=(0, 0, -2), shoulderL=(0, 0, 2),
+              handR=(0.151, 0.017, 0.541), handL=(-0.151, 0.007, 0.537))),
+    (48, dict(chest=(1, 6, 0), head=(-3, 16, 0), neck=(-2, 6, 0), hips=(0.006, 0.0, -0.012), hips_rot=(1, 0, 1),
+              shoulderR=(0, 0, 0), shoulderL=(0, 0, 0), handR=(0.15, 0.015, 0.535), handL=(-0.15, 0.005, 0.53))),
+    (68, dict(head=(-1, 8, 0), chest=(0, 4, 0))),
+    (97, dict(_relax)),
+]
+CONTACT["RelaxLoop"] = 0.0
