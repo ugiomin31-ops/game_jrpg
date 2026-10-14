@@ -85,7 +85,7 @@ ModelImporter:
       takeName: Rig|Cast
       internalID: -7776306489393022278
       firstFrame: 0
-      lastFrame: 59
+      lastFrame: 47
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -114,7 +114,7 @@ ModelImporter:
       takeName: Rig|Die
       internalID: -6111044131944686169
       firstFrame: 0
-      lastFrame: 203
+      lastFrame: 72
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -201,7 +201,7 @@ ModelImporter:
       takeName: Rig|Run
       internalID: -5181486892397411127
       firstFrame: 0
-      lastFrame: 56
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

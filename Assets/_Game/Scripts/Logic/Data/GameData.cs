@@ -347,6 +347,8 @@ namespace Abyss.Logic
         public string ChargeVfx = "";
         public string TravelVfx = "";
         public string ImpactVfx = "impact";
+        /// <summary>Effect on each unit this action heals (empty: the shared "heal" effect), e.g. a signature that brings its own object.</summary>
+        public string HealVfx = "";
         public float HitInterval = 0.12f;
         public float HitStop = 0.05f;
         public float Shake = 0.2f;

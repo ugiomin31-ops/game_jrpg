@@ -28,6 +28,13 @@ def effect(key, description, *layers, duration=1.2, loop=False):
     EFFECTS[key] = dict(key=key, description=description, duration=duration, loop=loop, layers=list(layers))
 
 
+def clone(source, key, description):
+    """A new recipe with the layers of an existing one (each layer copied), e.g. a signature that adds its own mesh."""
+    base = EFFECTS[source]
+    EFFECTS[key] = dict(key=key, description=description, duration=base['duration'], loop=base['loop'],
+                        layers=[dict(item) for item in base['layers']])
+
+
 # --- building blocks -------------------------------------------------------------------------------
 
 def quad(texture, color, life, size, end=0, **values):
@@ -1579,7 +1586,7 @@ MESH_IDS = frozenset((
     'ground_seal slash_crescent light_pillar thrust_spike energy_arrow nova_wave shadow_tendril holy_cross flame_plume '
     'heal_bloom impact_crater energy_orb tornado_funnel chain_ring lightning_bolt rock_debris ice_shard shield_dome '
     'energy_lance sword_phantom feather crystal_prism rift_gate barrier_panel ice_spike_cluster vine_coil bite_jaws '
-    'meteor_rock').split())
+    'meteor_rock aid_kit riot_shield').split())
 MESH_KINDS = {'mesh', 'orbit', 'burst', 'emitter'}   # layer kinds that may carry a "mesh" field
 MESH_ONLY_FIELDS = {'scroll': {'mesh'}}               # field -> kinds allowed to use it
 HIT_TEXTURES = ('hit_flash', 'shockwave', 'sunburst', 'explosion_sheet')
@@ -1788,6 +1795,10 @@ def m_tendril_burst(**v):
 # recipe key -> mesh layers appended to that recipe (brief section 8). Shape and key are validated on every build;
 # a layer is only emitted once its FBX + texture exist (see apply_mesh_upgrades).
 MESH_UPGRADES = {
+    # hunter signature objects (Tripo props, native geometry and colour texture, 2026-10-14)
+    'first_aid': [m_bloom(), mesh_layer('aid_kit', W, 1.0, .6, .85, delay=AtHit(), y=.6, alpha=True, untinted=True)],
+    'rescue_shield': [mesh_layer('riot_shield', W, 1.25, .8, .9, delay=AtHit(), y=FLOOR + .45, alpha=True, untinted=True,
+                                 align=True, upright=True, ahead=.75)],
     # charge
     'magic_circle': [m_seal('E8F0FF', .9, 1.4, delay=0)],
     'charge_grand': [m_seal(W, 1.7, 1.8, delay=0), m_pillar(HOLY, .4, 1.4, delay=.1, height=1.0)],
@@ -2027,7 +2038,7 @@ def mark_big_layers():
 def validate_effects():
     allowed = {'kind', 'texture', 'color', 'life', 'size', 'endSize', 'height', 'speed', 'gravity', 'rate', 'radius',
                'delay', 'y', 'spin', 'rotation', 'count', 'tiles', 'alpha', 'horizontal', 'upright', 'align',
-               'mesh', 'scroll', 'big', 'blend'}
+               'mesh', 'scroll', 'big', 'blend', 'untinted', 'ahead'}
     kinds = {'quad', 'orbit', 'burst', 'emitter', 'ring', 'sphere', 'trail', 'arc', 'mesh'}
     for recipe in EFFECTS.values():
         for item in recipe['layers']:
@@ -2054,6 +2065,9 @@ def main():
     charges()
     projectiles()
     signature_impacts()
+    # Hunter signatures with their own object: the base recipe plus a Tripo prop mesh (MESH_UPGRADES).
+    clone('heal', 'first_aid', 'First aid: the healing recipe, and a hunter-association first-aid case pops open over the ally')
+    clone('provoke_roar', 'rescue_shield', 'Rescue squad roar: the provoking roar, and a riot shield slams down in front of the hunter')
     # Hand-authored recipes (aligned projectiles, looping guard/BREAK markers) live beside this script.
     for recipe in json.loads((ROOT/'Tools/vfx/effects_extra.json').read_text(encoding='utf-8'))['effects']:
         EFFECTS[recipe['key']] = recipe

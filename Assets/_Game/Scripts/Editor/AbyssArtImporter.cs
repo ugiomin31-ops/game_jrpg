@@ -25,6 +25,8 @@ namespace Abyss.EditorTools
         // Per-class takes (Art/HumanoidAnimationsByClass/<class>/<Take>.fbx) override the shared ones by name at spawn time.
         // A sibling folder, not a subfolder: Resources.LoadAll(HumanoidAnimations) is recursive and would return duplicate names.
         const string HumanoidAnimationsByClass = "HumanoidAnimationsByClass/";
+        // Per-hero takes (Art/HumanoidAnimationsByHero/<heroId>/<Take>.fbx), same contract, layered above the class folder.
+        const string HumanoidAnimationsByHero = "HumanoidAnimationsByHero/";
         static readonly string[] SlotNames = { "M_Toon", "M_Emit", "M_Clear" };
         static readonly HashSet<string> LoopClips = new HashSet<string> { "Idle", "Run", "Walk", "Fly", "Float", "BattleIdle", "Swim", "Hover" };
 
@@ -103,7 +105,7 @@ namespace Abyss.EditorTools
         static bool IsHumanoidAnimation(string path)
         {
             string rel = path.Replace('\\', '/').Substring(ArtRoot.Length);
-            return rel.StartsWith(HumanoidAnimations) || rel.StartsWith(HumanoidAnimationsByClass);
+            return rel.StartsWith(HumanoidAnimations) || rel.StartsWith(HumanoidAnimationsByClass) || rel.StartsWith(HumanoidAnimationsByHero);
         }
 
         /// <summary>A character folder opts into Unity Humanoid with an empty "HUMANOID" marker file next to its model.</summary>
@@ -705,7 +707,7 @@ namespace Abyss.EditorTools
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 if (!path.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase) || !HasTextures(path)) continue;
-                if (path.Contains("/HumanoidAnimations/") || path.Contains("/HumanoidAnimationsByClass/")) continue;
+                if (path.Contains("/HumanoidAnimations/") || path.Contains("/HumanoidAnimationsByClass/") || path.Contains("/HumanoidAnimationsByHero/")) continue;
                 MigrateBoundOutlines(path, log);
             }
             // The shared character toon material is bound by the town villagers / innkeeper (and old procedural models):

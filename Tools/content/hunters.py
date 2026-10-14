@@ -49,9 +49,12 @@ def write(name, rows):
 
 
 def signature(skills, h):
-    base_id, name = h['sig']
+    base_id, name = h['sig'][:2]
     base = skills[base_id]
     row = copy.deepcopy(base)
+    # Optional third field: the signature's own presentation (its own effect) instead of the base skill's.
+    if len(h['sig']) > 2:
+        row['presentation'] = h['sig'][2]
     row['id'] = row['_file'] = 'sig_' + h['id'][2:]
     row['display_name'] = '★ ' + name
     row['description'] = '%s의 고유 기술. %s' % (h['name'], base.get('description', ''))

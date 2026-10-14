@@ -120,16 +120,18 @@ namespace Abyss.Runtime.Art
             bool flyer = IsRiglessFlyer(id) && path == EnemyPath(id) && !HasIdle(clips);
             // Rigid static creatures (Tripo shell, no skeleton): same explicit-list rule as the flyers.
             bool crawler = IsRiglessCrawler(id) && path == EnemyPath(id) && !HasIdle(clips);
-            string classId = null;
-            HashSet<string> classNames = null;
+            Dictionary<string, string> owners = null;
             if (!rigless && !flyer && !crawler && animator != null && animator.isHuman && !HasIdle(clips))
             {
                 clips = LoadClips(HumanoidAnimationsPath);
-                classId = Abyss.Logic.GameDB.Instance?.ClassOf(id) ?? id;
-                clips = MergeClassClips(clips, classId, out classNames);
+                string classId = Abyss.Logic.GameDB.Instance?.ClassOf(id) ?? id;
+                // A hero's own layer sits above its class; an NPC's class id is its own id, so its class folder is already per-NPC.
+                string heroId = classId != id ? id : null;
+                clips = MergeLayers(clips, classId, heroId, out owners);
             }
+            else owners = ModelTimingLayer(id);
             model.Setup(id, visual, clips, rigless, flyer, crawler);
-            model.SetClassClips(classId, classNames);
+            model.SetClipOwners(owners);
             return model;
         }
 
@@ -138,51 +140,106 @@ namespace Abyss.Runtime.Art
         /// replace the shared take of the same name; every take a class does not ship falls back to the shared one.
         /// </summary>
         public const string HumanoidClassAnimationsPath = "Art/HumanoidAnimationsByClass";
+        /// <summary>
+        /// Per-hero takes (Art/HumanoidAnimationsByHero/&lt;heroId&gt;/), same take-name contract, layered above the class folder
+        /// so two heroes of one class can move differently. A missing or empty folder falls through to class, then shared.
+        /// </summary>
+        public const string HumanoidHeroAnimationsPath = "Art/HumanoidAnimationsByHero";
 
-        static readonly Dictionary<string, (AnimationClip[] Clips, HashSet<string> Names)> MergedCache =
-            new Dictionary<string, (AnimationClip[], HashSet<string>)>();
+        static readonly Dictionary<string, (AnimationClip[] Clips, Dictionary<string, string> Owners)> MergedCache =
+            new Dictionary<string, (AnimationClip[], Dictionary<string, string>)>();
 
-        static AnimationClip[] MergeClassClips(AnimationClip[] shared, string classId, out HashSet<string> classNames)
+        /// <summary>
+        /// Shared takes overlaid by the class folder, then by the hero folder. <paramref name="owners"/> maps every overriding take
+        /// to the layer id that supplied it (the class id or the hero id), which keys its contact / end / loop-blend values.
+        /// </summary>
+        static AnimationClip[] MergeLayers(AnimationClip[] shared, string classId, string heroId, out Dictionary<string, string> owners)
         {
-            string key = classId ?? "";
-            if (MergedCache.TryGetValue(key, out var cached)) { classNames = cached.Names; return cached.Clips; }
-            var own = LoadClips(HumanoidClassAnimationsPath + "/" + classId);
-            classNames = new HashSet<string>();
-            AnimationClip[] merged = shared;
-            if (own.Length > 0)
+            string key = (classId ?? "") + "|" + (heroId ?? "");
+            if (MergedCache.TryGetValue(key, out var cached)) { owners = cached.Owners; return cached.Clips; }
+            var layers = new Dictionary<string, string>();
+            var byName = new Dictionary<string, AnimationClip>();
+            foreach (var clip in shared) if (clip != null) byName[clip.name] = clip;
+            void Overlay(string folder, string layer)
             {
-                var byName = new Dictionary<string, AnimationClip>();
-                foreach (var clip in shared) if (clip != null) byName[clip.name] = clip;
-                foreach (var clip in own)
+                if (layer == null) return;
+                foreach (var clip in LoadClips(folder + "/" + layer))
                 {
                     if (clip == null || clip.name.StartsWith("__preview__", System.StringComparison.Ordinal)) continue;
-                    byName[clip.name] = clip; classNames.Add(clip.name);
+                    byName[clip.name] = clip; layers[clip.name] = layer;
                 }
-                merged = new AnimationClip[byName.Count];
-                byName.Values.CopyTo(merged, 0);
             }
-            MergedCache[key] = (merged, classNames);
+            Overlay(HumanoidClassAnimationsPath, classId);
+            Overlay(HumanoidHeroAnimationsPath, heroId);
+            var merged = layers.Count == 0 ? shared : new AnimationClip[byName.Count];
+            if (layers.Count > 0) byName.Values.CopyTo(merged, 0);
+            owners = layers;
+            MergedCache[key] = (merged, layers);
             return merged;
         }
 
         /// <summary>
-        /// Contact / release point (fraction of the take) of per-class takes whose strike is not at the shared default
-        /// (Attack 40%, Cast 60%, Skill 50%). Authored values: ArtSource/hunters/_anim_library/INSTALL.md class mapping table.
+        /// Contact / release point (fraction of the take) of class / hero takes whose strike is not at the shared default
+        /// (Attack 40%, Cast 60%, Skill 50%), keyed "&lt;layer id&gt;/&lt;take&gt;" (class id or hero id). Authored values:
+        /// ArtSource/hunters/_anim_library/INSTALL.md class mapping table. cleric/Attack: the cane head is furthest forward in
+        /// front of the body at frame 6 of 35 on the Humanoid retarget (measured on h_yuna, 2026-10-14), not at the speed peak.
         /// </summary>
         static readonly Dictionary<string, float> ClassContact = new Dictionary<string, float>
         {
-            { "warrior/Attack", .396f }, { "cleric/Attack", .14f }, { "mage/Skill", .50f }, { "archer/Attack", .51f },
+            { "warrior/Attack", .396f }, { "cleric/Attack", .17f }, { "mage/Skill", .50f }, { "archer/Attack", .51f },
+            // MOTIONS-20261014, measured on the hero retarget (hand-speed peak / impact frame; MOTION_PLAN_20261014.md).
+            { "h_dohyun/Attack", .34f }, { "h_dohyun/Skill", .45f }, { "h_minjun/Attack", .36f }, { "h_minjun/Cast", .55f },
+            { "h_yuna/Attack", .26f }, { "h_yuna/Cast", .28f }, { "h_seoa/Attack", .20f },
+            // Own-take monsters (layer id = model id): impact / release frame of their 2026-10-14 Tripo takes.
+            { "sprout/Attack", .45f }, { "sprout/Cast", .50f }, { "mushroom/Cast", .27f }, { "pixie/Attack", .37f }, { "pixie/Cast", .42f },
+            { "forest_guardian/Attack", .25f }, { "forest_guardian/Cast", .37f }, { "forest_guardian/Skill", .34f },
         };
 
-        /// <summary>Per-class takes whose tail is a held recovery pose: only this fraction of the take plays before the return fade.</summary>
-        static readonly Dictionary<string, float> ClassEnd = new Dictionary<string, float> { { "warrior/Attack", .68f }, { "archer/Attack", .85f } };
+        /// <summary>
+        /// Class / hero takes whose tail is a held recovery pose: only this fraction of the take plays before the return fade.
+        /// cleric/Attack: the sweep ends at frame 17 of 35; the rest walks the hand back to the hip.
+        /// </summary>
+        static readonly Dictionary<string, float> ClassEnd = new Dictionary<string, float>
+        {
+            { "warrior/Attack", .68f }, { "archer/Attack", .85f }, { "cleric/Attack", .5f },
+            { "h_dohyun/Attack", .85f }, { "h_minjun/Attack", .8f }, { "h_yuna/Attack", .8f }, { "h_yuna/Cast", .6f }, { "h_seoa/Attack", .85f },
+        };
 
-        public static float ClassEndFraction(string classId, string clip) =>
-            classId != null && ClassEnd.TryGetValue(classId + "/" + clip, out var f) ? f : 1f;
+        /// <summary>
+        /// Timing layer of a model that ships its own takes (monsters): every take with a <see cref="ClassContact"/> or
+        /// <see cref="ClassEnd"/> entry keyed "&lt;model id&gt;/&lt;take&gt;" is owned by the model id; null when it has none.
+        /// </summary>
+        static Dictionary<string, string> ModelTimingLayer(string modelId)
+        {
+            Dictionary<string, string> owners = null;
+            string prefix = modelId + "/";
+            foreach (var key in ClassContact.Keys) if (key.StartsWith(prefix, System.StringComparison.Ordinal)) (owners ??= new Dictionary<string, string>())[key.Substring(prefix.Length)] = modelId;
+            foreach (var key in ClassEnd.Keys) if (key.StartsWith(prefix, System.StringComparison.Ordinal)) (owners ??= new Dictionary<string, string>())[key.Substring(prefix.Length)] = modelId;
+            return owners;
+        }
 
-        /// <summary>Contact fraction of <paramref name="clip"/> for a class that ships its own take of that name; -1 when none is known.</summary>
-        public static float ClassContactFraction(string classId, string clip) =>
-            classId != null && ClassContact.TryGetValue(classId + "/" + clip, out var f) ? f : -1f;
+        /// <summary>Loops whose first and last poses differ: seconds of self cross-fade before the wrap (see <see cref="ClipAnimator.SetLoopBlend"/>).</summary>
+        static readonly Dictionary<string, float> ClassLoopBlend = new Dictionary<string, float>
+        {
+            { "warrior/BattleIdle", .3f }, { "h_jiho/BattleIdle", .3f }, { "h_minjun/BattleIdle", .3f }, { "h_yuna/BattleIdle", .45f },
+        };
+
+        public static float ClassEndFraction(string layer, string clip) =>
+            layer != null && ClassEnd.TryGetValue(layer + "/" + clip, out var f) ? f : 1f;
+
+        /// <summary>Contact fraction of <paramref name="clip"/> for the layer that ships its own take of that name; -1 when none is known.</summary>
+        public static float ClassContactFraction(string layer, string clip) =>
+            layer != null && ClassContact.TryGetValue(layer + "/" + clip, out var f) ? f : -1f;
+
+        public static float ClassLoopBlendSeconds(string layer, string clip) =>
+            layer != null && ClassLoopBlend.TryGetValue(layer + "/" + clip, out var f) ? f : 0f;
+
+        /// <summary>
+        /// Tripo's free <c>defeat_02</c> preset (the Die take of most Tripo humanoids and of the shared hunter library) never falls:
+        /// it stands still for its first 15 %, slumps from 20 % to 50 % (spine bend up to 32 deg, head lean 26 deg) and then stands
+        /// back up. Any Die take this long plays only that window and holds the slump.
+        /// </summary>
+        public const float DefeatTakeMinLength = 6f, DefeatWindowStart = .18f, DefeatWindowHold = .5f;
 
         /// <summary>
         /// Model ids with no skeleton and no authored takes; they animate through <see cref="RiglessBlobAnimator"/>.

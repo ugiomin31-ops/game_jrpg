@@ -103,6 +103,8 @@ namespace Abyss.Runtime.Art
             _humanoid = animator.isHuman ? animator : null;
             var clipAnimator = visual.gameObject.AddComponent<ClipAnimator>();
             clipAnimator.Init(clips);
+            if (clipAnimator.Length("Die") >= ArtLibrary.DefeatTakeMinLength)
+                clipAnimator.SetClipWindow("Die", ArtLibrary.DefeatWindowStart, ArtLibrary.DefeatWindowHold);
             Anim = clipAnimator;
             RecomputeBounds();
         }
@@ -302,25 +304,27 @@ namespace Abyss.Runtime.Art
             }
         }
 
-        string _classId;
-        HashSet<string> _classClips;
-        internal void SetClassClips(string classId, HashSet<string> names)
+        /// <summary>Take name -> layer id (class or hero) of every humanoid take that overrides the shared library.</summary>
+        Dictionary<string, string> _clipOwners;
+        internal void SetClipOwners(Dictionary<string, string> owners)
         {
-            _classId = classId; _classClips = names;
-            if (names == null || !(Anim is ClipAnimator clips)) return;
-            foreach (string clip in names)
+            _clipOwners = owners;
+            if (owners == null || !(Anim is ClipAnimator clips)) return;
+            foreach (var pair in owners)
             {
-                float end = ArtLibrary.ClassEndFraction(classId, clip);
-                if (end < 1f) clips.SetClipEnd(clip, end);
+                float end = ArtLibrary.ClassEndFraction(pair.Value, pair.Key);
+                if (end < 1f) clips.SetClipEnd(pair.Key, end);
+                float blend = ArtLibrary.ClassLoopBlendSeconds(pair.Value, pair.Key);
+                if (blend > 0f) clips.SetLoopBlend(pair.Key, blend);
             }
         }
-        /// <summary>True when this humanoid ships its own per-class take of that name (not the shared one).</summary>
-        public bool HasClassClip(string clip) => _classClips != null && _classClips.Contains(clip);
-        /// <summary>Strike / release point of a take as a fraction of its length: a per-class take's authored value, else <paramref name="fallback"/>.</summary>
+        /// <summary>True when this humanoid ships its own per-class or per-hero take of that name (not the shared one).</summary>
+        public bool HasClassClip(string clip) => _clipOwners != null && _clipOwners.ContainsKey(clip);
+        /// <summary>Strike / release point of a take as a fraction of its length: a class / hero take's authored value, else <paramref name="fallback"/>.</summary>
         public float ContactFraction(string clip, float fallback)
         {
-            if (!HasClassClip(clip)) return fallback;
-            float f = ArtLibrary.ClassContactFraction(_classId, clip);
+            if (_clipOwners == null || !_clipOwners.TryGetValue(clip, out var layer)) return fallback;
+            float f = ArtLibrary.ClassContactFraction(layer, clip);
             return f > 0f ? f : fallback;
         }
 

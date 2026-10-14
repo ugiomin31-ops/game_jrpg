@@ -145,6 +145,27 @@
   "hit_stop": 0.0,
   "shake": 0.0,
   "light_color": [
+   0.2,
+   1.0,
+   0.533,
+   1.0
+  ],
+  "id": "pr_c_first_aid",
+  "_file": "pr_c_first_aid",
+  "area_vfx": "heal_bloom",
+  "area_scale": 1.0,
+  "area_wait": 0.1,
+  "heal_vfx": "first_aid"
+ },
+ {
+  "tier": 2,
+  "actor_action": "cast",
+  "approach": "none",
+  "charge_vfx": "charge_heal",
+  "impact_vfx": "heal",
+  "hit_stop": 0.0,
+  "shake": 0.0,
+  "light_color": [
    0.3,
    1.0,
    0.65,
@@ -977,6 +998,27 @@
   "sfx_impact": "",
   "id": "pr_w_provoke",
   "_file": "pr_w_provoke"
+ },
+ {
+  "tier": 2,
+  "actor_action": "cast",
+  "approach": "none",
+  "travel_vfx": "",
+  "impact_vfx": "rescue_shield",
+  "hit_interval": 0.09,
+  "hit_stop": 0.0,
+  "shake": 0.2,
+  "screen_flash": false,
+  "light_color": [
+   1.0,
+   0.5,
+   0.4,
+   1.0
+  ],
+  "sfx_cast": "",
+  "sfx_impact": "",
+  "id": "pr_w_rescue_shield",
+  "_file": "pr_w_rescue_shield"
  },
  {
   "tier": 2,

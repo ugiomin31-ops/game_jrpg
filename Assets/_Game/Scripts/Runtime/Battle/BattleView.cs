@@ -93,6 +93,8 @@ namespace Abyss.Runtime.Battle
         const float ReducedDeathDissolve = .25f;
         /// <summary>A Die take longer than this is a held pose (Tripo / Mixamo take): the fall is staged in code instead of waited out.</summary>
         const float StaticDieTake = 2f;
+        /// <summary>Where a falling Die take (Tripo `fall`) starts: the stagger before it, so the body is down before the dissolve.</summary>
+        const float FallTakeStart = .3f;
         const float DeathRateMax = 3f;
         /// <summary>Death routines still running; the replay waits for them only where the next beat needs the field clear.</summary>
         int _dying;
@@ -347,7 +349,7 @@ namespace Abyss.Runtime.Battle
                         healed.Hp = e.HpAfter; healed.MaxHp = e.MaxHp; Sync(healed);
                         _ui.Numbers.Spawn(healed.Model.HeadPoint, e.Amount, UINumberStyle.Heal);
                         _impactTargets.Add(e.TargetId);
-                        Effect("heal", healed.Model.CenterPoint, new Color(.35f, 1, .6f), 1, 0, null, healed.Home.y);
+                        Effect(_presentation != null && !string.IsNullOrEmpty(_presentation.HealVfx) ? _presentation.HealVfx : "heal", healed.Model.CenterPoint, new Color(.35f, 1, .6f), 1, 0, null, healed.Home.y);
                         PlaySound("sfx_heal"); yield return Wait(.25f);
                     }
                     break;
@@ -683,6 +685,11 @@ namespace Abyss.Runtime.Battle
             // Physical skills use the hero's signature technique (leap smash, power shot, staff slam) instead of the basic swing.
             string clip = ultimateTake ? "Ultimate" : cast ? "Cast"
                 : e.Kind == ActionKind.Skill && actor.Model.Anim.HasClip("Skill") ? "Skill" : "Attack";
+            // A caster whose class / hero layer ships a Skill take (the mage's two-handed channel) but no Cast of its own uses
+            // it for its bigger spells (group scope, tier 3 or the signature); quick single-target spells keep the shared Cast.
+            if (clip == "Cast" && e.Kind == ActionKind.Skill && actor.Side == BattleSide.Party &&
+                actor.Model.HasClassClip("Skill") && !actor.Model.HasClassClip("Cast") &&
+                (e.Scope != Scope.Single || IsSignature(e) || (_presentation != null && _presentation.Tier >= 3))) clip = "Skill";
             bool rangedBasic = e.Kind == ActionKind.Attack &&
                 actor.Side == BattleSide.Party && _app.DB.ClassOf(actor.DefId) != "warrior";
             // A mage has no authored basic Attack: the shared Cast (forward palm release) reads better than the melee swing.
@@ -710,7 +717,7 @@ namespace Abyss.Runtime.Battle
                 if (run)
                 {
                     float time = ApproachTime(actor, travel), lead = Mathf.Min(.2f, time * .3f);
-                    StartCoroutine(Move(actor, destination, time, 0, true));
+                    StartCoroutine(Move(actor, destination, time, PounceArc(actor, travel), true));
                     yield return Wait(time - lead);
                     // The wind-up overlaps the last strides so the blade lands as the feet plant.
                     if (ultimateTake) Resume(actor, "Ultimate", UltimateResume); else Swing(actor, clip, cast);
@@ -851,9 +858,17 @@ namespace Abyss.Runtime.Battle
             unit.Side == BattleSide.Party ? Mathf.Max(.25f, distance / ApproachSpeed) : MovementTime(distance);
         static void SetRunRate(BattleDisplayUnit unit, float groundSpeed)
         {
-            if (unit.Side == BattleSide.Party && unit.Model.Anim is ClipAnimator clips)
-                clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / RunStrideSpeed, .6f, 3f));
+            if (!(unit.Model.Anim is ClipAnimator clips)) return;
+            if (unit.Side == BattleSide.Party) clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / RunStrideSpeed, .6f, 3f));
+            else clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / EnemyStrideSpeed, 1f, EnemyRunRateMax));
         }
+        // Enemies cross the arena in MovementTime (0.22-0.36 s, 10-16 m/s), several times faster than any stride their Run take
+        // covers (Tripo presets: 1.3-1.7 m/s at battle scale), so a matched rate would be a blur. Design choice: the dash is a
+        // pounce. The body arcs off the floor (no foot is planted while it travels, so nothing can glide) and the Run take churns
+        // at up to 3x underneath it. The return trip uses the same arc.
+        const float EnemyStrideSpeed = 1.6f, EnemyRunRateMax = 3f;
+        static float PounceArc(BattleDisplayUnit unit, float travel) =>
+            unit.Side == BattleSide.Party ? 0f : Mathf.Clamp(travel * .06f, .12f, .4f);
         /// <summary>Fires the presentation's projectile from the weapon socket at the target's hit point; returns its flight time.</summary>
         float Shoot(BattleDisplayUnit actor, BattleDisplayUnit target, Color tint)
         {
@@ -946,7 +961,7 @@ namespace Abyss.Runtime.Battle
                         actor.Model.Anim.Play("Run", RunFade, false);
                         yield return TurnTo(actor, Quaternion.LookRotation(back / distance), Owned);
                         if (!Owned()) yield break;
-                        yield return TraverseHome(actor, time, Owned);
+                        yield return TraverseHome(actor, time, Owned, PounceArc(actor, distance));
                         if (!Owned()) yield break;
                         if (actor.Model.Anim.HasClip("Idle")) actor.Model.Play("Idle", ClipAnimator.ReturnFade);
                     }
@@ -994,7 +1009,7 @@ namespace Abyss.Runtime.Battle
             if (owned()) model.rotation = facing;
         }
         /// <summary>Token-checked walk home; never commits a position step once the return is cancelled.</summary>
-        IEnumerator TraverseHome(BattleDisplayUnit actor, float seconds, System.Func<bool> owned)
+        IEnumerator TraverseHome(BattleDisplayUnit actor, float seconds, System.Func<bool> owned, float arc = 0f)
         {
             var model = actor.Model.transform; Vector3 from = model.position, destination = actor.Home;
             float elapsed = 0;
@@ -1005,7 +1020,7 @@ namespace Abyss.Runtime.Battle
                 {
                     elapsed += Dt;
                     float t = Mathf.Clamp01(elapsed / seconds);
-                    model.position = Vector3.Lerp(from, destination, t);
+                    model.position = Vector3.Lerp(from, destination, t) + Vector3.up * (Mathf.Sin(Mathf.PI * t) * arc);
                 }
                 yield return null;
             }
@@ -1197,10 +1212,16 @@ namespace Abyss.Runtime.Battle
             float dissolveAt = reduced ? 0 : boss ? BossDeathDissolveAt : DeathDissolveAt;
             float dissolve = reduced ? ReducedDeathDissolve : boss ? BossDeathDissolve : DeathDissolve;
             float length = model.Anim.Length("Die");
-            bool held = length > StaticDieTake;
+            // Take kinds: short authored deaths (<= 2 s) play as they are; Tripo `defeat_02` (>= 6 s) never falls, so its
+            // slump window plays under a code topple; Tripo `fall` (2-6 s) falls by itself: no topple (it would double the
+            // rotation), and it starts at the stagger so the body is down before the dissolve.
+            bool standingDefeat = length >= ArtLibrary.DefeatTakeMinLength;
+            bool fallingTake = length > StaticDieTake && !standingDefeat;
+            bool held = standingDefeat;
             unit.DeathRate = Mathf.Clamp(length / collapse, 1f, DeathRateMax);
             unit.KnockTime = 0;
-            model.Play("Die", reduced ? .02f : .075f);
+            if (fallingTake && !reduced && model.Anim is ClipAnimator dieClips) dieClips.PlayFrom("Die", FallTakeStart, .075f, null);
+            else model.Play("Die", reduced ? .02f : .075f);
             Vector3 from = t.position, back = unit.Facing * Vector3.back;
             float push = reduced ? 0 : boss ? .12f : .4f;
             float tilt = reduced || !held ? 0 : boss ? 70f : 80f, roll = (unit.Slot % 2 == 0 ? 1f : -1f) * 12f;
@@ -1477,7 +1498,9 @@ namespace Abyss.Runtime.Battle
         /// <summary>Direction of a blow (acting unit toward the target) for impact meshes that point along it; null when unknown or the same unit.</summary>
         Vector3? FacingFrom(string sourceId, BattleDisplayUnit target)
         {
-            if (string.IsNullOrEmpty(sourceId) || target == null || target.Model == null || !Find(sourceId, out var source) || source == target || source.Model == null) return null;
+            if (string.IsNullOrEmpty(sourceId) || target == null || target.Model == null || !Find(sourceId, out var source) || source.Model == null) return null;
+            // A self-cast faces where its caster faces (no recipe aligns a self-cast layer except the ones placed `ahead`).
+            if (source == target) return source.Facing * Vector3.forward;
             Vector3 direction = target.Model.CenterPoint - source.Model.CenterPoint;
             return direction.sqrMagnitude > .01f ? direction : (Vector3?)null;
         }

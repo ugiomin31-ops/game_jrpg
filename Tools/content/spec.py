@@ -209,12 +209,12 @@ HUNTERS = [
          eyes='#3a8a4a', look='ex national archery athlete: navy track jacket with white stripes, snapback cap, '
          'arm guard, quiver as a sports bag strap, joggers', line='과녁보다 크네. 안 빗나가.'),
     dict(id='h_yuna', name='백유나', cls='cleric', gender='F', rank='E', join='start', start_job=None,
-         stat=dict(resistance=1.08, max_mp=1.05), sig=('heal', '응급 처치'), hair=['#5a2a3a', '#b0607a', '#f0a8bc'],
+         stat=dict(resistance=1.08, max_mp=1.05), sig=('heal', '응급 처치', 'pr_c_first_aid'), hair=['#5a2a3a', '#b0607a', '#f0a8bc'],
          eyes='#c86346', look='nursing student: white cardigan over a light blue scrub top, red-cross armband, '
          'white sneakers, hair in a low ponytail, first-aid pouch', line='다친 사람 있으면 저부터 불러 주세요!'),
     # ---- story joins: one when each zone boss falls
     dict(id='h_minjun', name='최민준', cls='warrior', gender='M', rank='D', join=('boss', 1), start_job=None,
-         stat=dict(max_hp=1.15, defense=1.12, speed=0.92), sig=('sk_provoke', '구조대의 함성'),
+         stat=dict(max_hp=1.15, defense=1.12, speed=0.92), sig=('sk_provoke', '구조대의 함성', 'pr_w_rescue_shield'),
          hair=['#3e1a10', '#7a3420', '#b35a36'], eyes='#d08a20',
          look='ex firefighter tank: orange-and-navy turnout coat with reflective stripes, yellow brimmed cap, '
          'heavy gloves, big round shield made from a manhole cover', line='시민 대피 끝! 이제 내가 막는다.'),

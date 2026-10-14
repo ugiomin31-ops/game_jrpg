@@ -40,7 +40,7 @@ namespace Abyss.Presentation.Vfx
             public float delay, y, spin, rotation;
             public int count = 20, tiles = 1;
             public bool alpha, horizontal;
-            /// <summary>Particles keep the texture upright (no random spin): falling arrows, rain streaks.</summary>
+            /// <summary>Particles keep the texture upright (no random spin): falling arrows, rain streaks. Aligned mesh layers: yaw only (a standing object).</summary>
             public bool upright;
             /// <summary>Billboard quads turn their +U axis along a projectile's screen-space travel direction, or along the blow (caster toward target) for a non-travelling impact that was given a facing.</summary>
             public bool align;
@@ -59,6 +59,12 @@ namespace Abyss.Presentation.Vfx
             /// Empty falls back to <see cref="alpha"/> (legacy recipes / hand-authored extras).
             /// </summary>
             public string blend;
+            /// <summary>Keeps its own colours: the effect's tint (element / presentation colour) is not applied. Real objects
+            /// carried by an effect (a first-aid case, a riot shield) use it so they are not dyed green or red.</summary>
+            public bool untinted;
+            /// <summary>Metres (effect scale) the layer stands ahead of the anchor along the effect's facing (the blow, or the
+            /// caster's forward for a self-cast); 0 or no facing: on the anchor. A riot shield set down in front of its bearer.</summary>
+            public float ahead;
             [NonSerialized] public Color tint;
         }
         sealed class Layer
@@ -535,8 +541,9 @@ namespace Abyss.Presentation.Vfx
                 {
                     layer.Started = true;
                     layer.Transform.gameObject.SetActive(true);
-                    layer.Transform.localPosition = new Vector3(0, r.y, 0);
-                    var color = r.tint * effect.Tint;
+                    Vector3 ahead = r.ahead != 0f && effect.HasFacing ? new Vector3(effect.Facing.x, 0f, effect.Facing.z).normalized * r.ahead : Vector3.zero;
+                    layer.Transform.localPosition = new Vector3(ahead.x, r.y, ahead.z);
+                    var color = r.untinted ? r.tint : r.tint * effect.Tint;
                     if (!float.IsNaN(effect.Ground) && r.y <= GroundLayerY) PlaceOnGround(effect, layer);
                     if (layer.Particles != null)
                     {
@@ -564,7 +571,7 @@ namespace Abyss.Presentation.Vfx
                 // Looping projectile bodies stay solid in flight; looping markers breathe.
                 float alpha = effect.Recipe.loop && !effect.Ending ? (effect.Travel ? 1 : .65f + .2f * Mathf.Sin(elapsed * 3)) : Mathf.Min(p * 10, 1) * (1 - p);
                 if (effect.Ending) alpha *= Mathf.Clamp01(effect.Drain / Mathf.Max(.01f, r.life));
-                Color tint = r.tint * effect.Tint; tint.a *= alpha;
+                Color tint = r.untinted ? r.tint : r.tint * effect.Tint; tint.a *= alpha;
                 layer.Properties.SetColor(TintId, tint);
                 ApplyGlow(layer);
                 if (r.tiles > 1)
@@ -669,6 +676,12 @@ namespace Abyss.Presentation.Vfx
                 return (layer.Mesh.FlatXZ ? Quaternion.Euler(0, r.rotation + spin, 0) : Quaternion.Euler(90, 0, r.rotation + spin)) * layer.Mesh.Basis;
             if (r.align && effect.Travel && effect.HasTangent)
                 return Quaternion.LookRotation(effect.Tangent, Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin) * layer.Mesh.Basis;
+            if (r.align && !effect.Travel && effect.HasFacing && r.upright)
+            {
+                // Standing objects (a riot shield set down in front of its bearer): yaw toward the facing only.
+                Vector3 flat = new Vector3(effect.Facing.x, 0f, effect.Facing.z);
+                if (flat.sqrMagnitude > 1e-4f) return Quaternion.LookRotation(flat, Vector3.up) * Quaternion.Euler(0, r.rotation + spin, 0) * layer.Mesh.Basis;
+            }
             if (r.align && !effect.Travel && effect.HasFacing)
                 return Quaternion.LookRotation(ReadableFacing(effect.Facing), _viewRotation * Vector3.up) * Quaternion.Euler(0, 0, r.rotation + spin) * layer.Mesh.Basis;
             return _viewYaw * Quaternion.Euler(0, 0, r.rotation) * Quaternion.Euler(0, spin, 0) * layer.Mesh.Basis;

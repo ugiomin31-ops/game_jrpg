@@ -57,6 +57,33 @@ namespace Abyss.Runtime.Art
 
         float RateOf(int slot) => _clipRates.TryGetValue(_slotClips[slot].name, out var r) ? r : 1f;
 
+        readonly Dictionary<string, float> _clipStarts = new Dictionary<string, float>();
+        readonly Dictionary<string, float> _clipHolds = new Dictionary<string, float>();
+        /// <summary>
+        /// Plays a one-shot only from <paramref name="start"/> to <paramref name="hold"/> (fractions) and holds that pose: a long
+        /// preset whose useful part sits in the middle (Tripo <c>defeat_02</c>: still for 15 %, slumps at 20-50 %, then stands up again).
+        /// </summary>
+        public void SetClipWindow(string clip, float start, float hold)
+        {
+            _clipStarts[clip] = Mathf.Clamp01(start);
+            _clipHolds[clip] = Mathf.Clamp(hold, _clipStarts[clip] + .01f, 1f);
+        }
+        float HoldTime(int slot) => _slotClips[slot].length * (_clipHolds.TryGetValue(_slotClips[slot].name, out var h) ? h : 1f);
+
+        readonly Dictionary<string, float> _loopBlends = new Dictionary<string, float>();
+        /// <summary>
+        /// Cross-fades a loop into a fresh copy of itself over <paramref name="seconds"/> before it wraps, for takes whose first
+        /// and last poses do not match (the warrior BattleIdle wraps every 1.5 s with a visible hitch).
+        /// </summary>
+        public void SetLoopBlend(string clip, float seconds) { if (seconds > 0f) _loopBlends[clip] = seconds; else _loopBlends.Remove(clip); }
+
+        /// <summary>
+        /// Per-unit start phase (0..1) of the standing loops, so units spawned together do not breathe in lockstep. Derived
+        /// from the object's instance id: stable for the unit's lifetime, different between units.
+        /// </summary>
+        float _phase;
+        bool IsRestLoop(string clip) => (clip == _rest || clip == "Idle" || clip == "BattleIdle") && _clips.TryGetValue(clip, out var c) && c.isLooping;
+
         public string CurrentClip => _currentName;
         public IEnumerable<string> ClipNames => _clips.Keys;
         public float NormalizedTime => _current < 0 ? 0f :
@@ -72,6 +99,7 @@ namespace Abyss.Runtime.Art
                 _clips.Add(clip.name, clip);
             }
             RequireClip("Idle");
+            unchecked { uint h = (uint)GetInstanceID() * 2654435761u; _phase = (h >> 8) / 16777216f; }
             var animator = GetComponent<Animator>();
             animator.applyRootMotion = false;
             animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
@@ -114,17 +142,19 @@ namespace Abyss.Runtime.Art
         }
 
         /// <summary>Blend from the complete current pose. Missing named takes are content errors.</summary>
-        public void Play(string clip, float fade = 0.15f, bool restart = true, string then = null) => Begin(clip, fade, restart, then, 0f);
+        public void Play(string clip, float fade = 0.15f, bool restart = true, string then = null) => Begin(clip, fade, restart, then, -1f);
 
         /// <summary>Restart a take part-way through (0..1), e.g. a follow-up strike that skips the wind-up.</summary>
         public void PlayFrom(string clip, float normalizedStart, float fade = 0.05f, string then = "Idle") =>
             Begin(clip, fade, true, then, Mathf.Clamp01(normalizedStart));
 
+        /// <summary><paramref name="start"/> below 0 = the take's default start: its window start, a standing loop's unit phase, else 0.</summary>
         void Begin(string clip, float fade, bool restart, string then, float start)
         {
             if (!_ready) return;
             clip = Resolve(clip); then = then == null ? null : Resolve(then);
             RequireClip(clip);
+            if (start < 0f) start = _clipStarts.TryGetValue(clip, out var windowStart) ? windowStart : IsRestLoop(clip) ? _phase : 0f;
             if (then != null) RequireClip(then);
             _pendingName = null;
             if (!restart && clip == _currentName) return;
@@ -162,7 +192,7 @@ namespace Abyss.Runtime.Art
 
         void UpdateSpeed(int slot)
         {
-            bool ended = !_slotClips[slot].isLooping && _playables[slot].GetTime() >= _slotClips[slot].length;
+            bool ended = !_slotClips[slot].isLooping && _playables[slot].GetTime() >= HoldTime(slot);
             _playables[slot].SetSpeed((_weights[slot] > 0f || slot == _current) && !ended ? _speed * RateOf(slot) : 0f);
         }
 
@@ -181,8 +211,8 @@ namespace Abyss.Runtime.Art
             if (!_ready) return;
             // Explicitly clamp nonloops: Die remains down until a real revive changes its take.
             for (int i = 0; i < _playables.Length; i++)
-                if ((_weights[i] > 0f || i == _current) && !_slotClips[i].isLooping && _playables[i].GetTime() > _slotClips[i].length)
-                { _playables[i].SetTime(_slotClips[i].length); _playables[i].SetSpeed(0); }
+                if ((_weights[i] > 0f || i == _current) && !_slotClips[i].isLooping && _playables[i].GetTime() > HoldTime(i))
+                { _playables[i].SetTime(HoldTime(i)); _playables[i].SetSpeed(0); }
             if (_fade < 1f)
             {
                 _fade = Mathf.Min(1f, _fade + Time.deltaTime * _speed / _fadeTime);
@@ -198,6 +228,13 @@ namespace Abyss.Runtime.Art
                 string next = _queuedAfter;
                 _queuedAfter = null;
                 Play(next, ReturnFade, false);
+            }
+            else if (_queuedAfter == null && _fade >= 1f && _currentName != null && _loopBlends.TryGetValue(_currentName, out float blend))
+            {
+                // Seam cross-fade: start a fresh copy on the other lane so the old one wraps at (near) zero weight.
+                float length = _slotClips[_current].length;
+                float local = (float)(_playables[_current].GetTime() % length);
+                if (local >= length - blend * RateOf(_current)) Begin(_currentName, blend, true, null, 0f);
             }
         }
 

@@ -6559,7 +6559,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "heal",
+  "presentation": "pr_c_first_aid",
   "_file": "sig_yuna"
  },
  {
@@ -6585,7 +6585,7 @@
   "extra_statuses": [
    "defense_up"
   ],
-  "presentation": "pr_w_provoke",
+  "presentation": "pr_w_rescue_shield",
   "_file": "sig_minjun"
  },
  {
