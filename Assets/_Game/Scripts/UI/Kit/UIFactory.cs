@@ -113,6 +113,12 @@ namespace Abyss.UI
             panel.Background.rectTransform.Stretch();
             IgnoreLayout(panel.Background);
             ApplyPanelStyle(panel.Background, style);
+            if (style == UIPanelStyle.Glass || style == UIPanelStyle.Ornate)
+            {
+                var edge = Image(rt, UISprites.PanelOutline, UITheme.Border.WithAlpha(style == UIPanelStyle.Ornate ? 0.68f : 0.4f), "Theme border");
+                edge.rectTransform.Stretch();
+                IgnoreLayout(edge);
+            }
             return panel;
         }
 
@@ -120,17 +126,15 @@ namespace Abyss.UI
         {
             bg.type = UnityEngine.UI.Image.Type.Sliced;
             bg.pixelsPerUnitMultiplier = 1f;
-            bg.color = Color.white;
+            bg.sprite = UISprites.PanelWhite;
             switch (style)
             {
-                case UIPanelStyle.Glass: bg.sprite = UISprites.PanelGlass; break;
-                case UIPanelStyle.Ornate: bg.sprite = UISprites.PanelOrnate; break;
-                case UIPanelStyle.Tooltip: bg.sprite = UISprites.Tooltip; break;
-                case UIPanelStyle.Slot: bg.sprite = UISprites.Slot; break;
+                case UIPanelStyle.Glass: bg.color = UITheme.Surface.WithAlpha(0.94f); break;
+                case UIPanelStyle.Ornate: bg.color = UITheme.Surface.WithAlpha(0.98f); break;
+                case UIPanelStyle.Tooltip: bg.color = UITheme.SurfaceRaised.WithAlpha(0.98f); break;
+                case UIPanelStyle.Slot: bg.color = UITheme.SurfaceSelected.WithAlpha(0.9f); break;
                 case UIPanelStyle.Dark:
-                    bg.sprite = UISprites.PanelWhite;
-                    bg.color = new Color(0.02f, 0.03f, 0.09f, 0.55f);
-                    bg.pixelsPerUnitMultiplier = 1.6f;
+                    bg.color = UITheme.Surface.WithAlpha(0.82f);
                     break;
             }
         }
@@ -192,6 +196,9 @@ namespace Abyss.UI
         {
             var b = Add<UIButton>(parent, name ?? "Button " + label);
             b.Build(label, icon);
+            // The shipped state sprites contain warm gold lines. A light cyan tint keeps their state
+            // silhouettes and focus behavior while bringing the kit into the slate/cyan palette.
+            b.Background.color = new Color(0.86f, 0.96f, 0.96f, 1f);
             if (onClick != null) b.Clicked += onClick;
             return b;
         }

@@ -107,3 +107,12 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Python bytecode caches
+__pycache__/
+*.pyc
+
+# Raw art sources (images, Tripo zips, FBX) stay local; only text records are tracked
+/ArtSource/**
+!/ArtSource/**/
+!/ArtSource/**/*.md

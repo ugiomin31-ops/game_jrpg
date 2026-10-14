@@ -38,6 +38,7 @@ namespace Abyss.Logic.Dungeon
             parents = new int[Width * Height]; depths = new int[parents.Length]; queue = new int[parents.Length];
             var start = FindCell('S');
             Start = start == GridPos.None ? new GridPos(1, 1) : start;
+            Progress.SpentEvents ??= new SortedSet<GridPos>();
             Progress.OpenedDoors.RemoveWhere(p => Cell(p) != 'L');
             Progress.Keys = Math.Max(0, Progress.Keys);
             ResetFoes();
@@ -112,6 +113,7 @@ namespace Abyss.Logic.Dungeon
             char marker = Cell(p);
             if ((marker == 'X' && !Progress.SteppedTraps.Contains(p)) || (marker == 'T' && Progress.OpenedChests.Contains(p))
                 || (marker == 'K' && Progress.TakenKeys.Contains(p)) || ((marker == 'B' || marker == 'E') && Progress.ClearedBattles.Contains(p))
+                || (marker == 'E' && Progress.SpentEvents.Contains(p))
                 || (marker == 'L' && Progress.OpenedDoors.Contains(p))) return '.';
             return marker;
         }
@@ -120,11 +122,22 @@ namespace Abyss.Logic.Dungeon
             foreach (var row in Floor.LoreStones) if (GridPos.FromArray(row.Cell) == p) return row.Text;
             return Floor.LoreText;
         }
+        /// <summary>Event row of an `E` cell, or null (legacy cells without a row fight the showcase group).</summary>
+        public EventDef EventAt(GridPos p)
+        {
+            foreach (var row in Floor.Events) if (row != null && GridPos.FromArray(row.Cell) == p) return row;
+            return null;
+        }
+        /// <summary>Automatic (ambush) battle group of an `E` cell; empty for rescue and choice events, which never fight on entry.</summary>
         public List<string> EventGroup(GridPos p)
         {
-            foreach (var row in Floor.Events) if (GridPos.FromArray(row.Cell) == p && row.Group.Count > 0) return row.Group;
+            var row = EventAt(p);
+            if (row != null && !row.IsAmbush) return new List<string>();
+            foreach (var r in Floor.Events) if (r != null && r.IsAmbush && GridPos.FromArray(r.Cell) == p && r.Group.Count > 0) return r.Group;
             return Floor.ShowcaseGroup;
         }
+        /// <summary>True once a rescue/choice event is used up (or its battle won).</summary>
+        public bool IsEventSpent(GridPos p) => Progress.SpentEvents.Contains(p) || Progress.ClearedBattles.Contains(p);
         public TreasureContents TreasureAt(GridPos p)
         {
             foreach (var row in Floor.Treasures) if (GridPos.FromArray(row.Cell) == p) return row.Contents;

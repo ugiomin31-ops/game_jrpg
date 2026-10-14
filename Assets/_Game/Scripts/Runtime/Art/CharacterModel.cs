@@ -15,10 +15,36 @@ namespace Abyss.Runtime.Art
         static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
 
         public string ModelId { get; private set; }
-        public ClipAnimator Anim { get; private set; }
+        /// <summary>Animation backend: <see cref="ClipAnimator"/> (authored takes), <see cref="RiglessBlobAnimator"/> (listed blobs only)
+        /// , <see cref="RiglessFlyerAnimator"/> (listed winged creatures only) or <see cref="RiglessCrawlerAnimator"/> (listed rigid shells).</summary>
+        public IModelAnimator Anim { get; private set; }
         public Transform Visual { get; private set; }
         public float Height { get; private set; } = 1.2f;
         public float Radius { get; private set; } = 0.4f;
+
+        /// <summary>
+        /// Promotion dressing (<see cref="GearDisplay.DressPromotion"/>): the hunter job the body rim was last dressed
+        /// for (stored at spawn; the fallback when no game state is running), its branch colour and its rim intensity
+        /// (0 for base jobs). Composed with the armour rim by <see cref="GearDisplay.DressBody"/>; no extra objects.
+        /// </summary>
+        public string PromotionJob { get; private set; }
+        public Color PromotionColor { get; private set; } = Color.white;
+        public float PromotionIntensity { get; private set; }
+        /// <summary>Armour rank of the last <see cref="GearDisplay.DressBody"/> (0 until dressed), so a promotion refresh keeps it.</summary>
+        public int BodyArmorRank { get; private set; }
+
+        internal void SetPromotion(string jobId, Color color, float intensity)
+        {
+            PromotionJob = jobId;
+            PromotionColor = color;
+            PromotionIntensity = Mathf.Max(0f, intensity);
+        }
+
+        /// <summary>True once a body rim was written (armour dressing or a promotion), i.e. renderers carry rim overrides.</summary>
+        public bool BodyRimDressed { get; private set; }
+
+        internal void SetBodyArmorRank(int rank) => BodyArmorRank = rank;
+        internal void MarkBodyRimDressed() => BodyRimDressed = true;
 
         readonly List<Renderer> _renderers = new List<Renderer>();
         readonly Dictionary<string, GameObject> _attachments = new Dictionary<string, GameObject>();
@@ -26,19 +52,58 @@ namespace Abyss.Runtime.Art
         Color _flash = new Color(1, 1, 1, 0);
         float _dissolve;
         Color _tint = Color.white;
+        Color _palette = Color.white;
+        readonly Dictionary<Renderer, Color> _rendererTint = new Dictionary<Renderer, Color>();
         Coroutine _flashRoutine;
+        Animator _humanoid;
 
-        internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips)
+        /// <param name="rigless">Only <see cref="ArtLibrary.SpawnCharacter"/> sets this (listed blob id without an Animator / takes);
+        /// every other model keeps the strict authored-take path.</param>
+        /// <param name="flyer">Only <see cref="ArtLibrary.SpawnCharacter"/> sets this (listed flyer id on its enemy resource path without
+        /// authored takes): three-part model animated by <see cref="RiglessFlyerAnimator"/>; a broken hierarchy throws.</param>
+        internal void Setup(string id, Transform visual, IEnumerable<AnimationClip> clips, bool rigless = false, bool flyer = false, bool crawler = false)
         {
             ModelId = id;
             Visual = visual;
             _mpb = new MaterialPropertyBlock();
             _renderers.AddRange(GetComponentsInChildren<Renderer>(true));
             var animator = visual.GetComponent<Animator>();
+            if (flyer)
+            {
+                if (animator != null) animator.enabled = false;
+                _humanoid = null;
+                var wings = visual.gameObject.AddComponent<RiglessFlyerAnimator>();
+                wings.Init();
+                Anim = wings;
+                RecomputeBounds();
+                return;
+            }
+            if (crawler)
+            {
+                if (animator != null) animator.enabled = false;   // static shell: code drives the Visual transform rigidly
+                _humanoid = null;
+                var shell = visual.gameObject.AddComponent<RiglessCrawlerAnimator>();
+                shell.Init();
+                Anim = shell;
+                RecomputeBounds();
+                return;
+            }
+            if (rigless)
+            {
+                if (animator != null) animator.enabled = false;   // nothing authored to play; code drives the Visual transform
+                _humanoid = null;
+                var blob = visual.gameObject.AddComponent<RiglessBlobAnimator>();
+                blob.Init();
+                Anim = blob;
+                RecomputeBounds();
+                return;
+            }
             if (animator == null)
-                throw new System.InvalidOperationException("Missing Generic-rig Animator: " + id);
-            Anim = visual.gameObject.AddComponent<ClipAnimator>();
-            Anim.Init(clips);
+                throw new System.InvalidOperationException("Missing Generic-rig or Humanoid Animator: " + id);
+            _humanoid = animator.isHuman ? animator : null;
+            var clipAnimator = visual.gameObject.AddComponent<ClipAnimator>();
+            clipAnimator.Init(clips);
+            Anim = clipAnimator;
             RecomputeBounds();
         }
 
@@ -47,6 +112,9 @@ namespace Abyss.Runtime.Art
         {
             var b = new Bounds(transform.position, Vector3.zero);
             bool any = false;
+            // A flyer measures its REST pose, so hover / flapping wings never change Height / Radius (approach clearance).
+            if (Anim is RiglessFlyerAnimator flyer) { b = flyer.RestWorldBounds(); any = true; }
+            else
             foreach (var r in _renderers)
             {
                 if (r == null || r is ParticleSystemRenderer) continue;
@@ -62,7 +130,68 @@ namespace Abyss.Runtime.Art
         /// <summary>World point at the visual centre (impacts).</summary>
         public Vector3 CenterPoint => transform.position + Vector3.up * (Height * 0.55f);
 
-        public Transform FindBone(string boneName) => FindDeep(transform, boneName);
+        /// <summary>Projectile origin: the weapon socket (bow / staff hand) when the rig has one, else chest height.</summary>
+        public Vector3 MuzzlePoint(string socket)
+        {
+            var bone = FindBone(socket);
+            return bone != null ? bone.position : transform.position + Vector3.up * (Height * 0.7f);
+        }
+
+        /// <summary>
+        /// Finds a bone by name. Humanoid models (VRM, store, Mixamo) have no Blender "weapon.R"/"weapon.L" sockets,
+        /// so those map to the avatar's hands; grip offsets for such models are tuned per model.
+        /// </summary>
+        public Transform FindBone(string boneName)
+        {
+            var bone = FindDeep(transform, boneName);
+            if (bone != null || _humanoid == null) return bone;
+            if (boneName == "weapon.R") return _humanoid.GetBoneTransform(HumanBodyBones.RightHand);
+            if (boneName == "weapon.L") return _humanoid.GetBoneTransform(HumanBodyBones.LeftHand);
+            return null;
+        }
+
+        /// <summary>Tilt of the held shaft from the knuckle line toward the fingers (degrees), like a weapon lying in the diagonal palm crease.</summary>
+        public static float GripPitchDegrees = -35f;
+        /// <summary>How far along the wrist-to-knuckles line the grip sits (0 wrist, 1 knuckles) and how far out of the palm, in hand lengths.</summary>
+        public static float GripAlongPalm = 0.6f, GripOutOfPalm = 0.22f, GripSlideAlongShaft = 0f;
+
+        /// <summary>
+        /// Grip of a Humanoid hand that stands in for a weapon socket, in the hand bone's local space. Weapons are authored
+        /// with the shaft / blade along +Y, the origin at the grip and the belly (a bow's outer curve) along +Z. The hand
+        /// bones of Humanoid rigs (Mixamo, VRoid) each have their own axes, so the pose comes from the finger bones: the
+        /// shaft runs along the knuckle line (little finger to index finger = thumb side) tilted by
+        /// <see cref="GripPitchDegrees"/> toward the fingers, +Z leaves the palm (mirrored for the left hand, whose
+        /// finger-by-knuckle cross product points out of the back of the hand) and the origin sits inside the closed fist.
+        /// The relation is rigid for a rig, so it is valid in any animation pose. False when the avatar lacks finger bones.
+        /// </summary>
+        bool TryHumanoidGrip(string socket, Transform hand, out Vector3 localPosition, out Quaternion localRotation)
+        {
+            localPosition = Vector3.zero; localRotation = Quaternion.identity;
+            if (_humanoid == null || hand == null) return false;
+            bool left = socket == "weapon.L";
+            Transform Finger(HumanBodyBones right, HumanBodyBones leftBone) => _humanoid.GetBoneTransform(left ? leftBone : right);
+            var index = Finger(HumanBodyBones.RightIndexProximal, HumanBodyBones.LeftIndexProximal);
+            var middle = Finger(HumanBodyBones.RightMiddleProximal, HumanBodyBones.LeftMiddleProximal);
+            var outer = Finger(HumanBodyBones.RightLittleProximal, HumanBodyBones.LeftLittleProximal)
+                        ?? Finger(HumanBodyBones.RightRingProximal, HumanBodyBones.LeftRingProximal);
+            if (index == null || outer == null) return false;
+            var across = middle != null ? middle : index;
+            Vector3 fingers = (across.position - hand.position);
+            float handLength = fingers.magnitude;
+            Vector3 knuckle = index.position - outer.position;
+            if (handLength < 1e-4f || knuckle.sqrMagnitude < 1e-10f) return false;
+            fingers /= handLength;
+            knuckle = (knuckle - fingers * Vector3.Dot(knuckle, fingers)).normalized;
+            Vector3 palmOut = left ? Vector3.Cross(knuckle, fingers) : Vector3.Cross(fingers, knuckle);
+            float pitch = GripPitchDegrees * Mathf.Deg2Rad;
+            Vector3 shaft = (knuckle * Mathf.Cos(pitch) + fingers * Mathf.Sin(pitch)).normalized;
+            Vector3 belly = (palmOut - shaft * Vector3.Dot(palmOut, shaft)).normalized;
+            Vector3 knuckles = middle != null ? (index.position + middle.position + outer.position) / 3f : (index.position + outer.position) * 0.5f;
+            Vector3 center = hand.position + (knuckles - hand.position) * GripAlongPalm + palmOut.normalized * (handLength * GripOutOfPalm) - shaft * (handLength * GripSlideAlongShaft);
+            localPosition = hand.InverseTransformPoint(center);
+            localRotation = Quaternion.Inverse(hand.rotation) * Quaternion.LookRotation(belly, shaft);
+            return true;
+        }
 
         static Transform FindDeep(Transform t, string n)
         {
@@ -81,7 +210,7 @@ namespace Abyss.Runtime.Art
             if (_attachments.TryGetValue(socket, out var old) && old != null)
             {
                 for (int i = _renderers.Count - 1; i >= 0; i--)
-                    if (_renderers[i] == null || _renderers[i].transform.IsChildOf(old.transform)) _renderers.RemoveAt(i);
+                    if (_renderers[i] == null || _renderers[i].transform.IsChildOf(old.transform)) { _rendererTint.Remove(_renderers[i]); _renderers.RemoveAt(i); }
                 old.SetActive(false);
                 Destroy(old);
             }
@@ -90,8 +219,12 @@ namespace Abyss.Runtime.Art
             var bone = FindBone(socket);
             if (bone == null) return null;
             var go = Instantiate(prefab, bone, false);
-            go.transform.localPosition = Vector3.zero;
-            go.transform.localRotation = Quaternion.identity;
+            // Authored sockets (Blender "weapon.R" / "weapon.L" bones) hold the weapon with identity; a Humanoid hand that
+            // stands in for a socket gets a grip derived from its finger bones instead.
+            Vector3 gripPosition = Vector3.zero; Quaternion gripRotation = Quaternion.identity;
+            bool grip = FindDeep(transform, socket) == null && TryHumanoidGrip(socket, bone, out gripPosition, out gripRotation);
+            go.transform.localPosition = grip ? gripPosition : Vector3.zero;
+            go.transform.localRotation = grip ? gripRotation : Quaternion.identity;
             // Undo the bone's accumulated scale so weapons keep their authored size.
             var s = bone.lossyScale;
             go.transform.localScale = new Vector3(1f / Mathf.Max(1e-4f, s.x), 1f / Mathf.Max(1e-4f, s.y), 1f / Mathf.Max(1e-4f, s.z)) * transform.lossyScale.x;
@@ -101,7 +234,22 @@ namespace Abyss.Runtime.Art
             return go;
         }
 
+        /// <summary>Temporary state colour (e.g. a chasing FOE); multiplies with the palette.</summary>
         public void SetTint(Color c) { _tint = c; ApplyBlock(); }
+
+        /// <summary>
+        /// Permanent palette-variant colour (data "tint": a variant reuses a base model recoloured). Multiplies the
+        /// toon _BaseColor together with <see cref="SetTint"/>, so hit flash and dissolve keep working on top.
+        /// </summary>
+        public void SetPalette(Color c) { _palette = c; ApplyBlock(); }
+
+        /// <summary>Palette colour of one attachment (a tinted weapon variant); multiplies with the body colour.</summary>
+        public void SetAttachmentTint(GameObject attachment, Color c)
+        {
+            if (attachment == null) return;
+            foreach (var r in attachment.GetComponentsInChildren<Renderer>(true)) _rendererTint[r] = c;
+            ApplyBlock();
+        }
 
         public void SetDissolve(float amount) { _dissolve = Mathf.Clamp01(amount); ApplyBlock(); }
 
@@ -149,9 +297,31 @@ namespace Abyss.Runtime.Art
                 r.GetPropertyBlock(_mpb);
                 _mpb.SetColor(FlashId, _flash);
                 _mpb.SetFloat(DissolveId, _dissolve);
-                _mpb.SetColor(BaseColorId, _tint);
+                _mpb.SetColor(BaseColorId, _rendererTint.TryGetValue(r, out var own) ? _tint * _palette * own : _tint * _palette);
                 r.SetPropertyBlock(_mpb);
             }
+        }
+
+        string _classId;
+        HashSet<string> _classClips;
+        internal void SetClassClips(string classId, HashSet<string> names)
+        {
+            _classId = classId; _classClips = names;
+            if (names == null || !(Anim is ClipAnimator clips)) return;
+            foreach (string clip in names)
+            {
+                float end = ArtLibrary.ClassEndFraction(classId, clip);
+                if (end < 1f) clips.SetClipEnd(clip, end);
+            }
+        }
+        /// <summary>True when this humanoid ships its own per-class take of that name (not the shared one).</summary>
+        public bool HasClassClip(string clip) => _classClips != null && _classClips.Contains(clip);
+        /// <summary>Strike / release point of a take as a fraction of its length: a per-class take's authored value, else <paramref name="fallback"/>.</summary>
+        public float ContactFraction(string clip, float fallback)
+        {
+            if (!HasClassClip(clip)) return fallback;
+            float f = ArtLibrary.ClassContactFraction(_classId, clip);
+            return f > 0f ? f : fallback;
         }
 
         // Locomotion callers repeat this each frame; do not restart their stride or Idle breathing.

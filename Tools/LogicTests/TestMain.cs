@@ -28,6 +28,15 @@ namespace Abyss.LogicTests
     {
         public static GameDB DB;
 
+        // ExpeditionReadinessTests are discovered with the other engine-free logic tests.
+        // ActionPreviewTests are discovered with the other engine-free logic tests.
+        // BattleDecisionMechanicsTests are discovered with the other engine-free logic tests.
+        // EnemyIntentTests are discovered with the other engine-free logic tests.
+        // FastBattleResultsTests are discovered with the other engine-free logic tests.
+        // SpringAttritionTests are discovered with the other engine-free logic tests.
+        // ResourceAttritionTests are discovered with the other engine-free logic tests.
+        // StarterProgressionTests cover actual unboosted outings with real once-only settlement.
+
         public static int Main(string[] args)
         {
             string dir = Environment.GetEnvironmentVariable("ABYSS_DATA_DIR");

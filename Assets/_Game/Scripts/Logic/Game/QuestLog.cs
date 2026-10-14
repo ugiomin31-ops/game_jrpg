@@ -71,7 +71,7 @@ namespace Abyss.Logic.Game
         public static string RewardText(GameDB db, QuestDef quest)
         {
             var parts = new List<string>();
-            if (quest.RewardGold > 0) parts.Add(quest.RewardGold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + " G");
+            if (quest.RewardGold > 0) parts.Add(quest.RewardGold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + "만원");
             foreach (var kv in quest.RewardItems)
             {
                 string name = db.Items.TryGetValue(kv.Key, out var item) ? item.DisplayName
@@ -141,7 +141,7 @@ namespace Abyss.Logic.Game
         {
             int victories = 0;
             for (int i = 0; i < db.Floors.Count; i++)
-                if (db.Floors[i].BossGroup.Contains(enemyId) && state.Flags.Contains(GameFlow.BossFlag(i / 3 + 1)))
+                if (db.Floors[i].BossGroup.Contains(enemyId) && state.Flags.Contains(GameFlow.BossFlag(GameFlow.ChapterOf(i))))
                     victories++;
             return victories;
         }

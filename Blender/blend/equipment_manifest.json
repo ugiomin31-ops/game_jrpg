@@ -656,5 +656,393 @@
     "materials": [
       "M_Toon"
     ]
+  },
+  {
+    "id": "sword_runic",
+    "category": "Weapons",
+    "triangles": 2546,
+    "dimensions": [
+      0.052000001072883606,
+      0.2199999988079071,
+      1.0149999856948853
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_tidal",
+    "category": "Weapons",
+    "triangles": 3914,
+    "dimensions": [
+      0.05552000179886818,
+      0.206629678606987,
+      1.0770000219345093
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_void",
+    "category": "Weapons",
+    "triangles": 3242,
+    "dimensions": [
+      0.052000001072883606,
+      0.24098549783229828,
+      1.1299999952316284
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_bone",
+    "category": "Weapons",
+    "triangles": 4706,
+    "dimensions": [
+      0.24505102634429932,
+      0.12799999117851257,
+      1.4299999475479126
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_void",
+    "category": "Weapons",
+    "triangles": 4202,
+    "dimensions": [
+      0.3287162482738495,
+      0.14000003039836884,
+      1.4957784414291382
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_wraith",
+    "category": "Weapons",
+    "triangles": 6868,
+    "dimensions": [
+      0.06599999964237213,
+      0.28159523010253906,
+      1.2999999523162842
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_tide",
+    "category": "Weapons",
+    "triangles": 6044,
+    "dimensions": [
+      0.07000000029802322,
+      0.29575568437576294,
+      1.2400000095367432
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_void",
+    "category": "Weapons",
+    "triangles": 6780,
+    "dimensions": [
+      0.06599999964237213,
+      0.3018037974834442,
+      1.309999942779541
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_requiem",
+    "category": "Weapons",
+    "triangles": 2988,
+    "dimensions": [
+      0.20200000703334808,
+      0.20200000703334808,
+      0.8450000286102295
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_judgment",
+    "category": "Weapons",
+    "triangles": 2580,
+    "dimensions": [
+      0.33000001311302185,
+      0.1120000034570694,
+      0.809999942779541
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_aegis",
+    "category": "Weapons",
+    "triangles": 2390,
+    "dimensions": [
+      0.04863999783992767,
+      0.18000000715255737,
+      1.0470000505447388
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_ravager",
+    "category": "Weapons",
+    "triangles": 2654,
+    "dimensions": [
+      0.0559999942779541,
+      0.29999998211860657,
+      1.2179999351501465
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_holy_avenger",
+    "category": "Weapons",
+    "triangles": 3510,
+    "dimensions": [
+      0.0544000007212162,
+      0.258306086063385,
+      1.1469999551773071
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "sword_conqueror",
+    "category": "Weapons",
+    "triangles": 3112,
+    "dimensions": [
+      0.06790667027235031,
+      0.25999999046325684,
+      1.2419999837875366
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_prism",
+    "category": "Weapons",
+    "triangles": 3934,
+    "dimensions": [
+      0.25200000405311584,
+      0.25200000405311584,
+      1.3899999856948853
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_hex",
+    "category": "Weapons",
+    "triangles": 3010,
+    "dimensions": [
+      0.1625310331583023,
+      0.09399999678134918,
+      1.289615273475647
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_arcanum",
+    "category": "Weapons",
+    "triangles": 4926,
+    "dimensions": [
+      0.3541674315929413,
+      0.2711010277271271,
+      1.46999990940094
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "staff_abyss_eye",
+    "category": "Weapons",
+    "triangles": 5054,
+    "dimensions": [
+      0.2482721507549286,
+      0.253620982170105,
+      1.363430380821228
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_longshot",
+    "category": "Weapons",
+    "triangles": 5672,
+    "dimensions": [
+      0.06599999964237213,
+      0.40286505222320557,
+      1.5099999904632568
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_thornvine",
+    "category": "Weapons",
+    "triangles": 5764,
+    "dimensions": [
+      0.06599999964237213,
+      0.25839710235595703,
+      1.149999976158142
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "bow_heavens",
+    "category": "Weapons",
+    "triangles": 6420,
+    "dimensions": [
+      0.07999999821186066,
+      0.33503270149230957,
+      1.2699999809265137
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "bow_nightfall",
+    "category": "Weapons",
+    "triangles": 6072,
+    "dimensions": [
+      0.06599999964237213,
+      0.28606876730918884,
+      1.4008965492248535
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "mace_purifier",
+    "category": "Weapons",
+    "triangles": 3098,
+    "dimensions": [
+      0.19291368126869202,
+      0.19408515095710754,
+      0.7674999833106995
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "mace_seraph",
+    "category": "Weapons",
+    "triangles": 4034,
+    "dimensions": [
+      0.3541674315929413,
+      0.10392304509878159,
+      0.9616796374320984
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_verdict",
+    "category": "Weapons",
+    "triangles": 2722,
+    "dimensions": [
+      0.25999999046325684,
+      0.16499999165534973,
+      0.7599999904632568
+    ],
+    "materials": [
+      "M_Toon"
+    ]
+  },
+  {
+    "id": "staff_coral",
+    "category": "Weapons",
+    "triangles": 4626,
+    "dimensions": [
+      0.3405030369758606,
+      0.16167961061000824,
+      1.3801422119140625
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_pearl",
+    "category": "Weapons",
+    "triangles": 2886,
+    "dimensions": [
+      0.277128130197525,
+      0.15300001204013824,
+      0.7699999809265137
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  {
+    "id": "mace_grace",
+    "category": "Weapons",
+    "triangles": 2474,
+    "dimensions": [
+      0.15000000596046448,
+      0.15000000596046448,
+      0.8443300724029541
+    ],
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
   }
 ]

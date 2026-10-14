@@ -1,5 +1,5 @@
-"""풀뿌리 (sprout): walking tree stump with a sapling on top, glowing eyes in a dark hollow,
-root claws and root legs. Height ~1.1 m to the sapling tip.
+"""풀뿌리 (sprout): friendly walking tree stump with a sapling on top, a round-eyed smiling face on the bark,
+mitten-like root hands and stubby root feet (no claws, no dark hollow). Height ~1.1 m to the sapling tip.
 Run: blender -b --factory-startup -P sprout.py
 """
 import math
@@ -55,11 +55,6 @@ def trunk_shape(co):
     if r > 0.15:
         k = 1.0 + 0.035 * groove(a, co.z)
         k *= 1.0 + 0.04 * math.sin(2 * a + 1.0) * math.sin(math.pi * max(0.0, (co.z - Z0)) / (ZT - Z0))
-        e = hollow_e(a, co.z)
-        if e < 1.0:
-            k = (r - HD * math.sqrt(1 - e)) / r
-        elif e < 1.9:
-            k *= 1.0 + 0.09 * math.sin(math.pi * (e - 1.0) / 0.9)
         co.x *= k
         co.y *= k * 0.95
     if co.z > ZT - 0.012 and r > 0.19:
@@ -77,10 +72,8 @@ def bark_col(co):
     if co.z > ZT - 0.045 and r < 0.2:
         return mix(WOOD_IN, "#c9a066", 0.5 + 0.5 * math.sin(r * 90))
     e = hollow_e(a, co.z)
-    if r > 0.12 and e < 1.0:
-        return mix(HOLLOW, "#3a2414", e ** 2)
-    if r > 0.12 and e < 1.9:
-        return mix(BARK_L, BARK_M, (e - 1.0) / 0.9)
+    if r > 0.12 and e < 1.6:  # lighter, smoothed bark patch behind the face
+        return mix(WOOD_IN, BARK_L, max(0.0, (e - 0.6) / 1.0))
     g = groove(a, co.z)
     base = mix(BARK_M, BARK_L, max(0.0, g) * 0.8) if g > 0 else mix(BARK_M, BARK_D, -g)
     t = max(0.0, min(1.0, (co.z - Z0) / 0.12))
@@ -96,12 +89,17 @@ A.apply_transform(rings)
 A.apply_transform(ring2)
 rings = A.join([rings, ring2], "rings")
 
-# ---------------------------------------------------------------- hollow face: glowing eyes inside the recess
+# ---------------------------------------------------------------- friendly face on a light bark patch
 eyes = []
 for s in (-1, 1):
-    p, n = surf(trunk, (0, 0, HZ + 0.012), dir_from(s * 11, 0))
-    eyes.append(glow_eye(f"eye{s}", p + Vector((0, -0.006, 0)), (0, -1, 0), w=0.03, h=0.045, color="#ffd84a", depth=0.02))
+    p, n = surf(trunk, (0, 0, HZ + 0.04), dir_from(s * 21, 0))
+    eyes += cute_eye(f"eye{s}", p, n, w=0.07, h=0.088, iris="#4fa83a", pupil="#2a1a10", depth=0.024, surface=trunk)
 face = []
+for s in (-1, 1):
+    p, n = surf(trunk, (0, 0, HZ - 0.035), dir_from(s * 36, 0))
+    face.append(orient(A.sphere(f"blush{s}", r=1.0, scale=(0.045, 0.008, 0.025), color="#f59a7a", seg=12, rings=6), p, n, offset=0.004))
+p, n = surf(trunk, (0, 0, HZ - 0.06), dir_from(0, 0))
+face += smile_mouth("mouth", p, n, w=0.05, h=0.038, inner="#6a2a1a", tongue="#ff8f8f")
 
 # ---------------------------------------------------------------- moss + rim leaves
 moss = []
@@ -129,7 +127,7 @@ for i in range(10):
 rim_leaves = []
 for i in range(14):
     yaw = -180 + i * 360 / 14 + (7 if i % 2 else 0)
-    if abs(yaw) < 20:
+    if abs(yaw) < 50:  # keep the face clear
         continue
     a = math.radians(yaw - 90)
     lift = 0.15 + 0.35 * (i % 2)
@@ -171,21 +169,17 @@ def make_arm(s):
     leafy = leaf(f"armleaf{s}", length=0.11, width=0.07, fold=0.2, curl=0.4, light=LEAF_L, dark=LEAF_D)
     place_leaf(leafy, el + Vector((0, 0, 0.03)), (s * 0.3, 0.2, 1.0))
     hand = []
-    palm = ellipsoid(f"palm{s}", (0.07, 0.065, 0.06), loc=tuple(wr), color=BARK_M, seg=12, rings=8)
+    palm = ellipsoid(f"palm{s}", (0.1, 0.095, 0.085), loc=tuple(wr), color=BARK_M, seg=14, rings=9)
     hand.append(palm)
-    for k, (dx, dy) in enumerate([(0.6, -0.3), (0.2, -0.75), (-0.3, -0.65), (0.9, 0.2)]):
-        d = Vector((s * dx, dy, -0.6)).normalized()
-        L = 0.17 if k < 3 else 0.12
-        f_pts = []
-        for j in range(5):
-            t = j / 4
-            q = wr + d * L * t + Vector((0, -0.05, 0)) * t * t * 2 + Vector((0, 0, 0.06)) * math.sin(math.pi * t)
-            f_pts.append(tuple(q))
-        finger = A.tube(f"finger{s}_{k}", f_pts, radius=0.036, color=BARK_M, taper_end=0.45, seg=8)
-        paint_fn(finger, lambda c, n, i: BARK_L if n.z > 0.4 else BARK_M)
-        hand.append(finger)
-        tipc = claw(f"claw{s}_{k}", f_pts[-2], d + Vector((0, -0.5, -0.4)), length=0.1, r=0.02, color="#e8c99a")
-        hand.append(tipc)
+    paint_fn(palm, lambda c, n, i: BARK_L if n.z > 0.2 else BARK_M)
+    # stubby rounded root nubs instead of claws
+    for k, (dx, dy) in enumerate([(0.55, -0.55), (-0.15, -0.8)]):
+        d = Vector((s * dx, dy, -0.35)).normalized()
+        nub = ellipsoid(f"nub{s}_{k}", (0.042, 0.042, 0.05), loc=tuple(wr + d * 0.09), color=BARK_L, seg=12, rings=8)
+        hand.append(nub)
+    sprig = leaf(f"handleaf{s}", length=0.08, width=0.05, fold=0.2, curl=0.3, light=LEAF_L, dark=LEAF_D)
+    place_leaf(sprig, wr + Vector((0, 0, 0.07)), (s * 0.4, 0.1, 1.0))
+    hand.append(sprig)
     return [upper, knot, leafy], hand, sh, wr
 
 
@@ -200,12 +194,12 @@ def make_leg(s):
     foot = Vector((s * 0.3, -0.06, 0.05))
     parts = [A.tube(f"leg{s}", [tuple(hip), tuple(knee), tuple(foot)], radius=0.085, color=BARK_M, taper_end=0.75)]
     paint_fn(parts[0], lambda c, n, i: BARK_L if n.z > 0.3 else (BARK_D if n.y > 0.5 else BARK_M))
-    for k, (dx, dy) in enumerate([(0.2, -1.0), (0.9, -0.3), (-0.5, -0.8), (0.4, 0.9)]):
-        d = Vector((s * dx, dy, 0)).normalized()
-        toe_pts = [tuple(foot), tuple(foot + d * 0.08 + Vector((0, 0, -0.015))), tuple(foot + d * 0.16 + Vector((0, 0, -0.035)))]
-        parts.append(A.tube(f"toe{s}_{k}", toe_pts, radius=0.038, color=BARK_M, taper_end=0.35))
-        parts.append(claw(f"toeclaw{s}_{k}", Vector(toe_pts[-1]), d + Vector((0, 0, -0.4)), length=0.06, r=0.013,
-                          color="#5a3a20"))
+    # one round root foot with two soft toe bumps (no claws)
+    parts.append(ellipsoid(f"foot{s}", (0.1, 0.13, 0.06), loc=tuple(foot + Vector((0, -0.04, -0.005))), color=BARK_M,
+                           seg=16, rings=10))
+    for k, dx in enumerate((-0.045, 0.045)):
+        parts.append(ellipsoid(f"toe{s}_{k}", (0.04, 0.045, 0.035), loc=tuple(foot + Vector((s * dx, -0.15, -0.02))),
+                               color=BARK_L, seg=12, rings=8))
     mossk = ellipsoid(f"legmoss{s}", (0.05, 0.04, 0.035), loc=tuple(knee + Vector((0, -0.03, 0.03))), color=MOSS_L,
                       seg=10, rings=6)
     parts.append(mossk)

@@ -41,8 +41,8 @@
 ## 1. Core formulas
 
 ### 1.1 XP
-- `xp_to_next(L) = round(25 × L^1.6) + 25`, level cap 40. This is D4 unchanged.
-- Every living party member gets the full XP total of the battle; KO'd members get 0. Difficulty XP multiplier: easy ×1.2, normal ×1, hard ×1.1.
+- `xp_to_next(L) = round(30 × L^1.75) + 25`, level cap 40 (2026-10-07: steeper so the party stays level with each boss under faster encounter pacing).
+- Every living party member gets the full XP total of the battle; KO'd members get 0. Difficulty XP multiplier: easy ×1.2, normal ×1, hard ×1.0.
 
 | L | to next | cumulative to reach L |
 |---|---|---|
@@ -92,9 +92,9 @@ Damage is computed once per hit, in this order:
 ### 1.5 Difficulty (D3, applied in EnemyStats.build)
 | | easy | normal | hard |
 |---|---|---|---|
-| enemy HP | ×0.75 | ×1 | ×1.35 (bosses ×1.2) |
+| enemy HP | ×0.75 | ×1 | ×1.35 (bosses too) |
 | enemy ATK & MAG | ×0.8 | ×1 | ×1.2 (bosses ×1.1) |
-| XP | ×1.2 | ×1 | ×1.1 |
+| XP | ×1.2 | ×1 | ×1.0 |
 | gold | ×1 | ×1 | ×1.2 |
 | `basic` AI acts `aggressive` | — | — | 40 % |
 | gold lost on defeat | 0 % | 50 % | 50 % |
@@ -220,6 +220,13 @@ Columns: kind / scale / target / scope / element / power × hits / MP / TP / sta
 Notes:
 - CLEANSE removes every negative status: poison, poison_strong, stun, burn, bleed, slow, freeze, silence, attack_down, defense_down, sleep, blind.
 - Ultimate cut-ins use `CharacterData.cut_in`.
+
+### 3.1b Skill expansion v2 (60 more hero skills)
+- The tables in §2.3 and §3.1 are the v1 baseline. `skills.json`/`heroes.json` now hold 129 skills; heroes learn 25 (검사), 25 (마법사), 22 (궁수) and 24 (성직자) skills through Lv38, each with two ultimates (the second at Lv38). The full list is `art-upgrade/skill_list_v2.md` (generated from the JSON; the JSON is the source of truth).
+- New skill field `drain` (DAMAGE only, 0..1): after the hits the actor heals that share of the HP damage it dealt to opponents.
+- New presentation fields `area_vfx`, `area_wait`, `area_scale`: a field effect played once at the centre of the target group before the per-target impacts. All ALL-scope presets and ultimates use one.
+- AUTO tries the most recently learned usable ultimate first.
+- No new statuses: the HUD needs an icon per status, so v2 uses only the existing 22.
 
 ### 3.2 Enemy skills (33)
 Authoring defaults for columns omitted from this table: `tp_cost = 0`, `crit_bonus = 0.0`, `defense_ignore = 0.0`, `tier = 2`, `flat_power = 0.0` (if the field exists), `extra_statuses = []` unless explicitly listed. A `—` status means `status_effect = null` and `status_chance = 0.0`; a `—` bonus means `bonus_vs_status = &""` and `bonus_vs_status_mult = 1.0`. A scalar `pow` without `×hits` means `hit_count = 1`. Names and descriptions in both skill tables are literal resource strings, not examples. Reused hero skills reference the same resource; they do not create differently named or differently numbered enemy variants.
@@ -792,7 +799,7 @@ Join each cell's quoted beats with newline characters, omitting the surrounding 
 | B3 고목 수호자 | "…침입자인가." / "숲의 봉인을 노리는 자는 모두 뿌리 아래 잠들게 하리라." | "검은 결정이… 부서졌군. 고맙다, 여명의 아이들아." / "그자는… 바다로 내려갔다. 서둘러라." |
 | B6 크라켄 여왕 | "쉿… 노래를 멈추지 마." / "그 아이가 말했어. 노래를 그치면 다시는 외롭지 않을 거라고." | "…아, 이제야 내 노래가 들려." / "모르데인… 그 아이는 울고 있었어. 태양의 신전으로 가렴." |
 | B9 불꽃 스핑크스 | "답하라, 필멸자여." / "영원을 원하는 자에게 끝내 남는 것은 무엇인가?" | "…답은 '아무것도 없다'." / "그는 끝내 그 답을 듣지 않았다. 묘소로 가라. 마지막 봉인이 기다린다." |
-| B12 심연의 망령술사 | "루멘의 종지기들인가. 늦었다." / "봉인 셋은 무너졌고, 마지막은 내 손 안에 있다." / "스승님도 막지 못한 것을, 너희가 막겠다고?" | "…스승님… 따뜻하군요." / "저는 그저… 다시 만나고 싶었을 뿐입니다." / "종을… 울려 주시오." |
+| B12 심연의 망령술사 | "루멘의 종지기들인가. 늦었다." / "봉인 셋을 되살렸다고? 소용없다. 마지막은 내 손 안에 있다." / "스승님도 막지 못한 것을, 너희가 막겠다고?" | "…스승님… 따뜻하군요." / "저는 그저… 다시 만나고 싶었을 뿐입니다." / "종을… 울려 주시오." |
 
 ---
 
@@ -884,10 +891,10 @@ The elder's line after each boss (shown on the town hub once):
 ### 11.3 Biome intro texts (area header on the first visit to each biome's first floor)
 | Biome | Header text |
 |---|---|
-| verdant | 제1층역 · 신록의 유적 — 이끼와 덩굴이 고대 석조를 삼켜 버린 숲의 미궁. |
-| frost | 제2층역 · 빙해의 동굴 — 바다가 얼어붙은 채 시간이 멈춘 동굴. |
-| ember | 제3층역 · 홍염의 사막 — 태양 신전의 잔해가 용암 속에 잠겨 있다. |
-| crypt | 제4층역 · 망자의 묘소 — 대현자가 잠든 곳, 그리고 마지막 봉인. |
+| verdant | 제1구역 · 신록의 유적 — 이끼와 덩굴이 고대 석조를 삼켜 버린 숲의 미궁. |
+| frost | 제2구역 · 빙해의 동굴 — 바다가 얼어붙은 채 시간이 멈춘 동굴. |
+| ember | 제3구역 · 홍염의 사막 — 태양 신전의 잔해가 용암 속에 잠겨 있다. |
+| crypt | 제4구역 · 망자의 묘소 — 대현자가 잠든 곳, 그리고 마지막 봉인. |
 
 ### 11.4 Ending (text scroll, one line per beat)
 1. 망령술사의 몸이 빛 속으로 흩어졌다.

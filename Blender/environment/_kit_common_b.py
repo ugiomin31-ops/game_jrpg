@@ -15,7 +15,7 @@ import os
 import random
 import sys
 
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\lib")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../lib'))
 import abyss_bpy as A  # noqa: E402
 
 import bmesh  # noqa: E402
@@ -642,6 +642,26 @@ def export_piece(tileset, piece, objs):
     if not os.path.isfile(path):
         raise RuntimeError("export failed: " + path)
     return path
+
+
+def export_arena_turned(tileset, objs):
+    """Export an arena authored with the enemies toward +Y. The game maps Blender (x, y, z) to Unity (x, z, -y) and puts
+    the enemies at Unity +Z (Blender -Y), so the arena is exported turned 180 degrees about Z and turned back after."""
+    turn = Matrix.Rotation(math.pi, 4, "Z")
+    tops = [o for o in objs if o.parent is None]
+    # Objects created in this session (the Spot_* / LightAnchor_* empties above all) have a stale identity
+    # matrix_world until the depsgraph evaluates them; without this update `turn @ o.matrix_world` below overwrote
+    # their authored locations with the bare rotation and every empty collapsed to the arena origin in the FBX.
+    bpy.context.view_layer.update()
+    for o in tops:
+        o.matrix_world = turn @ o.matrix_world
+    bpy.context.view_layer.update()
+    try:
+        return export_piece(tileset, "arena", objs)
+    finally:
+        for o in tops:
+            o.matrix_world = turn @ o.matrix_world
+        bpy.context.view_layer.update()
 
 
 def all_desc(objs):

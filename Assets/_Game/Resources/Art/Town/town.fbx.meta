@@ -7,6 +7,21 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_Banner_Tripo
+    second: {fileID: 2100000, guid: 7375527b97ccba94ea497d9b0bb239f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Barricade_Tripo
+    second: {fileID: 2100000, guid: 7d956074f44ce4142a37dd37bcd6f2cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Cargo_Tripo
+    second: {fileID: 2100000, guid: 8f042e07daf41a24aa72808056870b7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Clear
     second: {fileID: 2100000, guid: cd3cb0a1c8f3cae4a982de8971a87e49, type: 2}
   - first:
@@ -17,8 +32,68 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_FoodCart_Tripo
+    second: {fileID: 2100000, guid: b79bcf20919919a4b802e6be51092ffe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Fountain_Tripo
+    second: {fileID: 2100000, guid: bf97bcc95048f564da181bcd0ed50c45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GatePortal_Tripo
+    second: {fileID: 2100000, guid: 12f3010ad76a1df4dbd54b3fac538c5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GuardBooth_Tripo
+    second: {fileID: 2100000, guid: f0ff1a9ac73c1e64799c382cce16a71c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GuildClinic_Tripo
+    second: {fileID: 2100000, guid: 358ca5e25a91c3a488848dc74498ca92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GuildHq_Tripo
+    second: {fileID: 2100000, guid: 4c3416dda8c0811488d67c70f47aa940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GuildMarket_Tripo
+    second: {fileID: 2100000, guid: 03bc761de7aa56c47a1ef04f92970a10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_GuildWorkshop_Tripo
+    second: {fileID: 2100000, guid: d12b58357350320468350d8441b22222, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MarketCrates_Tripo
+    second: {fileID: 2100000, guid: 516777cd0d1f28c45bfe847c26c9d304, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_NoticeBoard_Tripo
+    second: {fileID: 2100000, guid: bacf648fe1ba52a44984efb1fad358dc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_StreetLamp_Tripo
+    second: {fileID: 2100000, guid: b45e7a69960de07419c1487db724b780, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: 42b88e088e10be54fb8136bcd5eeaa12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Tree_Tripo
+    second: {fileID: 2100000, guid: 770437ff7504d33448037fa001c7932a, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -46,7 +121,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1

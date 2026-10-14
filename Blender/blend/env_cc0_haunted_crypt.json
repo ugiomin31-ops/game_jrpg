@@ -1,0 +1,227 @@
+[
+ {
+  "piece": "floor_a",
+  "tris": 638,
+  "objects": [
+   "floor_a",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/floor_a.fbx"
+ },
+ {
+  "piece": "floor_b",
+  "tris": 1040,
+  "objects": [
+   "floor_b",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/floor_b.fbx"
+ },
+ {
+  "piece": "floor_c",
+  "tris": 780,
+  "objects": [
+   "floor_c",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/floor_c.fbx"
+ },
+ {
+  "piece": "wall_a",
+  "tris": 4524,
+  "objects": [
+   "wall_a"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/wall_a.fbx"
+ },
+ {
+  "piece": "wall_b",
+  "tris": 4131,
+  "objects": [
+   "wall_b"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/wall_b.fbx"
+ },
+ {
+  "piece": "wall_c",
+  "tris": 3355,
+  "objects": [
+   "wall_c"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/wall_c.fbx"
+ },
+ {
+  "piece": "door",
+  "tris": 1306,
+  "objects": [
+   "door",
+   "Door"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/door.fbx"
+ },
+ {
+  "piece": "door_locked",
+  "tris": 1446,
+  "objects": [
+   "door_locked",
+   "Door",
+   "Lock"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/door_locked.fbx"
+ },
+ {
+  "piece": "stairs_down",
+  "tris": 1010,
+  "objects": [
+   "stairs_down",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/stairs_down.fbx"
+ },
+ {
+  "piece": "stairs_up",
+  "tris": 658,
+  "objects": [
+   "stairs_up"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/stairs_up.fbx"
+ },
+ {
+  "piece": "chest",
+  "tris": 1652,
+  "objects": [
+   "chest",
+   "Lid"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/chest.fbx"
+ },
+ {
+  "piece": "lore_stone",
+  "tris": 684,
+  "objects": [
+   "lore_stone"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/lore_stone.fbx"
+ },
+ {
+  "piece": "trap",
+  "tris": 646,
+  "objects": [
+   "trap",
+   "Spikes"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/trap.fbx"
+ },
+ {
+  "piece": "spring",
+  "tris": 1664,
+  "objects": [
+   "spring",
+   "LightAnchor_spring"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/spring.fbx"
+ },
+ {
+  "piece": "warp",
+  "tris": 1076,
+  "objects": [
+   "warp",
+   "LightAnchor_warp",
+   "Spot_warp"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/warp.fbx"
+ },
+ {
+  "piece": "torch",
+  "tris": 386,
+  "objects": [
+   "torch",
+   "LightAnchor"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/torch.fbx"
+ },
+ {
+  "piece": "decor_1",
+  "tris": 741,
+  "objects": [
+   "decor_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_1.fbx"
+ },
+ {
+  "piece": "decor_2",
+  "tris": 400,
+  "objects": [
+   "decor_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_2.fbx"
+ },
+ {
+  "piece": "decor_3",
+  "tris": 654,
+  "objects": [
+   "decor_3"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_3.fbx"
+ },
+ {
+  "piece": "decor_4",
+  "tris": 518,
+  "objects": [
+   "decor_4"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_4.fbx"
+ },
+ {
+  "piece": "decor_5",
+  "tris": 1004,
+  "objects": [
+   "decor_5"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_5.fbx"
+ },
+ {
+  "piece": "decor_6",
+  "tris": 660,
+  "objects": [
+   "decor_6"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/decor_6.fbx"
+ },
+ {
+  "piece": "overlay_1",
+  "tris": 185,
+  "objects": [
+   "overlay_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/overlay_1.fbx"
+ },
+ {
+  "piece": "overlay_2",
+  "tris": 513,
+  "objects": [
+   "overlay_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/overlay_2.fbx"
+ },
+ {
+  "piece": "boss_gate",
+  "tris": 1500,
+  "objects": [
+   "boss_gate",
+   "LightAnchor_gate_L",
+   "LightAnchor_gate_R",
+   "Spot_boss"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/boss_gate.fbx"
+ },
+ {
+  "piece": "foe_marker",
+  "tris": 824,
+  "objects": [
+   "foe_marker",
+   "Spot_foe"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/haunted_crypt/foe_marker.fbx"
+ }
+]

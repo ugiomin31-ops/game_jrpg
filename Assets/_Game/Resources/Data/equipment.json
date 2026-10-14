@@ -1,5 +1,42 @@
 [
  {
+  "id": "acc_abyss_heart",
+  "display_name": "심연의 심장",
+  "description": "심연의 군주가 남긴 고동치는 심장. 모든 능력치가 오르고 매 턴 HP가 회복된다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 20,
+  "mag": 20,
+  "def": 20,
+  "res": 20,
+  "spd": 8,
+  "hp": 150,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_abyss_heart",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [],
+  "hp_regen": 0.03,
+  "tp_start": 20,
+  "model": "acc_flame_amulet",
+  "tint": [
+   0.66,
+   0.36,
+   0.95,
+   1.0
+  ]
+ },
+ {
   "id": "acc_antidote_ring",
   "display_name": "해독의 반지",
   "description": "독을 막아 주는 녹색 반지.",
@@ -28,7 +65,10 @@
    "slime_gel": 2
   },
   "craft_gold": 150,
-  "_file": "acc_antidote_ring"
+  "_file": "acc_antidote_ring",
+  "rarity": 1,
+  "tier": 1,
+  "jobs": []
  },
  {
   "id": "acc_awake_bell",
@@ -55,7 +95,85 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_awake_bell"
+  "_file": "acc_awake_bell",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "acc_berserk_ring",
+  "display_name": "광전사의 반지",
+  "description": "피가 끓어오르는 붉은 반지. 공격력이 크게 오르지만 방어가 허술해진다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 22,
+  "mag": 0,
+  "def": -10,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5200,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_berserk_ring",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "acc_guardian_ring",
+  "tint": [
+   1.0,
+   0.42,
+   0.42,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_burn_ward",
+  "display_name": "화상막이 반지",
+  "description": "불길을 식혀 주는 반지. 화상을 막는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 6,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "burn"
+  ],
+  "price": 3000,
+  "sell_price": -1,
+  "shop_tier": 3,
+  "craft_materials": {
+   "magma_core": 2,
+   "drake_scale": 1
+  },
+  "craft_gold": 700,
+  "_file": "acc_burn_ward",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_antidote_ring",
+  "tint": [
+   1.0,
+   0.58,
+   0.42,
+   1.0
+  ]
  },
  {
   "id": "acc_clarity_earring",
@@ -83,11 +201,204 @@
   "shop_tier": 4,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_clarity_earring"
+  "_file": "acc_clarity_earring",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": []
+ },
+ {
+  "id": "acc_counter_charm",
+  "display_name": "역습의 부적",
+  "description": "공격을 흘려 반격의 틈을 노리게 해 주는 부적. 회피율과 치명타율이 오른다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 8,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.05,
+  "crit": 0.06,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 3000,
+  "sell_price": -1,
+  "shop_tier": 3,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_counter_charm",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_lucky_charm",
+  "tint": [
+   1.0,
+   0.6,
+   0.5,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_crystal_crown",
+  "display_name": "수정 왕관",
+  "description": "게이트 마석과 심연 군주의 왕관 조각을 녹여 만든 왕관. 모든 능력치가 오른다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 18,
+  "mag": 18,
+  "def": 16,
+  "res": 16,
+  "spd": 6,
+  "hp": 120,
+  "mp": 40,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 5000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "lord_crown": 1,
+   "verdant_crystal": 1,
+   "frost_crystal": 1,
+   "ember_crystal": 1,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 25000,
+  "_file": "acc_crystal_crown",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [],
+  "model": "acc_hero_emblem",
+  "tint": [
+   0.75,
+   0.9,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_curse_ward",
+  "display_name": "저주막이 부적",
+  "description": "저주를 튕겨 내는 부적. 공격력·방어력 저하를 막는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 8,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "attack_down",
+   "defense_down"
+  ],
+  "price": 5200,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_curse_ward",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "acc_lucky_charm",
+  "tint": [
+   0.8,
+   0.66,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_dark_amulet",
+  "display_name": "칠흑의 부적",
+  "description": "어둠을 삼키는 칠흑의 부적. 암속성 피해를 줄이고 마력을 높인다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 10,
+  "def": 0,
+  "res": 18,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   7
+  ],
+  "status_immunities": [],
+  "price": 8500,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "scale_blue": 3,
+   "temple_stone": 3
+  },
+  "craft_gold": 3500,
+  "_file": "acc_dark_amulet",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": [],
+  "model": "acc_shadow_amulet",
+  "tint": [
+   0.72,
+   0.55,
+   0.92,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_dragon_fang",
+  "display_name": "해룡의 송곳니",
+  "description": "레비아탄의 송곳니. 쥐면 공격 본능이 깨어나고 전투 시작 시 TP 15를 얻는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 32,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.1,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_dragon_fang",
+  "rarity": 3,
+  "tier": 6,
+  "jobs": [],
+  "tp_start": 15,
+  "model": "acc_flame_amulet",
+  "tint": [
+   1.0,
+   0.92,
+   0.78,
+   1.0
+  ]
  },
  {
   "id": "acc_eagle_eye",
-  "display_name": "매의 눈",
+  "display_name": "독수리 눈 부적",
   "description": "먼 곳의 급소까지 보이게 한다.",
   "slot": "accessory",
   "classes": [],
@@ -108,7 +419,86 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_eagle_eye"
+  "_file": "acc_eagle_eye",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
+ },
+ {
+  "id": "acc_earth_amulet",
+  "display_name": "대지의 부적",
+  "description": "단단한 대지의 힘이 깃든 부적. 타격 피해를 줄인다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 10,
+  "res": 0,
+  "spd": 0,
+  "hp": 60,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   2
+  ],
+  "status_immunities": [],
+  "price": 3000,
+  "sell_price": -1,
+  "shop_tier": 3,
+  "craft_materials": {
+   "golem_sandstone": 3,
+   "magma_core": 2
+  },
+  "craft_gold": 1100,
+  "_file": "acc_earth_amulet",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_flame_amulet",
+  "tint": [
+   0.86,
+   0.72,
+   0.46,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_exp_charm",
+  "display_name": "성장의 부적",
+  "description": "경험을 두 배로 새기는 부적. 착용자가 얻는 경험치가 30 % 늘어난다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 1500,
+  "sell_price": -1,
+  "shop_tier": 2,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_exp_charm",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": [],
+  "exp_bonus": 0.3,
+  "model": "acc_lucky_charm",
+  "tint": [
+   0.55,
+   0.85,
+   1.0,
+   1.0
+  ]
  },
  {
   "id": "acc_flame_amulet",
@@ -138,7 +528,50 @@
    "magma_core": 2
   },
   "craft_gold": 900,
-  "_file": "acc_flame_amulet"
+  "_file": "acc_flame_amulet",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
+ },
+ {
+  "id": "acc_freeze_ward",
+  "display_name": "빙결막이 반지",
+  "description": "몸을 데워 주는 반지. 빙결을 막는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 5,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "freeze"
+  ],
+  "price": 1500,
+  "sell_price": -1,
+  "shop_tier": 2,
+  "craft_materials": {
+   "frost_fur": 2,
+   "jelly_core": 1
+  },
+  "craft_gold": 400,
+  "_file": "acc_freeze_ward",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": [],
+  "model": "acc_antidote_ring",
+  "tint": [
+   0.55,
+   0.85,
+   1.0,
+   1.0
+  ]
  },
  {
   "id": "acc_frost_amulet",
@@ -168,12 +601,51 @@
    "coral_shard": 2
   },
   "craft_gold": 400,
-  "_file": "acc_frost_amulet"
+  "_file": "acc_frost_amulet",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "acc_gold_charm",
+  "display_name": "황금 부적",
+  "description": "금화 냄새를 맡는 부적. 전투에서 얻는 보상 금액이 25 % 늘어난다(파티 합산, 최대 +100 %).",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 1500,
+  "sell_price": -1,
+  "shop_tier": 2,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_gold_charm",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": [],
+  "gold_bonus": 0.25,
+  "model": "acc_lucky_charm",
+  "tint": [
+   1.0,
+   0.85,
+   0.35,
+   1.0
+  ]
  },
  {
   "id": "acc_guardian_ring",
   "display_name": "수호의 반지",
-  "description": "봉인의 힘을 담은 반지.",
+  "description": "길드 수호의 힘을 담은 반지.",
   "slot": "accessory",
   "classes": [],
   "atk": 0,
@@ -200,12 +672,15 @@
    "ember_crystal": 1
   },
   "craft_gold": 2500,
-  "_file": "acc_guardian_ring"
+  "_file": "acc_guardian_ring",
+  "rarity": 3,
+  "tier": 4,
+  "jobs": []
  },
  {
   "id": "acc_hero_emblem",
   "display_name": "영웅의 문장",
-  "description": "네 봉인의 결정을 모은 증표.",
+  "description": "네 개의 게이트 마석을 모은 증표. 모든 능력치가 오른다.",
   "slot": "accessory",
   "classes": [],
   "atk": 12,
@@ -230,7 +705,196 @@
    "abyss_crystal": 1
   },
   "craft_gold": 5000,
-  "_file": "acc_hero_emblem"
+  "_file": "acc_hero_emblem",
+  "rarity": 3,
+  "tier": 5,
+  "jobs": []
+ },
+ {
+  "id": "acc_holy_amulet",
+  "display_name": "성광 부적",
+  "description": "성스러운 빛을 가두어 둔 부적. 성속성 피해를 줄인다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 14,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   8
+  ],
+  "status_immunities": [],
+  "price": 5200,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "ghost_essence": 3,
+   "old_bone": 3
+  },
+  "craft_gold": 1800,
+  "_file": "acc_holy_amulet",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "acc_frost_amulet",
+  "tint": [
+   1.0,
+   0.92,
+   0.68,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_iron_bangle",
+  "display_name": "무쇠 팔찌",
+  "description": "두툼한 무쇠 팔찌. 몸을 단단하게 지켜 준다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 6,
+  "res": 0,
+  "spd": 0,
+  "hp": 30,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 600,
+  "sell_price": -1,
+  "shop_tier": 1,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_iron_bangle",
+  "rarity": 1,
+  "tier": 2,
+  "jobs": [],
+  "model": "acc_power_band",
+  "tint": [
+   0.78,
+   0.82,
+   0.92,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_kraken_eye",
+  "display_name": "크라켄의 눈",
+  "description": "빙해의 여왕의 눈. 냉기를 막고 매 턴 MP가 3 회복된다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 14,
+  "def": 0,
+  "res": 10,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   5
+  ],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_kraken_eye",
+  "rarity": 3,
+  "tier": 3,
+  "jobs": [],
+  "mp_regen": 3,
+  "model": "acc_shadow_amulet",
+  "tint": [
+   0.5,
+   0.9,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_lich_phylactery",
+  "display_name": "리치의 성물함",
+  "description": "망령술사의 영혼이 잠든 성물함. 어둠을 막고 매 턴 MP가 5 회복된다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 24,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 40,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   7
+  ],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_lich_phylactery",
+  "rarity": 3,
+  "tier": 5,
+  "jobs": [],
+  "mp_regen": 5,
+  "model": "acc_clarity_earring",
+  "tint": [
+   0.6,
+   1.0,
+   0.75,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_life_pendant",
+  "display_name": "생명의 펜던트",
+  "description": "심장 소리처럼 고동치는 붉은 펜던트. 최대 HP가 크게 오른다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 160,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 3000,
+  "sell_price": -1,
+  "shop_tier": 3,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_life_pendant",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_flame_amulet",
+  "tint": [
+   1.0,
+   0.62,
+   0.72,
+   1.0
+  ]
  },
  {
   "id": "acc_lucky_charm",
@@ -255,7 +919,122 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_lucky_charm"
+  "_file": "acc_lucky_charm",
+  "rarity": 1,
+  "tier": 1,
+  "jobs": []
+ },
+ {
+  "id": "acc_mana_spring",
+  "display_name": "마나의 샘",
+  "description": "마르지 않는 샘물이 담긴 펜던트. 매 턴 MP가 6 회복된다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 20,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5200,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "ghost_essence": 3,
+   "jelly_core": 3
+  },
+  "craft_gold": 2000,
+  "_file": "acc_mana_spring",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "mp_regen": 6,
+  "model": "acc_sage_pendant",
+  "tint": [
+   0.55,
+   0.75,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_mind_ring",
+  "display_name": "정신의 반지",
+  "description": "마음을 맑게 하는 은반지. 마법 저항과 MP가 오른다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 8,
+  "spd": 0,
+  "hp": 0,
+  "mp": 15,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 600,
+  "sell_price": -1,
+  "shop_tier": 1,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_mind_ring",
+  "rarity": 1,
+  "tier": 2,
+  "jobs": [],
+  "model": "acc_guardian_ring",
+  "tint": [
+   0.75,
+   0.82,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_paralyze_ward",
+  "display_name": "마비막이 반지",
+  "description": "몸이 굳지 않게 지켜 주는 반지. 기절과 둔화를 막는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 6,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "stun",
+   "slow"
+  ],
+  "price": 3000,
+  "sell_price": -1,
+  "shop_tier": 3,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_paralyze_ward",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_antidote_ring",
+  "tint": [
+   1.0,
+   0.95,
+   0.5,
+   1.0
+  ]
  },
  {
   "id": "acc_power_band",
@@ -280,7 +1059,101 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_power_band"
+  "_file": "acc_power_band",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "acc_regen_ring",
+  "display_name": "재생의 반지",
+  "description": "생명력이 샘솟는 녹색 반지. 매 턴 최대 HP의 5 %를 회복한다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 40,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 8500,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "pearl": 3,
+   "siren_feather": 2
+  },
+  "craft_gold": 4000,
+  "_file": "acc_regen_ring",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": [],
+  "hp_regen": 0.05,
+  "model": "acc_guardian_ring",
+  "tint": [
+   0.55,
+   1.0,
+   0.6,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_ribbon",
+  "display_name": "여신의 리본",
+  "description": "여신의 가호가 깃든 리본. 모든 해로운 상태 이상을 막는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 12,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.03,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "attack_down",
+   "bleed",
+   "blind",
+   "burn",
+   "defense_down",
+   "freeze",
+   "poison",
+   "poison_strong",
+   "silence",
+   "sleep",
+   "slow",
+   "stun"
+  ],
+  "price": 0,
+  "sell_price": 5000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "trial_emblem": 2,
+   "siren_feather": 4,
+   "metal_gel": 1
+  },
+  "craft_gold": 20000,
+  "_file": "acc_ribbon",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [],
+  "model": "acc_awake_bell",
+  "tint": [
+   1.0,
+   0.72,
+   0.86,
+   1.0
+  ]
  },
  {
   "id": "acc_sage_pendant",
@@ -305,7 +1178,10 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_sage_pendant"
+  "_file": "acc_sage_pendant",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
  },
  {
   "id": "acc_shadow_amulet",
@@ -335,7 +1211,307 @@
    "old_bone": 2
   },
   "craft_gold": 1500,
-  "_file": "acc_shadow_amulet"
+  "_file": "acc_shadow_amulet",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": []
+ },
+ {
+  "id": "acc_silence_ward",
+  "display_name": "침묵막이 귀걸이",
+  "description": "말문이 막히지 않게 지켜 주는 귀걸이.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 15,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "silence"
+  ],
+  "price": 1500,
+  "sell_price": -1,
+  "shop_tier": 2,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_silence_ward",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": [],
+  "model": "acc_clarity_earring",
+  "tint": [
+   0.82,
+   0.82,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_sleep_ward",
+  "display_name": "꿈막이 방울",
+  "description": "맑은 소리로 잠과 어둠을 쫓는 방울.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 10,
+  "spd": 3,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "sleep",
+   "blind"
+  ],
+  "price": 5200,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_sleep_ward",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "acc_awake_bell",
+  "tint": [
+   0.75,
+   0.75,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_sniper_scope",
+  "display_name": "저격 조준경",
+  "description": "먼 과녁도 또렷하게 보이는 조준경. 명중률과 치명타율이 오른다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.08,
+  "evade": 0.0,
+  "crit": 0.12,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5200,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_sniper_scope",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "acc_eagle_eye",
+  "tint": [
+   0.8,
+   0.9,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_sphinx_riddle",
+  "display_name": "스핑크스의 수수께끼",
+  "description": "불꽃 스핑크스가 남긴 수수께끼 석판. 지혜와 민첩이 오르고 침묵·수면을 막는다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 16,
+  "def": 0,
+  "res": 0,
+  "spd": 6,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.05,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "silence",
+   "sleep"
+  ],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_sphinx_riddle",
+  "rarity": 3,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_hero_emblem",
+  "tint": [
+   1.0,
+   0.76,
+   0.46,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_spirit_pendant",
+  "display_name": "정령의 펜던트",
+  "description": "정령이 깃든 보석. 마력과 MP가 오른다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 10,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 40,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 3000,
+  "sell_price": -1,
+  "shop_tier": 3,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_spirit_pendant",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": [],
+  "model": "acc_sage_pendant",
+  "tint": [
+   0.82,
+   0.7,
+   1.0,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_swift_anklet",
+  "display_name": "바람의 발찌",
+  "description": "발목에 감으면 걸음이 가벼워진다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 6,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.02,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 1500,
+  "sell_price": -1,
+  "shop_tier": 2,
+  "craft_materials": {},
+  "craft_gold": 0,
+  "_file": "acc_swift_anklet",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": [],
+  "model": "acc_wind_boots",
+  "tint": [
+   0.7,
+   1.0,
+   0.9,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_thunder_amulet",
+  "display_name": "뇌전 부적",
+  "description": "번개를 땅으로 흘려보내는 부적. 뇌속성 피해를 줄인다.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 0,
+  "mag": 0,
+  "def": 0,
+  "res": 8,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   6
+  ],
+  "status_immunities": [],
+  "price": 1500,
+  "sell_price": -1,
+  "shop_tier": 2,
+  "craft_materials": {
+   "jelly_core": 3,
+   "coral_shard": 2
+  },
+  "craft_gold": 500,
+  "_file": "acc_thunder_amulet",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": [],
+  "model": "acc_frost_amulet",
+  "tint": [
+   1.0,
+   0.95,
+   0.45,
+   1.0
+  ]
+ },
+ {
+  "id": "acc_tp_crest",
+  "display_name": "투지의 문장",
+  "description": "전투가 시작되자마자 투지가 차오르는 문장. 전투 시작 시 TP 30.",
+  "slot": "accessory",
+  "classes": [],
+  "atk": 6,
+  "mag": 6,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 8500,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "gargoyle_horn": 2,
+   "temple_stone": 3
+  },
+  "craft_gold": 3500,
+  "_file": "acc_tp_crest",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": [],
+  "tp_start": 30,
+  "model": "acc_hero_emblem",
+  "tint": [
+   1.0,
+   0.85,
+   0.5,
+   1.0
+  ]
  },
  {
   "id": "acc_wind_boots",
@@ -360,12 +1536,15 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "acc_wind_boots"
+  "_file": "acc_wind_boots",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
  },
  {
   "id": "armor_chain",
-  "display_name": "사슬 갑옷",
-  "description": "움직임을 크게 방해하지 않는 사슬 갑옷입니다.",
+  "display_name": "방검 조끼",
+  "description": "움직임을 크게 방해하지 않는 기본 방검 조끼입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -387,22 +1566,25 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_chain"
+  "_file": "armor_chain",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
  },
  {
   "id": "armor_dawn",
-  "display_name": "여명의 갑주",
-  "description": "봉인의 결정을 품은 최상급 여명의 갑주입니다.",
+  "display_name": "새벽 길드 아머",
+  "description": "새벽 길드의 문장이 새겨진 최상급 방어구입니다. 게이트 마석으로 덧댔다.",
   "slot": "armor",
   "classes": [
    "warrior"
   ],
   "atk": 0,
   "mag": 0,
-  "def": 46,
-  "res": 18,
+  "def": 79,
+  "res": 29,
   "spd": 0,
-  "hp": 100,
+  "hp": 168,
   "mp": 0,
   "hit": 0.0,
   "evade": 0.0,
@@ -410,20 +1592,24 @@
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 7500,
   "shop_tier": 0,
   "craft_materials": {
-   "old_bone": 5,
-   "golem_sandstone": 3,
+   "trial_emblem": 3,
+   "leviathan_fin": 2,
+   "gargoyle_horn": 5,
    "abyss_crystal": 1
   },
-  "craft_gold": 2200,
-  "_file": "armor_dawn"
+  "craft_gold": 26000,
+  "_file": "armor_dawn",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
  },
  {
   "id": "armor_dragon",
-  "display_name": "용린 갑옷",
-  "description": "드레이크의 단단한 비늘로 보강한 갑옷입니다.",
+  "display_name": "드레이크 비늘 아머",
+  "description": "드레이크의 단단한 비늘로 보강한 방어구입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -445,12 +1631,15 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_dragon"
+  "_file": "armor_dragon",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
  },
  {
   "id": "armor_plate",
-  "display_name": "판금 갑옷",
-  "description": "두꺼운 판금으로 전위를 지키는 갑옷입니다.",
+  "display_name": "택티컬 아머",
+  "description": "두꺼운 판으로 전위를 지키는 방어구입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -472,12 +1661,56 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_plate"
+  "_file": "armor_plate",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "armor_rune",
+  "display_name": "마석 강화 아머",
+  "description": "마석 각인으로 강화한 판금 방어구. 게이트의 저주를 튕겨 낸다.",
+  "slot": "armor",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 43,
+  "res": 16,
+  "spd": 0,
+  "hp": 91,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 4500,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "ghost_essence": 4,
+   "cursed_straw": 2,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 2000,
+  "_file": "armor_rune",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "armor_plate",
+  "tint": [
+   0.72,
+   0.84,
+   1.0,
+   1.0
+  ]
  },
  {
   "id": "armor_scale",
-  "display_name": "비늘 갑옷",
-  "description": "겹친 금속 비늘이 몸을 보호하는 갑옷입니다.",
+  "display_name": "경량 택티컬 아머",
+  "description": "겹친 금속 판이 몸을 보호하는 경량 방어구입니다.",
   "slot": "armor",
   "classes": [
    "warrior"
@@ -499,12 +1732,97 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "armor_scale"
+  "_file": "armor_scale",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
+ },
+ {
+  "id": "armor_tidal",
+  "display_name": "심해 수호 아머",
+  "description": "A급 신전 수호병의 비늘 방어구. 물결처럼 가볍게 움직인다.",
+  "slot": "armor",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 53,
+  "res": 19,
+  "spd": 0,
+  "hp": 112,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 7600,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "pearl": 4,
+   "scale_blue": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 3400,
+  "_file": "armor_tidal",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": [],
+  "model": "armor_dawn",
+  "tint": [
+   0.5,
+   0.95,
+   0.95,
+   1.0
+  ]
+ },
+ {
+  "id": "armor_void",
+  "display_name": "공허 아머",
+  "description": "심연의 결정으로 덧댄 방어구. 빛을 삼키는 듯 어둡다.",
+  "slot": "armor",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 64,
+  "res": 23,
+  "spd": 0,
+  "hp": 136,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 12650,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "void_shard": 4,
+   "shadow_pelt": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 5700,
+  "_file": "armor_void",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": [],
+  "model": "armor_dawn",
+  "tint": [
+   0.6,
+   0.45,
+   0.95,
+   1.0
+  ]
  },
  {
   "id": "bow_composite",
-  "display_name": "합성 석궁",
-  "description": "여러 재료를 겹쳐 힘과 정확도를 높인 석궁입니다.",
+  "display_name": "합성 컴파운드 보우",
+  "description": "여러 재료를 겹쳐 힘과 정확도를 높인 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -526,12 +1844,15 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_composite"
+  "_file": "bow_composite",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
  },
  {
   "id": "bow_gale",
-  "display_name": "질풍 석궁",
-  "description": "바람처럼 빠르게 겨눌 수 있는 질풍의 석궁입니다.",
+  "display_name": "질풍 리커브 보우",
+  "description": "바람처럼 빠르게 시위를 당길 수 있는 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -553,12 +1874,52 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_gale"
+  "_file": "bow_gale",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
+ },
+ {
+  "id": "bow_heavens",
+  "display_name": "천공의 활",
+  "description": "신궁 전용. 날개가 된 활채에서 빛의 화살이 쏟아진다. 평타가 성속성이 된다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 83,
+  "mag": 0,
+  "def": 0,
+  "res": 19,
+  "spd": 9,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.19,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "fallen_feather": 3
+  },
+  "craft_gold": 24000,
+  "_file": "bow_heavens",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "divine_archer"
+  ],
+  "element": 8
  },
  {
   "id": "bow_hunter",
-  "display_name": "사냥꾼의 석궁",
-  "description": "사냥꾼이 즐겨 쓰는 균형 잡힌 석궁입니다.",
+  "display_name": "사냥꾼 컴파운드 보우",
+  "description": "사냥꾼이 즐겨 쓰는 균형 잡힌 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -580,12 +1941,88 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_hunter"
+  "_file": "bow_hunter",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
+ },
+ {
+  "id": "bow_longshot",
+  "display_name": "장거리 저격궁",
+  "description": "저격수 전용. 조준경이 달린 긴 활. 명중률과 치명타율이 높다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 51,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 6,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.15,
+  "evade": 0.0,
+  "crit": 0.18,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "cursed_straw": 5,
+   "drake_scale": 3,
+   "verdant_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "bow_longshot",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "sniper"
+  ]
+ },
+ {
+  "id": "bow_nightfall",
+  "display_name": "황혼의 활",
+  "description": "그림자 추적자 전용. 양끝에 칼날이 달린 검은 활. 평타가 암속성이 되고 회피율이 오른다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 83,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 19,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.1,
+  "crit": 0.22,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "fallen_feather": 3
+  },
+  "craft_gold": 24000,
+  "_file": "bow_nightfall",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "shadow_stalker"
+  ],
+  "element": 7
  },
  {
   "id": "bow_short",
-  "display_name": "경석궁",
-  "description": "가볍고 다루기 쉬운 입문용 석궁입니다.",
+  "display_name": "양궁용 리커브 보우",
+  "description": "가볍고 다루기 쉬운 입문용 리커브 보우입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
@@ -607,21 +2044,24 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "bow_short"
+  "_file": "bow_short",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
  },
  {
   "id": "bow_star",
-  "display_name": "유성 석궁",
-  "description": "유성처럼 정확한 화살을 쏘는 봉인의 석궁입니다.",
+  "display_name": "유성 보우",
+  "description": "유성처럼 정확한 화살을 쏘는 게이트 마석 활입니다.",
   "slot": "weapon",
   "classes": [
    "archer"
   ],
-  "atk": 50,
+  "atk": 86,
   "mag": 0,
   "def": 0,
   "res": 0,
-  "spd": 0,
+  "spd": 10,
   "hp": 0,
   "mp": 0,
   "hit": 0.05,
@@ -630,30 +2070,176 @@
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 7500,
   "shop_tier": 0,
   "craft_materials": {
-   "cursed_straw": 3,
-   "ghost_essence": 2,
+   "trial_emblem": 3,
+   "lord_crown": 1,
+   "fallen_feather": 5,
+   "verdant_crystal": 1
+  },
+  "craft_gold": 30000,
+  "_file": "bow_star",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
+ },
+ {
+  "id": "bow_thornvine",
+  "display_name": "가시덩굴 활",
+  "description": "레인저 전용. 살아 있는 덩굴 활. 속도가 오르고 매 턴 HP가 조금씩 회복된다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 51,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 14,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.06,
+  "element_resists": [],
+  "status_immunities": [
+   "poison",
+   "poison_strong"
+  ],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "cursed_straw": 5,
+   "drake_scale": 3,
+   "verdant_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "bow_thornvine",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "ranger"
+  ],
+  "hp_regen": 0.03
+ },
+ {
+  "id": "bow_tide",
+  "display_name": "심해 보우",
+  "description": "지느러미처럼 펼쳐진 활채가 물살을 가르듯 화살을 보낸다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 58,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 6,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.02,
+  "evade": 0.0,
+  "crit": 0.08,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 8750,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "temple_stone": 4,
+   "siren_feather": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 3950,
+  "_file": "bow_tide",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": []
+ },
+ {
+  "id": "bow_void",
+  "display_name": "공허 보우",
+  "description": "가시 돋친 검은 활. 보랏빛 맥동이 화살에 실린다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 70,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 8,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.03,
+  "evade": 0.0,
+  "crit": 0.09,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 14600,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "gargoyle_horn": 4,
+   "fallen_feather": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 6550,
+  "_file": "bow_void",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": []
+ },
+ {
+  "id": "bow_wraith",
+  "display_name": "사슬 장식 보우",
+  "description": "사슬에 묶인 뼈 활. 시위를 당기면 원혼이 울부짖는다.",
+  "slot": "weapon",
+  "classes": [
+   "archer"
+  ],
+  "atk": 47,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 5,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.01,
+  "evade": 0.0,
+  "crit": 0.07,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5150,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "cursed_straw": 4,
+   "old_bone": 2,
    "abyss_crystal": 1
   },
-  "craft_gold": 2400,
-  "_file": "bow_star"
+  "craft_gold": 2300,
+  "_file": "bow_wraith",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": []
  },
  {
   "id": "garb_dawn",
-  "display_name": "여명의 경갑",
-  "description": "여명의 힘으로 회피와 기동성을 높인 경갑입니다.",
+  "display_name": "새벽 재킷",
+  "description": "새벽 길드 문장이 달린 최상급 재킷입니다. 회피와 기동성이 높다.",
   "slot": "armor",
   "classes": [
    "archer"
   ],
   "atk": 0,
   "mag": 0,
-  "def": 34,
-  "res": 20,
-  "spd": 5,
-  "hp": 70,
+  "def": 58,
+  "res": 34,
+  "spd": 7,
+  "hp": 108,
   "mp": 0,
   "hit": 0.0,
   "evade": 0.06,
@@ -661,20 +2247,24 @@
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 7500,
   "shop_tier": 0,
   "craft_materials": {
-   "cursed_straw": 4,
-   "drake_scale": 3,
+   "trial_emblem": 3,
+   "leviathan_fin": 2,
+   "shadow_pelt": 5,
    "abyss_crystal": 1
   },
-  "craft_gold": 2100,
-  "_file": "garb_dawn"
+  "craft_gold": 26000,
+  "_file": "garb_dawn",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
  },
  {
   "id": "garb_leather",
-  "display_name": "가죽 경갑",
-  "description": "궁수의 움직임을 살리는 가벼운 가죽 경갑입니다.",
+  "display_name": "헌터 재킷",
+  "description": "헌터 입문 세트의 가죽 재킷. 움직임을 살리는 가벼운 재킷입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -696,12 +2286,15 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_leather"
+  "_file": "garb_leather",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
  },
  {
   "id": "garb_ranger",
-  "display_name": "레인저 조끼",
-  "description": "숲의 탐색자를 위한 질긴 가죽 조끼입니다.",
+  "display_name": "레인저 재킷",
+  "description": "탐색 헌터를 위한 질긴 가죽 조끼입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -723,12 +2316,15 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_ranger"
+  "_file": "garb_ranger",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
  },
  {
   "id": "garb_shadow",
-  "display_name": "그림자 가죽옷",
-  "description": "그림자처럼 몸을 숨기기 좋은 유연한 가죽옷입니다.",
+  "display_name": "그림자 가죽 재킷",
+  "description": "그림자처럼 몸을 숨기기 좋은 유연한 가죽 재킷입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -750,12 +2346,97 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_shadow"
+  "_file": "garb_shadow",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "garb_tide",
+  "display_name": "심해 재킷",
+  "description": "물고기 비늘을 엮은 재킷. 물속에서도 몸이 가볍다.",
+  "slot": "armor",
+  "classes": [
+   "archer"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 38,
+  "res": 22,
+  "spd": 5,
+  "hp": 72,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.06,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 7250,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "temple_stone": 4,
+   "siren_feather": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 3250,
+  "_file": "garb_tide",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": [],
+  "model": "garb_wind",
+  "tint": [
+   0.5,
+   0.92,
+   0.98,
+   1.0
+  ]
+ },
+ {
+  "id": "garb_void",
+  "display_name": "공허 재킷",
+  "description": "그림자 짐승의 가죽으로 만든 재킷. 발소리가 사라진다.",
+  "slot": "armor",
+  "classes": [
+   "archer"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 47,
+  "res": 27,
+  "spd": 6,
+  "hp": 88,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.07,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 12100,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "gargoyle_horn": 4,
+   "fallen_feather": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 5450,
+  "_file": "garb_void",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": [],
+  "model": "garb_dawn",
+  "tint": [
+   0.66,
+   0.5,
+   1.0,
+   1.0
+  ]
  },
  {
   "id": "garb_wind",
-  "display_name": "바람의 경갑",
-  "description": "바람처럼 가볍게 움직일 수 있는 경갑입니다.",
+  "display_name": "바람막이 재킷",
+  "description": "바람처럼 가볍게 움직일 수 있는 재킷입니다.",
   "slot": "armor",
   "classes": [
    "archer"
@@ -777,7 +2458,51 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "garb_wind"
+  "_file": "garb_wind",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
+ },
+ {
+  "id": "garb_wraith",
+  "display_name": "안개 위장 재킷",
+  "description": "안개처럼 흐릿한 가죽 재킷. 적의 눈을 속인다.",
+  "slot": "armor",
+  "classes": [
+   "archer"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 31,
+  "res": 18,
+  "spd": 4,
+  "hp": 58,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.05,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 4300,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "old_bone": 4,
+   "ghost_essence": 2,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 1950,
+  "_file": "garb_wraith",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "garb_wind",
+  "tint": [
+   0.8,
+   0.85,
+   1.0,
+   1.0
+  ]
  },
  {
   "id": "mace_blessed",
@@ -804,12 +2529,50 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_blessed"
+  "_file": "mace_blessed",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
  },
  {
   "id": "mace_dawn",
   "display_name": "새벽의 홀",
-  "description": "마지막 봉인을 밝히는 새벽의 홀입니다.",
+  "description": "마지막 게이트를 밝히는 새벽의 홀입니다.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 34,
+  "mag": 82,
+  "def": 0,
+  "res": 8,
+  "spd": 0,
+  "hp": 0,
+  "mp": 36,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 7500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "trial_emblem": 3,
+   "lord_crown": 1,
+   "pearl": 5,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 30000,
+  "_file": "mace_dawn",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
+ },
+ {
+  "id": "mace_grace",
+  "display_name": "은총의 백합 홀",
+  "description": "신관 전용. 금빛 백합이 피어난 홀. 매 턴 MP가 회복된다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -817,25 +2580,173 @@
   "atk": 20,
   "mag": 48,
   "def": 0,
-  "res": 8,
+  "res": 10,
   "spd": 0,
   "hp": 0,
-  "mp": 25,
+  "mp": 21,
   "hit": 0.0,
   "evade": 0.0,
   "crit": 0.0,
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 2500,
   "shop_tier": 0,
   "craft_materials": {
-   "old_bone": 3,
-   "ghost_essence": 3,
+   "ghost_essence": 4,
+   "golem_sandstone": 3,
+   "ember_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "mace_grace",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "priest"
+  ],
+  "mp_regen": 4
+ },
+ {
+  "id": "mace_judgment",
+  "display_name": "심판의 전쇠",
+  "description": "한쪽은 둔기, 한쪽은 송곳인 흑금 전쇠. 저울의 문장이 새겨져 있다.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 27,
+  "mag": 66,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 29,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 14300,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "fallen_feather": 4,
+   "void_shard": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 6450,
+  "_file": "mace_judgment",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": []
+ },
+ {
+  "id": "mace_pearl",
+  "display_name": "진주 조개 메이스",
+  "description": "열린 가리비 속에 큰 진주가 빛나는 메이스.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 22,
+  "mag": 54,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 24,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 8600,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "siren_feather": 4,
+   "pearl": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 3850,
+  "_file": "mace_pearl",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": []
+ },
+ {
+  "id": "mace_purifier",
+  "display_name": "정화의 철퇴",
+  "description": "퇴마사 전용. 부적을 감은 가시 철퇴. 평타가 성속성이 되고 능력 저하에 걸리지 않는다.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 32,
+  "mag": 48,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 21,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "attack_down",
+   "defense_down"
+  ],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "ghost_essence": 4,
+   "golem_sandstone": 3,
+   "ember_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "mace_purifier",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "exorcist"
+  ],
+  "element": 8
+ },
+ {
+  "id": "mace_requiem",
+  "display_name": "진혼의 쇠추 망치",
+  "description": "쇠추가 달린 망치. 휘두를 때마다 망령이 가라앉는다.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 18,
+  "mag": 44,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 20,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5050,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "old_bone": 4,
+   "ghost_essence": 2,
    "abyss_crystal": 1
   },
-  "craft_gold": 2400,
-  "_file": "mace_dawn"
+  "craft_gold": 2250,
+  "_file": "mace_requiem",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": []
  },
  {
   "id": "mace_saint",
@@ -862,12 +2773,53 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_saint"
+  "_file": "mace_saint",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
+ },
+ {
+  "id": "mace_seraph",
+  "display_name": "세라핌의 홀",
+  "description": "성녀 전용. 여섯 날개와 두 겹의 후광. 매 턴 HP와 MP가 회복된다.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 32,
+  "mag": 78,
+  "def": 0,
+  "res": 26,
+  "spd": 0,
+  "hp": 0,
+  "mp": 34,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "pearl": 3
+  },
+  "craft_gold": 24000,
+  "_file": "mace_seraph",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "saint"
+  ],
+  "hp_regen": 0.06,
+  "mp_regen": 9
  },
  {
   "id": "mace_silver",
-  "display_name": "은빛 메이스",
-  "description": "은빛 머리 장식에 기도를 담은 메이스입니다.",
+  "display_name": "의료용 메이스",
+  "description": "은빛 머리 장식이 달린 응급 구조용 메이스입니다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -889,12 +2841,52 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_silver"
+  "_file": "mace_silver",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
+ },
+ {
+  "id": "mace_verdict",
+  "display_name": "판결의 망치",
+  "description": "심판관 전용. 쇠테를 두른 거대한 의사봉. 평타가 성속성이 되고 치명타율이 높다.",
+  "slot": "weapon",
+  "classes": [
+   "cleric"
+  ],
+  "atk": 64,
+  "mag": 78,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 34,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.13,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "pearl": 3
+  },
+  "craft_gold": 24000,
+  "_file": "mace_verdict",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "inquisitor"
+  ],
+  "element": 8
  },
  {
   "id": "mace_wood",
-  "display_name": "나무 메이스",
-  "description": "초보 성직자를 위한 소박한 나무 메이스입니다.",
+  "display_name": "구급 지팡이",
+  "description": "초보 응급 구조원을 위한 소박한 나무 지팡이. 상처에 대는 것만으로도 든든하다.",
   "slot": "weapon",
   "classes": [
    "cleric"
@@ -916,12 +2908,15 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "mace_wood"
+  "_file": "mace_wood",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
  },
  {
   "id": "robe_cloth",
-  "display_name": "무명 로브",
-  "description": "마법사와 성직자가 함께 입는 소박한 로브입니다.",
+  "display_name": "입문용 마력 코트",
+  "description": "마법사와 힐러가 함께 입는 소박한 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -944,12 +2939,15 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_cloth"
+  "_file": "robe_cloth",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
  },
  {
   "id": "robe_dawn",
-  "display_name": "여명의 법의",
-  "description": "봉인의 힘이 착용자를 감싸는 여명의 법의입니다.",
+  "display_name": "새벽 마력 코트",
+  "description": "새벽 길드의 빛을 수놓은 최상급 마력 코트입니다. 마력이 새벽처럼 퍼진다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -957,31 +2955,35 @@
   ],
   "atk": 0,
   "mag": 0,
-  "def": 23,
-  "res": 41,
+  "def": 38,
+  "res": 70,
   "spd": 0,
-  "hp": 50,
-  "mp": 40,
+  "hp": 72,
+  "mp": 67,
   "hit": 0.0,
   "evade": 0.0,
   "crit": 0.0,
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 7500,
   "shop_tier": 0,
   "craft_materials": {
-   "ghost_essence": 3,
-   "frost_fur": 3,
+   "trial_emblem": 3,
+   "leviathan_fin": 2,
+   "siren_feather": 5,
    "abyss_crystal": 1
   },
-  "craft_gold": 2000,
-  "_file": "robe_dawn"
+  "craft_gold": 26000,
+  "_file": "robe_dawn",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
  },
  {
   "id": "robe_mystic",
-  "display_name": "신비의 로브",
-  "description": "신비한 문양이 마법 방어를 높여 주는 로브입니다.",
+  "display_name": "전술 마력 코트",
+  "description": "문양이 마법 방어를 높여 주는 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -1004,12 +3006,57 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_mystic"
+  "_file": "robe_mystic",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "robe_pearl",
+  "display_name": "진주빛 마력 코트",
+  "description": "진주 가루로 물들인 비단 코트. 마력이 잔잔히 흐른다.",
+  "slot": "armor",
+  "classes": [
+   "mage",
+   "cleric"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 26,
+  "res": 46,
+  "spd": 0,
+  "hp": 48,
+  "mp": 45,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 6950,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "scale_blue": 4,
+   "temple_stone": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 3150,
+  "_file": "robe_pearl",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": [],
+  "model": "robe_dawn",
+  "tint": [
+   1.0,
+   0.86,
+   0.92,
+   1.0
+  ]
  },
  {
   "id": "robe_sage",
-  "display_name": "현자의 법의",
-  "description": "현자의 지식으로 짜인 고급 마법 법의입니다.",
+  "display_name": "현자 마력 코트",
+  "description": "현자의 지식으로 짜인 고급 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -1032,12 +3079,15 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_sage"
+  "_file": "robe_sage",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
  },
  {
   "id": "robe_silk",
-  "display_name": "비단 로브",
-  "description": "마력의 흐름을 돕는 부드러운 비단 로브입니다.",
+  "display_name": "마력 코트",
+  "description": "마력의 흐름을 돕는 부드러운 실크 마력 코트입니다.",
   "slot": "armor",
   "classes": [
    "mage",
@@ -1060,12 +3110,244 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "robe_silk"
+  "_file": "robe_silk",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
+ },
+ {
+  "id": "robe_spirit",
+  "display_name": "정화 마력 코트",
+  "description": "망자의 기운을 달래는 주문이 수놓인 마력 코트입니다.",
+  "slot": "armor",
+  "classes": [
+   "mage",
+   "cleric"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 21,
+  "res": 38,
+  "spd": 0,
+  "hp": 39,
+  "mp": 36,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 4100,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "cursed_straw": 4,
+   "old_bone": 2,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 1850,
+  "_file": "robe_spirit",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [],
+  "model": "robe_sage",
+  "tint": [
+   0.7,
+   1.0,
+   0.85,
+   1.0
+  ]
+ },
+ {
+  "id": "robe_void",
+  "display_name": "공허 마력 코트",
+  "description": "공허의 실로 짠 마력 코트. 입은 이의 마력을 깊게 끌어낸다.",
+  "slot": "armor",
+  "classes": [
+   "mage",
+   "cleric"
+  ],
+  "atk": 0,
+  "mag": 0,
+  "def": 31,
+  "res": 57,
+  "spd": 0,
+  "hp": 58,
+  "mp": 55,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 11550,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "shadow_pelt": 4,
+   "gargoyle_horn": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 5200,
+  "_file": "robe_void",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": [],
+  "model": "robe_sage",
+  "tint": [
+   0.62,
+   0.48,
+   0.95,
+   1.0
+  ]
+ },
+ {
+  "id": "staff_abyss_eye",
+  "display_name": "심연의 눈",
+  "description": "심연술사 전용. 촉수가 거대한 눈을 감싼 지팡이. 평타가 암속성이 되고 TP를 품고 시작한다.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 0,
+  "mag": 92,
+  "def": 0,
+  "res": 0,
+  "spd": 10,
+  "hp": 0,
+  "mp": 46,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   7
+  ],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "siren_feather": 3
+  },
+  "craft_gold": 24000,
+  "_file": "staff_abyss_eye",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "abyssal"
+  ],
+  "element": 7,
+  "tp_start": 30
+ },
+ {
+  "id": "staff_arcanum",
+  "display_name": "대마도의 지팡이 아르카눔",
+  "description": "대마도사 전용. 세 겹의 궤도 고리가 푸른 구슬을 감싼다. 마력과 MP 회복이 압도적이다.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 0,
+  "mag": 92,
+  "def": 0,
+  "res": 19,
+  "spd": 0,
+  "hp": 0,
+  "mp": 110,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "siren_feather": 3
+  },
+  "craft_gold": 24000,
+  "_file": "staff_arcanum",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "archmage"
+  ],
+  "mp_regen": 12
+ },
+ {
+  "id": "staff_bone",
+  "display_name": "뼈 장식 완드",
+  "description": "뿔 달린 뼈 장식이 초록 불꽃을 품은 완드. 망자의 힘을 빌린다.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 0,
+  "mag": 52,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 26,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5350,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "ghost_essence": 4,
+   "cursed_straw": 2,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 2400,
+  "_file": "staff_bone",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": []
+ },
+ {
+  "id": "staff_coral",
+  "display_name": "산호 마력 완드",
+  "description": "산호 가지가 바닷물의 마력을 모은다.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 0,
+  "mag": 64,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 32,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 9100,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "scale_blue": 4,
+   "temple_stone": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 4100,
+  "_file": "staff_coral",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": []
  },
  {
   "id": "staff_crystal",
-  "display_name": "수정 지팡이",
-  "description": "맑은 수정이 마력을 모아 주는 지팡이입니다.",
+  "display_name": "마석 완드",
+  "description": "맑은 마석이 마력을 모아 주는 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -1087,12 +3369,54 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_crystal"
+  "_file": "staff_crystal",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
+ },
+ {
+  "id": "staff_hex",
+  "display_name": "저주의 지팡이",
+  "description": "흑마법사 전용. 저주받은 눈이 박힌 비틀린 지팡이. 평타가 암속성이 되고 침묵하지 않는다.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 10,
+  "mag": 56,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 28,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [
+   "silence"
+  ],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "ghost_essence": 5,
+   "jelly_core": 3,
+   "frost_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "staff_hex",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "warlock"
+  ],
+  "element": 7
  },
  {
   "id": "staff_oak",
-  "display_name": "참나무 지팡이",
-  "description": "원소 마법의 기초를 익히는 참나무 지팡이입니다.",
+  "display_name": "연습용 마력 완드",
+  "description": "원소 마법의 기초를 익히는 나무 완드. 헌터 교육원 지급품이다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -1114,12 +3438,56 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_oak"
+  "_file": "staff_oak",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
+ },
+ {
+  "id": "staff_prism",
+  "display_name": "프리즘 지팡이",
+  "description": "원소술사 전용. 네 원소 결정이 프리즘을 감싼다. 매 턴 MP가 회복된다.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 0,
+  "mag": 56,
+  "def": 0,
+  "res": 10,
+  "spd": 0,
+  "hp": 0,
+  "mp": 28,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [
+   4,
+   5,
+   6
+  ],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "ghost_essence": 5,
+   "jelly_core": 3,
+   "frost_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "staff_prism",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "elementalist"
+  ],
+  "mp_regen": 4
  },
  {
   "id": "staff_ruby",
-  "display_name": "홍옥 지팡이",
-  "description": "붉은 홍옥이 강한 마력을 이끌어 내는 지팡이입니다.",
+  "display_name": "홍염 마력 완드",
+  "description": "붉은 홍옥이 강한 마력을 이끌어 내는 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -1141,12 +3509,15 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_ruby"
+  "_file": "staff_ruby",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
  },
  {
   "id": "staff_sage",
-  "display_name": "현자의 지팡이",
-  "description": "현자의 지혜가 깃든 마법 지팡이입니다.",
+  "display_name": "전술 마력 완드",
+  "description": "마법의 흐름을 정리해 주는 전술용 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
@@ -1168,43 +3539,122 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "staff_sage"
+  "_file": "staff_sage",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
  },
  {
   "id": "staff_starlight",
-  "display_name": "성광의 지팡이",
-  "description": "별빛과 봉인의 결정을 엮은 최상급 지팡이입니다.",
+  "display_name": "성광 마력 완드",
+  "description": "별빛과 네 원소의 마석을 엮은 최상급 완드입니다.",
   "slot": "weapon",
   "classes": [
    "mage"
   ],
   "atk": 0,
-  "mag": 56,
+  "mag": 96,
   "def": 0,
   "res": 0,
   "spd": 4,
   "hp": 0,
-  "mp": 30,
+  "mp": 48,
   "hit": 0.0,
   "evade": 0.0,
   "crit": 0.0,
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 7500,
   "shop_tier": 0,
   "craft_materials": {
-   "ghost_essence": 4,
-   "frost_crystal": 1,
-   "abyss_crystal": 1
+   "trial_emblem": 3,
+   "lord_crown": 1,
+   "siren_feather": 5,
+   "frost_crystal": 1
   },
-  "craft_gold": 2400,
-  "_file": "staff_starlight"
+  "craft_gold": 30000,
+  "_file": "staff_starlight",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
+ },
+ {
+  "id": "staff_void",
+  "display_name": "공허 마력 완드",
+  "description": "두 고리 사이에 공허의 구슬이 떠 있는 검은 완드.",
+  "slot": "weapon",
+  "classes": [
+   "mage"
+  ],
+  "atk": 0,
+  "mag": 78,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 39,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.0,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 15100,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "shadow_pelt": 4,
+   "gargoyle_horn": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 6800,
+  "_file": "staff_void",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": []
+ },
+ {
+  "id": "sword_aegis",
+  "display_name": "수호의 검 이지스",
+  "description": "기사 전용. 방패 모양 가드가 달린 넓은 검. 방어력이 크게 오르고 기절하지 않는다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 50,
+  "mag": 0,
+  "def": 18,
+  "res": 10,
+  "spd": 0,
+  "hp": 80,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.03,
+  "element_resists": [],
+  "status_immunities": [
+   "stun"
+  ],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "old_bone": 5,
+   "magma_core": 3,
+   "ember_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "sword_aegis",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "knight"
+  ]
  },
  {
   "id": "sword_bronze",
-  "display_name": "청동 장검",
-  "description": "처음 미궁에 들어서는 검사를 위한 청동 장검입니다.",
+  "display_name": "쇠파이프",
+  "description": "길가에서 주운 쇠파이프. 헌터 첫날의 무기로는 충분하다. 든든하진 않아도 없는 것보단 낫다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -1226,17 +3676,57 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_bronze"
+  "_file": "sword_bronze",
+  "rarity": 0,
+  "tier": 1,
+  "jobs": []
  },
  {
-  "id": "sword_dawn",
-  "display_name": "여명검",
-  "description": "봉인의 힘을 담아 어둠을 가르는 여명의 검입니다.",
+  "id": "sword_conqueror",
+  "display_name": "정복왕의 대검",
+  "description": "워로드 전용. 왕관 가드의 흑금 대검. 전투 시작부터 TP를 품는다.",
   "slot": "weapon",
   "classes": [
    "warrior"
   ],
-  "atk": 56,
+  "atk": 92,
+  "mag": 0,
+  "def": 16,
+  "res": 0,
+  "spd": 0,
+  "hp": 192,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.13,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "gargoyle_horn": 3
+  },
+  "craft_gold": 24000,
+  "_file": "sword_conqueror",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "warlord"
+  ],
+  "tp_start": 35
+ },
+ {
+  "id": "sword_dawn",
+  "display_name": "새벽검",
+  "description": "새벽 길드의 문장을 새긴 최상급 검. 어둠을 가르는 첫 빛처럼 날이 선다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 96,
   "mag": 0,
   "def": 0,
   "res": 0,
@@ -1249,19 +3739,23 @@
   "element_resists": [],
   "status_immunities": [],
   "price": 0,
-  "sell_price": 1500,
+  "sell_price": 7500,
   "shop_tier": 0,
   "craft_materials": {
-   "old_bone": 4,
-   "ember_crystal": 1,
-   "abyss_crystal": 1
+   "trial_emblem": 3,
+   "lord_crown": 1,
+   "void_shard": 5,
+   "ember_crystal": 1
   },
-  "craft_gold": 2400,
-  "_file": "sword_dawn"
+  "craft_gold": 30000,
+  "_file": "sword_dawn",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": []
  },
  {
   "id": "sword_flamberge",
-  "display_name": "플람베르주",
+  "display_name": "웨이브 블레이드",
   "description": "물결치는 칼날이 적의 급소를 노리는 검입니다.",
   "slot": "weapon",
   "classes": [
@@ -1284,12 +3778,52 @@
   "shop_tier": 3,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_flamberge"
+  "_file": "sword_flamberge",
+  "rarity": 2,
+  "tier": 4,
+  "jobs": []
+ },
+ {
+  "id": "sword_holy_avenger",
+  "display_name": "성검 홀리 어벤저",
+  "description": "성기사 전용. 천사의 날개 가드가 달린 성검. 평타가 성속성이 된다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 92,
+  "mag": 16,
+  "def": 0,
+  "res": 22,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.08,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 6000,
+  "shop_tier": 0,
+  "craft_materials": {
+   "leviathan_fin": 1,
+   "void_shard": 5,
+   "gargoyle_horn": 3
+  },
+  "craft_gold": 24000,
+  "_file": "sword_holy_avenger",
+  "rarity": 3,
+  "tier": 8,
+  "jobs": [
+   "paladin"
+  ],
+  "element": 8
  },
  {
   "id": "sword_iron",
-  "display_name": "무쇠 장검",
-  "description": "단단한 무쇠로 벼린 실용적인 장검입니다.",
+  "display_name": "삼단봉",
+  "description": "휴대성이 좋은 삼단봉. 손목 스냅으로 빠르게 휘두를 수 있다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -1311,12 +3845,15 @@
   "shop_tier": 1,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_iron"
+  "_file": "sword_iron",
+  "rarity": 0,
+  "tier": 2,
+  "jobs": []
  },
  {
   "id": "sword_knight",
-  "display_name": "기사의 검",
-  "description": "기사단의 문장이 새겨진 믿음직한 검입니다.",
+  "display_name": "강철 사냥 단검",
+  "description": "사냥 헌터들이 즐겨 쓰는 강철 단검. 날이 짧아 다루기 쉽다.",
   "slot": "weapon",
   "classes": [
    "warrior"
@@ -1338,6 +3875,147 @@
   "shop_tier": 2,
   "craft_materials": {},
   "craft_gold": 0,
-  "_file": "sword_knight"
+  "_file": "sword_knight",
+  "rarity": 1,
+  "tier": 3,
+  "jobs": []
+ },
+ {
+  "id": "sword_ravager",
+  "display_name": "파괴의 대검",
+  "description": "광전사 전용. 톱니 등날의 거대한 식칼. 치명타율이 매우 높지만 방어가 허술해진다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 63,
+  "mag": 0,
+  "def": -12,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.0,
+  "evade": 0.0,
+  "crit": 0.18,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 0,
+  "sell_price": 2500,
+  "shop_tier": 0,
+  "craft_materials": {
+   "old_bone": 5,
+   "magma_core": 3,
+   "ember_crystal": 1
+  },
+  "craft_gold": 6000,
+  "_file": "sword_ravager",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": [
+   "berserker"
+  ]
+ },
+ {
+  "id": "sword_runic",
+  "display_name": "마석 각인 블레이드",
+  "description": "게이트 마석 가루로 각인한 장검. 칼날이 게이트의 기운에 반응한다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 52,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.01,
+  "evade": 0.0,
+  "crit": 0.04,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 5250,
+  "sell_price": -1,
+  "shop_tier": 4,
+  "craft_materials": {
+   "old_bone": 4,
+   "ghost_essence": 2,
+   "abyss_crystal": 1
+  },
+  "craft_gold": 2350,
+  "_file": "sword_runic",
+  "rarity": 2,
+  "tier": 5,
+  "jobs": []
+ },
+ {
+  "id": "sword_tidal",
+  "display_name": "심해 곡도",
+  "description": "A급 신전의 물결을 닮은 곡도. 칼등에 파도 문양이 빛난다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 64,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.02,
+  "evade": 0.0,
+  "crit": 0.05,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 8900,
+  "sell_price": -1,
+  "shop_tier": 5,
+  "craft_materials": {
+   "pearl": 4,
+   "scale_blue": 3,
+   "leviathan_fin": 1
+  },
+  "craft_gold": 4000,
+  "_file": "sword_tidal",
+  "rarity": 2,
+  "tier": 6,
+  "jobs": []
+ },
+ {
+  "id": "sword_void",
+  "display_name": "공허 절단검",
+  "description": "심연의 핵에서 벼린 검은 칼날. 갈라진 틈으로 보랏빛이 새어 나온다.",
+  "slot": "weapon",
+  "classes": [
+   "warrior"
+  ],
+  "atk": 78,
+  "mag": 0,
+  "def": 0,
+  "res": 0,
+  "spd": 0,
+  "hp": 0,
+  "mp": 0,
+  "hit": 0.03,
+  "evade": 0.0,
+  "crit": 0.06,
+  "element_resists": [],
+  "status_immunities": [],
+  "price": 14850,
+  "sell_price": -1,
+  "shop_tier": 6,
+  "craft_materials": {
+   "void_shard": 4,
+   "shadow_pelt": 3,
+   "lord_crown": 1
+  },
+  "craft_gold": 6700,
+  "_file": "sword_void",
+  "rarity": 2,
+  "tier": 7,
+  "jobs": []
  }
 ]

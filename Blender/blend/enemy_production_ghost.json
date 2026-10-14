@@ -1,0 +1,129 @@
+{
+  "id": "ghost",
+  "is_boss": false,
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/spirits.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:28:31Z",
+  "files": {
+    "fbx": {
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/ghost/ghost.fbx",
+      "bytes": 819932
+    },
+    "blend": {
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_ghost.blend",
+      "bytes": 439299
+    },
+    "previews": [
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost.png",
+        "bytes": 161958
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_side.png",
+        "bytes": 154016
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_attack.png",
+        "bytes": 151915
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_cast.png",
+        "bytes": 155576
+      },
+      {
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_ghost_die.png",
+        "bytes": 156935
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 9848,
+    "vertices": 4956,
+    "bones": 8,
+    "materials": [
+      "M_Clear",
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 9848,
+    "vertices": 4956,
+    "bones": 8,
+    "materials": [
+      "M_Clear",
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

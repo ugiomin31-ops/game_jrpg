@@ -1,0 +1,3201 @@
+[
+ {
+  "id": "verdant_ruins",
+  "floor_label": "B1F",
+  "area_name": "이끼 낀 숲의 유적",
+  "area_description": "이끼 덮인 돌기둥 사이로 오래된 통로가 이어지고 있다.",
+  "rows": [
+   "###############",
+   "#S.......N..###",
+   "#<#.#######.###",
+   "#.........T.###",
+   "#.#############",
+   "#...........###",
+   "###.#.#.###.###",
+   "#.....T.....###",
+   "#.#############",
+   "#..E........###",
+   "#######.#.#N###",
+   "#T.........T..#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "verdant_ruins",
+  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
+  "encounter_groups": [
+   [
+    "slime",
+    "slime"
+   ],
+   [
+    "slime",
+    "sprout"
+   ],
+   [
+    "sprout",
+    "slime",
+    "slime"
+   ],
+   [
+    "sprout",
+    "sprout"
+   ],
+   [
+    "horned_rabbit",
+    "horned_rabbit"
+   ],
+   [
+    "horned_rabbit",
+    "slime",
+    "sprout"
+   ]
+  ],
+  "showcase_group": [
+   "slime",
+   "sprout",
+   "slime"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.078,
+   0.098,
+   0.168,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "overlay": "vines",
+  "encounter_rate": 0.12,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     1,
+     11
+    ],
+    "contents": {
+     "gold": 50,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "healing_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     10,
+     3
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_lucky_charm": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     6,
+     7
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "remedy": 1
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "slime",
+     "sprout",
+     "slime"
+    ]
+   }
+  ],
+  "foes": [],
+  "key_name": "",
+  "lore_text": "여명의 마을 아래, 대현자 루멘은 '심연'을 가두었다. 네 개의 봉인이 그 문을 지킨다.",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "여명의 마을 아래, 대현자 루멘은 '심연'을 가두었다. 네 개의 봉인이 그 문을 지킨다."
+   },
+   {
+    "cell": [
+     11,
+     10
+    ],
+    "text": "숲의 봉인은 고목에게 맡긴다. 뿌리가 땅을 붙드는 한, 심연은 오르지 못하리라. — 루멘"
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "b1_verdant_ruins"
+ },
+ {
+  "id": "frost_grotto",
+  "floor_label": "B4F",
+  "area_name": "얼어붙은 해식 동굴",
+  "area_description": "바닷물이 얼어붙은 동굴에 차가운 바람이 스며들고 있다.",
+  "rows": [
+   "###############",
+   "#SW...#...X.###",
+   "#<#.#.#.###.###",
+   "#.....#.#T..###",
+   "#.#####.#.#####",
+   "#...TX..#...###",
+   "#.#.#.#.###.###",
+   "#..N#.......###",
+   "#####.#########",
+   "#..E..#T....###",
+   "#.#####.#.#.###",
+   "#.T...N.#..T..#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "frost_grotto",
+  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
+  "encounter_groups": [
+   [
+    "jellyfish",
+    "jellyfish",
+    "coral_crab"
+   ],
+   [
+    "jellyfish",
+    "penguin_mage"
+   ],
+   [
+    "coral_crab",
+    "jellyfish",
+    "jellyfish",
+    "jellyfish"
+   ],
+   [
+    "penguin_mage",
+    "coral_crab"
+   ],
+   [
+    "jellyfish",
+    "jellyfish",
+    "penguin_mage"
+   ],
+   [
+    "frost_spider",
+    "jellyfish",
+    "jellyfish"
+   ],
+   [
+    "snow_fairy",
+    "penguin_mage",
+    "coral_crab"
+   ],
+   [
+    "frost_spider",
+    "frost_spider",
+    "snow_fairy"
+   ]
+  ],
+  "showcase_group": [
+   "coral_crab",
+   "jellyfish",
+   "jellyfish",
+   "penguin_mage"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.06,
+   0.12,
+   0.2,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   0.7,
+   0.88,
+   1.0,
+   1.0
+  ],
+  "overlay": "icicles",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     11,
+     11
+    ],
+    "contents": {
+     "gold": 400,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     9,
+     3
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     2,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_frost_amulet": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     4,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "sword_knight": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     7,
+     9
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "remedy": 3
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "coral_crab",
+     "jellyfish",
+     "jellyfish",
+     "penguin_mage"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b4_1",
+    "group": [
+     "elite_ice_wolf",
+     "ice_wolf"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ],
+     [
+      7,
+      5
+     ],
+     [
+      7,
+      6
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      6,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      6
+     ]
+    ],
+    "chase_range": 4,
+    "power": 1.6
+   }
+  ],
+  "key_name": "",
+  "lore_text": "바다가 이 동굴까지 밀려왔던 시절, 크라켄 여왕은 두 번째 봉인을 품었다.",
+  "lore_stones": [
+   {
+    "cell": [
+     3,
+     7
+    ],
+    "text": "바다가 이 동굴까지 밀려왔던 시절, 크라켄 여왕은 두 번째 봉인을 품었다."
+   },
+   {
+    "cell": [
+     6,
+     11
+    ],
+    "text": "얼음 속에 갇힌 일지 조각: \"스승님은 틀렸다. 심연은 재앙이 아니라 힘이다.\" — 모르데인"
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "b2_frost_grotto"
+ },
+ {
+  "id": "ember_caverns",
+  "floor_label": "B7F",
+  "area_name": "불타는 사막 동굴",
+  "area_description": "모래 섞인 열기가 갈라진 바위틈에서 피어오르고 있다.",
+  "rows": [
+   "###############",
+   "#SW..T...N..###",
+   "#<#.#.#.###T###",
+   "#...#.....X.###",
+   "#.#.#.#.#.#####",
+   "#...#..X#...###",
+   "#####.#T#.#.###",
+   "#...........###",
+   "#.#####.#.#####",
+   "#..E.X..#...###",
+   "#.#T#.#.#.#.###",
+   "#.XN#...#..T..#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "ember_caverns",
+  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
+  "encounter_groups": [
+   [
+    "magma_slime",
+    "magma_slime",
+    "magma_slime"
+   ],
+   [
+    "magma_slime",
+    "sand_golem"
+   ],
+   [
+    "magma_slime",
+    "magma_slime",
+    "phoenix"
+   ],
+   [
+    "sand_golem",
+    "magma_slime",
+    "magma_slime"
+   ],
+   [
+    "phoenix",
+    "magma_slime",
+    "sand_golem"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "magma_slime"
+   ],
+   [
+    "flame_elemental",
+    "magma_slime",
+    "sand_scorpion"
+   ],
+   [
+    "sand_scorpion",
+    "phoenix"
+   ]
+  ],
+  "showcase_group": [
+   "magma_slime",
+   "magma_slime",
+   "sand_golem",
+   "phoenix"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.17,
+   0.08,
+   0.05,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   1.0,
+   0.62,
+   0.3,
+   1.0
+  ],
+  "overlay": "stalactites",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     11,
+     11
+    ],
+    "contents": {
+     "gold": 1200,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     3,
+     10
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_potion": 3
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     2
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_flame_amulet": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     7,
+     6
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "mace_saint": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     5,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "big_bomb": 1
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "magma_slime",
+     "magma_slime",
+     "sand_golem",
+     "phoenix"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b7_1",
+    "group": [
+     "elite_fire_drake"
+    ],
+    "spawn": [
+     5,
+     3
+    ],
+    "patrol": [
+     [
+      5,
+      3
+     ],
+     [
+      7,
+      3
+     ],
+     [
+      9,
+      3
+     ],
+     [
+      9,
+      5
+     ],
+     [
+      9,
+      7
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    "chase_range": 3,
+    "power": 2.3
+   }
+  ],
+  "key_name": "",
+  "lore_text": "이 사막은 한때 태양의 신전이었다. 스핑크스는 지혜를 시험하는 문지기였다.",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "이 사막은 한때 태양의 신전이었다. 스핑크스는 지혜를 시험하는 문지기였다."
+   },
+   {
+    "cell": [
+     3,
+     11
+    ],
+    "text": "일지: \"불은 정직하다. 모든 것을 태워 진실만 남긴다.\""
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "b3_ember_caverns"
+ },
+ {
+  "id": "haunted_crypt",
+  "floor_label": "B10F",
+  "area_name": "망자의 지하 묘소",
+  "area_description": "잠들지 못한 망자들의 기척이 묘소 깊은 곳에서 느껴진다.",
+  "rows": [
+   "###############",
+   "#SW.#.T..T#K###",
+   "#<#.#.###.#T###",
+   "#...#.#.TX#N###",
+   "#.###N#.###.###",
+   "#...T.X...X.###",
+   "#####.#.###.###",
+   "#...L..X.T..###",
+   "#.#############",
+   "#..E........###",
+   "#.#######.#.###",
+   "#.............#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "haunted_crypt",
+  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
+  "encounter_groups": [
+   [
+    "skeleton",
+    "skeleton",
+    "grave_bat"
+   ],
+   [
+    "skeleton",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "grave_bat",
+    "grave_bat",
+    "skeleton"
+   ],
+   [
+    "skeleton",
+    "skeleton",
+    "grave_bat",
+    "grave_bat"
+   ],
+   [
+    "scarecrow",
+    "skeleton"
+   ],
+   [
+    "ghost",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "mimic"
+   ],
+   [
+    "ghost",
+    "ghost",
+    "grave_bat"
+   ]
+  ],
+  "showcase_group": [
+   "skeleton",
+   "skeleton",
+   "skeleton",
+   "grave_bat",
+   "grave_bat"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.09,
+   0.07,
+   0.14,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   0.62,
+   1.0,
+   0.8,
+   1.0
+  ],
+  "overlay": "cobwebs",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     11,
+     2
+    ],
+    "contents": {
+     "gold": 2500,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     4,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "mega_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     9,
+     7
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_shadow_amulet": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     6,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "old_bone": 3
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     8,
+     3
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_ether": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "phoenix_feather": 2
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "skeleton",
+     "skeleton",
+     "skeleton",
+     "grave_bat",
+     "grave_bat"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b10_1",
+    "group": [
+     "elite_skeleton",
+     "skeleton"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ],
+     [
+      7,
+      5
+     ],
+     [
+      7,
+      6
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      6,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      6
+     ]
+    ],
+    "chase_range": 3,
+    "power": 2.35
+   }
+  ],
+  "key_name": "묘지기의 열쇠",
+  "lore_text": "망자의 묘소는 루멘이 잠든 곳. 마지막 봉인은 그의 무덤 그 자체다.",
+  "lore_stones": [
+   {
+    "cell": [
+     5,
+     4
+    ],
+    "text": "망자의 묘소는 루멘이 잠든 곳. 마지막 봉인은 그의 무덤 그 자체다."
+   },
+   {
+    "cell": [
+     11,
+     3
+    ],
+    "text": "해골 병사들은 본래 묘소를 지키던 기사들이다. 지금은 누구의 명령을 듣는가."
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "b4_haunted_crypt"
+ },
+ {
+  "id": "verdant_ruins_b2",
+  "floor_label": "B2F",
+  "area_name": "덩굴 회랑",
+  "area_description": "검게 물든 덩굴이 회랑의 기둥을 칭칭 감고 있다.",
+  "rows": [
+   "###############",
+   "#S......TN..###",
+   "#<###.#####.###",
+   "#.L.........###",
+   "#.#X###########",
+   "#.#T.....X..###",
+   "#.###.#.#.#N###",
+   "#.#........T###",
+   "#.#.###########",
+   "#..E........###",
+   "#T#########.###",
+   "#.....T....K..#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "verdant_ruins",
+  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
+  "encounter_groups": [
+   [
+    "mushroom",
+    "mushroom",
+    "slime"
+   ],
+   [
+    "bat",
+    "sprout",
+    "sprout"
+   ],
+   [
+    "mushroom",
+    "sprout",
+    "slime",
+    "slime"
+   ],
+   [
+    "bat",
+    "bat"
+   ],
+   [
+    "bat",
+    "mushroom",
+    "sprout"
+   ],
+   [
+    "killer_bee",
+    "killer_bee",
+    "horned_rabbit"
+   ],
+   [
+    "mandragora",
+    "mushroom",
+    "sprout"
+   ],
+   [
+    "rhino_beetle",
+    "bat"
+   ],
+   [
+    "horned_rabbit",
+    "horned_rabbit",
+    "killer_bee"
+   ]
+  ],
+  "showcase_group": [
+   "mushroom",
+   "mushroom",
+   "bat"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.078,
+   0.098,
+   0.168,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "overlay": "vines",
+  "encounter_rate": 0.11,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     11,
+     7
+    ],
+    "contents": {
+     "gold": 120,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     6,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "ether": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     3,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "bow_hunter": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     8,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "healing_potion": 3
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     1,
+     10
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "return_stone": 1
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "mushroom",
+     "mushroom",
+     "bat"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b2_1",
+    "group": [
+     "elite_mushroom",
+     "mushroom"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ],
+     [
+      7,
+      5
+     ],
+     [
+      7,
+      6
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      6,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      6
+     ]
+    ],
+    "chase_range": 0,
+    "power": 1.4
+   }
+  ],
+  "key_name": "덩굴 문 열쇠",
+  "lore_text": "제자 모르데인이 오늘도 봉인을 살폈다. 그는 스승보다 오래 살 방법을 자주 묻곤 했다.",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "제자 모르데인이 오늘도 봉인을 살폈다. 그는 스승보다 오래 살 방법을 자주 묻곤 했다."
+   },
+   {
+    "cell": [
+     11,
+     6
+    ],
+    "text": "덩굴이 검게 물들고 있다. 고목의 노래가 더는 들리지 않는다."
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "floor02_verdant_ruins_b2"
+ },
+ {
+  "id": "verdant_ruins_b3",
+  "floor_label": "B3F",
+  "area_name": "고목의 성소",
+  "area_description": "거대한 고목의 뿌리가 성소의 바닥을 들어 올렸다.",
+  "rows": [
+   "###############",
+   "#S....T..N..###",
+   "#<###.#####T###",
+   "#.........#.###",
+   "#.#######.#.###",
+   "#.#....N#...###",
+   "#.#.#.#X#.#.###",
+   "#X#.#T..L.#.###",
+   "#.#.###.#.#.###",
+   "#..E......#.###",
+   "#.#########H###",
+   "#T......X.TKB.#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "verdant_ruins",
+  "battle_backdrop": "res://art/backgrounds/verdant_ruins_battle.png",
+  "encounter_groups": [
+   [
+    "bat",
+    "bat",
+    "mushroom",
+    "mushroom"
+   ],
+   [
+    "mushroom",
+    "mushroom",
+    "mushroom",
+    "sprout"
+   ],
+   [
+    "bat",
+    "bat",
+    "bat"
+   ],
+   [
+    "bat",
+    "mushroom",
+    "mushroom",
+    "slime"
+   ],
+   [
+    "bat",
+    "bat",
+    "sprout",
+    "sprout"
+   ],
+   [
+    "rhino_beetle",
+    "killer_bee",
+    "killer_bee"
+   ],
+   [
+    "pixie",
+    "mandragora",
+    "bat"
+   ],
+   [
+    "pixie",
+    "rhino_beetle",
+    "mushroom"
+   ],
+   [
+    "killer_bee",
+    "killer_bee",
+    "killer_bee",
+    "mandragora"
+   ]
+  ],
+  "showcase_group": [
+   "bat",
+   "bat",
+   "mushroom",
+   "mushroom",
+   "sprout"
+  ],
+  "boss_group": [
+   "forest_guardian"
+  ],
+  "fog_color": [
+   0.078,
+   0.098,
+   0.168,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "overlay": "vines",
+  "encounter_rate": 0.11,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     10,
+     11
+    ],
+    "contents": {
+     "gold": 200,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     5,
+     7
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_power_band": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     11,
+     2
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "robe_silk": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     1,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "phoenix_feather": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     6,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "ether": 2
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "bat",
+     "bat",
+     "mushroom",
+     "mushroom",
+     "sprout"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b3_1",
+    "group": [
+     "elite_bat",
+     "bat",
+     "bat"
+    ],
+    "spawn": [
+     11,
+     3
+    ],
+    "patrol": [
+     [
+      11,
+      3
+     ],
+     [
+      11,
+      9
+     ]
+    ],
+    "chase_range": 3,
+    "power": 1.5
+   },
+   {
+    "id": "foe_b3_2",
+    "group": [
+     "elite_mushroom",
+     "mushroom"
+    ],
+    "spawn": [
+     3,
+     11
+    ],
+    "patrol": [
+     [
+      3,
+      11
+     ],
+     [
+      4,
+      11
+     ]
+    ],
+    "chase_range": 0,
+    "power": 1.6
+   },
+   {
+    "id": "foe_b3_3",
+    "group": [
+     "elite_rhino_beetle",
+     "rhino_beetle"
+    ],
+    "spawn": [
+     1,
+     9
+    ],
+    "patrol": [
+     [
+      1,
+      9
+     ],
+     [
+      1,
+      10
+     ]
+    ],
+    "chase_range": 0,
+    "power": 1.6
+   }
+  ],
+  "key_name": "고목 성소 열쇠",
+  "lore_text": "고목 수호자여, 그대의 뿌리에 숲의 봉인을 묶는다. 잠들지 말고 지켜라.",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "고목 수호자여, 그대의 뿌리에 숲의 봉인을 묶는다. 잠들지 말고 지켜라."
+   },
+   {
+    "cell": [
+     7,
+     5
+    ],
+    "text": "누군가 고목의 뿌리에 검은 결정을 박아 넣었다. 심연의 냄새가 난다."
+   }
+  ],
+  "boss_pre_text": "…침입자인가.\n숲의 봉인을 노리는 자는 모두 뿌리 아래 잠들게 하리라.",
+  "boss_post_text": "검은 결정이… 부서졌군. 고맙다, 여명의 아이들아.\n그자는… 바다로 내려갔다. 서둘러라.",
+  "_file": "floor03_verdant_ruins_b3"
+ },
+ {
+  "id": "frost_grotto_b5",
+  "floor_label": "B5F",
+  "area_name": "빙결의 수로",
+  "area_description": "얼음 아래로 검은 바닷물이 소리 없이 흐른다.",
+  "rows": [
+   "###############",
+   "#S......#..T###",
+   "#<#.#.#N#.#.###",
+   "#...#.....#X###",
+   "#####.###.#.###",
+   "#.....T...#.###",
+   "#.###.#.#.#.###",
+   "#.#.....LX..###",
+   "#.#X#####.#####",
+   "#..ET.X...#K###",
+   "#.#.#.#####T###",
+   "#T..#..T..N...#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "frost_grotto",
+  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
+  "encounter_groups": [
+   [
+    "ice_wolf",
+    "ice_wolf",
+    "jellyfish"
+   ],
+   [
+    "penguin_mage",
+    "penguin_mage",
+    "coral_crab"
+   ],
+   [
+    "ice_wolf",
+    "penguin_mage",
+    "jellyfish",
+    "jellyfish"
+   ],
+   [
+    "coral_crab",
+    "coral_crab",
+    "ice_wolf"
+   ],
+   [
+    "ice_wolf",
+    "ice_wolf",
+    "ice_wolf"
+   ],
+   [
+    "yeti",
+    "frost_spider"
+   ],
+   [
+    "snow_fairy",
+    "ice_wolf",
+    "ice_wolf"
+   ],
+   [
+    "frost_spider",
+    "frost_spider",
+    "penguin_mage"
+   ]
+  ],
+  "showcase_group": [
+   "ice_wolf",
+   "ice_wolf",
+   "ice_wolf",
+   "penguin_mage"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.06,
+   0.12,
+   0.2,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   0.7,
+   0.88,
+   1.0,
+   1.0
+  ],
+  "overlay": "icicles",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     11,
+     10
+    ],
+    "contents": {
+     "gold": 600,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     1,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "ether": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     6,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_awake_bell": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     7,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "garb_shadow": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     4,
+     9
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "phoenix_feather": 1
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "ice_wolf",
+     "ice_wolf",
+     "ice_wolf",
+     "penguin_mage"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b5_1",
+    "group": [
+     "elite_coral_crab",
+     "jellyfish",
+     "jellyfish"
+    ],
+    "spawn": [
+     8,
+     9
+    ],
+    "patrol": [
+     [
+      8,
+      9
+     ],
+     [
+      9,
+      9
+     ]
+    ],
+    "chase_range": 0,
+    "power": 1.95
+   },
+   {
+    "id": "foe_b5_2",
+    "group": [
+     "elite_ice_wolf",
+     "ice_wolf"
+    ],
+    "spawn": [
+     5,
+     3
+    ],
+    "patrol": [
+     [
+      5,
+      3
+     ],
+     [
+      7,
+      3
+     ],
+     [
+      9,
+      3
+     ],
+     [
+      9,
+      5
+     ],
+     [
+      9,
+      7
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    "chase_range": 4,
+    "power": 2.0
+   }
+  ],
+  "key_name": "얼음 수문 열쇠",
+  "lore_text": "펭귄들이 얼음 위에 이상한 문양을 그린다. 누군가에게 배운 주문이다.",
+  "lore_stones": [
+   {
+    "cell": [
+     7,
+     2
+    ],
+    "text": "펭귄들이 얼음 위에 이상한 문양을 그린다. 누군가에게 배운 주문이다."
+   },
+   {
+    "cell": [
+     10,
+     11
+    ],
+    "text": "여왕의 노래는 원래 성난 바다를 잠재우는 자장가였다고 한다."
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "floor05_frost_grotto_b5"
+ },
+ {
+  "id": "frost_grotto_b6",
+  "floor_label": "B6F",
+  "area_name": "여왕의 빙해",
+  "area_description": "얼어붙은 바다 한가운데, 여왕의 노랫소리가 울린다.",
+  "rows": [
+   "###############",
+   "#S....#.....###",
+   "#<#.#.#.###.###",
+   "#....N#.LT..###",
+   "#.#####.#X#####",
+   "#...T...#...###",
+   "#####.#.###.###",
+   "#...........###",
+   "#.#############",
+   "#X.E...TN.X.###",
+   "#######.#.#H###",
+   "#KTN.......TB.#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "frost_grotto",
+  "battle_backdrop": "res://art/backgrounds/frost_grotto_battle.png",
+  "encounter_groups": [
+   [
+    "ice_wolf",
+    "ice_wolf",
+    "penguin_mage",
+    "jellyfish"
+   ],
+   [
+    "coral_crab",
+    "coral_crab",
+    "penguin_mage",
+    "penguin_mage"
+   ],
+   [
+    "ice_wolf",
+    "ice_wolf",
+    "coral_crab",
+    "penguin_mage"
+   ],
+   [
+    "jellyfish",
+    "jellyfish",
+    "jellyfish",
+    "penguin_mage",
+    "penguin_mage"
+   ],
+   [
+    "ice_golem",
+    "snow_fairy",
+    "snow_fairy"
+   ],
+   [
+    "yeti",
+    "yeti",
+    "frost_spider"
+   ],
+   [
+    "ice_golem",
+    "ice_wolf",
+    "penguin_mage"
+   ]
+  ],
+  "showcase_group": [
+   "coral_crab",
+   "coral_crab",
+   "penguin_mage",
+   "penguin_mage",
+   "jellyfish"
+  ],
+  "boss_group": [
+   "frost_kraken"
+  ],
+  "fog_color": [
+   0.06,
+   0.12,
+   0.2,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   0.7,
+   0.88,
+   1.0,
+   1.0
+  ],
+  "overlay": "icicles",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     2,
+     11
+    ],
+    "contents": {
+     "gold": 800,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_ether": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     9,
+     3
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_sage_pendant": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     4,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "return_stone": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     7,
+     9
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "bomb": 3
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "coral_crab",
+     "coral_crab",
+     "penguin_mage",
+     "penguin_mage",
+     "jellyfish"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b6_1",
+    "group": [
+     "elite_coral_crab",
+     "jellyfish",
+     "jellyfish"
+    ],
+    "spawn": [
+     11,
+     9
+    ],
+    "patrol": [
+     [
+      11,
+      9
+     ],
+     [
+      9,
+      9
+     ]
+    ],
+    "chase_range": 1,
+    "power": 2.05
+   },
+   {
+    "id": "foe_b6_2",
+    "group": [
+     "elite_ice_wolf",
+     "ice_wolf"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ],
+     [
+      7,
+      5
+     ],
+     [
+      7,
+      6
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      6,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      6
+     ]
+    ],
+    "chase_range": 4,
+    "power": 2.15
+   },
+   {
+    "id": "foe_b6_3",
+    "group": [
+     "elite_yeti",
+     "yeti"
+    ],
+    "spawn": [
+     10,
+     3
+    ],
+    "patrol": [
+     [
+      10,
+      3
+     ],
+     [
+      11,
+      3
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.45
+   }
+  ],
+  "key_name": "산호 문 열쇠",
+  "lore_text": "일지: \"여왕은 쉽게 꺾였다. 고독한 자일수록 속삭임에 약하다.\"",
+  "lore_stones": [
+   {
+    "cell": [
+     5,
+     3
+    ],
+    "text": "일지: \"여왕은 쉽게 꺾였다. 고독한 자일수록 속삭임에 약하다.\""
+   },
+   {
+    "cell": [
+     8,
+     9
+    ],
+    "text": "빙해 깊은 곳에서 진주가 빛난다. 봉인의 심장이다."
+   },
+   {
+    "cell": [
+     3,
+     11
+    ],
+    "text": "루멘의 각인: \"봉인이 셋 무너지면, 마지막 종은 울리지 않으리라.\""
+   }
+  ],
+  "boss_pre_text": "쉿… 노래를 멈추지 마.\n그 아이가 말했어. 노래를 그치면 다시는 외롭지 않을 거라고.",
+  "boss_post_text": "…아, 이제야 내 노래가 들려.\n모르데인… 그 아이는 울고 있었어. 태양의 신전으로 가렴.",
+  "_file": "floor06_frost_grotto_b6"
+ },
+ {
+  "id": "ember_caverns_b8",
+  "floor_label": "B8F",
+  "area_name": "용암 협곡",
+  "area_description": "붉은 용암이 협곡 아래를 강처럼 흐른다.",
+  "rows": [
+   "###############",
+   "#S.....T#...###",
+   "#<###.#X#.#.###",
+   "#......N#.#T###",
+   "#.#######.#.###",
+   "#.X.......#X###",
+   "#.#.#T#.#.#.###",
+   "#.......L...###",
+   "#.#####.#.#####",
+   "#..E..#T.X..###",
+   "#.###.#.###.###",
+   "#T....X.#KTN..#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "ember_caverns",
+  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
+  "encounter_groups": [
+   [
+    "fire_drake",
+    "magma_slime",
+    "magma_slime"
+   ],
+   [
+    "sand_golem",
+    "phoenix",
+    "magma_slime"
+   ],
+   [
+    "fire_drake",
+    "phoenix"
+   ],
+   [
+    "sand_golem",
+    "sand_golem",
+    "magma_slime"
+   ],
+   [
+    "phoenix",
+    "phoenix",
+    "magma_slime",
+    "magma_slime"
+   ],
+   [
+    "hellhound",
+    "hellhound",
+    "flame_elemental"
+   ],
+   [
+    "lizardman",
+    "harpy",
+    "magma_slime"
+   ],
+   [
+    "harpy",
+    "harpy",
+    "sand_scorpion"
+   ]
+  ],
+  "showcase_group": [
+   "fire_drake",
+   "phoenix",
+   "phoenix",
+   "magma_slime"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.17,
+   0.08,
+   0.05,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   1.0,
+   0.62,
+   0.3,
+   1.0
+  ],
+  "overlay": "stalactites",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     10,
+     11
+    ],
+    "contents": {
+     "gold": 1500,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     3
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "mega_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     1,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_ether": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     5,
+     6
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_wind_boots": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     7,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "armor_dragon": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     7,
+     9
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "phoenix_feather": 2
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "fire_drake",
+     "phoenix",
+     "phoenix",
+     "magma_slime"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b8_1",
+    "group": [
+     "elite_sand_golem",
+     "magma_slime"
+    ],
+    "spawn": [
+     8,
+     9
+    ],
+    "patrol": [
+     [
+      8,
+      9
+     ],
+     [
+      7,
+      9
+     ]
+    ],
+    "chase_range": 1,
+    "power": 2.2
+   },
+   {
+    "id": "foe_b8_2",
+    "group": [
+     "elite_fire_drake"
+    ],
+    "spawn": [
+     1,
+     5
+    ],
+    "patrol": [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      3,
+      7
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      1,
+      7
+     ],
+     [
+      1,
+      6
+     ]
+    ],
+    "chase_range": 3,
+    "power": 2.55
+   },
+   {
+    "id": "foe_b8_3",
+    "group": [
+     "elite_hellhound",
+     "hellhound"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ]
+    ],
+    "chase_range": 3,
+    "power": 2.2
+   }
+  ],
+  "key_name": "협곡 문 열쇠",
+  "lore_text": "용암 아래 묻힌 비석: \"지혜 없는 힘은 스스로를 태운다.\"",
+  "lore_stones": [
+   {
+    "cell": [
+     7,
+     3
+    ],
+    "text": "용암 아래 묻힌 비석: \"지혜 없는 힘은 스스로를 태운다.\""
+   },
+   {
+    "cell": [
+     11,
+     11
+    ],
+    "text": "드레이크들이 신전을 둥지로 삼았다. 수호자는 더 이상 그들을 막지 않는다."
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "floor08_ember_caverns_b8"
+ },
+ {
+  "id": "ember_caverns_b9",
+  "floor_label": "B9F",
+  "area_name": "태양의 제단",
+  "area_description": "무너진 태양 신전, 제단 위에서 불꽃이 눈을 뜬다.",
+  "rows": [
+   "###############",
+   "#S.......N.T###",
+   "#<#.#######.###",
+   "#...#.......###",
+   "#####.#########",
+   "#TN...X.T...###",
+   "#.###.#.###.###",
+   "#..X....L...###",
+   "#########.#####",
+   "#..E..TN#...###",
+   "#.###.#X#.#H###",
+   "#KT...#...XTB.#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "ember_caverns",
+  "battle_backdrop": "res://art/backgrounds/ember_caverns_battle.png",
+  "encounter_groups": [
+   [
+    "fire_drake",
+    "fire_drake",
+    "phoenix"
+   ],
+   [
+    "sand_golem",
+    "fire_drake",
+    "magma_slime",
+    "magma_slime"
+   ],
+   [
+    "phoenix",
+    "phoenix",
+    "fire_drake"
+   ],
+   [
+    "sand_golem",
+    "sand_golem",
+    "phoenix"
+   ],
+   [
+    "lizardman",
+    "lizardman",
+    "phoenix"
+   ],
+   [
+    "harpy",
+    "fire_drake",
+    "flame_elemental"
+   ],
+   [
+    "sand_scorpion",
+    "lizardman",
+    "harpy"
+   ]
+  ],
+  "showcase_group": [
+   "sand_golem",
+   "fire_drake",
+   "fire_drake",
+   "phoenix"
+  ],
+  "boss_group": [
+   "flame_sphinx"
+  ],
+  "fog_color": [
+   0.17,
+   0.08,
+   0.05,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   1.0,
+   0.62,
+   0.3,
+   1.0
+  ],
+  "overlay": "stalactites",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     2,
+     11
+    ],
+    "contents": {
+     "gold": 2000,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "mega_potion": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     8,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_eagle_eye": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     1,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "staff_ruby": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     11,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_ether": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     6,
+     9
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "ember_crystal": 1
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "sand_golem",
+     "fire_drake",
+     "fire_drake",
+     "phoenix"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b9_1",
+    "group": [
+     "elite_sand_golem",
+     "magma_slime"
+    ],
+    "spawn": [
+     5,
+     11
+    ],
+    "patrol": [
+     [
+      5,
+      11
+     ],
+     [
+      3,
+      11
+     ]
+    ],
+    "chase_range": 1,
+    "power": 2.4
+   },
+   {
+    "id": "foe_b9_2",
+    "group": [
+     "elite_fire_drake"
+    ],
+    "spawn": [
+     5,
+     5
+    ],
+    "patrol": [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ],
+     [
+      7,
+      5
+     ],
+     [
+      7,
+      6
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      6,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      6
+     ]
+    ],
+    "chase_range": 4,
+    "power": 2.7
+   }
+  ],
+  "key_name": "태양 문 열쇠",
+  "lore_text": "스핑크스의 수수께끼: \"밤이 가장 깊을 때 오는 것은?\" 바닥에 답이 긁혀 있다 — \"여명\".",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "스핑크스의 수수께끼: \"밤이 가장 깊을 때 오는 것은?\" 바닥에 답이 긁혀 있다 — \"여명\"."
+   },
+   {
+    "cell": [
+     2,
+     5
+    ],
+    "text": "일지: \"스승님은 끝까지 나를 믿었다. 그래서 더 미웠다.\""
+   },
+   {
+    "cell": [
+     7,
+     9
+    ],
+    "text": "세 번째 봉인 앞에 꺼진 등불 하나. 루멘의 것이다."
+   }
+  ],
+  "boss_pre_text": "답하라, 필멸자여.\n영원을 원하는 자에게 끝내 남는 것은 무엇인가?",
+  "boss_post_text": "…답은 '아무것도 없다'.\n그는 끝내 그 답을 듣지 않았다. 묘소로 가라. 마지막 봉인이 기다린다.",
+  "_file": "floor09_ember_caverns_b9"
+ },
+ {
+  "id": "haunted_crypt_b11",
+  "floor_label": "B11F",
+  "area_name": "통곡의 납골당",
+  "area_description": "벽마다 이름 모를 유골이 잠들어 흐느낀다.",
+  "rows": [
+   "###############",
+   "#S.....T.N..###",
+   "#<#.#.#.###.###",
+   "#.L.#......T###",
+   "#.#T#.#.#.#####",
+   "#.#.#..X#...###",
+   "#.#.#.#T#.#.###",
+   "#.X.#......X###",
+   "#####X#########",
+   "#..E.T#.....###",
+   "#.#####.#.#N###",
+   "#T....N.#XTK..#",
+   "#############.#",
+   "#############>#",
+   "###############"
+  ],
+  "tileset": "haunted_crypt",
+  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
+  "encounter_groups": [
+   [
+    "scarecrow",
+    "skeleton",
+    "grave_bat"
+   ],
+   [
+    "wisp",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "scarecrow",
+    "scarecrow",
+    "grave_bat"
+   ],
+   [
+    "wisp",
+    "grave_bat",
+    "grave_bat"
+   ],
+   [
+    "skeleton",
+    "skeleton",
+    "scarecrow",
+    "grave_bat"
+   ],
+   [
+    "dark_knight",
+    "ghost"
+   ],
+   [
+    "lich",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "mimic",
+    "wisp"
+   ],
+   [
+    "ghost",
+    "ghost",
+    "scarecrow"
+   ]
+  ],
+  "showcase_group": [
+   "scarecrow",
+   "wisp",
+   "wisp",
+   "skeleton"
+  ],
+  "boss_group": [],
+  "fog_color": [
+   0.09,
+   0.07,
+   0.14,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   0.62,
+   1.0,
+   0.8,
+   1.0
+  ],
+  "overlay": "cobwebs",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     10,
+     11
+    ],
+    "contents": {
+     "gold": 3000,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     1,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "elixir": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     3
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_clarity_earring": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     3,
+     4
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "abyss_crystal": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     5,
+     9
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "mega_potion": 3
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     7,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "ghost_essence": 2
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     7,
+     6
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "bow_star": 1
+     }
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "scarecrow",
+     "wisp",
+     "wisp",
+     "skeleton"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b11_1",
+    "group": [
+     "elite_scarecrow",
+     "wisp"
+    ],
+    "spawn": [
+     5,
+     3
+    ],
+    "patrol": [
+     [
+      5,
+      3
+     ],
+     [
+      7,
+      3
+     ],
+     [
+      9,
+      3
+     ],
+     [
+      9,
+      5
+     ],
+     [
+      9,
+      7
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    "chase_range": 5,
+    "power": 1.95
+   },
+   {
+    "id": "foe_b11_2",
+    "group": [
+     "elite_skeleton",
+     "skeleton"
+    ],
+    "spawn": [
+     11,
+     9
+    ],
+    "patrol": [
+     [
+      11,
+      9
+     ],
+     [
+      11,
+      11
+     ],
+     [
+      9,
+      11
+     ],
+     [
+      9,
+      9
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.55
+   },
+   {
+    "id": "foe_b11_3",
+    "group": [
+     "elite_dark_knight",
+     "ghost"
+    ],
+    "spawn": [
+     3,
+     5
+    ],
+    "patrol": [
+     [
+      3,
+      5
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.3
+   }
+  ],
+  "key_name": "납골당 열쇠",
+  "lore_text": "일지 마지막 장: \"영원히 살 수 있다면, 스승님을 다시 만날 수 있을까.\"",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "일지 마지막 장: \"영원히 살 수 있다면, 스승님을 다시 만날 수 있을까.\""
+   },
+   {
+    "cell": [
+     6,
+     11
+    ],
+    "text": "납골당 벽의 이름들 사이, 모르데인의 이름만 긁혀 지워져 있다."
+   },
+   {
+    "cell": [
+     11,
+     10
+    ],
+    "text": "혼불들이 속삭인다. \"종을… 울려 줘…\""
+   }
+  ],
+  "boss_pre_text": "",
+  "boss_post_text": "",
+  "_file": "floor11_haunted_crypt_b11"
+ },
+ {
+  "id": "haunted_crypt_b12",
+  "floor_label": "B12F",
+  "area_name": "심연의 옥좌",
+  "area_description": "대현자의 무덤 아래, 심연으로 이어지는 옥좌가 있다.",
+  "rows": [
+   "###############",
+   "#S......TN.X###",
+   "#<###X#####.###",
+   "#.......X...###",
+   "#.###.###.#####",
+   "#T..........###",
+   "#####.#.#.#.###",
+   "#.....X.L..T###",
+   "#.#####T#X#####",
+   "#..ENN#.#...###",
+   "#.###.#.#.#H###",
+   "#..T....#T.KB.#",
+   "#############.#",
+   "#############.#",
+   "###############"
+  ],
+  "tileset": "haunted_crypt",
+  "battle_backdrop": "res://art/backgrounds/haunted_crypt_battle.png",
+  "encounter_groups": [
+   [
+    "wisp",
+    "wisp",
+    "scarecrow"
+   ],
+   [
+    "scarecrow",
+    "skeleton",
+    "wisp",
+    "grave_bat"
+   ],
+   [
+    "wisp",
+    "skeleton",
+    "skeleton",
+    "skeleton"
+   ],
+   [
+    "scarecrow",
+    "scarecrow",
+    "wisp"
+   ],
+   [
+    "grave_bat",
+    "grave_bat",
+    "wisp",
+    "wisp"
+   ],
+   [
+    "dark_knight",
+    "dark_knight",
+    "lich"
+   ],
+   [
+    "lich",
+    "ghost",
+    "ghost",
+    "wisp"
+   ],
+   [
+    "mimic",
+    "dark_knight"
+   ]
+  ],
+  "showcase_group": [
+   "scarecrow",
+   "scarecrow",
+   "wisp",
+   "wisp",
+   "grave_bat"
+  ],
+  "boss_group": [
+   "boss"
+  ],
+  "fog_color": [
+   0.09,
+   0.07,
+   0.14,
+   1.0
+  ],
+  "ambient_particle_tint": [
+   0.62,
+   1.0,
+   0.8,
+   1.0
+  ],
+  "overlay": "cobwebs",
+  "encounter_rate": 0.1,
+  "min_encounter_steps": 4,
+  "max_encounter_steps": 18,
+  "treasures": [
+   {
+    "cell": [
+     3,
+     11
+    ],
+    "contents": {
+     "gold": 4000,
+     "items": {},
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     11,
+     7
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "elixir": 1
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     8,
+     1
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {},
+     "equipment": {
+      "acc_guardian_ring": 1
+     }
+    }
+   },
+   {
+    "cell": [
+     1,
+     5
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "mega_potion": 3
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     9,
+     11
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "hi_ether": 3
+     },
+     "equipment": {}
+    }
+   },
+   {
+    "cell": [
+     7,
+     8
+    ],
+    "contents": {
+     "gold": 0,
+     "items": {
+      "abyss_crystal": 1
+     },
+     "equipment": {}
+    }
+   }
+  ],
+  "events": [
+   {
+    "cell": [
+     3,
+     9
+    ],
+    "group": [
+     "scarecrow",
+     "scarecrow",
+     "wisp",
+     "wisp",
+     "grave_bat"
+    ]
+   }
+  ],
+  "foes": [
+   {
+    "id": "foe_b12_1",
+    "group": [
+     "elite_scarecrow",
+     "wisp"
+    ],
+    "spawn": [
+     5,
+     3
+    ],
+    "patrol": [
+     [
+      5,
+      3
+     ],
+     [
+      7,
+      3
+     ],
+     [
+      9,
+      3
+     ],
+     [
+      9,
+      5
+     ],
+     [
+      9,
+      7
+     ],
+     [
+      7,
+      7
+     ],
+     [
+      5,
+      7
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    "chase_range": 4,
+    "power": 2.1
+   },
+   {
+    "id": "foe_b12_2",
+    "group": [
+     "elite_skeleton",
+     "skeleton"
+    ],
+    "spawn": [
+     11,
+     11
+    ],
+    "patrol": [
+     [
+      11,
+      11
+     ],
+     [
+      9,
+      11
+     ],
+     [
+      9,
+      9
+     ],
+     [
+      11,
+      9
+     ]
+    ],
+    "chase_range": 2,
+    "power": 2.7
+   },
+   {
+    "id": "foe_b12_3",
+    "group": [
+     "elite_mimic"
+    ],
+    "spawn": [
+     4,
+     11
+    ],
+    "patrol": [
+     [
+      4,
+      11
+     ]
+    ],
+    "chase_range": 0,
+    "power": 2.2
+   }
+  ],
+  "key_name": "옥좌의 열쇠",
+  "lore_text": "루멘의 무덤이 열려 있다. 안은 비어 있다.",
+  "lore_stones": [
+   {
+    "cell": [
+     9,
+     1
+    ],
+    "text": "루멘의 무덤이 열려 있다. 안은 비어 있다."
+   },
+   {
+    "cell": [
+     5,
+     9
+    ],
+    "text": "옥좌 앞 비문: \"심연은 빼앗지 않는다. 잃은 것을 되찾게 해 주겠다고 속삭일 뿐.\""
+   },
+   {
+    "cell": [
+     4,
+     9
+    ],
+    "text": "여명의 종을 울리는 줄이 이곳까지 내려와 있다. 그 끝은 옥좌에 묶여 있다."
+   }
+  ],
+  "boss_pre_text": "루멘의 종지기들인가. 늦었다.\n봉인 셋을 되살렸다고? 소용없다. 마지막은 내 손 안에 있다.\n스승님도 막지 못한 것을, 너희가 막겠다고?",
+  "boss_post_text": "…스승님… 따뜻하군요.\n저는 그저… 다시 만나고 싶었을 뿐입니다.\n종을… 울려 주시오.",
+  "_file": "floor12_haunted_crypt_b12"
+ }
+]

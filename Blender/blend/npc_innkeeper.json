@@ -1,22 +1,22 @@
 {
   "id": "innkeeper",
   "category": "NPCs",
-  "triangles": 13500,
+  "triangles": 25382,
   "bounds": {
     "min": [
-      -0.28896,
-      -0.24505,
-      0.0
+      -0.29901,
+      -0.21418,
+      0.02973
     ],
     "max": [
-      0.28942,
-      0.2592,
-      1.2457
+      0.29834,
+      0.25708,
+      1.67585
     ],
     "size": [
-      0.57838,
-      0.50425,
-      1.2457
+      0.59735,
+      0.47126,
+      1.64612
     ]
   },
   "bones": [
@@ -110,131 +110,326 @@
   },
   "contact": {
     "Attack": 0.4,
-    "Cast": 0.6
+    "Cast": 0.6,
+    "Skill": 0.5,
+    "Ultimate": 0.6666666666666666
   },
   "sockets": {
     "weapon.R": {
       "head": [
-        -0.17165511846542358,
-        -0.005415859632194042,
-        0.3605725169181824
+        -0.161741241812706,
+        -0.04466889053583145,
+        0.7914636135101318
       ],
       "tail": [
-        -0.17165511846542358,
-        -0.14699460566043854,
-        0.41012507677078247
+        -0.161741241812706,
+        -0.18624764680862427,
+        0.8410161733627319
       ],
       "parent": "hand.R"
     },
     "weapon.L": {
       "head": [
-        0.17165511846542358,
-        -0.005415859632194042,
-        0.3605725169181824
+        0.16106396913528442,
+        -0.044669318944215775,
+        0.7914637327194214
       ],
       "tail": [
-        0.17165511846542358,
-        -0.14699460566043854,
-        0.41012507677078247
+        0.16106396913528442,
+        -0.1862480640411377,
+        0.8410162925720215
       ],
       "parent": "hand.L"
     }
   },
-  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\NPCs/innkeeper/innkeeper.fbx",
+  "fbx": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper.fbx",
+  "texture_dir": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex",
+  "textures": [
+    {
+      "material": "F00_000_00_FaceMouth_00_FACE",
+      "source_material": "F00_000_00_FaceMouth_00_FACE",
+      "image": "F00_000_00_FaceMouth_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_FaceMouth_00_FACE.png",
+      "source_size": [
+        512,
+        512
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 121154
+    },
+    {
+      "material": "F00_000_00_EyeWhite_00_EYE",
+      "source_material": "F00_000_00_EyeWhite_00_EYE",
+      "image": "F00_000_00_EyeWhite_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_EyeWhite_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 261612
+    },
+    {
+      "material": "F00_000_00_FaceEyeline_00_FACE",
+      "source_material": "F00_000_00_FaceEyeline_00_FACE",
+      "image": "F00_000_00_FaceEyeline_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_FaceEyeline_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.8404,
+      "bytes": 52729
+    },
+    {
+      "material": "F00_000_00_FaceEyelash_00_FACE",
+      "source_material": "F00_000_00_FaceEyelash_00_FACE",
+      "image": "F00_000_00_FaceEyelash_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_FaceEyelash_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.8659,
+      "bytes": 71831
+    },
+    {
+      "material": "F00_000_00_FaceBrow_00_FACE",
+      "source_material": "F00_000_00_FaceBrow_00_FACE",
+      "image": "F00_000_00_FaceBrow_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_FaceBrow_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.9803,
+      "bytes": 29684
+    },
+    {
+      "material": "F00_000_00_EyeIris_00_EYE",
+      "source_material": "F00_000_00_EyeIris_00_EYE",
+      "image": "F00_000_00_EyeIris_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_EyeIris_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.8126,
+      "bytes": 130020
+    },
+    {
+      "material": "F00_000_00_EyeHighlight_00_EYE",
+      "source_material": "F00_000_00_EyeHighlight_00_EYE",
+      "image": "F00_000_00_EyeHighlight_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_EyeHighlight_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.9922,
+      "bytes": 17720
+    },
+    {
+      "material": "F00_000_00_Face_00_SKIN",
+      "source_material": "F00_000_00_Face_00_SKIN",
+      "image": "F00_000_00_Face_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_00_Face_00_SKIN.png",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 683201
+    },
+    {
+      "material": "F00_002_02_Body_00_SKIN",
+      "source_material": "F00_002_02_Body_00_SKIN",
+      "image": "F00_002_02_Body_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_002_02_Body_00_SKIN.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 847749
+    },
+    {
+      "material": "F00_002_01_Tops_01_CLOTH",
+      "source_material": "F00_002_01_Tops_01_CLOTH",
+      "image": "F00_002_01_Tops_01",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_002_01_Tops_01_CLOTH.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 581814
+    },
+    {
+      "material": "F00_000_Hair_00_HAIR_01",
+      "source_material": "F00_000_Hair_00_HAIR_01",
+      "image": "F00_000_Hair_00_01",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/innkeeper/innkeeper_tex/F00_000_Hair_00_HAIR_01.png",
+      "source_size": [
+        512,
+        1024
+      ],
+      "size": [
+        512,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 268800
+    }
+  ],
+  "materials": [
+    "F00_000_00_FaceMouth_00_FACE",
+    "F00_000_00_EyeWhite_00_EYE",
+    "F00_000_00_FaceEyeline_00_FACE",
+    "F00_000_00_FaceEyelash_00_FACE",
+    "F00_000_00_FaceBrow_00_FACE",
+    "F00_000_00_EyeIris_00_EYE",
+    "F00_000_00_EyeHighlight_00_EYE",
+    "F00_000_00_Face_00_SKIN",
+    "F00_002_02_Body_00_SKIN",
+    "F00_002_01_Tops_01_CLOTH",
+    "F00_000_Hair_00_HAIR_01",
+    "M_Toon"
+  ],
   "previews": [
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_innkeeper.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_innkeeper_front.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_innkeeper_attack.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_innkeeper_cast.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_innkeeper_die.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_innkeeper_victory.png"
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_innkeeper.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_innkeeper_front.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_innkeeper_attack.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_innkeeper_cast.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_innkeeper_die.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_innkeeper_victory.png"
   ],
   "pose_bounds": {
     "Idle": {
       "min": [
-        -0.28896,
-        -0.24505,
-        0.0
+        -0.29901,
+        -0.21418,
+        0.02973
       ],
       "max": [
-        0.28942,
-        0.2592,
-        1.2457
+        0.29834,
+        0.25708,
+        1.67585
       ],
       "size": [
-        0.57838,
-        0.50425,
-        1.2457
+        0.59735,
+        0.47126,
+        1.64612
       ]
     },
     "Attack": {
       "min": [
-        -0.29609,
-        -0.32462,
-        0.008
+        -0.29901,
+        -0.51917,
+        0.03773
       ],
       "max": [
-        0.27979,
-        0.32692,
-        1.23156
+        0.34394,
+        0.25708,
+        1.67708
       ],
       "size": [
-        0.57588,
-        0.65154,
-        1.22356
+        0.64295,
+        0.77625,
+        1.63934
       ]
     },
     "Cast": {
       "min": [
-        -0.28896,
-        -0.2911,
-        0.012
+        -0.29901,
+        -0.46269,
+        0.04173
       ],
       "max": [
-        0.28942,
-        0.40179,
-        1.21109
+        0.29834,
+        0.25708,
+        1.81641
       ],
       "size": [
-        0.57838,
-        0.69288,
-        1.19909
+        0.59735,
+        0.71978,
+        1.77468
       ]
     },
     "Die": {
       "min": [
-        -0.38965,
-        -1.23215,
-        -0.10772
+        -0.50122,
+        -1.66484,
+        -0.06418
       ],
       "max": [
-        0.25284,
-        0.01136,
-        0.4005
+        0.29203,
+        -0.02291,
+        0.40708
       ],
       "size": [
-        0.6425,
-        1.24352,
-        0.50822
+        0.79325,
+        1.64193,
+        0.47126
       ]
     },
     "Victory": {
       "min": [
-        -0.28896,
-        -0.30039,
-        0.01
+        -0.29901,
+        -0.47116,
+        0.03973
       ],
       "max": [
-        0.28942,
-        0.35407,
-        1.21018
+        0.29834,
+        0.25708,
+        1.8254
       ],
       "size": [
-        0.57838,
-        0.65446,
-        1.20018
+        0.59735,
+        0.72825,
+        1.78567
       ]
     }
   },
-  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\npc_innkeeper.blend"
+  "blend": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/blend/npc_innkeeper.blend"
 }
