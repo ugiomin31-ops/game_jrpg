@@ -129,7 +129,14 @@ namespace Abyss.Runtime.Art
                 string heroId = classId != id ? id : null;
                 clips = MergeLayers(clips, classId, heroId, out owners);
             }
-            else owners = ModelTimingLayer(id);
+            else
+            {
+                owners = ModelTimingLayer(id);
+                // A Blender-rig hero's extra takes (Slash, Smash, Channel, ...) live beside its model in <id>_moves.fbx and bind
+                // by transform path; its own takes win on a name clash.
+                if (!rigless && !flyer && !crawler && path.StartsWith("Art/Characters/", System.StringComparison.Ordinal))
+                    clips = MergeMoves(clips, LoadClips(path + "_moves"));
+            }
             model.Setup(id, visual, clips, rigless, flyer, crawler);
             model.SetClipOwners(owners);
             return model;
@@ -274,6 +281,17 @@ namespace Abyss.Runtime.Art
         static readonly Dictionary<string, float> ModelScale = new Dictionary<string, float> { { "forest_guardian", 1.4f } };
 
         public static bool IsRiglessCrawler(string modelId) => modelId != null && RiglessCrawlerIds.Contains(modelId);
+
+        static AnimationClip[] MergeMoves(AnimationClip[] own, AnimationClip[] moves)
+        {
+            if (moves == null || moves.Length == 0) return own;
+            var names = new HashSet<string>();
+            var merged = new List<AnimationClip>(own);
+            foreach (var clip in own) if (clip != null) names.Add(clip.name);
+            foreach (var clip in moves)
+                if (clip != null && !clip.name.StartsWith("__preview__", System.StringComparison.Ordinal) && names.Add(clip.name)) merged.Add(clip);
+            return merged.ToArray();
+        }
 
         static bool HasIdle(AnimationClip[] clips)
         {

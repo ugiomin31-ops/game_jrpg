@@ -169,6 +169,33 @@ namespace Abyss.Logic.Battle
             }
         }
 
+        // Basic-attack hit of each body family: (impact effect, impact sound), alternating per use so one monster has two blows.
+        static readonly (string Impact, string Sfx)[][] BasicStrikes =
+        {
+            /* Brute   */ new[] { ("slash", "sfx_sword"), ("blunt", "sfx_axe") },
+            /* Beast   */ new[] { ("twin_bite", "sfx_dagger"), ("bleed_slash", "sfx_dagger") },
+            /* Heavy   */ new[] { ("blunt", "sfx_earth"), ("stun_slam", "sfx_shock") },
+            /* Serpent */ new[] { ("twin_bite", "sfx_dagger"), ("blunt", "sfx_water") },
+            /* Flyer   */ new[] { ("pierce", "sfx_spear"), ("slash", "sfx_dagger") },
+            /* Blob    */ new[] { ("acid_spit", "sfx_water"), ("blunt", "sfx_water") },
+            /* Plant   */ new[] { ("vine_lash", "sfx_hit"), ("poison_hit", "sfx_poison") },
+            /* Spirit  */ new[] { ("dark", "sfx_dark"), ("spirit_fire_hit", "sfx_dark") },
+            /* Insect  */ new[] { ("pierce", "sfx_spear"), ("poison_hit", "sfx_poison") },
+        };
+
+        /// <summary>Impact effect and sound of a monster's basic attack (no presentation of its own), by body family and use.</summary>
+        public static (string Impact, string Sfx) EnemyBasicStrike(string modelId, string archetype, int useIndex)
+        {
+            var strikes = BasicStrikes[(int)FamilyOf(modelId, archetype)];
+            return strikes[Math.Abs(useIndex) % strikes.Length];
+        }
+
+        /// <summary>Every impact effect / sound key <see cref="EnemyBasicStrike"/> can return (content validation).</summary>
+        public static IEnumerable<(string Impact, string Sfx)> AllBasicStrikes()
+        {
+            foreach (var family in BasicStrikes) foreach (var strike in family) yield return strike;
+        }
+
         static readonly string[] MeleeBasic = { "Attack", "Slash", "Attack", "Thrust" };
         static readonly string[] ComboAfterSlash = { "Thrust", "Attack", "Slash" };
         static readonly string[] ComboAfterThrust = { "Slash", "Attack", "Thrust" };

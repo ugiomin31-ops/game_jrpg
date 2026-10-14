@@ -97,6 +97,28 @@ namespace Abyss.LogicTests
         }
 
         [LogicTest]
+        static void MonsterBasicAttacksHitWithTheirFamilyBlow()
+        {
+            // The effect / sound keys exist (Resources/Vfx/effects.json, Resources/Audio/catalogue.json next to the data).
+            string data = Environment.GetEnvironmentVariable("ABYSS_DATA_DIR");
+            string effects = System.IO.File.ReadAllText(System.IO.Path.Combine(data, "..", "Vfx", "effects.json"));
+            string audio = System.IO.File.ReadAllText(System.IO.Path.Combine(data, "..", "Audio", "catalogue.json"));
+            foreach (var (impact, sfx) in MotionStyles.AllBasicStrikes())
+            {
+                Assert.True(effects.Contains("\"key\": \"" + impact + "\""), "basic strike effect exists: " + impact);
+                Assert.True(audio.Contains("\"" + sfx + "\""), "basic strike sound exists: " + sfx);
+            }
+            var impacts = new HashSet<string>();
+            foreach (var def in TestMain.DB.Enemies.Values)
+                for (int use = 0; use < 2; use++) impacts.Add(MotionStyles.EnemyBasicStrike(ModelOf(def), def.Archetype, use).Impact);
+            Assert.True(impacts.Count >= 8, "monster basic attacks use at least eight different impacts (got " + string.Join(",", impacts) + ")");
+            Assert.True(!impacts.Contains("impact"), "no monster basic attack falls back to the shared spark");
+            // No two different monster melee skills share one presentation's impact any more, except the deliberate reuses.
+            int heavy = TestMain.DB.Skills.Values.Count(s => s.Presentation == "pr_heavy_enemy");
+            Assert.Equal(1, heavy, "only the tentacle crush keeps pr_heavy_enemy");
+        }
+
+        [LogicTest]
         static void ComboWavesCycleThroughTakes()
         {
             var plan = MotionStyles.Hero("warrior", ActionKind.Skill, "sk_w_twin_slash", "attack", true, false, 3, 2, 0);

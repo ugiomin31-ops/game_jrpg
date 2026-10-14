@@ -56,6 +56,20 @@ namespace Abyss.Runtime.Battle
             return MotionStyles.EnemyApproach(model, def.Archetype, def.IsBoss, e.SkillId, NextUse(actor));
         }
 
+        /// <summary>Impact effect / sound of the current monster basic attack (null when the action has a presentation).</summary>
+        string _strikeImpact, _strikeSfx;
+
+        void PlanEnemyStrike(ActionStartEvent e, BattleDisplayUnit actor)
+        {
+            _strikeImpact = _strikeSfx = null;
+            if (actor.Side != BattleSide.Enemy || _presentation != null || e.Kind != ActionKind.Attack) return;
+            if (!_app.DB.Enemies.TryGetValue(actor.DefId, out var def)) return;
+            _moveUses.TryGetValue(actor, out int uses);
+            var strike = MotionStyles.EnemyBasicStrike(string.IsNullOrEmpty(def.Model) ? def.Id : def.Model, def.Archetype, uses);
+            if (_vfx.Supports(strike.Impact)) _strikeImpact = strike.Impact;
+            _strikeSfx = strike.Sfx;
+        }
+
         CastFlourish EnemyFlourishFor(ActionStartEvent e, BattleDisplayUnit actor)
         {
             if (!_app.DB.Enemies.TryGetValue(actor.DefId, out var def)) return CastFlourish.None;

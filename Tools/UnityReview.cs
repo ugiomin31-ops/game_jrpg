@@ -65,7 +65,12 @@ public static class UnityReview
                     if (mat == null || mat.shader == null || !mat.shader.isSupported) problems.Add("Missing/unsupported material: " + path + "/" + r.name);
             var clips = AssetDatabase.LoadAllAssetsAtPath(path).OfType<AnimationClip>().Where(c => !c.name.StartsWith("__preview")).Select(c => c.name).ToArray();
             bool actor = path.Contains("/Characters/") || path.Contains("/Enemies/") || path.Contains("/NPCs/");
-            if (actor)
+            // <id>_moves.fbx holds extra takes for a hero model (no mesh, no Idle of its own).
+            if (actor && path.EndsWith("_moves.fbx"))
+            {
+                if (clips.Length == 0) problems.Add("Empty moves file: " + path);
+            }
+            else if (actor)
             {
                 if (prefab.GetComponentInChildren<Animator>() == null) problems.Add("Missing Animator: " + path);
                 foreach (var name in RequiredClips)

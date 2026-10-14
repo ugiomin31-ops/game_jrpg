@@ -102,6 +102,8 @@ namespace Abyss.EditorTools
             return false;
         }
 
+        public static bool IsMovesFile(string path) => path.Replace('\\', '/').EndsWith("_moves.fbx", System.StringComparison.OrdinalIgnoreCase);
+
         static bool IsHumanoidAnimation(string path)
         {
             string rel = path.Replace('\\', '/').Substring(ArtRoot.Length);
@@ -208,6 +210,10 @@ namespace Abyss.EditorTools
                 mi.optimizeGameObjects = false;
                 mi.resampleCurves = true;
                 mi.animationCompression = ModelImporterAnimationCompression.KeyframeReduction;
+                // Extra takes of a Blender-rig hero (Characters/<id>/<id>_moves.fbx, Blender/hunters_tripo/motion_author.py
+                // --heroes): armature only. Keep its "Rig" root node so the clip paths (Rig/root/hips/...) match the hero model,
+                // whose Body + Rig roots keep that level anyway.
+                if (IsMovesFile(assetPath)) { mi.preserveHierarchy = true; mi.materialImportMode = ModelImporterMaterialImportMode.None; }
             }
             else
             {

@@ -1,0 +1,369 @@
+{
+  "h_bora": {
+    "class": "warrior",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 4e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_dana": {
+    "class": "warrior",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 4e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_eunbi": {
+    "class": "cleric",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 9e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_gunwoo": {
+    "class": "warrior",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 4e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_hana": {
+    "class": "mage",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 9e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_haneul": {
+    "class": "mage",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 2e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_iseul": {
+    "class": "archer",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 4e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_jaehyun": {
+    "class": "cleric",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 4e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_jun": {
+    "class": "archer",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 5e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_mirae": {
+    "class": "cleric",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 3e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_rina": {
+    "class": "mage",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 5e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_siwoo": {
+    "class": "archer",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 5e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_sora": {
+    "class": "archer",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 6e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_taeyang": {
+    "class": "mage",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 5e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  },
+  "h_youngsu": {
+    "class": "cleric",
+    "takes": [
+      "Channel",
+      "Kneel",
+      "Rally",
+      "Slash",
+      "Smash",
+      "Spin",
+      "Throw",
+      "Thrust"
+    ],
+    "bones": 22,
+    "rest_error_m": 4e-07,
+    "max_hand_ik_miss_m": {
+      "Slash": 0.0,
+      "Thrust": 0.0,
+      "Smash": 0.0,
+      "Spin": 0.0,
+      "Channel": 0.0,
+      "Throw": 0.0,
+      "Rally": 0.0,
+      "Kneel": 0.0
+    }
+  }
+}

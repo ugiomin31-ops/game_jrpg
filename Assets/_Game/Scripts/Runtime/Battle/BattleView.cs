@@ -623,12 +623,15 @@ namespace Abyss.Runtime.Battle
         {
             _action = e; _presentation = null; _hitCounts.Clear(); _hitTotals.Clear(); _impactTargets.Clear();
             _waveTargets.Clear(); _wave = 0; _waveStop = 0; _strikeClip = null; _perHitProjectile = false; _flashed = false; _plan = null;
+            _strikeImpact = _strikeSfx = null;
             if (!string.IsNullOrEmpty(e.PresentationId))
             {
                 if (!_app.DB.Presentations.TryGetValue(e.PresentationId, out _presentation))
                     throw new InvalidOperationException("Missing action presentation: " + e.PresentationId);
             }
             if (!Find(e.ActorId, out var actor)) yield break;
+            // A monster's plain attack lands with its body family's blow (bite, claw, slam, sting...), not the shared spark.
+            PlanEnemyStrike(e, actor);
             _actionElapsed = 0; _actionLength = 0; _actionEnd = 0;
             BattleDisplayUnit target = null;
             if (e.TargetIds != null && e.TargetIds.Count > 0) Find(e.TargetIds[0], out target);
@@ -775,7 +778,7 @@ namespace Abyss.Runtime.Battle
             Color tint = PresentationColor(e.Element);
             if (!_charge.IsPlaying) StartCharge(e, actor, tint);
             PlaySound(_presentation != null && !string.IsNullOrEmpty(_presentation.SfxCast) ? _presentation.SfxCast :
-                e.Kind == ActionKind.Item ? "sfx_item" : cast ? ElementSound(e.Element) : WeaponSound(actor));
+                e.Kind == ActionKind.Item ? "sfx_item" : cast ? ElementSound(e.Element) : _strikeSfx != null ? "sfx_wind" : WeaponSound(actor));
             float contactTime = _actionLength * Contact(actor.Model, _strikeClip ?? clip);
             // The authored Attack contacts at 40%; the lunge belongs to that strike, not a tiny Run.
             if (lunge) yield return Move(actor, destination, Mathf.Max(.05f, contactTime - _actionElapsed));
@@ -990,7 +993,7 @@ namespace Abyss.Runtime.Battle
                 StartCoroutine(ReturnHome(actor, back));
             }
             _action = null; _presentation = null; _actionLength = 0; _actionEnd = 0; _strikeClip = null; _perHitProjectile = false;
-            _beat = SkillBeat.None; _pendingHit = null; _hitHeld = false; _plan = null;
+            _beat = SkillBeat.None; _pendingHit = null; _hitHeld = false; _plan = null; _strikeImpact = _strikeSfx = null;
             // The camera goes back to S0 / S1 while the hero is still running home.
             if (!NextShotFollows()) Establishing(false);
             yield return Wait(.06f);
@@ -1204,7 +1207,8 @@ namespace Abyss.Runtime.Battle
                 _hitTotals.TryGetValue(e.TargetId, out int total); _hitTotals[e.TargetId] = total + e.Amount;
             }
             if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
-            Color tint = PresentationColor(e.Element);
+            // A family blow keeps its own palette (venom green, spirit purple); everything else is tinted by the element.
+            Color tint = _presentation == null && _strikeImpact != null && strike ? Color.white : PresentationColor(e.Element);
             if (e.Amount > 0) target.Model.Flash(e.Critical ? Color.white : tint, e.Critical ? .2f : Reduced ? .2f : .12f);
             // A hit owns the target's body from here: cancel any cosmetic return so it cannot overwrite the recoil or the fall.
             CancelReturn(target);
@@ -1218,10 +1222,11 @@ namespace Abyss.Runtime.Battle
                 // Re-hits continue outward from the current recoil instead of snapping home first.
                 target.KnockTime = KnockLength - KnockOut * (1 - Mathf.Sqrt(1 - Mathf.Clamp01(k)));
             }
-            string impact = _presentation != null ? _presentation.ImpactVfx : "impact";
+            string impact = _presentation != null ? _presentation.ImpactVfx : strike && _strikeImpact != null ? _strikeImpact : "impact";
             if (!string.IsNullOrEmpty(impact))
                 Effect(impact, HitPoint(target), tint, ImpactScale(target) * (e.Critical ? 1.3f : 1), 0, null, target.Home.y, FacingFrom(e.SourceId, target));
-            PlaySound(e.Critical ? "sfx_critical" : _presentation != null && !string.IsNullOrEmpty(_presentation.SfxImpact) ? _presentation.SfxImpact : "sfx_hit");
+            PlaySound(e.Critical ? "sfx_critical" : _presentation != null && !string.IsNullOrEmpty(_presentation.SfxImpact) ? _presentation.SfxImpact
+                : strike && _strikeSfx != null ? _strikeSfx : "sfx_hit");
             if (!Reduced)
             {
                 AddTrauma((_presentation != null ? _presentation.Shake : .08f) * (e.Critical ? 1.4f : 1));

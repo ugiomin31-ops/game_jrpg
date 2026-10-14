@@ -2951,7 +2951,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "stun",
-  "presentation": "pr_heavy_enemy",
+  "presentation": "pr_e_anchor",
   "_file": "sk_e_anchor_smash"
  },
  {
@@ -2997,7 +2997,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "stun",
-  "presentation": "pr_heavy_enemy",
+  "presentation": "pr_e_burrow",
   "_file": "sk_e_burrow_strike"
  },
  {
@@ -3020,7 +3020,7 @@
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
   "status_effect": "slow",
-  "presentation": "pr_heavy_enemy",
+  "presentation": "pr_e_clamp",
   "_file": "sk_e_clamp"
  },
  {
@@ -3296,7 +3296,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_heavy_enemy",
+  "presentation": "pr_e_halberd",
   "_file": "sk_e_halberd"
  },
  {
@@ -3594,7 +3594,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_heavy_enemy",
+  "presentation": "pr_e_stone_dive",
   "_file": "sk_e_stone_dive"
  },
  {
@@ -4394,7 +4394,7 @@
   "status_chance": 0.0,
   "bonus_vs_status": "",
   "bonus_vs_status_mult": 1.0,
-  "presentation": "pr_heavy_enemy",
+  "presentation": "pr_e_tail",
   "_file": "sk_lev_tail_crush"
  },
  {

@@ -132,7 +132,24 @@ PRESENTATIONS = [
     P('pr_e_spores', 'cast', 'none', 'poison_hit', area='spore_burst', area_scale=0.8, area_wait=0.15, shake=0.2, hit_stop=0.03,
       light=(0.7, 0.9, 0.4)),
     P('pr_e_execute', 'attack', 'dash_to_target', 'crimson_slash', shake=0.5, hit_stop=0.1, light=(1.0, 0.4, 0.4)),
+    # Monster skills that all shared pr_heavy_enemy (one tentacle-crush impact for a halberd, an anchor, a dive...).
+    P('pr_e_clamp', 'attack', 'dash_to_target', 'twin_bite', shake=0.45, hit_stop=0.09, light=(0.7, 0.88, 1.0), sfx_impact='sfx_shock'),
+    P('pr_e_halberd', 'attack', 'dash_to_target', 'bleed_slash', shake=0.5, hit_stop=0.09, light=(0.85, 0.9, 1.0), sfx_impact='sfx_axe'),
+    P('pr_e_anchor', 'attack', 'dash_to_target', 'stun_slam', area='area_quake', area_scale=0.6, shake=0.6, hit_stop=0.1,
+      light=(0.6, 0.8, 0.95), sfx_impact='sfx_water'),
+    P('pr_e_stone_dive', 'attack', 'dash_to_target', 'blunt', area='area_quake', area_scale=0.55, shake=0.6, hit_stop=0.1,
+      light=(0.85, 0.8, 0.75), sfx_cast='sfx_wind', sfx_impact='sfx_earth'),
+    P('pr_e_burrow', 'attack', 'dash_to_target', 'stun_slam', area='area_quake', area_scale=0.7, shake=0.6, hit_stop=0.1,
+      light=(0.9, 0.75, 0.55), sfx_impact='sfx_earth'),
+    P('pr_e_tail', 'attack', 'dash_to_target', 'blunt', area='area_quake', area_scale=0.5, shake=0.55, hit_stop=0.09,
+      light=(0.55, 0.8, 1.0), sfx_impact='sfx_water'),
 ]
+
+# Existing monster skills moved off the shared pr_heavy_enemy (sk_tentacle_crush keeps it: the tentacle impact is its own).
+PRESENTATION_OF = {
+    'sk_e_clamp': 'pr_e_clamp', 'sk_e_halberd': 'pr_e_halberd', 'sk_e_anchor_smash': 'pr_e_anchor',
+    'sk_e_stone_dive': 'pr_e_stone_dive', 'sk_e_burrow_strike': 'pr_e_burrow', 'sk_lev_tail_crush': 'pr_e_tail',
+}
 
 # Class learnsets (world/base_heroes.json; hunters.py copies them to every hunter of the class).
 LEARN = {
@@ -188,6 +205,9 @@ def upsert(rows, new_rows, before=None):
 def build():
     skills = load(os.path.join(DATA, 'skills.json'))
     skills = upsert(skills, HERO_SKILLS + MONSTER_MOVES, before=lambda r: r['id'].startswith('sig_'))
+    for row in skills:
+        if row['id'] in PRESENTATION_OF:
+            row['presentation'] = PRESENTATION_OF[row['id']]
     presentations = upsert(load(os.path.join(DATA, 'presentation.json')), PRESENTATIONS)
     heroes = load(BASE_HEROES)
     for t in heroes:
@@ -217,6 +237,9 @@ def build():
         for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx'):
             if p.get(k) and p[k] not in effects:
                 problems.append('%s %s %s' % (p['id'], k, p[k]))
+    for skill, pid in PRESENTATION_OF.items():
+        if skill not in ids or pid not in pres:
+            problems.append('presentation override %s -> %s' % (skill, pid))
     for cls, entries in LEARN.items():
         for _, skill in entries:
             if skill not in ids:
