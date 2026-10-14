@@ -164,3 +164,74 @@ Install recipe (same as the existing class takes): `build_cls3.py` (copy of the 
 | class | BattleIdle | Attack | Skill |
 |---|---|---|---|
 | archer | `alt/relaxed/BattleIdle.fbx` | `archer/Attack.fbx` 51 % (end 85 %) | none (plays Attack) |
+
+## Per-hero layer and free motion fixes (2026-10-14, code only, no assets)
+
+### Clip layers (ArtLibrary.MergeLayers)
+A Unity-Humanoid model with no `Idle` take of its own gets, in order (later layers replace a take of the same name):
+1. `Assets/_Game/Resources/Art/HumanoidAnimations/<Take>.fbx` (shared library)
+2. `Assets/_Game/Resources/Art/HumanoidAnimationsByClass/<classId>/<Take>.fbx` (`GameDB.ClassOf(id)`; for an NPC this is the NPC id, so this folder is already per-NPC)
+3. `Assets/_Game/Resources/Art/HumanoidAnimationsByHero/<heroId>/<Take>.fbx` (only for heroes, whose class id differs from their id)
+
+Contract (same for every layer): one clip per FBX, the clip is named after the file by `AbyssArtImporter`; take names are the ones the runtime asks for (`Idle`, `BattleIdle`, `Run`, `Walk`, `Attack`, `Cast`, `Skill`, `Ultimate`, `Hit`, `Die`, `Guard`, `Revive`, `Victory`, `Talk`); `Idle`/`BattleIdle`/`Run`/`Walk` loop by file name. A missing or empty class/hero folder simply falls through. Nothing has to exist for the hero layer today.
+
+Timing values live in `ArtLibrary`, keyed `<layer id>/<Take>` where the layer id is the class id or the hero id that supplied the take:
+- `ClassContact` strike / release fraction (default Attack .40, Cast .60, Skill .50, Ultimate 44/66);
+- `ClassEnd` fraction after which the one-shot fades back to the rest loop (held recovery tails);
+- `ClassLoopBlend` seconds of self cross-fade before a loop wraps (for loops whose first and last pose differ).
+Example for a future per-hero take: `HumanoidAnimationsByHero/h_dohyun/Attack.fbx` + `{ "h_dohyun/Attack", .40f }` in `ClassContact`.
+
+### Runtime behaviour changed (no asset touched)
+- Standing loops (`Idle`, `BattleIdle`) start at a per-unit phase (from the object's instance id), so heroes, NPCs and monsters no longer breathe in lockstep. One-shots and explicit `PlayFrom` are unaffected.
+- `warrior/BattleIdle`: 0.3 s self cross-fade before each wrap (`ClassLoopBlend`). Measured on h_dohyun: peak bone speed 39 deg/s at the wrap without it, 14 deg/s with it.
+- `cleric/Attack`: contact .14 -> .17 (the mace/cane head is furthest forward in front of the body at frame 6 of 35 on the h_yuna retarget; the speed peak is frame 4) and end .50 (the sweep is over at frame 17; the rest walks the hand back to the hip).
+- `mage/Skill` (two-handed channel) now plays for mage cast skills with group scope, tier 3 or the signature; quick single-target spells keep the shared `Cast`. Rule is generic: any caster whose class/hero layer has `Skill` but no `Cast`.
+- `Die` takes of 6 s or more (Tripo `defeat_02`: still for 15 %, slumps at 20-50 %, stands up again) play only the window .18 -> .50 and hold the slump (heroes and monsters).
+- Enemy dash: the body arcs 0.12-0.40 m (6 % of the travel) and `Run` plays at up to 3x; no foot is planted while the body crosses the arena, so it no longer glides. Same arc on the run home.
+
+### Free presets for the Tripo pass (not installed; no local per-slot files exist yet)
+- Already local but not cut into clips: `agree`, `greet_01`, `wave_goodbye_01` (`tripo_export_talk/extracted/tripo_convert_d68d3626-...fbx`, female hunter rig) and `standing_relax` (`tripo_export_class/...14929035...fbx`, already used as BattleIdle). They can be cut with the existing build script into `HumanoidAnimationsByHero/<heroId>/Victory.fbx` (h_jiho `agree`, h_yuna `wave_goodbye_01`, h_seoa `greet_01`) and `HumanoidAnimationsByClass/<npcId>/Idle.fbx` (innkeeper / shopkeeper `standing_relax`) without Tripo, or re-exported from rig 5de41bd4 for the same body as the new clips.
+- Must be exported on the monsters' own account-3 rigs (Generic in Unity): `fall` (Die) and `run` (Run) for sprout ab222847, mushroom 89c1a712, pixie c8d69352 (forest_guardian 880cb170 already has `fall`).
+
+## MOTIONS-20261014 install (2026-10-14, headless Blender 5.2 + Unity, no credits)
+
+Sources (raw, unchanged): `tripo_export_hero_20261014/hero_bundle_B_18takes.fbx`, `tripo_export_hero_20261014b/tripo_convert_5c20a009-...fbx` (rig 5de41bd4), and the monster exports under `ArtSource/enemies/<id>/tripo_motion_20261014(b)/` (moved there from the task-id folders, bytes unchanged; ledger paths updated).
+Gate: hero rig 7078 verts, 0 unweighted, RightArm 45 deg moved 809 verts; monsters 0 unweighted (sprout 4950, mushroom 4755, pixie 4874, guardian 9561 verts), arm/leg posing deforms. Rest facing: hero rig faces -X -> turned +90 deg about Z in the export (the Tripo action also keys the armature object with constant identity; those object curves are removed so the turn sticks); re-import faces -Y like every installed library/class file. Monster rigs face -Y (no turn).
+Scripts (scratchpad `motion14/`): `inspect.py` (gate, facing, per-take stats, 8-frame strips), `speed.py` (per-frame hand/head/foot speed), `build_hero.py` / `build_hero_b.py` (armature-only, rest-pose patch, optional post-contact hips ramp), `build_mon2.py` (INSTALL-B6-2 builder on the new export: same uniform scale, Run detrend, per-frame floor for `fall`, white Col, same basecolor), `verify_mon.py`.
+
+| # | Clip | Verdict | Installed as | Contact / end |
+|---|---|---|---|---|
+| 1 | Sword Slash Motion | good (diagonal slash with a lunge step) | `HumanoidAnimationsByHero/h_dohyun/Attack` | .34 / .85 |
+| 2 | Sword Slash Sequence | good (low horizontal cut, rising cut overhead) | `h_dohyun/Skill` | .45 (first cut) |
+| 3 | Chest Pound and Shout | acceptable (chest pound, arm opens, chin up) | `h_minjun/Cast` | .55 |
+| 4 | Shoulder Check and Sword Swipe | good; ends 0.32 m forward -> hips eased back after frame 18 | `h_minjun/Attack` | .36 / .80 |
+| 5 | Power Jump and Slam | partial (crouch-gather, small hop, crouching slam; no high jump) -> trimmed 1-45 so the slam lands near 44/66 | `HumanoidAnimations/Ultimate` (all hunters) | slam .61 |
+| 6 | Healing Gesture | BAD (hands go to the face / head) -> replaced by the earlier paid Blessing Gesture on the same rig | `h_yuna/Cast` = Blessing | .28 / .60 |
+| 7 | Magic Spell Cast | BAD (no visible release, ends hunched) -> shared Cast kept | - | - |
+| 8 | Arm Snap Motion (double shot) | BAD (right hand never draws; same failure as Skill_archer2) -> archer Attack kept for skills | - | - |
+| 18 | Sword Fighter Stance | BAD (falls over and lies on the floor) -> warrior BattleIdle kept (loop blend) | - | - |
+| 20 | One-Handed Mace Strike | good (overhead strike in front) | `h_yuna/Attack` | .26 / .80 |
+| b | Hold a bow low (h_jiho BattleIdle) | acceptable (alert stance, little motion) | `h_jiho/BattleIdle` | loop blend .3 |
+| b | Shield-bearer stance (h_minjun BattleIdle) | good | `h_minjun/BattleIdle` | loop blend .3 |
+| 19 | Nervous young healer (h_yuna BattleIdle) | acceptable (fidgets, turns aside; big loop seam) | `h_yuna/BattleIdle` | loop blend .45 |
+| b | Staff jab (h_seoa Attack) | good; 0.11 m forward drift eased back after frame 12 | `h_seoa/Attack` | .20 / .85 |
+| free | agree | good (understated) | `h_jiho/Victory` | - |
+| free | greet_01 | BAD as victory (walks 2.2 m while waving) | not used; h_seoa keeps shared cheer | - |
+| free | wave_goodbye_01 | BAD as victory (seated pose) | not used; h_yuna Victory = Blessing | - |
+| free | standing_relax | good | `HumanoidAnimationsByClass/innkeeper/Idle`, `.../shopkeeper/Idle` | - |
+| free | cheer | already the shared Victory (h_dohyun, h_minjun, h_seoa) | - | - |
+
+Monsters (takes merged into `Art/Enemies/<id>/<id>.fbx`; geometry, UVs, weights, bones and basecolor verified identical to the previous install):
+| Monster | Attack | Cast | Other |
+|---|---|---|---|
+| sprout | #12 Crouching Hop and Headbutt (modest lunge; hips eased back after f24), .45 | #17 Stomping Stance (subtle), .50 | Run = free `run` (detrended), Die = free `fall` |
+| mushroom | #13 Head Hammer is BAD (static) -> `chop` kept (27-86), .40 | #15 Crouch and Spring Up, .27 | Run `run`, Die `fall` |
+| pixie | #14 Tiptoe Skip and Push (hips eased back after f19), .37 | #16 Fairy Sprinkling Light (gentle), .42 | Run `run`, Die `fall` |
+| forest_guardian | #10 Giant Arm Sweep, .25 | #11 Giant Slam Pose, .37 | Roar = #9 Giant Roar Pose (boss intro), Skill = vine whip (11-take export), .34; Run `run`, Die `fall` |
+Monster contact values live in `ArtLibrary.ClassContact` keyed `<model id>/<take>` (a model with its own takes is its own timing layer). `fall` Die takes (2-6 s) start at .3 and are not toppled by code; `defeat_02` (>= 6 s) keeps the slump window + topple.
+
+### Signature objects wiring (2026-10-14)
+- `h_yuna` sig `응급 처치`: presentation `pr_c_first_aid` (copy of `heal`, set through `Tools/content/spec.py` sig third field + `hunters.py`), with the new presentation field `heal_vfx: first_aid` (HealEvent uses it instead of the shared `heal`). Effect `first_aid` = `heal` layers + heal bloom + the `aid_kit` mesh (pops over the ally, 1.0 s, alpha, `untinted`).
+- `h_minjun` sig `구조대의 함성`: presentation `pr_w_rescue_shield` (copy of `pr_w_provoke`), effect `rescue_shield` = provoking roar + the `riot_shield` mesh set down 0.75 m ahead of him (`align` + `upright`: yaw toward his facing, `untinted`). No held shield on his arm (not attempted: needs a fitted attach point and re-QA of every warrior take).
+- New VFX layer fields (Tools/vfx/gen_effects.py allow-list + VfxLibrary.LayerRecipe): `untinted` (keeps the texture's own colours), `ahead` (metres along the effect facing). `upright` on an aligned mesh layer = yaw only. Self-cast effects now get the caster's forward as their facing (BattleView.FacingFrom); no existing recipe aligns a self-cast layer, so only the new `ahead` layer uses it.
+- effects.json regenerated with gen_effects.py only (byte-reproducible run to run).

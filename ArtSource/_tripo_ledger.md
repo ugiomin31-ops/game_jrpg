@@ -338,3 +338,117 @@ No credits spent. Headless Blender 5.2.1 only. Backups of the replaced files: Ar
 Verified (fresh import of the installed FBX vs the previous install): tris 4551 / 4509, vertex count, UV, weights hash, rest-pose mesh (max diff 0.0), bone heads/tails/parents, material, texture name/size and PNG (md5) identical; Idle 369, Attack 60, Cast 54, Hit 32, Die 204 keys identical and per-frame pose diff 0.0; Run 31 frames, only Hips location changed. Hips world range over the Run cycle: forward 1.279 -> 0.028 m (rat), 1.012 -> 0.022 m (rabbit); first->last forward delta 0.000 m. Lowest foot vertex 0.000 m (Run min), unchanged by the fix.
 Note: the remaining 2-3 cm is the source's own hip fore/aft sway at step rate (about 4 oscillations per cycle, zero net travel), not drift; left in on purpose (no rotation or sway edited). Tripo Run is a 31-frame periodic cycle (frame 31 -> 1 is one normal step, not a duplicate frame), unchanged.
 Unity owner: reimport sewer_rat.fbx and horned_rabbit.fbx (.meta untouched; Run clip length unchanged). Strips: scratchpad/runfix/strips/{sewer_rat,horned_rabbit}_run_strip_before_after.png.
+
+### MOTIONS-20261014 (account 3)
+
+Browser worker, Tripo Studio web only (no API/MCP/CLI). Starting balance 590, final header balance **210** (spent 380 on 19 text-to-motion clips at 20 each). Clip #19 not generated (per task). All Tripo tabs opened in this task are closed (the group is empty). Every export tab was closed after its download. Free presets cost 0 (balance unchanged on every preset click). Balances below are the header value read before and after each paid step.
+
+Exports are in the project only; nothing was installed into the game. Clips were NOT previewed or judged for quality (canvas kept disabled per rule). Blender skin/posing checks and facing check are still OPEN.
+
+#### TASK A: hunter rig 5de41bd4-321d-4ff4-9487-7d4feaca58fb (Animate)
+
+Bundle: `ArtSource/hunters/_anim_library/tripo_export_hero_20261014/hero_bundle_B_18takes.fbx` (+ `hero_bundle_B_18takes.zip`), 18 takes, Blender preset, Export Skeleton ON, stay-in-place OFF, all takes selected. Superseded subset: `hero_bundle_A_14takes.zip` (14 takes, earlier partial export, kept for reference).
+
+| Clip # | Target / slot | Take name in Tripo | Prompt (verbatim) | Duration s | Cost | Balance before -> after |
+|---|---|---|---|---|---|---|
+| 1 | h_dohyun Attack | Sword Slash Motion | Fighting stance with a sword in the right hand. A fast diagonal slash from the right shoulder down to the left hip, the blade arm fully extended at the end, then snap back to the stance. Feet planted, slight forward lean. | 2 | 20 | 590 -> 570 |
+| 2 | h_dohyun Skill | Sword Slash Sequence | Sword fighter, sword in the right hand. Two lightning-fast slashes in a row: first a horizontal cut from right to left, then immediately a rising diagonal cut from left to right, ending in a low finishing pose with the sword arm extended. Feet planted, then return to the stance. | 3 | 20 | 570 -> 550 |
+| 3 | h_minjun Cast | Chest Pound and Shout Pose | Plant both feet wide, pound the chest twice with the right fist, then throw both arms wide open and shout with the chin up, hold the pose briefly, then return to a guarding stance. | 2 | 20 | 550 -> 530 |
+| 4 | h_minjun Attack | Shoulder Check and Sword Swipe | Heavy defender. Step in with a hard left shoulder check, then a short horizontal sword swipe with the right hand at waist height, then step back into a guarding stance. Strong, grounded, feet stay close. | 2 | 20 | 530 -> 510 |
+| 5 | shared Ultimate | Power Jump and Slam | Crouch and gather power with both fists clenched at the hips, body trembling, then explode upward into a jump with both arms raised, and slam both arms down hard as you land in a low crouch, then rise. | 3 | 20 | 510 -> 490 |
+| 6 | h_yuna Cast (heal) | Healing Gesture | Gentle healer. Bring both hands together at the chest, then lift and open both palms upward and outward toward a friend in front, hold the open pose softly, then lower the hands. Feet planted, kind posture. | 2 | 20 | 490 -> 470 |
+| 7 | h_seoa Cast | Magic Spell Cast | Young mage holding a staff upright in the left hand. Draw a quick circle in the air with the right hand, then snap the right palm forward at chest height to release, short hold, then relax. Feet planted. | 2 | 20 | 470 -> 450 |
+| 8 | h_jiho Skill | Arm Snap Motion | Stand sideways to the target. Extend the left arm straight forward at shoulder height. Pull the right hand back to the right cheek and snap it open, then immediately do it a second time, faster. Lower both arms. Feet stay planted. | 3 | 20 | 450 -> 430 |
+| 18 | h_dohyun BattleIdle | Sword Fighter Stance | Sword fighter ready stance: left foot forward, sword held low and forward in the right hand, knees bent, light bounce on the balls of the feet, ends exactly in the starting pose so it loops. | 3 | 20 | 430 -> 410 |
+| 20 | h_yuna Attack | One-Handed Mace Strike | Holding a short mace in the right hand, raise it over the right shoulder and bring it down in a quick one-handed strike in front, then return to a ready stance. Feet planted. | 2 | 20 | 410 -> 390 |
+
+Clip #19 (h_yuna BattleIdle) skipped, not generated.
+
+Free presets applied on rig 5de41bd4 (cost 0): agree, wave_goodbye_01, greet_01, standing_relax, cheer, run, fall. Pre-existing take on the rig, not from this task: Blessing Gesture.
+
+Notes on the hero export:
+- Three takes (Sword Fighter Stance, Arm Snap Motion, Healing Gesture) and the standing_relax preset were not in the export list on the first fresh-tab load (14 of 18). They were re-applied by clicking the existing takes or the preset (no credit change), then the export listed all 18.
+- The hero export dialog has no texture option in this UI.
+- Facing check (rest facing -X) not assessed. Needs Blender or the Unity import.
+
+#### TASK B: monster rigs (each exported with ALL its takes)
+
+| Clip # | Monster (rig id) | Take name in Tripo | Prompt (verbatim) | Duration s | Cost | Balance before -> after |
+|---|---|---|---|---|---|---|
+| 9 | forest_guardian (880cb170-60bc-46e0-88af-5a126cae1ed9) | Giant Roar Pose | Huge hunched tree giant. Rear up tall, throw both long arms wide open, chest out, head thrown back in a roar, hold, then sink back into a hunched heavy stance. | 3 | 20 | 390 -> 370 |
+| 10 | forest_guardian | Giant Arm Sweep | Huge hunched giant. Swing the right arm in a wide heavy horizontal backhand sweep from right to left at waist height, body twisting with it, then recover slowly. Feet planted. | 2 | 20 | 370 -> 350 |
+| 11 | forest_guardian | Giant Slam Pose | Huge giant raises both arms high above the head with palms up, holds for a moment, then slams both hands down to the ground in front, staying low, then rises. | 3 | 20 | 350 -> 330 |
+| 12 | sprout (ab222847-3ac6-43b7-9598-bd1efa122178) | Crouching Hop and Headbutt | Small stubby creature. Crouch, hop forward and headbutt with the whole body, then hop back to the start. Arms stay short and close. | 2 | 20 | 330 -> 310 |
+| 17 | sprout | Stomping Stance | Small stubby creature squats and stomps one foot hard on the ground twice, arms pointing down, then straightens. | 2 | 20 | 310 -> 290 |
+| 13 | mushroom (89c1a712-4d78-4591-a8b9-4c9a5300fda7) | Head Hammer Motion | Short creature with a heavy head. Bend sharply forward from the waist and swing the head down like a hammer, then straighten up. Feet planted. | 2 | 20 | 290 -> 270 |
+| 15 | mushroom | Crouch and Spring Up | Crouch low, shake the whole body quickly side to side, then spring up with both arms flung outward as if releasing a cloud, then settle. | 2 | 20 | 270 -> 250 |
+| 14 | pixie (c8d69352-34a1-41c0-8096-680b948f8206) | Tiptoe Skip and Push | Small light fairy. Skip forward on tiptoe and push with both palms, then skip back lightly. Playful, quick. | 2 | 20 | 250 -> 230 |
+| 16 | pixie | Fairy Sprinkling Light | Small fairy turns once on tiptoe, raises both hands overhead, then sweeps them down and outward as if sprinkling light, then settles. | 3 | 20 | 230 -> 210 |
+
+Free presets on monster rigs (cost 0):
+- forest_guardian: run applied. fall was already on the rig (shown checked before this task), so it was NOT re-applied. The fall take is in the export.
+- sprout: fall, run applied.
+- mushroom: fall, run applied.
+- pixie: fall, run applied.
+
+Note: on the mushroom and pixie rigs the first Generate click after typing did not register (balance unchanged); a second click charged once. Balance deltas above confirm exactly one charge per clip.
+
+Exports (each from a fresh tab, Blender preset, Export Skeleton ON, stay-in-place OFF, texture 4k as default, all takes selected):
+
+| Rig | Takes in export | Export file |
+|---|---|---|
+| forest_guardian 880cb170 | 10 | `ArtSource/enemies/forest_guardian/tripo_motion_20261014/tripo_convert_cde6fde9-ada9-4531-9f84-a0b5a1775e41.fbx` (+ .fbm, zip `forest_guardian_motion_export.zip`) |
+| sprout ab222847 | 10 | `ArtSource/enemies/sprout/tripo_motion_20261014/tripo_convert_ddfc1409-bf7d-4026-941e-1e65eee89f5b.fbx` (+ .fbm, zip `sprout_motion_export.zip`) |
+| mushroom 89c1a712 | 11 | `ArtSource/enemies/mushroom/tripo_motion_20261014/tripo_convert_c55d1e28-2bdf-4f70-a2df-488dcff37a9a.fbx` (+ .fbm, zip `mushroom_motion_export.zip`) |
+| pixie c8d69352 | 10 | `ArtSource/enemies/pixie/tripo_motion_20261014/tripo_convert_7e03eb42-3162-4157-b775-7f7b64758939.fbx` (+ .fbm, zip `pixie_motion_export.zip`) |
+
+Each export FBX has the expected animation count (AnimationStack count = takes + 1 header hit in the binary scan).
+
+#### Summary
+
+- Paid clips: 19 (hero 10, monsters 9). Spend 380. Balance 590 -> **210**.
+- Free presets applied: hero 7 (agree, wave_goodbye_01, greet_01, standing_relax, cheer, run, fall); guardian run; sprout, mushroom, pixie fall and run.
+- Unresolved: Blender skin-weight check, posing check and facing check on all exports; visual review of each clip (not done in this task); hero bundle A zip kept as a superseded subset; a duplicate zip `tree+creature+3d+model (1).zip` (identical to the forest_guardian export) remains in the Downloads folder.
+- Tripo tabs: all closed. The tab group is empty.
+
+### OBJECTS-AND-EXTRA-MOTIONS-20261014 (account 3)
+
+Start balance 210. Final header balance 10 (210 -> 10, spent 200). Tripo tabs: the Tripo tab group dropped mid-run, and 2 Tripo animate tabs (ids 932731209 and 932731212, 880cb170 / 5de41bd4 pages) could not be closed by the tool. A blank tab was opened and closed. The user should close any remaining studio.tripo3d.ai tabs by hand.
+
+| # | step | mode / settings | cost | balance before -> after | task / URL | faces shown | export |
+|---|---|---|---|---|---|---|---|
+| 1 | aid_kit image-to-3D | Smart Mesh P2.0, number 1, Quad, polycount 3000 | 0 (trial coin 0, Trial x2 -> x1) | 210 -> 210 | 3373ae8e-a4dc-46fb-9a79-45e36716b080 | Quad 3420 faces / 3196 verts | none (geometry) |
+| 2 | aid_kit texture | Generate Texture 2K | 10 | 210 -> 200 | same task | | |
+| 3 | aid_kit export | FBX, Blender, texture 2k, static | free | 200 | same task | | props/aid_kit/tripo/first+aid+kit+3d+model.fbx (234464 B) + .fbm basecolor 2K; untextured first export kept in tripo/untextured_geometry/ |
+| 4 | gate_keycard image-to-3D | Smart Mesh P2.0, number 1, Quad, polycount 1500 | 0 (trial, Trial x1 -> 0) | 200 -> 200 | 973cc169-94d4-45b2-969b-d1d3ef13ef08 | Quad 1777 faces / 1557 verts | none |
+| 5 | gate_keycard texture | Generate Texture 2K | 10 | 200 -> 190 | same task | | |
+| 6 | gate_keycard export | FBX, Blender, texture 2k, static | free | 190 | same task | | props/gate_keycard/tripo/futuristic+keycard+3d+model.fbx (121984 B) + .fbm basecolor 2K |
+| 7 | riot_shield image-to-3D | HD H3.1 Best Quality, Ultra ON, Texture ON 2K, PBR ON, Triangle, polycount default 2000000 (Smart Mesh trial used up, HD path per rule) | 45 | 190 -> 145 | 107df62a-96f5-4dda-9117-7e2d91dc2e5e | 1925489 pre-retopo | |
+| 8 | riot_shield retopo | Triangle, Smart Mesh ON (P1.0), polygon count 4000 | 35 | 145 -> 110 | same task (retopo result) | Triangle 3674 faces | |
+| 9 | riot_shield export | FBX, Blender, texture 2k, static | free | 110 | same task | | props/riot_shield/tripo/tripo_convert_66fa77d0-010e-4f03-9d5a-914c4421df1e.fbx (135004 B) + .fbm PBR set (basecolor, metallic, normal, rm, roughness; 2K) |
+| 10 | hero text-to-motion: h_yuna BattleIdle ("Nervous Healer Stance") | 3 s, rig 5de41bd4-321d-4ff4-9487-7d4feaca58fb | 20 | 110 -> 90 | 5de41bd4 Animate page | | |
+| 11 | hero text-to-motion: h_seoa Attack ("Staff Jab and Retreat") | 2 s, rig 5de41bd4 | 20 | 90 -> 70 | same | | |
+| 12 | hero text-to-motion: h_minjun BattleIdle ("Shield Crouch Ready") | 3 s, rig 5de41bd4 | 20 | 70 -> 50 | same | | |
+| 13 | hero text-to-motion: h_jiho BattleIdle ("Alert Archer Stance") | 3 s, rig 5de41bd4 | 20 | 50 -> 30 | same | | |
+| 14 | forest_guardian Skill (vine whip prompt as spec; new take name not confirmed, one of the Giant Arm takes) | 3 s, text-to-motion, no rig needed (no rig prompt appeared) | 20 | 30 -> 10 | 880cb170-60bc-46e0-88af-5a126cae1ed9 Animate page | Triangle 19270 faces (unchanged) | |
+| 15 | hero export | FBX, Blender, Export Skeleton ON, Animation stay in Place OFF, 4 new takes selected of 22 (Nervous Healer Stance, Alert Archer Stance, Shield Crouch Ready, Staff Jab and Retreat) | free | 10 | rig 5de41bd4 | | hunters/_anim_library/tripo_export_hero_20261014b/tripo_convert_5c20a009-e7dc-460b-88e6-015a075a9d25.fbx (2093308 B). Binary check: 5 AnimationStack string hits (4 takes + header), Skin/Cluster 65, LimbNode 130. Zip kept: tripo_convert_15ba45ee-1840-4fe1-8b49-ca491318e680.fbx (1).zip |
+| 16 | guardian export | FBX, Blender, Export Skeleton ON, stay in Place OFF, all 11 takes (idle, Giant Roar Pose, walk, Giant Arm Swing, fall, hit_to_body_01, cheer, Giant Slam Pose, chop, Giant Arm Sweep, run), texture 4k (default) | free | 10 | 880cb170 | | enemies/forest_guardian/tripo_motion_20261014b/tripo_convert_23c65299-e623-4180-b24e-2a9444e2ff7d.fbx (5548812 B) + .fbm (4k textures). Binary check: 12 AnimationStack string hits (11 takes + header), Cluster 65 |
+
+Smart Mesh trial: free. Both aid_kit and gate_keycard Smart Mesh generations showed cost 100 with coin 0 and no balance change (210 -> 210, 200 -> 200). It is the first two uses of the Trial x2 quota. Note that the Smart Mesh output had no texture (aid_kit FBX has zero texture refs, keycard the same), so the 2K texture step (10 each) was added on both.
+
+Deviations from the spec, for review:
+- Smart Mesh has no texture option, so the spec's "texture ON" for the Smart Mesh path was met with a separate Texture 2K step (10 credits each), not in the original budget math.
+- Smart Mesh face counts: aid_kit 3420 (target 3000), keycard 1777 (target 1500), both on-page counts. Shield 3674 (target 4000).
+- Shield was done on the HD path (45 + 35), not Smart Mesh, because the Smart Mesh trial was used up. The rule budget was satisfied.
+- Forest guardian clip was generated on the guardian task 880cb170 with no rig step. The page showed no rig prompt, so no rig was paid.
+- Blender posing / skin-weight checks were NOT run on the new hero export or the guardian export. The Skin/Cluster counts above show skin data is present, but the deformation check stays OPEN.
+- Credits left: 10. Remaining 2 Tripo tabs could not be closed (see top of section).
+
+### INSTALL-MOTIONS-OBJECTS-20261014 (Claude Opus, headless Blender + Unity, no credits)
+- Monster motion exports moved (bytes unchanged) from `ArtSource/enemies/<task-id>/tripo_motion_20261014/` to `ArtSource/enemies/<id>/tripo_motion_20261014/`; paths above updated.
+- Motions: per-clip verdicts, trims, contact values and install paths in `ArtSource/hunters/_anim_library/INSTALL.md` (section "MOTIONS-20261014 install"). Rejected paid clips (not re-paid): #6 Healing Gesture, #7 Magic Spell Cast, #8 Arm Snap Motion, #13 Head Hammer Motion, #18 Sword Fighter Stance; free greet_01 / wave_goodbye_01 not used as victories.
+- Backups of replaced installs: `ArtSource/_backup_20261014_motions/` (sprout, mushroom, pixie, forest_guardian FBX + meta, guardian 10-take build), `ArtSource/_backup_20261014_props/` (old procedural key_item FBX + meta).
+- Props (geometry/UV/basecolor unchanged; one rotation about Z, one uniform scale, pivot only):
+  - gate_keycard -> `Art/Props/Common/key_item.fbx` (+ `key_item.tripo`, `key_item_tex/M_GateKeycard_Tripo.png` 2048), scale 0.760371, 0.56 x 0.31 x 0.76 m, pivot bottom centre, front Unity +Z. 3046 tris.
+  - aid_kit -> `Vfx/Meshes/aid_kit.fbx` + `Vfx/Textures/mesh_aid_kit.png` (2048), turned 180 deg (VFX meshes show -Z to the camera), scale 0.800391, 0.80 m wide, white Col; layer of the new `first_aid` effect (h_yuna sig_yuna via presentation `pr_c_first_aid`). 6018 tris (VFX budget warning ~1000 accepted: no decimation rule).
+  - riot_shield -> `Vfx/Meshes/riot_shield.fbx` + `mesh_riot_shield.png` (2048), turned 180 deg, scale 1.124748, 1.10 m tall, white Col; layer of the new `rescue_shield` effect (h_minjun sig_minjun via `pr_w_rescue_shield`). 3674 tris. Basecolor only (the PBR normal/roughness maps are not used by Abyss VFX).
