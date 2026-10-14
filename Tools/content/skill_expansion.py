@@ -145,6 +145,16 @@ PRESENTATIONS = [
       light=(0.55, 0.8, 1.0), sfx_impact='sfx_water'),
 ]
 
+# Descriptions of party-wide monster attacks that did not say they hit everyone (the intent / bestiary text is all the
+# player sees before the blow).
+DESCRIPTION_OF = {
+    'sk_e_shell_quake': '신전을 짊어진 등으로 바닥을 흔들어 전체를 공격합니다.',
+    'sk_ex_solar_apocalypse': '태양 그 자체를 떨어뜨려 전체를 불태웁니다.',
+    'sk_ex_true_void': '빛도 소리도 남지 않는 완전한 공허가 전체를 덮칩니다.',
+    'sk_lev_thunder_fin': '발광하는 지느러미에서 번개를 뿜어 전체를 공격합니다.',
+    'sk_soul_reap': '영혼을 거두는 낫질로 전체를 벱니다. 잠든 대상에게 1.5배.',
+}
+
 # Existing monster skills moved off the shared pr_heavy_enemy (sk_tentacle_crush keeps it: the tentacle impact is its own).
 PRESENTATION_OF = {
     'sk_e_clamp': 'pr_e_clamp', 'sk_e_halberd': 'pr_e_halberd', 'sk_e_anchor_smash': 'pr_e_anchor',
@@ -208,6 +218,8 @@ def build():
     for row in skills:
         if row['id'] in PRESENTATION_OF:
             row['presentation'] = PRESENTATION_OF[row['id']]
+        if row['id'] in DESCRIPTION_OF:
+            row['description'] = DESCRIPTION_OF[row['id']]
     presentations = upsert(load(os.path.join(DATA, 'presentation.json')), PRESENTATIONS)
     heroes = load(BASE_HEROES)
     for t in heroes:

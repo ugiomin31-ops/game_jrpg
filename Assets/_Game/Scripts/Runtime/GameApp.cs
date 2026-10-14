@@ -297,6 +297,18 @@ namespace Abyss.Runtime
             if (Dungeon != null && Dungeon.DismissChoice(choice)) Notify(DB.T("event_choice_reopen"));
         }
 
+        /// <summary>
+        /// Review builds only (<see cref="ReviewBoot"/>, URL <c>?review=battle</c>): adopts a prepared campaign state standing on
+        /// <paramref name="floorIndex"/> without the title, prologue or town, so battles can be started directly.
+        /// </summary>
+        public void BeginReview(GameState state, int floorIndex)
+        {
+            State = state ?? throw new ArgumentNullException(nameof(state));
+            SetPaused(false);
+            Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Resume);
+            EnterDungeonVisual();
+        }
+
         public void BeginBattle(BattleSetup setup)
         {
             SetPaused(false);

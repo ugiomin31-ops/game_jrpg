@@ -3509,7 +3509,7 @@
  {
   "id": "sk_e_shell_quake",
   "display_name": "등껍질 지진",
-  "description": "신전을 짊어진 등으로 바닥을 흔듭니다.",
+  "description": "신전을 짊어진 등으로 바닥을 흔들어 전체를 공격합니다.",
   "kind": 0,
   "scaling_stat": 0,
   "target_type": 0,
@@ -3896,7 +3896,7 @@
  {
   "id": "sk_ex_solar_apocalypse",
   "display_name": "태양 종언",
-  "description": "태양 그 자체를 떨어뜨립니다.",
+  "description": "태양 그 자체를 떨어뜨려 전체를 불태웁니다.",
   "kind": 0,
   "scaling_stat": 1,
   "target_type": 0,
@@ -3919,7 +3919,7 @@
  {
   "id": "sk_ex_true_void",
   "display_name": "진공",
-  "description": "빛도 소리도 남지 않는 완전한 공허.",
+  "description": "빛도 소리도 남지 않는 완전한 공허가 전체를 덮칩니다.",
   "kind": 0,
   "scaling_stat": 1,
   "target_type": 0,
@@ -4400,7 +4400,7 @@
  {
   "id": "sk_lev_thunder_fin",
   "display_name": "뇌광 지느러미",
-  "description": "발광하는 지느러미에서 번개를 뿜습니다.",
+  "description": "발광하는 지느러미에서 번개를 뿜어 전체를 공격합니다.",
   "kind": 0,
   "scaling_stat": 1,
   "target_type": 0,
@@ -5236,7 +5236,7 @@
  {
   "id": "sk_soul_reap",
   "display_name": "영혼 수확",
-  "description": "영혼을 거두는 낫질. 잠든 대상에게 1.5배.",
+  "description": "영혼을 거두는 낫질로 전체를 벱니다. 잠든 대상에게 1.5배.",
   "kind": 0,
   "scaling_stat": 1,
   "target_type": 0,
