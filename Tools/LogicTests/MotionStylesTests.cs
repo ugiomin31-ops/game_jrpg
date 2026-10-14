@@ -79,7 +79,10 @@ namespace Abyss.LogicTests
                     if (!string.IsNullOrEmpty(skill.Presentation)) TestMain.DB.Presentations.TryGetValue(skill.Presentation, out pres);
                     bool melee = pres != null && pres.Approach != "none" && pres.ActorAction != "cast";
                     bool allies = skill.TargetType != TargetType.Enemy;
-                    var plan = MotionStyles.Hero(cls, ActionKind.Skill, id, pres?.ActorAction, melee, allies, skill.HitCount, pres?.Tier ?? 1, 0);
+                    var plan = MotionStyles.Hero(cls, ActionKind.Skill, id, pres?.ActorAction, melee, allies, skill.HitCount, pres?.Tier ?? 1, 0,
+                        skill.Scope != Scope.Single);
+                    // A warlock / ward skill is not a war cry (the old bare "war" keyword matched them).
+                    if (id.Contains("warlock") || id.Contains("ward")) Assert.True(plan.Take != "Rally", id + " is no war cry");
                     Assert.True(AuthoredTakes.Contains(plan.Take), hero.Id + "/" + id + " take " + plan.Take);
                     foreach (string combo in plan.Combo) Assert.True(AuthoredTakes.Contains(combo), id + " combo take " + combo);
                     if (skill.HitCount <= 1) Assert.Equal(0, plan.Combo.Count, id + " single hit has no combo");

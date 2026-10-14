@@ -29,13 +29,13 @@ namespace Abyss.Logic.Battle
     }
 
     /// <summary>Body motion a monster adds to a stationary cast (breath, roar, spell).</summary>
-    public enum CastFlourish { None, Rear, Hover, Stomp }
+    public enum CastFlourish { None, Rear, Hover, Stomp, Jump }
 
     /// <summary>Movement family of a monster model, from which its default moves come.</summary>
     public enum BodyFamily { Brute, Beast, Heavy, Serpent, Flyer, Blob, Plant, Spirit, Insect }
 
     /// <summary>Extra body motion BattleView adds around a hero take.</summary>
-    public enum HeroFlourish { None, Leap, Spin, Backstep, Levitate, Dash }
+    public enum HeroFlourish { None, Leap, Spin, Backstep, Levitate, Dash, Hop }
 
     /// <summary>The takes and flourish a hero action is staged with. <see cref="Combo"/> lists the takes of later strike waves.</summary>
     public sealed class HeroMotionPlan
@@ -196,6 +196,10 @@ namespace Abyss.Logic.Battle
             foreach (var family in BasicStrikes) foreach (var strike in family) yield return strike;
         }
 
+        // Self / party buffs that read as a shout. "war_" (war cry, war banner), never a bare "war": warlock and ward are no cries.
+        static readonly string[] Rallies = { "cry", "rally", "banner", "provoke", "overlord", "berserk", "frenzy", "blood_thirst",
+            "reckless", "war_", "vow", "fortress", "iron_wall", "aegis", "conquer" };
+
         static readonly string[] MeleeBasic = { "Attack", "Slash", "Attack", "Thrust" };
         static readonly string[] ComboAfterSlash = { "Thrust", "Attack", "Slash" };
         static readonly string[] ComboAfterThrust = { "Slash", "Attack", "Thrust" };
@@ -209,7 +213,7 @@ namespace Abyss.Logic.Battle
         /// BattleView keeps a class / hero take of the original name where the model ships one.
         /// </summary>
         public static HeroMotionPlan Hero(string classId, ActionKind kind, string skillId, string actorAction, bool melee,
-            bool targetsAllies, int hitCount, int tier, int useIndex)
+            bool targetsAllies, int hitCount, int tier, int useIndex, bool group = false)
         {
             var plan = new HeroMotionPlan();
             if (kind == ActionKind.Item) { plan.Take = "Throw"; return plan; }
@@ -223,12 +227,10 @@ namespace Abyss.Logic.Battle
             if (kind != ActionKind.Skill) return plan;
             if (!melee)
             {
-                if (targetsAllies || actorAction == "cast" && Has(skillId, "cry", "rally", "banner", "provoke", "overlord", "berserk",
-                        "frenzy", "blood_thirst", "reckless", "war", "vow", "fortress", "iron_wall", "aegis", "conquer"))
+                if (targetsAllies || actorAction == "cast" && Has(skillId, Rallies))
                 {
                     plan.Take = Has(skillId, "revive", "resurrection", "rebirth", "miracle", "full_heal") ? "Kneel"
-                        : Has(skillId, "cry", "rally", "banner", "provoke", "overlord", "berserk", "frenzy", "blood_thirst", "reckless",
-                            "war", "vow", "fortress", "iron_wall", "aegis", "conquer") ? "Rally" : "Channel";
+                        : Has(skillId, Rallies) ? "Rally" : "Channel";
                     return plan;
                 }
                 if (actorAction == "shoot" || classId == "archer")
@@ -236,12 +238,18 @@ namespace Abyss.Logic.Battle
                     plan.Take = "Attack";
                     if (Has(skillId, "quick_draw", "wind_step", "gale", "snare", "flash", "disarm", "suppress", "step", "raid"))
                         plan.Flourish = HeroFlourish.Backstep;
+                    // Volleys into the sky: a jump shot.
+                    else if (group || Has(skillId, "rain", "volley", "starfall", "heaven", "falcon", "storm", "divine"))
+                        plan.Flourish = HeroFlourish.Hop;
                     return plan;
                 }
-                plan.Take = "Spell";
-                if (classId == "mage" && tier >= 3) plan.Flourish = HeroFlourish.Levitate;
+                // Field spells raise both hands to call the sky down; single-target spells drive the weapon at the target.
+                plan.Take = group ? "Channel" : "Spell";
+                if (tier >= 3 && (classId == "mage" || group)) plan.Flourish = HeroFlourish.Levitate;
                 return plan;
             }
+            // An archer who closes in stays on its bow take (a point-blank shot), dashing in.
+            if (classId == "archer") { plan.Take = "Attack"; plan.Flourish = HeroFlourish.Dash; return plan; }
             if (Has(skillId, "whirl", "cyclone", "rampage", "tornado", "spin", "round", "gale_dance", "storm"))
             { plan.Take = "Spin"; plan.Flourish = HeroFlourish.Spin; plan.Combo = ComboAfterSlash; }
             else if (Has(skillId, "crash", "smash", "slam", "quake", "earth", "titan", "giga", "cataclysm", "skull", "split", "judgment",

@@ -771,6 +771,8 @@ namespace Abyss.Runtime.Battle
                     StartCoroutine(CastFlourishRoutine(actor, EnemyFlourishFor(e, actor), release));
                 else if (!swung && actor.Side == BattleSide.Party && _plan != null && _plan.Flourish == HeroFlourish.Levitate)
                     StartCoroutine(CastFlourishRoutine(actor, CastFlourish.Hover, release));
+                else if (!swung && actor.Side == BattleSide.Party && _plan != null && _plan.Flourish == HeroFlourish.Hop)
+                    StartCoroutine(CastFlourishRoutine(actor, CastFlourish.Jump, Mathf.Max(.25f, release)));
                 // A spinning cut turns the whole body through the strike (monster Spin moves start their own turn on arrival).
                 if (actor.Side == BattleSide.Party && _plan != null && _plan.Flourish == HeroFlourish.Spin && approach)
                     StartCoroutine(SpinBody(actor, release - .12f, .36f));

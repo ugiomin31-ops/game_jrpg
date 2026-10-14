@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Abyss.Logic;
 using Abyss.Logic.Battle;
 using Abyss.Runtime.Art;
 using UnityEngine;
@@ -97,7 +98,8 @@ namespace Abyss.Runtime.Battle
             string cls = _app.DB.ClassOf(actor.DefId);
             bool allies = target != null && target.Side == actor.Side;
             int tier = _presentation != null ? _presentation.Tier : 1;
-            _plan = MotionStyles.Hero(cls, e.Kind, e.SkillId, _presentation?.ActorAction, approach, allies, e.HitCount, tier, NextUse(actor));
+            _plan = MotionStyles.Hero(cls, e.Kind, e.SkillId, _presentation?.ActorAction, approach, allies, e.HitCount, tier, NextUse(actor),
+                e.Scope != Scope.Single);
             if (Reduced) { _plan.Flourish = HeroFlourish.None; }
             string spell = HeroTake(actor, "Cast", "Spell");
             switch (clip)
@@ -471,6 +473,14 @@ namespace Abyss.Runtime.Battle
                                 float rise = elapsed < contact ? Mathf.SmoothStep(0, 1, before) : 1 - Mathf.SmoothStep(0, 1, after);
                                 t.position = home + Vector3.up * (.45f * Mathf.Sqrt(size) * rise);
                                 t.rotation = Lean(yaw, elapsed < contact ? -6f * before : Mathf.Lerp(8f, 0f, after));
+                                break;
+                            case CastFlourish.Jump:
+                                // Jump shot: spring up into the release, hang on it, drop back onto the mark.
+                                float up = elapsed < contact ? Mathf.Sin(.5f * Mathf.PI * Mathf.SmoothStep(0, 1, before))
+                                    : 1 - after * after;
+                                t.position = home + Vector3.up * (.55f * Mathf.Sqrt(size) * up);
+                                t.rotation = Lean(yaw, elapsed < contact ? -8f * before : -8f * (1 - after));
+                                if (!landed && after >= 1f) { landed = true; Dust(unit, home, .3f); }
                                 break;
                             case CastFlourish.Stomp:
                                 // Hop that lands on the release.
