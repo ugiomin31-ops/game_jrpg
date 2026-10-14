@@ -1,0 +1,394 @@
+{
+  "archive": "runtime_wip.zip",
+  "sha256": "09fa29b623b6d7a267ce8ec81f64179352e4d9cde613c61a3f96e1ec095deccf",
+  "bytes": 29551413,
+  "baseline": "b8ff7c5edc40d1174774a46b048f663d28413492",
+  "created_utc": "2026-10-14T11:38:29.655908+00:00",
+  "files": [
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/forest_guardian/forest_guardian.fbx",
+      "bytes": 8546236,
+      "sha256": "962d6b6e0e8d3cb957f464bf2cc596049f24d21323425dc9af8f24941e84b9ac"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/forest_guardian/forest_guardian.fbx.meta",
+      "bytes": 10878,
+      "sha256": "79c2655417e70d311c79fee1240f1f8b118f0a4ade6a0ab00ad7ea27ad8857c1"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
+      "bytes": 6806908,
+      "sha256": "16a18c7e34de62f345ac83e3a46cca42e1d0a32de95a03f4b37a36c1dfdbb540"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx.meta",
+      "bytes": 9257,
+      "sha256": "76e4aa79e27ea5db5752e7253f48c41c5e1d5d73a0b8ec60ea024e0091dcd54d"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx",
+      "bytes": 6889548,
+      "sha256": "1511dca2bdf5e6159c24d6b4078f53d2285f6b440aa0bbbbe81c0e1039960274"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/pixie/pixie.fbx.meta",
+      "bytes": 9254,
+      "sha256": "30bd637763cf609ba6704e103b5e977ba691a318cbdc2b2dc66b7c93e56de45c"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx",
+      "bytes": 6775804,
+      "sha256": "10b8b4ca7476528dbdaeb2d4352c713271daaa0da8fa57442fa779fa929bc829"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Enemies/sprout/sprout.fbx.meta",
+      "bytes": 9255,
+      "sha256": "cc3df5a1bc6471dd38efe66529f43fa1fa75f86080abeb1e4b5be58dfbd786d6"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimations/Ultimate.fbx",
+      "bytes": 611020,
+      "sha256": "b5a729b3b9f183d6be689f86d672b03f853f4dbf2b3d0ab7074ee33fd4098185"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimations/Ultimate.fbx.meta",
+      "bytes": 33759,
+      "sha256": "8824c523ba7e44b230860ead45e21c56bd1162d0911dee6cf998c196dd64bd0d"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByClass/innkeeper/Idle.fbx",
+      "bytes": 2188076,
+      "sha256": "94727c931dbfe22e6f095f17971971e8b01ad8e156cbde141d9fa72dfb17b531"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByClass/innkeeper/Idle.fbx.meta",
+      "bytes": 33701,
+      "sha256": "b9aa510709cab76e1611e36b7e87fad566c737ace887d7dbd1dd12ffd5f6755a"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByClass/innkeeper.meta",
+      "bytes": 172,
+      "sha256": "6deb5b69adb79a2b34059922b535667bc4828ef4a4a0a0b232427119684d6878"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByClass/shopkeeper/Idle.fbx",
+      "bytes": 2188076,
+      "sha256": "a0f90dd921bf25eb46513568b1c9766f4ceaacb12fbd0ff3598d952ac630c4b2"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByClass/shopkeeper/Idle.fbx.meta",
+      "bytes": 33701,
+      "sha256": "38a281628b0dbda25660037c10d1ebe52d2dfd0441a5376a3243db770c7adeac"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByClass/shopkeeper.meta",
+      "bytes": 172,
+      "sha256": "554be2a705e88cddd0a360056dc19da3b40febe4f7c72f633c7c762838376239"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_dohyun/Attack.fbx",
+      "bytes": 625804,
+      "sha256": "b369bb587a53c94b2abbd40622e682618c5eca717680d9b411598b4a564451c7"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_dohyun/Attack.fbx.meta",
+      "bytes": 33758,
+      "sha256": "e0953f5a25b231e71f3bc95da5c329c582940800112d6c3febf34a3aad4b22cf"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_dohyun/Skill.fbx",
+      "bytes": 729116,
+      "sha256": "bcfe67b19a4ccb58e3bfc66433b1ed47465e0b5ca80268c257c24b19d81c3129"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_dohyun/Skill.fbx.meta",
+      "bytes": 33747,
+      "sha256": "3242c8197429e8983fa9de9c3c37433b9fa779d2017dead54263923e1863b7b3"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_dohyun.meta",
+      "bytes": 172,
+      "sha256": "f367e61668d98810ab428a08406503475ab224990dce849f2030139d6140ddbb"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_jiho/BattleIdle.fbx",
+      "bytes": 724844,
+      "sha256": "f62c1803d4e75a0fc7674a7405c355e147a47238ce5f081ccff7165a19730826"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_jiho/BattleIdle.fbx.meta",
+      "bytes": 33782,
+      "sha256": "3ff0712e7308c8175802220ad359e39673ae2b3c0dacf01af1d51737dea3e789"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_jiho/Victory.fbx",
+      "bytes": 846268,
+      "sha256": "779c044c6bd6b0f36b3abb43addd0d02029a39ce559bb12fbbd095cf273894cf"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_jiho/Victory.fbx.meta",
+      "bytes": 33630,
+      "sha256": "06212bdfb05b3206092aa2e751b69ba04f6ec86d3eb263c394e4acda483c1013"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_jiho.meta",
+      "bytes": 172,
+      "sha256": "10dec953a0cf9b7c1373d4e148d12e42f84b1d0400f759a789aac3158799af4a"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun/Attack.fbx",
+      "bytes": 625932,
+      "sha256": "7cceaa1d9018330115ecb192ea0adc54747e6e767856013f979ee3f01211643a"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun/Attack.fbx.meta",
+      "bytes": 33803,
+      "sha256": "6e4a672de39f60680766789c8615c445e593bb53fd8047d6810cf80f1a7dfc8c"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun/BattleIdle.fbx",
+      "bytes": 726876,
+      "sha256": "ed220ba022c359d44f28e5f17f34ca066dde8049699c716f886540cfeb8c1e94"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun/BattleIdle.fbx.meta",
+      "bytes": 33715,
+      "sha256": "24fbcb7573ab9f6ec49ff97000b77aeab9594587c3ee7c02c771217b2cd631cd"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun/Cast.fbx",
+      "bytes": 626492,
+      "sha256": "098b1250e70197043c5c00e4628b7c713185121b505f9196e17246ffc3c0e6b0"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun/Cast.fbx.meta",
+      "bytes": 33736,
+      "sha256": "87493b95ceaa025e177023168480cf75316f0ea11f891fd06b9ef061d680337f"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_minjun.meta",
+      "bytes": 172,
+      "sha256": "05a166e46890c6cf64eb1c3ad1a942cb4f7a1a3a462a89ab4623d424b43625aa"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_seoa/Attack.fbx",
+      "bytes": 625820,
+      "sha256": "b0792be8941f6a16fbfe5b134d8d8c52813be20a088928b56428f0afc172685d"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_seoa/Attack.fbx.meta",
+      "bytes": 33735,
+      "sha256": "764e7e2b221a9516d12f0e023ff592d362c01b45ca88174b57f50fb547d37846"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_seoa.meta",
+      "bytes": 172,
+      "sha256": "aeb12ce45ef9f38a63c9a9d15725a118fe8f60f009c9e971db5bb25502bf8f91"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/Attack.fbx",
+      "bytes": 626700,
+      "sha256": "d6ed4e32901c1f845710d1db7f3563f96e42738b000f42afd60bd93fd8c9063a"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/Attack.fbx.meta",
+      "bytes": 33772,
+      "sha256": "e14a887b6d2e54b6deb2d527fd318b77452d35171f7b5900d56d835dbc2ac50c"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/BattleIdle.fbx",
+      "bytes": 729388,
+      "sha256": "74b16cb4f5c530a3879795a8ab230d709ef455cc700c93b518315dd891c06e91"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/BattleIdle.fbx.meta",
+      "bytes": 33653,
+      "sha256": "00c7bb01a2608d57b5eb552e492b0c8418544886f82532d279872b1596794f3d"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/Cast.fbx",
+      "bytes": 728172,
+      "sha256": "403892ec95bccf4b355c361e51ce4045090e27b056b50153550db1507ddd6669"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/Cast.fbx.meta",
+      "bytes": 33739,
+      "sha256": "546bcac7e37958167a2e5cde68564b67fa981b4cec7d245acc3a219e7649d24e"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/Victory.fbx",
+      "bytes": 728188,
+      "sha256": "cd065feb605918fc8bd04a5a1878dc753ea5d508aab9bc006792521c48968e4f"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna/Victory.fbx.meta",
+      "bytes": 33751,
+      "sha256": "edb45ce62549fe73204f66b1a9f4d285b97857786bafc09e5ad1e9ef571599d5"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero/h_yuna.meta",
+      "bytes": 172,
+      "sha256": "8cb94e6f93405a8ca2c275234bc1ab659a0859152cc736ad6f60bffeb064a951"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/HumanoidAnimationsByHero.meta",
+      "bytes": 172,
+      "sha256": "bbdaed71a48f1d7fbf9ac704cfe63b91b0edede10bf025a09228d4c2a47587bc"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item.fbx",
+      "bytes": 118316,
+      "sha256": "66c32460e10854f11a7ec6af8ca525811cbc6b7e663fc6d93f4d4ba04b1808ee"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item.fbx.meta",
+      "bytes": 3626,
+      "sha256": "d9286509a798962800526b681d6f4cd9d8c54d49af3fc5f3e9ada62ad867ec69"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item.tripo",
+      "bytes": 188,
+      "sha256": "ee2e74b9144ee92c0eec675274ddf1150a4c0ed2b8f8ffaa6d8db6e783422e17"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item.tripo.meta",
+      "bytes": 155,
+      "sha256": "32344bfb5297144a4505f14745efb9e751fcb372a369eaa413cdad2a9481cb86"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item_mat/M_GateKeycard_Tripo.mat",
+      "bytes": 1717,
+      "sha256": "694dc58f277924f9bfbb6b43cf955504fe0d60cebfab7a2e83046607494d1f5c"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item_mat/M_GateKeycard_Tripo.mat.meta",
+      "bytes": 188,
+      "sha256": "6c2ac20e5f635ada2023970541732ef33a284c2f33872f4190a27f88a53a4b34"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item_mat.meta",
+      "bytes": 172,
+      "sha256": "4bfc1e18fc9da9af9a7bb5be5680ceab7760d376c1decb4ecec556e7164c3151"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item_tex/M_GateKeycard_Tripo.png",
+      "bytes": 2725600,
+      "sha256": "12c7d39bfad32f37ff730ae7ac75f21c502c9a262bb0532c7684ea3379dd69bd"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item_tex/M_GateKeycard_Tripo.png.meta",
+      "bytes": 3009,
+      "sha256": "82ff70a8c8993066b38e068771e21ab0829d437466d92e4a91656a4827a20dd0"
+    },
+    {
+      "path": "Assets/_Game/Resources/Art/Props/Common/key_item_tex.meta",
+      "bytes": 172,
+      "sha256": "11acc92dc89ebaa6c0457c6fe6331fab4a54fb5e3f611d15145ecb3600ad4141"
+    },
+    {
+      "path": "Assets/_Game/Resources/Data/presentation.json",
+      "bytes": 67316,
+      "sha256": "038e4728561364aecd2fc559363ab3af4718f25dd22a2d9378a85d6192256810"
+    },
+    {
+      "path": "Assets/_Game/Resources/Data/skills.json",
+      "bytes": 166885,
+      "sha256": "855b99ec577c8938495404cb364b254e6ef60b795f705a328a4cfb6652385df5"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/effects.json",
+      "bytes": 538368,
+      "sha256": "185f62d48229547f741c3ed48b595882893d6aa22cf57c7d7fe629a640e6b3bc"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Meshes/aid_kit.fbx",
+      "bytes": 218044,
+      "sha256": "7bf98bee881a330ccb5bb58d17407d165d8339e0b73767e340d18db616294cff"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Meshes/aid_kit.fbx.meta",
+      "bytes": 2891,
+      "sha256": "1ecc3ced74d52fa6130448aaf494058c44623b8f7292e09afdcd8cffb12b432c"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Meshes/riot_shield.fbx",
+      "bytes": 124156,
+      "sha256": "82bcfd59c0bba797a774211d22270e5584c600581799549449bac46e45f49be1"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Meshes/riot_shield.fbx.meta",
+      "bytes": 2891,
+      "sha256": "5ab3372868a8aac9773dc9d9934a97be7651231b0a107d44beb3142bdec8d0b8"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Textures/mesh_aid_kit.png",
+      "bytes": 3031610,
+      "sha256": "5e37aa495d2a7fe44487a7e778c31d43b6878399958ccf67248aa85ba8729a35"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Textures/mesh_aid_kit.png.meta",
+      "bytes": 2652,
+      "sha256": "166c66a941062d391f3643e752a1e2985d68e666088aa0392125cd16b2c6fc7f"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Textures/mesh_riot_shield.png",
+      "bytes": 2013906,
+      "sha256": "a6add46779cae162d22d456fee0e5121bde46a4b4760024d5cc7500b04e20a38"
+    },
+    {
+      "path": "Assets/_Game/Resources/Vfx/Textures/mesh_riot_shield.png.meta",
+      "bytes": 2652,
+      "sha256": "3ea31dc1c1f301d594171deef595526d90d39dfa20c0a464e218889934242e3c"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/AbyssArtImporter.cs",
+      "bytes": 42768,
+      "sha256": "331b6732f80263c0074cd50581a124f90b9d582dba729aa7bb673dd10e19efce"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Logic/Data/GameData.cs",
+      "bytes": 22349,
+      "sha256": "23f561656a6da5656efa3458ccb92c896216f9f8bfe3a5f39d6bcc84ff3a004f"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Presentation/Vfx/VfxLibrary.cs",
+      "bytes": 47530,
+      "sha256": "6a2f6a5ba7662db802ea4e5363dc1b8e1baaea594439ec202eb5c8d873f251b5"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Runtime/Art/ArtLibrary.cs",
+      "bytes": 18182,
+      "sha256": "a8d449aadfd03fa46e9eec90d2f8f058858eb4bb5d60d4b9832dea96f110eb7b"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Runtime/Art/CharacterModel.cs",
+      "bytes": 18641,
+      "sha256": "b682fe920066bde843bee08fe08fdb509040e01cace16adef293a5d4e891e95c"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Runtime/Art/ClipAnimator.cs",
+      "bytes": 12870,
+      "sha256": "122c1b3be736edb18054d7e3516375fa677cc3827840dd53ac1c7c87d5ea1bf3"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Runtime/Battle/BattleView.cs",
+      "bytes": 108542,
+      "sha256": "cc0159a625a4fe02e5b7feca68e74dfb5552fcbde81bc327981fa1135dc94e3e"
+    },
+    {
+      "path": "Tools/content/hunters.py",
+      "bytes": 6518,
+      "sha256": "357263d46282d76a61c8d6428a191ae54de8ff9f06952c8b287b10c23c629895"
+    },
+    {
+      "path": "Tools/content/spec.py",
+      "bytes": 38254,
+      "sha256": "66530dda8a0e5b1ce2ed9bf2d59c337d1a77ea95667542dd38966f788a3a47c3"
+    },
+    {
+      "path": "Tools/vfx/gen_effects.py",
+      "bytes": 167957,
+      "sha256": "f712389d73e4c7a31de0dd6f5b854f6587f0e1ace75141d33f8853486b45e00f"
+    }
+  ]
+}
