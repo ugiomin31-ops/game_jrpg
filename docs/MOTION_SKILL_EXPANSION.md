@@ -30,6 +30,15 @@ Tripo 원본(`Cast/Guard/Hit/Idle` 등)은 그대로 두고 새 이름으로 추
 다시 만들기: `blender -b --factory-startup --python-exit-code 1 -P Blender/hunters_tripo/motion_author.py [-- --only Spell]`
 미리보기: `blender -b --factory-startup -P Blender/hunters_tripo/clip_sheet.py -- h_dohyun out.png <take.fbx...>`
 
+### Blender 리그 헌터 15명
+
+20명 중 Tripo Humanoid 모델은 5명(도현·지호·민준·서아·유나)뿐이고, 나머지 15명(보라·다나·은비·건우·하나·하늘·이슬·재현·준·미래·리나·시우·소라·태양·영수)은
+Blender로 만든 22본 Generic 리그라 공용 Humanoid 동작이 적용되지 않았습니다. 같은 키 포즈를 각 헌터의 뼈대(어깨·발 위치, 팔다리 길이,
+무기 소켓 방향)에 맞춰 다시 풀어 `Characters/<id>/<id>_moves.fbx`(Slash·Thrust·Smash·Spin·Channel·Throw·Rally·Kneel, 궁수는 Throw 제외)로
+내보내고, `ArtLibrary`가 모델의 고유 동작에 합칩니다. 재임포트 검사 기록: `docs/verification/hero_moves_report.json`.
+다시 만들기: `blender -b --factory-startup --python-exit-code 1 -P Blender/hunters_tripo/motion_author.py -- --heroes all`,
+미리보기: `Blender/hunters_tripo/hero_moves_sheet.py`.
+
 ## 2. 전투 연출 다양화 (`MotionStyles`, `BattleView.Moves.cs`)
 
 - 몬스터 접근 10종: 기본 달리기, 덮치기(높은 도약), 돌진(뒷발 긁고 지나쳤다 미끄러져 복귀), 몸통 박치기(높이 솟았다 내리꽂기+지진),
@@ -39,6 +48,11 @@ Tripo 원본(`Cast/Guard/Hit/Idle` 등)은 그대로 두고 새 이름으로 추
 - 몬스터 시전: 숨결·포효는 몸을 젖혔다 내지르기, 지진·경화는 제자리 뛰어 구르기, 비행·영체는 떠오르기.
 - 헌터: 스킬별 동작(내려찍기=도약 착지, 찌르기=저공 돌진, 회오리=360도 회전, 궁수 일부=뒤로 뛰며 사격, 마법사 3티어=부유),
   기본 근접 공격 순환(공격→가로베기→공격→찌르기, 성직자는 찌르지 않음), 다단히트 콤보는 타마다 다른 동작, 회복·버프=Channel, 부활=Kneel, 함성=Rally, 아이템=Throw.
+- 몬스터 일반 공격(128종)의 타격 이펙트·효과음이 몸 형태별로 다릅니다: 짐승=물기·할퀴기, 인간형=베기·둔기, 중장갑=쿵·충격,
+  비행=쪼기, 슬라임=산성 튀김, 식물=덩굴, 영체=어둠·영혼불, 곤충=찌르기·독. 기존에는 전부 같은 `impact` 불꽃이었습니다.
+  하나의 연출(`pr_heavy_enemy`)을 같이 쓰던 몬스터 기술 6개(미늘창·닻·급강하·땅굴·조개 물기·꼬리)에 각자 연출을 주었습니다.
+- 궁수의 화살비·일제사격은 뛰어올라 쏘고, 궁수가 다가가는 기술은 활 동작을 유지하며, 광역 마법은 두 손을 들어 올립니다.
+  `warlock`·`ward`가 함성(`war`)으로 잘못 분류되던 문제를 고쳤습니다.
 - 빗나가면 대상이 옆으로 피합니다. 모든 연출은 전투 속도·일시정지를 따르고, 동작 줄이기 설정에서는 이전 연출 그대로입니다.
 
 ## 3. 스킬 확장 (`Tools/content/skill_expansion.py`)
