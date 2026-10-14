@@ -57,11 +57,13 @@
   "summon_limit": 0,
   "skill_weights": [
    4,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_screech"
+   "sk_screech",
+   "sk_e_dive_bomb"
   ],
   "archetype": "flyer",
   "battle_row": 1,
@@ -292,11 +294,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_harden"
+   "sk_harden",
+   "sk_e_clamp"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -371,11 +375,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_cleave"
+   "sk_cleave",
+   "sk_e_execution"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -1537,11 +1543,13 @@
   "summon_limit": 0,
   "skill_weights": [
    2,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_fire_breath"
+   "sk_fire_breath",
+   "sk_e_pounce"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -2132,11 +2140,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_ice_lance"
+   "sk_ice_lance",
+   "sk_e_web_shot"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -2282,11 +2292,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_curse_screech"
+   "sk_curse_screech",
+   "sk_e_dive_bomb"
   ],
   "archetype": "flyer",
   "battle_row": 1,
@@ -2512,11 +2524,13 @@
   "summon_limit": 0,
   "skill_weights": [
    4,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "strong_attack"
+   "strong_attack",
+   "sk_e_pounce"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -2591,11 +2605,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_harden"
+   "sk_harden",
+   "sk_e_body_slam"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -2664,11 +2680,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_twin_bite"
+   "sk_twin_bite",
+   "sk_e_throat_bite"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -2813,11 +2831,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_poison_arrow"
+   "sk_poison_arrow",
+   "sk_e_dive_bomb"
   ],
   "archetype": "flyer",
   "battle_row": 1,
@@ -2968,11 +2988,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_bleed_edge"
+   "sk_bleed_edge",
+   "sk_e_venom_fang"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -3043,11 +3065,13 @@
   "summon_limit": 1,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "fireball"
+   "fireball",
+   "sk_e_slime_press"
   ],
   "archetype": "blob",
   "battle_row": 0,
@@ -3278,11 +3302,13 @@
   "summon_limit": 0,
   "skill_weights": [
    2,
-   3
+   3,
+   1
   ],
   "skills": [
    "basic_attack",
-   "poison_spore"
+   "poison_spore",
+   "sk_e_spore_burst"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -3430,11 +3456,13 @@
   "summon_limit": 0,
   "skill_weights": [
    2,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_rebirth_flame"
+   "sk_rebirth_flame",
+   "sk_e_dive_bomb"
   ],
   "archetype": "flyer",
   "battle_row": 1,
@@ -3579,11 +3607,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_harden"
+   "sk_harden",
+   "sk_e_horn_charge"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -3653,11 +3683,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_sandstorm"
+   "sk_sandstorm",
+   "sk_e_body_slam"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -3732,11 +3764,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_poison_arrow"
+   "sk_poison_arrow",
+   "sk_e_venom_fang"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -3810,11 +3844,13 @@
   "summon_limit": 0,
   "skill_weights": [
    2,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_crow_swarm"
+   "sk_crow_swarm",
+   "sk_harvest_reap"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -3885,11 +3921,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_harden"
+   "sk_harden",
+   "sk_e_bone_rush"
   ],
   "archetype": "body_only",
   "battle_row": 0,
@@ -3958,11 +3996,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_acid_spit"
+   "sk_acid_spit",
+   "sk_e_slime_press"
   ],
   "archetype": "blob",
   "battle_row": 0,
@@ -4107,11 +4147,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_root_bind"
+   "sk_root_bind",
+   "sk_e_spore_burst"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -4260,11 +4302,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "stunning_slam"
+   "stunning_slam",
+   "sk_war_cry"
   ],
   "archetype": "body_only",
   "battle_row": 1,
@@ -4321,11 +4365,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_acid_spit"
+   "sk_acid_spit",
+   "sk_e_slime_press"
   ],
   "archetype": "blob",
   "battle_row": 0,
@@ -4392,11 +4438,13 @@
   "summon_limit": 0,
   "skill_weights": [
    3,
+   1,
    1
   ],
   "skills": [
    "basic_attack",
-   "sk_acid_spit"
+   "sk_acid_spit",
+   "sk_e_slime_press"
   ],
   "archetype": "blob",
   "battle_row": 0,
@@ -4623,11 +4671,13 @@
   "summon_limit": 0,
   "skill_weights": [
    2,
-   2
+   2,
+   1
   ],
   "skills": [
    "basic_attack",
-   "sk_ice_shard"
+   "sk_ice_shard",
+   "sk_e_slime_press"
   ],
   "archetype": "blob",
   "battle_row": 0,

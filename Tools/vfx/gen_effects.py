@@ -2080,7 +2080,7 @@ def main():
         align_last(EFFECTS[key])
     mark_big_layers()
     required ={p[k] for p in json.loads((ROOT/'Assets/_Game/Resources/Data/presentation.json').read_text(encoding='utf-8'))
-                for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx') if p.get(k)}
+                for k in ('charge_vfx', 'travel_vfx', 'impact_vfx', 'area_vfx', 'heal_vfx') if p.get(k)}
     missing = required - EFFECTS.keys()
     if missing:
         raise ValueError('Missing authored recipes: ' + ', '.join(sorted(missing)))

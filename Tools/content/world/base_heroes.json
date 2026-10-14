@@ -116,6 +116,18 @@
    {
     "level": 38,
     "skill": "ult_a_heaven_arrow"
+   },
+   {
+    "level": 5,
+    "skill": "sk_a_breaker_bolt"
+   },
+   {
+    "level": 9,
+    "skill": "sk_a_finisher"
+   },
+   {
+    "level": 15,
+    "skill": "sk_a_volley_step"
    }
   ],
   "_file": "archer"
@@ -246,6 +258,18 @@
    {
     "level": 38,
     "skill": "ult_c_miracle"
+   },
+   {
+    "level": 7,
+    "skill": "sk_c_judgment_hammer"
+   },
+   {
+    "level": 15,
+    "skill": "sk_c_final_rite"
+   },
+   {
+    "level": 17,
+    "skill": "sk_c_guardian_light"
    }
   ],
   "class_color": [
@@ -382,6 +406,18 @@
    {
     "level": 38,
     "skill": "ult_m_arcana_nova"
+   },
+   {
+    "level": 10,
+    "skill": "sk_m_shatter"
+   },
+   {
+    "level": 13,
+    "skill": "sk_m_soul_burn"
+   },
+   {
+    "level": 18,
+    "skill": "sk_m_mana_surge"
    }
   ],
   "_file": "mage"
@@ -515,6 +551,18 @@
    {
     "level": 38,
     "skill": "ult_w_ragnarok"
+   },
+   {
+    "level": 9,
+    "skill": "sk_w_shield_crush"
+   },
+   {
+    "level": 14,
+    "skill": "sk_w_execution"
+   },
+   {
+    "level": 19,
+    "skill": "sk_w_battle_flow"
    }
   ],
   "_file": "warrior"

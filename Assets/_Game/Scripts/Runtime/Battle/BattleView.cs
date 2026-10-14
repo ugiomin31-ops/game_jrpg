@@ -20,7 +20,7 @@ namespace Abyss.Runtime.Battle
     /// Owns one 3D encounter. The engine resolves a whole batch immediately, but presentation replays
     /// only event snapshots. Commands and completion are exposed after their preceding visuals finish.
     /// </summary>
-    public sealed class BattleView : MonoBehaviour
+    public sealed partial class BattleView : MonoBehaviour
     {
         public BattleEngine Engine { get; private set; }
         public bool Playing { get; private set; }
@@ -334,6 +334,7 @@ namespace Abyss.Runtime.Battle
                         bool strike = _action != null && e.SourceId == _action.ActorId;
                         if (strike) yield return PrepareHit(missed);
                         _ui.Numbers.Spawn(missed.Model.HeadPoint, 0, UINumberStyle.Miss);
+                        if (strike && Find(e.SourceId, out var dodged)) StartCoroutine(Dodge(missed, dodged));
                         _impactTargets.Add(e.TargetId);
                         PlaySound("sfx_miss");
                         if (strike && NextHitJoinsWave()) { yield return Wait(.03f); break; }
@@ -371,7 +372,12 @@ namespace Abyss.Runtime.Battle
                         applied.Statuses[e.StatusId] = new DisplayStatus { Id = e.StatusId, Name = e.DisplayName,
                             Type = e.EffectType, Turns = e.Turns, Beneficial = e.Beneficial };
                         Sync(applied); Popup(e.UnitId, e.DisplayName, e.Beneficial ? new Color(.4f, 1, .75f) : new Color(1, .5f, .7f));
-                        if (_impactTargets.Add(e.UnitId) && _action != null && _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx))
+                        // A damage skill's self buff (SkillDef.SelfStatus) lands on its actor, which the action never targeted:
+                        // a buff glow there, not the strike's impact.
+                        bool targeted = _action != null && Lists(_action.TargetIds, e.UnitId);
+                        if (_action != null && !targeted && e.UnitId == _action.ActorId)
+                        { if (_vfx.Supports("buff")) Effect("buff", applied.Model.CenterPoint, new Color(.4f, 1, .75f), 1, 0, null, applied.Home.y); }
+                        else if (_impactTargets.Add(e.UnitId) && _action != null && _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx))
                             Impact(_presentation.ImpactVfx, applied, PresentationColor(_action.Element), !e.Beneficial, FacingFrom(_action.ActorId, applied));
                         PlaySound(e.Beneficial ? "sfx_buff" : StatusSound(e.EffectType)); yield return Wait(.16f);
                     }
@@ -589,6 +595,7 @@ namespace Abyss.Runtime.Battle
                 }
             }
             if (!unit.Alive) unit.Model.Play("Die");
+            RememberScale(unit);
             _units.Add(unit.Id, unit); _hud.AddUnit(unit); Sync(unit);
             return unit;
         }
@@ -615,7 +622,7 @@ namespace Abyss.Runtime.Battle
         IEnumerator StartAction(ActionStartEvent e)
         {
             _action = e; _presentation = null; _hitCounts.Clear(); _hitTotals.Clear(); _impactTargets.Clear();
-            _waveTargets.Clear(); _wave = 0; _waveStop = 0; _strikeClip = null; _perHitProjectile = false; _flashed = false;
+            _waveTargets.Clear(); _wave = 0; _waveStop = 0; _strikeClip = null; _perHitProjectile = false; _flashed = false; _plan = null;
             if (!string.IsNullOrEmpty(e.PresentationId))
             {
                 if (!_app.DB.Presentations.TryGetValue(e.PresentationId, out _presentation))
@@ -629,6 +636,9 @@ namespace Abyss.Runtime.Battle
             // The previous actor may still be jogging home: wait only when it is this action's actor or one of its targets,
             // so its cosmetic return finishes before this take reuses the same body (token ownership makes that wait safe).
             while (Involved(e, actor)) yield return null;
+            // A dodge or a cast flourish still moving this actor (or a target) settles first; bounded.
+            yield return WaitFlourish(actor);
+            if (target != null) yield return WaitFlourish(target);
             _beat = actor.Side == BattleSide.Party ? Beat(e, actor, target) : SkillBeat.None;
             _hitHeld = false; _pendingHit = null;
             if (actor.Side == BattleSide.Enemy) _director.EnemyTurn(actor, Targets(e), StrikePoint(e, actor, target));
@@ -653,9 +663,12 @@ namespace Abyss.Runtime.Battle
                         _hud.UltimateCutIn(actor.DefId, actor.Name, e.DisplayName ?? "궁극기", PresentationColor(e.Element));
                     else _hud.CutIn(actor.Name, e.DisplayName ?? "궁극기");
                 }
-                string cls = actor.Side == BattleSide.Party ? _app.DB.ClassOf(actor.DefId) : actor.DefId;
-                string hero = cls == "archer" ? "ranger" : cls;
-                PlaySound("sfx_ultimate_" + hero);
+                // Only the four hunter classes have an ultimate cue (an enemy TP skill would name a missing one).
+                if (actor.Side == BattleSide.Party)
+                {
+                    string cls = _app.DB.ClassOf(actor.DefId);
+                    PlaySound("sfx_ultimate_" + (cls == "archer" ? "ranger" : cls));
+                }
                 yield return Wait(Reduced ? .3f : .95f); _hud.HideCutIn();
             }
             else if (_beat != SkillBeat.None && IsSignature(e) && !Reduced)
@@ -673,8 +686,9 @@ namespace Abyss.Runtime.Battle
                 actor.Guarding = true; Sync(actor);
                 if (actor.Side == BattleSide.Party)
                 {
-                    actor.Model.Anim.PlayOnce("Guard", "Idle", .18f);
-                    _actionLength = actor.Model.Anim.Length("Guard");
+                    string guard = GuardTake(actor);
+                    actor.Model.Anim.PlayOnce(guard, "Idle", .18f);
+                    _actionLength = actor.Model.Anim.Length(guard);
                 }
                 Popup(actor.Id, "방어", new Color(.55f, .8f, 1)); PlaySound("sfx_guard");
                 yield return Wait(.3f); yield break;
@@ -698,6 +712,8 @@ namespace Abyss.Runtime.Battle
             bool approach = !Reduced && !cast && !rangedBasic && target != null && actor.Id != target.Id &&
                 ((_presentation != null && _presentation.Approach != "none") ||
                 (_presentation == null && e.Kind == ActionKind.Attack));
+            if (actor.Side == BattleSide.Party && !ultimateTake && e.Kind != ActionKind.Guard && e.Kind != ActionKind.Flee)
+                clip = PlanHeroTake(e, actor, target, clip, approach);
             // A lunge is the sweep of a group strike; a single-target strike closes the whole gap instead of swinging at air.
             bool lunge = approach && _presentation != null && _presentation.Approach == "lunge" && e.Scope != Scope.Single;
             Vector3 destination = actor.Model.transform.position;
@@ -711,9 +727,21 @@ namespace Abyss.Runtime.Battle
                 direction = distance > .001f ? direction / distance : Vector3.zero;
                 destination += direction * (lunge ? Mathf.Min(.7f, travel) : travel);
                 bool run = !lunge && travel > .01f;
+                // Styled approaches: monsters pounce / charge / slam / dive / blink / burrow / bounce / skitter, heroes leap or dash.
+                var move = run && actor.Side == BattleSide.Enemy ? EnemyMoveFor(e, actor) : EnemyMove.Dash;
+                var flourish = run && actor.Side == BattleSide.Party && !ultimateTake && _plan != null ? _plan.Flourish : HeroFlourish.None;
+                bool styled = move != EnemyMove.Dash || flourish == HeroFlourish.Leap || flourish == HeroFlourish.Dash;
+                if (styled)
+                {
+                    if (direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
+                    if (move != EnemyMove.Dash) yield return EnemyApproach(move, actor, target, destination, clip, cast);
+                    else if (flourish == HeroFlourish.Leap) yield return HeroLeap(actor, destination, clip);
+                    else yield return HeroDash(actor, destination, clip);
+                    swung = true; run = false;
+                }
                 // The run starts blending in while the body turns toward the foe (no standing pivot, no pop into the sprint).
                 if (run) { SetRunRate(actor, travel / ApproachTime(actor, travel)); actor.Model.Anim.Play("Run", RunFade, false); }
-                if (direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
+                if (!styled && direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
                 if (run)
                 {
                     float time = ApproachTime(actor, travel), lead = Mathf.Min(.2f, time * .3f);
@@ -730,7 +758,20 @@ namespace Abyss.Runtime.Battle
                 Vector3 facing = target.Model.transform.position - actor.Model.transform.position; facing.y = 0;
                 if (facing.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(facing));
             }
+            if (!swung && !ultimateTake && actor.Side == BattleSide.Party && _plan != null && _plan.Flourish == HeroFlourish.Backstep && !Reduced)
+                yield return Backstep(actor);
             if (!swung && !ultimateTake) Swing(actor, clip, cast);
+            if (!Reduced && !ultimateTake && e.Kind != ActionKind.Guard && e.Kind != ActionKind.Flee)
+            {
+                float release = Mathf.Max(0f, _actionLength * Contact(actor.Model, _strikeClip ?? clip) - _actionElapsed);
+                if (!swung && actor.Side == BattleSide.Enemy && !approach && target != null)
+                    StartCoroutine(CastFlourishRoutine(actor, EnemyFlourishFor(e, actor), release));
+                else if (!swung && actor.Side == BattleSide.Party && _plan != null && _plan.Flourish == HeroFlourish.Levitate)
+                    StartCoroutine(CastFlourishRoutine(actor, CastFlourish.Hover, release));
+                // A spinning cut turns the whole body through the strike (monster Spin moves start their own turn on arrival).
+                if (actor.Side == BattleSide.Party && _plan != null && _plan.Flourish == HeroFlourish.Spin && approach)
+                    StartCoroutine(SpinBody(actor, release - .12f, .36f));
+            }
             Color tint = PresentationColor(e.Element);
             if (!_charge.IsPlaying) StartCharge(e, actor, tint);
             PlaySound(_presentation != null && !string.IsNullOrEmpty(_presentation.SfxCast) ? _presentation.SfxCast :
@@ -846,7 +887,26 @@ namespace Abyss.Runtime.Battle
         // Contact / release points authored in Blender/lib_humanoid/motion.py (CONTACT).
         const float UltimateResume = 28f / 66f;
         static float EndFraction(BattleDisplayUnit unit, string clip) => unit.Model.Anim is ClipAnimator clips ? clips.EndFraction(clip) : 1f;
-        static float DefaultContact(string clip) => clip == "Cast" ? .6f : clip == "Skill" ? .5f : clip == "Ultimate" ? 44f / 66f : .4f;
+        static float DefaultContact(string clip)
+        {
+            switch (clip)
+            {
+                case "Cast": return .6f;
+                case "Skill": return .5f;
+                case "Ultimate": return 44f / 66f;
+                // Authored shared takes (Blender/hunters_tripo/motion_takes.py CONTACT).
+                case "Spell": return .562f;
+                case "Slash": return .379f;
+                case "Thrust": return .448f;
+                case "Smash": return .455f;
+                case "Spin": return .435f;
+                case "Channel": return .548f;
+                case "Throw": return .48f;
+                case "Rally": return .375f;
+                case "Kneel": return .455f;
+                default: return .4f;
+            }
+        }
         /// <summary>Strike point of a take: the per-class value when the model ships its own take, else the shared default.</summary>
         static float Contact(CharacterModel model, string clip) => model.ContactFraction(clip, DefaultContact(clip));
 
@@ -916,6 +976,7 @@ namespace Abyss.Runtime.Battle
             _hud.SetTagsHidden(false);
             if (!_fleeSucceeded && Find(e.ActorId, out var actor) && actor.Alive)
             {
+                yield return WaitFlourish(actor);
                 // Hit-stop freezes the take, so its held time must not steal the recovery pose; a hero away from its mark
                 // shows at most RecoveryCap of follow-through before it turns home. At its mark the take simply plays out
                 // into its idle (PlayOnce) while the battle moves on.
@@ -929,7 +990,7 @@ namespace Abyss.Runtime.Battle
                 StartCoroutine(ReturnHome(actor, back));
             }
             _action = null; _presentation = null; _actionLength = 0; _actionEnd = 0; _strikeClip = null; _perHitProjectile = false;
-            _beat = SkillBeat.None; _pendingHit = null; _hitHeld = false;
+            _beat = SkillBeat.None; _pendingHit = null; _hitHeld = false; _plan = null;
             // The camera goes back to S0 / S1 while the hero is still running home.
             if (!NextShotFollows()) Establishing(false);
             yield return Wait(.06f);
@@ -946,7 +1007,14 @@ namespace Abyss.Runtime.Battle
             bool Owned() => _returnTokens.TryGetValue(actor, out var t) && ReferenceEquals(t, token);
             try
             {
-                if (back.sqrMagnitude > .01f)
+                bool special = SpecialReturn(actor, out var returnMove);
+                _returnMove.Remove(actor);
+                if (back.sqrMagnitude > .01f && special && !Reduced)
+                {
+                    yield return SpecialHome(actor, returnMove, Owned);
+                    if (!Owned()) yield break;
+                }
+                else if (back.sqrMagnitude > .01f)
                 {
                     if (Reduced || !actor.Model.Anim.HasClip("Run"))
                     {
@@ -981,7 +1049,8 @@ namespace Abyss.Runtime.Battle
         {
             if (actor == null || !_returnTokens.Remove(actor)) return;
             _returning.Remove(actor);
-            if (actor.Model != null) actor.Model.transform.SetPositionAndRotation(actor.Home, actor.Facing);
+            // A blink / burrow return may be half faded or under the floor: the snap home also makes the body whole again.
+            if (actor.Model != null) { actor.Model.transform.SetPositionAndRotation(actor.Home, actor.Facing); actor.Model.SetDissolve(0); }
         }
         void CancelAllReturns()
         {
@@ -1085,7 +1154,8 @@ namespace Abyss.Runtime.Battle
             if (newWave) { _waveTargets.Clear(); _wave++; _waveStop = 0; }
             _waveTargets.Add(target.Id);
             if (!Find(_action.ActorId, out var actor) || !actor.Alive) yield break;
-            if (newWave && _wave > 1 && _strikeClip == "Attack" && !Reduced)
+            if (newWave && _wave > 1 && ComboWave(actor)) yield return Wait(.1f);
+            else if (newWave && _wave > 1 && _strikeClip == "Attack" && !Reduced)
             {
                 float length = actor.Model.Anim.Length("Attack");
                 actor.Model.Anim.PlayFrom("Attack", .25f, .1f);
@@ -1133,7 +1203,7 @@ namespace Abyss.Runtime.Battle
                 _hitCounts.TryGetValue(e.TargetId, out int count); _hitCounts[e.TargetId] = count + 1;
                 _hitTotals.TryGetValue(e.TargetId, out int total); _hitTotals[e.TargetId] = total + e.Amount;
             }
-            if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce("Hit", "Idle", .15f);
+            if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
             Color tint = PresentationColor(e.Element);
             if (e.Amount > 0) target.Model.Flash(e.Critical ? Color.white : tint, e.Critical ? .2f : Reduced ? .2f : .12f);
             // A hit owns the target's body from here: cancel any cosmetic return so it cannot overwrite the recoil or the fall.
@@ -1713,6 +1783,7 @@ namespace Abyss.Runtime.Battle
         {
             if (_restored) return; _restored = true;
             CancelAllReturns(); _beat = SkillBeat.None; _pendingHit = null;   // no cosmetic return, skill beat or S7 record outlives the battle
+            _plan = null; _returnMove.Clear(); _flourishing.Clear(); _moveUses.Clear(); _restScale.Clear();
             foreach (var effect in _effects) effect.Stop(); _effects.Clear(); _auras.Clear();
             if (_vfx != null) _vfx.TimeScale = 1;
             if (_ui != null) { _ui.Numbers.Clear(); _ui.Dialog.Close(); }

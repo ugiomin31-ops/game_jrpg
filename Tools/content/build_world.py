@@ -362,11 +362,37 @@ def main(argv):
         return 1
     if '--check' in argv:
         return 0
+    # The checked-in floors carry hand-authored content this generator does not know (rescue events and their map cells,
+    # added with the Tripo visual overhaul): refuse to drop it silently.
+    lost = authored_only(load('dungeon'), floors)
+    if lost and '--force' not in argv:
+        for floor_id, what in lost:
+            print('KEEP', floor_id, what)
+        print('Refusing to overwrite dungeon.json: %d hand-authored entries would be lost (port them to world/ or pass --force).' % len(lost))
+        return 1
     changed = [n for n, rows in (('dungeon', floors), ('enemies', strip(enemy_rows)), ('skills', skills_rows),
                                  ('quests', quests), ('text_ko', text)) if write(n, rows)]
     write_allowlist()
     print('written:', ', '.join(changed) or 'nothing changed')
+    if 'enemies' in changed or 'skills' in changed:
+        print('Re-run Tools/content/skill_expansion.py: it adds the extra monster moves and the newer skills on top of these tables.')
     return 0
+
+
+def authored_only(current, built):
+    """(floor id, description) of events and map rows in the checked-in floors that the built floors lack."""
+    built_by_id = {f['id']: f for f in built}
+    lost = []
+    for f in current:
+        b = built_by_id.get(f['id'])
+        if b is None:
+            lost.append((f['id'], 'whole floor'))
+            continue
+        have = {(tuple(e.get('cell', [])), e.get('type')) for e in b.get('events', [])}
+        for e in f.get('events', []):
+            if (tuple(e.get('cell', [])), e.get('type')) not in have:
+                lost.append((f['id'], 'event %s at %s' % (e.get('type'), e.get('cell'))))
+    return lost
 
 
 if __name__ == '__main__':

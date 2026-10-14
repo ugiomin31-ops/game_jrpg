@@ -60,6 +60,7 @@ namespace Abyss.Logic.Battle
         // Per-action bookkeeping (TP gains and once-per-target effectiveness popups).
         bool _actionDealtDamage;
         int _actionHpDealt; // HP damage dealt to opponents by the current action (skill drain)
+        int _hitBreakPower; // extra shield points per landed hit of the damage skill being resolved (SkillDef.BreakPower)
         readonly List<BattleUnit> _actionDamaged = new List<BattleUnit>();
         readonly HashSet<string> _actionEffectShown = new HashSet<string>();
         readonly Dictionary<string, int> _actionHitIndex = new Dictionary<string, int>();
@@ -1068,6 +1069,7 @@ namespace Abyss.Logic.Battle
             int hitCount = Math.Max(1, skill != null ? skill.HitCount : 1);
             int hitsPerTarget = action.Scope == 2 ? 1 : hitCount;
             var statusTargets = new List<BattleUnit>();
+            bool anyLanded = false;
             for (int pick = 0; pick < action.TargetIds.Count; pick++)
             {
                 var target = UnitById(action.TargetIds[pick]);
@@ -1092,12 +1094,23 @@ namespace Abyss.Logic.Battle
                         continue;
                     }
                     landed = true;
-                    DealHit(actor, target, roll.Amount, roll.Critical, roll.Type, roll.Element, roll.ElementMultiplier);
+                    _hitBreakPower = skill != null ? Math.Max(0, skill.BreakPower) : 0;
+                    try { DealHit(actor, target, roll.Amount, roll.Critical, roll.Type, roll.Element, roll.ElementMultiplier); }
+                    finally { _hitBreakPower = 0; }
+                    anyLanded = true;
                 }
                 if (landed && target.IsAlive && !statusTargets.Contains(target)) statusTargets.Add(target);
             }
             ApplyDrain(actor, skill);
             ApplyPayloadStatuses(actor, statusTargets, skill, false);
+            if (anyLanded) ApplySelfStatus(actor, skill);
+        }
+
+        /// <summary>Self buff of a damage skill (<see cref="SkillDef.SelfStatus"/>): granted to a living actor once the action lands a hit; no roll.</summary>
+        void ApplySelfStatus(BattleUnit actor, SkillDef skill)
+        {
+            if (skill == null || string.IsNullOrEmpty(skill.SelfStatus) || !actor.IsAlive) return;
+            if (_db.Statuses.TryGetValue(skill.SelfStatus, out var def)) ApplyStatusTo(actor, actor, def);
         }
 
         /// <summary>Drain skills return a share of the HP damage dealt to the actor (no RNG; burn halves it).</summary>
@@ -1152,13 +1165,18 @@ namespace Abyss.Logic.Battle
             }
             if (multiplier < 1.0 && target.Side == BattleSide.Enemy) _resistSeen.Add(WeaknessKey(target.DefId, element));
             if (multiplier == 1.0 && element > 0 && target.Side == BattleSide.Enemy) _neutralSeen.Add(WeaknessKey(target.DefId, element));
+            // A weakness hit removes one shield point; a shield crusher (BreakPower) removes more from any opponent it hits.
+            int shieldLoss = (multiplier > 1.0 ? 1 : 0) + (actor.Side != target.Side ? _hitBreakPower : 0);
             if (multiplier > 1.0)
             {
                 if (target.Side == BattleSide.Enemy && actor.Side == BattleSide.Party) _actionWeakHit = true; // absorbed / 0-damage hits count
                 if (target.Side == BattleSide.Enemy) DiscoverWeakness(target, element);
+            }
+            if (shieldLoss > 0)
+            {
                 if (target.IsAlive && target.MaxShield > 0 && !target.Broken)
                 {
-                    target.Shield = Math.Max(0, target.Shield - 1);
+                    target.Shield = Math.Max(0, target.Shield - shieldLoss);
                     Emit(new ShieldChangeEvent { UnitId = target.Id, Shield = target.Shield, MaxShield = target.MaxShield });
                     if (target.Shield == 0)
                     {

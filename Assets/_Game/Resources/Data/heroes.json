@@ -59,12 +59,20 @@
     "skill": "ult_heaven_rend"
    },
    {
+    "level": 9,
+    "skill": "sk_w_shield_crush"
+   },
+   {
     "level": 11,
     "skill": "sk_w_armor_break"
    },
    {
     "level": 13,
     "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 14,
+    "skill": "sk_w_execution"
    },
    {
     "level": 15,
@@ -77,6 +85,10 @@
    {
     "level": 17,
     "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 19,
+    "skill": "sk_w_battle_flow"
    },
    {
     "level": 20,
@@ -202,12 +214,20 @@
     "skill": "sk_chain_spark"
    },
    {
+    "level": 10,
+    "skill": "sk_m_shatter"
+   },
+   {
     "level": 11,
     "skill": "sk_m_silence"
    },
    {
     "level": 12,
     "skill": "sk_flame_wave"
+   },
+   {
+    "level": 13,
+    "skill": "sk_m_soul_burn"
    },
    {
     "level": 14,
@@ -220,6 +240,10 @@
    {
     "level": 17,
     "skill": "sk_frost_nova"
+   },
+   {
+    "level": 18,
+    "skill": "sk_m_mana_surge"
    },
    {
     "level": 19,
@@ -321,6 +345,10 @@
     "skill": "sk_a_ice_arrow"
    },
    {
+    "level": 5,
+    "skill": "sk_a_breaker_bolt"
+   },
+   {
     "level": 6,
     "skill": "sk_hunter_mark"
    },
@@ -331,6 +359,10 @@
    {
     "level": 8,
     "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 9,
+    "skill": "sk_a_finisher"
    },
    {
     "level": 10,
@@ -347,6 +379,10 @@
    {
     "level": 14,
     "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 15,
+    "skill": "sk_a_volley_step"
    },
    {
     "level": 16,
@@ -476,6 +512,10 @@
     "skill": "sk_heal_all"
    },
    {
+    "level": 7,
+    "skill": "sk_c_judgment_hammer"
+   },
+   {
     "level": 8,
     "skill": "ult_seraph_hymn"
    },
@@ -504,8 +544,16 @@
     "skill": "sk_greater_heal"
    },
    {
+    "level": 15,
+    "skill": "sk_c_final_rite"
+   },
+   {
     "level": 16,
     "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 17,
+    "skill": "sk_c_guardian_light"
    },
    {
     "level": 18,
@@ -621,12 +669,20 @@
     "skill": "ult_heaven_rend"
    },
    {
+    "level": 9,
+    "skill": "sk_w_shield_crush"
+   },
+   {
     "level": 11,
     "skill": "sk_w_armor_break"
    },
    {
     "level": 13,
     "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 14,
+    "skill": "sk_w_execution"
    },
    {
     "level": 15,
@@ -639,6 +695,10 @@
    {
     "level": 17,
     "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 19,
+    "skill": "sk_w_battle_flow"
    },
    {
     "level": 20,
@@ -749,6 +809,10 @@
     "skill": "sk_a_ice_arrow"
    },
    {
+    "level": 5,
+    "skill": "sk_a_breaker_bolt"
+   },
+   {
     "level": 6,
     "skill": "sk_hunter_mark"
    },
@@ -759,6 +823,10 @@
    {
     "level": 8,
     "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 9,
+    "skill": "sk_a_finisher"
    },
    {
     "level": 10,
@@ -775,6 +843,10 @@
    {
     "level": 14,
     "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 15,
+    "skill": "sk_a_volley_step"
    },
    {
     "level": 16,
@@ -901,8 +973,16 @@
     "skill": "sk_chain_spark"
    },
    {
+    "level": 10,
+    "skill": "sk_m_shatter"
+   },
+   {
     "level": 11,
     "skill": "sk_m_silence"
+   },
+   {
+    "level": 13,
+    "skill": "sk_m_soul_burn"
    },
    {
     "level": 14,
@@ -915,6 +995,10 @@
    {
     "level": 17,
     "skill": "sk_frost_nova"
+   },
+   {
+    "level": 18,
+    "skill": "sk_m_mana_surge"
    },
    {
     "level": 19,
@@ -1045,6 +1129,10 @@
     "skill": "sk_heal_all"
    },
    {
+    "level": 7,
+    "skill": "sk_c_judgment_hammer"
+   },
+   {
     "level": 8,
     "skill": "ult_seraph_hymn"
    },
@@ -1069,8 +1157,16 @@
     "skill": "sk_greater_heal"
    },
    {
+    "level": 15,
+    "skill": "sk_c_final_rite"
+   },
+   {
     "level": 16,
     "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 17,
+    "skill": "sk_c_guardian_light"
    },
    {
     "level": 18,
@@ -1190,12 +1286,20 @@
     "skill": "ult_heaven_rend"
    },
    {
+    "level": 9,
+    "skill": "sk_w_shield_crush"
+   },
+   {
     "level": 11,
     "skill": "sk_w_armor_break"
    },
    {
     "level": 13,
     "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 14,
+    "skill": "sk_w_execution"
    },
    {
     "level": 15,
@@ -1208,6 +1312,10 @@
    {
     "level": 17,
     "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 19,
+    "skill": "sk_w_battle_flow"
    },
    {
     "level": 20,
@@ -1334,6 +1442,10 @@
     "skill": "sk_chain_spark"
    },
    {
+    "level": 10,
+    "skill": "sk_m_shatter"
+   },
+   {
     "level": 11,
     "skill": "sk_m_silence"
    },
@@ -1342,12 +1454,20 @@
     "skill": "sk_flame_wave"
    },
    {
+    "level": 13,
+    "skill": "sk_m_soul_burn"
+   },
+   {
     "level": 14,
     "skill": "sk_m_blaze"
    },
    {
     "level": 15,
     "skill": "sk_m_lightning"
+   },
+   {
+    "level": 18,
+    "skill": "sk_m_mana_surge"
    },
    {
     "level": 19,
@@ -1454,6 +1574,10 @@
     "skill": "sk_a_ice_arrow"
    },
    {
+    "level": 5,
+    "skill": "sk_a_breaker_bolt"
+   },
+   {
     "level": 6,
     "skill": "sk_hunter_mark"
    },
@@ -1464,6 +1588,10 @@
    {
     "level": 8,
     "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 9,
+    "skill": "sk_a_finisher"
    },
    {
     "level": 10,
@@ -1480,6 +1608,10 @@
    {
     "level": 14,
     "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 15,
+    "skill": "sk_a_volley_step"
    },
    {
     "level": 16,
@@ -1610,6 +1742,10 @@
     "skill": "sk_heal_all"
    },
    {
+    "level": 7,
+    "skill": "sk_c_judgment_hammer"
+   },
+   {
     "level": 8,
     "skill": "ult_seraph_hymn"
    },
@@ -1638,8 +1774,16 @@
     "skill": "sk_greater_heal"
    },
    {
+    "level": 15,
+    "skill": "sk_c_final_rite"
+   },
+   {
     "level": 16,
     "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 17,
+    "skill": "sk_c_guardian_light"
    },
    {
     "level": 18,
@@ -1758,6 +1902,10 @@
     "skill": "sk_heal_all"
    },
    {
+    "level": 7,
+    "skill": "sk_c_judgment_hammer"
+   },
+   {
     "level": 8,
     "skill": "ult_seraph_hymn"
    },
@@ -1782,8 +1930,16 @@
     "skill": "sk_c_protect_all"
    },
    {
+    "level": 15,
+    "skill": "sk_c_final_rite"
+   },
+   {
     "level": 16,
     "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 17,
+    "skill": "sk_c_guardian_light"
    },
    {
     "level": 18,
@@ -1903,12 +2059,20 @@
     "skill": "ult_heaven_rend"
    },
    {
+    "level": 9,
+    "skill": "sk_w_shield_crush"
+   },
+   {
     "level": 11,
     "skill": "sk_w_armor_break"
    },
    {
     "level": 13,
     "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 14,
+    "skill": "sk_w_execution"
    },
    {
     "level": 15,
@@ -1921,6 +2085,10 @@
    {
     "level": 17,
     "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 19,
+    "skill": "sk_w_battle_flow"
    },
    {
     "level": 20,
@@ -2027,6 +2195,10 @@
     "skill": "sk_a_ice_arrow"
    },
    {
+    "level": 5,
+    "skill": "sk_a_breaker_bolt"
+   },
+   {
     "level": 6,
     "skill": "sk_hunter_mark"
    },
@@ -2037,6 +2209,10 @@
    {
     "level": 8,
     "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 9,
+    "skill": "sk_a_finisher"
    },
    {
     "level": 10,
@@ -2053,6 +2229,10 @@
    {
     "level": 14,
     "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 15,
+    "skill": "sk_a_volley_step"
    },
    {
     "level": 16,
@@ -2179,12 +2359,20 @@
     "skill": "sk_chain_spark"
    },
    {
+    "level": 10,
+    "skill": "sk_m_shatter"
+   },
+   {
     "level": 11,
     "skill": "sk_m_silence"
    },
    {
     "level": 12,
     "skill": "sk_flame_wave"
+   },
+   {
+    "level": 13,
+    "skill": "sk_m_soul_burn"
    },
    {
     "level": 14,
@@ -2197,6 +2385,10 @@
    {
     "level": 17,
     "skill": "sk_frost_nova"
+   },
+   {
+    "level": 18,
+    "skill": "sk_m_mana_surge"
    },
    {
     "level": 19,
@@ -2320,12 +2512,20 @@
     "skill": "ult_heaven_rend"
    },
    {
+    "level": 9,
+    "skill": "sk_w_shield_crush"
+   },
+   {
     "level": 11,
     "skill": "sk_w_armor_break"
    },
    {
     "level": 13,
     "skill": "sk_w_frost_blade"
+   },
+   {
+    "level": 14,
+    "skill": "sk_w_execution"
    },
    {
     "level": 15,
@@ -2338,6 +2538,10 @@
    {
     "level": 17,
     "skill": "sk_w_thunder_blade"
+   },
+   {
+    "level": 19,
+    "skill": "sk_w_battle_flow"
    },
    {
     "level": 20,
@@ -2468,6 +2672,10 @@
     "skill": "sk_heal_all"
    },
    {
+    "level": 7,
+    "skill": "sk_c_judgment_hammer"
+   },
+   {
     "level": 8,
     "skill": "ult_seraph_hymn"
    },
@@ -2496,8 +2704,16 @@
     "skill": "sk_greater_heal"
    },
    {
+    "level": 15,
+    "skill": "sk_c_final_rite"
+   },
+   {
     "level": 16,
     "skill": "sk_c_holy_lance"
+   },
+   {
+    "level": 17,
+    "skill": "sk_c_guardian_light"
    },
    {
     "level": 18,
@@ -2612,12 +2828,20 @@
     "skill": "sk_chain_spark"
    },
    {
+    "level": 10,
+    "skill": "sk_m_shatter"
+   },
+   {
     "level": 11,
     "skill": "sk_m_silence"
    },
    {
     "level": 12,
     "skill": "sk_flame_wave"
+   },
+   {
+    "level": 13,
+    "skill": "sk_m_soul_burn"
    },
    {
     "level": 14,
@@ -2630,6 +2854,10 @@
    {
     "level": 17,
     "skill": "sk_frost_nova"
+   },
+   {
+    "level": 18,
+    "skill": "sk_m_mana_surge"
    },
    {
     "level": 19,
@@ -2732,6 +2960,10 @@
     "skill": "sk_a_ice_arrow"
    },
    {
+    "level": 5,
+    "skill": "sk_a_breaker_bolt"
+   },
+   {
     "level": 6,
     "skill": "sk_hunter_mark"
    },
@@ -2742,6 +2974,10 @@
    {
     "level": 8,
     "skill": "ult_starfall_volley"
+   },
+   {
+    "level": 9,
+    "skill": "sk_a_finisher"
    },
    {
     "level": 10,
@@ -2758,6 +2994,10 @@
    {
     "level": 14,
     "skill": "sk_flame_arrow"
+   },
+   {
+    "level": 15,
+    "skill": "sk_a_volley_step"
    },
    {
     "level": 16,

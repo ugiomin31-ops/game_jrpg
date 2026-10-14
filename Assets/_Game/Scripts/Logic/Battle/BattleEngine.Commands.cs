@@ -251,10 +251,12 @@ namespace Abyss.Logic.Battle
             {
                 min += HitAmount(actor, target, skill, item, type, baseAmount, low, multiplier, broken);
                 max += HitAmount(actor, target, skill, item, type, baseAmount, high, multiplier, broken);
-                if (knownWeak && !broken && target.MaxShield > 0)
+                // Known weakness hits take one shield point; a shield crusher takes its BreakPower more from any opponent.
+                int loss = (knownWeak ? 1 : 0) + (skill != null && actor.Side != target.Side ? Math.Max(0, skill.BreakPower) : 0);
+                if (loss > 0 && !broken && target.MaxShield > 0)
                 {
-                    if (shield > 0) shieldDamage++;
-                    shield = Math.Max(0, shield - 1);
+                    if (shield > 0) shieldDamage += Math.Min(shield, loss);
+                    shield = Math.Max(0, shield - loss);
                     if (shield == 0) { broken = true; breaks = true; }
                 }
             }

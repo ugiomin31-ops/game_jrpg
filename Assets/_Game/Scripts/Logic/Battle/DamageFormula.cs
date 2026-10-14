@@ -94,6 +94,7 @@ namespace Abyss.Logic.Battle
             foreach (var status in target.Statuses)
                 if ((targetTurnsElapsed <= 0 || status.TurnsRemaining > targetTurnsElapsed) && bonusStatus != "" && status.Matches(bonusStatus)) bonusActive = true;
             if (bonusActive) amount *= Math.Max(0.0, Gd.D(skill.BonusVsStatusMult));
+            if (IsExecute(skill, target)) amount *= Math.Max(0.0, Gd.D(skill.ExecuteMult));
             if (type == DamageType.Physical)
             {
                 double scale = 1;
@@ -104,6 +105,10 @@ namespace Abyss.Logic.Battle
             if (guarding ?? target.Guarding) amount *= GuardMultiplier;
             return amount;
         }
+
+        /// <summary>True when an execute skill (<see cref="SkillDef.ExecuteBelow"/>) meets a target at or below its HP threshold.</summary>
+        public static bool IsExecute(SkillDef skill, BattleUnit target) =>
+            skill != null && skill.ExecuteBelow > 0f && target.MaxHp > 0 && target.Hp <= target.MaxHp * Gd.D(skill.ExecuteBelow);
 
         /// <summary>Rounded hit amount (minimum 1).</summary>
         public static int FinalAmount(double amount) => Math.Max(1, Gd.RoundI(amount));

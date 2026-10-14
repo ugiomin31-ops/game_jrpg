@@ -131,6 +131,13 @@ namespace Abyss.Logic
         public float BonusVsStatusMult = 1f;
         /// <summary>DAMAGE only: the actor heals this ratio (0..1) of the HP damage the action dealt to opponents.</summary>
         public float Drain;
+        /// <summary>DAMAGE only: hits on a target at or below this HP ratio (0 = never) are multiplied by <see cref="ExecuteMult"/>.</summary>
+        public float ExecuteBelow;
+        public float ExecuteMult = 1f;
+        /// <summary>DAMAGE only: shield points every landed hit on an opponent removes on top of a weakness hit's one (shield crusher).</summary>
+        public int BreakPower;
+        /// <summary>DAMAGE only: status the actor gains after the action when it landed at least one hit ("" = none); never rolls.</summary>
+        public string SelfStatus = "";
         public string Presentation;            // presentation id or null
     }
 
