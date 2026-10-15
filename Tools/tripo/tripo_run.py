@@ -14,9 +14,12 @@ Needs TRIPO_API_KEY (tsk_...). API: https://openapi.tripo3d.ai/v3 (override with
   python Tools/tripo/tripo_run.py model town_fountain                    # or --all
   python Tools/tripo/tripo_run.py model town_fountain --image my.png     # own image instead
   python Tools/tripo/tripo_run.py status
+  python Tools/tripo/tripo_run.py import D:/tripo_downloads   # GLBs made on the Tripo website, named <id>.glb
 """
 import argparse
+import glob
 import json
+import shutil
 import mimetypes
 import os
 import sys
@@ -264,6 +267,23 @@ def cmd_model(args):
         print("%s: %s %s" % (a["id"], entry["status"], entry.get("file", "")))
 
 
+def cmd_import(args):
+    """Take GLBs made on the Tripo website (no API credits needed) named <id>.glb."""
+    ids = {a["id"] for a in load_manifest()["assets"]}
+    for path in sorted(glob.glob(os.path.join(args.dir, "*.glb"))):
+        aid = os.path.splitext(os.path.basename(path))[0]
+        if aid not in ids:
+            print("skip %s (name is not an asset id)" % os.path.basename(path))
+            continue
+        os.makedirs(asset_dir(aid), exist_ok=True)
+        dest = os.path.join(asset_dir(aid), "model.glb")
+        shutil.copyfile(path, dest)
+        st = load_state(aid)
+        st["model"] = {"status": "success", "source": "tripo-web", "file": rel(dest)}
+        save_state(aid, st)
+        print("%s <- %s" % (aid, os.path.basename(path)))
+
+
 def cmd_status(_args):
     for a in load_manifest()["assets"]:
         st = load_state(a["id"])
@@ -298,6 +318,9 @@ def main():
     m.add_argument("--face-factor", type=float, default=2.0,
                    help="face_limit = tri_budget * factor; convert.py decimates to the budget afterwards")
     m.set_defaults(fn=cmd_model)
+    i = sub.add_parser("import")
+    i.add_argument("dir")
+    i.set_defaults(fn=cmd_import)
     args = ap.parse_args()
     args.fn(args)
 

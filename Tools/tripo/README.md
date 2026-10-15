@@ -23,6 +23,7 @@ python Tools/tripo/tripo_run.py status
 blender -b --factory-startup -P Blender/tripo/convert.py    # GLB → 규약 FBX + 미리보기
 ```
 
+- API 크레딧 없이 Tripo 웹 구독 크레딧으로 만들 때: 웹에서 후보를 골라 GLB로 받은 뒤 파일 이름을 `<id>.glb`로 바꾸고 `python Tools/tripo/tripo_run.py import <폴더>`를 실행한다. 그다음은 같은 `convert.py` 단계다.
 - 후보 이미지를 다른 도구로 만들었다면 `model <id> --image 경로`로 그 이미지를 바로 쓴다.
 - image-to-model 버전은 `--model-version`(기본 `v3.1-20260211`, 환경 변수 `TRIPO_MODEL_VERSION`)으로 바꾼다. 서버가 거부하면 오류 메시지에 나온 유효 버전으로 다시 실행한다.
 - 결과는 `Blender/tripo/source/<id>/`에 남는다: `candidates/cand_1..4`, `model.glb`, Tripo 렌더, `state.json`(프롬프트·task id·선택 이유·변환 보고).
