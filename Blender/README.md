@@ -136,7 +136,7 @@ blender -b --factory-startup -P Blender/heroes/generate_anime.py -- archer
 
 | 분류 | 경로 | 비고 |
 |---|---|---|
-| 영웅 | `Characters/<id>/<id>.fbx` | 헌터 20명(h_*). 무기 미포함. 옛 기본 직업 모델 warrior·mage·archer·cleric은 게임이 쓰지 않아 2026-10-15에 `ArtSource/hunters/_class_models/`로 옮겼고, 기본 직업 초상화 4장의 렌더 원본으로만 씀(`ui/render_icons.py`). 상위 직업 16종은 외형 모델이 없어(e972c8d) 초상화도 두지 않는다 |
+| 영웅 | `Characters/<id>/<id>.fbx` | 헌터 20명(h_*). 무기 미포함. 옛 기본 직업 모델 warrior·mage·archer·cleric은 게임이 쓰지 않아 2026-10-15에 `ArtSource/hunters/_class_models/`로 옮겼고, 기본 직업 초상화 4장의 렌더 원본으로만 씀(`ui/render_icons.py`). 상위 직업 16종은 외형 모델이 없어(e972c8d) 초상화도 두지 않는다. VRoid 헌터들이 똑같이 쓰는 피부·얼굴·눈 PNG는 `python Tools/content/dedupe_textures.py --apply`로 `Characters/_SharedVRoid/`에 한 벌만 두고, 각 헌터의 `_mat` 재질이 그 PNG를 가리키게 한다(지하철 바닥·벽 b·c 변형도 a 변형의 PNG를 쓴다). 생성기를 다시 돌려 중복이 생기면 같은 명령을 다시 실행한다 |
 | NPC | `NPCs/<id>/<id>.fbx` | innkeeper(마사), shopkeeper(피핀), smith(브론), guild_clerk(리나), elder(에드윈). 액션 Idle/Walk/Talk(+Wave 선택). villager_a/b/c는 마을에 생성되지 않아 2026-10-15에 삭제(라운지 자리는 대기 헌터가 채움) |
 | 몬스터 | `Enemies/<id>/<id>.fbx` | 데이터의 적 51종 전부(v1 28 + `enemies_c` v2 23, 엘리트·grave_bat 포함). 엘리트는 기본형 생성기에 장식(왕관·갑주·뿔 등)+팔레트 변경 |
 | 무기 | `Weapons/<equipment_id>.fbx` | sword_*, staff_*, bow_*, mace_* 20종 |

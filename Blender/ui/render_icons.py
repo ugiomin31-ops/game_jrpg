@@ -11,6 +11,7 @@ multiplies that model's vertex colours (sRGB), matching the runtime _BaseColor m
 """
 import json
 import math
+import re
 from pathlib import Path
 import sys
 
@@ -116,6 +117,38 @@ def expected_coverage():
     return {'Heroes': len(set(hero_ids())), 'NPCs': len(NPCS), 'Enemies': len(data_ids('enemies')),
             'Gear': len(data_ids('equipment')), 'Items': len(data_ids('items')), 'Status': len(data_ids('statuses')),
             'Elements': len(ELEMENTS), 'UI': len(COMMANDS)}
+
+
+_TEXTURE_BY_GUID = {}
+
+
+def shared_texture(source, name):
+    """A texture the FBX names but its <id>_tex no longer holds (one copy shared by several models, see
+    Tools/content/dedupe_textures.py): follow the model's own <id>_mat/<name>.mat to the PNG its _BaseMap points at."""
+    mat = source.parent / f'{source.stem}_mat' / f'{name}.mat'
+    if not mat.is_file():
+        return None
+    text = mat.read_text(encoding='utf-8')
+    block = text.partition('_BaseMap:')[2]
+    found = re.search(r'guid: ([0-9a-f]{32})', block)
+    if found is None:
+        return None
+    if not _TEXTURE_BY_GUID:
+        for meta in ART.rglob('*.png.meta'):
+            hit = re.search(r'^guid: ([0-9a-f]{32})', meta.read_text(encoding='utf-8'), re.M)
+            if hit:
+                _TEXTURE_BY_GUID[hit.group(1)] = meta.with_suffix('')
+    return _TEXTURE_BY_GUID.get(found.group(1))
+
+
+def relink_shared_textures(source):
+    for image in bpy.data.images:
+        if image.source != 'FILE' or Path(bpy.path.abspath(image.filepath)).is_file():
+            continue
+        path = shared_texture(source, Path(bpy.path.abspath(image.filepath)).stem)
+        if path is not None:
+            image.filepath = str(path)
+            image.reload()
 
 
 def has_image(mat):
@@ -226,6 +259,7 @@ def render(family, ident, source, tint=None):
     # Reset all scene and data blocks per asset; animation takes are not loaded.
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.fbx(filepath=str(source), use_anim=False, use_custom_normals=True)
+    relink_shared_textures(source)
     scene = bpy.context.scene
     scene.frame_set(0)
     for obj in scene.objects:
