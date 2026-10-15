@@ -1,0 +1,81 @@
+{
+  "_about": "Suggested AtmospherePreset values for the hunter-theme tilesets (subway, factory, cave). Field names match Assets/_Game/Scripts/Runtime/World/Atmosphere.cs (AtmospherePreset). Colours are sRGB hex; Vector3 is [x, y, z]. ParticleTint is not an AtmospherePreset field: it is the value to put in FloorDef.AmbientParticleTint (read by Atmosphere.ParticleTint). Not wired in: Atmosphere.cs is unchanged; ForDungeon/ForTileset need entries for these tilesets before the values apply.",
+  "subway": {
+    "SunColor": "#c9d6e8",
+    "SunIntensity": 0.55,
+    "SunEuler": [
+      70,
+      -20,
+      0
+    ],
+    "AmbientSky": "#4a5260",
+    "AmbientEquator": "#3a4048",
+    "AmbientGround": "#262a30",
+    "FogColor": "#1d2026",
+    "FogStart": 6,
+    "FogEnd": 30,
+    "BackgroundColor": "#0f1115",
+    "Bloom": 1.1,
+    "BloomThreshold": 0.92,
+    "Exposure": 0,
+    "Contrast": 10,
+    "Saturation": 4,
+    "ColorFilter": "#f3f7ff",
+    "Vignette": 0.3,
+    "Temperature": -4,
+    "TorchColor": "#ffd98a",
+    "ParticleTint": "#d7e6ff"
+  },
+  "factory": {
+    "SunColor": "#ffb27a",
+    "SunIntensity": 0.8,
+    "SunEuler": [
+      58,
+      -45,
+      0
+    ],
+    "AmbientSky": "#7a5a48",
+    "AmbientEquator": "#4f3a2e",
+    "AmbientGround": "#2a1f19",
+    "FogColor": "#2a1d16",
+    "FogStart": 8,
+    "FogEnd": 40,
+    "BackgroundColor": "#14100d",
+    "Bloom": 1.2,
+    "BloomThreshold": 0.9,
+    "Exposure": 0,
+    "Contrast": 12,
+    "Saturation": 10,
+    "ColorFilter": "#fff1e0",
+    "Vignette": 0.34,
+    "Temperature": 14,
+    "TorchColor": "#ffb866",
+    "ParticleTint": "#ffcf8a"
+  },
+  "cave": {
+    "SunColor": "#9fb8ff",
+    "SunIntensity": 0.5,
+    "SunEuler": [
+      65,
+      30,
+      0
+    ],
+    "AmbientSky": "#4a5a8c",
+    "AmbientEquator": "#2c3660",
+    "AmbientGround": "#1a1f38",
+    "FogColor": "#141a33",
+    "FogStart": 7,
+    "FogEnd": 34,
+    "BackgroundColor": "#05060f",
+    "Bloom": 1.35,
+    "BloomThreshold": 0.88,
+    "Exposure": 0,
+    "Contrast": 12,
+    "Saturation": 14,
+    "ColorFilter": "#eef2ff",
+    "Vignette": 0.36,
+    "Temperature": -10,
+    "TorchColor": "#ffc56b",
+    "ParticleTint": "#9fe6ff"
+  }
+}

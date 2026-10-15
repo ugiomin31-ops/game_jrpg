@@ -1,0 +1,909 @@
+{
+ "version": 1,
+ "doc": "Tripo town pieces that replace procedural builds in guild.py. Paths are repo-relative (or absolute). A piece whose fbx or texture file is missing is skipped and guild.py falls back to the procedural build named in 'replaces'. Environment GUILD_NO_TRIPO=1 forces the fallback for every piece. Coordinates are Blender metres, Z up. Piece meshes are already scaled, ground-level and pivoted at their staging origin (ArtSource/town/<id>/staging/placement.json), so an instance is just object location + rotation_z_deg.",
+ "fields": {
+  "id": "short name, also the staging folder",
+  "fbx": "staged FBX (single mesh, already scaled)",
+  "material": "material name in the FBX; Unity needs Art/Town/town_tex/<material>.png (guild.py copies the texture there)",
+  "texture": "base-colour PNG",
+  "tris": "expected triangle count (checked after import)",
+  "bounds_local": "mesh bounds around the instance origin {min, max}",
+  "replaces": "tokens of procedural builds that are skipped when the piece is installed (hq, fountain, clinic, market, workshop, notice_board = the plaza board at (-9.6,-1.5) (the HQ Quest_Board stays procedural), banner = all three street pennants, street_lamp = the three plaza street lamps (their LightAnchor_street_* keep x/y, z from params.lamp_anchor_z; festoon strings and the east pole follow params.festoon_*), gate_arch = pillars/arch/ring/disc, gate_rune = floor rune circle, guard_booths ...)",
+  "instances": "[{object, location, rotation_z_deg, scale?}] object name in town.fbx and its placement; scale must be a single number (uniform: the Tripo geometry is never stretched)",
+  "colliders": "[{name, min, max, instance}] boxes in the instance's local space; exported as Col_<name>. Procedural colliders of a replaced build are not made",
+  "body_local": "optional [x0, y0, x1, y1] footprint in the instance's local space (HQ footprint / paving edges; clinic, market and workshop use it for their Col_ boxes)",
+  "spots": "{Spot_name: [x, y, z]} marker moves that only apply while this piece is installed (yaw is kept)",
+  "params": "free build parameters read by guild.py while this piece is installed"
+ },
+ "pieces": [
+  {
+   "id": "guild_hq",
+   "fbx": "ArtSource/town/guild_hq/staging/guild_hq.fbx",
+   "material": "M_GuildHq_Tripo",
+   "texture": "ArtSource/town/guild_hq/staging/guild_hq_tex/M_GuildHq_Tripo.png",
+   "tris": 13544,
+   "bounds_local": {
+    "min": [
+     -12.334,
+     -18.441,
+     0.0
+    ],
+    "max": [
+     12.334,
+     3.717,
+     15.4
+    ]
+   },
+   "replaces": [
+    "hq"
+   ],
+   "instances": [
+    {
+     "object": "Guild_HQ",
+     "location": [
+      0.0,
+      -17.5,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ],
+   "body_local": [
+    -12.33,
+    -18.44,
+    12.33,
+    0.0
+   ],
+   "colliders": [
+    {
+     "name": "HQ_Body",
+     "min": [
+      -12.33,
+      -18.44,
+      0.0
+     ],
+     "max": [
+      12.33,
+      0.0,
+      15.4
+     ]
+    },
+    {
+     "name": "HQ_Column_W",
+     "min": [
+      -4.6,
+      0.1,
+      0.0
+     ],
+     "max": [
+      -3.15,
+      1.6,
+      3.96
+     ]
+    },
+    {
+     "name": "HQ_Column_E",
+     "min": [
+      3.45,
+      0.1,
+      0.0
+     ],
+     "max": [
+      4.95,
+      1.6,
+      3.96
+     ]
+    },
+    {
+     "name": "HQ_Stoop",
+     "min": [
+      -3.1,
+      0.0,
+      0.0
+     ],
+     "max": [
+      3.1,
+      0.5,
+      0.2
+     ]
+    }
+   ],
+   "spots": {
+    "Spot_elder": [
+     -1.5,
+     -17.1,
+     0.29
+    ],
+    "Spot_guild_clerk": [
+     6.2,
+     -16.4,
+     0.0
+    ]
+   },
+   "params": {
+    "kiosk": {
+     "box": [
+      5.3,
+      -15.9,
+      7.3,
+      -14.6
+     ],
+     "base_z": 0.0
+    }
+   }
+  },
+  {
+   "id": "gate_portal",
+   "fbx": "ArtSource/town/gate_portal/staging/gate_portal.fbx",
+   "material": "M_GatePortal_Tripo",
+   "texture": "ArtSource/town/gate_portal/staging/gate_portal_tex/M_GatePortal_Tripo.png",
+   "tris": 7968,
+   "bounds_local": {
+    "min": [
+     -2.65,
+     -0.928,
+     0.0
+    ],
+    "max": [
+     2.65,
+     0.928,
+     4.159
+    ]
+   },
+   "replaces": [
+    "gate_arch",
+    "gate_rune"
+   ],
+   "instances": [
+    {
+     "object": "Gate_Portal",
+     "location": [
+      -16.5,
+      -22.4,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ],
+   "colliders": []
+  },
+  {
+   "id": "guard_booth",
+   "fbx": "ArtSource/town/guard_booth/staging/guard_booth.fbx",
+   "material": "M_GuardBooth_Tripo",
+   "texture": "ArtSource/town/guard_booth/staging/guard_booth_tex/M_GuardBooth_Tripo.png",
+   "tris": 2888,
+   "bounds_local": {
+    "min": [
+     -0.919,
+     -0.893,
+     0.0
+    ],
+    "max": [
+     0.919,
+     0.893,
+     2.2
+    ]
+   },
+   "replaces": [
+    "guard_booths"
+   ],
+   "instances": [
+    {
+     "object": "Guard_Booth_W",
+     "location": [
+      -19.8,
+      -14.3,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Guard_Booth_E",
+     "location": [
+      -13.8,
+      -14.3,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ],
+   "colliders": []
+  },
+  {
+   "id": "fountain",
+   "fbx": "ArtSource/town/fountain/staging/fountain.fbx",
+   "material": "M_Fountain_Tripo",
+   "texture": "ArtSource/town/fountain/staging/fountain_tex/M_Fountain_Tripo.png",
+   "tris": 7528,
+   "bounds_local": {
+    "min": [
+     -2.35,
+     -2.322,
+     0.0
+    ],
+    "max": [
+     2.35,
+     2.322,
+     2.456
+    ]
+   },
+   "replaces": [
+    "fountain"
+   ],
+   "instances": [
+    {
+     "object": "Fountain",
+     "location": [
+      -3.6,
+      6.6,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Fountain",
+     "min": [
+      -2.35,
+      -2.32,
+      0.0
+     ],
+     "max": [
+      2.35,
+      2.32,
+      0.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "guild_clinic",
+   "fbx": "ArtSource/town/guild_clinic/staging/guild_clinic.fbx",
+   "material": "M_GuildClinic_Tripo",
+   "texture": "ArtSource/town/guild_clinic/staging/guild_clinic_tex/M_GuildClinic_Tripo.png",
+   "tris": 10166,
+   "bounds_local": {
+    "min": [
+     -2.961,
+     -5.2,
+     0.0
+    ],
+    "max": [
+     2.961,
+     1.144,
+     4.432
+    ]
+   },
+   "replaces": [
+    "clinic"
+   ],
+   "instances": [
+    {
+     "object": "Guild_Clinic",
+     "location": [
+      -15.6,
+      1.5,
+      0.0
+     ],
+     "rotation_z_deg": -90.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Clinic_Steps",
+     "min": [
+      -2.38,
+      0.0,
+      0.0
+     ],
+     "max": [
+      2.496,
+      0.95,
+      0.521
+     ]
+    }
+   ],
+   "params": {
+    "clinic_planters": [
+     [
+      -14.6,
+      -2.4
+     ],
+     [
+      -14.6,
+      5.4
+     ]
+    ]
+   },
+   "body_local": [
+    -2.961,
+    -5.2,
+    2.961,
+    0.0
+   ]
+  },
+  {
+   "id": "guild_market",
+   "fbx": "ArtSource/town/guild_market/staging/guild_market.fbx",
+   "material": "M_GuildMarket_Tripo",
+   "texture": "ArtSource/town/guild_market/staging/guild_market_tex/M_GuildMarket_Tripo.png",
+   "tris": 7715,
+   "bounds_local": {
+    "min": [
+     -4.1,
+     -4.813,
+     0.0
+    ],
+    "max": [
+     4.1,
+     0.659,
+     5.408
+    ]
+   },
+   "replaces": [
+    "market"
+   ],
+   "instances": [
+    {
+     "object": "Guild_Market",
+     "location": [
+      15.6,
+      -1.5,
+      0.0
+     ],
+     "rotation_z_deg": 90.0
+    }
+   ],
+   "colliders": [],
+   "body_local": [
+    -4.1,
+    -4.813,
+    4.1,
+    0.0
+   ]
+  },
+  {
+   "id": "guild_workshop",
+   "fbx": "ArtSource/town/guild_workshop/staging/guild_workshop.fbx",
+   "material": "M_GuildWorkshop_Tripo",
+   "texture": "ArtSource/town/guild_workshop/staging/guild_workshop_tex/M_GuildWorkshop_Tripo.png",
+   "tris": 5789,
+   "bounds_local": {
+    "min": [
+     -3.4,
+     -5.176,
+     0.0
+    ],
+    "max": [
+     3.4,
+     0.16,
+     4.817
+    ]
+   },
+   "replaces": [
+    "workshop"
+   ],
+   "instances": [
+    {
+     "object": "Guild_Workshop",
+     "location": [
+      15.6,
+      10.6,
+      0.0
+     ],
+     "rotation_z_deg": 90.0
+    }
+   ],
+   "colliders": [],
+   "body_local": [
+    -3.4,
+    -5.176,
+    3.4,
+    0.0
+   ]
+  },
+  {
+   "id": "notice_board",
+   "fbx": "ArtSource/town/notice_board/staging/notice_board.fbx",
+   "material": "M_NoticeBoard_Tripo",
+   "texture": "ArtSource/town/notice_board/staging/notice_board_tex/M_NoticeBoard_Tripo.png",
+   "tris": 2972,
+   "bounds_local": {
+    "min": [
+     -0.86,
+     -0.181,
+     0.0
+    ],
+    "max": [
+     0.86,
+     0.181,
+     2.18
+    ]
+   },
+   "replaces": [
+    "notice_board"
+   ],
+   "instances": [
+    {
+     "object": "Notice_Board",
+     "location": [
+      -9.6,
+      -1.5,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Notice_plaza_L",
+     "min": [
+      -0.86,
+      -0.18,
+      0.0
+     ],
+     "max": [
+      -0.547,
+      0.18,
+      1.2
+     ]
+    },
+    {
+     "name": "Notice_plaza_R",
+     "min": [
+      0.547,
+      -0.18,
+      0.0
+     ],
+     "max": [
+      0.86,
+      0.18,
+      1.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "banner",
+   "fbx": "ArtSource/town/banner/staging/banner.fbx",
+   "material": "M_Banner_Tripo",
+   "texture": "ArtSource/town/banner/staging/banner_tex/M_Banner_Tripo.png",
+   "tris": 2928,
+   "bounds_local": {
+    "min": [
+     -1.742,
+     -0.357,
+     0.0
+    ],
+    "max": [
+     0.352,
+     0.78,
+     4.8
+    ]
+   },
+   "replaces": [
+    "banner"
+   ],
+   "instances": [
+    {
+     "object": "Banner_north_a",
+     "location": [
+      -2.6,
+      13.1,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Banner_north_b",
+     "location": [
+      -17.0,
+      13.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Banner_south_west",
+     "location": [
+      -20.0,
+      -19.8,
+      0.0
+     ],
+     "rotation_z_deg": 180.0
+    }
+   ],
+   "colliders": []
+  },
+  {
+   "id": "street_lamp",
+   "fbx": "ArtSource/props/street_lamp/staging/street_lamp.fbx",
+   "material": "M_StreetLamp_Tripo",
+   "texture": "ArtSource/props/street_lamp/staging/street_lamp_tex/M_StreetLamp_Tripo.png",
+   "tris": 2690,
+   "bounds_local": {
+    "min": [
+     -0.269,
+     -0.343,
+     0.0
+    ],
+    "max": [
+     1.174,
+     0.343,
+     3.4
+    ]
+   },
+   "replaces": [
+    "street_lamp"
+   ],
+   "instances": [
+    {
+     "object": "Street_Lamp_1",
+     "location": [
+      -11.0,
+      8.6,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Street_Lamp_2",
+     "location": [
+      10.5,
+      8.6,
+      0.0
+     ],
+     "rotation_z_deg": 180.0
+    },
+    {
+     "object": "Street_Lamp_3",
+     "location": [
+      -18.0,
+      -9.5,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ],
+   "colliders": [],
+   "params": {
+    "lamp_anchor_z": 3.1,
+    "festoon_z_end": 3.3,
+    "festoon_pole_h": 3.4
+   }
+  },
+  {
+   "id": "food_cart",
+   "fbx": "ArtSource/town/food_cart/staging/food_cart.fbx",
+   "material": "M_FoodCart_Tripo",
+   "texture": "ArtSource/town/food_cart/staging/food_cart_tex/M_FoodCart_Tripo.png",
+   "tris": 5614,
+   "bounds_local": {
+    "min": [
+     -1.2,
+     -0.843,
+     0.0
+    ],
+    "max": [
+     1.2,
+     0.843,
+     2.09
+    ]
+   },
+   "replaces": [
+    "food_cart"
+   ],
+   "instances": [
+    {
+     "object": "FoodCart_west",
+     "location": [
+      -16.6,
+      -6.6,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "FoodCart_east",
+     "location": [
+      10.6,
+      -11.4,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    }
+   ]
+  },
+  {
+   "id": "tree",
+   "fbx": "ArtSource/town/tree/staging/tree.fbx",
+   "material": "M_Tree_Tripo",
+   "texture": "ArtSource/town/tree/staging/tree_tex/M_Tree_Tripo.png",
+   "tris": 4305,
+   "bounds_local": {
+    "min": [
+     -1.786,
+     -1.772,
+     0.0
+    ],
+    "max": [
+     1.786,
+     1.772,
+     3.6
+    ]
+   },
+   "replaces": [
+    "tree"
+   ],
+   "instances": [
+    {
+     "object": "Tree_plaza_1",
+     "location": [
+      -9.5,
+      -12.5,
+      0.0
+     ],
+     "rotation_z_deg": 0.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_plaza_2",
+     "location": [
+      19.8,
+      -15.6,
+      0.0
+     ],
+     "rotation_z_deg": 70.0,
+     "scale": 1.1
+    },
+    {
+     "object": "Tree_plaza_3",
+     "location": [
+      9.5,
+      4.0,
+      0.0
+     ],
+     "rotation_z_deg": 140.0,
+     "scale": 1.2
+    },
+    {
+     "object": "Tree_plaza_4",
+     "location": [
+      -9.0,
+      13.0,
+      0.0
+     ],
+     "rotation_z_deg": 210.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_plaza_5",
+     "location": [
+      -11.8,
+      -5.4,
+      0.0
+     ],
+     "rotation_z_deg": 280.0,
+     "scale": 0.9
+    },
+    {
+     "object": "Tree_north_1",
+     "location": [
+      -26.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 30.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_2",
+     "location": [
+      -12.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 100.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_3",
+     "location": [
+      2.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 170.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_4",
+     "location": [
+      16.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 240.0,
+     "scale": 1.0
+    },
+    {
+     "object": "Tree_north_5",
+     "location": [
+      30.0,
+      28.5,
+      0.0
+     ],
+     "rotation_z_deg": 310.0,
+     "scale": 1.0
+    }
+   ]
+  },
+  {
+   "id": "market_crates",
+   "fbx": "ArtSource/town/market_crates/staging/market_crates.fbx",
+   "material": "M_MarketCrates_Tripo",
+   "texture": "ArtSource/town/market_crates/staging/market_crates_tex/M_MarketCrates_Tripo.png",
+   "tris": 4556,
+   "bounds_local": {
+    "min": [
+     -1.058,
+     -0.445,
+     0.0
+    ],
+    "max": [
+     1.058,
+     0.445,
+     1.9
+    ]
+   },
+   "replaces": [
+    "market_crates"
+   ],
+   "instances": [
+    {
+     "object": "Market_Crates",
+     "location": [
+      14.9,
+      -3.0,
+      0.0
+     ],
+     "rotation_z_deg": -90.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Market_Crates",
+     "min": [
+      -1.06,
+      -0.45,
+      0.0
+     ],
+     "max": [
+      1.06,
+      0.45,
+      1.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cargo",
+   "fbx": "ArtSource/town/cargo/staging/cargo.fbx",
+   "material": "M_Cargo_Tripo",
+   "texture": "ArtSource/town/cargo/staging/cargo_tex/M_Cargo_Tripo.png",
+   "tris": 4506,
+   "bounds_local": {
+    "min": [
+     -1.2,
+     -0.589,
+     0.0
+    ],
+    "max": [
+     1.2,
+     0.589,
+     1.348
+    ]
+   },
+   "replaces": [
+    "cargo"
+   ],
+   "instances": [
+    {
+     "object": "Workshop_Cargo",
+     "location": [
+      14.6,
+      5.2,
+      0.0
+     ],
+     "rotation_z_deg": -90.0
+    }
+   ],
+   "colliders": [
+    {
+     "name": "Workshop_Cargo",
+     "min": [
+      -1.2,
+      -0.59,
+      0.0
+     ],
+     "max": [
+      1.2,
+      0.59,
+      1.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "barricade",
+   "fbx": "ArtSource/town/barricade/staging/barricade.fbx",
+   "material": "M_Barricade_Tripo",
+   "texture": "ArtSource/town/barricade/staging/barricade_tex/M_Barricade_Tripo.png",
+   "tris": 2991,
+   "bounds_local": {
+    "min": [
+     -1.053,
+     -0.468,
+     0.0
+    ],
+    "max": [
+     1.053,
+     0.468,
+     1.282
+    ]
+   },
+   "replaces": [
+    "barricade"
+   ],
+   "instances": [
+    {
+     "object": "Barricade_Tripo_1",
+     "location": [
+      -19.947,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_2",
+     "location": [
+      -17.759,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_3",
+     "location": [
+      -15.571,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_4",
+     "location": [
+      -13.383,
+      -16.2,
+      0.0
+     ],
+     "rotation_z_deg": 0.0
+    },
+    {
+     "object": "Barricade_Tripo_5",
+     "location": [
+      -12.9,
+      -16.9,
+      0.02
+     ],
+     "rotation_z_deg": 90.0
+    }
+   ]
+  }
+ ]
+}

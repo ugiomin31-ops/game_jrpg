@@ -19,6 +19,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: f8d70d7edaa5a254882ac6c2c3f77a5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mushroom
+    second: {fileID: 2100000, guid: fe1ee542ea67add419316977719d6afe, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -51,7 +56,7 @@ ModelImporter:
       takeName: Rig|Attack
       internalID: -3510217540682870009
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -80,7 +85,7 @@ ModelImporter:
       takeName: Rig|Cast
       internalID: -7776306489393022278
       firstFrame: 0
-      lastFrame: 35
+      lastFrame: 47
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -109,7 +114,7 @@ ModelImporter:
       takeName: Rig|Die
       internalID: -6111044131944686169
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 72
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -138,7 +143,7 @@ ModelImporter:
       takeName: Rig|Hit
       internalID: 3341008991451901215
       firstFrame: 0
-      lastFrame: 12
+      lastFrame: 31
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -167,7 +172,7 @@ ModelImporter:
       takeName: Rig|Idle
       internalID: -429512112410174799
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 368
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -196,7 +201,7 @@ ModelImporter:
       takeName: Rig|Run
       internalID: -5181486892397411127
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -225,7 +230,7 @@ ModelImporter:
       takeName: Rig|Victory
       internalID: 2165050724081255768
       firstFrame: 0
-      lastFrame: 44
+      lastFrame: 290
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

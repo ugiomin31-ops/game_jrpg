@@ -1,38 +1,38 @@
 {
   "id": "grave_bat",
   "is_boss": false,
-  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\forest_frost.py",
-  "blender_version": "5.2.1 LTS",
-  "produced_at_utc": "2026-10-06T04:21:02Z",
+  "generator": "/home/user/game_jrpg/Blender/enemies_d/flyers.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-07T08:28:50Z",
   "files": {
     "fbx": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\grave_bat\\grave_bat.fbx",
-      "bytes": 687308
+      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/grave_bat/grave_bat.fbx",
+      "bytes": 924764
     },
     "blend": {
-      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_grave_bat.blend",
-      "bytes": 217194
+      "path": "/home/user/game_jrpg/Blender/blend/enemy_grave_bat.blend",
+      "bytes": 397565
     },
     "previews": [
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_grave_bat.png",
-        "bytes": 169150
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat.png",
+        "bytes": 144625
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_grave_bat_side.png",
-        "bytes": 134962
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_side.png",
+        "bytes": 130173
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_grave_bat_attack.png",
-        "bytes": 152930
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_attack.png",
+        "bytes": 138117
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_grave_bat_cast.png",
-        "bytes": 158954
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_cast.png",
+        "bytes": 144289
       },
       {
-        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_grave_bat_die.png",
-        "bytes": 143115
+        "path": "/home/user/game_jrpg/Blender/preview/enemy_grave_bat_die.png",
+        "bytes": 137530
       }
     ]
   },
@@ -41,12 +41,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7010,
-    "vertices": 3901,
-    "bones": 9,
+    "triangles": 8280,
+    "vertices": 4278,
+    "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [
@@ -85,12 +84,11 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7010,
-    "vertices": 3901,
-    "bones": 9,
+    "triangles": 8280,
+    "vertices": 4278,
+    "bones": 11,
     "materials": [
-      "M_Toon",
-      "M_Emit"
+      "M_Toon"
     ],
     "clips": {
       "Idle": [

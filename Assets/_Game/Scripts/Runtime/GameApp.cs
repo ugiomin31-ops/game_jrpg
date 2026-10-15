@@ -70,6 +70,12 @@ namespace Abyss.Runtime
         public void ApplyPreferences()
         {
             Preferences.Apply();
+            SavePreferences();
+        }
+
+        /// <summary>Persists preferences that need no re-apply (e.g. battle speed changed mid-battle).</summary>
+        public void SavePreferences()
+        {
             try { Preferences.Save(saveDirectory); }
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException) { Notify("설정 저장 실패: " + e.Message); }
         }
@@ -127,7 +133,8 @@ namespace Abyss.Runtime
                 case ResumeRoute.Dungeon:
                     Dungeon = new DungeonRun(DB, State, State.FloorIndex, ArrivalMode.Resume);
                     if (Dungeon.PendingBattle != null) BeginBattle(Dungeon.PendingBattle.Setup);
-                    else EnterDungeonVisual();
+                    // The floor is rebuilt under the area card instead of hard-cutting from the title town.
+                    else UI.Transition(() => UI.FloorCard(State.FloorIndex), EnterDungeonVisual);
                     break;
                 default: EnterTown(); break;
             }
@@ -140,14 +147,21 @@ namespace Abyss.Runtime
             catch (Exception e) when (e is IOException || e is UnauthorizedAccessException) { Notify("저장 실패: " + e.Message); }
         }
 
-        public void EnterTown()
+        /// <summary>
+        /// Arrives in town behind the town area card: the town state update, world rebuild and save run while the card
+        /// covers the screen. <paramref name="revealed"/> runs once the card has swept away (e.g. a toast to read).
+        /// </summary>
+        public void EnterTown(Action revealed = null)
         {
             SetPaused(false);
-            Dungeon = null;
-            var notices = GameFlow.EnterTown(State);
-            EnterTownVisual();
-            Save();
-            ShowTownNotices(notices, 0);
+            UI.Transition(UI.TownCard, () =>
+            {
+                Dungeon = null;
+                var notices = GameFlow.EnterTown(DB, State);
+                EnterTownVisual();
+                Save();
+                ShowTownNotices(notices, 0);
+            }, revealed);
         }
 
         /// <summary>Tips and elder lines carry different speakers, so each notice is shown under its own title.</summary>
@@ -155,7 +169,7 @@ namespace Abyss.Runtime
         {
             if (index >= notices.Count) { if (index > 0) { Screen = GameScreen.Town; UI.ShowTown(); } return; }
             var notice = notices[index];
-            ShowStory(DB.T(notice.TitleKey), new[] { DB.T(notice.TextKey) }, () => ShowTownNotices(notices, index + 1));
+            ShowStory(DB.T(notice.TitleKey), new[] { notice.Text ?? DB.T(notice.TextKey) }, () => ShowTownNotices(notices, index + 1));
         }
 
         void EnterTownVisual()
@@ -169,6 +183,13 @@ namespace Abyss.Runtime
         }
 
         public void RefreshEquipmentVisuals() => townWorld?.RefreshEquipment();
+        /// <summary>Swaps town party models to their current job outfits (after a class change).</summary>
+        public void RefreshJobVisuals() => townWorld?.RefreshJobModels();
+        /// <summary>Respawns the guild party and lounge after a roster change (party formation, scouting).</summary>
+        public void RefreshRosterVisuals() => townWorld?.RefreshRoster();
+
+        /// <summary>A facility screen opened: the town camera eases to a two-shot with that person when they are close.</summary>
+        public void BeginTownTalk(string id) => townWorld?.BeginTalk(id);
 
         public void OpenTownService(string id)
         {
@@ -181,11 +202,15 @@ namespace Abyss.Runtime
             var result = TownServices.Depart(DB, State, floorIndex);
             if (!result.Success) { Notify(result.Message(DB)); return; }
             SetPaused(false);
-            Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Town);
-            EnterDungeonVisual();
-            Save();
-            var intro = Dungeon.ArrivalNotice;
-            if (intro != null) ShowStory(DB.T(intro.TitleKey), new[] { DB.T(intro.TextKey) }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); Save(); });
+            // Town -> gate (start or warp floor): the dungeon is built while the area card covers the screen.
+            UI.Transition(() => UI.FloorCard(State.FloorIndex), () =>
+            {
+                Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Town);
+                EnterDungeonVisual();
+                Save();
+                var intro = Dungeon.ArrivalNotice;
+                if (intro != null) ShowStory(DB.T(intro.TitleKey), new[] { DB.T(intro.TextKey) }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); Save(); });
+            });
         }
 
         void EnterDungeonVisual()
@@ -207,11 +232,40 @@ namespace Abyss.Runtime
         internal void HandleDungeonStep(DungeonStepResult result)
         {
             if (result.ReturnToTown) { EnterTown(); return; }
-            if (result.FloorChanged) { EnterDungeonVisual(); Save(); }
-            else { dungeonWorld.RefreshProgress(); UI.RefreshDungeon(); }
+            if (result.FloorChanged)
+            {
+                // Stairs: the logic has already moved the party; the new floor is built under the area card and the
+                // rest of the step (tips, notices, biome story) follows while it is still covered.
+                UI.Transition(() => UI.FloorCard(State.FloorIndex), () => { EnterDungeonVisual(); Save(); FinishDungeonStep(result); });
+                return;
+            }
+            dungeonWorld.RefreshProgress(); UI.RefreshDungeon();
+            FinishDungeonStep(result);
+        }
+
+        void FinishDungeonStep(DungeonStepResult result)
+        {
             if (result.Effect == DungeonEffect.Trap) NotifyTip("first_trap");
             NotifyVisibleFoe();
-            if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
+            if (result.Effect == DungeonEffect.Treasure && result.Treasure != null) UI.ShowLoot(result.Treasure);
+            else if (!string.IsNullOrEmpty(result.TextKey)) Notify(DB.T(result.TextKey, result.Args));
+            if (result.Battle == null && result.Effect == DungeonEffect.Rescue && result.Event != null)
+            {
+                // Spent flag and reward are already in the state: save before the story so a quit cannot replay or lose it.
+                Save();
+                var rescue = result.Event; var reward = result.Treasure;
+                ShowStory(string.IsNullOrEmpty(rescue.Title) ? DB.T("lore") : rescue.Title, new[] { rescue.Text ?? "" }, () =>
+                {
+                    Screen = GameScreen.Dungeon; UI.ShowDungeon();
+                    UI.ShowEventReward(DB.T("event_rescue_reward_title"), reward);
+                });
+                return;
+            }
+            if (result.Battle == null && result.Effect == DungeonEffect.Choice && result.Choice != null)
+            {
+                UI.ShowDungeonChoice(result.Choice, ResolveDungeonChoice, DismissDungeonChoice);
+                return;
+            }
             if (result.Battle != null)
             {
                 Save();
@@ -223,6 +277,41 @@ namespace Abyss.Runtime
                 ShowStory(DB.T("lore"), new[] { result.StoryText }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); });
             else if (result.BiomeNotice != null)
                 ShowStory(DB.T(result.BiomeNotice.TitleKey), new[] { DB.T(result.BiomeNotice.TextKey) }, () => { Screen = GameScreen.Dungeon; UI.ShowDungeon(); Save(); });
+        }
+
+        /// <summary>Choice modal answer: leave spends the event; accept saves the pending event battle, then starts it.</summary>
+        public void ResolveDungeonChoice(DungeonChoice choice, int option)
+        {
+            if (Dungeon == null || Screen != GameScreen.Dungeon) return;
+            var outcome = Dungeon.ResolveChoice(choice, option);
+            if (outcome.Rejected) { UI.RefreshDungeon(); return; }
+            Save();
+            if (outcome.Accepted && outcome.Battle != null) { BeginBattle(outcome.Battle.Setup); return; }
+            dungeonWorld?.RefreshProgress();
+            UI.RefreshDungeon();
+            Notify(DB.T("event_choice_left"));
+        }
+        /// <summary>Choice modal closed without deciding: the nest stays and re-opens on Interact.</summary>
+        public void DismissDungeonChoice(DungeonChoice choice)
+        {
+            if (Dungeon != null && Dungeon.DismissChoice(choice)) Notify(DB.T("event_choice_reopen"));
+        }
+
+        /// <summary>
+        /// Opt-in review sessions (<see cref="ReviewBoot"/>, started only by an explicit <c>review=battle</c> URL query or command-line
+        /// argument): adopts a prepared campaign state standing on <paramref name="floorIndex"/> without the title, prologue or town,
+        /// so battles can be started directly. The session switches to the separate "review-campaign" persistence directory before
+        /// adopting the state, and stays there (saves, preferences) for the rest of this app session, so the normal campaign is never touched.
+        /// </summary>
+        public void BeginReview(GameState state, int floorIndex)
+        {
+            if (state == null) throw new ArgumentNullException(nameof(state));
+            saveDirectory = Path.Combine(Application.persistentDataPath, "review-campaign");
+            Saves = new SaveRepository(saveDirectory, DB);
+            State = state;
+            SetPaused(false);
+            Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Resume);
+            EnterDungeonVisual();
         }
 
         public void BeginBattle(BattleSetup setup)
@@ -240,11 +329,18 @@ namespace Abyss.Runtime
             if (Dungeon == null) throw new InvalidOperationException("Battle has no campaign encounter.");
             var resolution = Dungeon.ResolveBattle(outcome);
             if (resolution.Defeat) { UI.Clear(); UI.ShowDefeat(); return; }
+            // Choice-event contents were committed (and saved by the battle view) inside ResolveBattle; only show them here.
+            var extra = resolution.ExtraReward;
+            if (extra != null) Save();
             Action route = () =>
             {
                 if (resolution.Ending) ShowEnding();
                 else if (resolution.ReturnToTown) EnterTown();
-                else EnterDungeonVisual();
+                else
+                {
+                    EnterDungeonVisual();
+                    if (extra != null) UI.ShowEventReward(DB.T("event_choice_reward_title"), extra);
+                }
             };
             if (!string.IsNullOrEmpty(resolution.PostText)) ShowStory(DB.T("lore"), new[] { resolution.PostText }, route);
             else route();
@@ -255,7 +351,12 @@ namespace Abyss.Runtime
             Dungeon?.ReturnToTown();
             EnterTown();
         }
-        public void RecoverFromDefeat() { GameFlow.RecoverFromDefeat(DB, State); EnterTown(); }
+        public void RecoverFromDefeat()
+        {
+            int lost = GameFlow.RecoverFromDefeat(DB, State);
+            // The return screen names the gold the defeat took (once the town card has gone); nothing extra when it took none.
+            EnterTown(() => { if (lost > 0) Notify(DB.T("defeat_gold_lost", lost.ToString("N0", System.Globalization.CultureInfo.InvariantCulture))); });
+        }
         public void SetPaused(bool paused)
         {
             Paused = paused;
@@ -293,6 +394,11 @@ namespace Abyss.Runtime
         {
             if (State != null && Screen != GameScreen.Title && Screen != GameScreen.Battle) Save();
         }
+        // Phones rarely quit cleanly: the OS kills backgrounded apps, so autosave whenever the app is sent away.
+        void OnApplicationPause(bool paused)
+        {
+            if (paused && Application.isMobilePlatform) OnApplicationQuit();
+        }
         void OnDestroy()
         {
             if (Instance == this) { Instance = null; Time.timeScale = 1f; }
@@ -320,7 +426,9 @@ namespace Abyss.Runtime
             {
                 case "verdant_ruins": return "bgm_forest";
                 case "frost_grotto": return "bgm_frost";
-                case "ember_caverns": return "bgm_desert";
+                case "ember_caverns":
+                case "cave": return "bgm_desert";
+                case "guild_street": return "bgm_town";
                 default: return "bgm_abyss";
             }
         }

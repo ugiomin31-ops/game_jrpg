@@ -1,0 +1,8 @@
+[4.1s] call-out requested: ''
+[4.1s] suppressed while requested (frame 118)
+[4.2s] captured seat=(x:510.00, y:874.00, width:900.00, height:100.00) screen=1280x720
+[4.4s] captured seat=(x:510.00, y:874.00, width:900.00, height:100.00) screen=1280x720
+[4.6s] captured seat=(x:510.00, y:874.00, width:900.00, height:100.00) screen=1280x720
+[51.6s] call-out requested: ''
+[51.6s] suppressed while requested (frame 741)
+[173.4s] done: callouts seen=2 violations=0 screen=Battle

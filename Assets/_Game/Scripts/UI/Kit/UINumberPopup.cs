@@ -7,9 +7,9 @@ namespace Abyss.UI
     /// <summary>Damage-number presentation.</summary>
     public enum UINumberStyle
     {
-        /// <summary>White, 28px, hop + bounce.</summary>
+        /// <summary>White, 44px, hop + bounce.</summary>
         Damage,
-        /// <summary>Red, 40px, 0→1.5→1 scale pop, "CRITICAL" tag, after-images.</summary>
+        /// <summary>Red, 60px, 0→1.5→1 scale pop, "CRITICAL" tag, after-images.</summary>
         Critical,
         /// <summary>Green, slow rise.</summary>
         Heal,
@@ -53,7 +53,7 @@ namespace Abyss.UI
             _rt.Stretch();
         }
 
-        /// <summary>Spawns a number. <paramref name="weak"/> adds a yellow "WEAK" tag + shake; <paramref name="resist"/> greys it with "RESIST".</summary>
+        /// <summary>Spawns a number. <paramref name="weak"/> adds a yellow "WEAK!" tag + shake; <paramref name="resist"/> greys it with "RESIST".</summary>
         public void Spawn(Vector3 world, int amount, UINumberStyle style = UINumberStyle.Damage, bool weak = false, bool resist = false)
         {
             var p = Take();
@@ -67,26 +67,26 @@ namespace Abyss.UI
             switch (style)
             {
                 case UINumberStyle.Critical:
-                    size = 40f; color = UITheme.NumCrit;
+                    size = 60f; color = UITheme.NumCrit;
                     tag = UITheme.Tag(UITheme.NumCrit) + "CRITICAL</color>";
                     break;
                 case UINumberStyle.Heal:
-                    size = 30f; color = UITheme.NumHeal; value = "+" + value;
+                    size = 44f; color = UITheme.NumHeal; value = "+" + value;
                     break;
                 case UINumberStyle.Mp:
-                    size = 28f; color = UITheme.NumMp; value = "+" + value + "<size=60%> MP</size>";
+                    size = 38f; color = UITheme.NumMp; value = "+" + value + "<size=60%> MP</size>";
                     break;
                 case UINumberStyle.Miss:
-                    size = 24f; color = UITheme.NumResist; value = "MISS";
+                    size = 36f; color = UITheme.NumResist; value = "MISS";
                     break;
                 default:
-                    size = 28f; color = Color.white;
+                    size = 44f; color = Color.white;
                     break;
             }
             if (p.Weak)
             {
-                if (style == UINumberStyle.Damage) { size = 32f; color = UITheme.NumWeak; }
-                tag = (tag.Length > 0 ? tag + "  " : "") + UITheme.Tag(UITheme.NumWeak) + "WEAK</color>";
+                if (style == UINumberStyle.Damage) { size = 50f; color = UITheme.NumWeak; }
+                tag = (tag.Length > 0 ? tag + "  " : "") + UITheme.Tag(UITheme.NumWeak) + "<size=125%>WEAK!</size></color>";
             }
             if (resist && style != UINumberStyle.Heal && style != UINumberStyle.Mp)
             {
@@ -95,12 +95,13 @@ namespace Abyss.UI
                 tag = (tag.Length > 0 ? tag + "  " : "") + UITheme.Tag(UITheme.NumResist) + "RESIST</color>";
             }
             Setup(p, world, Mono + value + "</mspace>", color, size, tag);
+            p.Tag.fontSize = p.Weak ? 26f : 22f;
             p.Life = style == UINumberStyle.Heal || style == UINumberStyle.Mp ? 1.35f : style == UINumberStyle.Miss ? 0.9f : style == UINumberStyle.Critical ? 1.45f : 1.25f;
             Begin(p);
         }
 
         /// <summary>Free text popup that rises (status names, "GUARD", "BREAK!").</summary>
-        public void SpawnText(Vector3 world, string text, Color color, float size = 26f)
+        public void SpawnText(Vector3 world, string text, Color color, float size = 34f)
         {
             var p = Take();
             p.Style = UINumberStyle.Heal;
@@ -118,8 +119,8 @@ namespace Abyss.UI
             p.Style = UINumberStyle.Damage;
             p.Weak = false;
             p.Text = true;
-            Setup(p, world, $"<size=70%><color=#ffd27a>{hits} HITS</color></size> {Mono}{total:N0}</mspace>", Color.white, 30f, "");
-            p.Offset.y += 46f;
+            Setup(p, world, $"<size=70%><color=#ffd27a>{hits} HITS</color></size> {Mono}{total:N0}</mspace>", Color.white, 42f, "");
+            p.Offset.y += 64f;
             p.Life = 1.6f;
             Begin(p);
         }
@@ -140,14 +141,14 @@ namespace Abyss.UI
                 if (!p.Active) return p;
             var n = new Popup();
             n.Rect = UIFactory.Rect(transform, "Popup");
-            n.Rect.sizeDelta = new Vector2(400f, 60f);
+            n.Rect.sizeDelta = new Vector2(560f, 96f);
             n.Group = n.Rect.gameObject.AddComponent<CanvasGroup>();
             n.Group.blocksRaycasts = false;
             n.GhostA = MakeText(n.Rect, "GhostA");
             n.GhostB = MakeText(n.Rect, "GhostB");
             n.Number = MakeText(n.Rect, "Number");
-            n.Tag = UIFactory.Label(n.Rect, "", 18f, UIFont.Heavy, Color.white, TextAlignmentOptions.Bottom, UITextFx.Heavy, "Tag");
-            n.Tag.rectTransform.Place(UIAnchor.Center, new Vector2(0.5f, 0f), new Vector2(0f, 24f), new Vector2(400f, 26f));
+            n.Tag = UIFactory.Label(n.Rect, "", 22f, UIFont.Heavy, Color.white, TextAlignmentOptions.Bottom, UITextFx.Heavy, "Tag");
+            n.Tag.rectTransform.Place(UIAnchor.Center, new Vector2(0.5f, 0f), new Vector2(0f, 24f), new Vector2(560f, 40f));
             n.Tag.characterSpacing = 4f;
             _pool.Add(n);
             return n;
@@ -155,8 +156,8 @@ namespace Abyss.UI
 
         static TextMeshProUGUI MakeText(RectTransform parent, string name)
         {
-            var t = UIFactory.Label(parent, "", 28f, UIFont.Title, Color.white, TextAlignmentOptions.Center, UITextFx.Heavy, name);
-            t.rectTransform.Place(UIAnchor.Center, Vector2.zero, new Vector2(400f, 60f));
+            var t = UIFactory.Label(parent, "", 44f, UIFont.Title, Color.white, TextAlignmentOptions.Center, UITextFx.Heavy, name);
+            t.rectTransform.Place(UIAnchor.Center, Vector2.zero, new Vector2(560f, 96f));
             return t;
         }
 
@@ -170,12 +171,13 @@ namespace Abyss.UI
             p.Number.color = color;
             p.GhostA.color = p.GhostB.color = color.WithAlpha(0f);
             p.Tag.text = tag;
+            p.Tag.fontSize = 22f;
             p.Tag.rectTransform.anchoredPosition = new Vector2(0f, size * 0.55f);
             // Stagger popups that land on the same spot at the same time.
             int stacked = 0;
             foreach (var o in _pool)
                 if (o != p && o.Active && o.Age < 0.35f && (o.World - world).sqrMagnitude < 0.05f) stacked++;
-            p.Offset = new Vector2(Random.Range(-14f, 14f), stacked * 34f);
+            p.Offset = new Vector2(Random.Range(-16f, 16f), stacked * 48f);
             p.Rect.gameObject.SetActive(true);
             p.Rect.SetAsLastSibling();
         }

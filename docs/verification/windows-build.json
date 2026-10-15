@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "unity": "6000.3.25f1",
+  "result": "Succeeded",
+  "outputPath": "C:/Users/User/Desktop/AbyssCodexReview_20261007/Build/Windows/AbyssLabyrinth.exe",
+  "totalSize": 467622820,
+  "seconds": 29.014164599999997,
+  "totalErrors": 0,
+  "totalWarnings": 1,
+  "messages": [
+    {
+      "type": "Warning",
+      "content": "Pipeline: No RuntimePipelineConfig asset found (Project Settings > Pipeline > Runtime). Pipeline will be disabled in Player builds."
+    }
+  ]
+}

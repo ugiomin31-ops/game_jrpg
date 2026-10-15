@@ -1,0 +1,23 @@
+{
+  "status": "blocked_missing_separate_motion_intervals",
+  "source_sha256": "aacefeab5b92ebc51ee2be873739280bc8bb25aff456e4569082afb47f87be7c",
+  "measured_blender_fps": 24,
+  "native_fbx_key_frame_range": [-1, 367],
+  "blender_import_frame_range": [0, 368],
+  "verified_changing_envelope_blender": [0, 53],
+  "verified_static_tail_blender": [53, 368],
+  "unity_take_origin_verified": false,
+  "proposed_rig": "Generic",
+  "approved_split_actions": [],
+  "clips": [
+    {"name":"Idle", "approved_range":null, "existing_preset":"idle", "reason":"No distinct interval; static tail is not an animated idle."},
+    {"name":"Walk", "approved_range":null, "existing_preset":"walk", "reason":"No locomotion interval verified."},
+    {"name":"Run", "approved_range":null, "existing_preset":null, "reason":"Walk must not be labeled Run without actual run motion."},
+    {"name":"Attack", "approved_range":null, "candidate_blender_range":[0,53], "candidate_native_key_range":[-1,52], "provisional_unity_range_if_same_origin":[0,53], "enabled":false, "existing_preset":"box_01", "reason":"Only changing envelope verified; isolated-preset identity and Unity time origin remain unverified."},
+    {"name":"Cast", "approved_range":null, "existing_preset":"cast_a_spell", "reason":"No separate cast interval."},
+    {"name":"Hit", "approved_range":null, "existing_preset":"hit_to_body_01", "reason":"No separate hit interval."},
+    {"name":"Die", "approved_range":null, "existing_preset":"Resolve existing UI defeat_02 versus take-name defeat_03", "reason":"No death interval; visually identify individually exported preset."},
+    {"name":"Victory", "approved_range":null, "existing_preset":"cheer", "reason":"No separate cheer interval."}
+  ],
+  "next_step": "Parent exports one existing Studio preset per FBX without new paid generation, then measures actual take ranges and accepts motion before Unity import."
+}

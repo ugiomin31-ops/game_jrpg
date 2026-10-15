@@ -1,0 +1,75 @@
+{
+  "id": "magma_slime",
+  "source": "quaternius_ultimate_monsters/Blob/GreenSpikyBlob.gltf",
+  "generator": "Blender/enemies_cc0/cc0_monsters.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-06T17:04:45Z",
+  "fbx": "Assets/_Game/Resources/Art/Enemies/magma_slime/magma_slime.fbx",
+  "fbx_bytes": 540924,
+  "scale_from_source": 0.26655153321815184,
+  "built": {
+    "triangles": 7408,
+    "bones": 4,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 7408,
+    "vertices": 4166,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "unweighted_vertices": 0,
+    "bones": 4,
+    "clips": {
+      "Idle": [
+        1.0,
+        61.0
+      ],
+      "Run": [
+        1.0,
+        17.0
+      ],
+      "Attack": [
+        1.0,
+        22.0
+      ],
+      "Cast": [
+        1.0,
+        34.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        29.0
+      ],
+      "Victory": [
+        1.0,
+        41.0
+      ]
+    },
+    "idle_bounds": [
+      [
+        -0.467,
+        -0.495,
+        -0.0
+      ],
+      [
+        0.466,
+        0.609,
+        1.107
+      ]
+    ],
+    "problems": []
+  }
+}

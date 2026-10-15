@@ -1,0 +1,51 @@
+{
+  "entries": [
+    {
+      "seq": 2,
+      "timestampUtc": "2026-10-15T14:02:35.2444236Z",
+      "level": "error",
+      "logType": "Error",
+      "message": "Failed to handle /api/exec request: Main thread operation timed out after 5000ms",
+      "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2257)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteGated>d__109:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:1589)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass119_0/<<HandleExecRequest>b__0>d:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2218)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteCommandByName>d__137:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2664)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteCommand>d__138:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2703)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+      "seeded": false
+    },
+    {
+      "seq": 3,
+      "timestampUtc": "2026-10-15T14:07:29.9737469Z",
+      "level": "warn",
+      "logType": "Warning",
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "stackTrace": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "seeded": false
+    },
+    {
+      "seq": 4,
+      "timestampUtc": "2026-10-15T14:23:41.6384189Z",
+      "level": "error",
+      "logType": "Error",
+      "message": "Failed to handle /api/exec request: Main thread operation timed out after 25000ms",
+      "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2257)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteGated>d__109:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:1589)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass119_0/<<HandleExecRequest>b__0>d:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2218)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteCommandByName>d__137:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2664)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteCommand>d__138:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2703)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+      "seeded": false
+    }
+  ],
+  "cursor": 4,
+  "session": "767cd3bd24df429faed8430b949ad9a0",
+  "returned": 3,
+  "dropped": false,
+  "reset": false,
+  "counts": {
+    "error": 2,
+    "warn": 1,
+    "log": 0
+  },
+  "groundTruth": {
+    "sampledUtc": "2026-10-15T14:25:17.626638Z",
+    "ageMs": 193,
+    "compilationFailed": false,
+    "compiling": false,
+    "consoleErrors": 1,
+    "consoleWarnings": 0,
+    "consoleLogs": 0,
+    "seeded": true
+  }
+}

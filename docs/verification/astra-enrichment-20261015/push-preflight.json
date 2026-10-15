@@ -1,0 +1,7 @@
+{
+  "files": 450,
+  "bytes": 183222639,
+  "over100MiB": [],
+  "possibleCredentialPaths": [],
+  "note": "Pattern scan only; no credential values are emitted."
+}

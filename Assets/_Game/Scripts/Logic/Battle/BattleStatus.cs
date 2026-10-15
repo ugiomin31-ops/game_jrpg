@@ -130,11 +130,13 @@ namespace Abyss.Logic.Battle
             return t >= 0 && t < TypeNames.Length ? TypeNames[t] : "";
         }
 
-        /// <summary>Resolves holder-relative values (BARRIER magnitude x max HP) when applied.</summary>
-        internal void BindTo(int holderMaxHp)
+        /// <summary>Resolves holder-relative barrier strength and Provoke classification when applied.</summary>
+        internal void BindTo(int holderMaxHp, string holderId = null)
         {
             if (EffectType == StatusEffectType.Barrier && BarrierRemaining <= 0 && !BarrierFullHit)
                 BarrierRemaining = System.Math.Max(0, Gd.RoundI(holderMaxHp * BarrierRatio));
+            if (EffectType == StatusEffectType.Provoke && holderId != null)
+                _beneficial = SourceId == "" || SourceId == holderId;
         }
 
         internal void RefreshFrom(BattleStatus o)

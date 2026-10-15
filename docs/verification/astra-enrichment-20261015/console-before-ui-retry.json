@@ -1,0 +1,60 @@
+{
+  "entries": [
+    {
+      "seq": 5,
+      "timestampUtc": "2026-10-15T14:25:41.4982359Z",
+      "level": "error",
+      "logType": "Error",
+      "message": "Failed to handle /api/exec request: Main thread operation timed out after 5000ms",
+      "stackTrace": "UnityEngine.Debug:LogError (object)\nUnity.Pipeline.BasePipelineServer/<HandleExecRequest>d__119:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2257)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteGated>d__109:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:1589)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<>c__DisplayClass119_0/<<HandleExecRequest>b__0>d:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2218)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteCommandByName>d__137:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2664)\nSystem.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<object>:SetException (System.Exception)\nUnity.Pipeline.BasePipelineServer/<ExecuteCommand>d__138:MoveNext () (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Runtime/Common/BasePipelineServer.cs:2703)\nSystem.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()\n",
+      "seeded": false
+    },
+    {
+      "seq": 6,
+      "timestampUtc": "2026-10-15T14:26:59.1890944Z",
+      "level": "warn",
+      "logType": "Warning",
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "stackTrace": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "seeded": false
+    },
+    {
+      "seq": 7,
+      "timestampUtc": "2026-10-15T14:28:51.4246724Z",
+      "level": "warn",
+      "logType": "Warning",
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "stackTrace": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "seeded": false
+    },
+    {
+      "seq": 8,
+      "timestampUtc": "2026-10-15T14:46:15.8342563Z",
+      "level": "warn",
+      "logType": "Warning",
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "stackTrace": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "seeded": false
+    }
+  ],
+  "cursor": 8,
+  "session": "767cd3bd24df429faed8430b949ad9a0",
+  "returned": 4,
+  "dropped": false,
+  "reset": false,
+  "counts": {
+    "error": 1,
+    "warn": 3,
+    "log": 0
+  },
+  "groundTruth": {
+    "sampledUtc": "2026-10-15T14:54:34.9259935Z",
+    "ageMs": 135,
+    "compilationFailed": false,
+    "compiling": false,
+    "consoleErrors": 0,
+    "consoleWarnings": 1,
+    "consoleLogs": 0,
+    "seeded": true
+  }
+}

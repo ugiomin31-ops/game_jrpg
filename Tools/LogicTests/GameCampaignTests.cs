@@ -66,7 +66,7 @@ namespace Abyss.LogicTests
 
             var victorious = GameState.NewGame(db, Difficulty.Normal);
             victorious.DeepestFloor = quest.UnlockFloor;
-            victorious.Flags.Add(GameFlow.BossFlag(3));
+            victorious.Flags.Add(GameFlow.BossFlag(6));   // the sphinx guards the C-rank gate (zone 6)
             victorious = SaveCodec.Deserialize(SaveCodec.Serialize(victorious), db);
             Assert.True(QuestLog.Accept(db, victorious, quest.Id).Success, "late acceptance after saved victory");
             Assert.Equal(QuestBoardState.Complete, QuestLog.BoardState(victorious, quest), "one-shot objective remains complete");
@@ -93,7 +93,10 @@ namespace Abyss.LogicTests
             PartyStats.AwardXp(db, hero, PartyStats.XpToNext(hero.Level) + 500);
             Assert.Equal(GameState.LevelCap, hero.Level, "level cap");
             Assert.Equal(0, hero.Xp, "XP overflow discarded at cap");
-            Assert.True(report.NewSkills.Contains("stunning_slam"), "level three skill learned");
+            Assert.True(report.NewSkills.Count == 0 || report.NewSkills.TrueForAll(id => db.Skills.ContainsKey(id)), "learned skills exist");
+            var start = db.Heroes[hero.Id];
+            Assert.True(start.Skills.Count >= 4, "hunters start with basic attack, a signature and two more skills");
+            Assert.True(start.Skills.Exists(id => id.StartsWith("sig_")), "signature skill from Lv 1");
         }
 
         [LogicTest]

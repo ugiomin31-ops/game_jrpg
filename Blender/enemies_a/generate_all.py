@@ -17,6 +17,8 @@ import time
 import bpy
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'Blender' / 'enemies_c'))
+from roster import SOURCES as V2_SOURCES  # noqa: E402  (v2 roster: enemies_c generators)
 BLENDER = ROOT / 'Blender'
 REPORTS = BLENDER / 'blend'
 REQUIRED = ('Idle', 'Run', 'Attack', 'Cast', 'Hit', 'Die', 'Victory')
@@ -34,19 +36,39 @@ SOURCES = {
         'fire_drake', 'elite_fire_drake', 'sand_golem', 'elite_sand_golem', 'phoenix',
         'skeleton', 'elite_skeleton', 'scarecrow', 'elite_scarecrow', 'wisp')},
     **{eid: f'bosses/{eid}.py' for eid in ('boss', 'forest_guardian', 'frost_kraken', 'flame_sphinx')},
+    **V2_SOURCES,
 }
+sys.path.insert(0, str(ROOT / 'Blender' / 'enemies_d'))
+import importlib.util  # noqa: E402
+_v3 = importlib.util.spec_from_file_location('roster_v3', str(ROOT / 'Blender' / 'enemies_d' / 'roster.py'))
+_v3m = importlib.util.module_from_spec(_v3)
+_v3.loader.exec_module(_v3m)
+SOURCES.update(_v3m.SOURCES)  # monster v3: sculpted bodies replace older generators
+_v4 = importlib.util.spec_from_file_location('roster_v4', str(ROOT / 'Blender' / 'enemies_e' / 'roster.py'))
+_v4m = importlib.util.module_from_spec(_v4)
+_v4.loader.exec_module(_v4m)
+SOURCES.update(_v4m.SOURCES)  # monster v4: chapter 5-6 models (sunken temple, abyss core)
+_v5 = importlib.util.spec_from_file_location('roster_v5', str(ROOT / 'Blender' / 'enemies_h' / 'roster.py'))
+_v5m = importlib.util.module_from_spec(_v5)
+_v5.loader.exec_module(_v5m)
+SOURCES.update(_v5m.SOURCES)  # monster v5: hunter-theme monsters (enemies_h), rows may land in enemies.json later
 
 
 def data_roster():
     with (ROOT / 'Assets/_Game/Resources/Data/enemies.json').open(encoding='utf-8') as stream:
         rows = json.load(stream)
-    roster = {row['id']: row for row in rows}
-    if len(rows) != len(roster) or len(roster) != 28:
-        raise RuntimeError('Enemy data must contain exactly 28 distinct IDs')
+    roster = {row['id']: row for row in rows if row.get('model', row['id']) == row['id']}
+    if len(rows) != len({row['id'] for row in rows}):
+        raise RuntimeError('Enemy data contains duplicate IDs')
+    # v4 models may be produced before their data rows land; their boss flag then comes from the v4 roster
+    for eid in _v4m.SOURCES:
+        roster.setdefault(eid, {'id': eid, 'is_boss': eid in _v4m.BOSSES})
+    for eid in _v5m.SOURCES:  # v5 hunter monsters: enemies.json rows are added by the data side
+        roster.setdefault(eid, {'id': eid, 'is_boss': eid in _v5m.BOSSES})
     if set(roster) != set(SOURCES):
         raise RuntimeError(f'Generator/data mismatch: missing={set(roster)-set(SOURCES)}, extra={set(SOURCES)-set(roster)}')
-    if sum(row['is_boss'] for row in rows) != 4:
-        raise RuntimeError('Enemy roster must contain four bosses and 24 normal/elite enemies')
+    if sum(bool(row['is_boss']) for row in roster.values()) != 4 + len(_v4m.BOSSES):
+        raise RuntimeError(f'Enemy roster must contain exactly {4 + len(_v4m.BOSSES)} bosses')
     return roster
 
 
@@ -85,6 +107,14 @@ def inspect_scene(required, imported=False):
             'triangles': sum(len(poly.vertices) - 2 for poly in body.data.polygons),
             'vertices': len(body.data.vertices), 'bones': len(rig.data.bones),
             'materials': mats, 'clips': clips, 'unweighted_vertices': unweighted}
+
+
+def asset_command(eid):
+    """Child process that produces one id: Blender binary, or the bpy-module Python when run as `python script.py`."""
+    script = str(Path(__file__).resolve())
+    if bpy.app.binary_path:
+        return [bpy.app.binary_path, '-b', '--factory-startup', '--python-exit-code', '1', '-P', script, '--', '--asset', eid]
+    return [sys.executable, script, '--', '--asset', eid]
 
 
 def produce_one(eid, roster):
@@ -133,8 +163,7 @@ def main():
     selected = [] if opts.report_only else (opts.only or list(roster))
     reports, failures = [], []
     for eid in selected:
-        cmd = [bpy.app.binary_path, '-b', '--factory-startup', '--python-exit-code', '1',
-               '-P', str(Path(__file__).resolve()), '--', '--asset', eid]
+        cmd = asset_command(eid)
         log_path = REPORTS / f'enemy_production_{eid}.log'
         print(f'PRODUCING {eid}: {" ".join(cmd)}', flush=True)
         with log_path.open('w', encoding='utf-8') as log:

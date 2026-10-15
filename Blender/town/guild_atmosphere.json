@@ -1,0 +1,135 @@
+{
+  "_about": "Suggested AtmospherePreset values for the 새벽 길드 거리 (Dawn Guild street) hub, Blender/town/guild.py. Field names match Assets/_Game/Scripts/Runtime/World/Atmosphere.cs (AtmospherePreset). Colours are Unity Color [r,g,b,a] in 0..1; vectors are [x,y,z] Euler degrees. Ambient colours stay at or below ~0.6 so the scene is not washed out. Not applied automatically: copy the values into the 'town_night' / 'town_dawn' cases of AtmospherePreset.ForTileset.",
+  "town_dawn": {
+    "_use": "Play view (TownWorld.Initialize with title=false): golden-hour to dusk street light. The key name town_dawn is kept because TownWorld and AtmospherePreset.ForTileset select by it; the values are the dusk ones for the 새벽 길드 거리 brief.",
+    "SunColor": [
+      1.0,
+      0.72,
+      0.5,
+      1.0
+    ],
+    "SunIntensity": 0.9,
+    "SunEuler": [
+      32,
+      -38,
+      0
+    ],
+    "AmbientSky": [
+      0.45,
+      0.48,
+      0.6,
+      1.0
+    ],
+    "AmbientEquator": [
+      0.46,
+      0.38,
+      0.4,
+      1.0
+    ],
+    "AmbientGround": [
+      0.2,
+      0.17,
+      0.19,
+      1.0
+    ],
+    "FogColor": [
+      0.44,
+      0.42,
+      0.56,
+      1.0
+    ],
+    "FogStart": 60,
+    "FogEnd": 190,
+    "BackgroundColor": [
+      0.46,
+      0.52,
+      0.78,
+      1.0
+    ],
+    "Bloom": 1.1,
+    "BloomThreshold": 0.9,
+    "Exposure": 0.05,
+    "Contrast": 8,
+    "Saturation": 14,
+    "ColorFilter": [
+      1.0,
+      0.96,
+      0.92,
+      1.0
+    ],
+    "Vignette": 0.2,
+    "Temperature": 6,
+    "TorchColor": [
+      1.0,
+      0.72,
+      0.4,
+      1.0
+    ]
+  },
+  "town_night": {
+    "_use": "Title shot (TownWorld.Initialize with title=true): evening blue hour over the plaza. Warm lamps, the violet gate and the lit HQ windows carry the light.",
+    "SunColor": [
+      0.6,
+      0.68,
+      1.0,
+      1.0
+    ],
+    "SunIntensity": 0.5,
+    "SunEuler": [
+      40,
+      -55,
+      0
+    ],
+    "AmbientSky": [
+      0.34,
+      0.38,
+      0.58,
+      1.0
+    ],
+    "AmbientEquator": [
+      0.32,
+      0.3,
+      0.46,
+      1.0
+    ],
+    "AmbientGround": [
+      0.14,
+      0.13,
+      0.19,
+      1.0
+    ],
+    "FogColor": [
+      0.17,
+      0.19,
+      0.36,
+      1.0
+    ],
+    "FogStart": 50,
+    "FogEnd": 170,
+    "BackgroundColor": [
+      0.13,
+      0.16,
+      0.36,
+      1.0
+    ],
+    "Bloom": 1.45,
+    "BloomThreshold": 0.8,
+    "Exposure": 0.05,
+    "Contrast": 10,
+    "Saturation": 12,
+    "ColorFilter": [
+      0.96,
+      0.98,
+      1.0,
+      1.0
+    ],
+    "Vignette": 0.28,
+    "Temperature": -6,
+    "TorchColor": [
+      1.0,
+      0.72,
+      0.42,
+      1.0
+    ]
+  }
+}
