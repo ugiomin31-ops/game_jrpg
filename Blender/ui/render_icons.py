@@ -128,12 +128,13 @@ def texture_only(obj):
 
 
 def apply_tint(meshes, tint):
-    """Multiply every mesh's Col (sRGB) by the variant tint, matching the runtime _BaseColor multiply. Texture-only
-    meshes get the multiply on their (in-memory) base-colour images instead."""
+    """Multiply every mesh's Col (sRGB) by the variant tint, matching the runtime _BaseColor multiply. Image-textured
+    materials (Tripo installs) render their texture, so the multiply also goes on their (in-memory) images."""
     images = set()
     for obj in meshes:
+        images.update(n.image for s in obj.material_slots if has_image(s.material)
+                      for n in s.material.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image)
         if texture_only(obj):
-            images.update(n.image for s in obj.material_slots for n in s.material.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image)
             continue
         col = obj.data.color_attributes['Col']
         for item in col.data:

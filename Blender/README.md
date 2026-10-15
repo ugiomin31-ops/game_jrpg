@@ -18,7 +18,7 @@ blender -b --factory-startup -P Blender/<group>/<script>.py
 | `heroes/`, `npcs/`, `weapons/`, `enemies_a/`, `enemies_b/`, `bosses/`, `environment/`, `town/`, `props/`, `icons/` | 그룹별 생성기 |
 | `blend/` | 생성 결과 `.blend` (편집·검수용) |
 | `preview/` | Workbench 미리보기 PNG (검수용, 게임에 포함되지 않음). Tripo 모델로 교체된 대상(영웅·NPC·일반 적·숲의 수호자)과 직업 모델·마을 주민의 옛 미리보기는 2026-10-15에 삭제했다. 필요하면 `git log -- Blender/preview`로 되살린다 |
-| `ui/render_icons.py` | 실제 FBX를 촬영해 `Resources/Icons/`에 투명 512px 초상화·아이콘 374개와 Sprite 메타데이터 생성. `Col` 정점색이 없는 Tripo 모델은 기본색 텍스처로 촬영하고, 적 팔레트 변형은 기본 모델에 `tint`를 곱해 자기 초상화를 갖는다 |
+| `ui/render_icons.py` | 실제 FBX를 촬영해 `Resources/Icons/`에 투명 512px 초상화·아이콘 385개와 Sprite 메타데이터 생성. `Col` 정점색이 없는 Tripo 모델은 기본색 텍스처로 촬영하고, 적 팔레트 변형은 기본 모델에 `tint`를 곱해 자기 초상화를 갖는다 |
 
 출력 FBX는 `Assets/_Game/Resources/Art/<Category>/...` 에 바로 쓴다. Unity가 자동 임포트한다.
 
