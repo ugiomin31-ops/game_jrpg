@@ -243,7 +243,9 @@ namespace Abyss.UI
             if (!string.IsNullOrEmpty(info.Line))
             {
                 var line = UIFactory.Paragraph(_text, info.Line, 20f * u, UISlant.Paper, "Description");
-                line.fontStyle = FontStyles.Bold;
+                // Bold SDF (not FontStyles.Bold on Body SDF: Body has no bold typeface or fallbacks, so the Bold weight lookup cannot
+                // reach U+2026 and TMP drops the Ellipsis overflow to Truncate with a console warning).
+                UIFactory.Style(line, UIFont.Bold, UITextFx.Shadow);
                 line.lineSpacing = 0f;
                 line.maxVisibleLines = 2;
                 line.overflowMode = TextOverflowModes.Ellipsis;

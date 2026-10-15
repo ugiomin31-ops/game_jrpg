@@ -298,12 +298,17 @@ namespace Abyss.Runtime
         }
 
         /// <summary>
-        /// Review builds only (<see cref="ReviewBoot"/>, URL <c>?review=battle</c>): adopts a prepared campaign state standing on
-        /// <paramref name="floorIndex"/> without the title, prologue or town, so battles can be started directly.
+        /// Opt-in review sessions (<see cref="ReviewBoot"/>, started only by an explicit <c>review=battle</c> URL query or command-line
+        /// argument): adopts a prepared campaign state standing on <paramref name="floorIndex"/> without the title, prologue or town,
+        /// so battles can be started directly. The session switches to the separate "review-campaign" persistence directory before
+        /// adopting the state, and stays there (saves, preferences) for the rest of this app session, so the normal campaign is never touched.
         /// </summary>
         public void BeginReview(GameState state, int floorIndex)
         {
-            State = state ?? throw new ArgumentNullException(nameof(state));
+            if (state == null) throw new ArgumentNullException(nameof(state));
+            saveDirectory = Path.Combine(Application.persistentDataPath, "review-campaign");
+            Saves = new SaveRepository(saveDirectory, DB);
+            State = state;
             SetPaused(false);
             Dungeon = new DungeonRun(DB, State, floorIndex, ArrivalMode.Resume);
             EnterDungeonVisual();

@@ -45,7 +45,13 @@ namespace Abyss.Logic.Battle
                 return new HitRoll { Amount = 0, Missed = true, Type = type, Element = element, ElementMultiplier = multiplier };
 
             double bonusCrit = skill == null ? 0.0 : Gd.D(skill.CritBonus);
-            bool critical = type == DamageType.Physical && rng.Randf() < Gd.Clamp(actor.CritRate + bonusCrit, 0.0, 1.0);
+            bool critical = false;
+            if (type == DamageType.Physical)
+            {
+                double critRoll = rng.Randf(); // Preserve the draw even at 0% / 100%; Randf includes 1.
+                double critChance = Gd.Clamp(actor.CritRate + bonusCrit, 0.0, 1.0);
+                critical = critChance >= 1.0 || critRoll < critChance;
+            }
             if (critical) baseAmount *= actor.CritMultiplier;
             baseAmount = ApplyTargetMultipliers(baseAmount, target, skill, type, multiplier * elementDamageScale, target.Broken);
             return new HitRoll

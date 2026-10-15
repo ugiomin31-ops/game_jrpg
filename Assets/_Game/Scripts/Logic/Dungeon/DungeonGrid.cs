@@ -114,6 +114,7 @@ namespace Abyss.Logic.Dungeon
             if ((marker == 'X' && !Progress.SteppedTraps.Contains(p)) || (marker == 'T' && Progress.OpenedChests.Contains(p))
                 || (marker == 'K' && Progress.TakenKeys.Contains(p)) || ((marker == 'B' || marker == 'E') && Progress.ClearedBattles.Contains(p))
                 || (marker == 'E' && Progress.SpentEvents.Contains(p))
+                || (marker == 'H' && Progress.SpentSprings.Contains(p))
                 || (marker == 'L' && Progress.OpenedDoors.Contains(p))) return '.';
             return marker;
         }

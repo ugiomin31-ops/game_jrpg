@@ -65,6 +65,11 @@ def gold_for(level, mult=1.0):
 LEVELS = {}
 ZONE_OF = {}
 ELITE_AT = 0.75
+# Floor-1 balance (Floor1BalanceTests): the starter party (L1 on 1-1, L2 on 1-2) cannot beat the zone-1 bats at their
+# spread levels (tunnel_bat 6, bat 5: 326 / 290 HP against 4 level-1 heroes), so both sit at the level-3 stat band. Applied
+# after the spread above; the monsters stay in zone 1 and the other normals keep their levels.
+LEVEL_OVERRIDE = {'tunnel_bat': 3, 'bat': 3}
+SPREAD_LEVELS = {}  # LEVELS before LEVEL_OVERRIDE: the floor builder picks groups by these, so encounter groups stay as authored
 STONE_OF_ZONE = {1: 'enhance_stone', 2: 'enhance_stone', 3: 'enhance_stone', 4: 'enhance_stone_hi', 5: 'enhance_stone_hi',
                  6: 'enhance_stone_abyss', 7: 'enhance_stone_abyss', 8: 'enhance_stone_abyss', 9: 'enhance_stone_abyss',
                  10: 'enhance_stone_abyss', 11: 'enhance_stone_abyss', 12: 'enhance_stone_abyss', 13: 'enhance_stone_abyss'}
@@ -109,6 +114,10 @@ def zone_levels(spec):
     for rid, zones in spec.RARE_BY_ZONE.items():
         lo, hi = spec.CHAPTERS[zones[0] - 1]['levels']
         assign(rid, lo + (hi - lo) // 2, zones[0])
+    SPREAD_LEVELS.clear()
+    SPREAD_LEVELS.update(LEVELS)
+    for mid, level in LEVEL_OVERRIDE.items():
+        LEVELS[mid] = level
     return dict(LEVELS), dict(ZONE_OF)
 
 
@@ -791,9 +800,9 @@ def summoned_ids(rows):
 
 
 BOSS_TUNE = {
-    'subway_bat_lord': (1.0, 2.3), 'forest_guardian': (1.04, 2.2), 'scrap_colossus': (1.5, 1.85),
+    'subway_bat_lord': (0.75, 1.85), 'forest_guardian': (1.04, 2.2), 'scrap_colossus': (1.5, 1.75),
     'frost_kraken': (1.5, 0.82), 'crystal_cave_lord': (1.4, 2.02), 'flame_sphinx': (1.9, 1.12),
-    'festival_pumpkin_king': (1.42, 2.05), 'boss': (1.316, 1.21), 'plague_lich': (1.2, 2.0),
+    'festival_pumpkin_king': (1.42, 2.05), 'boss': (1.316, 1.21), 'plague_lich': (1.3, 2.0),
     'leviathan': (1.2, 1.03), 'abyss_herald': (1.3, 1.55), 'abyss_lord': (0.975, 0.92),
     'forest_guardian_ex': (2.5, 1.6), 'frost_kraken_ex': (1.425, 0.858), 'flame_sphinx_ex': (1.2, 0.99),
     'boss_ex': (1.3, 0.84), 'leviathan_ex': (1.125, 0.94), 'abyss_lord_ex': (1.1385, 0.744),
@@ -820,6 +829,15 @@ def tune(rows):
         r['magic'] = max(1, int(round(r['magic'] * off)))
 
 
+# Minimum full-MP budgets for the most expensive authored base/phase/charge move.
+# Apply after variant creation so unrelated variants do not inherit extra MP.
+# Includes sk_war_cry, attached to yeti/goblin by skill_expansion.py.
+SKILL_MP_BUDGETS = {
+    'yeti': 14, 'goblin': 14, 'subway_bat_lord': 7, 'scrap_colossus': 20,
+    'crystal_cave_lord': 20, 'plague_lich': 8, 'abyss_herald': 8,
+}
+
+
 def build(spec):
     """All monster rows. Levels come from the zones (zone_levels); LEVELS / ZONE_OF are left filled for the caller."""
     zone_levels(spec)
@@ -835,6 +853,8 @@ def build(spec):
             assert row['rank'] == 0
             row['attack'], row['magic'] = STARTER_FINAL_OFFENSE[row['id']]
     for row in rows:
+        if row['id'] in SKILL_MP_BUDGETS:
+            row['max_mp'] = max(row['max_mp'], SKILL_MP_BUDGETS[row['id']])
         if row['id'] in RENAME:
             row['display_name'] = RENAME[row['id']]
         if row.get('is_boss'):

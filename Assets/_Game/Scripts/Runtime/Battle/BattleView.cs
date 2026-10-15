@@ -642,6 +642,8 @@ namespace Abyss.Runtime.Battle
             // A dodge or a cast flourish still moving this actor (or a target) settles first; bounded.
             yield return WaitFlourish(actor);
             if (target != null) yield return WaitFlourish(target);
+            // A recoil still running on the actor would keep writing its position over this action's staging: end it on the mark.
+            if (actor.KnockTime > 0) { actor.KnockTime = 0; actor.Model.transform.position = actor.Home; }
             _beat = actor.Side == BattleSide.Party ? Beat(e, actor, target) : SkillBeat.None;
             _hitHeld = false; _pendingHit = null;
             if (actor.Side == BattleSide.Enemy) _director.EnemyTurn(actor, Targets(e), StrikePoint(e, actor, target));
@@ -1159,7 +1161,8 @@ namespace Abyss.Runtime.Battle
             if (newWave) { _waveTargets.Clear(); _wave++; _waveStop = 0; }
             _waveTargets.Add(target.Id);
             if (!Find(_action.ActorId, out var actor) || !actor.Alive) yield break;
-            if (newWave && _wave > 1 && ComboWave(actor)) yield return Wait(.1f);
+            if (newWave && _wave > 1 && ComboWave(actor))
+                yield return Wait(Mathf.Max(0f, _actionLength * Contact(actor.Model, _strikeClip) - _actionElapsed));
             else if (newWave && _wave > 1 && _strikeClip == "Attack" && !Reduced)
             {
                 float length = actor.Model.Anim.Length("Attack");
@@ -1210,7 +1213,8 @@ namespace Abyss.Runtime.Battle
             }
             if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
             // A family blow keeps its own palette (venom green, spirit purple); everything else is tinted by the element.
-            Color tint = _presentation == null && _strikeImpact != null && strike ? Color.white : PresentationColor(e.Element);
+            bool familyBlow = strike && _strikeImpact != null;
+            Color tint = familyBlow ? Color.white : PresentationColor(e.Element);
             if (e.Amount > 0) target.Model.Flash(e.Critical ? Color.white : tint, e.Critical ? .2f : Reduced ? .2f : .12f);
             // A hit owns the target's body from here: cancel any cosmetic return so it cannot overwrite the recoil or the fall.
             CancelReturn(target);
@@ -1224,7 +1228,7 @@ namespace Abyss.Runtime.Battle
                 // Re-hits continue outward from the current recoil instead of snapping home first.
                 target.KnockTime = KnockLength - KnockOut * (1 - Mathf.Sqrt(1 - Mathf.Clamp01(k)));
             }
-            string impact = _presentation != null ? _presentation.ImpactVfx : strike && _strikeImpact != null ? _strikeImpact : "impact";
+            string impact = familyBlow ? _strikeImpact : _presentation != null ? _presentation.ImpactVfx : "impact";
             if (!string.IsNullOrEmpty(impact))
                 Effect(impact, HitPoint(target), tint, ImpactScale(target) * (e.Critical ? 1.3f : 1), 0, null, target.Home.y, FacingFrom(e.SourceId, target));
             PlaySound(e.Critical ? "sfx_critical" : _presentation != null && !string.IsNullOrEmpty(_presentation.SfxImpact) ? _presentation.SfxImpact

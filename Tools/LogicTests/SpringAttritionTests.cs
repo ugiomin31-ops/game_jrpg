@@ -58,6 +58,23 @@ namespace Abyss.LogicTests
         }
 
         [LogicTest]
+        public static void MapHidesSpentKitUntilOutingRefillsIt()
+        {
+            var db = Db(); var state = State(db); var run = Run(db, state);
+            run.Grid.Progress.Explored.Add(Spring);
+            Assert.Equal('H', run.Grid.MapMarker(Spring), "unused kit is marked");
+            run.Move(RelativeMove.Forward);
+            Assert.Equal('.', run.Grid.MapMarker(Spring), "used kit is ordinary floor on both maps");
+            var loaded = SaveCodec.Deserialize(SaveCodec.Serialize(state), db);
+            var resumed = Run(db, loaded);
+            Assert.Equal('.', resumed.Grid.MapMarker(Spring), "used marker survives save/load");
+            resumed.ReturnToTown();
+            Assert.Equal('H', resumed.Grid.MapMarker(Spring), "refilled kit returns to the map");
+            resumed.Grid.Progress.Explored.Remove(Spring);
+            Assert.Equal(' ', resumed.Grid.MapMarker(Spring), "hidden kit stays undiscovered");
+        }
+
+        [LogicTest]
         public static void SteppingAndInteractConsumeOnceThenPreserveAllVitals()
         {
             var db = Db(); var state = State(db); var run = Run(db, state); Wound(state);

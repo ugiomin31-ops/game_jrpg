@@ -133,7 +133,7 @@ namespace Abyss.Logic.Game
             int cost = free ? 0 : InnCost(state);
             if (state.Gold < cost) return ServiceResult.Fail("not_enough_gold");
             state.Gold -= cost;
-            PartyStats.RestoreParty(db, state);
+            PartyStats.RestoreParty(db, state, includeReserve: true);
             state.ClearCarriedTp();
             state.RefillSprings();
             foreach (var floor in state.Floors.Values) floor.DefeatedFoes.Clear();
@@ -228,11 +228,14 @@ namespace Abyss.Logic.Game
             if (state.ItemCount(itemId) < count) return ServiceResult.Fail("not_enough_items");
             int value = ItemSellValue(db, itemId);
             if (value <= 0) return ServiceResult.Fail("not_sellable");
+            long total = (long)value * count;
+            long gold = state.Gold + total;
+            if (total > int.MaxValue || gold > int.MaxValue) return ServiceResult.Fail("stack_full");
             state.RemoveItem(itemId, count);
-            state.Gold += value * count;
+            state.Gold = (int)gold;
             QuestLog.Refresh(db, state);
             var result = ServiceResult.Ok("sold", item.DisplayName);
-            result.GoldDelta = value * count;
+            result.GoldDelta = (int)total;
             return result;
         }
 
@@ -262,10 +265,13 @@ namespace Abyss.Logic.Game
             if (state.BagCount(equipmentId) < count) return ServiceResult.Fail("not_owned");
             int value = EquipmentSellValue(db, equipmentId);
             if (value <= 0) return ServiceResult.Fail("not_sellable");
+            long total = (long)value * count;
+            long gold = state.Gold + total;
+            if (total > int.MaxValue || gold > int.MaxValue) return ServiceResult.Fail("stack_full");
             state.RemoveEquipment(equipmentId, count);
-            state.Gold += value * count;
+            state.Gold = (int)gold;
             var result = ServiceResult.Ok("sold", piece.DisplayName);
-            result.GoldDelta = value * count;
+            result.GoldDelta = (int)total;
             return result;
         }
 

@@ -5,14 +5,14 @@
   "rank": 0,
   "is_boss": false,
   "hit": 0.95,
-  "level": 5,
-  "max_hp": 290,
+  "level": 3,
+  "max_hp": 218,
   "max_mp": 0,
-  "attack": 36,
-  "magic": 31,
-  "defense": 11,
-  "resistance": 13,
-  "speed": 23,
+  "attack": 30,
+  "magic": 25,
+  "defense": 9,
+  "resistance": 9,
+  "speed": 21,
   "evade": 0.15,
   "break_shield": 2,
   "weaknesses": [
@@ -22,8 +22,8 @@
   "resistances": [
    2
   ],
-  "experience_reward": 19,
-  "gold_reward": 22,
+  "experience_reward": 12,
+  "gold_reward": 15,
   "drops": [
    {
     "id": "bat_wing",
@@ -1061,8 +1061,8 @@
    1.0,
    1.0
   ],
-  "_file": "elite_mushroom",
-  "model": "mushroom"
+  "model": "mushroom",
+  "_file": "elite_mushroom"
  },
  {
   "id": "elite_rhino_beetle",
@@ -1145,8 +1145,8 @@
    1.0,
    1.0
   ],
-  "_file": "elite_rhino_beetle",
-  "model": "rhino_beetle"
+  "model": "rhino_beetle",
+  "_file": "elite_rhino_beetle"
  },
  {
   "id": "elite_sand_golem",
@@ -4253,7 +4253,7 @@
   "hit": 0.95,
   "level": 21,
   "max_hp": 817,
-  "max_mp": 12,
+  "max_mp": 14,
   "attack": 88,
   "magic": 44,
   "defense": 37,
@@ -6593,14 +6593,14 @@
   "rank": 0,
   "is_boss": false,
   "hit": 0.95,
-  "level": 6,
-  "max_hp": 326,
+  "level": 3,
+  "max_hp": 218,
   "max_mp": 12,
-  "attack": 40,
-  "magic": 34,
-  "defense": 12,
-  "resistance": 15,
-  "speed": 24,
+  "attack": 30,
+  "magic": 25,
+  "defense": 9,
+  "resistance": 9,
+  "speed": 21,
   "evade": 0.12,
   "break_shield": 2,
   "weaknesses": [
@@ -6609,8 +6609,8 @@
   "resistances": [
    2
   ],
-  "experience_reward": 22,
-  "gold_reward": 25,
+  "experience_reward": 12,
+  "gold_reward": 15,
   "drops": [
    {
     "id": "bat_wing",
@@ -7592,7 +7592,7 @@
   "hit": 0.95,
   "level": 7,
   "max_hp": 334,
-  "max_mp": 12,
+  "max_mp": 14,
   "attack": 34,
   "magic": 18,
   "defense": 15,
@@ -10056,7 +10056,7 @@
    "dot_resist"
   ],
   "level": 7,
-  "max_mp": 0,
+  "max_mp": 7,
   "evade": 0.05,
   "break_shield": 6,
   "weaknesses": [
@@ -10131,9 +10131,9 @@
     "line": ""
    }
   ],
-  "max_hp": 1800,
-  "attack": 124,
-  "magic": 97,
+  "max_hp": 1350,
+  "attack": 100,
+  "magic": 78,
   "defense": 23,
   "resistance": 21,
   "speed": 22,
@@ -10178,7 +10178,7 @@
    "dot_resist"
   ],
   "level": 18,
-  "max_mp": 0,
+  "max_mp": 20,
   "evade": 0.05,
   "break_shield": 8,
   "weaknesses": [
@@ -10251,8 +10251,8 @@
    }
   ],
   "max_hp": 7560,
-  "attack": 205,
-  "magic": 128,
+  "attack": 194,
+  "magic": 121,
   "defense": 66,
   "resistance": 46,
   "speed": 18,
@@ -10297,7 +10297,7 @@
    "dot_resist"
   ],
   "level": 29,
-  "max_mp": 0,
+  "max_mp": 20,
   "evade": 0.05,
   "break_shield": 8,
   "weaknesses": [
@@ -10538,7 +10538,7 @@
    "dot_resist"
   ],
   "level": 51,
-  "max_mp": 0,
+  "max_mp": 8,
   "evade": 0.05,
   "break_shield": 7,
   "weaknesses": [
@@ -10613,7 +10613,7 @@
     "line": ""
    }
   ],
-  "max_hp": 24132,
+  "max_hp": 26143,
   "attack": 506,
   "magic": 654,
   "defense": 127,
@@ -10660,7 +10660,7 @@
    "dot_resist"
   ],
   "level": 61,
-  "max_mp": 0,
+  "max_mp": 8,
   "evade": 0.05,
   "break_shield": 8,
   "weaknesses": [

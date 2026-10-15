@@ -14,8 +14,8 @@
 // - Inside one hero, the three slots are optimised by best-response passes until nothing moves. Every accepted swap
 //   strictly raises the hero's score, so the plan is never below the current loadout.
 // - Party order (PlanParty / ApplyParty): heroes are planned in party order against the bag the earlier heroes leave.
-//   Greedy blocking rule: a hero does not take a bag copy when a later member who may wear it would gain strictly more
-//   from it. An earlier hero therefore cannot block a better class- or job-specific piece for someone behind it.
+//   Greedy blocking rule: reserve one bag copy per later member who may wear it and would gain strictly more;
+//   the current hero may take any spare copy. Earlier heroes cannot consume those higher-gain members' copies.
 using System;
 using System.Collections.Generic;
 
@@ -186,7 +186,7 @@ namespace Abyss.Logic.Game
                 if (kv.Value <= 0 || kv.Key == worn || !db.Equipment.TryGetValue(kv.Key, out var piece) || piece.Slot != slot) continue;
                 if (!PartyStats.AllowsHero(db, piece, hero)) continue;
                 double gain = scorer.Value(With(original, slot, piece.Id)) - originalScore;
-                if (WantedByLater(db, state, slot, piece, gain, later)) continue;
+                if (WantedByLater(db, state, slot, piece, gain, kv.Value, later)) continue;
                 ids.Add(kv.Key);
             }
             ids.Sort(StringComparer.Ordinal);
@@ -194,15 +194,17 @@ namespace Abyss.Logic.Game
             return output;
         }
 
-        /// <summary>True when a later party member who may wear <paramref name="piece"/> would gain strictly more from it than the planning hero.</summary>
-        static bool WantedByLater(GameDB db, GameState state, string slot, EquipmentDef piece, double heroGain, List<HeroState> later)
+        /// <summary>True when later members with strictly higher gains need every available copy of <paramref name="piece"/>.</summary>
+        static bool WantedByLater(GameDB db, GameState state, string slot, EquipmentDef piece, double heroGain, int copies, List<HeroState> later)
         {
+            int reserved = 0;
             foreach (var other in later)
             {
                 if (!PartyStats.AllowsHero(db, piece, other)) continue;
                 var scorer = new Scorer(db, state, other);
                 var loadout = LoadoutOf(other);
-                if (scorer.Value(With(loadout, slot, piece.Id)) - scorer.Value(loadout) > heroGain + Epsilon) return true;
+                if (scorer.Value(With(loadout, slot, piece.Id)) - scorer.Value(loadout) > heroGain + Epsilon
+                    && ++reserved >= copies) return true;
             }
             return false;
         }

@@ -10,6 +10,9 @@ namespace Abyss.UI.Battle
     public sealed partial class BattleHUD
     {
         const float TagGap = 8f, TagMargin = 8f, UnitPad = 6f, ChipBand = 44f;
+        // Enemy tag name row: side padding, intent icon slot, slack; widest name tag and widest icon-level (named) tag.
+        const float IconLabelSize = 24f;
+        const float TagNamePad = 14f, TagIntentSlot = 36f, TagNameSlack = 6f, TagMaxWidth = 420f, IconTagMaxWidth = 300f;
 
         readonly List<Card> _tagOrder = new List<Card>();
         readonly List<Rect> _blockers = new List<Rect>();
@@ -145,20 +148,90 @@ namespace Abyss.UI.Battle
             return byLane != 0 ? byLane : string.CompareOrdinal(a.Unit.Id, b.Unit.Id);
         }
 
-        /// <summary>HUD rectangles tags must stay out of (canvas units): top band, party band, command fan, auto notice.</summary>
+        /// <summary>HUD rectangles tags must stay out of (canvas units): the chrome plus the seated phase call-out.</summary>
         void AddHudBlockers(float width, float height)
         {
-            _blockers.Add(new Rect(0f, height - _topH, width, _topH));
-            _blockers.Add(new Rect(0f, 0f, width, _partyBand + (AnyBottomChip() ? ChipBand : 0f)));
-            if (_menu != null && _menu.gameObject.activeSelf) _blockers.Add(CanvasRect(_menu, width));
-            if (_autoBanner != null && _autoBanner.gameObject.activeSelf) _blockers.Add(CanvasRect(_autoBanner, width));
+            AddChromeBlockers(_blockers, width, height);
+            if (_coShown) _blockers.Add(Inflate(_coRect, TagGap * 0.5f));
+        }
+
+        /// <summary>Fixed HUD chrome (canvas units): top band, party band, command fan, auto notice and the skill ribbon.</summary>
+        void AddChromeBlockers(List<Rect> into, float width, float height)
+        {
+            into.Add(new Rect(0f, height - _topH, width, _topH));
+            into.Add(new Rect(0f, 0f, width, _partyBand + (AnyBottomChip() ? ChipBand : 0f)));
+            if (_menu != null && _menu.gameObject.activeSelf) into.Add(CanvasRect(_menu, width));
+            if (_autoBanner != null && _autoBanner.gameObject.activeSelf) into.Add(CanvasRect(_autoBanner, width));
             // The skill ribbon (top-centre, just under the top band) covers whatever sits behind it: tags keep out of its resting
             // rectangle, not the slide-in position, so they do not shuffle while it animates. Tags still never feed the camera.
             if (_banner != null && _banner.gameObject.activeSelf)
             {
                 Vector2 size = _banner.sizeDelta;
                 float top = height - (_topH + 14f);
-                _blockers.Add(Inflate(new Rect((width - size.x) * 0.5f, top - size.y, size.x, size.y), TagGap * 0.5f));
+                into.Add(Inflate(new Rect((width - size.x) * 0.5f, top - size.y, size.x, size.y), TagGap * 0.5f));
+            }
+        }
+
+        // ---- phase / enemy-ultimate call-out ---------------------------------------------------------
+
+        readonly List<Rect> _coBlockers = new List<Rect>();
+        const float CalloutStepX = 80f, CalloutStepY = 24f;
+
+        /// <summary>
+        /// Seats the requested call-out (see <see cref="CutIn"/>): keeps its current seat while that stays clear, otherwise
+        /// takes the first free one, searching rows from just under the top band / skill ribbon down to the end of the top
+        /// third, and in each row the centre first, then alternating horizontal offsets. A seat must clear every living hero's
+        /// projected bounds, the party band (plates and chips), the top band, the command fan and the ribbon. With no free seat
+        /// the plate is suppressed and the search repeats every frame while the call-out is still requested.
+        /// </summary>
+        void UpdateCallout(float width, float height)
+        {
+            if (_cutin == null) return;
+            if (!_coRequested) { if (_coShown || _cutin.gameObject.activeSelf) HideCalloutPlate(); return; }
+            bool ribbon = _banner != null && _banner.gameObject.activeSelf;
+            if (ribbon != _coRibbon) { _coRibbon = ribbon; _coRelayout = true; }
+            _coBlockers.Clear();
+            foreach (var card in _cards.Values)
+                if (card.Party && card.Unit.Alive && card.HasRect) _coBlockers.Add(Inflate(card.UnitRect, UnitPad));
+            AddChromeBlockers(_coBlockers, width, height);
+            if (_coShown && !_coRelayout && CalloutFree(new Rect(_coRect.position, _coSize), width, height)) return;
+            if (!FindCalloutSlot(width, height, out Rect seat))
+            {
+                if (_coShown) HideCalloutPlate();
+                _coRelayout = false;
+                return;
+            }
+            bool arriving = !_coShown, moved = _coShown && !_coRelayout;
+            _coRect = seat; _coShown = true;
+            if (!_cutin.gameObject.activeSelf) _cutin.gameObject.SetActive(true);
+            _cutin.anchoredPosition = seat.position;
+            // New appearance: full entrance fade. Evicted by a moving hero: short fade at the new seat. A pure relayout (resize,
+            // ribbon change) re-seats without restarting the animation.
+            if (arriving) FadeIn(_cutin, 0.2f);
+            else if (moved) FadeIn(_cutin, 0.12f);
+            _coRelayout = false;
+        }
+
+        bool CalloutFree(Rect r, float width, float height)
+        {
+            if (r.xMin < TagMargin || r.xMax > width - TagMargin || r.yMin < height * (2f / 3f) || r.yMax > height - _topH) return false;
+            for (int i = 0; i < _coBlockers.Count; i++) if (r.Overlaps(_coBlockers[i])) return false;
+            return true;
+        }
+
+        bool FindCalloutSlot(float width, float height, out Rect best)
+        {
+            best = default;
+            float top0 = height - _topH - 14f, centre = (width - _coSize.x) * 0.5f;
+            for (int row = 0; ; row++)
+            {
+                float y = top0 - row * CalloutStepY - _coSize.y;
+                if (y < height * (2f / 3f)) return false;
+                for (int i = 0; i < 40; i++)
+                {
+                    var r = new Rect(centre + Shift(i) * CalloutStepX, y, _coSize.x, _coSize.y);
+                    if (CalloutFree(r, width, height)) { best = r; return true; }
+                }
             }
         }
 
@@ -199,7 +272,15 @@ namespace Abyss.UI.Battle
         void UpdateTags()
         {
             FadeTags();
-            if (_camera == null || _world == null || !BuildScreenMap()) return;
+            if (_world == null) return;
+            if (_camera == null || !BuildScreenMap())
+            {
+                // No projection: no body bounds to check; with an unusable canvas nothing is safe, so the call-out waits.
+                var size = _world.rect.size;
+                if (_camera == null && size.x >= 1f && size.y >= 1f) UpdateCallout(size.x, size.y);
+                else if (_coShown) HideCalloutPlate();
+                return;
+            }
             float width = _canvasRect.width, height = _canvasRect.height;
             foreach (var card in _cards.Values)
             {
@@ -207,6 +288,8 @@ namespace Abyss.UI.Battle
                 Vector2 c = card.UnitRect.center;
                 card.OnScreen = card.HasRect && c.x > 0f && c.x < width && c.y > 0f && c.y < height;
             }
+            // The call-out takes its seat first: it is a fixed obstacle for the tag / pill packing below.
+            UpdateCallout(width, height);
             _blockers.Clear();
             foreach (var card in _cards.Values)
                 if (card.HasRect) _blockers.Add(Inflate(card.UnitRect, UnitPad + Mathf.Min(card.UnitRect.width, card.UnitRect.height) * 0.12f));
@@ -272,6 +355,17 @@ namespace Abyss.UI.Battle
             _placed.Add(Inflate(slot, 3f));
         }
 
+        /// <summary>Preferred width of <paramref name="text"/> in <paramref name="label"/>, measured once per distinct text.</summary>
+        static float Measure(TMP_Text label, string text, ref string key, ref float width)
+        {
+            if (!string.Equals(key, text, StringComparison.Ordinal))
+            {
+                key = text;
+                width = string.IsNullOrEmpty(text) ? 0f : label.GetPreferredValues(text).x;
+            }
+            return width;
+        }
+
         Vector2 TagSize(Card card, TagLevel level)
         {
             float w = card.Unit.Boss ? 320f : 264f;
@@ -279,13 +373,23 @@ namespace Abyss.UI.Battle
             switch (level)
             {
                 case TagLevel.Full:
-                    w = Mathf.Max(w, 304f); h += 34f;
+                    w = Mathf.Max(Mathf.Max(w, 304f), NameTagWidth(card)); h += 34f;
                     if (card.HasIntent) h += 34f;
                     return new Vector2(w, h);
-                case TagLevel.Icon: return new Vector2(92f, 48f);
+                case TagLevel.Icon:
+                    // A named enemy (no lane letter) shows its whole name: size to the text, ellipsize only past the maximum.
+                    if (!string.IsNullOrEmpty(card.Unit.Suffix)) return new Vector2(92f, 48f);
+                    return new Vector2(Mathf.Clamp(Measure(card.IconLabel, card.Unit.Name, ref card.IconKey, ref card.IconW) + 24f, 92f, IconTagMaxWidth), 48f);
                 case TagLevel.Edge: return new Vector2(112f, 48f);
-                default: return new Vector2(w, h);
+                default: return new Vector2(Mathf.Max(w, NameTagWidth(card)), h);
             }
+        }
+
+        /// <summary>Tag width the name row needs (name + paddings + intent slot), capped at <see cref="TagMaxWidth"/>.</summary>
+        float NameTagWidth(Card card)
+        {
+            float nameW = Measure(card.Name, card.Unit.Name, ref card.NameKey, ref card.NameW);
+            return Mathf.Min(nameW + TagNamePad * 2f + (card.HasIntent ? TagIntentSlot : 0f) + TagNameSlack, TagMaxWidth);
         }
 
         static int Shift(int i) => ((i + 1) / 2) * ((i & 1) == 1 ? -1 : 1);
@@ -404,7 +508,7 @@ namespace Abyss.UI.Battle
             if (!rich)
             {
                 string letter = string.IsNullOrEmpty(c.Unit.Suffix) ? FirstGlyph(c.Unit.Name) : c.Unit.Suffix;
-                string label = letter;
+                string label = level == TagLevel.Icon ? IconText(c.Unit) : letter;
                 if (level == TagLevel.Edge)
                 {
                     Vector2 d = c.UnitRect.center - slot.center;
@@ -412,7 +516,10 @@ namespace Abyss.UI.Battle
                     label = c.Unit.Boss ? arrow + " 보스" : arrow + " " + letter;
                 }
                 c.IconLabel.text = label;
-                c.IconLabel.rectTransform.Stretch(4f, 2f, 4f, 16f);
+                // TMP's Ellipsis mode drops the whole line when one line is taller than the rect: 30 units at the old 28 pt (33.4 high)
+                // left every icon / edge label (the unnamed boss's name included) empty. IconLabelSize fits it with room to spare.
+                c.IconLabel.fontSize = IconLabelSize;
+                c.IconLabel.rectTransform.Stretch(4f, 1f, 4f, 16f);
                 hp.Place(UIAnchor.BottomLeft, new Vector2(12f, 9f), new Vector2(w - 24f, 8f));
                 return;
             }

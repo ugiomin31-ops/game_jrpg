@@ -1,0 +1,5696 @@
+{
+  "status": "complete",
+  "failure": null,
+  "lastAction": "1-3 step (5,9)->(6,9) (boss (6,9))",
+  "unity": "6000.3.25f1",
+  "startedUtc": "2026-10-15T04:01:40.4339869Z",
+  "elapsedSeconds": 2733.5,
+  "bossDefeated": true,
+  "floorsReached": 3,
+  "totalSteps": 463,
+  "impacts": [
+    {
+      "t": 105.2,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.07,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 107.7,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.06,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 122.6,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.11,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 128.4,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 129.2,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX acid_spit"
+      ]
+    },
+    {
+      "t": 129.5,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 136.4,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.12,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 144.5,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 144.8,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 154.2,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.06,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 161.7,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 5.97,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 162.4,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 5.97,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX twin_bite"
+      ]
+    },
+    {
+      "t": 162.6,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 5.97,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 172.3,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 178.4,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 178.9,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX blunt"
+      ]
+    },
+    {
+      "t": 179.0,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 185.9,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.12,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 193.9,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 194.3,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 203.4,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 205.3,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 211.0,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 5.97,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 211.1,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 5.97,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 220.8,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 0.1,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 226.2,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 226.3,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX area_quake"
+      ]
+    },
+    {
+      "t": 226.7,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX stun_slam"
+      ]
+    },
+    {
+      "t": 227.0,
+      "battle": 1,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.64,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 241.2,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 241.6,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 242.5,
+      "battle": 1,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 250.8,
+      "battle": 1,
+      "mover": "enemy_00_sewer_rat",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 314.8,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 314.9,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX area_quake"
+      ]
+    },
+    {
+      "t": 315.2,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX stun_slam"
+      ]
+    },
+    {
+      "t": 315.4,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 324.0,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 3.88,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 324.2,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 3.88,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 325.0,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 3.88,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 339.6,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 340.0,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX blunt"
+      ]
+    },
+    {
+      "t": 340.2,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 5.49,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 348.3,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 348.4,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 353.3,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 0.02,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 361.6,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 361.8,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX area_quake"
+      ]
+    },
+    {
+      "t": 362.1,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX stun_slam"
+      ]
+    },
+    {
+      "t": 362.2,
+      "battle": 2,
+      "mover": "enemy_01_slime",
+      "side": "Enemy",
+      "dist": 6.32,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 370.3,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 370.4,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 371.0,
+      "battle": 2,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 397.3,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 10.56,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 397.4,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 10.56,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 401.0,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 401.1,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 401.8,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX status_bleed"
+      ]
+    },
+    {
+      "t": 404.7,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.22,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 404.9,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.22,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 415.0,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 415.5,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX acid_spit"
+      ]
+    },
+    {
+      "t": 415.6,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 419.9,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 420.1,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 428.7,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.12,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 428.8,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.12,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 429.3,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.12,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX status_bleed"
+      ]
+    },
+    {
+      "t": 436.8,
+      "battle": 3,
+      "mover": "party_01_h_seoa",
+      "side": "Party",
+      "dist": 0.0,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 443.2,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 7.84,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 447.4,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 447.5,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 461.1,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 461.3,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 465.6,
+      "battle": 3,
+      "mover": "party_02_h_jiho",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 470.0,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 470.2,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 478.0,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 9.23,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 478.1,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 9.23,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 481.1,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.94,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 481.2,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.94,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 484.5,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.34,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 484.7,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.34,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 489.3,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 489.7,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX acid_spit"
+      ]
+    },
+    {
+      "t": 489.9,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 498.6,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 498.8,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 502.0,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 502.2,
+      "battle": 3,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 507.8,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 508.3,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX blunt"
+      ]
+    },
+    {
+      "t": 508.5,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 512.5,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 512.6,
+      "battle": 3,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 516.8,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 516.9,
+      "battle": 3,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 522.1,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 522.2,
+      "battle": 3,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 525.6,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 525.8,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX area_quake"
+      ]
+    },
+    {
+      "t": 526.1,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX stun_slam"
+      ]
+    },
+    {
+      "t": 526.3,
+      "battle": 3,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 590.3,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 594.2,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 594.3,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 600.0,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 600.1,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 613.4,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX cleave_sweep"
+      ]
+    },
+    {
+      "t": 614.1,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 615.5,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 619.3,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 6.65,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 619.4,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 6.65,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX area_quake"
+      ]
+    },
+    {
+      "t": 619.7,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 6.65,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX stun_slam"
+      ]
+    },
+    {
+      "t": 619.9,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 6.65,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 620.4,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 6.65,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX status_slow"
+      ]
+    },
+    {
+      "t": 626.0,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 630.8,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 630.9,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 631.5,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX status_bleed"
+      ]
+    },
+    {
+      "t": 634.5,
+      "battle": 4,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 634.7,
+      "battle": 4,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 638.0,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 638.1,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 650.8,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.08,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 652.3,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX cleave_sweep"
+      ]
+    },
+    {
+      "t": 653.0,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 654.4,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 658.4,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 658.9,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX blunt"
+      ]
+    },
+    {
+      "t": 659.1,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 669.4,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 669.6,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 672.7,
+      "battle": 4,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 672.8,
+      "battle": 4,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 675.8,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 675.9,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 681.0,
+      "battle": 4,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 0.11,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 688.3,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 690.6,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 690.7,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 694.3,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 694.7,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX acid_spit"
+      ]
+    },
+    {
+      "t": 694.9,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 707.5,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 707.7,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 719.9,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 722.2,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 722.3,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 723.0,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 726.5,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 7.84,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 739.0,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 0.11,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 748.7,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 748.8,
+      "battle": 4,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 752.2,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 752.7,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX acid_spit"
+      ]
+    },
+    {
+      "t": 752.9,
+      "battle": 4,
+      "mover": "enemy_03_slime",
+      "side": "Enemy",
+      "dist": 8.44,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 758.3,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 0.09,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 765.5,
+      "battle": 4,
+      "mover": "enemy_02_tunnel_bat",
+      "side": "Enemy",
+      "dist": 0.11,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 889.5,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 889.6,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 892.3,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 892.4,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 893.6,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 0.08,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 896.3,
+      "battle": 5,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 896.5,
+      "battle": 5,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 911.5,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX twin_slash"
+      ]
+    },
+    {
+      "t": 911.6,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 912.5,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.49,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 928.6,
+      "battle": 5,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 928.7,
+      "battle": 5,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 943.9,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 944.1,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 955.5,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 955.6,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 956.2,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX status_bleed"
+      ]
+    },
+    {
+      "t": 972.3,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.08,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 974.5,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 974.6,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 981.9,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 982.1,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 984.7,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 984.9,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 990.3,
+      "battle": 5,
+      "mover": "enemy_00_elite_bat",
+      "side": "Enemy",
+      "dist": 0.11,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 999.6,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1020.5,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1044.0,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1046.1,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.37,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1046.2,
+      "battle": 5,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.37,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1077.9,
+      "battle": 6,
+      "mover": "enemy_01_killer_bee",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1078.0,
+      "battle": 6,
+      "mover": "enemy_01_killer_bee",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1081.0,
+      "battle": 6,
+      "mover": "enemy_00_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1081.1,
+      "battle": 6,
+      "mover": "enemy_00_bat",
+      "side": "Enemy",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1094.7,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1094.9,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1103.0,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.0,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1119.4,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1119.5,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1128.8,
+      "battle": 6,
+      "mover": "enemy_01_killer_bee",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 1129.1,
+      "battle": 6,
+      "mover": "enemy_01_killer_bee",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1129.3,
+      "battle": 6,
+      "mover": "enemy_01_killer_bee",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1144.0,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1144.1,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1144.6,
+      "battle": 6,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 5.62,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 1179.7,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 6.25,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1179.8,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 6.25,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1183.0,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1183.1,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1186.1,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 1186.6,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX twin_bite"
+      ]
+    },
+    {
+      "t": 1186.7,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1191.6,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 0.0,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1210.5,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1210.6,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1213.5,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 1214.0,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX twin_bite"
+      ]
+    },
+    {
+      "t": 1214.1,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1233.1,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 6.25,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1233.1,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 6.25,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1238.8,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX twin_bite"
+      ]
+    },
+    {
+      "t": 1238.8,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1249.1,
+      "battle": 7,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1249.2,
+      "battle": 7,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 3.48,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1257.2,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 6.25,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1257.4,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 6.25,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1260.5,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1260.7,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1263.7,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 1264.1,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 1264.3,
+      "battle": 7,
+      "mover": "enemy_00_horned_rabbit",
+      "side": "Enemy",
+      "dist": 3.48,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1285.9,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1286.1,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1297.2,
+      "battle": 7,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.25,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1297.3,
+      "battle": 7,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.25,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1306.9,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1306.9,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1323.3,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1323.4,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1341.5,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1341.6,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1344.5,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.34,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1344.6,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.34,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1377.2,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1377.3,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1394.4,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1394.5,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1398.0,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.34,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1398.1,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.34,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1414.0,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1414.2,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.26,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1418.6,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1418.7,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1430.8,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1431.0,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1434.3,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1434.5,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1445.3,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1445.5,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1448.4,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1448.5,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1459.6,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1459.7,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1464.2,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.22,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1464.3,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.22,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1472.8,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.74,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1473.0,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.74,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1483.3,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.74,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX impact"
+      ]
+    },
+    {
+      "t": 1483.3,
+      "battle": 7,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 7.74,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1486.8,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.22,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1486.9,
+      "battle": 7,
+      "mover": "enemy_02_bat",
+      "side": "Enemy",
+      "dist": 7.22,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1519.6,
+      "battle": 8,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1519.8,
+      "battle": 8,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1525.8,
+      "battle": 8,
+      "mover": "enemy_01_bat",
+      "side": "Enemy",
+      "dist": 0.0,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1529.6,
+      "battle": 8,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1529.8,
+      "battle": 8,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 8.92,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1575.8,
+      "battle": 9,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1575.9,
+      "battle": 9,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1576.8,
+      "battle": 9,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 6.36,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX smoke"
+      ]
+    },
+    {
+      "t": 1669.8,
+      "battle": 10,
+      "mover": "party_02_h_jiho",
+      "side": "Party",
+      "dist": 0.08,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1672.3,
+      "battle": 10,
+      "mover": "enemy_02_killer_bee",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1672.5,
+      "battle": 10,
+      "mover": "enemy_02_killer_bee",
+      "side": "Enemy",
+      "dist": 7.89,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1675.8,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1676.0,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1679.3,
+      "battle": 10,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX pierce"
+      ]
+    },
+    {
+      "t": 1679.5,
+      "battle": 10,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1693.4,
+      "battle": 10,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX cleave_sweep"
+      ]
+    },
+    {
+      "t": 1694.0,
+      "battle": 10,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1694.9,
+      "battle": 10,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 0.7,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1702.5,
+      "battle": 10,
+      "mover": "party_02_h_jiho",
+      "side": "Party",
+      "dist": 0.08,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1708.6,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1708.8,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1711.9,
+      "battle": 10,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX slash"
+      ]
+    },
+    {
+      "t": 1712.1,
+      "battle": 10,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.21,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1717.2,
+      "battle": 10,
+      "mover": "enemy_01_tunnel_bat",
+      "side": "Enemy",
+      "dist": 0.11,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1726.7,
+      "battle": 10,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX strong_hit"
+      ]
+    },
+    {
+      "t": 1726.8,
+      "battle": 10,
+      "mover": "party_00_h_dohyun",
+      "side": "Party",
+      "dist": 7.61,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1734.6,
+      "battle": 10,
+      "mover": "party_02_h_jiho",
+      "side": "Party",
+      "dist": 0.01,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1737.5,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX bleed_slash"
+      ]
+    },
+    {
+      "t": 1737.7,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": true,
+      "newVfx": []
+    },
+    {
+      "t": 1738.3,
+      "battle": 10,
+      "mover": "enemy_00_tunnel_bat",
+      "side": "Enemy",
+      "dist": 7.3,
+      "hitstopEdge": false,
+      "newVfx": [
+        "VFX status_bleed"
+      ]
+    }
+  ],
+  "floors": [
+    {
+      "label": "1-1",
+      "id": "subway_1",
+      "arrivedT": 35.9,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 24
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 105,
+          "maxHp": 105,
+          "mp": 52
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 125,
+          "maxHp": 125,
+          "mp": 24
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 47
+        }
+      ],
+      "stepsSoFar": 0,
+      "battlesSoFar": 0,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-1",
+      "id": "subway_1",
+      "arrivedT": 541.8,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 261,
+          "maxHp": 261,
+          "mp": 37
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 80
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 188,
+          "maxHp": 188,
+          "mp": 37
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 72
+        }
+      ],
+      "stepsSoFar": 74,
+      "battlesSoFar": 3,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-2",
+      "id": "subway_2",
+      "arrivedT": 811.2,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 179,
+          "maxHp": 261,
+          "mp": 9
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 50
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 45
+        }
+      ],
+      "stepsSoFar": 125,
+      "battlesSoFar": 4,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-1",
+      "id": "subway_1",
+      "arrivedT": 1545.1,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "stepsSoFar": 204,
+      "battlesSoFar": 8,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-2",
+      "id": "subway_2",
+      "arrivedT": 1615.3,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 97
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 42
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "stepsSoFar": 235,
+      "battlesSoFar": 9,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-3",
+      "id": "subway_3",
+      "arrivedT": 1926.4,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 279,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 77
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 86
+        }
+      ],
+      "stepsSoFar": 304,
+      "battlesSoFar": 13,
+      "position": "(6,1)"
+    },
+    {
+      "label": "final",
+      "id": "final",
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 205,
+          "maxHp": 207,
+          "mp": 7
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 19
+        }
+      ],
+      "stepsSoFar": 463,
+      "battlesSoFar": 20
+    }
+  ],
+  "battles": [
+    {
+      "index": 1,
+      "kind": "Random",
+      "floor": "subway_1",
+      "group": [
+        "sewer_rat",
+        "slime"
+      ],
+      "cell": "(14,1)",
+      "startT": 94.4,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 24
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 105,
+          "maxHp": 105,
+          "mp": 52
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 125,
+          "maxHp": 125,
+          "mp": 24
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 47
+        }
+      ],
+      "result": "Victory",
+      "rounds": 4,
+      "seconds": 164.9,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 12
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 84,
+          "maxHp": 105,
+          "mp": 37
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 85,
+          "maxHp": 125,
+          "mp": 8
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 30
+        }
+      ],
+      "speed": 0.5,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 6.36,
+        "party_01_h_seoa": 0.08,
+        "party_02_h_jiho": 0.14,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_sewer_rat": 5.97,
+        "enemy_01_slime": 6.32
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_slime": 5.1,
+        "party_00_h_dohyun": 7.6,
+        "enemy_00_sewer_rat": 5.5
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_sewer_rat": 0.0
+      },
+      "exp": 21,
+      "gold": 27
+    },
+    {
+      "index": 2,
+      "kind": "Random",
+      "floor": "subway_1",
+      "group": [
+        "sewer_slime",
+        "slime"
+      ],
+      "cell": "(7,5)",
+      "startT": 300.2,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 12
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 84,
+          "maxHp": 105,
+          "mp": 37
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 85,
+          "maxHp": 125,
+          "mp": 8
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 30
+        }
+      ],
+      "result": "Victory",
+      "rounds": 3,
+      "seconds": 74.4,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 0
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 93,
+          "maxHp": 105,
+          "mp": 22
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 118,
+          "maxHp": 125,
+          "mp": 0
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 79,
+          "maxHp": 120,
+          "mp": 14
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 6.36,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_sewer_slime": 0.11,
+        "enemy_01_slime": 6.32
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_slime": 2.6,
+        "party_00_h_dohyun": 3.3
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 6.29,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_slime": 0.0
+      },
+      "exp": 19,
+      "gold": 25
+    },
+    {
+      "index": 3,
+      "kind": "Event",
+      "floor": "subway_1",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "tunnel_bat",
+        "slime"
+      ],
+      "cell": "(2,5)",
+      "startT": 388.8,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 0
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 93,
+          "maxHp": 105,
+          "mp": 22
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 118,
+          "maxHp": 125,
+          "mp": 0
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 79,
+          "maxHp": 120,
+          "mp": 14
+        }
+      ],
+      "result": "Defeat",
+      "rounds": 6,
+      "seconds": 142.2,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 173,
+          "mp": 0
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 105,
+          "mp": 12
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 125,
+          "mp": 0
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 120,
+          "mp": 14
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 8.44,
+        "party_01_h_seoa": 0.29,
+        "party_02_h_jiho": 0.01,
+        "party_03_h_yuna": 0.08,
+        "enemy_00_tunnel_bat": 10.56,
+        "enemy_01_tunnel_bat": 8.92,
+        "enemy_02_tunnel_bat": 7.89,
+        "enemy_03_slime": 8.44
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_tunnel_bat": 2.4,
+        "enemy_01_tunnel_bat": 2.4,
+        "enemy_02_tunnel_bat": 3.7,
+        "enemy_03_slime": 3.5,
+        "party_00_h_dohyun": 3.3,
+        "party_01_h_seoa": 0.0
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 5.77,
+        "enemy_00_tunnel_bat": 0.0,
+        "enemy_01_tunnel_bat": 0.0,
+        "enemy_02_tunnel_bat": 0.0,
+        "enemy_03_slime": 0.0
+      },
+      "exp": 0,
+      "gold": 0
+    },
+    {
+      "index": 4,
+      "kind": "Event",
+      "floor": "subway_1",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "tunnel_bat",
+        "slime"
+      ],
+      "cell": "(2,5)",
+      "startT": 583.9,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 261,
+          "maxHp": 261,
+          "mp": 37
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 80
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 188,
+          "maxHp": 188,
+          "mp": 37
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 72
+        }
+      ],
+      "result": "Victory",
+      "rounds": 6,
+      "seconds": 190.5,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 179,
+          "maxHp": 261,
+          "mp": 9
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 50
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 45
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 5.92,
+        "enemy_01_tunnel_bat": 5.62,
+        "enemy_02_tunnel_bat": 7.61,
+        "enemy_03_slime": 8.44
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_tunnel_bat": 2.2,
+        "enemy_02_tunnel_bat": 2.5,
+        "party_00_h_dohyun": 3.8,
+        "enemy_03_slime": 2.7,
+        "enemy_01_tunnel_bat": 2.1
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_03_slime": 0.0
+      },
+      "exp": 79,
+      "gold": 91
+    },
+    {
+      "index": 5,
+      "kind": "Foe",
+      "floor": "subway_2",
+      "group": [
+        "elite_bat",
+        "bat"
+      ],
+      "cell": "(3,1)",
+      "startT": 878.9,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 179,
+          "maxHp": 261,
+          "mp": 9
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 50
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 45
+        }
+      ],
+      "result": "Victory",
+      "rounds": 7,
+      "seconds": 176.3,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 201,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 20
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 15
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_elite_bat": 5.37,
+        "enemy_01_bat": 7.61
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_elite_bat": 2.3,
+        "enemy_01_bat": 1.8,
+        "party_00_h_dohyun": 4.6
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_elite_bat": 0.0
+      },
+      "exp": 203,
+      "gold": 239
+    },
+    {
+      "index": 6,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "bat",
+        "killer_bee"
+      ],
+      "cell": "(10,5)",
+      "startT": 1070.3,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 201,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 20
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 15
+        }
+      ],
+      "result": "Victory",
+      "rounds": 3,
+      "seconds": 77.5,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 222,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 5
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_bat": 5.62,
+        "enemy_01_killer_bee": 7.61
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_killer_bee": 1.6,
+        "enemy_00_bat": 1.9,
+        "party_00_h_dohyun": 3.0
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 5.62,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_bat": 0.0
+      },
+      "exp": 33,
+      "gold": 39
+    },
+    {
+      "index": 7,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "horned_rabbit",
+        "bat",
+        "bat"
+      ],
+      "cell": "(15,5)",
+      "startT": 1171.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 222,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 5
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "result": "Victory",
+      "rounds": 18,
+      "seconds": 329.8,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 156,
+          "mp": 0
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 54,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 6.25,
+        "party_01_h_seoa": 0.12,
+        "party_02_h_jiho": 0.08,
+        "party_03_h_yuna": 0.27,
+        "enemy_00_horned_rabbit": 3.48,
+        "enemy_01_bat": 7.74,
+        "enemy_02_bat": 7.89
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_bat": 3.2,
+        "enemy_02_bat": 3.1,
+        "enemy_00_horned_rabbit": 1.8,
+        "party_00_h_dohyun": 2.6,
+        "party_03_h_yuna": 0.0
+      },
+      "endOffsets": {
+        "party_03_h_yuna": 0.0,
+        "enemy_01_bat": 0.0
+      },
+      "exp": 49,
+      "gold": 58
+    },
+    {
+      "index": 8,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "bat"
+      ],
+      "cell": "(10,1)",
+      "startT": 1515.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 156,
+          "mp": 0
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 40,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "result": "Defeat",
+      "rounds": 2,
+      "seconds": 19.1,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 156,
+          "mp": 0
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 8.92,
+        "enemy_01_bat": 0.0
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_tunnel_bat": 2.9
+      },
+      "endOffsets": {
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 0.0,
+        "enemy_01_bat": 0.0
+      },
+      "exp": 0,
+      "gold": 0
+    },
+    {
+      "index": 9,
+      "kind": "Random",
+      "floor": "subway_1",
+      "group": [
+        "sewer_slime",
+        "sewer_slime"
+      ],
+      "cell": "(10,13)",
+      "startT": 1555.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 1,
+      "seconds": 24.4,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 97
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 42
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 6.36,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_sewer_slime": 0.0,
+        "enemy_01_sewer_slime": 0.0
+      },
+      "longestOffsetSeconds": {
+        "party_00_h_dohyun": 3.2
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 6.36,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_sewer_slime": 0.0
+      },
+      "exp": 12,
+      "gold": 18
+    },
+    {
+      "index": 10,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "killer_bee"
+      ],
+      "cell": "(11,1)",
+      "startT": 1663.4,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 321,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 97
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 42
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "result": "Victory",
+      "rounds": 3,
+      "seconds": 83.9,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 38
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 106,
+          "maxHp": 207,
+          "mp": 82
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 251,
+          "mp": 18
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 72
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.04,
+        "party_02_h_jiho": 0.08,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 7.3,
+        "enemy_01_tunnel_bat": 7.21,
+        "enemy_02_killer_bee": 7.89
+      },
+      "longestOffsetSeconds": {
+        "enemy_02_killer_bee": 1.8,
+        "enemy_00_tunnel_bat": 2.4,
+        "enemy_01_tunnel_bat": 2.2,
+        "party_00_h_dohyun": 3.6
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 0.0
+      },
+      "exp": 58,
+      "gold": 67
+    },
+    {
+      "index": 11,
+      "kind": "Event",
+      "floor": "subway_2",
+      "group": [
+        "bat",
+        "bat",
+        "sewer_slime",
+        "horned_rabbit"
+      ],
+      "cell": "(11,2)",
+      "startT": 1755.2,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 1,
+      "seconds": 28.1,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.75,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_bat": 0.16,
+        "enemy_01_bat": 0.0,
+        "enemy_02_sewer_slime": 0.0,
+        "enemy_03_horned_rabbit": 0.0
+      },
+      "longestOffsetSeconds": {
+        "party_02_h_jiho": 4.5
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_bat": 0.0,
+        "enemy_01_bat": 0.0,
+        "enemy_02_sewer_slime": 0.0,
+        "enemy_03_horned_rabbit": 0.0
+      },
+      "exp": 55,
+      "gold": 67
+    },
+    {
+      "index": 12,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "bat"
+      ],
+      "cell": "(15,8)",
+      "startT": 1805.1,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 321,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 50.0,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 300,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 155,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 91
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.22,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 7.3,
+        "enemy_01_bat": 7.89
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_tunnel_bat": 1.2,
+        "enemy_01_bat": 2.4,
+        "party_00_h_dohyun": 3.3
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_bat": 0.0
+      },
+      "exp": 41,
+      "gold": 47
+    },
+    {
+      "index": 13,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "bat"
+      ],
+      "cell": "(10,13)",
+      "startT": 1872.9,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 300,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 155,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 91
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 43.6,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 279,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 77
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 86
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 5.62,
+        "party_01_h_seoa": 0.07,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 7.3,
+        "enemy_01_bat": 0.08
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_tunnel_bat": 2.3,
+        "party_00_h_dohyun": 3.1
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_bat": 0.0
+      },
+      "exp": 41,
+      "gold": 47
+    },
+    {
+      "index": 14,
+      "kind": "Event",
+      "floor": "subway_3",
+      "group": [
+        "elite_bat",
+        "bat"
+      ],
+      "cell": "(10,1)",
+      "startT": 1965.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 279,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 77
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 86
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 48.8,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 208,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 182,
+          "maxHp": 207,
+          "mp": 72
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 5
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 78
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 5.37,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_elite_bat": 5.37,
+        "enemy_01_bat": 7.61
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_elite_bat": 2.2,
+        "enemy_01_bat": 1.9,
+        "party_00_h_dohyun": 3.2
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_elite_bat": 0.0,
+        "enemy_01_bat": 0.0
+      },
+      "exp": 166,
+      "gold": 195
+    },
+    {
+      "index": 15,
+      "kind": "Event",
+      "floor": "subway_3",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "sewer_slime",
+        "killer_bee"
+      ],
+      "cell": "(2,13)",
+      "startT": 2069.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 1,
+      "seconds": 44.4,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 328,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 5.92,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.75,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 5.92,
+        "enemy_01_tunnel_bat": 5.62,
+        "enemy_02_sewer_slime": 0.0,
+        "enemy_03_killer_bee": 9.44
+      },
+      "longestOffsetSeconds": {
+        "party_02_h_jiho": 2.1,
+        "enemy_03_killer_bee": 1.9,
+        "enemy_00_tunnel_bat": 1.4,
+        "party_00_h_dohyun": 3.2,
+        "enemy_01_tunnel_bat": 2.2
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 5.92,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_tunnel_bat": 0.0
+      },
+      "exp": 64,
+      "gold": 76
+    },
+    {
+      "index": 16,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "horned_rabbit",
+        "bat",
+        "tunnel_bat"
+      ],
+      "cell": "(14,9)",
+      "startT": 2161.0,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 328,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 49.3,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 289,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 92
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 83
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_horned_rabbit": 0.0,
+        "enemy_01_bat": 6.25,
+        "enemy_02_tunnel_bat": 7.61
+      },
+      "longestOffsetSeconds": {
+        "enemy_02_tunnel_bat": 1.9,
+        "enemy_01_bat": 2.1,
+        "party_00_h_dohyun": 3.1
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_02_tunnel_bat": 0.0
+      },
+      "exp": 52,
+      "gold": 61
+    },
+    {
+      "index": 17,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "sewer_rat",
+        "horned_rabbit",
+        "tunnel_bat"
+      ],
+      "cell": "(11,5)",
+      "startT": 2244.4,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 289,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 92
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 83
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 35.6,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 287,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 9
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 75
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 7.61,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_horned_rabbit": 4.3,
+        "enemy_02_tunnel_bat": 0.0
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_horned_rabbit": 1.8,
+        "party_00_h_dohyun": 3.8
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_horned_rabbit": 0.0
+      },
+      "exp": 41,
+      "gold": 50
+    },
+    {
+      "index": 18,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "sewer_rat",
+        "tunnel_bat",
+        "tunnel_bat"
+      ],
+      "cell": "(13,1)",
+      "startT": 2289.4,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 287,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 9
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 75
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 54.4,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 244,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 67
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 63
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 6.25,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_tunnel_bat": 6.25,
+        "enemy_02_tunnel_bat": 7.61
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_tunnel_bat": 2.1,
+        "enemy_02_tunnel_bat": 2.1,
+        "party_00_h_dohyun": 2.3
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_tunnel_bat": 0.0
+      },
+      "exp": 52,
+      "gold": 61
+    },
+    {
+      "index": 19,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "sewer_rat",
+        "tunnel_bat",
+        "tunnel_bat"
+      ],
+      "cell": "(5,9)",
+      "startT": 2396.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 244,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 67
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 63
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 54.8,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 286,
+          "maxHp": 349,
+          "mp": 38
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 62
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 58
+        }
+      ],
+      "speed": 2.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 3.48,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_sewer_rat": 0.0,
+        "enemy_01_tunnel_bat": 6.25,
+        "enemy_02_tunnel_bat": 7.61
+      },
+      "longestOffsetSeconds": {
+        "enemy_01_tunnel_bat": 2.0,
+        "enemy_02_tunnel_bat": 1.9,
+        "party_00_h_dohyun": 2.7
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_01_tunnel_bat": 0.0
+      },
+      "exp": 52,
+      "gold": 61
+    },
+    {
+      "index": 20,
+      "kind": "Boss",
+      "floor": "subway_3",
+      "group": [
+        "subway_bat_lord"
+      ],
+      "cell": "(6,9)",
+      "startT": 2453.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 286,
+          "maxHp": 349,
+          "mp": 38
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 62
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 58
+        }
+      ],
+      "bossAt0.9s": {
+        "id": "enemy_00_subway_bat_lord",
+        "alive": true,
+        "active": true,
+        "scale": 1.5,
+        "offsetFromHome": 0.0,
+        "y": 0.0,
+        "renderers": 1
+      },
+      "bossAt2s": {
+        "id": "enemy_00_subway_bat_lord",
+        "alive": true,
+        "active": true,
+        "scale": 1.5,
+        "offsetFromHome": 0.0,
+        "y": 0.0,
+        "renderers": 1
+      },
+      "bossAt3.2s": {
+        "id": "enemy_00_subway_bat_lord",
+        "alive": true,
+        "active": true,
+        "scale": 1.5,
+        "offsetFromHome": 0.02,
+        "y": 0.0,
+        "renderers": 1
+      },
+      "result": "Victory",
+      "rounds": 8,
+      "seconds": 273.6,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 205,
+          "maxHp": 207,
+          "mp": 7
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 19
+        }
+      ],
+      "speed": 1.0,
+      "maxOffsetFromHome": {
+        "party_00_h_dohyun": 4.72,
+        "party_01_h_seoa": 0.11,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 6.22,
+        "enemy_00_subway_bat_lord": 6.22,
+        "enemy_01_bat": 8.12,
+        "enemy_02_bat": 9.18
+      },
+      "longestOffsetSeconds": {
+        "enemy_00_subway_bat_lord": 2.6,
+        "party_00_h_dohyun": 7.9,
+        "party_03_h_yuna": 4.4,
+        "enemy_01_bat": 2.4,
+        "enemy_02_bat": 2.2
+      },
+      "endOffsets": {
+        "party_00_h_dohyun": 0.0,
+        "party_01_h_seoa": 0.0,
+        "party_02_h_jiho": 0.0,
+        "party_03_h_yuna": 0.0,
+        "enemy_00_subway_bat_lord": 0.0
+      },
+      "exp": 801,
+      "gold": 780
+    }
+  ],
+  "retries": [
+    {
+      "t": 535.9,
+      "reason": "defeat on floor index 0 vs tunnel_bat+tunnel_bat+tunnel_bat+slime",
+      "partyAfterBoost": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 261,
+          "maxHp": 261,
+          "mp": 37
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 80
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 188,
+          "maxHp": 188,
+          "mp": 37
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 72
+        }
+      ],
+      "note": "party levels +6 and healed after defeat, then retried"
+    },
+    {
+      "t": 1539.4,
+      "reason": "defeat on floor index 1 vs tunnel_bat+bat",
+      "partyAfterBoost": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "note": "party levels +6 and healed after defeat, then retried"
+    }
+  ],
+  "events": [
+    {
+      "t": 9.2,
+      "kind": "modal",
+      "text": "UIModal: 보통 난이도로 모험을 시작할까요?  [buttons: 실행 | 취소]",
+      "floor": null
+    },
+    {
+      "t": 10.6,
+      "kind": "story",
+      "text": "사이렌이 울린 날 | 퇴근 시간, 지하철 2호선 승강장은 사람으로 가득했다.",
+      "floor": 0
+    },
+    {
+      "t": 19.8,
+      "kind": "story",
+      "text": "모험 수첩 | 의무실에서 쉬면 HP·MP가 회복되고 쓰러진 FOE가 되살아납니다. 파티 편성은 헌터 관리에서, 새 헌터 스카우트는 접수처에서 할 수 있어요. 헌터 마켓과 장비 공방도 잊지 마세요.",
+      "floor": 0
+    },
+    {
+      "t": 28.3,
+      "kind": "town",
+      "text": "Reached town. Party h_dohyun L1,h_seoa L1,h_jiho L1,h_yuna L1",
+      "floor": 0
+    },
+    {
+      "t": 29.5,
+      "kind": "modal",
+      "text": "UIModal: 1-1 · 2호선 승강장  준비를 마치고 출발할까요?  [buttons: 실행 | 취소]",
+      "floor": 0
+    },
+    {
+      "t": 32.3,
+      "kind": "story",
+      "text": "게이트 기록 | 1구역 · 지하철 역 — 퇴근길 승강장에 게이트가 터졌다. 시민을 먼저 대피시키고, 보랏빛 균열을 막아야 한다.",
+      "floor": 0
+    },
+    {
+      "t": 57.6,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 0
+    },
+    {
+      "t": 536.8,
+      "kind": "modal",
+      "text": "UIModal: 1-1 · 2호선 승강장  준비를 마치고 출발할까요?  [buttons: 실행 | 취소]",
+      "floor": 0
+    },
+    {
+      "t": 776.2,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 0
+    },
+    {
+      "t": 1502.9,
+      "kind": "story",
+      "text": "게이트 기록 | 박쥐들이 한곳으로 몰린다. 가장 큰 놈의 등에는 작은 불빛이 달려 있다.  백유나: “게이트가 열리기 전에도 누군가 여기 있었다는 거네…….”",
+      "floor": 1
+    },
+    {
+      "t": 1540.3,
+      "kind": "modal",
+      "text": "UIModal: 1-1 · 2호선 승강장  준비를 마치고 출발할까요?  [buttons: 실행 | 취소]",
+      "floor": 1
+    },
+    {
+      "t": 1656.1,
+      "kind": "story",
+      "text": "고립된 헌터 구조 | 선로 터널 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+      "floor": 1
+    },
+    {
+      "t": 1656.8,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 1
+    },
+    {
+      "t": 1799.4,
+      "kind": "story",
+      "text": "게이트 기록 | 박쥐들이 한곳으로 몰린다. 가장 큰 놈의 등에는 작은 불빛이 달려 있다.  백유나: “읽었으면 계속 가자. 오래 머물면 마물이 냄새를 맡아.”",
+      "floor": 1
+    },
+    {
+      "t": 1958.2,
+      "kind": "story",
+      "text": "게이트 기록 | 관리자 일지: \"전력을 끊으면 게이트가 닫힐 줄 알았다. 틀렸다. 저놈은 어둠을 먹고 자란다.\"  윤지호: “이런 걸 보면 서울이 원래 어땠는지 자꾸 떠올라.”",
+      "floor": 2
+    },
+    {
+      "t": 1964.8,
+      "kind": "choice-event",
+      "text": "UIModal: 변전실 깊은 곳, 정예 마물 「밤의 박쥐 군주」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.  도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.  <color=#E8B04A>정예 마물과의 전투 · 도망치거나 쓰러지면 둥지는 그대로 남습니다.</color>  승리 시 특별 포상: 200만원 · 회복 포션(하급) ×2  [button",
+      "floor": 2
+    },
+    {
+      "t": 2014.4,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 2
+    },
+    {
+      "t": 2016.8,
+      "kind": "story",
+      "text": "게이트 기록 | 벽에 붙은 안전 수칙: \"정전 시 손전등부터 켜세요. 헌터는 가장 마지막에 대피합니다.\" 그 아래 누군가 덧붙였다. \"그럼 우리가 먼저 간다.\"  한서아: “이 기록, 협회 자료실에도 없던 내용이야. 사진 찍어 두자.”",
+      "floor": 2
+    },
+    {
+      "t": 2116.1,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 2
+    },
+    {
+      "t": 2285.6,
+      "kind": "story",
+      "text": "게이트 기록 | 벽에 붙은 안전 수칙: \"정전 시 손전등부터 켜세요. 헌터는 가장 마지막에 대피합니다.\" 그 아래 누군가 덧붙였다. \"그럼 우리가 먼저 간다.\"  윤지호: “게이트가 열리기 전에도 누군가 여기 있었다는 거네…….”",
+      "floor": 2
+    },
+    {
+      "t": 2348.5,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 2
+    },
+    {
+      "t": 2355.2,
+      "kind": "story",
+      "text": "게이트 기록 | 벽에 붙은 안전 수칙: \"정전 시 손전등부터 켜세요. 헌터는 가장 마지막에 대피합니다.\" 그 아래 누군가 덧붙였다. \"그럼 우리가 먼저 간다.\"  백유나: “게이트가 열리기 전에도 누군가 여기 있었다는 거네…….”",
+      "floor": 2
+    },
+    {
+      "t": 2452.9,
+      "kind": "story",
+      "text": "게이트 기록 | 끼이익! 사람이다. 불빛이 많은 곳에 사람이 많구나. 여긴 우리 구역이다. 너희 불빛을 전부 꺼 주마!",
+      "floor": 2
+    },
+    {
+      "t": 2727.3,
+      "kind": "story",
+      "text": "게이트 기록 | 끼… 끼익… 불이 꺼지는군. 시민들은 벌써 대피했나 보군. 그때 소방복 차림의 사내가 맨홀 뚜껑을 방패 삼아 뛰어들었다. 최민준. \"시민 대피 끝! 이제 내가 막는다.\" 그렇게 새 헌터가 파티에 합류했다.",
+      "floor": 2
+    },
+    {
+      "t": 2733.5,
+      "kind": "done",
+      "text": "Boss cleared and post-boss text dismissed; stopping on 1-3",
+      "floor": 2
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "01_title",
+      "file": "docs/verification/floor1/01_title.png",
+      "t": 6.3,
+      "screen": "Title",
+      "floorIndex": null
+    },
+    {
+      "name": "02_town",
+      "file": "docs/verification/floor1/02_town.png",
+      "t": 27.5,
+      "screen": "Town",
+      "floorIndex": 0
+    },
+    {
+      "name": "10_monster_impact_1_slime",
+      "file": "docs/verification/floor1/10_monster_impact_1_slime.png",
+      "t": 128.4,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "10_monster_impact_2_slime",
+      "file": "docs/verification/floor1/10_monster_impact_2_slime.png",
+      "t": 129.2,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "11_hero_dash_contact_1_party_00_h_dohyun",
+      "file": "docs/verification/floor1/11_hero_dash_contact_1_party_00_h_dohyun.png",
+      "t": 144.5,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "10_monster_impact_3_sewer_rat",
+      "file": "docs/verification/floor1/10_monster_impact_3_sewer_rat.png",
+      "t": 161.7,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "10_monster_impact_4_sewer_rat",
+      "file": "docs/verification/floor1/10_monster_impact_4_sewer_rat.png",
+      "t": 162.4,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "10_monster_impact_5_slime",
+      "file": "docs/verification/floor1/10_monster_impact_5_slime.png",
+      "t": 178.4,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "11_hero_dash_contact_2_party_00_h_dohyun",
+      "file": "docs/verification/floor1/11_hero_dash_contact_2_party_00_h_dohyun.png",
+      "t": 193.9,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "04_first_battle_mid_action",
+      "file": "docs/verification/floor1/04_first_battle_mid_action.png",
+      "t": 227.0,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "11_hero_dash_contact_3_party_00_h_dohyun",
+      "file": "docs/verification/floor1/11_hero_dash_contact_3_party_00_h_dohyun.png",
+      "t": 241.2,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "11_hero_dash_contact_4_party_00_h_dohyun",
+      "file": "docs/verification/floor1/11_hero_dash_contact_4_party_00_h_dohyun.png",
+      "t": 242.5,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "defeat_1",
+      "file": "docs/verification/floor1/defeat_1.png",
+      "t": 531.9,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "defeat_2",
+      "file": "docs/verification/floor1/defeat_2.png",
+      "t": 1535.6,
+      "screen": "Battle",
+      "floorIndex": 1
+    },
+    {
+      "name": "03_floor_1-1_start",
+      "file": "docs/verification/floor1/03_floor_1-1_start.png",
+      "t": 1546.0,
+      "screen": "Dungeon",
+      "floorIndex": 0
+    },
+    {
+      "name": "03_floor_1-2_start",
+      "file": "docs/verification/floor1/03_floor_1-2_start.png",
+      "t": 1616.2,
+      "screen": "Dungeon",
+      "floorIndex": 1
+    },
+    {
+      "name": "03_floor_1-3_start",
+      "file": "docs/verification/floor1/03_floor_1-3_start.png",
+      "t": 1927.2,
+      "screen": "Dungeon",
+      "floorIndex": 2
+    },
+    {
+      "name": "06a_boss_intro_banner",
+      "file": "docs/verification/floor1/06a_boss_intro_banner.png",
+      "t": 2454.2,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "06_boss_battle_start",
+      "file": "docs/verification/floor1/06_boss_battle_start.png",
+      "t": 2455.3,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "06c_boss_battle_start_3s",
+      "file": "docs/verification/floor1/06c_boss_battle_start_3s.png",
+      "t": 2456.9,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "07_boss_defeat",
+      "file": "docs/verification/floor1/07_boss_defeat.png",
+      "t": 2712.9,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "07b_boss_defeat_2s",
+      "file": "docs/verification/floor1/07b_boss_defeat_2s.png",
+      "t": 2714.0,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "07c_boss_defeat_3s",
+      "file": "docs/verification/floor1/07c_boss_defeat_3s.png",
+      "t": 2715.2,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "08_post_boss_text",
+      "file": "docs/verification/floor1/08_post_boss_text.png",
+      "t": 2730.1,
+      "screen": "Story",
+      "floorIndex": 2
+    },
+    {
+      "name": "09_after_boss_dungeon",
+      "file": "docs/verification/floor1/09_after_boss_dungeon.png",
+      "t": 2733.0,
+      "screen": "Dungeon",
+      "floorIndex": 2
+    }
+  ],
+  "checks": [
+    {
+      "name": "game view 1280x720",
+      "passed": true,
+      "detail": "1280x720"
+    }
+  ],
+  "consoleIssues": [
+    {
+      "type": "Warning",
+      "count": 1,
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "firstAction": "depart to floor index 0",
+      "firstGameFrame": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)",
+      "stack": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "firstAtSeconds": 32.8
+    }
+  ]
+}

@@ -112,7 +112,13 @@ InitTestScene*.unity*
 __pycache__/
 *.pyc
 
-# Raw art sources (images, Tripo zips, FBX) stay local; only text records are tracked
+# Historical raw art sources are excluded by default; handoff exceptions below preserve current work.
 /ArtSource/**
 !/ArtSource/**/
 !/ArtSource/**/*.md
+
+# Current cross-computer handoff: keep reference images, unchanged exports and inspection evidence.
+!/ArtSource/enemies/elite_mushroom/enrichment_20261015/**
+!/ArtSource/hunters/_anim_library/tripo_spell_20261015/**
+!/ArtSource/hunter-bosses/crystal_cave_lord/concept.png
+!/ArtSource/hunter-bosses/crystal_cave_lord/candidates/*.png

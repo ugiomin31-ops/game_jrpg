@@ -65,6 +65,11 @@ namespace Abyss.UI.Battle
         readonly List<string> _orderIds = new List<string>();
         readonly List<BattleDisplayUnit> _rebuildUnits = new List<BattleDisplayUnit>();
         int _orderRound;
+        // Phase / enemy-ultimate call-out: requested content and lifetime (CutIn..HideCutIn) versus its resolved seat (UpdateCallout).
+        string _coTitle = "", _coText = "";
+        bool _coRequested, _coShown, _coRelayout, _coRibbon;
+        Vector2 _coSize;
+        Rect _coRect;
         string _orderActive;
         bool _orderShown;
         Vector2 _enemyBannerHome;
@@ -84,11 +89,18 @@ namespace Abyss.UI.Battle
             BuildChrome();
             BuildMenu();
             BuildEnemyBanner();
-            var cutin = UIFactory.Panel(_root, UIPanelStyle.Ornate);
-            _cutin = cutin.Rect.Place(UIAnchor.Center, Vector2.zero, new Vector2(1100, 255));
-            _cutinTitle = UIFactory.Label(cutin.transform, "", 42, align: TextAlignmentOptions.Center);
-            _cutinTitle.Rt().TopStrip(74, 26, 30, 30);
-            _cutinText = UIFactory.Paragraph(cutin.transform, "", 29); _cutinText.Rt().Stretch(48, 108, 48, 22);
+            // Boss phase / enemy ultimate call-out: slanted plate (the skill ribbon's style). CutIn/HideCutIn own its content and
+            // lifetime, LayoutCallout its size and UpdateCallout (BattleHUD.Tags.cs) its seat, validated every frame so it never
+            // covers a living hero, the party plates or the top controls.
+            var cutin = UISlantPlate.Create(_root, "Phase call-out", new Color(0.04f, 0.08f, 0.13f, 1f), UITheme.Gold, 3f, true, 6f, true);
+            _cutin = cutin.Rect;
+            _cutin.anchorMin = _cutin.anchorMax = Vector2.zero; _cutin.pivot = Vector2.zero;
+            _cutinTitle = UIFactory.Label(_cutin, "", 42, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.Center, UITextFx.Outline, "Title");
+            _cutinTitle.overflowMode = TextOverflowModes.Ellipsis;
+            _cutinText = UIFactory.Paragraph(_cutin, "", 29, null, "Subtitle");
+            _cutinText.alignment = TextAlignmentOptions.Top;
+            _cutinText.overflowMode = TextOverflowModes.Ellipsis;
+            _cutinText.maxVisibleLines = 2;
             _cutin.gameObject.SetActive(false);
             BuildSkillRibbon();
             BuildAutoBanner();
@@ -237,14 +249,25 @@ namespace Abyss.UI.Battle
             // cut-in band on the battle clock (Lock runs on new battle, on Finish and in Restore).
             SetTagsHidden(false);
             StopCutIn();
+            // A suppressed (not yet seated) phase call-out must not reappear after the battle state was reset.
+            CancelCallout();
         }
 
+        /// <summary>
+        /// Timed call-out in the top third of the screen: a title line plus an optional subtitle. This only records the content
+        /// and its requested lifetime (until <see cref="HideCutIn"/>); the size follows <see cref="LayoutCallout"/> and the seat
+        /// is validated every frame by <see cref="UpdateCallout"/>, which keeps it off living hero bodies, party plates, the
+        /// top controls and the skill ribbon and suppresses it (retrying while requested) when no such seat exists.
+        /// </summary>
         public void CutIn(string title, string text)
         {
-            _cutinTitle.text = title; _cutinText.text = text; _cutin.gameObject.SetActive(true);
-            SlideIn(_cutin, 520f, 0.2f);
+            _coTitle = title ?? ""; _coText = text ?? "";
+            _coRequested = true;
+            HideCalloutPlate();
+            LayoutCallout();
         }
-        /// <summary>Slides a centred/top panel in from the left with a fade (call-outs should arrive, not pop).</summary>
+
+        /// <summary>Slides a centred/top panel in from the left with a fade (the skill ribbon arrives, it does not pop).</summary>
         void SlideIn(RectTransform rt, float from, float duration)
         {
             if (!rt.TryGetComponent(out CanvasGroup group)) group = rt.gameObject.AddComponent<CanvasGroup>();
@@ -255,9 +278,37 @@ namespace Abyss.UI.Battle
             group.alpha = 0f;
             UITween.To(rt, duration, t => { rt.anchoredPosition = home - new Vector2(from * (1f - t), 0f); group.alpha = t; }, UIEase.OutCubic);
         }
+
+        /// <summary>Fades a panel in at its current position (call-outs arrive; they never slide across the scene).</summary>
+        void FadeIn(RectTransform rt, float duration)
+        {
+            if (!rt.TryGetComponent(out CanvasGroup group)) group = rt.gameObject.AddComponent<CanvasGroup>();
+            group.blocksRaycasts = false;
+            UITween.Kill(rt);
+            if (UIRoot.Instance != null && UIRoot.Instance.ReducedMotion) { group.alpha = 1f; return; }
+            group.alpha = 0f;
+            UITween.To(rt, duration, t => group.alpha = t, UIEase.OutCubic);
+        }
+
+        /// <summary>Hides the call-out plate (it stays requested, see <see cref="_coRequested"/>) and forgets its seat.</summary>
+        void HideCalloutPlate()
+        {
+            _coShown = false;
+            if (_cutin == null) return;
+            UITween.Kill(_cutin);
+            if (_cutin.gameObject.activeSelf) _cutin.gameObject.SetActive(false);
+        }
+
+        /// <summary>Ends the requested call-out for good: nothing pending can show it again.</summary>
+        void CancelCallout()
+        {
+            _coRequested = false; _coRelayout = false;
+            HideCalloutPlate();
+        }
+
         public void HideCutIn()
         {
-            _cutin.gameObject.SetActive(false);
+            CancelCallout();
             if (_ult == null || !_ult.gameObject.activeSelf) { StopCutIn(); return; }
             // Signature and ultimate share the battle-clock band (see AdvanceCutIn): start its timed exit, so a pause
             // freezes it and 1.5x / 2x scale it; a band that is not on the clock (stale UI tween) just hides.

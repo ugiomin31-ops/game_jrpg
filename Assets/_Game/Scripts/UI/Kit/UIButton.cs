@@ -97,6 +97,7 @@ namespace Abyss.UI
         /// <summary>Activates the button as if clicked (press bounce, sound, event). Plays a buzzer when not interactable.</summary>
         public void Click()
         {
+            if (!isActiveAndEnabled) return;
             // A quick double tap must not buy, equip or confirm twice; held movement buttons keep repeating.
             if (HoldRepeat <= 0f && Time.unscaledTime < _nextClickAt) return;
             _nextClickAt = Time.unscaledTime + 0.25f;
@@ -271,6 +272,7 @@ namespace Abyss.UI
         {
             if (_buttons.Count == 0) return;
             index = (index % _buttons.Count + _buttons.Count) % _buttons.Count;
+            if (!_buttons[index].isActiveAndEnabled) return;
             if (index != _index && !silent) UISound.Play(UISoundId.Move);
             _index = index;
             for (int i = 0; i < _buttons.Count; i++) _buttons[i].Focused = i == _index;
@@ -281,8 +283,17 @@ namespace Abyss.UI
             if (!InputEnabled || _buttons.Count == 0 || !UIInput.CanReceive(this)) return;
             var nav = UIInput.Navigate;
             int step = _horizontal ? nav.x : -nav.y;
-            if (step != 0) SetFocus(_index + step, false);
-            if (UIInput.Confirm)
+            if (step != 0)
+            {
+                for (int offset = 1; offset <= _buttons.Count; offset++)
+                {
+                    int index = ((_index + step * offset) % _buttons.Count + _buttons.Count) % _buttons.Count;
+                    if (!_buttons[index].isActiveAndEnabled) continue;
+                    SetFocus(index, false);
+                    break;
+                }
+            }
+            if (UIInput.Confirm && _buttons[_index].isActiveAndEnabled)
             {
                 UIInput.Consume();
                 _buttons[_index].Click();

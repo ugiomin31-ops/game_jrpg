@@ -114,21 +114,31 @@ namespace Abyss.Presentation.Vfx
 
         public static VfxLibrary Instance { get; private set; }
         public Camera Camera { get; set; }
-        /// <summary>Playback rate for every effect (battle speed; 0 pauses). Applies to particles too.</summary>
+        /// <summary>Playback rate for effects and particles. Trails use an inverse lifetime; zero stops our clock,
+        /// but native trail points still age unless Unity's global clock is also paused.</summary>
         public float TimeScale
         {
             get => _timeScale;
             set
             {
-                value = Mathf.Max(0f, value);
-                if (Mathf.Approximately(value, _timeScale)) return;
+                if (float.IsNaN(value) || float.IsInfinity(value) || value < 0f) value = 0f;
+                if (value == _timeScale) return;
                 _timeScale = value;
+                if (value > 0f) _trailTimeScale = value;
                 foreach (var effect in _effects)
                     foreach (var layer in effect.Layers)
+                    {
                         if (layer.Particles != null) { var main = layer.Particles.main; main.simulationSpeed = value; }
+                        if (layer.Trail != null) layer.Trail.time = TrailLifetime(layer.Recipe.life);
+                    }
             }
         }
         float _timeScale = 1f;
+        float _trailTimeScale = 1f;
+        // Changing time does not retime existing native point timestamps: transitions can shorten or lengthen
+        // the visible history. Keep that history (no Clear on speed changes). Zero retains the last positive rate.
+        // Bound extreme finite rates to a finite 0.1 ms..60 s lifetime instead of overflowing native trail storage.
+        float TrailLifetime(float life) => Mathf.Clamp(life / _trailTimeScale, .0001f, 60f);
         /// <summary>Layers authored at or below this offset sit on the floor rather than hang from the anchor.</summary>
         const float GroundLayerY = -.7f;
         readonly Dictionary<string, Recipe> _recipes = new Dictionary<string, Recipe>(StringComparer.Ordinal);
@@ -221,7 +231,11 @@ namespace Abyss.Presentation.Vfx
                 layer.Transform.gameObject.SetActive(false);
                 ResetProperties(layer);
                 if (layer.Particles != null) layer.Particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-                if (layer.Trail != null) { layer.Trail.emitting = false; layer.Trail.Clear(); }
+                if (layer.Trail != null)
+                {
+                    layer.Trail.emitting = false; layer.Trail.Clear();
+                    layer.Trail.time = TrailLifetime(layer.Recipe.life);
+                }
             }
             effect.Root.SetActive(true);
             Tick(effect, 0);
@@ -347,7 +361,7 @@ namespace Abyss.Presentation.Vfx
             else if (recipe.kind == "trail")
             {
                 var trail = go.AddComponent<TrailRenderer>();
-                trail.sharedMaterial = material; trail.time = recipe.life; trail.minVertexDistance = .03f;
+                trail.sharedMaterial = material; trail.time = TrailLifetime(recipe.life); trail.minVertexDistance = .03f;
                 trail.widthMultiplier = recipe.size; trail.widthCurve = AnimationCurve.Linear(0, 1, 1, 0);
                 trail.numCapVertices = 3; trail.numCornerVertices = 3;
                 trail.shadowCastingMode = ShadowCastingMode.Off; trail.receiveShadows = false;

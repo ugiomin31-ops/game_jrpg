@@ -1,0 +1,242 @@
+[
+  {
+    "task": "01-plan",
+    "pid": 38812,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.3203419+09:00"
+  },
+  {
+    "task": "02-acceptance-helper",
+    "pid": 30332,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.3702519+09:00"
+  },
+  {
+    "task": "03-blender-rig-check",
+    "pid": 16500,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.4113251+09:00"
+  },
+  {
+    "task": "04-material-import",
+    "pid": 32944,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.4440553+09:00"
+  },
+  {
+    "task": "05-shared-hero-motion",
+    "pid": 31916,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.4946003+09:00"
+  },
+  {
+    "task": "06-per-hero-motion",
+    "pid": 20132,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.5372221+09:00"
+  },
+  {
+    "task": "07-monster-clips",
+    "pid": 11856,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.6181615+09:00"
+  },
+  {
+    "task": "08-vfx-meshes",
+    "pid": 6172,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.6513807+09:00"
+  },
+  {
+    "task": "09-vfx-recipes",
+    "pid": 37004,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.6840099+09:00"
+  },
+  {
+    "task": "10-contact-timing",
+    "pid": 21020,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.7497645+09:00"
+  },
+  {
+    "task": "11-projectiles",
+    "pid": 29152,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:32.9001796+09:00"
+  },
+  {
+    "task": "12-hit-readability",
+    "pid": 30088,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.0057201+09:00"
+  },
+  {
+    "task": "13-key-prop",
+    "pid": 20904,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.1278915+09:00"
+  },
+  {
+    "task": "14-chest-prop",
+    "pid": 28028,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.1957814+09:00"
+  },
+  {
+    "task": "15-hospital-props",
+    "pid": 40168,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.3065360+09:00"
+  },
+  {
+    "task": "16-subway-props",
+    "pid": 27820,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.4008104+09:00"
+  },
+  {
+    "task": "17-factory-props",
+    "pid": 23452,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.4328912+09:00"
+  },
+  {
+    "task": "18-cave-boss",
+    "pid": 19044,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.5373573+09:00"
+  },
+  {
+    "task": "19-elite-mushroom",
+    "pid": 41320,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.5693495+09:00"
+  },
+  {
+    "task": "20-flying-monsters",
+    "pid": 24892,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.6311274+09:00"
+  },
+  {
+    "task": "21-rig-import-contract",
+    "pid": 41928,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.7708848+09:00"
+  },
+  {
+    "task": "22-mesh-budget",
+    "pid": 25056,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:33.9031895+09:00"
+  },
+  {
+    "task": "23-texture-budget",
+    "pid": 6924,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:34.3192090+09:00"
+  },
+  {
+    "task": "24-bestiary-icons",
+    "pid": 30956,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:34.5754268+09:00"
+  },
+  {
+    "task": "25-encounter-variety",
+    "pid": 16984,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:34.6897459+09:00"
+  },
+  {
+    "task": "26-character-presentation",
+    "pid": 13504,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:34.7204071+09:00"
+  },
+  {
+    "task": "27-vfx-performance",
+    "pid": 34832,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:34.9338836+09:00"
+  },
+  {
+    "task": "28-source-provenance",
+    "pid": 17696,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:34.9644867+09:00"
+  },
+  {
+    "task": "29-runtime-test-plan",
+    "pid": 10472,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:35.0828518+09:00"
+  },
+  {
+    "task": "30-independent-risk-review",
+    "pid": 22480,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "service_tier": "priority",
+    "started": "2026-10-15T19:33:35.2797327+09:00"
+  }
+]

@@ -72,7 +72,7 @@ namespace Abyss.Runtime
             state.DeepestFloor = Math.Max(state.DeepestFloor, floor);
             state.Repair(db);
             app.Preferences.AutoBattle = true;
-            app.Preferences.BattleSpeed = float.Parse(Arg("speed", "1"), System.Globalization.CultureInfo.InvariantCulture);
+            app.Preferences.BattleSpeed = ParseSpeed(Arg("speed", "1"));
             app.BeginReview(state, floor);
             var groups = new List<List<string>>();
             foreach (string group in Arg("groups", "slime").Split(';'))
@@ -82,7 +82,6 @@ namespace Abyss.Runtime
             for (int loop = 0; loop < int.Parse(Arg("loops", "99")); loop++)
                 foreach (var group in groups)
                 {
-                    while (app.Screen != GameScreen.Dungeon) { ClickContinue(); yield return new WaitForSecondsRealtime(.5f); }
                     yield return new WaitForSecondsRealtime(.5f);
                     // Every battle starts fresh: full vitals, no carried TP or statuses.
                     foreach (var hero in state.Party) { hero.Hp = -1; hero.Mp = -1; hero.Tp = 0; hero.Statuses.Clear(); }
@@ -92,7 +91,33 @@ namespace Abyss.Runtime
                     Debug.Log("REVIEW battle " + (++round) + " " + string.Join("+", group));
                     app.BeginBattle(request.Setup);
                     yield return new WaitForSecondsRealtime(1f);
+                    // Monitor every launched battle (the last one too) until it is over and acknowledged; abort on defeat or route exit.
+                    while (app.Screen != GameScreen.Dungeon)
+                    {
+                        if (PartyDefeated(state) || app.Screen == GameScreen.Town || app.Screen == GameScreen.Title)
+                        {
+                            Debug.LogError("REVIEW aborted: " + (PartyDefeated(state) ? "the party was defeated" : "left the dungeon (" + app.Screen + ")") + " during battle " + round + ".");
+                            yield break;
+                        }
+                        ClickContinue();
+                        yield return new WaitForSecondsRealtime(.5f);
+                    }
                 }
+        }
+
+        static bool PartyDefeated(GameState state)
+        {
+            if (state.Party.Count == 0) return false;
+            foreach (var hero in state.Party) if (hero.Hp > 0) return false;
+            return true;
+        }
+
+        /// <summary>Invariant-culture speed: unparsable, NaN, infinite or &lt;= 0 gives 1; otherwise clamped to [1, 2].</summary>
+        static float ParseSpeed(string text)
+        {
+            if (!float.TryParse(text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float speed)
+                || float.IsNaN(speed) || float.IsInfinity(speed) || speed <= 0f) return 1f;
+            return Mathf.Clamp(speed, 1f, 2f);
         }
 
         /// <summary>Acknowledges a battle result / reward window (its "continue" button) so the loop can go on.</summary>

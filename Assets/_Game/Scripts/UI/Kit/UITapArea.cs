@@ -11,7 +11,7 @@ namespace Abyss.UI
 
         public void OnPointerClick(PointerEventData e)
         {
-            if (e.dragging) return;
+            if (e.button != PointerEventData.InputButton.Left || e.dragging) return;
             Tapped?.Invoke();
         }
     }

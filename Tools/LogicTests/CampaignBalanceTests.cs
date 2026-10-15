@@ -140,7 +140,9 @@ namespace Abyss.LogicTests
             foreach (var kv in expected.Random)
             {
                 Check(kv.Value.WinRate >= 0.95, $"expected: chapter {kv.Key} random fights are won at least 95% ({kv.Value})");
-                Check(kv.Value.AvgAttrition >= 0.08 && kv.Value.AvgAttrition <= 0.20, $"expected: chapter {kv.Key} cold-start attrition is 8-20% ({kv.Value.Resources})");
+                // Floor 1 is tuned for starter-gear players (Floor1BalanceTests is the binding guard): its attrition floor is 5%.
+                double minAttrition = kv.Key == 1 ? 0.05 : 0.08;
+                Check(kv.Value.AvgAttrition >= minAttrition && kv.Value.AvgAttrition <= 0.20, $"expected: chapter {kv.Key} cold-start attrition is {minAttrition:P0}-20% ({kv.Value.Resources})");
                 var trips = expected.Trips[kv.Key];
                 Check(trips.Count(t => t.Complete) >= trips.Count * 0.8, $"expected: chapter {kv.Key} four-fight trips complete at least 80% ({trips.Count(t => t.Complete)}/{trips.Count})");
                 // T2 battle length: a regular fight of the expected player averages 2-4 rounds in every zone (world/enemies.py
@@ -153,7 +155,9 @@ namespace Abyss.LogicTests
             for (int c = 1; c <= GameFlow.MainChapters; c++)
             {
                 var boss = expected.Boss[c];
-                Check(boss.WinRate >= 0.55 && boss.WinRate <= 0.85, $"expected: zone {c} boss is 55-85% ({boss})");
+                // Floor 1 is tuned for starter-gear players (Floor1BalanceTests is the binding guard): the expected player may win up to 98%.
+                double maxBossWin = c == 1 ? 0.98 : 0.85;
+                Check(boss.WinRate >= 0.55 && boss.WinRate <= maxBossWin, $"expected: zone {c} boss is 55-{maxBossWin:P0} ({boss})");
                 // Boss fights stay in a steady band zone to zone: no drop of more than 2.5 rounds, no jump of more than four (the
                 // step to the final boss is the long one: 12-16 rounds after a zone 11 boss of about 11).
                 if (prevRounds is double p)

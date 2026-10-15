@@ -366,10 +366,15 @@ namespace Abyss.UI
         });
         void ShowItemTargets(string itemId, GameMenuScreen inventory) => Menu(ItemName(itemId), "아이템을 사용할 헌터를 선택하세요.", m =>
         {
+            bool hasItem = app.State.ItemCount(itemId) > 0;
+            bool revive = app.DB.Items.TryGetValue(itemId, out var item) && item.ItemType == ItemType.Revive;
             foreach (var member in app.State.Party)
             {
                 var hero = member;
-                m.Add(HeroName(hero.Id), () => Confirm("아이템 사용", $"{ItemName(itemId)} 1개 → {HeroName(hero.Id)}\n\n{ContentDescription(itemId)}\n\n사용할까요?", () => UseFieldItem(itemId, hero.Id, inventory, m)), HeroSummary(hero), $"HP {hero.Hp}", app.State.ItemCount(itemId) > 0, T("item_missing"), UIArtwork.Hero(hero.Id));
+                // Match GameFlow's revive branch only; other effect checks remain authoritative there.
+                bool validTarget = !revive || (hero.Hp == 0 && item.Power > 0f);
+                string reason = !hasItem ? T("item_missing") : revive && hero.Hp != 0 ? T("revive_target_alive", "쓰러진 헌터에게만 사용할 수 있습니다.") : T("no_effect");
+                m.Add(HeroName(hero.Id), () => Confirm("아이템 사용", $"{ItemName(itemId)} 1개 → {HeroName(hero.Id)}\n\n{ContentDescription(itemId)}\n\n사용할까요?", () => UseFieldItem(itemId, hero.Id, inventory, m)), HeroSummary(hero), $"HP {hero.Hp}", hasItem && validTarget, reason, UIArtwork.Hero(hero.Id));
             }
         });
         void UseFieldItem(string itemId, string heroId, GameMenuScreen inventory, GameMenuScreen targets = null)

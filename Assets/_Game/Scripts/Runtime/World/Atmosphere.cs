@@ -236,6 +236,7 @@ namespace Abyss.Runtime.World
         Vignette _vignette;
         WhiteBalance _white;
         Tonemapping _tone;
+        VolumeProfile _ownedProfile;
 
         public static Atmosphere Create(Transform parent = null)
         {
@@ -259,7 +260,7 @@ namespace Abyss.Runtime.World
             Volume = gameObject.AddComponent<Volume>();
             Volume.isGlobal = true;
             Volume.priority = 0;
-            var profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            var profile = _ownedProfile = ScriptableObject.CreateInstance<VolumeProfile>();
             Volume.sharedProfile = profile;
             _tone = profile.Add<Tonemapping>(true);
             _tone.mode.Override(TonemappingMode.Neutral);
@@ -270,6 +271,18 @@ namespace Abyss.Runtime.World
             _vignette = profile.Add<Vignette>(true);
             _vignette.smoothness.Override(0.45f);
             _white = profile.Add<WhiteBalance>(true);
+        }
+
+        void OnDestroy()
+        {
+            // Volume does not own sharedProfile; release only the objects created by Build.
+            if (Volume != null && Volume.sharedProfile == _ownedProfile) Volume.sharedProfile = null;
+            if (_tone != null) Destroy(_tone);
+            if (_bloom != null) Destroy(_bloom);
+            if (_color != null) Destroy(_color);
+            if (_vignette != null) Destroy(_vignette);
+            if (_white != null) Destroy(_white);
+            if (_ownedProfile != null) Destroy(_ownedProfile);
         }
 
         public void Apply(AtmospherePreset p)

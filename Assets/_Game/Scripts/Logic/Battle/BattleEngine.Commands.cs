@@ -249,8 +249,9 @@ namespace Abyss.Logic.Battle
             long min = 0, max = 0;
             for (int h = 0; h < hits; h++)
             {
-                min += HitAmount(actor, target, skill, item, type, baseAmount, low, multiplier, broken);
-                max += HitAmount(actor, target, skill, item, type, baseAmount, high, multiplier, broken);
+                bool afterPhysicalHit = h > 0 && type == DamageType.Physical;
+                min += HitAmount(actor, target, skill, item, type, baseAmount, low, multiplier, broken, afterPhysicalHit);
+                max += HitAmount(actor, target, skill, item, type, baseAmount, high, multiplier, broken, afterPhysicalHit);
                 // Known weakness hits take one shield point; a shield crusher takes its BreakPower more from any opponent.
                 int loss = (knownWeak ? 1 : 0) + (skill != null && actor.Side != target.Side ? Math.Max(0, skill.BreakPower) : 0);
                 if (loss > 0 && !broken && target.MaxShield > 0)
@@ -265,9 +266,32 @@ namespace Abyss.Logic.Battle
         }
 
         /// <summary>One non-crit hit at a given variance roll (items: their fixed amount).</summary>
-        static int HitAmount(BattleUnit actor, BattleUnit target, SkillDef skill, ItemDef item, DamageType type, double baseAmount, double roll, double multiplier, bool broken)
-            => item != null ? DamageFormula.FixedItemAmount(item, multiplier, broken)
-                : DamageFormula.FinalAmount(DamageFormula.ApplyTargetMultipliers(baseAmount * roll, target, skill, type, multiplier, broken));
+        static int HitAmount(BattleUnit actor, BattleUnit target, SkillDef skill, ItemDef item, DamageType type, double baseAmount, double roll, double multiplier, bool broken,
+            bool afterPhysicalHit = false)
+        {
+            if (item != null) return DamageFormula.FixedItemAmount(item, multiplier, broken);
+            if (!afterPhysicalHit)
+                return DamageFormula.FinalAmount(DamageFormula.ApplyTargetMultipliers(baseAmount * roll, target, skill, type, multiplier, broken));
+
+            // ReceiveDamage shatters freeze after the first physical hit. Filter locally so the
+            // live target stays untouched; preserve ApplyTargetMultipliers' order and rounding.
+            double amount = baseAmount * roll * multiplier;
+            if (broken) amount *= DamageFormula.BrokenMultiplier;
+            string bonusStatus = skill?.BonusVsStatus ?? "";
+            bool bonusActive = false;
+            double physicalScale = 1;
+            foreach (var status in target.Statuses)
+            {
+                if (status.BreaksOnPhysical) continue;
+                if (bonusStatus != "" && status.Matches(bonusStatus)) bonusActive = true;
+                physicalScale *= status.PhysicalDamageTakenScale;
+            }
+            if (bonusActive) amount *= Math.Max(0.0, Gd.D(skill.BonusVsStatusMult));
+            if (DamageFormula.IsExecute(skill, target)) amount *= Math.Max(0.0, Gd.D(skill.ExecuteMult));
+            amount *= physicalScale;
+            if (target.Guarding) amount *= DamageFormula.GuardMultiplier;
+            return DamageFormula.FinalAmount(amount);
+        }
 
         /// <summary>HP restored at the lowest / highest heal variance (healing-received scale applied, before the missing-HP cap).</summary>
         TargetPreview HealPreview(BattleUnit actor, BattleUnit target, SkillDef skill, ItemDef item)
@@ -475,6 +499,9 @@ namespace Abyss.Logic.Battle
             return !releasesThisRound || partyTurn < enemyTurn;
         }
 
+        // The usable action that removes the most shield points from <paramref name="enemy"/> (bestHits = that total).
+        // Each hit removes 1 point for a KNOWN weakness plus the skill's BreakPower from any opponent; unknown or neutral
+        // affinity contributes nothing, so a hidden weakness never leaks into the estimate.
         BattleCommand BestWeakAction(BattleUnit actor, BattleUnit enemy, out int bestHits)
         {
             bestHits = 0;
@@ -485,14 +512,16 @@ namespace Abyss.Logic.Battle
             foreach (var option in GetCommandOptions(actor).Skills)
             {
                 var skill = option.Skill;
-                if (!option.Usable || skill.Kind != SkillKind.Damage || KnownAffinity(enemy, DamageFormula.ElementOf(actor, skill)) != PreviewAffinity.Weak) continue;
+                if (!option.Usable || skill.Kind != SkillKind.Damage) continue;
+                long perHit = (KnownAffinity(enemy, DamageFormula.ElementOf(actor, skill)) == PreviewAffinity.Weak ? 1L : 0L) + Math.Max(0, skill.BreakPower);
+                if (perHit <= 0) continue;
                 var targets = ValidTargets(actor, BattleCommand.Skill(skill.Id));
                 if (!ContainsTarget(targets, enemy)) continue;
                 var rule = SkillRule(skill);
                 if (rule == TargetRule.RandomEnemies && targets.Count != 1) continue;
-                int hits = Math.Max(1, skill.HitCount);
-                if (hits <= bestHits) continue; // stable learn-order ties, attack first
-                bestHits = hits;
+                int shieldPoints = (int)Math.Min(int.MaxValue, Math.Max(1L, skill.HitCount) * perHit);
+                if (shieldPoints <= bestHits) continue; // stable learn-order ties, attack first
+                bestHits = shieldPoints;
                 best = BattleCommand.Skill(skill.Id, rule == TargetRule.SingleEnemy ? enemy.Id : null);
             }
             return best;
@@ -780,6 +809,7 @@ namespace Abyss.Logic.Battle
             else if (element > 0 && _resistSeen.Contains(WeaknessKey(target.DefId, element))) dmg *= DamageFormula.ResistMultiplier;
             if (target.Broken) dmg *= DamageFormula.BrokenMultiplier;
             if (skill != null && !string.IsNullOrEmpty(skill.BonusVsStatus) && target.HasStatus(skill.BonusVsStatus)) dmg *= Gd.D(skill.BonusVsStatusMult);
+            if (DamageFormula.IsExecute(skill, target)) dmg *= Math.Max(0.0, Gd.D(skill.ExecuteMult));
             if (target.Guarding) dmg *= DamageFormula.GuardMultiplier;
             if (type == DamageType.Physical)
             {

@@ -372,6 +372,7 @@ namespace Abyss.Logic.Battle
                         int toMp = Math.Min(Mp, Gd.RoundI(remaining * s.ManaShieldRatio));
                         Mp -= toMp;
                         mpLoss += toMp;
+                        absorbed += toMp;
                         remaining -= toMp;
                         break;
                     }

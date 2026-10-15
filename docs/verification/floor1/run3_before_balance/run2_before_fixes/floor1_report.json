@@ -1,0 +1,2149 @@
+{
+  "status": "complete",
+  "failure": null,
+  "lastAction": "1-3 step (5,9)->(6,9) (boss (6,9))",
+  "unity": "6000.3.25f1",
+  "startedUtc": "2026-10-15T03:00:09.9115876Z",
+  "elapsedSeconds": 2695.1,
+  "bossDefeated": true,
+  "floorsReached": 3,
+  "totalSteps": 463,
+  "floors": [
+    {
+      "label": "1-1",
+      "id": "subway_1",
+      "arrivedT": 28.3,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 24
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 105,
+          "maxHp": 105,
+          "mp": 52
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 125,
+          "maxHp": 125,
+          "mp": 24
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 47
+        }
+      ],
+      "stepsSoFar": 0,
+      "battlesSoFar": 0,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-1",
+      "id": "subway_1",
+      "arrivedT": 480.3,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 261,
+          "maxHp": 261,
+          "mp": 37
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 80
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 188,
+          "maxHp": 188,
+          "mp": 37
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 72
+        }
+      ],
+      "stepsSoFar": 74,
+      "battlesSoFar": 4,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-2",
+      "id": "subway_2",
+      "arrivedT": 771.4,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 179,
+          "maxHp": 261,
+          "mp": 9
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 50
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 45
+        }
+      ],
+      "stepsSoFar": 125,
+      "battlesSoFar": 5,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-1",
+      "id": "subway_1",
+      "arrivedT": 1493.8,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "stepsSoFar": 204,
+      "battlesSoFar": 10,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-2",
+      "id": "subway_2",
+      "arrivedT": 1562.9,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 97
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 42
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "stepsSoFar": 235,
+      "battlesSoFar": 11,
+      "position": "(2,13)"
+    },
+    {
+      "label": "1-3",
+      "id": "subway_3",
+      "arrivedT": 1880.0,
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 279,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 77
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 86
+        }
+      ],
+      "stepsSoFar": 304,
+      "battlesSoFar": 15,
+      "position": "(6,1)"
+    },
+    {
+      "label": "final",
+      "id": "final",
+      "party": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 277,
+          "maxHp": 349,
+          "mp": 4
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 153,
+          "maxHp": 207,
+          "mp": 7
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 223,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 12
+        }
+      ],
+      "stepsSoFar": 463,
+      "battlesSoFar": 22
+    }
+  ],
+  "battles": [
+    {
+      "index": 1,
+      "kind": "Random",
+      "floor": "subway_1",
+      "group": [
+        "sewer_rat",
+        "slime"
+      ],
+      "cell": "(14,1)",
+      "startT": 86.0,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 24
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 105,
+          "maxHp": 105,
+          "mp": 52
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 125,
+          "maxHp": 125,
+          "mp": 24
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 47
+        }
+      ],
+      "result": "Victory",
+      "rounds": 4,
+      "seconds": 117.7,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 12
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 84,
+          "maxHp": 105,
+          "mp": 37
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 85,
+          "maxHp": 125,
+          "mp": 8
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 30
+        }
+      ],
+      "exp": 21,
+      "gold": 27
+    },
+    {
+      "index": 2,
+      "kind": "Random",
+      "floor": "subway_1",
+      "group": [
+        "sewer_slime",
+        "slime"
+      ],
+      "cell": "(7,5)",
+      "startT": 244.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 12
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 84,
+          "maxHp": 105,
+          "mp": 37
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 85,
+          "maxHp": 125,
+          "mp": 8
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 30
+        }
+      ],
+      "result": "Victory",
+      "rounds": 3,
+      "seconds": 73.4,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 0
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 93,
+          "maxHp": 105,
+          "mp": 22
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 118,
+          "maxHp": 125,
+          "mp": 0
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 79,
+          "maxHp": 120,
+          "mp": 14
+        }
+      ],
+      "exp": 19,
+      "gold": 25
+    },
+    {
+      "index": 3,
+      "kind": "Event",
+      "floor": "subway_1",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "tunnel_bat",
+        "slime"
+      ],
+      "cell": "(2,5)",
+      "startT": 331.9,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 173,
+          "maxHp": 173,
+          "mp": 0
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 93,
+          "maxHp": 105,
+          "mp": 22
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 118,
+          "maxHp": 125,
+          "mp": 0
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 79,
+          "maxHp": 120,
+          "mp": 14
+        }
+      ],
+      "result": "Defeat",
+      "rounds": 6,
+      "seconds": 137.8,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 173,
+          "mp": 0
+        },
+        {
+          "id": "h_seoa",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 105,
+          "mp": 12
+        },
+        {
+          "id": "h_jiho",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 125,
+          "mp": 0
+        },
+        {
+          "id": "h_yuna",
+          "level": 1,
+          "hp": 0,
+          "maxHp": 120,
+          "mp": 14
+        }
+      ],
+      "exp": 0,
+      "gold": 0
+    },
+    {
+      "index": 5,
+      "kind": "Event",
+      "floor": "subway_1",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "tunnel_bat",
+        "slime"
+      ],
+      "cell": "(2,5)",
+      "startT": 521.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 261,
+          "maxHp": 261,
+          "mp": 37
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 80
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 188,
+          "maxHp": 188,
+          "mp": 37
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 72
+        }
+      ],
+      "result": "Victory",
+      "rounds": 6,
+      "seconds": 206.0,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 179,
+          "maxHp": 261,
+          "mp": 9
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 50
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 45
+        }
+      ],
+      "exp": 79,
+      "gold": 91
+    },
+    {
+      "index": 6,
+      "kind": "Foe",
+      "floor": "subway_2",
+      "group": [
+        "elite_bat",
+        "bat"
+      ],
+      "cell": "(3,1)",
+      "startT": 839.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 179,
+          "maxHp": 261,
+          "mp": 9
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 50
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 45
+        }
+      ],
+      "result": "Victory",
+      "rounds": 7,
+      "seconds": 176.7,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 201,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 20
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 15
+        }
+      ],
+      "exp": 203,
+      "gold": 239
+    },
+    {
+      "index": 7,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "bat",
+        "killer_bee"
+      ],
+      "cell": "(10,5)",
+      "startT": 1031.3,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 201,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 20
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 15
+        }
+      ],
+      "result": "Victory",
+      "rounds": 3,
+      "seconds": 76.3,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 222,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 5
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "exp": 33,
+      "gold": 39
+    },
+    {
+      "index": 8,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "horned_rabbit",
+        "bat",
+        "bat"
+      ],
+      "cell": "(15,5)",
+      "startT": 1131.4,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 222,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 5
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 169,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "result": "Victory",
+      "rounds": 18,
+      "seconds": 319.9,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 156,
+          "mp": 0
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 54,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "exp": 49,
+      "gold": 58
+    },
+    {
+      "index": 9,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "bat"
+      ],
+      "cell": "(10,1)",
+      "startT": 1465.0,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 156,
+          "mp": 0
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 40,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "result": "Defeat",
+      "rounds": 2,
+      "seconds": 18.9,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 261,
+          "mp": 2
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 156,
+          "mp": 0
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 188,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 0,
+          "maxHp": 180,
+          "mp": 1
+        }
+      ],
+      "exp": 0,
+      "gold": 0
+    },
+    {
+      "index": 11,
+      "kind": "Random",
+      "floor": "subway_1",
+      "group": [
+        "sewer_slime",
+        "sewer_slime"
+      ],
+      "cell": "(10,13)",
+      "startT": 1504.1,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 1,
+      "seconds": 24.0,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 97
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 42
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "exp": 12,
+      "gold": 18
+    },
+    {
+      "index": 12,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "killer_bee"
+      ],
+      "cell": "(11,1)",
+      "startT": 1610.9,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 321,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 97
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 42
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "result": "Victory",
+      "rounds": 3,
+      "seconds": 87.6,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 38
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 106,
+          "maxHp": 207,
+          "mp": 82
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 251,
+          "mp": 18
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 72
+        }
+      ],
+      "exp": 58,
+      "gold": 67
+    },
+    {
+      "index": 13,
+      "kind": "Event",
+      "floor": "subway_2",
+      "group": [
+        "bat",
+        "bat",
+        "sewer_slime",
+        "horned_rabbit"
+      ],
+      "cell": "(11,2)",
+      "startT": 1706.4,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 1,
+      "seconds": 28.3,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "exp": 55,
+      "gold": 67
+    },
+    {
+      "index": 14,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "bat"
+      ],
+      "cell": "(15,8)",
+      "startT": 1756.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 321,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 50.1,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 300,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 155,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 91
+        }
+      ],
+      "exp": 41,
+      "gold": 47
+    },
+    {
+      "index": 15,
+      "kind": "Random",
+      "floor": "subway_2",
+      "group": [
+        "tunnel_bat",
+        "bat"
+      ],
+      "cell": "(10,13)",
+      "startT": 1823.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 300,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 155,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 91
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 45.8,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 279,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 77
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 86
+        }
+      ],
+      "exp": 41,
+      "gold": 47
+    },
+    {
+      "index": 16,
+      "kind": "Event",
+      "floor": "subway_3",
+      "group": [
+        "elite_bat",
+        "bat"
+      ],
+      "cell": "(10,1)",
+      "startT": 1919.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 279,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 190,
+          "maxHp": 207,
+          "mp": 77
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 13
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 86
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 51.2,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 208,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 182,
+          "maxHp": 207,
+          "mp": 72
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 231,
+          "maxHp": 251,
+          "mp": 5
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 221,
+          "maxHp": 240,
+          "mp": 78
+        }
+      ],
+      "exp": 166,
+      "gold": 195
+    },
+    {
+      "index": 17,
+      "kind": "Event",
+      "floor": "subway_3",
+      "group": [
+        "tunnel_bat",
+        "tunnel_bat",
+        "sewer_slime",
+        "killer_bee"
+      ],
+      "cell": "(2,13)",
+      "startT": 2025.6,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "result": "Victory",
+      "rounds": 1,
+      "seconds": 46.2,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 328,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "exp": 64,
+      "gold": 76
+    },
+    {
+      "index": 18,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "horned_rabbit",
+        "bat",
+        "tunnel_bat"
+      ],
+      "cell": "(14,9)",
+      "startT": 2118.5,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 328,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 41
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 89
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 51.7,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 289,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 92
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 83
+        }
+      ],
+      "exp": 52,
+      "gold": 61
+    },
+    {
+      "index": 19,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "sewer_rat",
+        "horned_rabbit",
+        "tunnel_bat"
+      ],
+      "cell": "(11,5)",
+      "startT": 2205.0,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 289,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 92
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 25
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 83
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 37.4,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 287,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 9
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 75
+        }
+      ],
+      "exp": 41,
+      "gold": 50
+    },
+    {
+      "index": 20,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "sewer_rat",
+        "tunnel_bat",
+        "tunnel_bat"
+      ],
+      "cell": "(13,1)",
+      "startT": 2251.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 287,
+          "maxHp": 349,
+          "mp": 46
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 87
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 9
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 75
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 57.2,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 244,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 67
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 63
+        }
+      ],
+      "exp": 52,
+      "gold": 61
+    },
+    {
+      "index": 21,
+      "kind": "Random",
+      "floor": "subway_3",
+      "group": [
+        "sewer_rat",
+        "tunnel_bat",
+        "tunnel_bat"
+      ],
+      "cell": "(5,9)",
+      "startT": 2361.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 244,
+          "maxHp": 349,
+          "mp": 42
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 67
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 63
+        }
+      ],
+      "result": "Victory",
+      "rounds": 2,
+      "seconds": 59.2,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 286,
+          "maxHp": 349,
+          "mp": 38
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 62
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 58
+        }
+      ],
+      "exp": 52,
+      "gold": 61
+    },
+    {
+      "index": 22,
+      "kind": "Boss",
+      "floor": "subway_3",
+      "group": [
+        "subway_bat_lord"
+      ],
+      "cell": "(6,9)",
+      "startT": 2423.7,
+      "partyBefore": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 286,
+          "maxHp": 349,
+          "mp": 38
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 62
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 58
+        }
+      ],
+      "result": "Victory",
+      "rounds": 8,
+      "seconds": 265.1,
+      "partyAfter": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 277,
+          "maxHp": 349,
+          "mp": 4
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 153,
+          "maxHp": 207,
+          "mp": 7
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 223,
+          "maxHp": 251,
+          "mp": 1
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 12
+        }
+      ],
+      "exp": 801,
+      "gold": 780
+    }
+  ],
+  "retries": [
+    {
+      "t": 474.3,
+      "reason": "defeat on floor index 0 vs tunnel_bat+tunnel_bat+tunnel_bat+slime",
+      "partyAfterBoost": [
+        {
+          "id": "h_dohyun",
+          "level": 7,
+          "hp": 261,
+          "maxHp": 261,
+          "mp": 37
+        },
+        {
+          "id": "h_seoa",
+          "level": 7,
+          "hp": 156,
+          "maxHp": 156,
+          "mp": 80
+        },
+        {
+          "id": "h_jiho",
+          "level": 7,
+          "hp": 188,
+          "maxHp": 188,
+          "mp": 37
+        },
+        {
+          "id": "h_yuna",
+          "level": 7,
+          "hp": 180,
+          "maxHp": 180,
+          "mp": 72
+        }
+      ],
+      "note": "party levels +6 and healed after defeat, then retried"
+    },
+    {
+      "t": 1488.2,
+      "reason": "defeat on floor index 1 vs tunnel_bat+bat",
+      "partyAfterBoost": [
+        {
+          "id": "h_dohyun",
+          "level": 13,
+          "hp": 349,
+          "maxHp": 349,
+          "mp": 50
+        },
+        {
+          "id": "h_seoa",
+          "level": 13,
+          "hp": 207,
+          "maxHp": 207,
+          "mp": 107
+        },
+        {
+          "id": "h_jiho",
+          "level": 13,
+          "hp": 251,
+          "maxHp": 251,
+          "mp": 50
+        },
+        {
+          "id": "h_yuna",
+          "level": 13,
+          "hp": 240,
+          "maxHp": 240,
+          "mp": 97
+        }
+      ],
+      "note": "party levels +6 and healed after defeat, then retried"
+    }
+  ],
+  "events": [
+    {
+      "t": 8.2,
+      "kind": "modal",
+      "text": "UIModal: 보통 난이도로 모험을 시작할까요?  [buttons: 실행 | 취소]",
+      "floor": null
+    },
+    {
+      "t": 8.9,
+      "kind": "story",
+      "text": "사이렌이 울린 날 | 퇴근 시간, 지하철 2호선 승강장은 사람으로 가득했다.",
+      "floor": 0
+    },
+    {
+      "t": 16.2,
+      "kind": "story",
+      "text": "모험 수첩 | 의무실에서 쉬면 HP·MP가 회복되고 쓰러진 FOE가 되살아납니다. 파티 편성은 헌터 관리에서, 새 헌터 스카우트는 접수처에서 할 수 있어요. 헌터 마켓과 장비 공방도 잊지 마세요.",
+      "floor": 0
+    },
+    {
+      "t": 22.4,
+      "kind": "town",
+      "text": "Reached town. Party h_dohyun L1,h_seoa L1,h_jiho L1,h_yuna L1",
+      "floor": 0
+    },
+    {
+      "t": 23.3,
+      "kind": "modal",
+      "text": "UIModal: 1-1 · 2호선 승강장  준비를 마치고 출발할까요?  [buttons: 실행 | 취소]",
+      "floor": 0
+    },
+    {
+      "t": 25.3,
+      "kind": "story",
+      "text": "게이트 기록 | 1구역 · 지하철 역 — 퇴근길 승강장에 게이트가 터졌다. 시민을 먼저 대피시키고, 보랏빛 균열을 막아야 한다.",
+      "floor": 0
+    },
+    {
+      "t": 49.2,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 0
+    },
+    {
+      "t": 475.2,
+      "kind": "modal",
+      "text": "UIModal: 1-1 · 2호선 승강장  준비를 마치고 출발할까요?  [buttons: 실행 | 취소]",
+      "floor": 0
+    },
+    {
+      "t": 729.6,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 0
+    },
+    {
+      "t": 1452.7,
+      "kind": "story",
+      "text": "게이트 기록 | 박쥐들이 한곳으로 몰린다. 가장 큰 놈의 등에는 작은 불빛이 달려 있다.  백유나: “게이트가 열리기 전에도 누군가 여기 있었다는 거네…….”",
+      "floor": 1
+    },
+    {
+      "t": 1489.1,
+      "kind": "modal",
+      "text": "UIModal: 1-1 · 2호선 승강장  준비를 마치고 출발할까요?  [buttons: 실행 | 취소]",
+      "floor": 1
+    },
+    {
+      "t": 1604.0,
+      "kind": "story",
+      "text": "고립된 헌터 구조 | 선로 터널 구석에서 게이트에 갇힌 헌터를 찾아냈다. 응급 처치를 마치자 그가 비상금과 회복약을 건넸다. \"협회에 꼭 보고할게요. 고마워요!\"",
+      "floor": 1
+    },
+    {
+      "t": 1604.9,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 1
+    },
+    {
+      "t": 1750.7,
+      "kind": "story",
+      "text": "게이트 기록 | 박쥐들이 한곳으로 몰린다. 가장 큰 놈의 등에는 작은 불빛이 달려 있다.  백유나: “읽었으면 계속 가자. 오래 머물면 마물이 냄새를 맡아.”",
+      "floor": 1
+    },
+    {
+      "t": 1912.0,
+      "kind": "story",
+      "text": "게이트 기록 | 관리자 일지: \"전력을 끊으면 게이트가 닫힐 줄 알았다. 틀렸다. 저놈은 어둠을 먹고 자란다.\"  윤지호: “이런 걸 보면 서울이 원래 어땠는지 자꾸 떠올라.”",
+      "floor": 2
+    },
+    {
+      "t": 1918.8,
+      "kind": "choice-event",
+      "text": "UIModal: 변전실 깊은 곳, 정예 마물 「밤의 박쥐 군주」 무리가 숨을 고르고 있다. 위층에서 마주친 녀석보다 훨씬 사납다.  도전하면 강적과 싸워야 하지만 이기면 협회 특별 포상을 받는다. 그냥 지나가면 이 둥지는 다시 찾을 수 없다.  <color=#E8B04A>정예 마물과의 전투 · 도망치거나 쓰러지면 둥지는 그대로 남습니다.</color>  승리 시 특별 포상: 200만원 · 회복 포션(하급) ×2  [button",
+      "floor": 2
+    },
+    {
+      "t": 1970.8,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 2
+    },
+    {
+      "t": 1973.2,
+      "kind": "story",
+      "text": "게이트 기록 | 벽에 붙은 안전 수칙: \"정전 시 손전등부터 켜세요. 헌터는 가장 마지막에 대피합니다.\" 그 아래 누군가 덧붙였다. \"그럼 우리가 먼저 간다.\"  한서아: “이 기록, 협회 자료실에도 없던 내용이야. 사진 찍어 두자.”",
+      "floor": 2
+    },
+    {
+      "t": 2073.7,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 2
+    },
+    {
+      "t": 2247.9,
+      "kind": "story",
+      "text": "게이트 기록 | 벽에 붙은 안전 수칙: \"정전 시 손전등부터 켜세요. 헌터는 가장 마지막에 대피합니다.\" 그 아래 누군가 덧붙였다. \"그럼 우리가 먼저 간다.\"  윤지호: “게이트가 열리기 전에도 누군가 여기 있었다는 거네…….”",
+      "floor": 2
+    },
+    {
+      "t": 2313.7,
+      "kind": "modal",
+      "text": "UILootPopup  [buttons: 확인]",
+      "floor": 2
+    },
+    {
+      "t": 2320.3,
+      "kind": "story",
+      "text": "게이트 기록 | 벽에 붙은 안전 수칙: \"정전 시 손전등부터 켜세요. 헌터는 가장 마지막에 대피합니다.\" 그 아래 누군가 덧붙였다. \"그럼 우리가 먼저 간다.\"  백유나: “게이트가 열리기 전에도 누군가 여기 있었다는 거네…….”",
+      "floor": 2
+    },
+    {
+      "t": 2422.7,
+      "kind": "story",
+      "text": "게이트 기록 | 끼이익! 사람이다. 불빛이 많은 곳에 사람이 많구나. 여긴 우리 구역이다. 너희 불빛을 전부 꺼 주마!",
+      "floor": 2
+    },
+    {
+      "t": 2688.8,
+      "kind": "story",
+      "text": "게이트 기록 | 끼… 끼익… 불이 꺼지는군. 시민들은 벌써 대피했나 보군. 그때 소방복 차림의 사내가 맨홀 뚜껑을 방패 삼아 뛰어들었다. 최민준. \"시민 대피 끝! 이제 내가 막는다.\" 그렇게 새 헌터가 파티에 합류했다.",
+      "floor": 2
+    },
+    {
+      "t": 2695.1,
+      "kind": "done",
+      "text": "Boss cleared and post-boss text dismissed; stopping on 1-3",
+      "floor": 2
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "01_title",
+      "file": "docs/verification/floor1/01_title.png",
+      "t": 6.1,
+      "screen": "Title",
+      "floorIndex": null
+    },
+    {
+      "name": "02_town",
+      "file": "docs/verification/floor1/02_town.png",
+      "t": 21.6,
+      "screen": "Town",
+      "floorIndex": 0
+    },
+    {
+      "name": "04_first_battle_mid_action",
+      "file": "docs/verification/floor1/04_first_battle_mid_action.png",
+      "t": 181.2,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "defeat_1",
+      "file": "docs/verification/floor1/defeat_1.png",
+      "t": 470.6,
+      "screen": "Battle",
+      "floorIndex": 0
+    },
+    {
+      "name": "defeat_2",
+      "file": "docs/verification/floor1/defeat_2.png",
+      "t": 1484.7,
+      "screen": "Battle",
+      "floorIndex": 1
+    },
+    {
+      "name": "03_floor_1-1_start",
+      "file": "docs/verification/floor1/03_floor_1-1_start.png",
+      "t": 1494.6,
+      "screen": "Dungeon",
+      "floorIndex": 0
+    },
+    {
+      "name": "03_floor_1-2_start",
+      "file": "docs/verification/floor1/03_floor_1-2_start.png",
+      "t": 1563.8,
+      "screen": "Dungeon",
+      "floorIndex": 1
+    },
+    {
+      "name": "03_floor_1-3_start",
+      "file": "docs/verification/floor1/03_floor_1-3_start.png",
+      "t": 1880.9,
+      "screen": "Dungeon",
+      "floorIndex": 2
+    },
+    {
+      "name": "06_boss_battle_start",
+      "file": "docs/verification/floor1/06_boss_battle_start.png",
+      "t": 2425.4,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "07_boss_defeat",
+      "file": "docs/verification/floor1/07_boss_defeat.png",
+      "t": 2677.9,
+      "screen": "Battle",
+      "floorIndex": 2
+    },
+    {
+      "name": "08_post_boss_text",
+      "file": "docs/verification/floor1/08_post_boss_text.png",
+      "t": 2691.6,
+      "screen": "Story",
+      "floorIndex": 2
+    },
+    {
+      "name": "09_after_boss_dungeon",
+      "file": "docs/verification/floor1/09_after_boss_dungeon.png",
+      "t": 2694.5,
+      "screen": "Dungeon",
+      "floorIndex": 2
+    }
+  ],
+  "checks": [
+    {
+      "name": "game view 1280x720",
+      "passed": false,
+      "detail": "2400x1080"
+    }
+  ],
+  "consoleIssues": [
+    {
+      "type": "Warning",
+      "count": 9,
+      "message": "The character used for Ellipsis is not available in font asset [Body SDF] or any potential fallbacks. Switching Text Overflow mode to Truncate.",
+      "firstAction": "new game",
+      "firstGameFrame": "Assets/_Game/Scripts/UI/Kit/UIAreaCard.cs:252",
+      "stack": "UnityEngine.Debug:LogWarning (object,UnityEngine.Object)\nTMPro.TextMeshProUGUI:SetArraySizes (TMPro.TMP_Text/TextProcessingElement[]) (at ./Library/PackageCache/com.unity.ugui@f3ea87521141/Runtime/TMP/TextMeshProUGUI.cs:1818)\nTMPro.TMP_Text:GetPreferredValues (string,single,single) (at ./Library/PackageCache/com.unity.ugui@f3ea87521141/Runtime/TMP/TMP_Text.cs:3728)\nAbyss.UI.UIAreaCard:BuildText (Abyss.UI.UIAreaCardInfo) (at Assets/_Game/Scripts/UI/Kit/UIAreaCard.cs:252)\nAbyss.UI.UIAreaCard:RunCovered (System.Action) (at Assets/_Game/Scripts/UI/Kit/UIAreaCard.cs:352)\nAbyss.UI.UIAreaCard:Update () (at Assets/_Game/Scripts/UI/Kit/UIAreaCard.cs:315)\n",
+      "firstAtSeconds": 16.2
+    },
+    {
+      "type": "Warning",
+      "count": 1,
+      "message": "Ran out of Graphics Ring Buffer space. Consider using the -gfx-ring-buffer-size command line option to increase the size.",
+      "firstAction": "depart to floor index 0",
+      "firstGameFrame": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)",
+      "stack": "UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)\n",
+      "firstAtSeconds": 25.7
+    }
+  ]
+}

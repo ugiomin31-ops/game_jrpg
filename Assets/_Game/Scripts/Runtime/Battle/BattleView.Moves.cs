@@ -57,13 +57,18 @@ namespace Abyss.Runtime.Battle
             return MotionStyles.EnemyApproach(model, def.Archetype, def.IsBoss, e.SkillId, NextUse(actor));
         }
 
-        /// <summary>Impact effect / sound of the current monster basic attack (null when the action has a presentation).</summary>
+        /// <summary>
+        /// Impact effect / sound of the current monster basic attack (null for any other action). The plain enemy attack may
+        /// carry the shared "attack_enemy" presentation; its family blow takes the place of the shared spark.
+        /// </summary>
         string _strikeImpact, _strikeSfx;
 
         void PlanEnemyStrike(ActionStartEvent e, BattleDisplayUnit actor)
         {
             _strikeImpact = _strikeSfx = null;
-            if (actor.Side != BattleSide.Enemy || _presentation != null || e.Kind != ActionKind.Attack) return;
+            if (actor.Side != BattleSide.Enemy || e.Kind != ActionKind.Attack) return;
+            // Only the plain attack (no presentation, or the shared attack_enemy one) gets a family blow; bespoke ones keep theirs.
+            if (!string.IsNullOrEmpty(e.PresentationId) && e.PresentationId != "attack_enemy") return;
             if (!_app.DB.Enemies.TryGetValue(actor.DefId, out var def)) return;
             _moveUses.TryGetValue(actor, out int uses);
             var strike = MotionStyles.EnemyBasicStrike(string.IsNullOrEmpty(def.Model) ? def.Id : def.Model, def.Archetype, uses);
@@ -144,10 +149,15 @@ namespace Abyss.Runtime.Battle
         {
             var t = actor.Model.transform; Quaternion yaw = YawOnly(t.rotation);
             float elapsed = 0; bool swung = !swing;
-            if (!swung && swingAt <= 0f) { Swing(actor, clip, cast); swung = true; }
+            if (!swung && swingAt <= 0f)
+            {
+                Swing(actor, clip, cast); swung = true;
+                // A strike point earlier than the travel's start: the take starts now and the body leaves once it is due.
+                if (swingAt < 0f) yield return Wait(-swingAt);
+            }
             while (elapsed < seconds)
             {
-                if (!_app.Paused)
+                if (!_app.Paused && !_hitstop)
                 {
                     elapsed += Dt;
                     float k = Mathf.Clamp01(elapsed / seconds);
@@ -169,7 +179,7 @@ namespace Abyss.Runtime.Battle
             if (!_restScale.TryGetValue(actor, out var rest)) rest = t.localScale;
             while (elapsed < seconds)
             {
-                if (!_app.Paused)
+                if (!_app.Paused && !_hitstop)
                 {
                     elapsed += Dt;
                     float s = Mathf.Sin(Mathf.PI * Mathf.Clamp01(elapsed / seconds)) * amount;
@@ -290,7 +300,7 @@ namespace Abyss.Runtime.Battle
                     int puffs = 0;
                     while (elapsed < time)
                     {
-                        if (!_app.Paused)
+                        if (!_app.Paused && !_hitstop)
                         {
                             elapsed += Dt;
                             float k = Mathf.Clamp01(elapsed / time);
@@ -357,7 +367,7 @@ namespace Abyss.Runtime.Battle
             float elapsed = 0;
             while (elapsed < seconds)
             {
-                if (!_app.Paused) { elapsed += Dt; unit.Model.SetDissolve(Mathf.Lerp(from, to, Mathf.Clamp01(elapsed / seconds))); }
+                if (!_app.Paused && !_hitstop) { elapsed += Dt; unit.Model.SetDissolve(Mathf.Lerp(from, to, Mathf.Clamp01(elapsed / seconds))); }
                 yield return null;
             }
             unit.Model.SetDissolve(to);
@@ -372,13 +382,13 @@ namespace Abyss.Runtime.Battle
             try
             {
                 float waited = 0;
-                while (waited < delay) { if (!_app.Paused) waited += Dt; yield return null; }
+                while (waited < delay) { if (!_app.Paused && !_hitstop) waited += Dt; yield return null; }
                 start = YawOnly(t.rotation); float elapsed = 0;
                 PlaySound("sfx_wind");
                 while (elapsed < seconds)
                 {
                     if (!unit.Alive) yield break;
-                    if (!_app.Paused)
+                    if (!_app.Paused && !_hitstop)
                     {
                         elapsed += Dt;
                         float k = Mathf.Clamp01(elapsed / seconds);
@@ -409,7 +419,7 @@ namespace Abyss.Runtime.Battle
             while (elapsed < seconds)
             {
                 if (!owned()) yield break;
-                if (!_app.Paused)
+                if (!_app.Paused && !_hitstop)
                 {
                     elapsed += Dt; float k = Mathf.Clamp01(elapsed / seconds);
                     actor.Model.SetDissolve(k);
@@ -424,7 +434,7 @@ namespace Abyss.Runtime.Battle
             while (elapsed < seconds)
             {
                 if (!owned()) yield break;
-                if (!_app.Paused)
+                if (!_app.Paused && !_hitstop)
                 {
                     elapsed += Dt; float k = Mathf.Clamp01(elapsed / seconds);
                     actor.Model.SetDissolve(1 - k);
@@ -456,7 +466,7 @@ namespace Abyss.Runtime.Battle
             {
                 while (elapsed < total)
                 {
-                    if (!_app.Paused)
+                    if (!_app.Paused && !_hitstop)
                     {
                         elapsed += Dt;
                         float before = Mathf.Clamp01(elapsed / Mathf.Max(.05f, contact)), after = Mathf.Clamp01((elapsed - contact) / (total - contact));
@@ -505,7 +515,7 @@ namespace Abyss.Runtime.Battle
         IEnumerator WaitFlourish(BattleDisplayUnit unit)
         {
             float waited = 0;
-            while (_flourishing.Contains(unit) && waited < 1f) { if (!_app.Paused) waited += Dt; yield return null; }
+            while (_flourishing.Contains(unit) && waited < 1f) { if (!_app.Paused && !_hitstop) waited += Dt; yield return null; }
         }
 
         // ------------------------------------------------------------------ hero flourishes
@@ -571,7 +581,7 @@ namespace Abyss.Runtime.Battle
             var t = actor.Model.transform; Vector3 from = t.position, to = from + offset; float elapsed = 0;
             while (elapsed < seconds)
             {
-                if (!_app.Paused) { elapsed += Dt; t.position = Vector3.Lerp(from, to, Mathf.SmoothStep(0, 1, Mathf.Clamp01(elapsed / seconds))); }
+                if (!_app.Paused && !_hitstop) { elapsed += Dt; t.position = Vector3.Lerp(from, to, Mathf.SmoothStep(0, 1, Mathf.Clamp01(elapsed / seconds))); }
                 yield return null;
             }
             t.position = to;
@@ -596,7 +606,7 @@ namespace Abyss.Runtime.Battle
                 {
                     // A recoil, a fall or a revive owns the body from here.
                     if (unit.KnockTime > 0 || !unit.Alive) { interrupted = true; yield break; }
-                    if (!_app.Paused)
+                    if (!_app.Paused && !_hitstop)
                     {
                         elapsed += Dt;
                         float k = Mathf.Clamp01(elapsed / seconds), s = Mathf.Sin(Mathf.PI * k);

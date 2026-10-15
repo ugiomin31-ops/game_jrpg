@@ -62,6 +62,9 @@ namespace Abyss.UI.Battle
             public readonly List<Transform> Bones = new List<Transform>();
             public int RendererScan = -1000;
             public Vector2 PlatePos;
+            /// <summary>Cached preferred widths (canvas units) of the enemy name at the tag's name size and of the icon-level label.</summary>
+            public string NameKey, IconKey;
+            public float NameW, IconW;
         }
 
         sealed class TargetMark
@@ -201,8 +204,8 @@ namespace Abyss.UI.Battle
             card.HpLine.overflowMode = TextOverflowModes.Ellipsis;
             card.IntentLine = UIFactory.Label(plate.Rect, "", 24, UIFont.Bold, UITheme.Warning, TextAlignmentOptions.MidlineLeft, UITextFx.Shadow, "Intent line");
             card.IntentLine.overflowMode = TextOverflowModes.Ellipsis;
-            card.IconLabel = UIFactory.Label(plate.Rect, "", 28, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.Center, UITextFx.Outline, "Short label");
-            card.IconLabel.overflowMode = TextOverflowModes.Overflow;
+            card.IconLabel = UIFactory.Label(plate.Rect, "", 24, UIFont.Heavy, UITheme.Text, TextAlignmentOptions.Center, UITextFx.Outline, "Short label");
+            card.IconLabel.overflowMode = TextOverflowModes.Ellipsis;
             // The predicted-damage pill is its own plate in the tag layer so the packer can seat it independently of the tag.
             card.Pill = UISlant.Pill(_world, "Enemy tag pill " + unit.Name, UISlant.Navy, UISlant.Coral, out var pillText, 34f);
             card.PillText = pillText; pillText.richText = true; pillText.enableAutoSizing = true; pillText.fontSizeMin = 26f; pillText.fontSizeMax = 34f;
@@ -214,8 +217,13 @@ namespace Abyss.UI.Battle
 
         void RebuildCards()
         {
+            var states = new Dictionary<string, (bool Pinned, bool EnemyThreat)>();
             _rebuildUnits.Clear();
-            foreach (var card in _cards.Values) _rebuildUnits.Add(card.Unit);
+            foreach (var card in _cards.Values)
+            {
+                _rebuildUnits.Add(card.Unit);
+                states.Add(card.Unit.Id, (card.Pinned, card.EnemyThreat));
+            }
             foreach (var card in _cards.Values)
             {
                 if (card.Reticle != null) Destroy(card.Reticle.gameObject);
@@ -225,6 +233,13 @@ namespace Abyss.UI.Battle
             _cards.Clear();
             foreach (var unit in _rebuildUnits) AddUnit(unit);
             _rebuildUnits.Clear();
+            foreach (var card in _cards.Values)
+            {
+                var state = states[card.Unit.Id];
+                card.Pinned = state.Pinned;
+                card.EnemyThreat = state.EnemyThreat;
+            }
+            // ApplyMarks also refreshes plate colours, threat chips and raised positions after restoration.
             ApplyMarks();
         }
 
@@ -286,13 +301,16 @@ namespace Abyss.UI.Battle
                 if (unit.Broken) _text.Append("  BREAK");
                 card.HpLine.text = _text.ToString();
                 card.ExtraRow = card.StatusCount > 0 || unit.MaxShield > 0;
-                card.IconLabel.text = string.IsNullOrEmpty(unit.Suffix) ? FirstGlyph(unit.Name) : unit.Suffix;
+                card.IconLabel.text = IconText(unit);
                 card.Hp.FillColor = unit.Broken ? UITheme.Warning : UISlant.Coral;
             }
             SyncWarnings(card);
             RefreshThreats();
             card.Dirty = true;
         }
+
+        /// <summary>Icon-level label: the lane letter when the enemy has one, otherwise its full name (never a two-glyph stub).</summary>
+        static string IconText(BattleDisplayUnit unit) => string.IsNullOrEmpty(unit.Suffix) ? unit.Name : unit.Suffix;
 
         static string FirstGlyph(string name) => string.IsNullOrEmpty(name) ? "?" : name.Substring(0, Mathf.Min(2, name.Length));
 

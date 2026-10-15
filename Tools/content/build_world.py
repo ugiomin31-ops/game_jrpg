@@ -132,9 +132,15 @@ def validate(enemy_rows, skills, floors, quests, items, equipment, statuses, pre
             problems.append('boss %s invalid charge_skill %s' % (e['id'], charge))
         if e.get('is_boss') and 'cc_immune' in e.get('gimmicks', []):
             problems.append('boss %s still has cc_immune' % e['id'])
-        for sk in e['skills'] + [x for p in e.get('phases', []) for x in p['skills']]:
+        authored_skills = e['skills'] + [x for p in e.get('phases', []) for x in p['skills']]
+        if charge:
+            authored_skills.append(charge)
+        for sk in sorted(set(authored_skills)):
             if sk not in skills:
                 problems.append('enemy %s skill %s' % (e['id'], sk))
+            elif skills[sk].get('mp_cost', 0) > e['max_mp']:
+                problems.append('enemy %s skill %s costs %s MP above max_mp %s' %
+                                (e['id'], sk, skills[sk]['mp_cost'], e['max_mp']))
         if len(e['skill_weights']) not in (0, len(e['skills'])):
             problems.append('enemy %s weights' % e['id'])
         for p in e.get('phases', []):
@@ -315,7 +321,9 @@ def contact_sheet(floors, path):
 def build():
     original_floors = json.load(open(os.path.join(HERE, 'world', 'base_dungeon.json'), encoding='utf-8'))
     enemy_rows = build_enemies()
-    floors, meta = W_floors.build_floors(spec, enemy_rows, original_floors)
+    # Groups are picked by the zone-spread levels (before W_enemies.LEVEL_OVERRIDE) so the encounter groups do not move.
+    group_rows = [dict(r, level=W_enemies.SPREAD_LEVELS.get(r['id'], r['level'])) for r in enemy_rows]
+    floors, meta = W_floors.build_floors(spec, group_rows, original_floors)
     skills_rows = load('skills')
     by = {s['id']: i for i, s in enumerate(skills_rows)}
     for s in W_skills.NEW_SKILLS:

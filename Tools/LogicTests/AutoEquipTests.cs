@@ -117,6 +117,55 @@ namespace Abyss.LogicTests
         }
 
         [LogicTest]
+        public static void TwoCopiesUpgradeBothHeroesDespiteLaterHigherGain()
+        {
+            CheckLaterReservation(2);
+        }
+
+        [LogicTest]
+        public static void OneCopyPrefersLaterHeroWithHigherGain()
+        {
+            CheckLaterReservation(1);
+        }
+
+        static void CheckLaterReservation(int copies)
+        {
+            var db = TestMain.DB;
+            var state = GameState.NewGame(db, Difficulty.Normal);
+            state.Party.RemoveRange(2, state.Party.Count - 2);
+            var first = state.Party[0];
+            var later = state.Party[1];
+            const string prize = "acc_abyss_heart", current = "acc_clarity_earring";
+            state.EquipmentBag.Clear();
+            first.Equipment["accessory"] = current;
+            later.Equipment["accessory"] = "";
+            state.AddEquipment(prize, copies);
+            var ownedBefore = new Dictionary<string, int>();
+            foreach (string id in db.Equipment.Keys) ownedBefore[id] = Owned(state, id);
+
+            var firstPlan = AutoEquip.Plan(db, state, first.Id);
+            var laterPlan = AutoEquip.Plan(db, state, later.Id);
+            Assert.True(firstPlan.ScoreAfter > firstPlan.ScoreBefore, "the first hero benefits from the prize");
+            Assert.True(laterPlan.ScoreAfter - laterPlan.ScoreBefore > firstPlan.ScoreAfter - firstPlan.ScoreBefore + Eps,
+                "the later hero gains strictly more");
+
+            string before = SaveCodec.Serialize(state);
+            var plans = AutoEquip.PlanParty(db, state);
+            Assert.Equal(before, SaveCodec.Serialize(state), "reservation planning does not mutate state");
+            string expectedFirst = copies == 2 ? prize : current;
+            Assert.Equal(expectedFirst, plans[0].Slots.Find(s => s.Slot == "accessory").RecommendedId,
+                "the first hero takes only a spare copy");
+            Assert.Equal(prize, plans[1].Slots.Find(s => s.Slot == "accessory").RecommendedId,
+                "the later hero retains a reserved copy");
+
+            foreach (var result in AutoEquip.ApplyParty(db, state)) Assert.True(result.Success, "party equip succeeds");
+            Assert.Equal(expectedFirst, first.Equipped("accessory"), "first hero wears the planned accessory");
+            Assert.Equal(prize, later.Equipped("accessory"), "later hero wears the prize");
+            Assert.Equal(0, state.BagCount(prize), "every available prize copy is used");
+            foreach (var kv in ownedBefore) Assert.Equal(kv.Value, Owned(state, kv.Key), kv.Key + ": ownership is conserved");
+        }
+
+        [LogicTest]
         public static void PlanningNeverMutatesState()
         {
             var db = TestMain.DB;

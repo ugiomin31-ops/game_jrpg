@@ -28,6 +28,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "Assets", "_Game", "Resources", "Vfx", "Textures")
+PAINTED = os.path.join(ROOT, "Tools", "vfx", "painted")
 PREVIEW = os.path.join(ROOT, "Temp", "vfx_textures.png")
 sys.path.insert(0, os.path.join(ROOT, "Tools", "ui"))
 from asset_import import texture_meta  # noqa: E402
@@ -218,6 +219,20 @@ def ray(length, width, n=16, power=1.3):
     return top + bot[::-1]
 
 
+def painted(name):
+    """Hand-painted override (ChatGPT web, see Tools/vfx/painted/SOURCE.md): plateau greyscale -> alpha bands + red heat."""
+    src = os.path.join(PAINTED, name + ".png")
+    if not os.path.exists(src):
+        return False
+    g = np.asarray(Image.open(src).convert("L"), dtype=np.float64) / 255.0
+    core = g > 0.9
+    mid = (g > 0.7) & ~core
+    dim = (g > 0.3) & ~core & ~mid
+    alpha = gauss_blur(core * CORE + mid * MID + dim * DIM, 0.6)
+    save(name, alpha, core * HOT + TINT * 0.4)
+    return True
+
+
 # ----------------------------------------------------------------------------- basic shapes
 
 def glow():
@@ -334,6 +349,8 @@ def star5():
 
 def hit_flash():
     """The classic anime hit spark: three nested jagged spike stars (white / colour / dim) plus needles."""
+    if painted("hit_flash"):  # hand-painted override; procedural body below is the fallback
+        return
     w = 256
     rng = np.random.default_rng(77)
     n = 13
@@ -374,6 +391,8 @@ def ring():
 
 def shockwave():
     """Anime shock ring: hard white front, broken colour body, radial speed-streak wake."""
+    if painted("shockwave"):  # hand-painted override; procedural body below is the fallback
+        return
     w = 512
     u, v = grid(w)
     r = np.sqrt(u * u + v * v)
@@ -392,6 +411,8 @@ def shockwave():
 
 def sunburst():
     """Radiant wedge rays (holy / critical): white hub, long/short colour wedges, dim fill disc."""
+    if painted("sunburst"):  # hand-painted override; procedural body below is the fallback
+        return
     w = 512
     rng = np.random.default_rng(7)
     n = 24
@@ -436,6 +457,8 @@ def speed_lines():
 
 def slash_arc():
     """Crescent slash billboard: white cutting edge, saturated body, streaky fading wake."""
+    if painted("slash_arc"):  # hand-painted override; procedural body below is the fallback
+        return
     w, h = 512, 256
     u, v = grid(w, h)
     x, y = u, v * 0.5
@@ -476,6 +499,8 @@ def slash_strip():
 
 def slash_cross():
     """Two crossing crescent slashes with a glint at the crossing (critical / shadow strikes)."""
+    if painted("slash_cross"):  # hand-painted override; procedural body below is the fallback
+        return
     w = 512
     u, v = grid(w)
     acc = np.zeros_like(u)
@@ -577,6 +602,8 @@ def light_streak():
 
 
 def claw():
+    if painted("claw"):  # hand-painted override; procedural body below is the fallback
+        return
     w = 256
     core_polys, body_polys = [], []
     for i, off in enumerate((-0.42, 0.0, 0.42)):
@@ -599,6 +626,8 @@ def claw():
 
 def bite():
     """Fang arc: crescent with triangular teeth (two mirrored particles make a bite)."""
+    if painted("bite"):  # hand-painted override; procedural body below is the fallback
+        return
     w, h = 256, 128
     img, d, ss = canvas(w, h)
     outer, inner = [], []

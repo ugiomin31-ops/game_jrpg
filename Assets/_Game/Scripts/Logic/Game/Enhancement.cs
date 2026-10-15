@@ -81,7 +81,7 @@ namespace Abyss.Logic.Game
         public static string DisplayName(GameDB db, GameState state, string equipmentId) =>
             db.Equipment.TryGetValue(equipmentId ?? "", out var piece) ? DisplayName(piece, LevelOf(state, equipmentId)) : equipmentId ?? "";
 
-        /// <summary>Copies of an id the party owns (bag + worn).</summary>
+        /// <summary>Copies of an id the roster owns (bag + active and reserve worn pieces).</summary>
         public static int OwnedCount(GameState state, string equipmentId) => state.BagCount(equipmentId) + PartyStats.EquippedCount(state, equipmentId);
 
         /// <summary>Owned pieces in tier, slot, id order with their next-step cost.</summary>
@@ -89,7 +89,7 @@ namespace Abyss.Logic.Game
         {
             var ids = new HashSet<string>(StringComparer.Ordinal);
             foreach (var kv in state.EquipmentBag) if (kv.Value > 0) ids.Add(kv.Key);
-            foreach (var hero in state.Party) foreach (string slot in GameState.EquipSlots) if (hero.Equipped(slot) != "") ids.Add(hero.Equipped(slot));
+            foreach (var hero in state.AllHunters()) foreach (string slot in GameState.EquipSlots) if (hero.Equipped(slot) != "") ids.Add(hero.Equipped(slot));
             var output = new List<EnhanceEntry>();
             foreach (string id in ids)
             {
@@ -127,7 +127,7 @@ namespace Abyss.Logic.Game
             state.RemoveItem(cost.StoneId, cost.Stones);
             state.Gold -= cost.Gold;
             state.Enhancements[equipmentId] = level + 1;
-            foreach (var hero in state.Party) PartyStats.ClampVitals(db, hero);
+            foreach (var hero in state.AllHunters()) PartyStats.ClampVitals(db, hero);
             QuestLog.Refresh(db, state);
             var result = ServiceResult.Ok("enhanced", DisplayName(piece, level + 1));
             result.GoldDelta = -cost.Gold;

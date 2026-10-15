@@ -361,10 +361,11 @@ namespace Abyss.Logic.Game
         /// <summary>
         /// Full HP/MP, revives KO'd heroes, clears statuses (inn, spring, defeat recovery). Carried TP is kept: only the town
         /// routes and a successful inn rest clear it (<see cref="GameState.ClearCarriedTp"/>).
+        /// By default only active hunters recover (springs); the inn opts in to reserve recovery.
         /// </summary>
-        public static void RestoreParty(GameDB db, GameState state)
+        public static void RestoreParty(GameDB db, GameState state, bool includeReserve = false)
         {
-            foreach (var hero in state.Party)
+            foreach (var hero in includeReserve ? state.AllHunters() : state.Party)
             {
                 var stats = EffectiveStats(db, hero);
                 hero.Hp = stats.MaxHp;
@@ -668,11 +669,11 @@ namespace Abyss.Logic.Game
             return ServiceResult.Ok("unequipped_msg", db.Equipment.TryGetValue(previous, out var p) ? p.DisplayName : previous);
         }
 
-        /// <summary>Total pieces of <paramref name="equipmentId"/> currently worn by the party.</summary>
+        /// <summary>Total pieces of <paramref name="equipmentId"/> currently worn by active and reserve hunters.</summary>
         public static int EquippedCount(GameState state, string equipmentId)
         {
             int n = 0;
-            foreach (var hero in state.Party) foreach (string slot in GameState.EquipSlots) if (hero.Equipped(slot) == equipmentId) n++;
+            foreach (var hero in state.AllHunters()) foreach (string slot in GameState.EquipSlots) if (hero.Equipped(slot) == equipmentId) n++;
             return n;
         }
 

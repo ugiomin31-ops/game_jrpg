@@ -86,6 +86,7 @@ namespace Abyss.UI.Battle
             ComputeMetrics();
             LayoutChrome();
             LayoutMenu();
+            LayoutCallout();
             if (_fastToast != null) LayoutFastToast();
             if (modeChanged)
             {
@@ -155,6 +156,35 @@ namespace Abyss.UI.Battle
             _chainPlate.Rect.Place(UIAnchor.BottomLeft, new Vector2(_leftMargin, _partyBand + 4f), new Vector2(compact ? 250f : 290f, 38f));
             _banner.Place(UIAnchor.Top, new Vector2(0f, -(_topH + 14f)), new Vector2(compact ? 640f : 760f, compact ? 70f : 78f));
             _bannerText.fontSize = compact ? 38 : 42;
+        }
+
+        /// <summary>
+        /// Sizes the phase / enemy-ultimate call-out to its content (no reserved empty subtitle area) for the current layout and
+        /// flags its seat for re-evaluation. Content comes from <see cref="CutIn"/>; the position is UpdateCallout's job.
+        /// </summary>
+        void LayoutCallout()
+        {
+            if (_cutin == null || !_coRequested) return;
+            bool compact = Compact, sub = !string.IsNullOrEmpty(_coText);
+            float rootW = _root.rect.width > 0f ? _root.rect.width : compact ? 2000f : 1920f;
+            float width = Mathf.Min(compact ? 760f : 900f, rootW - 80f);
+            float titleH = compact ? 52f : 60f, padY = compact ? 16f : 20f, side = 40f, gap = 8f;
+            _cutinTitle.fontSize = compact ? 36 : 42;
+            _cutinText.fontSize = compact ? 24 : 29;
+            _cutinTitle.text = _coTitle;
+            _cutinText.text = sub ? _coText : "";
+            _cutinText.gameObject.SetActive(sub);
+            float textH = 0f;
+            if (sub)
+            {
+                float lineH = _cutinText.fontSize * 1.25f + _cutinText.lineSpacing;
+                textH = Mathf.Min(_cutinText.GetPreferredValues(_coText, width - side * 2f, 0f).y, lineH * 2f);
+            }
+            _coSize = new Vector2(width, padY * 2f + titleH + (sub ? gap + textH : 0f));
+            _cutin.sizeDelta = _coSize;
+            _cutinTitle.rectTransform.TopStrip(titleH, padY, side, side);
+            if (sub) _cutinText.rectTransform.TopStrip(textH, padY + titleH + gap, side, side);
+            _coRelayout = true;
         }
 
         /// <summary>

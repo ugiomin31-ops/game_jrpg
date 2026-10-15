@@ -176,6 +176,79 @@ namespace Abyss.LogicTests
         }
 
         [LogicTest]
+        public static void FrozenMultiHitPreviewMatchesExecutionWithoutMutation()
+        {
+            var skill = TestMain.DB.Skills["sk_a_triple_shot"];
+            CheckFrozenMultiHit(skill, 515, 607, 608);
+            CheckFrozenMultiHit(skill, 515, 607, 515);
+        }
+
+        [LogicTest]
+        public static void FrozenMultiHitPreviewDropsBonusVsRemovedStatus()
+        {
+            foreach (string bonusStatus in new[] { "freeze", "preview_frozen" })
+            {
+                var skill = Skill("frozen_bonus", SkillKind.Damage, Element.None, hits: 3);
+                skill.Power = 0.85f;
+                skill.BonusVsStatus = bonusStatus;
+                skill.BonusVsStatusMult = 2f;
+                CheckFrozenMultiHit(skill, 719, 845, 846);
+                CheckFrozenMultiHit(skill, 719, 845, 719);
+                // A zero multiplier must not require division to remove the frozen bonus.
+                skill.BonusVsStatusMult = 0f;
+                CheckFrozenMultiHit(skill, 313, 369, 370);
+            }
+        }
+
+        static void CheckFrozenMultiHit(SkillDef skill, int expectedMin, int expectedMax, int hp)
+        {
+            for (int seed = 1; seed <= 40; seed++)
+            {
+                var db = Db();
+                db.Skills[skill.Id] = skill;
+                db.Enemies["golem"].Defense = 0;
+                db.Enemies["golem"].BreakShield = 0;
+                db.Enemies["golem"].Weaknesses.Clear();
+                db.Enemies["golem"].Resistances.Clear();
+                BattleEngine Make()
+                {
+                    var setup = new BattleSetup { Seed = seed };
+                    setup.Party.Add(Hero("hero0", 1000, skill.Id));
+                    setup.Party.Add(Hero("hero1", 1000, skill.Id));
+                    setup.EnemyGroup.Add("golem");
+                    var engine = new BattleEngine(db, setup);
+                    engine.Start();
+                    engine.Enemies[0].Hp = hp;
+                    engine.Enemies[0].ApplyStatus(BattleStatus.FromDef(new StatusDef
+                    {
+                        Id = "preview_frozen", EffectType = StatusEffectType.Freeze, DurationTurns = 3,
+                    }, "hero0"));
+                    return engine;
+                }
+                var queried = Make();
+                var control = Make();
+                var target = queried.Enemies[0];
+                string before = Fingerprint(queried);
+                var row = Preview(queried, BattleCommand.Skill(skill.Id), target).Targets.Single();
+                Same(before, Fingerprint(queried), "frozen preview preserves all state, statuses and RNG");
+                Assert.Equal(expectedMin, row.Min, "frozen multi-hit minimum");
+                Assert.Equal(expectedMax, row.Max, "frozen multi-hit maximum");
+                Assert.Equal(hp <= expectedMin, row.Lethal, "guaranteed lethal threshold");
+                var events = queried.Submit(BattleCommand.Skill(skill.Id, target.Id));
+                var controlEvents = control.Submit(BattleCommand.Skill(skill.Id, control.Enemies[0].Id));
+                Assert.Equal(string.Join("\n", controlEvents.Select(BattleTestUtil.Describe)),
+                    string.Join("\n", events.Select(BattleTestUtil.Describe)), "preview preserves execution events");
+                int dealt = DamageTo(events, target.Id);
+                Assert.True(dealt >= Math.Min(hp, row.Min) && dealt <= Math.Min(hp, row.Max),
+                    $"seed {seed}: damage {dealt} matches preview {row.Min}..{row.Max}, HP {hp}");
+                Assert.Equal(row.Lethal, !target.IsAlive, "certain lethal/survival prediction matches execution");
+                Assert.True(!target.HasStatus("freeze"), "execution shatters freeze");
+                for (int draw = 0; draw < 8; draw++)
+                    Assert.Equal(control.Rng.Randf(), queried.Rng.Randf(), "preview preserves future RNG draws");
+            }
+        }
+
+        [LogicTest]
         public static void AllAndRandomScopesReportPerTarget()
         {
             var e = Engine(3, new[] { "golem", "wisp" }, new[] { "wisp:" + Ice });
