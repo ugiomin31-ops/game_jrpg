@@ -121,7 +121,8 @@ namespace Abyss.Runtime.Art
             // Rigid static creatures (Tripo shell, no skeleton): same explicit-list rule as the flyers.
             bool crawler = IsRiglessCrawler(id) && path == EnemyPath(id) && !HasIdle(clips);
             Dictionary<string, string> owners = null;
-            if (!rigless && !flyer && !crawler && animator != null && animator.isHuman && !HasIdle(clips))
+            bool shared = !rigless && !flyer && !crawler && animator != null && animator.isHuman && !HasIdle(clips);
+            if (shared)
             {
                 clips = LoadClips(HumanoidAnimationsPath);
                 string classId = Abyss.Logic.GameDB.Instance?.ClassOf(id) ?? id;
@@ -139,6 +140,7 @@ namespace Abyss.Runtime.Art
             }
             model.Setup(id, visual, clips, rigless, flyer, crawler);
             model.SetClipOwners(owners);
+            model.SharedHumanoidTakes = shared;
             return model;
         }
 
@@ -279,6 +281,21 @@ namespace Abyss.Runtime.Art
         /// frame as scrap_colossus (2.2 m × 1.5) against the old 4.66 m tree giant.
         /// </summary>
         static readonly Dictionary<string, float> ModelScale = new Dictionary<string, float> { { "forest_guardian", 1.4f } };
+
+        /// <summary>
+        /// Ground speed (m/s) a hunter's locomotion take covers at playback rate 1 on the 1.3 m display scale, so movers can match
+        /// the rate to the ground and the feet do not skate. Shared Humanoid library: Run measured in Unity (stance-foot speed
+        /// 2.9-3.3 m/s); Walk from the stance-foot speed of the FBX in Blender, calibrated by the same ratio as Run. Blender-rig
+        /// hunters (own takes, 30 fps, h_bora / h_sora measured alike) stride further: Run 3.7, Walk 1.65.
+        /// </summary>
+        public const float SharedRunStride = 3.1f, SharedWalkStride = 1.0f, RigRunStride = 3.7f, RigWalkStride = 1.65f;
+
+        public static float StrideSpeed(CharacterModel model, string take)
+        {
+            bool shared = model == null || model.SharedHumanoidTakes;
+            if (take == "Walk") return shared ? SharedWalkStride : RigWalkStride;
+            return shared ? SharedRunStride : RigRunStride;
+        }
 
         public static bool IsRiglessCrawler(string modelId) => modelId != null && RiglessCrawlerIds.Contains(modelId);
 

@@ -21,6 +21,8 @@ namespace Abyss.Runtime.Art
         public Transform Visual { get; private set; }
         public float Height { get; private set; } = 1.2f;
         public float Radius { get; private set; } = 0.4f;
+        /// <summary>True when the model plays the shared Humanoid library (the Tripo hunters and NPCs), false for models with their own takes.</summary>
+        public bool SharedHumanoidTakes { get; internal set; }
 
         /// <summary>
         /// Promotion dressing (<see cref="GearDisplay.DressPromotion"/>): the hunter job the body rim was last dressed

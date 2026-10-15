@@ -115,9 +115,17 @@ namespace Abyss.Runtime.Battle
                     if (SupportTake(_plan.Take) && (_plan.Take != "Channel" || spell != "Cast")) return Pick(actor, _plan.Take, spell);
                     return spell;
                 case "Skill":
-                    if (!approach) return SupportTake(_plan.Take) ? Pick(actor, _plan.Take, clip) : clip;
-                    // A hero's own Skill take stays the signature move; its other physical skills use the varied takes.
-                    return IsSignature(e) ? clip : Pick(actor, _plan.Take, clip);
+                    if (!approach)
+                    {
+                        // A class / hero Skill take chosen for an offensive spell (the mage's two-handed channel) is that
+                        // caster's own motion: the shared Channel must not replace it. Support casts still kneel / rally.
+                        if (!allies && actor.Model.HasClassClip("Skill")) return clip;
+                        return SupportTake(_plan.Take) ? Pick(actor, _plan.Take, clip) : clip;
+                    }
+                    // A hero's own Skill take stays the signature move, all of its strikes included (no shared combo
+                    // takes for the later waves); its other physical skills use the varied takes.
+                    if (IsSignature(e)) { _plan.Combo = System.Array.Empty<string>(); return clip; }
+                    return Pick(actor, _plan.Take, clip);
                 case "Attack":
                     if (approach) return Pick(actor, _plan.Take, clip);
                     return SupportTake(_plan.Take) ? Pick(actor, _plan.Take, clip) : clip;
