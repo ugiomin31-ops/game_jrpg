@@ -1,5 +1,7 @@
 # Complete local-folder transfer
 
+> Note (2026-10-15): this file and `TRANSFER_FULL_FILE_MANIFEST.json` describe the 2026-10-06 snapshot that `main` was imported from (`d763aeb`). Later branches moved, added and removed files, so the manifest lists that snapshot, not this branch's current tree.
+
 Original folder: `C:\Users\User\Desktop\game`
 
 All **46,476 files**, totaling **4,778,372,383 bytes**, and **2,600 directories** are preserved in the full snapshot attached to the [full-folder-snapshot-20261006 release](https://github.com/ugiomin31-ops/game_jrpg/releases/tag/full-folder-snapshot-20261006).

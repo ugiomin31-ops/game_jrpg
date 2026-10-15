@@ -4,7 +4,7 @@
 
 기준 브랜치는 `claude/project-thread-65bpbq`, 기준 커밋은 `50ecaf1`이다. 확인 당시 GitHub Pages의 `gh-pages` HEAD는 `1e99196`이며 배포 메시지는 `deploy: e4f72c504747ec417f3c7f5f3ff7de8451e9bd60`이다. `e4f72c5`와 `50ecaf1`의 차이는 `memory/PRODUCT-TRUTH.md`뿐이므로 게임 코드·에셋 기준은 같다.
 
-이 개선은 PR #3의 `codex/modern-ui-smart-battle`에 있다. Pages에 배포된 화면이라는 뜻이 아니다. `Assets/Temp/battle-framing-preview.png`는 오래된 참고 이미지이며 이번 검증 근거에서 제외한다. 아래 캡처는 이 PR을 실제 Unity에서 실행해 얻었다.
+이 개선은 PR #3의 `codex/modern-ui-smart-battle`에 있다. Pages에 배포된 화면이라는 뜻이 아니다. `docs/verification/legacy-screens/battle-framing-preview.png`(옛 `Assets/Temp/`)는 오래된 참고 이미지이며 이번 검증 근거에서 제외한다. 아래 캡처는 이 PR을 실제 Unity에서 실행해 얻었다.
 
 ## 적용한 개선
 
