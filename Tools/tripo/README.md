@@ -42,4 +42,9 @@ blender -b --factory-startup -P Blender/tripo/convert.py    # GLB → 규약 FBX
 
 `assets.json`에 14종: 마을 6(분수·노점·대장간·의뢰 게시판·가로등·통/상자), 바이옴 맵 오브젝트 4, 스킬 이펙트 메시 4. 각 자산은 서로 다른 디자인 방향의 후보 프롬프트 4개와 그룹 공통 스타일 문구를 가진다.
 
-출력 경로는 기존 절차적 에셋을 덮어쓰지 않는 새 경로다. 마을 배치(`Blender/town/town.py`), 미궁 장식 슬롯, 스킬 이펙트(`Resources/Vfx/effects.json`, 현재 메시 레이어 없음)에 연결하는 일은 모델을 검수한 뒤 따로 한다.
+출력 경로는 기존 절차적 에셋을 덮어쓰지 않는 새 경로다.
+
+## 게임 연결
+
+- 마을: `Blender/town/town.py`는 `Blender/blend/tripo_town_fountain.blend`, `tripo_town_lamp_post.blend`가 있으면 분수와 가로등 8개를 그 모델로 바꿔 놓고, 없으면 기존 절차적 모델을 쓴다. 충돌체(`Col_Fountain`)와 가로등 광원 위치(`LightAnchor_street_*`)는 그대로 둔다. 변환 뒤 `blender -b --factory-startup -P Blender/town/town.py`로 `Town/town.fbx`를 다시 만든다.
+- 노점·대장간·게시판·통 더미, 미궁 장식 슬롯, 스킬 이펙트(`Resources/Vfx/effects.json`, 현재 메시 레이어 없음) 연결은 실제 모델의 크기와 모양을 본 뒤 한다.
