@@ -1,0 +1,37 @@
+{
+  "requested_model": "gpt-6-astra",
+  "requested_effort": "high",
+  "requested_service_tier": "priority/Fast where supported",
+  "served_model_effort_tier_independently_verified": false,
+  "blender": "5.2.1 LTS",
+  "threads": 4,
+  "source_hashes_unchanged": true,
+  "source_files_checked": 7,
+  "archive_members_match_raw": 6,
+  "rig_passed": true,
+  "deformation_probes_passed": 12,
+  "weighted_vertices": 5836,
+  "unweighted_vertices": 0,
+  "take": "cast_a_spell",
+  "fps": 24.0,
+  "native_range": [
+    -1,
+    128
+  ],
+  "blender_range": [
+    0,
+    129
+  ],
+  "duration_seconds": 5.375,
+  "moving_transitions": 129,
+  "rendered_frames": 30,
+  "contact_sheets": [
+    "contact-sheet-overview-front.png",
+    "contact-sheet-phase-detail-opposite-quarter.png"
+  ],
+  "visual_review": "Both sheets inspected by worker; complete cast sequence, contact drift caveat retained",
+  "unity_run": false,
+  "clips_created": false,
+  "raw_motion_edited": false,
+  "final_verdict": "Usable one-shot Cast source with foot-contact limitations; parent owns Unity acceptance"
+}
