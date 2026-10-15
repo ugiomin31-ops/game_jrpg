@@ -1,0 +1,159 @@
+# Request: verdant_ruins (forest ruin, zone 2) 15 dungeon pieces
+
+From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 모델링). Hunter theme, base branch `codex/astra-enrichment-20261015`. Don't ask the user; use your own judgement on picks.
+
+## Per piece
+
+1. ChatGPT web (GPT-6, Extra High): send that piece's prompt below once, verbatim, to get 4 images.
+2. Pick one: whole asset visible, one solid connected object, chunky silhouette, nothing thin or floating free.
+3. Tripo Studio image-to-3D: H3.1, Best Quality, Ultra Mesh Quality ON, Texture ON, Texture Quality 2K, PBR ON.
+4. Retopology: Triangle, Smart Mesh ON, target 3500.
+5. Export FBX, Blender preset, texture 2K (GLB if FBX fails).
+6. Push to branch `tripo-glb-drop` (create it from `codex/astra-enrichment-20261015` if missing) under `ArtSource/terrain/verdant_ruins/<piece>/`:
+   - `candidates/candidate_A.png` .. `candidate_D.png`
+   - `tripo/` the exported FBX (or zip/GLB) with its textures
+   - `candidates/prompts.md`: prompt used, pick letter + one-line reason, Tripo task id, credits before/after
+   If a file is over 100 MB, put it in `C:\Users\tmdgn\Downloads` as `verdant_ruins_<piece>.fbx` instead and note that in prompts.md.
+7. Tick the piece below in this file on `local-requests` (or note it in its prompts.md) when done.
+
+Cost about 90 credits per piece, about 1350 total (2490 left at 23:02). STOP if credits drop below 200 and note where you stopped.
+
+## Status
+
+- [ ] decor_1
+- [ ] decor_2
+- [ ] decor_3
+- [ ] decor_4
+- [ ] decor_5
+- [ ] decor_6
+- [ ] chest
+- [ ] lore_stone
+- [ ] spring
+- [ ] torch
+- [ ] trap
+- [ ] warp
+- [ ] foe_marker
+- [ ] overlay_1
+- [ ] overlay_2
+
+## Prompts (copy verbatim)
+
+### decor_1
+
+Brief: A clump of ferns, ginkgo saplings and a few small green crystals.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A clump of ferns, ginkgo saplings and a few small green crystals. Freestanding, footprint under 1.5 m, plants as chunky solid leaf clusters (no thin strands). Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### decor_2
+
+Brief: A broken mossy stone column with a fallen fluted drum beside it.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A broken mossy stone column with a fallen fluted drum beside it. Freestanding, column about 2 m tall, footprint under 2 m. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### decor_3
+
+Brief: A small shallow pool ringed with mossy stones and lily pads.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A small shallow pool ringed with mossy stones and lily pads. Low and flat, about 1.8 m across, water as a solid glossy surface. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### decor_4
+
+Brief: A mossy stone urn on a plinth with a sprouting plant.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A mossy stone urn on a plinth with a sprouting plant. Freestanding, about 1.3 m tall. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### decor_5
+
+Brief: A fallen carved stone lintel with rubble and grass.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A fallen carved stone lintel with rubble and grass. Low, about 2 m long, carvings as abstract leaf bands (no letters). Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### decor_6
+
+Brief: A small mossy stone wayfinder idol with a glowing green gem.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A small mossy stone wayfinder idol with a glowing green gem. Freestanding, about 1.2 m tall, a round friendly idol face, gem set into the chest. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### chest
+
+Brief: A moss-covered stone chest with root bands.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A moss-covered stone chest with root bands. About 1 m wide; lid closed but clearly a separate slab on top with a hinge line at the back. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### lore_stone
+
+Brief: A mossy stone stele with a glowing green rift line.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A mossy stone stele with a glowing green rift line. About 2 m tall, the rift line a solid glowing groove (abstract, no runes or letters). Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### spring
+
+Brief: A clear spring pool with a cyan glowing ring.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A clear spring pool with a cyan glowing ring. About 2.5 m across, low stone rim, water as a solid glossy surface, the ring a solid glowing band. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### torch
+
+Brief: A stone post brazier with a warm flame.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A stone post brazier with a warm flame. About 1.8 m tall, the flame a chunky solid stylised shape attached to the bowl. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### trap
+
+Brief: A mossy floor slab with thorny root spikes.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A mossy floor slab with thorny root spikes. A flat floor slab about 2 m square with the root spikes as one cluster rising from its centre. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### warp
+
+Brief: A ring of mossy standing stones around a green-violet glow.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A ring of mossy standing stones around a green-violet glow. About 3 m across, the glow a solid flat disc on the ground inside the ring. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### foe_marker
+
+Brief: A floor ring of moss with a floating orange gate crystal.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One chunky dungeon prop for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): A floor ring of moss with a floating orange gate crystal. Ring about 2 m across; the crystal is attached to the ring by a solid glow column (nothing floating free). Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### overlay_1
+
+Brief: Ivy and flowering vines hanging from the wall top.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One wall decal panel for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): Ivy and flowering vines hanging from the wall top. One flat decal panel to be stuck on a 4 m wide stone wall face: vines hang from the top edge down about two thirds. Flat-backed, relief no deeper than a few centimetres. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
+
+### overlay_2
+
+Brief: Thick roots creeping down the wall face.
+
+```
+Generate FOUR separate standalone images in this one response, each its own image, not a grid or contact sheet. One wall decal panel for a stylised present-day Seoul hunter RPG, inside an E-rank gate dungeon that is an overgrown forest ruin (mossy grey-green stone, warm earth, fresh leaf green, small soft-glowing green gate-crystal accents): Thick roots creeping down the wall face. One flat decal panel to be stuck on a 4 m wide stone wall face: thick roots creep down from the top. Flat-backed, relief no deeper than a few centimetres. Front three-quarter view, whole asset visible with margins, solid attached parts, a clean readable silhouette. Stylised game-ready 3D asset look, clean toon shapes, chunky readable shapes, 3D-modelling reference sheet feel, plain light-grey background, no shadow, square 1:1. No readable text, no letters, no logos, no UI, no people, no medieval knights, crosses, crowns or gold filigree. Vary silhouette and details within the brief.
+```
