@@ -200,6 +200,9 @@ namespace Abyss.Runtime.Art
             // Own-take monsters (layer id = model id): impact / release frame of their 2026-10-14 Tripo takes.
             { "sprout/Attack", .45f }, { "sprout/Cast", .50f }, { "mushroom/Cast", .27f }, { "pixie/Attack", .37f }, { "pixie/Cast", .42f },
             { "forest_guardian/Attack", .25f }, { "forest_guardian/Cast", .37f }, { "forest_guardian/Skill", .34f },
+            // elite_mushroom (2026-10-15 Tripo presets): box_01 left-hand punch fully extended at frame 15 of 54; cast_a_spell
+            // (trimmed to 89 frames before its recovery) releases its right-hand thrust at frame 61.
+            { "elite_mushroom/Attack", .26f }, { "elite_mushroom/Cast", .68f },
         };
 
         /// <summary>

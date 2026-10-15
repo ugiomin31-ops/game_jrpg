@@ -68,7 +68,7 @@ namespace Abyss.Logic.Battle
             { "sea_serpent", BodyFamily.Serpent }, { "abyss_worm", BodyFamily.Serpent }, { "leviathan", BodyFamily.Serpent },
             { "naga_priestess", BodyFamily.Serpent }, { "frost_kraken", BodyFamily.Serpent },
             // Small plants that hop.
-            { "mushroom", BodyFamily.Plant }, { "sprout", BodyFamily.Plant }, { "mandragora", BodyFamily.Plant },
+            { "mushroom", BodyFamily.Plant }, { "elite_mushroom", BodyFamily.Plant }, { "sprout", BodyFamily.Plant }, { "mandragora", BodyFamily.Plant },
             // Spirits and casters that drift rather than walk.
             { "ghost", BodyFamily.Spirit }, { "wisp", BodyFamily.Spirit }, { "lich", BodyFamily.Spirit },
             { "void_eye", BodyFamily.Spirit }, { "plague_lich", BodyFamily.Spirit }, { "abyss_herald", BodyFamily.Spirit },
