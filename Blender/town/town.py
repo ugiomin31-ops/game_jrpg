@@ -22,24 +22,6 @@ def transformed_col(name,size,loc,frame,angle):
     return col_box(name,size,p,angle)
 
 
-def tripo_prop(asset_id,loc,angle=0):
-    """Place the converted Tripo model (Blender/tripo, blend/tripo_<id>.blend) if one exists.
-    Returns the object, or None so the caller keeps its procedural version."""
-    path=os.path.join(A.BLEND_DIR,'tripo_%s.blend'%asset_id)
-    if not os.path.exists(path): return None
-    with bpy.data.libraries.load(path,link=False) as (src,dst):
-        dst.objects=[n for n in src.objects if n==asset_id]
-    if not dst.objects: return None
-    o=dst.objects[0]
-    # appended blends bring their own M_Toon/M_Emit/M_Clear copies (M_Toon.001...); Unity maps by exact name
-    for slot in o.material_slots:
-        if slot.material: slot.material=A._material(slot.material.name.split('.')[0])
-    o.name='Tripo_%s_%d'%(asset_id,len([x for x in bpy.data.objects if x.name.startswith('Tripo_'+asset_id)]))
-    bpy.context.scene.collection.objects.link(o)
-    o.location=loc; o.rotation_euler=(0,0,math.radians(angle))
-    return o
-
-
 def barrel(m,loc,scale=1):
     with m.at(T(*loc)@S(scale)):
         m.lathe([(.26,0),(.30,.1),(.34,.36),(.30,.62),(.26,.70)],col=WOOD,seg=12)
@@ -59,8 +41,6 @@ def planter(m,x,y,z,length=1.6):
 
 
 def lamp(m,x,y):
-    if tripo_prop('town_lamp_post',(x,y,0)):
-        anchor((x,y,2.5),'street'); return
     m.cyl(.07,2.5,(x,y,1.25),BEAM,seg=10)
     m.cyl(.16,.12,(x,y,.08),STONE,seg=10)
     m.box((.42,.35,.48),(x,y,2.5),'#ffd48a',mat='M_Emit')
@@ -236,8 +216,6 @@ def ground():
 
 
 def fountain():
-    if tripo_prop('town_fountain',(0,0,0)):
-        col_box('Fountain',(3.4,3.4,2.5),(0,0,1.25)); return
     m=MB()
     m.cyl(1.80,.17,(0,0,.08),'#c7bda5',seg=24)
     m.lathe([(1.4,.16),(1.5,.24),(1.5,.62),(1.35,.72),(1.15,.68),(1.15,.28)],col='#a0a6a2',seg=24)
