@@ -1,0 +1,299 @@
+{
+  "action": "remove only from git tracking; existing local files retained; absent files already absent before cleanup",
+  "files": [
+    {
+      "path": "Blender/bosses/__pycache__/_common.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 33523,
+      "sha256": "f2df0dc71019807b9fd7f6bbdc4501e92e5a403d81975aaddbeb0d81b7e9f143"
+    },
+    {
+      "path": "Blender/enemies_a/__pycache__/_common.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 34120,
+      "sha256": "ba4a8f686cdc47cd35c08058e3a7185956051eeadae1bd56619cfba4965e7a78"
+    },
+    {
+      "path": "Blender/enemies_a/__pycache__/creature_kit.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 17911,
+      "sha256": "88314a4e45a04418593ed203557b39b49f56c00690efdc4303b6f1df15f75683"
+    },
+    {
+      "path": "Blender/enemies_b/__pycache__/_common.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 30399,
+      "sha256": "07d174f7e89e2b517fb1b323ed1477a5881f17bb04023545abaf630f6de5d8ec"
+    },
+    {
+      "path": "Blender/environment/__pycache__/_arenas_a.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 18225,
+      "sha256": "26f5d311e3d83fd5e446c1657418e11b7f10086591d5ed2ae26d6fa6c149c8e3"
+    },
+    {
+      "path": "Blender/environment/__pycache__/_kit_common_a.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 68028,
+      "sha256": "e6b7f297c5b7cf1024172958ba4ebdb9b3caa8b77d88e331be9f86cdb990472a"
+    },
+    {
+      "path": "Blender/environment/__pycache__/_kit_common_b.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 72957,
+      "sha256": "25637d7249705afad3aefe7da28fe15ebcd8677253d424169f309bed39702d20"
+    },
+    {
+      "path": "Blender/environment/__pycache__/_kit_interact_a.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 41366,
+      "sha256": "5160a3f0ca26885806327015e42c73423ea807f10e97f39bd0e8d10261add65a"
+    },
+    {
+      "path": "Blender/environment/__pycache__/_pipeline.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 5093,
+      "sha256": "5fce2e7f8922d324ce247f6ad6d9bb433499d2404a42156c35a826861ab280d9"
+    },
+    {
+      "path": "Blender/environment/ember_caverns/__pycache__/arena.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 39612,
+      "sha256": "b9fc182e81aa5e7f838c9aece4bdc03635da9567bef25ad778830c81429becd8"
+    },
+    {
+      "path": "Blender/environment/ember_caverns/__pycache__/kit.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 83994,
+      "sha256": "5b7a5732b4aed4e00c8f34e25618806fc3ef2c935fcf84bd598312a64d481630"
+    },
+    {
+      "path": "Blender/environment/frost_grotto/__pycache__/kit.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 1059,
+      "sha256": "ea6a67f3b10a89758d175add13ddb5f53cc3731998a3002c3af83063b85496af"
+    },
+    {
+      "path": "Blender/environment/haunted_crypt/__pycache__/kit.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 101423,
+      "sha256": "db3ea502341475c31d68c928d1c8b41e7d1d49d12016a06edd4700d5f5147a9b"
+    },
+    {
+      "path": "Blender/environment/verdant_ruins/__pycache__/build_verdant_ruins.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 32018,
+      "sha256": "3af09145fd9d7f74d75a2a331d8dfe812b176e6caaf61e131b91bb6c6772e7cb"
+    },
+    {
+      "path": "Blender/lib/__pycache__/abyss_bpy.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 36948,
+      "sha256": "13847791e33e158bb0b6471005ab95e3fc12f68452caa4115fb5eed8b74cb03d"
+    },
+    {
+      "path": "Blender/lib_humanoid/__pycache__/body.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 32861,
+      "sha256": "dfc79111093bc29fb44672e61110b763fd4a8c292d33d69b081491c289e0c4bc"
+    },
+    {
+      "path": "Blender/lib_humanoid/__pycache__/costumes.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 41215,
+      "sha256": "7b1c27b67dc042f2d565c1a9c56df6f8b71796d4cef04764e30a343dded39977"
+    },
+    {
+      "path": "Blender/lib_humanoid/__pycache__/humanoid.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 51477,
+      "sha256": "f5f08922d1c1e3f37119ecad16401da4b4c9a0ba0e2ad7149609838041e25b04"
+    },
+    {
+      "path": "Blender/lib_humanoid/__pycache__/motion.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 18724,
+      "sha256": "702d7285d36bf0710c8b844ddb7447b37e7bbf982f4cf9ce13b26d9b63feb79e"
+    },
+    {
+      "path": "Blender/lib_humanoid/__pycache__/produce.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 16020,
+      "sha256": "d9dae4976a9e7bbc97ca31a5fa7e8ecc8d7c1fd30e27ff3fcba642c82694d0ce"
+    },
+    {
+      "path": "Blender/props/__pycache__/equipment.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 48631,
+      "sha256": "ffd3112e6112de2930208d3afa070f27deebc62eb5f31ae951de3b69c410bf68"
+    },
+    {
+      "path": "Blender/town/__pycache__/_common.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 34605,
+      "sha256": "216458cd9939208219f5c7f57c5bc8cc735365e719fb3d8844e82d0704bca44e"
+    },
+    {
+      "path": "Blender/weapons/__pycache__/_common.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 25067,
+      "sha256": "d170465d282c91b28da795df6a31cb48c29bc54814a3deb3226486ef0d0cdcc1"
+    },
+    {
+      "path": "Blender/weapons/__pycache__/arcane.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 21368,
+      "sha256": "b4d77bed7965d15247a1645875aee8dfb9b80d0e789338412a684815671e562a"
+    },
+    {
+      "path": "Blender/weapons/__pycache__/bows.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 12152,
+      "sha256": "d9e464fc9fed2e0cf3ac7d473715e6fe1f79f00b0debc1f9cd264718ad5b89e3"
+    },
+    {
+      "path": "Blender/weapons/__pycache__/swords.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 25978,
+      "sha256": "bf8c706a2f7cd645f64641baea19d465621285f01c66c749ab62e485df17bb0f"
+    },
+    {
+      "path": "Logs/AssetImportWorker0.log",
+      "existed_before": false,
+      "bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "Logs/shadercompiler-AssetImportWorker0-0.log",
+      "existed_before": false,
+      "bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "Logs/shadercompiler-UnityShaderCompiler.exe-0.log",
+      "existed_before": false,
+      "bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "Logs/shadercompiler-UnityShaderCompiler.exe-1.log",
+      "existed_before": false,
+      "bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "Logs/shadercompiler-UnityShaderCompiler.exe-2.log",
+      "existed_before": false,
+      "bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "Logs/shadercompiler-UnityShaderCompiler.exe-3.log",
+      "existed_before": false,
+      "bytes": null,
+      "sha256": null
+    },
+    {
+      "path": "Tools/audio/__pycache__/effects.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 20233,
+      "sha256": "014bdbe9a39fb2b1d52c0583e55dc46bdd0cbdbae2ce7f59aa6a50c6de2d77c0"
+    },
+    {
+      "path": "Tools/audio/abyss_audio/__pycache__/__init__.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 269,
+      "sha256": "e4882093af49ac82454f12c278a66e5046053776fcf32c5dca6184fb0baed517"
+    },
+    {
+      "path": "Tools/audio/abyss_audio/__pycache__/dsp.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 29262,
+      "sha256": "eefd2718d44dbbe6f3e478f313e710dca3b6a292d0d338c20d3cf01d2d24b2d7"
+    },
+    {
+      "path": "Tools/audio/abyss_audio/__pycache__/instruments.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 63986,
+      "sha256": "7b26ba83f8cdfd80cc8726b7434c19de5587c8607ba00a01c4c8ee4f4316f6b2"
+    },
+    {
+      "path": "Tools/audio/abyss_audio/__pycache__/master.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 9379,
+      "sha256": "dbd2dc9dd7dec2032ac07a340500e514413881c895ad7a2cc075eb161bebd61e"
+    },
+    {
+      "path": "Tools/audio/abyss_audio/__pycache__/music.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 21276,
+      "sha256": "15469ae488d01dec1c3ffccd34cd6ba0a8844b89a819b476c07ae8459911133e"
+    },
+    {
+      "path": "Tools/audio/songs/__pycache__/__init__.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 274,
+      "sha256": "9a886bc2a25d5cdefcec5a4d81523cb544c2791c0c755004108054957df386ff"
+    },
+    {
+      "path": "Tools/audio/songs/__pycache__/jingles.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 3241,
+      "sha256": "845175f7cdd7ca2507bb1e76fbc644df1875455b4d51bbf23a173234f9789a35"
+    },
+    {
+      "path": "Tools/audio/songs/__pycache__/motifs.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 1347,
+      "sha256": "f02667f54e3f64a271ad2e0da4517b8b0f7d5e8a4405a5b2d05f4e9854869700"
+    },
+    {
+      "path": "Tools/audio/songs/__pycache__/score.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 9710,
+      "sha256": "905b0e17b446aad594f834107061214ffa9c504f91c41c160318ac43216369a0"
+    },
+    {
+      "path": "Tools/audio/songs/__pycache__/title.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 8423,
+      "sha256": "e02448922241aedf444335adedc1df2066256b96acddb12ca4fcd7021a1b06e1"
+    },
+    {
+      "path": "Tools/ui/__pycache__/asset_import.cpython-311.pyc",
+      "existed_before": true,
+      "bytes": 3584,
+      "sha256": "78c3732578a85a67e8fc3c2eaa83188c2a1b82fc64c9dd4e78922d8d74dc2508"
+    },
+    {
+      "path": "Tools/ui/__pycache__/asset_import.cpython-313.pyc",
+      "existed_before": true,
+      "bytes": 3521,
+      "sha256": "80ea726d64f5c1bd7360b32570fa0fe8020a6a76508c774722e9bc57af89bcca"
+    },
+    {
+      "path": "UserSettings/EditorUserSettings.asset",
+      "existed_before": true,
+      "bytes": 1207,
+      "sha256": "9f89a193f91c43c058b5c269e4b2dd570c04ab0a87990ed463c8b54d98db1397"
+    },
+    {
+      "path": "UserSettings/Layouts/default-6000.dwlt",
+      "existed_before": true,
+      "bytes": 46149,
+      "sha256": "ec276d3861aff364c74f2eb12ff0b89cbac8f3f33db6e57c31d495725b3b9469"
+    },
+    {
+      "path": "UserSettings/Search.index",
+      "existed_before": true,
+      "bytes": 299,
+      "sha256": "287cc8b5c4f5e691da404c7b60594e939e35d4c646e09224d910dc4064870f17"
+    },
+    {
+      "path": "UserSettings/Search.settings",
+      "existed_before": true,
+      "bytes": 736,
+      "sha256": "b5a5471c5e5d5575d10e0eb117619d15d00aec8e5447e1ab34982797058d1ccb"
+    }
+  ]
+}

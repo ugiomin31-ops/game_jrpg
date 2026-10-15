@@ -1,6 +1,6 @@
-"""Generate all 30 data-ID items and six interactive common props.
+"""Generate all data-ID items (30 original + 36 campaign expansion) and six interactive common props.
 Real meshes, vertex colours, shared pipeline; no equipment ownership here.
-Run with Blender -b --factory-startup -P Blender/props/generate.py.
+Run with Blender -b --factory-startup -P Blender/props/generate.py [-- <item id> ...] (ids: only those items, no common props).
 """
 import os
 import sys
@@ -111,6 +111,145 @@ def chest(rare):
     return [body, top]
 
 
+def seed(m, color, accent):
+    """Teardrop seed with a sprout and a glowing rune band (permanent stat seeds)."""
+    m.lathe([(0, .04), (.17, .1), (.22, .25), (.16, .42), (.05, .55), (0, .58)], col=color, seg=14)
+    m.torus(.2, .018, (0, 0, .25), accent, mat='M_Emit', seg=16, minor=5)
+    m.tube([(0, 0, .55), (.02, 0, .68), (.08, 0, .74)], .02, '#6fae4c')
+    leaf(m, .06, 0, .7, .2, '#8fd06a', -60)
+
+
+def element_bomb(m, body, glow, mark):
+    r = .26
+    m.sphere(r, (0, 0, r+.04), body, seg=16, rings=10)
+    m.cyl(.095, .1, (0, 0, 2*r+.03), GOLD)
+    m.tube([(0, 0, 2*r+.08), (.02, 0, 2*r+.22), (.12, 0, 2*r+.26)], .025, WOOD)
+    m.ico(.05, (.13, 0, 2*r+.27), glow, mat='M_Emit')
+    m.torus(r, .025, (0, 0, r+.04), GOLD, m=RX(90), seg=16, minor=5)
+    if mark == 'fire':
+        m.slab([(-.08, .22), (0, .44), (.08, .22), (.03, .27), (0, .17), (-.03, .27)], .03, glow, y=-r-.01)
+    elif mark == 'ice':
+        for a in (0, 60, 120):
+            with m.at(T(0, -r-.01, .3) @ RY(a)):
+                m.box((.03, .03, .2), (0, 0, 0), glow, mat='M_Emit')
+    else:
+        m.slab([(-.03, .44), (.07, .44), (.0, .33), (.06, .33), (-.06, .16), (-.01, .3), (-.07, .3)], .03, glow, y=-r-.01)
+
+
+def ore(m, color, glow, size=1.0):
+    m.ico(.26*size, (0, 0, .24*size), '#6f6a7a', sub=1, scale=(1, .8, .9), smooth=False, jitter=.12, seed=3)
+    for i in range(4):
+        a = i*math.tau/4 + .3
+        crystal(m, color, .08*size, .34*size, (.13*size*math.cos(a), .1*size*math.sin(a), .16*size), (i-1.5)*18)
+    m.ico(.06*size, (0, -.2*size, .3*size), glow, mat='M_Emit', sub=1)
+
+
+def expansion_item(m, item_id):
+    """The 36 campaign-expansion items (Tools/content/spec.py NEW_ITEMS). Returns False for other ids."""
+    bottles = {
+        'x_potion': ('#ff5f9a', 3, 'potion'), 'max_ether': ('#5f6cff', 3, 'ether'), 'megalixir': ('#ffd84a', 3, 'ether'),
+        'panacea': ('#9be3c4', 2, 'tonic'), 'magic_tonic': ('#9b6ae0', 1, 'tonic'), 'speed_tonic': ('#5ad0e8', 1, 'tonic'),
+        'holy_water': ('#cfe9ff', 1, 'potion')}
+    seeds = {'seed_power': ('#d8664a', '#ffb070'), 'seed_magic': ('#8a5ad8', '#d8a8ff'), 'seed_guard': ('#7a8aa0', '#d0e0f0'),
+             'seed_mind': ('#4a8ad0', '#a8e0ff'), 'seed_swift': ('#5ab878', '#b8ffd0'), 'seed_life': ('#e86a8a', '#ffc0d0')}
+    if item_id in bottles:
+        bottle(m, *bottles[item_id])
+        if item_id == 'megalixir':
+            m.torus(.3, .02, (0, 0, .5), '#fff4b0', mat='M_Emit', seg=20, m=RY(20))
+        if item_id == 'holy_water':
+            m.box((.03, .03, .16), (0, -.275, .32), GOLD)
+            m.box((.11, .03, .03), (0, -.275, .35), GOLD)
+        if item_id == 'magic_tonic':
+            m.ico(.05, (0, -.29, .33), '#e8c8ff', mat='M_Emit')
+        if item_id == 'speed_tonic':
+            m.slab([(-.07, .27), (.07, .37), (-.02, .37), (.06, .45), (-.07, .35), (.0, .35)], .02, '#e0fbff', y=-.29)
+    elif item_id in ('fire_bomb', 'ice_bomb', 'thunder_bomb'):
+        element_bomb(m, *{'fire_bomb': ('#b8352a', '#ffb050', 'fire'), 'ice_bomb': ('#3a78b8', '#c8f4ff', 'ice'),
+                          'thunder_bomb': ('#a88a20', '#fff070', 'thunder')}[item_id])
+    elif item_id == 'phoenix_plume':
+        leaf(m, -.06, 0, .05, .85, '#ff6a3a', -12)
+        leaf(m, .06, .02, .05, .7, '#ffb03a', 18)
+        for i in range(5):
+            z = .18+i*.12
+            m.tube([(.0, -.05, z), (.18, -.04, z+.1)], .016, '#fff09a', mat='M_Emit')
+    elif item_id == 'camp_tent':
+        m.prism([(-.42, -.3), (.42, -.3), (.42, .3), (-.42, .3)], 0, .03, '#6a5a44')
+        m.raw([(-.38, -.3, .03), (.38, -.3, .03), (0, -.3, .55), (-.38, .3, .03), (.38, .3, .03), (0, .3, .55)],
+              [(0, 1, 2), (3, 5, 4), (0, 2, 5, 3), (1, 4, 5, 2)], "#c8884a", recalc=True)
+        m.slab([(-.14, .03), (.14, .03), (0, .3)], .02, '#3a2a20', y=-.31)
+        m.cyl(.015, .65, (0, -.33, .32), WOOD, seg=6)
+        m.slab([(0, .62), (.16, .56), (0, .5)], .01, '#d84a3a', y=-.33)
+    elif item_id in seeds:
+        seed(m, *seeds[item_id])
+    elif item_id == 'job_medal':
+        m.cyl(.26, .05, (0, 0, .34), GOLD, seg=20, rr=(90, 0, 0))
+        m.cyl(.19, .06, (0, 0, .34), '#c84a4a', seg=20, rr=(90, 0, 0))
+        m.slab([(-.12, .64), (.12, .64), (.16, .9), (-.16, .9)], .03, '#3a5ab8', y=0)
+        m.slab([(-.05, .34), (0, .47), (.05, .34), (0, .21)], .02, '#fff0a0', y=-.045)
+        m.torus(.05, .015, (0, 0, .62), GOLD, m=RX(90), seg=12, minor=5)
+    elif item_id == 'master_seal':
+        m.cyl(.3, .12, (0, 0, .06), '#7a1a2a', seg=24)
+        m.cyl(.22, .14, (0, 0, .07), GOLD, seg=24)
+        m.lathe([(.08, .14), (.1, .3), (.07, .5), (.11, .62), (0, .66)], col='#2a2030', seg=12)
+        for i in range(8):
+            a = i*math.tau/8
+            m.box((.03, .03, .03), (.25*math.cos(a), .25*math.sin(a), .13), GOLD)
+        m.ico(.06, (0, 0, .66), '#ff5a7a', mat='M_Emit')
+    elif item_id in ('enhance_stone', 'enhance_stone_hi', 'enhance_stone_abyss'):
+        ore(m, *{'enhance_stone': ('#9ab4c8', '#e8f6ff', .9), 'enhance_stone_hi': ('#e8b04a', '#fff0b0', 1.0),
+                 'enhance_stone_abyss': ('#8a4ae0', '#e0b8ff', 1.1)}[item_id])
+    elif item_id == 'pearl':
+        m.lathe([(0, .02), (.3, .06), (.36, .12), (.3, .16), (0, .14)], col='#e8b8a8', seg=16)
+        m.sphere(.17, (0, -.02, .28), '#f6f2ff', mat='M_Emit', seg=16, rings=10)
+    elif item_id == 'scale_blue':
+        m.slab([(-.22, .54), (0, .76), (.22, .54), (.19, .24), (0, .05), (-.19, .24)], .08, '#2f7fae', y=-.04)
+        m.slab([(-.14, .49), (0, .67), (.14, .49), (.12, .27), (0, .14), (-.12, .27)], .03, '#7fe0f0', y=-.07)
+    elif item_id == 'temple_stone':
+        m.box((.5, .3, .4), (0, 0, .2), '#b8b098')
+        m.box((.3, .04, .2), (0, -.16, .24), '#4fb8b0', mat='M_Emit')
+        m.ico(.08, (.2, -.1, .42), '#7aa860', sub=1, scale=(1, 1, .5))
+    elif item_id == 'siren_feather':
+        leaf(m, 0, 0, .05, .8, '#7ad0e0', -15)
+        m.tube([(0, -.05, .1), (.06, -.05, .5), (.18, -.05, .8)], .012, '#f0faff', mat='M_Emit')
+    elif item_id == 'leviathan_fin':
+        m.slab([(-.3, .05), (.3, .05), (.25, .3), (0, .85), (-.12, .45)], .06, '#1e5a78', y=-.03)
+        for x in (-.15, 0, .15):
+            m.tube([(x, -.07, .08), (x*.4, -.07, .6)], .015, '#7ff0e0', mat='M_Emit')
+    elif item_id == 'void_shard':
+        crystal(m, '#3a1f5a', .2, .8)
+        crystal(m, '#a45cff', .08, .4, (.18, 0, .02), 25)
+        m.torus(.26, .015, (0, 0, .35), '#c89aff', mat='M_Emit', seg=16, m=RY(-20))
+    elif item_id == 'shadow_pelt':
+        m.slab([(-.3, .12), (-.34, .4), (-.24, .62), (-.08, .5), (0, .6), (.1, .5), (.3, .62), (.35, .32), (.26, .08), (0, .16)], .12, '#2e2838', y=-.06)
+        for i in range(5):
+            m.tube([((i-2)*.1, -.08, .22), ((i-2)*.09, -.08, .42)], .012, '#a45cff', mat='M_Emit')
+    elif item_id == 'gargoyle_horn':
+        m.tube([(0, 0, .05), (.08, 0, .3), (.02, 0, .55), (-.14, 0, .72)], .1, '#7a7480', r_end=.015)
+        m.torus(.1, .02, (.02, 0, .12), GOLD, seg=14)
+    elif item_id == 'fallen_feather':
+        leaf(m, 0, 0, .05, .85, '#2a2236', -10)
+        m.torus(.12, .012, (.05, -.06, .8), '#d8c890', m=RX(90), seg=16, minor=4)
+    elif item_id == 'lord_crown':
+        m.lathe([(.26, .05), (.28, .12), (.27, .22), (.26, .25)], col='#2a1f3a', seg=20)
+        for i in range(6):
+            a = i*math.tau/6
+            m.cone(.05, .28 if i % 2 == 0 else .2, (.25*math.cos(a), .25*math.sin(a), .36), '#3a2a50', seg=6)
+        m.torus(.27, .025, (0, 0, .13), GOLD, seg=20)
+        m.ico(.06, (0, -.27, .17), '#a45cff', mat='M_Emit')
+    elif item_id == 'trial_emblem':
+        m.cyl(.28, .06, (0, 0, .34), '#e8e2d0', seg=8, rr=(90, 0, 0))
+        m.cyl(.2, .07, (0, 0, .34), GOLD, seg=8, rr=(90, 0, 0))
+        m.slab([(-.06, .34), (0, .52), (.06, .34), (0, .16)], .02, '#ff8a3a', y=-.05)
+        m.slab([(-.15, .3), (.15, .3), (.15, .38), (-.15, .38)], .015, '#ff8a3a', y=-.045)
+    elif item_id == 'metal_gel':
+        m.sphere(.25, (0, 0, .18), '#c8d0e0', seg=16, rings=8, scale=(1.2, 1, .65))
+        for loc in [(-.15, -.1, .2), (.14, .06, .28), (.02, -.12, .33)]:
+            m.sphere(.10, loc, '#eef2fa', seg=10, rings=6)
+    else:
+        return False
+    return True
+
+
 def item_mesh(item_id):
     m=MB()
     bottles={
@@ -206,7 +345,7 @@ def item_mesh(item_id):
     elif item_id=='slime_gel':
         m.sphere(.25,(0,0,.18),'#92d07b',seg=16,rings=8,scale=(1.2,1,.65))
         for loc in [(-.15,-.1,.2),(.14,.06,.28),(.02,-.12,.33)]: m.sphere(.10,loc,'#bde89a',seg=10,rings=6)
-    else:
+    elif not expansion_item(m, item_id):
         raise ValueError('Unimplemented item ID: '+item_id)
     return [m.build(item_id)]
 
@@ -240,8 +379,12 @@ def output(category, name, objects):
 def main():
     data_path=os.path.join(A.REPO,'Assets','_Game','Resources','Data','items.json')
     with open(data_path,encoding='utf-8') as f: ids=[entry['id'] for entry in json.load(f)]
+    selected=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []
     for name in ids:
+        if selected and name not in selected: continue
         A.reset_scene(); output('Items',name,item_mesh(name))
+    if selected:
+        print('PROPS_COMPLETE items=%d'%len(selected),flush=True); return
     for name in ('chest_common','chest_rare','gold_pile','key_item','campfire','banner_party'):
         A.reset_scene(); output('Common',name,common_mesh(name))
     print('PROPS_COMPLETE items=%d common=6'%len(ids),flush=True)

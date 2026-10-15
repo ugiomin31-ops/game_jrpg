@@ -7,6 +7,61 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: F00_000_00_EyeHighlight_00_EYE
+    second: {fileID: 2100000, guid: b4d057b25a6c1784daa1038bde86693f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_EyeIris_00_EYE
+    second: {fileID: 2100000, guid: 36d2f4ca076a4694fa782d381254a657, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_EyeWhite_00_EYE
+    second: {fileID: 2100000, guid: 8e2099599f14f5c4f9a99b5e591f2eee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_FaceBrow_00_FACE
+    second: {fileID: 2100000, guid: e0b6d4438a3387e4e866120602ae19fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_FaceEyelash_00_FACE
+    second: {fileID: 2100000, guid: 5e6b53eeece7b424b84ec0dbcb24c7b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_FaceEyeline_00_FACE
+    second: {fileID: 2100000, guid: 7dbc662c40990e54e8512a13d7adddb1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_FaceMouth_00_FACE
+    second: {fileID: 2100000, guid: 071d5cf43e597c444b7b1c214dac00ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_00_Face_00_SKIN
+    second: {fileID: 2100000, guid: de01bd2c0f3fb5f429020bb713994333, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_000_Hair_00_HAIR_01
+    second: {fileID: 2100000, guid: 71c783d7cda61854ab9f5ccdeee6f03e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_002_01_Tops_01_CLOTH
+    second: {fileID: 2100000, guid: 9f6822eb2321fe249be5f8e94c0904d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: F00_002_02_Body_00_SKIN
+    second: {fileID: 2100000, guid: 7319c7ec022819f4784940154d87edcb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Clear
     second: {fileID: 2100000, guid: 6c29ad1e4ca736346808ab777c66dc62, type: 2}
   - first:
@@ -51,7 +106,7 @@ ModelImporter:
       takeName: Rig|Attack
       internalID: -3510217540682870009
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -80,7 +135,7 @@ ModelImporter:
       takeName: Rig|Cast
       internalID: -7776306489393022278
       firstFrame: 0
-      lastFrame: 35
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -196,7 +251,7 @@ ModelImporter:
       takeName: Rig|Idle
       internalID: -429512112410174799
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -279,11 +334,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
+      name: Skill
+      takeName: Rig|Skill
+      internalID: -5348192829635071023
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Ultimate
+      takeName: Rig|Ultimate
+      internalID: 1936795401818881258
+      firstFrame: 0
+      lastFrame: 66
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Victory
       takeName: Rig|Victory
       internalID: 2165050724081255768
       firstFrame: 0
-      lastFrame: 42
+      lastFrame: 48
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

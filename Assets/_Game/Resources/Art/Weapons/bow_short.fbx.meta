@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_BowShort_Tripo
+    second: {fileID: 2100000, guid: 92b33742cfaa8da43b9c29bc9e867d1e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Clear
     second: {fileID: 2100000, guid: 6c29ad1e4ca736346808ab777c66dc62, type: 2}
   - first:

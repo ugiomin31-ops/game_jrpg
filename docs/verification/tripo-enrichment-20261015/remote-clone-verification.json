@@ -1,0 +1,16 @@
+{
+  "checkout_source": "HTTPS GitHub clone, no local alternates/shared objects; initial no-checkout base clone followed by remote fetch of handoff branch",
+  "branch": "codex/tripo-enrichment-handoff-20261015",
+  "head": "d924ec40bd9ba8bfa4ff95aeccc35d5128741fe6",
+  "remote_head": "d924ec40bd9ba8bfa4ff95aeccc35d5128741fe6",
+  "tree": "b112a0a1835b184811c7a09195f345a20ae366fc",
+  "git_fsck_exit_code": 0,
+  "git_fsck_output": "",
+  "binary_files_verified": 3443,
+  "binary_bytes_verified": 1941396119,
+  "binary_hash_mismatches": [],
+  "installed_fbx_count": 670,
+  "missing_asset_metas": [],
+  "local_shared_objects_file_present": false,
+  "passed": true
+}

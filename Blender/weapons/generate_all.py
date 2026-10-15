@@ -1,4 +1,5 @@
-"""Publish all 20 weapons and 28 equipment displays from authored builders."""
+"""Publish all weapons (20 original + 28 expansion) and 28 equipment displays from authored builders.
+With `-- <id> ...` only those ids are rebuilt and the manifest keeps the other rows."""
 import json
 import os
 import sys
@@ -11,12 +12,17 @@ import swords
 import arcane
 import bows
 import equipment
+import expansion
 
 
 def main():
     selected = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+    manifest_path = os.path.join(W.A.BLEND_DIR, 'equipment_manifest.json')
     report = []
-    for category, builders in [('Weapons', swords.BUILDERS + arcane.BUILDERS + bows.BUILDERS),
+    if selected and os.path.isfile(manifest_path):
+        with open(manifest_path, encoding='utf-8') as stream:
+            report = [row for row in json.load(stream) if row['id'] not in selected]
+    for category, builders in [('Weapons', swords.BUILDERS + arcane.BUILDERS + bows.BUILDERS + expansion.BUILDERS),
                                 ('Props/Equipment', equipment.BUILDERS)]:
         for ident, builder in builders:
             if selected and ident not in selected:
@@ -29,7 +35,7 @@ def main():
             report.append({'id': ident, 'category': category, 'triangles': W.tri_count(obj),
                            'dimensions': list(obj.dimensions), 'materials': [m.name for m in obj.data.materials]})
             print('GEAR_PUBLISHED ' + ident, flush=True)
-    with open(os.path.join(W.A.BLEND_DIR, 'equipment_manifest.json'), 'w', encoding='utf-8') as stream:
+    with open(manifest_path, 'w', encoding='utf-8', newline='\r\n') as stream:  # CRLF like the Windows-authored file
         json.dump(report, stream, indent=2)
     print('GEAR_COMPLETE ' + str(len(report)), flush=True)
 

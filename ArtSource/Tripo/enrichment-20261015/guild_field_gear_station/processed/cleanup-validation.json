@@ -1,0 +1,1041 @@
+{
+  "blender_version": "5.2.1 LTS",
+  "raw_before": {
+    "guild_field_gear_station.zip": "fd89c9e1560263679fa9713a749ae54f721339be9226997d019998e1e307fe6e",
+    "tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbx": "7ab5a2bbfbace46bbf52549b181f23485625e1d2cf9bf0ee26d40f503b2bb040"
+  },
+  "source": {
+    "bounds_blender_xyz": {
+      "min": [
+        -0.4889526665210724,
+        -0.23173516988754272,
+        -1.442542263419e-08
+      ],
+      "max": [
+        0.4886780381202698,
+        0.23316951096057892,
+        0.782470703125
+      ],
+      "dimensions": [
+        0.9776307344436646,
+        0.46490466594696045,
+        0.782470703125
+      ]
+    },
+    "meshes": [
+      {
+        "name": "tripo_node_3551cec0",
+        "vertices": 3186,
+        "polygons": 6387,
+        "triangles": 6387,
+        "uv_layers": [
+          "UVMap"
+        ],
+        "invalid_uv_values": 0,
+        "zero_area_triangles": 0,
+        "material_slots": [
+          "tripo_mat_3551cec0"
+        ],
+        "invalid_material_indices": 0,
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          1.570796251296997,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "name": "tripo_mat_3551cec0",
+        "use_nodes": true,
+        "links": [
+          [
+            "Principled BSDF",
+            "BSDF",
+            "Material Output",
+            "Surface"
+          ],
+          [
+            "Normal Map",
+            "Normal",
+            "Principled BSDF",
+            "Normal"
+          ],
+          [
+            "Image Texture",
+            "Color",
+            "Principled BSDF",
+            "Base Color"
+          ],
+          [
+            "Image Texture.001",
+            "Color",
+            "Normal Map",
+            "Color"
+          ],
+          [
+            "Image Texture.002",
+            "Color",
+            "Principled BSDF",
+            "Specular IOR Level"
+          ],
+          [
+            "Image Texture.003",
+            "Color",
+            "Principled BSDF",
+            "Roughness"
+          ],
+          [
+            "Image Texture.004",
+            "Alpha",
+            "Principled BSDF",
+            "Alpha"
+          ]
+        ],
+        "principled": [
+          {
+            "node": "Principled BSDF",
+            "inputs": {
+              "Metallic": 1.0,
+              "IOR": 1.5,
+              "Thin Wall": false,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.004999999888241291,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          }
+        ]
+      }
+    ],
+    "images": [
+      {
+        "name": "Diffuse Texture",
+        "size": [
+          2048,
+          2048
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_rm.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.001",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.002",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_metallic.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.003",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_roughness.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.004",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_normal.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.005",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      }
+    ],
+    "triangles": 6387,
+    "armatures": 0
+  },
+  "raw_after": {
+    "guild_field_gear_station.zip": "fd89c9e1560263679fa9713a749ae54f721339be9226997d019998e1e307fe6e",
+    "tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbx": "7ab5a2bbfbace46bbf52549b181f23485625e1d2cf9bf0ee26d40f503b2bb040"
+  },
+  "textures": [
+    {
+      "channel": "basecolor",
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_basecolor.PNG",
+      "sha256": "f887526428c52795f7830badeb2925f8711d90367fc56f44e8da7067b0aaa489"
+    },
+    {
+      "channel": "metallic",
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_metallic.PNG",
+      "sha256": "38801605517bea09c70bbc7cdfd2b052b5d220ec3d45e3f8b10faed46b1a434e"
+    },
+    {
+      "channel": "roughness",
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_roughness.PNG",
+      "sha256": "42502627f5010c2448d389abdd422e86fabc1c1f3f52ac2fed0de3d0072e1a2b"
+    },
+    {
+      "channel": "normal",
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_normal.PNG",
+      "sha256": "256002e8dcbdf6a351dcc5776499a6eaa6428c28127e7749de1f5368cdd36721"
+    }
+  ],
+  "material_cleanup": "Authored metallic map linked to Metallic instead of legacy Specular IOR; pixel bytes unchanged. Same PBR material in before/after renders.",
+  "normalization": {
+    "scale_xyz": [
+      1.4320335385084748,
+      1.4320335385084748,
+      1.3419032761310452
+    ],
+    "pre_scale_translation": [
+      0.00013731420040130615,
+      -0.0007171705365180969,
+      1.442542263419e-08
+    ],
+    "origin": "bottom center, applied transforms",
+    "dimensions": [
+      1.399999976158142,
+      0.6657590866088867,
+      1.0500000715255737
+    ]
+  },
+  "before_decimation": {
+    "bounds_blender_xyz": {
+      "min": [
+        -0.699999988079071,
+        -0.33287957310676575,
+        -1.3001688614622253e-09
+      ],
+      "max": [
+        0.699999988079071,
+        0.33287954330444336,
+        1.0500000715255737
+      ],
+      "dimensions": [
+        1.399999976158142,
+        0.6657590866088867,
+        1.0500000715255737
+      ]
+    },
+    "meshes": [
+      {
+        "name": "tripo_node_3551cec0",
+        "vertices": 3186,
+        "polygons": 6387,
+        "triangles": 6387,
+        "uv_layers": [
+          "UVMap"
+        ],
+        "invalid_uv_values": 0,
+        "zero_area_triangles": 0,
+        "material_slots": [
+          "tripo_mat_3551cec0"
+        ],
+        "invalid_material_indices": 0,
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "name": "tripo_mat_3551cec0",
+        "use_nodes": true,
+        "links": [
+          [
+            "Principled BSDF",
+            "BSDF",
+            "Material Output",
+            "Surface"
+          ],
+          [
+            "Normal Map",
+            "Normal",
+            "Principled BSDF",
+            "Normal"
+          ],
+          [
+            "Image Texture.001",
+            "Color",
+            "Normal Map",
+            "Color"
+          ],
+          [
+            "Image Texture.004",
+            "Alpha",
+            "Principled BSDF",
+            "Alpha"
+          ],
+          [
+            "Image Texture",
+            "Color",
+            "Principled BSDF",
+            "Base Color"
+          ],
+          [
+            "Image Texture.003",
+            "Color",
+            "Principled BSDF",
+            "Metallic"
+          ],
+          [
+            "Image Texture.002",
+            "Color",
+            "Principled BSDF",
+            "Roughness"
+          ]
+        ],
+        "principled": [
+          {
+            "node": "Principled BSDF",
+            "inputs": {
+              "IOR": 1.5,
+              "Thin Wall": false,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.004999999888241291,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          }
+        ]
+      }
+    ],
+    "images": [
+      {
+        "name": "Diffuse Texture",
+        "size": [
+          2048,
+          2048
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_rm.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.001",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.002",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_metallic.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.003",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_roughness.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.004",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_normal.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.005",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      }
+    ],
+    "triangles": 6387,
+    "armatures": 0
+  },
+  "decimation": {
+    "method": "one collapse modifier",
+    "requested_ratio": 0.9378424925630187,
+    "pre_final_normalization_bounds": {
+      "min": [
+        -0.7003982663154602,
+        -0.33287957310676575,
+        -1.3001688614622253e-09
+      ],
+      "max": [
+        0.7003982663154602,
+        0.33287954330444336,
+        1.0500000715255737
+      ],
+      "dimensions": [
+        1.4007965326309204,
+        0.6657590866088867,
+        1.0500000715255737
+      ]
+    }
+  },
+  "final_normalization": {
+    "scale_xyz": [
+      0.9994313716429434,
+      0.9994313716429434,
+      0.9999999318804107
+    ],
+    "pre_scale_translation": [
+      -0.0,
+      1.4901161193847656e-08,
+      1.3001688614622253e-09
+    ],
+    "origin": "bottom center, applied transforms",
+    "dimensions": [
+      1.399999976158142,
+      0.665380597114563,
+      1.0499999523162842
+    ]
+  },
+  "after": {
+    "bounds_blender_xyz": {
+      "min": [
+        -0.699999988079071,
+        -0.3326902985572815,
+        0.0
+      ],
+      "max": [
+        0.699999988079071,
+        0.3326902687549591,
+        1.0499999523162842
+      ],
+      "dimensions": [
+        1.399999976158142,
+        0.665380597114563,
+        1.0499999523162842
+      ]
+    },
+    "meshes": [
+      {
+        "name": "guild_field_gear_station",
+        "vertices": 2986,
+        "polygons": 5990,
+        "triangles": 5990,
+        "uv_layers": [
+          "UVMap"
+        ],
+        "invalid_uv_values": 0,
+        "zero_area_triangles": 0,
+        "material_slots": [
+          "tripo_mat_3551cec0"
+        ],
+        "invalid_material_indices": 0,
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "name": "tripo_mat_3551cec0",
+        "use_nodes": true,
+        "links": [
+          [
+            "Principled BSDF",
+            "BSDF",
+            "Material Output",
+            "Surface"
+          ],
+          [
+            "Normal Map",
+            "Normal",
+            "Principled BSDF",
+            "Normal"
+          ],
+          [
+            "Image Texture.001",
+            "Color",
+            "Normal Map",
+            "Color"
+          ],
+          [
+            "Image Texture.004",
+            "Alpha",
+            "Principled BSDF",
+            "Alpha"
+          ],
+          [
+            "Image Texture",
+            "Color",
+            "Principled BSDF",
+            "Base Color"
+          ],
+          [
+            "Image Texture.003",
+            "Color",
+            "Principled BSDF",
+            "Metallic"
+          ],
+          [
+            "Image Texture.002",
+            "Color",
+            "Principled BSDF",
+            "Roughness"
+          ]
+        ],
+        "principled": [
+          {
+            "node": "Principled BSDF",
+            "inputs": {
+              "IOR": 1.5,
+              "Thin Wall": false,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.004999999888241291,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          }
+        ]
+      }
+    ],
+    "images": [
+      {
+        "name": "Diffuse Texture",
+        "size": [
+          2048,
+          2048
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\source_input\\tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbm\\guild_field_gear_station_rm.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.001",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.002",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_metallic.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.003",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_roughness.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.004",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_normal.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.005",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      }
+    ],
+    "triangles": 5990,
+    "armatures": 0
+  },
+  "export": {
+    "file": "guild_field_gear_station.fbx",
+    "sha256": "d64da8135e4c0843d0c2a8e15516e6d450b98a29830207104ee367d35f73f78d",
+    "axes": "-Z forward / Y up",
+    "unit_scale": 1.0,
+    "mesh_selection_only": true,
+    "animation": false,
+    "texture_folder": "guild_field_gear_station_tex",
+    "source_visual_front_blender": [
+      0,
+      -1,
+      0
+    ],
+    "visual_front_fbx": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "unity_resource_path": "Art/Props/GuildFieldStation/guild_field_gear_station"
+  },
+  "roundtrip": {
+    "bounds_blender_xyz": {
+      "min": [
+        -0.699999988079071,
+        -0.3326902985572815,
+        -2.0568450054270215e-08
+      ],
+      "max": [
+        0.699999988079071,
+        0.3326902687549591,
+        1.0499999523162842
+      ],
+      "dimensions": [
+        1.399999976158142,
+        0.665380597114563,
+        1.0499999523162842
+      ]
+    },
+    "meshes": [
+      {
+        "name": "guild_field_gear_station",
+        "vertices": 2986,
+        "polygons": 5990,
+        "triangles": 5990,
+        "uv_layers": [
+          "UVMap"
+        ],
+        "invalid_uv_values": 0,
+        "zero_area_triangles": 0,
+        "material_slots": [
+          "tripo_mat_3551cec0"
+        ],
+        "invalid_material_indices": 0,
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          1.570796251296997,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "local_dimensions": [
+          1.399999976158142,
+          1.0499999523162842,
+          0.6653805673122406
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "name": "tripo_mat_3551cec0",
+        "use_nodes": true,
+        "links": [
+          [
+            "Principled BSDF",
+            "BSDF",
+            "Material Output",
+            "Surface"
+          ],
+          [
+            "Normal Map",
+            "Normal",
+            "Principled BSDF",
+            "Normal"
+          ],
+          [
+            "Image Texture",
+            "Color",
+            "Principled BSDF",
+            "Base Color"
+          ],
+          [
+            "Image Texture.002",
+            "Color",
+            "Normal Map",
+            "Color"
+          ],
+          [
+            "Image Texture.003",
+            "Color",
+            "Principled BSDF",
+            "Roughness"
+          ],
+          [
+            "Image Texture.004",
+            "Color",
+            "Principled BSDF",
+            "Metallic"
+          ],
+          [
+            "Image Texture.001",
+            "Alpha",
+            "Principled BSDF",
+            "Alpha"
+          ]
+        ],
+        "principled": [
+          {
+            "node": "Principled BSDF",
+            "inputs": {
+              "IOR": 1.5,
+              "Thin Wall": false,
+              "Weight": 0.0,
+              "Diffuse Roughness": 0.0,
+              "Subsurface Weight": 0.0,
+              "Subsurface Radius": [
+                1.0,
+                0.20000000298023224,
+                0.10000000149011612
+              ],
+              "Subsurface Scale": 0.004999999888241291,
+              "Subsurface IOR": 1.399999976158142,
+              "Subsurface Anisotropy": 0.0,
+              "Specular IOR Level": 0.5,
+              "Specular Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Anisotropic": 0.0,
+              "Anisotropic Rotation": 0.0,
+              "Tangent": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Transmission Weight": 0.0,
+              "Coat Weight": 0.0,
+              "Coat Roughness": 0.029999999329447746,
+              "Coat IOR": 1.5,
+              "Coat Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Coat Normal": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "Sheen Weight": 0.0,
+              "Sheen Roughness": 0.5,
+              "Sheen Tint": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "Emission Strength": 0.0,
+              "Thin Film Thickness": 0.0,
+              "Thin Film IOR": 1.3300000429153442
+            }
+          }
+        ]
+      }
+    ],
+    "images": [
+      {
+        "name": "Diffuse Texture.001",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "sRGB",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.002",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_metallic.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.003",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_roughness.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.004",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_normal.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.005",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      },
+      {
+        "name": "Diffuse Texture.006",
+        "size": [
+          1024,
+          1024
+        ],
+        "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\ArtSource\\Tripo\\enrichment-20261015\\guild_field_gear_station\\processed\\textures\\guild_field_gear_station_basecolor.PNG",
+        "color_space": "Non-Color",
+        "loaded": true
+      }
+    ],
+    "triangles": 5990,
+    "armatures": 0
+  },
+  "passed": true
+}

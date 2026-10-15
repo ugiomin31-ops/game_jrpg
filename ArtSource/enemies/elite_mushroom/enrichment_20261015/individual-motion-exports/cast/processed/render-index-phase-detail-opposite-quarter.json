@@ -1,0 +1,74 @@
+[
+  {
+    "blender_frame": 0,
+    "native_fbx_frame": -1.0,
+    "take_elapsed_seconds": 0.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0000.png"
+  },
+  {
+    "blender_frame": 24,
+    "native_fbx_frame": 23.0,
+    "take_elapsed_seconds": 1.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0024.png"
+  },
+  {
+    "blender_frame": 40,
+    "native_fbx_frame": 39.0,
+    "take_elapsed_seconds": 1.6666666666666667,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0040.png"
+  },
+  {
+    "blender_frame": 52,
+    "native_fbx_frame": 51.0,
+    "take_elapsed_seconds": 2.1666666666666665,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0052.png"
+  },
+  {
+    "blender_frame": 56,
+    "native_fbx_frame": 55.0,
+    "take_elapsed_seconds": 2.3333333333333335,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0056.png"
+  },
+  {
+    "blender_frame": 60,
+    "native_fbx_frame": 59.0,
+    "take_elapsed_seconds": 2.5,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0060.png"
+  },
+  {
+    "blender_frame": 64,
+    "native_fbx_frame": 63.0,
+    "take_elapsed_seconds": 2.6666666666666665,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0064.png"
+  },
+  {
+    "blender_frame": 80,
+    "native_fbx_frame": 79.0,
+    "take_elapsed_seconds": 3.3333333333333335,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0080.png"
+  },
+  {
+    "blender_frame": 92,
+    "native_fbx_frame": 91.0,
+    "take_elapsed_seconds": 3.8333333333333335,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0092.png"
+  },
+  {
+    "blender_frame": 102,
+    "native_fbx_frame": 101.0,
+    "take_elapsed_seconds": 4.25,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0102.png"
+  },
+  {
+    "blender_frame": 112,
+    "native_fbx_frame": 111.0,
+    "take_elapsed_seconds": 4.666666666666667,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0112.png"
+  },
+  {
+    "blender_frame": 129,
+    "native_fbx_frame": 128.0,
+    "take_elapsed_seconds": 5.375,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\phase-detail\\opposite-quarter-0129.png"
+  }
+]

@@ -1,0 +1,125 @@
+{
+  "id": "gargoyle",
+  "is_boss": false,
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-08T03:44:50Z",
+  "files": {
+    "fbx": {
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/gargoyle/gargoyle.fbx",
+      "bytes": 1265036
+    },
+    "blend": {
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_gargoyle.blend",
+      "bytes": 546632
+    },
+    "previews": [
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle.png",
+        "bytes": 160757
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_side.png",
+        "bytes": 146914
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_attack.png",
+        "bytes": 153277
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_cast.png",
+        "bytes": 154325
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_gargoyle_die.png",
+        "bytes": 142755
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 11692,
+    "vertices": 6038,
+    "bones": 15,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 11692,
+    "vertices": 6038,
+    "bones": 15,
+    "materials": [
+      "M_Toon"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

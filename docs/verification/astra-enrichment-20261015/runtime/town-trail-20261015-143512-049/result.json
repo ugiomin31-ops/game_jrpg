@@ -1,0 +1,38 @@
+{
+  "status": "failed",
+  "phase": "finished",
+  "build": {
+    "project": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015",
+    "unity": "6000.3.25f1",
+    "module": "f7e2ff67-bf7c-4bbf-a966-ae4104520450",
+    "assembly": "e77af3d10cb86f14bef57132a5747be9cad011df332b530006aabb79f5174dfc",
+    "town": "bf735c7c519c23ce4e5ede1a789b6df91661a29f0b88d7687377d5ad0862d136",
+    "enrichment": "c9ca9ff24f7de6b4b3309d37442b348d4941fa46bdbe037c2a06c2bfe4906ae4",
+    "station": "d64da8135e4c0843d0c2a8e15516e6d450b98a29830207104ee367d35f73f78d",
+    "fixture": "87de6bb1a5c2f6d94d7f27e955ce13a365d6b1e025bd060122f771bb43c3fd57"
+  },
+  "isolated": false,
+  "qaSave": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/town-trail-20261015-143512-049\\qa-save",
+  "checks": [],
+  "issues": [
+    {
+      "phase": "focus-and-QA-isolation",
+      "error": "System.TimeoutException: 25-second step deadline: focus-and-QA-isolation\r\n  at PipelineEvaluation.PipelineEval_0cf36934+<>c__DisplayClass0_0.<Execute>g__Budget|9 () [0x00047] in <36301837d636445da2743d6e996b11b4>:0 \r\n  at PipelineEvaluation.PipelineEval_0cf36934+<>c__DisplayClass0_0.<Execute>g__Until|10 (System.Func`1[TResult] condition, System.String label) [0x00034] in <36301837d636445da2743d6e996b11b4>:0 \r\n  at PipelineEvaluation.PipelineEval_0cf36934+<>c__DisplayClass0_0.<Execute>g__Run|21 () [0x001b2] in <36301837d636445da2743d6e996b11b4>:0 "
+    }
+  ],
+  "images": [],
+  "traces": [],
+  "scope": "trail-tree-station",
+  "expectedPngs": 4,
+  "visualAccepted": false,
+  "requestedModel": "gpt-6-astra",
+  "requestedEffort": "high",
+  "requestedTier": "Fast/priority",
+  "verifiedRouting": "not exposed",
+  "limits": [
+    "Constructed static rectangular obstacle; not every authored town route or dynamic obstruction.",
+    "Captured deltaTime and sparse scheduling exercise production Update; not an induced CPU stall or physical input test.",
+    "Trail bounds are sampled on these routes; full-capacity pressure, roster replacement mid-corner, steps and long sessions are separate acceptance.",
+    "Inspect station PNGs for actual visible material, occlusion and ground fit. Frustum checks are not pixel visibility proof."
+  ]
+}

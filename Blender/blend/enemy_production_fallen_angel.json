@@ -1,0 +1,127 @@
+{
+  "id": "fallen_angel",
+  "is_boss": false,
+  "generator": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/enemies_e/abyss.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-08T03:49:30Z",
+  "files": {
+    "fbx": {
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Assets/_Game/Resources/Art/Enemies/fallen_angel/fallen_angel.fbx",
+      "bytes": 1118380
+    },
+    "blend": {
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/blend/enemy_fallen_angel.blend",
+      "bytes": 527004
+    },
+    "previews": [
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_fallen_angel.png",
+        "bytes": 156517
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_fallen_angel_side.png",
+        "bytes": 141719
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_fallen_angel_attack.png",
+        "bytes": 149575
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_fallen_angel_cast.png",
+        "bytes": 148180
+      },
+      {
+        "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ac22c1734dc975e3b/Blender/preview/enemy_fallen_angel_die.png",
+        "bytes": 144772
+      }
+    ]
+  },
+  "saved_blend": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 12512,
+    "vertices": 6342,
+    "bones": 12,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        0.0,
+        48.0
+      ],
+      "Run": [
+        0.0,
+        20.0
+      ],
+      "Attack": [
+        0.0,
+        25.0
+      ],
+      "Cast": [
+        0.0,
+        35.0
+      ],
+      "Hit": [
+        0.0,
+        12.0
+      ],
+      "Die": [
+        0.0,
+        30.0
+      ],
+      "Victory": [
+        0.0,
+        44.0
+      ]
+    },
+    "unweighted_vertices": 0
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 12512,
+    "vertices": 6342,
+    "bones": 12,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        21.0
+      ],
+      "Attack": [
+        1.0,
+        26.0
+      ],
+      "Cast": [
+        1.0,
+        36.0
+      ],
+      "Hit": [
+        1.0,
+        13.0
+      ],
+      "Die": [
+        1.0,
+        31.0
+      ],
+      "Victory": [
+        1.0,
+        45.0
+      ]
+    },
+    "unweighted_vertices": 0
+  }
+}

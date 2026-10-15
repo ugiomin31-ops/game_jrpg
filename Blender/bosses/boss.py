@@ -2,8 +2,9 @@
 Layered shredded robes, curved ridged horns, yellow eyes, skeletal fingers, skull clasp,
 bone talismans and a purple living spell flame. Cloth chains and spell have authored clips.
 """
+import os
 import sys
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\bosses")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__))))
 from _common import *
 
 ID="boss"

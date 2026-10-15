@@ -1,0 +1,110 @@
+[
+  {
+    "blender_frame": 0,
+    "native_fbx_frame": -1.0,
+    "take_elapsed_seconds": 0.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0000.png"
+  },
+  {
+    "blender_frame": 8,
+    "native_fbx_frame": 7.0,
+    "take_elapsed_seconds": 0.3333333333333333,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0008.png"
+  },
+  {
+    "blender_frame": 16,
+    "native_fbx_frame": 15.0,
+    "take_elapsed_seconds": 0.6666666666666666,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0016.png"
+  },
+  {
+    "blender_frame": 24,
+    "native_fbx_frame": 23.0,
+    "take_elapsed_seconds": 1.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0024.png"
+  },
+  {
+    "blender_frame": 32,
+    "native_fbx_frame": 31.0,
+    "take_elapsed_seconds": 1.3333333333333333,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0032.png"
+  },
+  {
+    "blender_frame": 40,
+    "native_fbx_frame": 39.0,
+    "take_elapsed_seconds": 1.6666666666666667,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0040.png"
+  },
+  {
+    "blender_frame": 48,
+    "native_fbx_frame": 47.0,
+    "take_elapsed_seconds": 2.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0048.png"
+  },
+  {
+    "blender_frame": 56,
+    "native_fbx_frame": 55.0,
+    "take_elapsed_seconds": 2.3333333333333335,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0056.png"
+  },
+  {
+    "blender_frame": 64,
+    "native_fbx_frame": 63.0,
+    "take_elapsed_seconds": 2.6666666666666665,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0064.png"
+  },
+  {
+    "blender_frame": 72,
+    "native_fbx_frame": 71.0,
+    "take_elapsed_seconds": 3.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0072.png"
+  },
+  {
+    "blender_frame": 80,
+    "native_fbx_frame": 79.0,
+    "take_elapsed_seconds": 3.3333333333333335,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0080.png"
+  },
+  {
+    "blender_frame": 88,
+    "native_fbx_frame": 87.0,
+    "take_elapsed_seconds": 3.6666666666666665,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0088.png"
+  },
+  {
+    "blender_frame": 96,
+    "native_fbx_frame": 95.0,
+    "take_elapsed_seconds": 4.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0096.png"
+  },
+  {
+    "blender_frame": 104,
+    "native_fbx_frame": 103.0,
+    "take_elapsed_seconds": 4.333333333333333,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0104.png"
+  },
+  {
+    "blender_frame": 112,
+    "native_fbx_frame": 111.0,
+    "take_elapsed_seconds": 4.666666666666667,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0112.png"
+  },
+  {
+    "blender_frame": 120,
+    "native_fbx_frame": 119.0,
+    "take_elapsed_seconds": 5.0,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0120.png"
+  },
+  {
+    "blender_frame": 124,
+    "native_fbx_frame": 123.0,
+    "take_elapsed_seconds": 5.166666666666667,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0124.png"
+  },
+  {
+    "blender_frame": 129,
+    "native_fbx_frame": 128.0,
+    "take_elapsed_seconds": 5.375,
+    "path": "ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\individual-motion-exports\\cast\\processed\\renders\\overview\\front-0129.png"
+  }
+]

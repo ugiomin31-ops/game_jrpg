@@ -1,0 +1,37 @@
+{
+  "ReviewedAt": "2026-10-15T18:52:27.0278386+09:00",
+  "Approved": true,
+  "Files": [
+    {
+      "File": "battle-1280x720.png",
+      "SHA256": "D68A0A82AEBBFAC4F0840C02D77BE9D92B0F92EFCC43EE09B0E0FBA984965445",
+      "Reviewed": true
+    },
+    {
+      "File": "battle-915x412.png",
+      "SHA256": "91985DAB18BFFE535899C15B52BB53C24884A1D49D5EB4AF8E0437223F497F57",
+      "Reviewed": true
+    },
+    {
+      "File": "overview-1280x720.png",
+      "SHA256": "3CAD275E0337F4808074E52C50E98856AE02C804A3CB6BD3118986AF6D303573",
+      "Reviewed": true
+    },
+    {
+      "File": "overview-915x412.png",
+      "SHA256": "A07A4251A99FF389B193F465D560E304FDEAE629935B82EE65148CDE05B32B9A",
+      "Reviewed": true
+    },
+    {
+      "File": "arrow-1x.png",
+      "SHA256": "331DE891CA390B3A9DB031B64EA6459F3B6F930F0F1F8782D0D262F695112999",
+      "Reviewed": true
+    },
+    {
+      "File": "arrow-2x.png",
+      "SHA256": "C4AE49E4C54FD6194445C5D17E8127D821DD576706581CA37622AF36E73C2B63",
+      "Reviewed": true
+    }
+  ],
+  "Scope": "S0 all living bodies; S1 active actor/enemies; HUD text and controls; 1x/2x arrow visibility. Intentional S1 bystander cropping is not a defect."
+}

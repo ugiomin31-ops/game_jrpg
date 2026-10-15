@@ -1,0 +1,75 @@
+{
+  "id": "elite_skeleton",
+  "source": "kaykit_skeletons/Characters/Skeleton_Warrior.glb",
+  "generator": "Blender/enemies_cc0/cc0_monsters.py",
+  "blender_version": "5.2.2 LTS",
+  "produced_at_utc": "2026-10-06T17:05:00Z",
+  "fbx": "Assets/_Game/Resources/Art/Enemies/elite_skeleton/elite_skeleton.fbx",
+  "fbx_bytes": 1662140,
+  "scale_from_source": 0.6129801766916497,
+  "built": {
+    "triangles": 7094,
+    "bones": 41,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ]
+  },
+  "reimported_fbx": {
+    "objects": [
+      "Body",
+      "Rig"
+    ],
+    "triangles": 7094,
+    "vertices": 7732,
+    "materials": [
+      "M_Toon",
+      "M_Emit"
+    ],
+    "unweighted_vertices": 0,
+    "bones": 23,
+    "clips": {
+      "Idle": [
+        1.0,
+        49.0
+      ],
+      "Run": [
+        1.0,
+        25.0
+      ],
+      "Attack": [
+        1.0,
+        27.0
+      ],
+      "Cast": [
+        1.0,
+        34.0
+      ],
+      "Hit": [
+        1.0,
+        15.0
+      ],
+      "Die": [
+        1.0,
+        37.0
+      ],
+      "Victory": [
+        1.0,
+        47.0
+      ]
+    },
+    "idle_bounds": [
+      [
+        -0.465,
+        -0.672,
+        0.0
+      ],
+      [
+        0.468,
+        0.465,
+        1.58
+      ]
+    ],
+    "problems": []
+  }
+}

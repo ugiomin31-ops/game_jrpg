@@ -90,6 +90,7 @@ namespace Abyss.Logic.Battle
         public int Element;
         public int HitCount;
         public bool IsUltimate;
+        public bool IsChargeAnnounce, IsChargeRelease;
     }
 
     /// <summary>The action finished resolving.</summary>
@@ -198,6 +199,67 @@ namespace Abyss.Logic.Battle
     public sealed class BreakEvent : BattleEvent
     {
         public string UnitId;
+    }
+
+    /// <summary>
+    /// The party's weakness chain (battle-local, 0..<see cref="BattleEngine.ChainMax"/>) changed: +1 after a party action
+    /// that landed a weakness hit, 0 after a party damaging action without one, and 0 when the battle ends.
+    /// </summary>
+    public sealed class ChainChangedEvent : BattleEvent
+    {
+        public int OldValue { get; }
+        public int NewValue { get; }
+
+        public ChainChangedEvent(int oldValue, int newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
+        }
+    }
+
+    /// <summary>Immutable, replayable intent snapshot (no live unit/skill references).</summary>
+    public sealed class EnemyIntentPlannedEvent : BattleEvent
+    {
+        public EnemyIntent Intent { get; }
+        public int Round => Intent.Round;
+        public string EnemyUnitId => Intent.EnemyUnitId;
+        public int Slot => Intent.Slot;
+        public ActionKind Kind => Intent.Kind;
+        public string SkillId => Intent.SkillId;
+        public string PayloadId => Intent.PayloadId;
+        public string TargetUnitId => Intent.TargetUnitId;
+        public Scope Scope => Intent.Scope;
+        public bool IsRandom => Intent.IsRandom;
+        public bool IsChargeAnnounce => Intent.IsChargeAnnounce;
+        public bool IsChargeRelease => Intent.IsChargeRelease;
+        public EnemyIntentPlannedEvent(EnemyIntent intent) { Intent = intent; }
+    }
+    public sealed class IntentClearedEvent : BattleEvent
+    {
+        public string EnemyUnitId { get; }
+        public int Slot { get; }
+        public IntentClearedEvent(string enemyUnitId, int slot) { EnemyUnitId = enemyUnitId; Slot = slot; }
+    }
+    public sealed class ChargeStartedEvent : BattleEvent
+    {
+        public string EnemyUnitId { get; }
+        public string SkillId { get; }
+        public string TargetUnitId { get; }
+        public ChargeStartedEvent(string enemyUnitId, string skillId, string targetUnitId)
+        { EnemyUnitId = enemyUnitId; SkillId = skillId; TargetUnitId = targetUnitId; }
+    }
+    public sealed class ChargeReleasedEvent : BattleEvent
+    {
+        public string EnemyUnitId { get; }
+        public string SkillId { get; }
+        public ChargeReleasedEvent(string enemyUnitId, string skillId) { EnemyUnitId = enemyUnitId; SkillId = skillId; }
+    }
+    public enum ChargeCancelReason { Break = 0, Removed = 1 }
+    public sealed class ChargeCancelledEvent : BattleEvent
+    {
+        public string EnemyUnitId { get; }
+        public ChargeCancelReason Reason { get; }
+        public ChargeCancelledEvent(string enemyUnitId, ChargeCancelReason reason) { EnemyUnitId = enemyUnitId; Reason = reason; }
     }
 
     /// <summary>The unit recovered from BREAK (shield refilled).</summary>

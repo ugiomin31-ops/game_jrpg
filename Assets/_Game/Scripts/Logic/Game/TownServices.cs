@@ -71,15 +71,46 @@ namespace Abyss.Logic.Game
         public int HiddenWeaknesses;
         /// <summary>Drops are public after the first kill.</summary>
         public bool DropsRevealed;
+        /// <summary>Bestiary chapter the species is listed under (1-6 = zone pairs 1-2 .. 11-12, 7 = 붉은 게이트); see <see cref="TownServices.BestiaryChapters"/>.</summary>
+        public int Chapter;
+        /// <summary>Floor labels ("B12F") where the species can be met (encounter groups, FOEs, events, boss group), ascending.</summary>
+        public List<string> Habitat = new List<string>();
         public bool IsBoss => Enemy.IsBoss;
         public bool IsElite => Enemy.Rank > 0 && !Enemy.IsBoss;
+    }
+
+    /// <summary>One bestiary completion milestone: species with kills (or every boss) and the reward for reaching it.</summary>
+    public sealed class BestiaryMilestoneRow
+    {
+        /// <summary>0-based position in <see cref="TownServices.BestiaryMilestones"/>; the argument of <see cref="TownServices.ClaimBestiaryReward"/>.</summary>
+        public int Index;
+        /// <summary>Species needed (0 for the all-bosses milestone).</summary>
+        public int Threshold;
+        public bool AllBosses;
+        /// <summary>"토벌 25종" or "모든 보스 토벌".</summary>
+        public string Label = "";
+        /// <summary>Reward summary, e.g. "1,000 G  ·  상급 강화석 ×2".</summary>
+        public string RewardText = "";
+        public int Gold;
+        /// <summary>Item or equipment ids and counts granted with the gold.</summary>
+        public IReadOnlyList<(string Id, int Count)> Items = Array.Empty<(string, int)>();
+        /// <summary>Species killed (or bosses killed) so far.</summary>
+        public int Progress;
+        /// <summary>Progress needed.</summary>
+        public int Goal;
+        public bool Reached;
+        public bool Claimed;
     }
 
     /// <summary>Town service rules. Every mutating call returns a <see cref="ServiceResult"/>; failures change nothing.</summary>
     public static class TownServices
     {
-        /// <summary>Defeat gold-loss ratio per difficulty (easy keeps all gold).</summary>
-        public static float DefeatGoldLoss(Difficulty d) => d == Difficulty.Easy ? 0f : 0.5f;
+        /// <summary>Defeat gold-loss ratio per difficulty: easy keeps all gold, normal loses 25 %, hard 50 %.</summary>
+        public static float DefeatGoldLoss(Difficulty d) => d == Difficulty.Hard ? 0.5f : d == Difficulty.Normal ? 0.25f : 0f;
+
+        /// <summary>Gold a defeat recovery takes right now (<see cref="DefeatGoldLoss"/> of the purse, rounded down). Pure.</summary>
+        public static int DefeatGoldLossAmount(GameState state) =>
+            state == null || state.Gold <= 0 ? 0 : (int)Math.Floor(state.Gold * (double)DefeatGoldLoss(state.Difficulty));
 
         // ------------------------------------------------------------------ inn
 
@@ -93,7 +124,8 @@ namespace Abyss.Logic.Game
         }
 
         /// <summary>
-        /// Rests at the inn: full HP/MP, revive, clear statuses, respawn every FOE (treasures, doors, keys, warps stay).
+        /// Rests at the inn: full HP/MP, revive, clear statuses and carried TP (whole roster), refill springs, respawn every FOE
+        /// (treasures, doors, keys, warps stay). A failed payment changes nothing.
         /// <paramref name="free"/> skips the price (defeat recovery). Sets <see cref="ServiceResult.RequestsAutosave"/>.
         /// </summary>
         public static ServiceResult RestAtInn(GameDB db, GameState state, bool free = false)
@@ -101,7 +133,9 @@ namespace Abyss.Logic.Game
             int cost = free ? 0 : InnCost(state);
             if (state.Gold < cost) return ServiceResult.Fail("not_enough_gold");
             state.Gold -= cost;
-            PartyStats.RestoreParty(db, state);
+            PartyStats.RestoreParty(db, state, includeReserve: true);
+            state.ClearCarriedTp();
+            state.RefillSprings();
             foreach (var floor in state.Floors.Values) floor.DefeatedFoes.Clear();
             var result = ServiceResult.Ok("inn_rested");
             result.GoldDelta = -cost;
@@ -111,8 +145,30 @@ namespace Abyss.Logic.Game
 
         // ------------------------------------------------------------------ shop
 
-        /// <summary>Unlocked shop tier 1..4: +1 per biome reached (B4, B7, B10).</summary>
-        public static int ShopTier(GameState state) => Math.Max(1, Math.Min(4, state.DeepestFloor / 3 + 1));
+        /// <summary>Floors per zone (Tools/content/spec.py CHAPTERS: 12 zones of 3 floors, then the postgame).</summary>
+        public const int FloorsPerChapter = GameFlow.FloorsPerChapter;
+        /// <summary>Highest shop tier (7 = postgame 붉은 게이트).</summary>
+        public const int MaxChapter = 7;
+
+        /// <summary>
+        /// Shop tier 1..7 of a floor index. Each tier covers two zones (a city zone and the gate after it):
+        /// zones 1-2 = 1, 3-4 = 2, ..., 11-12 = 6, the postgame (zone 13) = 7.
+        /// </summary>
+        public static int ChapterOfFloor(int floorIndex)
+        {
+            int zone = Math.Max(0, floorIndex) / FloorsPerChapter + 1;
+            return Math.Max(1, Math.Min(MaxChapter, (zone + 1) / 2));
+        }
+
+        /// <summary>First floor index whose shop tier is <paramref name="tier"/> (the "N-1 도달 시 해금" hint).</summary>
+        public static int TierUnlockFloor(int tier) => Math.Max(0, (2 * Math.Max(1, tier) - 2) * FloorsPerChapter);
+
+        /// <summary>
+        /// Unlocked shop tier (1..7) from the deepest zone reached; clearing the game opens tier 7. Equipment tiers T1-T2
+        /// sell at 1, T3 at 2 ... T7 at 6; T8 legendaries are never sold.
+        /// </summary>
+        public static int ShopTier(GameState state) =>
+            state.Flags.Contains(GameFlow.FlagCleared) ? MaxChapter : ChapterOfFloor(state.DeepestFloor);
 
         /// <summary>
         /// Every item and equipment piece the shop ever sells (shop_tier ≥ 1, price &gt; 0), sorted by tier, price, id;
@@ -138,9 +194,9 @@ namespace Abyss.Logic.Game
             return output;
         }
 
-        /// <summary>Sell value of one item: explicit sell_price, else half the price.</summary>
+        /// <summary>Sell value of one item: explicit sell_price, else half the price; key items are never sold.</summary>
         public static int ItemSellValue(GameDB db, string itemId) =>
-            db.Items.TryGetValue(itemId, out var item) ? (item.SellPrice > 0 ? item.SellPrice : item.Price / 2) : 0;
+            db.Items.TryGetValue(itemId, out var item) && item.ItemType != ItemType.Key ? (item.SellPrice > 0 ? item.SellPrice : item.Price / 2) : 0;
 
         /// <summary>Sell value of one equipment piece: explicit sell_price (≥ 0), else half the price.</summary>
         public static int EquipmentSellValue(GameDB db, string equipmentId) =>
@@ -172,11 +228,14 @@ namespace Abyss.Logic.Game
             if (state.ItemCount(itemId) < count) return ServiceResult.Fail("not_enough_items");
             int value = ItemSellValue(db, itemId);
             if (value <= 0) return ServiceResult.Fail("not_sellable");
+            long total = (long)value * count;
+            long gold = state.Gold + total;
+            if (total > int.MaxValue || gold > int.MaxValue) return ServiceResult.Fail("stack_full");
             state.RemoveItem(itemId, count);
-            state.Gold += value * count;
+            state.Gold = (int)gold;
             QuestLog.Refresh(db, state);
             var result = ServiceResult.Ok("sold", item.DisplayName);
-            result.GoldDelta = value * count;
+            result.GoldDelta = (int)total;
             return result;
         }
 
@@ -206,10 +265,13 @@ namespace Abyss.Logic.Game
             if (state.BagCount(equipmentId) < count) return ServiceResult.Fail("not_owned");
             int value = EquipmentSellValue(db, equipmentId);
             if (value <= 0) return ServiceResult.Fail("not_sellable");
+            long total = (long)value * count;
+            long gold = state.Gold + total;
+            if (total > int.MaxValue || gold > int.MaxValue) return ServiceResult.Fail("stack_full");
             state.RemoveEquipment(equipmentId, count);
-            state.Gold += value * count;
+            state.Gold = (int)gold;
             var result = ServiceResult.Ok("sold", piece.DisplayName);
-            result.GoldDelta = value * count;
+            result.GoldDelta = (int)total;
             return result;
         }
 
@@ -312,9 +374,14 @@ namespace Abyss.Logic.Game
 
         // ------------------------------------------------------------------ bestiary
 
-        /// <summary>Every enemy: non-bosses first, then level, rank, id.</summary>
+        /// <summary>
+        /// Every enemy: non-bosses first, then level, rank, id. Chapter and habitat come from the floors
+        /// (see <see cref="BestiaryChapters"/>).
+        /// </summary>
         public static List<BestiaryRow> BestiaryRows(GameDB db, GameState state)
         {
+            var habitats = BestiaryHabitats(db);
+            var chapters = BestiaryChapters(db, habitats);
             var output = new List<BestiaryRow>();
             foreach (var enemy in db.Enemies.Values)
             {
@@ -326,6 +393,9 @@ namespace Abyss.Logic.Game
                         if (enemy.Weaknesses.Contains(element) && !row.RevealedWeaknesses.Contains(element)) row.RevealedWeaknesses.Add(element);
                 row.HiddenWeaknesses = enemy.Weaknesses.Count - row.RevealedWeaknesses.Count;
                 row.DropsRevealed = row.Kills > 0;
+                row.Chapter = chapters[enemy.Id];
+                if (habitats.TryGetValue(enemy.Id, out var floors))
+                    foreach (int index in floors) row.Habitat.Add(db.Floors[index].FloorLabel);
                 output.Add(row);
             }
             output.Sort((a, b) =>
@@ -336,6 +406,176 @@ namespace Abyss.Logic.Game
                 return string.CompareOrdinal(a.Enemy.Id, b.Enemy.Id);
             });
             return output;
+        }
+
+        /// <summary>
+        /// Floor indices (ascending, unique) where each enemy id can be met: encounter groups, FOE groups, event groups
+        /// and the floor's boss group. Showcase groups are display only and do not count.
+        /// </summary>
+        public static Dictionary<string, List<int>> BestiaryHabitats(GameDB db)
+        {
+            var output = new Dictionary<string, List<int>>(StringComparer.Ordinal);
+            for (int index = 0; index < db.Floors.Count; index++)
+            {
+                var floor = db.Floors[index];
+                var ids = new List<string>();
+                foreach (var group in floor.EncounterGroups) ids.AddRange(group);
+                foreach (var foe in floor.Foes) ids.AddRange(foe.Group);
+                foreach (var ev in floor.Events) ids.AddRange(ev.Group);
+                ids.AddRange(floor.BossGroup);
+                foreach (string id in ids)
+                {
+                    if (!db.Enemies.ContainsKey(id)) continue;
+                    if (!output.TryGetValue(id, out var list)) output[id] = list = new List<int>();
+                    if (list.Count == 0 || list[list.Count - 1] != index) list.Add(index);
+                }
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Chapter per enemy id (1-6 main, 7 = 시련의 회랑). Rule: (1) the chapter of the first floor the species appears on
+        /// (5 floors per chapter, <see cref="GameFlow.ChapterOf"/>); (2) a species that appears nowhere (summons only)
+        /// takes the earliest chapter of an enemy that summons it (one hop, via Summons or boss phase summons);
+        /// (3) otherwise the chapter of the party level band it is met at (<see cref="LevelChapter"/>).
+        /// </summary>
+        public static Dictionary<string, int> BestiaryChapters(GameDB db, Dictionary<string, List<int>> habitats)
+        {
+            var chapters = new Dictionary<string, int>(StringComparer.Ordinal);
+            foreach (var enemy in db.Enemies.Values)
+                if (habitats.TryGetValue(enemy.Id, out var floors) && floors.Count > 0) chapters[enemy.Id] = ChapterOfFloor(floors[0]);
+            var met = new Dictionary<string, int>(chapters, StringComparer.Ordinal);
+            foreach (var enemy in db.Enemies.Values)
+            {
+                if (chapters.ContainsKey(enemy.Id)) continue;
+                int best = 0;
+                foreach (var summoner in db.Enemies.Values)
+                {
+                    if (!met.TryGetValue(summoner.Id, out int chapter) || !Summons(summoner, enemy.Id)) continue;
+                    if (best == 0 || chapter < best) best = chapter;
+                }
+                chapters[enemy.Id] = best > 0 ? best : LevelChapter(enemy.Level);
+            }
+            return chapters;
+        }
+
+        /// <summary>Whether <paramref name="summoner"/> can call <paramref name="enemyId"/> (own summons or a boss phase summon).</summary>
+        static bool Summons(EnemyDef summoner, string enemyId)
+        {
+            if (summoner.Summons != null && summoner.Summons.Contains(enemyId)) return true;
+            if (summoner.Phases == null) return false;
+            foreach (var phase in summoner.Phases)
+                if (phase?.Summon != null && phase.Summon.Contains(enemyId)) return true;
+            return false;
+        }
+
+        /// <summary>Chapter whose party level band (<see cref="ChapterLevelEntries"/>) contains <paramref name="level"/>.</summary>
+        public static int LevelChapter(int level)
+        {
+            int chapter = 1;
+            foreach (int entry in ChapterLevelEntries) if (level >= entry) chapter++;
+            return Math.Min(7, chapter);
+        }
+
+        /// <summary>Party level at which bestiary chapters 2-7 begin (zones 3, 5, 7, 9, 11 and the red gate; chapter 1 starts at level 1).</summary>
+        static readonly int[] ChapterLevelEntries = { 11, 22, 33, 44, 55, 66 };
+
+        /// <summary>
+        /// Milestones: species with kills (12 / 25 / 40 / 60 / 80 / 100 of 108), then every boss defeated. Rewards use
+        /// existing items and equipment only; the top accessory is epic (rarity 2), no legendary or tier-8 gear.
+        /// </summary>
+        static readonly BestiaryMilestoneDef[] BestiaryMilestoneDefs =
+        {
+            Milestone(10, 300, ("enhance_stone", 3)),
+            Milestone(25, 1000, ("enhance_stone_hi", 2)),
+            Milestone(40, 2500, ("seed_life", 1), ("mega_potion", 2)),
+            Milestone(60, 5000, ("enhance_stone_hi", 4), ("seed_power", 1)),
+            Milestone(80, 8000, ("enhance_stone_abyss", 2), ("phoenix_plume", 2)),
+            Milestone(100, 12000, ("seed_magic", 1), ("seed_mind", 1), ("x_potion", 3)),
+            new BestiaryMilestoneDef { AllBosses = true, Gold = 20000, Items = new[] { ("acc_regen_ring", 1) } },
+        };
+
+        static BestiaryMilestoneDef Milestone(int threshold, int gold, params (string Id, int Count)[] items) =>
+            new BestiaryMilestoneDef { Threshold = threshold, Gold = gold, Items = items };
+
+        sealed class BestiaryMilestoneDef
+        {
+            public int Threshold;
+            public bool AllBosses;
+            public int Gold;
+            public (string Id, int Count)[] Items = Array.Empty<(string, int)>();
+        }
+
+        /// <summary>Flag that records a claimed milestone: "bestiary_reward_&lt;n&gt;", n = 1-based milestone number.</summary>
+        public static string BestiaryRewardFlag(int index) => "bestiary_reward_" + (index + 1);
+
+        /// <summary>Milestone rows in order, with progress, reached and claimed state.</summary>
+        public static List<BestiaryMilestoneRow> BestiaryMilestones(GameDB db, GameState state)
+        {
+            int killedSpecies = 0, bosses = 0, bossesKilled = 0;
+            foreach (var enemy in db.Enemies.Values)
+            {
+                bool killed = BestiaryKilled(state, enemy.Id);
+                if (killed) killedSpecies++;
+                if (enemy.IsBoss)
+                {
+                    bosses++;
+                    if (killed) bossesKilled++;
+                }
+            }
+            var output = new List<BestiaryMilestoneRow>();
+            for (int i = 0; i < BestiaryMilestoneDefs.Length; i++)
+            {
+                var def = BestiaryMilestoneDefs[i];
+                var row = new BestiaryMilestoneRow
+                {
+                    Index = i, Threshold = def.Threshold, AllBosses = def.AllBosses, Gold = def.Gold, Items = def.Items,
+                    Label = def.AllBosses ? "모든 보스 토벌" : $"토벌 {def.Threshold}종",
+                    RewardText = BestiaryRewardText(db, def),
+                    Progress = def.AllBosses ? bossesKilled : killedSpecies,
+                    Goal = def.AllBosses ? bosses : def.Threshold,
+                    Claimed = state.Flags.Contains(BestiaryRewardFlag(i)),
+                };
+                row.Reached = bosses > 0 && row.Progress >= row.Goal;
+                output.Add(row);
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Grants milestone <paramref name="index"/> (0-based, see <see cref="BestiaryMilestones"/>): gold and items, then
+        /// the flag. Atomic. Failure reasons: invalid_milestone, already_claimed, not_reached.
+        /// </summary>
+        public static ServiceResult ClaimBestiaryReward(GameDB db, GameState state, int index)
+        {
+            if (index < 0 || index >= BestiaryMilestoneDefs.Length) return ServiceResult.Fail("invalid_milestone");
+            string flag = BestiaryRewardFlag(index);
+            if (state.Flags.Contains(flag)) return ServiceResult.Fail("already_claimed");
+            var milestone = BestiaryMilestones(db, state)[index];
+            if (!milestone.Reached) return ServiceResult.Fail("not_reached");
+            var def = BestiaryMilestoneDefs[index];
+            state.Gold += def.Gold;
+            foreach (var item in def.Items) state.AddContent(db, item.Id, item.Count);
+            state.Flags.Add(flag);
+            QuestLog.Refresh(db, state);
+            var result = ServiceResult.Ok("bestiary_reward_claimed", milestone.RewardText);
+            result.GoldDelta = def.Gold;
+            return result;
+        }
+
+        static bool BestiaryKilled(GameState state, string enemyId) => state.Bestiary.TryGetValue(enemyId, out var entry) && entry != null && entry.Kills > 0;
+
+        static string BestiaryRewardText(GameDB db, BestiaryMilestoneDef def)
+        {
+            var parts = new List<string>();
+            if (def.Gold > 0) parts.Add(def.Gold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + "만원");
+            foreach (var item in def.Items)
+            {
+                string name = db.Items.TryGetValue(item.Id, out var consumable) ? consumable.DisplayName
+                    : db.Equipment.TryGetValue(item.Id, out var piece) ? piece.DisplayName : item.Id;
+                parts.Add(name + " ×" + item.Count);
+            }
+            return string.Join("  ·  ", parts);
         }
 
         // ------------------------------------------------------------------ depart

@@ -1,22 +1,22 @@
 {
   "id": "shopkeeper",
   "category": "NPCs",
-  "triangles": 15736,
+  "triangles": 26037,
   "bounds": {
     "min": [
-      -0.28158,
-      -0.23879,
-      0.0
+      -0.24726,
+      -0.16182,
+      0.0142
     ],
     "max": [
-      0.28203,
-      0.265,
-      1.2032
+      0.2461,
+      0.24086,
+      1.81588
     ],
     "size": [
-      0.56361,
-      0.50379,
-      1.2032
+      0.49336,
+      0.40268,
+      1.80168
     ]
   },
   "bones": [
@@ -26,8 +26,6 @@
     "chest",
     "neck",
     "head",
-    "braid.R",
-    "braid.L",
     "shoulder.L",
     "upper_arm.L",
     "forearm.L",
@@ -112,131 +110,344 @@
   },
   "contact": {
     "Attack": 0.4,
-    "Cast": 0.6
+    "Cast": 0.6,
+    "Skill": 0.5,
+    "Ultimate": 0.6666666666666666
   },
   "sockets": {
     "weapon.R": {
       "head": [
-        -0.17165511846542358,
-        -0.005415859632194042,
-        0.331739217042923
+        -0.2017466127872467,
+        -0.0607190802693367,
+        0.8316435813903809
       ],
       "tail": [
-        -0.17165511846542358,
-        -0.14699460566043854,
-        0.38129177689552307
+        -0.2017466127872467,
+        -0.20229783654212952,
+        0.881196141242981
       ],
       "parent": "hand.R"
     },
     "weapon.L": {
       "head": [
-        0.17165511846542358,
-        -0.005415859632194042,
-        0.331739217042923
+        0.20073869824409485,
+        -0.060719676315784454,
+        0.8316432237625122
       ],
       "tail": [
-        0.17165511846542358,
-        -0.14699460566043854,
-        0.38129177689552307
+        0.20073869824409485,
+        -0.20229843258857727,
+        0.8811957836151123
       ],
       "parent": "hand.L"
     }
   },
-  "fbx": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\NPCs/shopkeeper/shopkeeper.fbx",
+  "fbx": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper.fbx",
+  "texture_dir": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex",
+  "textures": [
+    {
+      "material": "M00_000_00_FaceBrow_00_FACE",
+      "source_material": "M00_000_00_FaceBrow_00_FACE",
+      "image": "M00_000_00_FaceBrow_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_FaceBrow_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.9803,
+      "bytes": 29135
+    },
+    {
+      "material": "M00_000_00_FaceMouth_00_FACE",
+      "source_material": "M00_000_00_FaceMouth_00_FACE",
+      "image": "M00_000_00_FaceMouth_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_FaceMouth_00_FACE.png",
+      "source_size": [
+        512,
+        512
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 120447
+    },
+    {
+      "material": "M00_000_00_EyeIris_00_EYE",
+      "source_material": "M00_000_00_EyeIris_00_EYE",
+      "image": "M00_000_00_EyeIris_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_EyeIris_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.8116,
+      "bytes": 138437
+    },
+    {
+      "material": "M00_000_00_EyeHighlight_00_EYE",
+      "source_material": "M00_000_00_EyeHighlight_00_EYE",
+      "image": "M00_000_00_EyeHighlight_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_EyeHighlight_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.9931,
+      "bytes": 28495
+    },
+    {
+      "material": "M00_000_00_EyeWhite_00_EYE",
+      "source_material": "M00_000_00_EyeWhite_00_EYE",
+      "image": "M00_000_00_EyeWhite_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_EyeWhite_00_EYE.png",
+      "source_size": [
+        1024,
+        512
+      ],
+      "size": [
+        1024,
+        512
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 261612
+    },
+    {
+      "material": "M00_000_00_Face_00_SKIN",
+      "source_material": "M00_000_00_Face_00_SKIN",
+      "image": "M00_000_00_Face_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_Face_00_SKIN.png",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 609116
+    },
+    {
+      "material": "M00_000_00_FaceEyelash_00_FACE",
+      "source_material": "M00_000_00_FaceEyelash_00_FACE",
+      "image": "M00_000_00_FaceEyelash_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_FaceEyelash_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 1.0,
+      "bytes": 4835
+    },
+    {
+      "material": "M00_000_00_FaceEyeline_00_FACE",
+      "source_material": "M00_000_00_FaceEyeline_00_FACE",
+      "image": "M00_000_00_FaceEyeline_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_000_00_FaceEyeline_00_FACE.png",
+      "source_size": [
+        1024,
+        256
+      ],
+      "size": [
+        1024,
+        256
+      ],
+      "cutout_texels": 0.8404,
+      "bytes": 52729
+    },
+    {
+      "material": "M00_001_01_Body_00_SKIN",
+      "source_material": "M00_001_01_Body_00_SKIN",
+      "image": "M00_001_00_Body_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_001_01_Body_00_SKIN.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 735680
+    },
+    {
+      "material": "M00_006_01_Tops_01_CLOTH",
+      "source_material": "M00_006_01_Tops_01_CLOTH",
+      "image": "M00_006_01_Tops_01",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_006_01_Tops_01_CLOTH.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 649894
+    },
+    {
+      "material": "M00_001_01_Bottoms_01_CLOTH",
+      "source_material": "M00_001_01_Bottoms_01_CLOTH",
+      "image": "M00_001_01_Bottoms_01",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/M00_001_01_Bottoms_01_CLOTH.png",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        1024,
+        1024
+      ],
+      "cutout_texels": 0.0044,
+      "bytes": 691352
+    },
+    {
+      "material": "F00_000_Hair_00_HAIR",
+      "source_material": "F00_000_Hair_00_HAIR",
+      "image": "F00_000_Hair_00",
+      "path": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Assets/_Game/Resources/Art/NPCs/shopkeeper/shopkeeper_tex/F00_000_Hair_00_HAIR.png",
+      "source_size": [
+        512,
+        1024
+      ],
+      "size": [
+        512,
+        1024
+      ],
+      "cutout_texels": 0.0,
+      "bytes": 238342
+    }
+  ],
+  "materials": [
+    "M00_000_00_FaceBrow_00_FACE",
+    "M00_000_00_FaceMouth_00_FACE",
+    "M00_000_00_EyeIris_00_EYE",
+    "M00_000_00_EyeHighlight_00_EYE",
+    "M00_000_00_EyeWhite_00_EYE",
+    "M00_000_00_Face_00_SKIN",
+    "M00_000_00_FaceEyelash_00_FACE",
+    "M00_000_00_FaceEyeline_00_FACE",
+    "M00_001_01_Body_00_SKIN",
+    "M00_006_01_Tops_01_CLOTH",
+    "M00_001_01_Bottoms_01_CLOTH",
+    "F00_000_Hair_00_HAIR",
+    "M_Toon",
+    "M_Emit"
+  ],
   "previews": [
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_shopkeeper.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_shopkeeper_front.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_shopkeeper_attack.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_shopkeeper_cast.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_shopkeeper_die.png",
-    "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\npc_shopkeeper_victory.png"
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_shopkeeper.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_shopkeeper_front.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_shopkeeper_attack.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_shopkeeper_cast.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_shopkeeper_die.png",
+    "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/preview/npc_shopkeeper_victory.png"
   ],
   "pose_bounds": {
     "Idle": {
       "min": [
-        -0.28158,
-        -0.23879,
-        0.0
+        -0.27095,
+        -0.16182,
+        0.0142
       ],
       "max": [
-        0.28203,
-        0.265,
-        1.2032
+        0.26994,
+        0.24086,
+        1.81588
       ],
       "size": [
-        0.56361,
-        0.50379,
-        1.2032
+        0.54089,
+        0.40268,
+        1.80168
       ]
     },
     "Attack": {
       "min": [
-        -0.28855,
-        -0.32512,
-        0.008
+        -0.24435,
+        -0.56969,
+        0.0222
       ],
       "max": [
-        0.27319,
-        0.32696,
-        1.20628
+        0.35506,
+        0.29146,
+        1.82581
       ],
       "size": [
-        0.56174,
-        0.65208,
-        1.19828
+        0.59942,
+        0.86116,
+        1.80361
       ]
     },
     "Cast": {
       "min": [
-        -0.28158,
-        -0.29154,
-        0.012
+        -0.23228,
+        -0.50176,
+        0.0262
       ],
       "max": [
-        0.28203,
-        0.39414,
-        1.20112
+        0.23127,
+        0.31716,
+        1.93394
       ],
       "size": [
-        0.56361,
-        0.68568,
-        1.18912
+        0.46356,
+        0.81892,
+        1.90774
       ]
     },
     "Die": {
       "min": [
-        -0.39668,
-        -1.19623,
-        -0.1012
+        -0.54275,
+        -1.80995,
+        -0.03278
       ],
       "max": [
-        0.25635,
-        0.01136,
-        0.40584
+        0.30499,
+        -0.00573,
+        0.38493
       ],
       "size": [
-        0.65303,
-        1.20759,
-        0.50704
+        0.84774,
+        1.80422,
+        0.41771
       ]
     },
     "Victory": {
       "min": [
-        -0.28158,
-        -0.3007,
-        0.01
+        -0.2583,
+        -0.51312,
+        0.0242
       ],
       "max": [
-        0.28203,
-        0.35055,
-        1.20572
+        0.26664,
+        0.295,
+        1.94234
       ],
       "size": [
-        0.56361,
-        0.65126,
-        1.19572
+        0.52494,
+        0.80811,
+        1.91813
       ]
     }
   },
-  "blend": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\npc_shopkeeper.blend"
+  "blend": "/home/claude/game_jrpg/.claude/worktrees/agent-ad3a2e1b7cc667024/Blender/blend/npc_shopkeeper.blend"
 }

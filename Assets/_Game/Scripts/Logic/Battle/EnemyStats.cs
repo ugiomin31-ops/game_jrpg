@@ -26,14 +26,14 @@ namespace Abyss.Logic.Battle
         public const double DefaultCrit = 0.05;
         public const double DefaultCritMultiplier = 1.5;
 
-        /// <summary>Multipliers for a difficulty; hard bosses use the per-kind override (HP 1.2, ATK/MAG 1.1).</summary>
+        /// <summary>Multipliers for a difficulty; hard bosses use the per-kind override (HP 1.35, ATK/MAG 1.1). Hard grants no bonus XP.</summary>
         public static DifficultyScale ScalesFor(Difficulty difficulty, bool isBoss)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy: return new DifficultyScale(0.75, 0.8, 0.8, 1.2, 1.0);
                 case Difficulty.Hard:
-                    return isBoss ? new DifficultyScale(1.2, 1.1, 1.1, 1.1, 1.2) : new DifficultyScale(1.35, 1.2, 1.2, 1.1, 1.2);
+                    return isBoss ? new DifficultyScale(1.35, 1.1, 1.1, 1.0, 1.2) : new DifficultyScale(1.35, 1.2, 1.2, 1.0, 1.2);
                 default: return new DifficultyScale(1.0, 1.0, 1.0, 1.0, 1.0);
             }
         }

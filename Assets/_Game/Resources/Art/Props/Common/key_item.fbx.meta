@@ -17,6 +17,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_GateKeycard_Tripo
+    second: {fileID: 2100000, guid: 4b0316778ef927a49973ed745c812c81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: 42b88e088e10be54fb8136bcd5eeaa12, type: 2}
   materials:

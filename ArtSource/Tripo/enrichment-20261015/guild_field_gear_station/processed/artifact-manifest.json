@@ -1,0 +1,98 @@
+{
+  "raw_unchanged": {
+    "guild_field_gear_station.zip": "fd89c9e1560263679fa9713a749ae54f721339be9226997d019998e1e307fe6e",
+    "tripo_convert_3551cec0-36df-4f5c-89e6-92c921944d29.fbx": "7ab5a2bbfbace46bbf52549b181f23485625e1d2cf9bf0ee26d40f503b2bb040"
+  },
+  "textures": [
+    {
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_basecolor.PNG",
+      "sha256": "f887526428c52795f7830badeb2925f8711d90367fc56f44e8da7067b0aaa489",
+      "size": [
+        1024,
+        1024
+      ],
+      "matches_zip": true
+    },
+    {
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_metallic.PNG",
+      "sha256": "38801605517bea09c70bbc7cdfd2b052b5d220ec3d45e3f8b10faed46b1a434e",
+      "size": [
+        1024,
+        1024
+      ],
+      "matches_zip": true
+    },
+    {
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_roughness.PNG",
+      "sha256": "42502627f5010c2448d389abdd422e86fabc1c1f3f52ac2fed0de3d0072e1a2b",
+      "size": [
+        1024,
+        1024
+      ],
+      "matches_zip": true
+    },
+    {
+      "file": "guild_field_gear_station_tex/guild_field_gear_station_normal.PNG",
+      "sha256": "256002e8dcbdf6a351dcc5776499a6eaa6428c28127e7749de1f5368cdd36721",
+      "size": [
+        1024,
+        1024
+      ],
+      "matches_zip": true
+    }
+  ],
+  "renders": [
+    {
+      "file": "evidence/after-front.png",
+      "sha256": "02c441ec7cb3742053d5659d2c278851b333a7d84699559b1d6a994d737a619c",
+      "size": [
+        960,
+        960
+      ],
+      "bytes": 1040214
+    },
+    {
+      "file": "evidence/after-rear.png",
+      "sha256": "f4d4cc484544233f1b899d62c9424d6e0672af7cce4c6742f90dd350af2df632",
+      "size": [
+        960,
+        960
+      ],
+      "bytes": 1024197
+    },
+    {
+      "file": "evidence/before-front.png",
+      "sha256": "291223b2b6770a4842b051c6827dd8b35f1514996051b866b0c998bfae5ac7f7",
+      "size": [
+        960,
+        960
+      ],
+      "bytes": 1038935
+    },
+    {
+      "file": "evidence/before-rear.png",
+      "sha256": "912eaf26a64e6a332db4c8455d4cbb26a70195675f98afee8e68edb620f39195",
+      "size": [
+        960,
+        960
+      ],
+      "bytes": 1024253
+    }
+  ],
+  "deliverables": [
+    {
+      "file": "guild_field_gear_station.fbx",
+      "bytes": 530540,
+      "sha256": "d64da8135e4c0843d0c2a8e15516e6d450b98a29830207104ee367d35f73f78d"
+    },
+    {
+      "file": "guild_field_gear_station.blend",
+      "bytes": 8190835,
+      "sha256": "854d15c1ca0e84f2cb7dfe3f3d8cca7c18f9c4ce19d14b12da21acdd7d0af469"
+    }
+  ],
+  "script": {
+    "file": "Tools/prepare_guild_field_station.py",
+    "sha256": "f60135dfa43aafe3788d127e321ee6f84a34c9830fd5298ae86dbe5484da42fa"
+  }
+}

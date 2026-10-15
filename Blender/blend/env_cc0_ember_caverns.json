@@ -1,0 +1,227 @@
+[
+ {
+  "piece": "floor_a",
+  "tris": 305,
+  "objects": [
+   "floor_a",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/floor_a.fbx"
+ },
+ {
+  "piece": "floor_b",
+  "tris": 1102,
+  "objects": [
+   "floor_b",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/floor_b.fbx"
+ },
+ {
+  "piece": "floor_c",
+  "tris": 330,
+  "objects": [
+   "floor_c",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/floor_c.fbx"
+ },
+ {
+  "piece": "wall_a",
+  "tris": 1404,
+  "objects": [
+   "wall_a"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/wall_a.fbx"
+ },
+ {
+  "piece": "wall_b",
+  "tris": 1644,
+  "objects": [
+   "wall_b"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/wall_b.fbx"
+ },
+ {
+  "piece": "wall_c",
+  "tris": 1580,
+  "objects": [
+   "wall_c"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/wall_c.fbx"
+ },
+ {
+  "piece": "door",
+  "tris": 1080,
+  "objects": [
+   "door",
+   "Door"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/door.fbx"
+ },
+ {
+  "piece": "door_locked",
+  "tris": 1220,
+  "objects": [
+   "door_locked",
+   "Door",
+   "Lock"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/door_locked.fbx"
+ },
+ {
+  "piece": "stairs_down",
+  "tris": 712,
+  "objects": [
+   "stairs_down",
+   "Ceiling"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/stairs_down.fbx"
+ },
+ {
+  "piece": "stairs_up",
+  "tris": 490,
+  "objects": [
+   "stairs_up"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/stairs_up.fbx"
+ },
+ {
+  "piece": "chest",
+  "tris": 1634,
+  "objects": [
+   "chest",
+   "Lid"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/chest.fbx"
+ },
+ {
+  "piece": "lore_stone",
+  "tris": 415,
+  "objects": [
+   "lore_stone"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/lore_stone.fbx"
+ },
+ {
+  "piece": "trap",
+  "tris": 646,
+  "objects": [
+   "trap",
+   "Spikes"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/trap.fbx"
+ },
+ {
+  "piece": "spring",
+  "tris": 1328,
+  "objects": [
+   "spring",
+   "LightAnchor_spring"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/spring.fbx"
+ },
+ {
+  "piece": "warp",
+  "tris": 476,
+  "objects": [
+   "warp",
+   "LightAnchor_warp",
+   "Spot_warp"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/warp.fbx"
+ },
+ {
+  "piece": "torch",
+  "tris": 386,
+  "objects": [
+   "torch",
+   "LightAnchor"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/torch.fbx"
+ },
+ {
+  "piece": "decor_1",
+  "tris": 115,
+  "objects": [
+   "decor_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/decor_1.fbx"
+ },
+ {
+  "piece": "decor_2",
+  "tris": 80,
+  "objects": [
+   "decor_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/decor_2.fbx"
+ },
+ {
+  "piece": "decor_3",
+  "tris": 136,
+  "objects": [
+   "decor_3"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/decor_3.fbx"
+ },
+ {
+  "piece": "decor_4",
+  "tris": 40,
+  "objects": [
+   "decor_4"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/decor_4.fbx"
+ },
+ {
+  "piece": "decor_5",
+  "tris": 703,
+  "objects": [
+   "decor_5"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/decor_5.fbx"
+ },
+ {
+  "piece": "decor_6",
+  "tris": 152,
+  "objects": [
+   "decor_6"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/decor_6.fbx"
+ },
+ {
+  "piece": "overlay_1",
+  "tris": 124,
+  "objects": [
+   "overlay_1"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/overlay_1.fbx"
+ },
+ {
+  "piece": "overlay_2",
+  "tris": 96,
+  "objects": [
+   "overlay_2"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/overlay_2.fbx"
+ },
+ {
+  "piece": "boss_gate",
+  "tris": 1558,
+  "objects": [
+   "boss_gate",
+   "LightAnchor_gate_L",
+   "LightAnchor_gate_R",
+   "Spot_boss"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/boss_gate.fbx"
+ },
+ {
+  "piece": "foe_marker",
+  "tris": 824,
+  "objects": [
+   "foe_marker",
+   "Spot_foe"
+  ],
+  "path": "/home/claude/game_jrpg/Assets/_Game/Resources/Art/Environment/ember_caverns/foe_marker.fbx"
+ }
+]

@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "input": "C:\\Users\\User\\Desktop\\GAME_JRPG\\game_jrpg-pr9\\ArtSource\\enemies\\elite_mushroom\\enrichment_20261015\\raw\\tripo_convert_d949cdaa-e88a-49f9-895a-cfd278c89c81.fbx",
+  "blender_version": "5.2.1 LTS",
+  "passed": true,
+  "weights": [
+    {
+      "mesh": "tripo_node_d949cdaa",
+      "armature": "Armature",
+      "vertices": 5836,
+      "weighted_vertices": 5836,
+      "unweighted_vertices": 0,
+      "invalid_weights": 0,
+      "minimum_positive_weight_sum": 1.0,
+      "maximum_weight_sum": 1.0000000521540642,
+      "bone_vertex_counts": {
+        "mixamorig:LeftLeg": 455,
+        "mixamorig:LeftFoot": 480,
+        "mixamorig:LeftUpLeg": 628,
+        "mixamorig:RightUpLeg": 612,
+        "mixamorig:RightLeg": 443,
+        "mixamorig:RightFoot": 459,
+        "mixamorig:RightForeArm": 507,
+        "mixamorig:RightHand": 252,
+        "mixamorig:RightHandThumb1": 135,
+        "mixamorig:LeftForeArm": 534,
+        "mixamorig:LeftHandPinky2": 16,
+        "mixamorig:LeftHandPinky3": 224,
+        "mixamorig:LeftHandThumb1": 350,
+        "mixamorig:LeftHand": 99,
+        "mixamorig:RightShoulder": 1442,
+        "mixamorig:RightArm": 330,
+        "mixamorig:RightHandPinky3": 194,
+        "mixamorig:LeftArm": 319,
+        "mixamorig:LeftShoulder": 1335,
+        "mixamorig:Head": 3137,
+        "mixamorig:Spine2": 1946,
+        "mixamorig:Hips": 668,
+        "mixamorig:RightHandIndex2": 14,
+        "mixamorig:RightHandIndex3": 50,
+        "mixamorig:RightHandRing2": 7,
+        "mixamorig:RightHandThumb3": 88,
+        "mixamorig:RightHandMiddle3": 61,
+        "mixamorig:Spine": 319,
+        "mixamorig:RightHandPinky1": 287,
+        "mixamorig:RightHandIndex1": 8,
+        "mixamorig:LeftHandRing3": 17,
+        "mixamorig:LeftHandMiddle3": 31,
+        "mixamorig:Neck": 896,
+        "mixamorig:RightHandMiddle1": 6,
+        "mixamorig:RightHandRing3": 3,
+        "mixamorig:LeftHandThumb2": 180,
+        "mixamorig:RightHandRing1": 1,
+        "mixamorig:RightHandPinky2": 197,
+        "mixamorig:LeftHandMiddle2": 8,
+        "mixamorig:LeftToeBase": 139,
+        "mixamorig:RightToeBase": 136,
+        "mixamorig:LeftHandThumb3": 168,
+        "mixamorig:Spine1": 445,
+        "mixamorig:RightHandThumb2": 26
+      }
+    }
+  ],
+  "selection": [
+    {
+      "armature": "Armature",
+      "method": "major_limb_names",
+      "bones": [
+        "mixamorig:LeftUpLeg",
+        "mixamorig:LeftLeg",
+        "mixamorig:LeftFoot",
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftHand",
+        "mixamorig:RightArm",
+        "mixamorig:RightForeArm",
+        "mixamorig:RightHand",
+        "mixamorig:RightUpLeg",
+        "mixamorig:RightLeg",
+        "mixamorig:RightFoot"
+      ]
+    }
+  ],
+  "probes": [
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:LeftUpLeg",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 729,
+          "maximum_delta": 0.09229839447150956,
+          "mean_delta": 0.004425834015205515
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:LeftLeg",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 520,
+          "maximum_delta": 0.06945917338028536,
+          "mean_delta": 0.00231465446237175
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:LeftFoot",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 481,
+          "maximum_delta": 0.06476274940785942,
+          "mean_delta": 0.0015834405727205413
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:LeftArm",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 628,
+          "maximum_delta": 0.12571707386000683,
+          "mean_delta": 0.006404780315617875
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:LeftForeArm",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 547,
+          "maximum_delta": 0.11178911580148056,
+          "mean_delta": 0.004776730897963521
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:LeftHand",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 446,
+          "maximum_delta": 0.05677422288978117,
+          "mean_delta": 0.001765750315014956
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:RightArm",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 704,
+          "maximum_delta": 0.11733756753381902,
+          "mean_delta": 0.006130678422749952
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:RightForeArm",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 566,
+          "maximum_delta": 0.08654990021570094,
+          "mean_delta": 0.0035700168015678313
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:RightHand",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 505,
+          "maximum_delta": 0.06347520525968735,
+          "mean_delta": 0.0021374527365461827
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:RightUpLeg",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 713,
+          "maximum_delta": 0.09508462113820487,
+          "mean_delta": 0.004498224010836723
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:RightLeg",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 504,
+          "maximum_delta": 0.07369958499391052,
+          "mean_delta": 0.002608703196452316
+        }
+      ],
+      "passed": true
+    },
+    {
+      "armature": "Armature",
+      "bone": "mixamorig:RightFoot",
+      "meshes": [
+        {
+          "mesh": "tripo_node_d949cdaa",
+          "evaluated_vertices": 5836,
+          "tolerance_world_units": 1.4040063448621167e-06,
+          "moved_vertices": 459,
+          "maximum_delta": 0.05547187346789134,
+          "mean_delta": 0.001319149706274664
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "probe_rotation_degrees_xyz": [
+    23,
+    17,
+    11
+  ],
+  "limits": "Static skin deformation only; partial unweighted vertices are reported, not rejected."
+}

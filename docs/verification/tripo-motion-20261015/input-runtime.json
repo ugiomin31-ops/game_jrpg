@@ -1,0 +1,6 @@
+{
+  "output": null,
+  "diagnostics": [],
+  "success": true,
+  "result": "INPUT_CHECK_PASS: 43 assertions; synthetic input only, physical touch/raycasting needs separate verification."
+}

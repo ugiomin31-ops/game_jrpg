@@ -11,7 +11,7 @@ import os
 import random
 import sys
 
-sys.path.append(r"C:\Users\User\Desktop\game\Blender\lib")
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../lib'))
 import abyss_bpy as A  # noqa: E402
 
 import bmesh  # noqa: E402
@@ -329,6 +329,7 @@ def _sheet(paths, out, cols=4):
 def finish(eid, rig, parts_by_bone, size=420, extra=(), zoom=2.7):
     """Skin, verify actions, export FBX, save .blend, render previews + contact sheet, re-import check."""
     body = A.skin(parts_by_bone, rig)
+    A.volume_shade(body)  # same grounded, solid read as the heroes
     missing = [n for n in ACTIONS if n not in bpy.data.actions]
     if missing:
         raise RuntimeError(f"{eid}: missing actions {missing}")

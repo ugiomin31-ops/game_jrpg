@@ -1,0 +1,6 @@
+{
+  "exit_code": 2,
+  "stdout": "\ufeff",
+  "stderr": "\ufeffERROR: No logic tests selected for filter \"__ASTRA_ZERO_MATCH_MUST_FAIL__\" (empty filter selects all discovered tests).\n",
+  "passed": true
+}

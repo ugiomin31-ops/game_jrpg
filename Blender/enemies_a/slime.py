@@ -47,13 +47,13 @@ paint_vert_fn(body, body_col)
 
 # glossy highlights (upper left of the jelly, as in the sheet)
 gl1 = ellipsoid("gloss1", (0.035, 0.01, 0.07), color="#c9f1ff", seg=16, rings=8)
-p, n = surf(body, (0, 0, 0.25), dir_from(-42, 30))
+p, n = surf(body, (0, 0, 0.25), dir_from(-58, 44))
 orient(gl1, p, n, up=(0.5, 0, 1), offset=0.003)
 gl2 = ellipsoid("gloss2", (0.016, 0.008, 0.02), color="#ffffff", seg=10, rings=6)
 p, n = surf(body, (0, 0, 0.25), dir_from(-30, 50))
 orient(gl2, p, n, offset=0.003)
 gl3 = ellipsoid("gloss3", (0.07, 0.008, 0.016), color="#a6e2ff", seg=14, rings=6)
-p, n = surf(body, (0, 0, 0.1), dir_from(35, -8))
+p, n = surf(body, (0, 0, 0.1), dir_from(50, -16))
 orient(gl3, p, n, up=(-0.3, 0, 1), offset=0.002)
 
 # inner bubbles (show through M_Clear)
@@ -65,7 +65,7 @@ for i, (x, y, z, r) in enumerate([(0.12, 0.02, 0.12, 0.035), (-0.15, 0.05, 0.08,
 face = []
 for s in (-1, 1):
     p, n = surf(body, (0, 0, 0.25), dir_from(s * 17, 8))
-    face += cute_eye(f"eye{s}", p, n, w=0.052, h=0.078, iris="#24358a", pupil="#0d1024", depth=0.02)
+    face += cute_eye(f"eye{s}", p, n, w=0.052, h=0.078, iris="#24358a", pupil="#0d1024", depth=0.02, surface=body)
     p, n = surf(body, (0, 0, 0.17), dir_from(s * 33, -6))
     face.append(orient(ellipsoid(f"blush{s}", (0.045, 0.008, 0.024), color="#ff9fc0", seg=12, rings=6), p, n, offset=0.002))
 eyes = face[:]
