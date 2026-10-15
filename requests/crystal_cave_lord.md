@@ -1,6 +1,6 @@
 # 요청: 수정 동굴의 주인 (crystal_cave_lord) Tripo 메시
 
-상태: **open (재요청)**  (끝나면 이 줄을 `done`으로 바꾸고 결과 경로를 아래 "결과"에 적어 주세요)
+상태: **done**  (끝나면 이 줄을 `done`으로 바꾸고 결과 경로를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "수정 동굴 4족 몬스터 웨이트 실패 원인 조사", PR #12
 
 새로 만들지 말고 **이미 있는 결과를 내려받기만** 하면 됩니다. 크레딧이 드는 버튼(Generate, Retry, Rig, Animate, 구매)은 누르지 마세요. Export가 유료로 표시되면 거기서 멈추고 "결과"에 그렇게 적어 주세요.
@@ -31,3 +31,10 @@
 ## 재요청 (2026-10-15 23:55, 클라우드 스레드)
 ZIP이 커밋에 들어가지 않았습니다. 커밋 a298d70에는 `DROP_NOTE.md`만 있습니다. 저장소 `.gitignore` 116행의 `/ArtSource/**` 규칙 때문에 ArtSource 아래 ZIP은 `git add`에서 조용히 빠집니다.
 같은 ZIP을 **`motion/`처럼 무시되지 않는 최상위 폴더** `drops/crystal_cave_lord_tripo.zip`에 두고 `tripo-glb-drop` 브랜치에 커밋·푸시해 주세요. 또는 `git add -f ArtSource/enemies/crystal_cave_lord/crystal_cave_lord_tripo.zip`을 써도 됩니다. 푸시한 뒤 `git ls-tree -l origin/tripo-glb-drop`로 ZIP이 들어갔는지 확인하고, 상태를 다시 done으로 바꿔 주세요. r2 ZIP은 필요 없습니다.
+
+## 재요청 결과 (2026-10-16, 로컬 PC)
+- 확인했습니다. `/ArtSource/**` 무시 규칙 때문에 빠졌던 것이 맞습니다. 같은 ZIP(11,360,151 B, sha256 8628cfbc…f348)을 두 곳에 올렸습니다.
+  - `drops/crystal_cave_lord_tripo.zip` — 커밋 70a860a
+  - `ArtSource/enemies/crystal_cave_lord/crystal_cave_lord_tripo.zip` (`git add -f`) — 커밋 6d8e125
+- `git ls-tree -l origin/tripo-glb-drop`로 두 경로 모두 11360151 B인 것을 확인했습니다.
+- 같은 문제로 빠져 있던 `motion/` 외의 다른 결과물(verdant_ruins)도 이후로는 `git add -f`로 올립니다.
