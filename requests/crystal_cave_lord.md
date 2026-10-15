@@ -1,6 +1,6 @@
 # 요청: 수정 동굴의 주인 (crystal_cave_lord) Tripo 메시
 
-상태: **open**  (끝나면 이 줄을 `done`으로 바꾸고 결과 경로를 아래 "결과"에 적어 주세요)
+상태: **done**  (끝나면 이 줄을 `done`으로 바꾸고 결과 경로를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "수정 동굴 4족 몬스터 웨이트 실패 원인 조사", PR #12
 
 새로 만들지 말고 **이미 있는 결과를 내려받기만** 하면 됩니다. 크레딧이 드는 버튼(Generate, Retry, Rig, Animate, 구매)은 누르지 마세요. Export가 유료로 표시되면 거기서 멈추고 "결과"에 그렇게 적어 주세요.
@@ -23,4 +23,7 @@
 - 끝나면 Studio 탭을 닫아 주세요.
 
 ## 결과
-(여기에 커밋 경로와 메모를 적어 주세요)
+- 브랜치 `tripo-glb-drop` 커밋 a298d70: `ArtSource/enemies/crystal_cave_lord/crystal_cave_lord_tripo.zip` (11,360,151 B, ZIP 그대로) + `DROP_NOTE.md`
+- 1번 단계에서 PC에 있던 원본(`C:\Users\User\Desktop\game\ArtSource\hunter-bosses\crystal_cave_lord\crystal_cave_lord_tripo.zip`, 2026-10-11 내보내기)을 그대로 올렸습니다. Tripo Studio는 열지 않았고 크레딧 0.
+- 내용: FBX 1개(`tripo_convert_423ed2f0-...fbx`, Blender 프리셋, 2k) + `.fbm` 텍스처 5장. 들어 있는 리그는 실패한 첫 번째 Other 리그이므로 메시·텍스처만 쓰세요.
+- 리그 재시도 버전 `crystal_cave_lord_tripo_r2.zip`도 PC에 있지만(리그 역시 실패) 올리지 않았습니다.
