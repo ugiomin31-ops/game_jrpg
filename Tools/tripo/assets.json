@@ -1,0 +1,249 @@
+{
+  "version": 1,
+  "notes": "Tripo 이미지 후보 4안 -> 선택 -> image-to-model -> Blender/tripo/convert.py 변환 목록. 프롬프트는 영어(이미지 모델용), 설명은 한국어. style_suffix는 그룹별로 모든 후보 프롬프트 뒤에 붙는다.",
+  "negative_prompt": "photorealistic, realistic photo, gritty, dark horror, text, letters, watermark, logo, signature, multiple objects, cropped, cut off, ground plane, floor, scenery background, people, characters, blurry",
+  "groups": {
+    "town": {
+      "label": "마을(Hearthvale) 오브젝트",
+      "style_suffix": "single isolated game prop, cute chibi anime JRPG storybook style, chunky bold silhouette with slightly exaggerated proportions, hand-painted saturated colors, palette of warm cream plaster, honey-brown wood, dark plum beams, teal roof tiles and polished gold trim, three-quarter front view from slightly above, whole object fully visible and centered, plain pure white background, no ground, no shadow"
+    },
+    "dungeon": {
+      "label": "미궁 맵 오브젝트",
+      "style_suffix": "single isolated dungeon prop for a turn-based JRPG, cute chibi anime storybook style, chunky readable silhouette, hand-painted saturated colors with small glowing gem accents, three-quarter front view from slightly above, whole object fully visible and centered, plain pure white background, no ground, no shadow"
+    },
+    "vfx": {
+      "label": "스킬 이펙트 메시",
+      "style_suffix": "single isolated stylized magic effect object as a solid 3D sculpture, anime JRPG skill effect, clean crisp faceted shapes, bold silhouette, flat bright colors with white-hot core, three-quarter view, whole object fully visible and centered, plain pure white background, no particles, no smoke, no glow haze, no background"
+    }
+  },
+  "assets": [
+    {
+      "id": "town_fountain",
+      "group": "town",
+      "label": "광장 분수 (Hearthwell)",
+      "replaces": "Blender/town/town.py fountain()",
+      "out": "Town/Props/town_fountain.fbx",
+      "height_m": 2.5,
+      "tri_budget": 4000,
+      "emit_hint": ["crystal", "orb"],
+      "candidates": [
+        "a round three-tier stone town fountain with a glowing aqua crystal orb on top and gentle water arcs falling into a wide basin",
+        "a cozy village square fountain shaped like a stacked stone lantern with a small bronze bell and a teal crystal finial, water spilling from four lion-head spouts",
+        "a quaint octagonal fountain with a tall carved stone pillar, gold ring bands, a sleeping cat statue on the rim and a pale blue water surface",
+        "a storybook wishing fountain with a carved stone basin, a central column wrapped in ivy and a small golden sun emblem on top"
+      ]
+    },
+    {
+      "id": "town_market_stall",
+      "group": "town",
+      "label": "잡화점 노점 (피핀)",
+      "replaces": "town.py building(kind='shop') 앞 가판",
+      "out": "Town/Props/town_market_stall.fbx",
+      "height_m": 2.6,
+      "tri_budget": 4000,
+      "emit_hint": [],
+      "candidates": [
+        "a small wooden market stall with a striped teal and cream cloth awning, crates of apples and potion bottles on the counter and a hanging wooden coin sign",
+        "a cozy merchant cart stall with big wooden wheels, a scalloped red and cream canopy, stacked sacks, jars and a little brass scale",
+        "a fantasy general store counter booth with a curved teal roof, hanging herbs and lanterns, shelves of colorful potions and scrolls",
+        "a compact fruit and supply stand with slanted display baskets, a gold-trimmed price board and a rolled-up canvas awning"
+      ]
+    },
+    {
+      "id": "town_forge",
+      "group": "town",
+      "label": "대장간 모루와 화로 (브론)",
+      "replaces": "town.py building(kind='smith') 앞 모루",
+      "out": "Town/Props/town_forge.fbx",
+      "height_m": 1.6,
+      "tri_budget": 3500,
+      "emit_hint": ["coal", "ember", "fire"],
+      "candidates": [
+        "a blacksmith anvil on a thick tree-stump base next to a small brick forge with glowing orange coals, a hammer and tongs resting on it",
+        "a chunky iron anvil with a water quench barrel, a sword blank on top and a stone forge hearth with bright embers",
+        "a dwarven style stone forge with a bellows, glowing coals, an anvil in front and a rack of hammers",
+        "a compact smithing set: oversized anvil, wooden tool rack with hammers and a small round brazier full of glowing coals"
+      ]
+    },
+    {
+      "id": "town_quest_board",
+      "group": "town",
+      "label": "길드 의뢰 게시판 (리나)",
+      "replaces": "town.py building(kind='guild') 표지",
+      "out": "Town/Props/town_quest_board.fbx",
+      "height_m": 2.2,
+      "tri_budget": 2500,
+      "emit_hint": [],
+      "candidates": [
+        "a wooden adventurers guild quest board with a small teal shingled roof, pinned parchment notices and a golden crest on top",
+        "a freestanding notice board on two carved posts with wanted posters, a rolled map and a brass lantern hanging on the side",
+        "a round-topped guild bulletin board with a sword-and-shield emblem, parchment requests pinned with red tacks and a little mailbox",
+        "a double-sided wooden request board on a stone base, scroll notices, a ribbon banner and gold corner brackets"
+      ]
+    },
+    {
+      "id": "town_lamp_post",
+      "group": "town",
+      "label": "거리 가로등",
+      "replaces": "town.py lamp()",
+      "out": "Town/Props/town_lamp_post.fbx",
+      "height_m": 3.0,
+      "tri_budget": 1500,
+      "emit_hint": ["lantern", "glass", "flame"],
+      "candidates": [
+        "a curly wrought iron street lamp post with a warm glowing glass lantern and a teal pointed cap",
+        "a wooden village lamp post with a hanging square lantern on a curved bracket and a small flower basket",
+        "a stone-based storybook street lamp with a golden lantern cage, glowing amber glass and a tiny weather vane",
+        "a twin-arm lamp post with two round glowing lanterns, gold leaf ornaments and a dark plum painted pole"
+      ]
+    },
+    {
+      "id": "town_barrel_crates",
+      "group": "town",
+      "label": "통·상자 더미",
+      "replaces": "town.py barrel()",
+      "out": "Town/Props/town_barrel_crates.fbx",
+      "height_m": 1.4,
+      "tri_budget": 2000,
+      "emit_hint": [],
+      "candidates": [
+        "a cluster of two wooden barrels with iron hoops and a stacked supply crate with a rope and a cloth sack",
+        "a stack of three wooden crates with stenciled apple marks next to a fat barrel and a small clay jar",
+        "a tipped-over barrel spilling apples beside an upright barrel and a small wooden crate of potions",
+        "a tidy group of a water barrel with a ladle, a sealed crate and a woven basket of bread"
+      ]
+    },
+    {
+      "id": "verdant_ruins_statue",
+      "group": "dungeon",
+      "label": "숲의 유적 — 이끼 낀 수호 석상",
+      "replaces": null,
+      "out": "Environment/verdant_ruins/tripo_statue.fbx",
+      "height_m": 2.2,
+      "tri_budget": 3000,
+      "emit_hint": ["rune", "gem"],
+      "candidates": [
+        "a broken moss-covered stone guardian statue of an owl knight with glowing green rune eyes and vines wrapping its base",
+        "an ancient forest shrine statue of a kneeling stone deer with leafy moss and a small glowing emerald on its forehead",
+        "a cracked mossy stone totem pillar with carved faces, hanging vines and glowing green runes",
+        "a toppled half-buried stone knight head with ferns growing out and a faint green rune crack"
+      ]
+    },
+    {
+      "id": "frost_grotto_crystal",
+      "group": "dungeon",
+      "label": "빙결 동굴 — 얼음 수정 군집",
+      "replaces": null,
+      "out": "Environment/frost_grotto/tripo_crystal.fbx",
+      "height_m": 1.8,
+      "tri_budget": 2500,
+      "emit_hint": ["crystal", "ice"],
+      "candidates": [
+        "a cluster of tall pale blue ice crystals growing from a snowy rock base, glowing softly from inside",
+        "a frozen crystal formation with a large central hexagonal ice spire and smaller shards around it, frosty white rock",
+        "an ice crystal geode rock split open with glowing cyan crystals inside and icicles hanging off the edge",
+        "a frost shrine made of interlocking ice crystal blades around a round snow-capped stone"
+      ]
+    },
+    {
+      "id": "ember_caverns_brazier",
+      "group": "dungeon",
+      "label": "불타는 동굴 — 용암 화로",
+      "replaces": null,
+      "out": "Environment/ember_caverns/tripo_brazier.fbx",
+      "height_m": 1.6,
+      "tri_budget": 2500,
+      "emit_hint": ["lava", "fire", "flame", "magma"],
+      "candidates": [
+        "a dark basalt stone brazier on three clawed legs with a bowl of glowing orange lava and solid stylized flames",
+        "a volcanic rock pillar with cracks of glowing magma and a dragon skull ornament on top",
+        "an obsidian fire altar with a molten lava pool, gold trim and carved flame runes",
+        "a cluster of jagged black volcanic rocks with glowing red-orange lava veins and small ember crystals"
+      ]
+    },
+    {
+      "id": "haunted_crypt_tomb",
+      "group": "dungeon",
+      "label": "망자의 묘소 — 영혼 묘비",
+      "replaces": null,
+      "out": "Environment/haunted_crypt/tripo_tomb.fbx",
+      "height_m": 1.7,
+      "tri_budget": 2500,
+      "emit_hint": ["candle", "spirit", "ghost", "flame"],
+      "candidates": [
+        "a crooked gothic tombstone with a carved skull, melted candles with purple ghost flames and cobwebs",
+        "a small stone sarcophagus with a cracked lid, spectral violet glow leaking out and a rusty chain",
+        "a cute spooky grave marker cross with a hanging lantern holding a purple wisp and dead flowers",
+        "a crypt angel statue with folded wings, weeping stone face and violet glowing candles at its feet"
+      ]
+    },
+    {
+      "id": "vfx_ice_shard",
+      "group": "vfx",
+      "label": "스킬 이펙트 — 얼음 가시 (ice)",
+      "replaces": "effects.json ice 레이어 보강용 메시",
+      "out": "Props/Vfx/vfx_ice_shard.fbx",
+      "height_m": 1.5,
+      "tri_budget": 800,
+      "emit_material": "M_Clear",
+      "emit_hint": [],
+      "candidates": [
+        "a burst of sharp crystalline ice spikes erupting upward from a single point, pale cyan with white edges",
+        "a single large faceted ice lance with smaller shards around its base, translucent light blue",
+        "a crown-shaped ring of jagged ice crystals pointing outward, cyan and white",
+        "a cluster of three tall hexagonal ice pillars with frost tips, stylized and sharp"
+      ]
+    },
+    {
+      "id": "vfx_holy_feather",
+      "group": "vfx",
+      "label": "스킬 이펙트 — 성스러운 깃털 (revive / holy)",
+      "replaces": "effects.json revive·holy 깃털 레이어용 메시",
+      "out": "Props/Vfx/vfx_holy_feather.fbx",
+      "height_m": 0.6,
+      "tri_budget": 400,
+      "emit_material": "M_Emit",
+      "emit_hint": [],
+      "candidates": [
+        "a single stylized angel feather with crisp layered barbs, white with golden glowing edges",
+        "a curved radiant golden feather with a thin gold quill, simple toon shapes",
+        "a pair of small angel wings joined at the center, white with gold rim",
+        "a long elegant white feather with a gold gem at the base of the quill"
+      ]
+    },
+    {
+      "id": "vfx_spectral_skull",
+      "group": "vfx",
+      "label": "스킬 이펙트 — 망령 해골 (dark / summon)",
+      "replaces": "effects.json dark·summon 해골 레이어용 메시",
+      "out": "Props/Vfx/vfx_spectral_skull.fbx",
+      "height_m": 0.8,
+      "tri_budget": 800,
+      "emit_material": "M_Clear",
+      "emit_hint": [],
+      "candidates": [
+        "a cute stylized ghost skull with a wispy flame tail, violet and deep purple, glowing magenta eye sockets",
+        "a spectral skull wrapped in curling dark purple smoke ribbons sculpted as solid shapes",
+        "a horned shadow skull with a trailing ghostly tail and violet crack lines",
+        "a round chibi phantom skull with a flowing hood-like ghost body, lavender and indigo"
+      ]
+    },
+    {
+      "id": "vfx_earth_rock",
+      "group": "vfx",
+      "label": "스킬 이펙트 — 대지 파편 (blunt)",
+      "replaces": "effects.json blunt 충격파 파편용 메시",
+      "out": "Props/Vfx/vfx_earth_rock.fbx",
+      "height_m": 1.0,
+      "tri_budget": 600,
+      "emit_material": "M_Toon",
+      "emit_hint": [],
+      "candidates": [
+        "a ring of chunky stylized rock slabs bursting up from the ground in a shockwave, warm brown stone",
+        "a single jagged earth spike rock chunk with flat toon facets and small pebbles",
+        "a cluster of three angular boulders thrown upward, brown and ochre with sharp faceted edges",
+        "a cracked crater rim of upturned stone plates arranged in a circle"
+      ]
+    }
+  ]
+}
