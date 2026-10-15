@@ -1,9 +1,11 @@
 """Read-only FBX skin check inside Blender; no packages, exports, or saved scenes.
 
-Usage: blender --background --python Tools/verify_tripo_rig.py -- input.fbx output.json
+Usage: blender --background --python Tools/verify_tripo_rig.py -- input.fbx output.json [--require-full-weights]
 Exit: 0 = verified, 1 = rejected/error, 2 = invalid arguments.
 Each selected limb must move at least one bound mesh vertex. Unknown bone naming
 falls back to all weighted deform bones. This checks skinning, not animation quality.
+--require-full-weights rejects any unweighted vertex (Tripo's "Other" rig on crystal_cave_lord left the legs and tail
+unweighted while every probed bone still moved some vertices, which passes without this flag).
 """
 
 import argparse
@@ -198,6 +200,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--require-full-weights", action="store_true",
+                        help="reject the file when any bound mesh has unweighted vertices")
     args = parser.parse_args(sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else [])
     source, destination = args.input.resolve(), args.output.resolve()
     if (source == destination or destination.suffix.lower() != ".json" or
@@ -213,6 +217,12 @@ def main():
         if not source.is_file() or source.suffix.lower() != ".fbx":
             raise ValueError("Input must be an existing .fbx file")
         verify(report)
+        if args.require_full_weights:
+            report["limits"] = "Static skin deformation only; unweighted vertices are rejected."
+            for weights in report["weights"]:
+                if weights["unweighted_vertices"]:
+                    report["failures"].append(f"Unweighted vertices: {weights['mesh']} "
+                                              f"{weights['unweighted_vertices']}/{weights['vertices']}")
         report["passed"] = bool(report["probes"]) and not report["failures"]
     except Exception as error:
         report["failures"].append(f"{type(error).__name__}: {error}")
