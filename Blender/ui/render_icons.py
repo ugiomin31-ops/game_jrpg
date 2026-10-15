@@ -28,6 +28,15 @@ import spec  # noqa: E402 (hunter roster: Tools/content/spec.py HUNTERS)
 HUNTER_IDS = {h['id'] for h in spec.HUNTERS}
 
 STAGE = None   # --output-root (see the module docstring)
+# Base job models (warrior, mage, cleric, archer) no game code loads: kept outside Resources as job-portrait sources only.
+CLASS_MODELS = ROOT / 'ArtSource/hunters/_class_models'
+
+
+def hero_source(ident):
+    """A hero's or job's portrait source: its Resources model, else a kept base job model."""
+    own = ART / f'Characters/{ident}/{ident}.fbx'
+    kept = CLASS_MODELS / ident / f'{ident}.fbx'
+    return kept if not own.is_file() and kept.is_file() else own
 
 
 def art_file(rel):
@@ -50,7 +59,7 @@ def repo_rel(path):
 ELEMENTS = ('slash', 'blunt', 'pierce', 'fire', 'ice', 'thunder', 'dark', 'holy')
 PORTRAIT_EXPOSURE = .55
 COMMANDS = ('attack', 'skill', 'ultimate', 'item', 'guard', 'flee', 'auto', 'gold', 'key', 'map', 'party', 'camp')
-NPCS = ('innkeeper', 'shopkeeper', 'smith', 'guild_clerk', 'elder', 'villager_a', 'villager_b', 'villager_c')
+NPCS = ('innkeeper', 'shopkeeper', 'smith', 'guild_clerk', 'elder')
 
 
 def data_rows(name):
@@ -86,7 +95,7 @@ def catalog():
             rows.append((family, row['id'], ART / source(row, model), tint))
     heroes = data_ids('heroes')
     # Promoted job outfits (jobs.json rows that are not a base hero) get portraits framed like the heroes.
-    add('Heroes', heroes + [j for j in data_ids('jobs') if j not in heroes], lambda i: f'Characters/{i}/{i}.fbx')
+    rows += [('Heroes', i, hero_source(i), None) for i in heroes + [j for j in data_ids('jobs') if j not in heroes]]
     add('NPCs', NPCS, lambda i: f'NPCs/{i}/{i}.fbx')
     add_rows('Enemies', 'enemies', lambda row, m: f'Enemies/{m}/{m}.fbx')
     add_rows('Gear', 'equipment', lambda row, m: f'Weapons/{m}.fbx' if row.get('slot') == 'weapon' else f'Props/Equipment/{m}.fbx')

@@ -136,8 +136,8 @@ blender -b --factory-startup -P Blender/heroes/generate_anime.py -- archer
 
 | 분류 | 경로 | 비고 |
 |---|---|---|
-| 영웅 | `Characters/<id>/<id>.fbx` | warrior, mage, archer, cleric. 무기 미포함(검사 방패는 몸에 포함) |
-| NPC | `NPCs/<id>/<id>.fbx` | innkeeper(마사), shopkeeper(피핀), smith(브론), guild_clerk(리나), elder(에드윈), villager_a/b/c(주민). 액션 Idle/Walk/Talk(+Wave 선택) |
+| 영웅 | `Characters/<id>/<id>.fbx` | 헌터 20명(h_*). 무기 미포함. 옛 기본 직업 모델 warrior·mage·archer·cleric은 게임이 쓰지 않아 2026-10-15에 `ArtSource/hunters/_class_models/`로 옮겼고, 직업 초상화 렌더 원본으로만 씀(`ui/render_icons.py`) |
+| NPC | `NPCs/<id>/<id>.fbx` | innkeeper(마사), shopkeeper(피핀), smith(브론), guild_clerk(리나), elder(에드윈). 액션 Idle/Walk/Talk(+Wave 선택). villager_a/b/c는 마을에 생성되지 않아 2026-10-15에 삭제(라운지 자리는 대기 헌터가 채움) |
 | 몬스터 | `Enemies/<id>/<id>.fbx` | 데이터의 적 51종 전부(v1 28 + `enemies_c` v2 23, 엘리트·grave_bat 포함). 엘리트는 기본형 생성기에 장식(왕관·갑주·뿔 등)+팔레트 변경 |
 | 무기 | `Weapons/<equipment_id>.fbx` | sword_*, staff_*, bow_*, mace_* 20종 |
 | 방어구·장신구 전시 모델 | `Props/Equipment/<equipment_id>.fbx` | 아이콘 촬영용(armor_*, garb_*, robe_*, acc_*) |
@@ -157,6 +157,8 @@ blender -b --factory-startup -P Blender/heroes/generate_anime.py -- archer
 `chest`(본체 + `Lid`, 뚜껑 피벗은 뒤쪽 경첩) · `lore_stone`(발광 룬 비석) · `trap`(바닥판 + `Spikes`) · `spring`(회복의 샘) · `warp`(마법진 발판) ·
 `torch`(광원 소품, 불꽃은 M_Emit, 빛 위치 Empty `LightAnchor`) · `decor_1`…`decor_6`(작은 장식 소품) · `overlay_1`, `overlay_2`(바이옴 오버레이: 덩굴/고드름/종유석/거미줄, 벽 블록 옆면에 붙이는 장식) ·
 `boss_gate`(보스 칸 장식) · `foe_marker`(FOE 위치 경고 장식, 선택) · `arena`.
+
+`door`와 `foe_marker`는 게임이 쓰지 않습니다. 미궁은 `door_locked`만 배치하고 적 표식은 코드로 그립니다(`DungeonWorld.cs`). 생성기는 키트 시트용으로 계속 만들지만, 2026-10-15부터 `Resources`에 두지 않으므로 재생성 후 이 두 FBX는 지웁니다. 빌드 검사(`AbyssProjectSetup.ValidateContent`)도 더 이상 요구하지 않습니다.
 
 바이옴별 구조(생성기 `environment/dungeon_cc0.py` + 절차 형상 `environment/arch_geo.py`):
 ember_caverns = 불규칙 현무암 동굴 벽(용암 균열이 면에 박힘, 위로 갈수록 안쪽으로 기울어짐)·흑요석 기둥·육각 현무암/용암 웅덩이 바닥 ·

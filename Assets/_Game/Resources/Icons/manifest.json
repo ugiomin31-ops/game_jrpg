@@ -3,7 +3,7 @@
   "command": "C:/Users/User/Tools/Blender/blender.exe -b --factory-startup -P Blender/ui/render_icons.py",
   "coverage": {
     "Heroes": 20,
-    "NPCs": 8,
+    "NPCs": 5,
     "Enemies": 123,
     "Gear": 115,
     "Items": 65,
@@ -15,7 +15,7 @@
     {
       "id": "archer",
       "family": "Heroes",
-      "source": "Assets/_Game/Resources/Art/Characters/archer/archer.fbx",
+      "source": "ArtSource/hunters/_class_models/archer/archer.fbx",
       "output": "Assets/_Game/Resources/Icons/Heroes/archer.png",
       "framing": "front head and shoulders",
       "vertex_colors": "Col",
@@ -42,7 +42,7 @@
     {
       "id": "cleric",
       "family": "Heroes",
-      "source": "Assets/_Game/Resources/Art/Characters/cleric/cleric.fbx",
+      "source": "ArtSource/hunters/_class_models/cleric/cleric.fbx",
       "output": "Assets/_Game/Resources/Icons/Heroes/cleric.png",
       "framing": "front head and shoulders",
       "vertex_colors": "Col",
@@ -69,7 +69,7 @@
     {
       "id": "mage",
       "family": "Heroes",
-      "source": "Assets/_Game/Resources/Art/Characters/mage/mage.fbx",
+      "source": "ArtSource/hunters/_class_models/mage/mage.fbx",
       "output": "Assets/_Game/Resources/Icons/Heroes/mage.png",
       "framing": "front head and shoulders",
       "vertex_colors": "Col",
@@ -96,7 +96,7 @@
     {
       "id": "warrior",
       "family": "Heroes",
-      "source": "Assets/_Game/Resources/Art/Characters/warrior/warrior.fbx",
+      "source": "ArtSource/hunters/_class_models/warrior/warrior.fbx",
       "output": "Assets/_Game/Resources/Icons/Heroes/warrior.png",
       "framing": "front head and shoulders",
       "vertex_colors": "Col",
@@ -253,87 +253,6 @@
           0.0
         ],
         "ortho_scale": 0.6739325523376465
-      }
-    },
-    {
-      "id": "villager_a",
-      "family": "NPCs",
-      "source": "Assets/_Game/Resources/Art/NPCs/villager_a/villager_a.fbx",
-      "output": "Assets/_Game/Resources/Icons/NPCs/villager_a.png",
-      "framing": "front head and shoulders",
-      "vertex_colors": "Col",
-      "dimensions": [
-        512,
-        512
-      ],
-      "transparent": true,
-      "camera": {
-        "type": "ORTHO",
-        "position": [
-          0.0,
-          -4.557092666625977,
-          0.9459285736083984
-        ],
-        "rotation": [
-          1.5707964897155762,
-          -0.0,
-          0.0
-        ],
-        "ortho_scale": 0.7438400387763977
-      }
-    },
-    {
-      "id": "villager_b",
-      "family": "NPCs",
-      "source": "Assets/_Game/Resources/Art/NPCs/villager_b/villager_b.fbx",
-      "output": "Assets/_Game/Resources/Icons/NPCs/villager_b.png",
-      "framing": "front head and shoulders",
-      "vertex_colors": "Col",
-      "dimensions": [
-        512,
-        512
-      ],
-      "transparent": true,
-      "camera": {
-        "type": "ORTHO",
-        "position": [
-          0.00023265182971954346,
-          -4.175161361694336,
-          0.8776301145553589
-        ],
-        "rotation": [
-          1.5707964897155762,
-          -0.0,
-          0.0
-        ],
-        "ortho_scale": 0.6484127640724182
-      }
-    },
-    {
-      "id": "villager_c",
-      "family": "NPCs",
-      "source": "Assets/_Game/Resources/Art/NPCs/villager_c/villager_c.fbx",
-      "output": "Assets/_Game/Resources/Icons/NPCs/villager_c.png",
-      "framing": "front head and shoulders",
-      "vertex_colors": "Col",
-      "dimensions": [
-        512,
-        512
-      ],
-      "transparent": true,
-      "camera": {
-        "type": "ORTHO",
-        "position": [
-          0.00021286308765411377,
-          -4.007499694824219,
-          0.7551456093788147
-        ],
-        "rotation": [
-          1.5707964897155762,
-          -0.0,
-          0.0
-        ],
-        "ortho_scale": 0.5926521420478821
       }
     },
     {
