@@ -1,0 +1,162 @@
+{
+  "status": "automated-checks-passed-visual-review-required",
+  "phase": "finished",
+  "build": {
+    "project": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015",
+    "scene": "Assets/_Game/Scenes/Main.unity",
+    "module": "f7e2ff67-bf7c-4bbf-a966-ae4104520450",
+    "unity": "6000.3.25f1",
+    "mapSourceSha256": "836753cbab01d3e60a478eee7bedd4b804d512852d396bf067492a62637b204b",
+    "mapScreenSha256": "7ad26fae3339c4cb9583334dc18edf1db6aac070894a0befa599f09cb5ca97f7",
+    "assemblySha256": "e77af3d10cb86f14bef57132a5747be9cad011df332b530006aabb79f5174dfc",
+    "fixtureSha256": "6f48bcfbf86ee5445ca60efa8a0118d1ecaa01c8487f229a281908ff37bbcaac",
+    "captureIntent": "after-map-contrast",
+    "initialFrame": 179,
+    "initialScreen": "Title",
+    "initialCaptureDeltaTime": 0.0
+  },
+  "isolated": true,
+  "qaSave": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-shop-only-after-map-contrast-20261015-142658-607\\qa-save",
+  "checks": [
+    {
+      "phase": "game-view-focus",
+      "name": "actual focused GameView before QA app mutations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "review-isolation",
+      "name": "BeginReview followed by dedicated per-run QA persistence",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-entry",
+      "name": "actual town world exists",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "authored item with per-item stack cap exists",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "actual shop row found",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "UI offers only remaining capacity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "real transaction confirmation opens",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "early-click regression starts inside the actual modal guard",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "actual early confirm leaves transaction pending and resources unchanged",
+      "passed": true,
+      "detail": {
+        "now": 32.0113144,
+        "acceptAfter": 32.3613129,
+        "nextClickAt": 32.2613144
+      }
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "same real modal is ready for one accepted confirm",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "real transaction fills exact cap and charges once",
+      "passed": true,
+      "detail": {
+        "Id": "healing_potion",
+        "cap": 9,
+        "actual": 9,
+        "Gold": 90,
+        "expectedGold": 90,
+        "clickAt": 32.5003967,
+        "acceptAfter": 32.3613129,
+        "answered": true
+      }
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "full item row is disabled after actual transaction",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "disabled row cannot transact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "transaction persistence route remains isolated",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "issues": [],
+  "images": [],
+  "observations": [
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "stage": "modal-opened",
+      "frame": 220,
+      "now": 32.0113144,
+      "acceptAfter": 32.3613129,
+      "nextClickAt": 0.0,
+      "IsTop": true,
+      "isActiveAndEnabled": true,
+      "Interactable": true,
+      "consumed": true,
+      "actual": 7,
+      "Gold": 150
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "stage": "accepted-click-returned",
+      "frame": 221,
+      "clickAt": 32.5003967,
+      "acceptAfter": 32.3613129,
+      "answered": true,
+      "IsOpen": false,
+      "actual": 9,
+      "Gold": 90
+    }
+  ],
+  "scope": "shop-only; map, followers, blocked input, screenshots and battle not rerun",
+  "expectedPngs": 0,
+  "manualRemaining": [
+    "Inspect every PNG for clipping/overlap, readable Korean labels, world visibility, focus, and nonblank models/effects.",
+    "Synthetic keyboard / real widget calls do not certify physical keyboard, controller or touch raycasts.",
+    "Map is all-revealed QA content on the authored floor with most distinct feature markers; other floors/zones, hidden/spent transitions and a chasing FOE remain manual.",
+    "Follower controller ownership and solid sweeps are exercised; breadcrumb following around town corners and TownEnrichment asset/tree alignment still need runtime traversal and visual review.",
+    "Battle event consumption and AreaCenter/Targets are exercised; camera composition and moving VFX placement still need visual review."
+  ],
+  "visualAccepted": false,
+  "requestedModel": "gpt-6-astra",
+  "requestedEffort": "high",
+  "requestedTier": "Fast/priority",
+  "verifiedTier": "not exposed"
+}

@@ -348,7 +348,7 @@ def build_plaza(m):
     if not replaced("fountain"):
         build_fountain(m)
     # trees and planters
-    for i, (x, y) in enumerate(((-9.5, -12.5), (19.8, -15.6), (9.5, 4.0), (-9.0, 13.0), (-14.0, 1.0))):
+    for i, (x, y) in enumerate(((-9.5, -12.5), (19.8, -15.6), (9.5, 4.0), (-9.0, 13.0), (-11.8, -5.4))):
         tree(m, x, y, 1.0 + 0.1 * (i % 3), tag="plaza")
     for x, y in ((-6.5, -7.5), (6.5, -7.5), (6.8, 12.4), (-13.0, 12.6)):
         planter(m, x, y, "%d_%d" % (round(x), round(y)))

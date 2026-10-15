@@ -351,6 +351,9 @@ namespace Abyss.Logic.Game
                 p.Keys = Math.Max(0, p.Keys);
             }
             Reserve ??= new List<HeroState>();
+            // Legacy renaming looks up hunters in both rosters before the normal roster rebuild.
+            Party.RemoveAll(h => h == null);
+            Reserve.RemoveAll(h => h == null);
             CampaignMigration.Apply(db, this);
             HunterRoster.MigrateLegacyHeroes(db, this);
             // Every recruited hunter exists once (party first); unknown ids are dropped. The starting hunters are

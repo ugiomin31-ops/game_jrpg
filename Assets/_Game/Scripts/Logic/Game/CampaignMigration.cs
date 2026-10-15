@@ -96,8 +96,10 @@ namespace Abyss.Logic.Game
                 if (state.Flags.Remove(GameFlow.BossFlag(chapter))) oldBosses.Add(chapter);
             foreach (int chapter in oldBosses)
             {
-                if (chapter > OldMainChapters) continue;
-                foreach (int zone in new[] { 2 * chapter - 1, 2 * chapter })
+                // The old trial corridor is the single postgame zone, not a city/gate pair.
+                var zones = chapter > OldMainChapters
+                    ? new[] { GameFlow.MainChapters + 1 } : new[] { 2 * chapter - 1, 2 * chapter };
+                foreach (int zone in zones)
                 {
                     state.Flags.Add(GameFlow.BossFlag(zone));
                     int bossFloor = zone * GameFlow.FloorsPerChapter - 1;

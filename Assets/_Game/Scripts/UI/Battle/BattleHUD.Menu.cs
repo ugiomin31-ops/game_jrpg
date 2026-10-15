@@ -56,12 +56,14 @@ namespace Abyss.UI.Battle
                 if (option.IsUltimate != ultimate) continue;
                 var captured = option;
                 string name = option.DisplayName;
+                string cost = CostText(option.MpCost, option.TpCost);
+                string actionInfo = (cost.Length == 0 ? "소모 없음" : cost) + " · " + ElementName((int)option.Skill.Element);
                 string description = option.Skill.Description + "\n" + ElementName((int)option.Skill.Element) + " · " + RuleName(option.Target) + " · " + option.Skill.HitCount + "회"
                     + (option.KnownAffinity == SkillAffinityTag.Weak ? "\n" + UITheme.Tag(UISlant.Coral) + "약점</color> 알려진 약점을 찌를 수 있는 적이 있습니다."
                         : option.KnownAffinity == SkillAffinityTag.Resist ? "\n" + UITheme.Tag(UITheme.TextDim) + "내성</color> 이 속성에 내성인 적이 확인되었습니다." : "");
                 var choice = AddChoice(name, description, option.Usable, option.ReasonKey,
-                    () => Targets(BattleCommand.Skill(captured.Id), RememberChoices(() => Skills(ultimate, returnToCommands)), name, description), null, UIArtwork.Element(option.Skill.Element) ?? UIArtwork.Command("skill"));
-                choice.Right = (option.KnownAffinity == SkillAffinityTag.Weak ? UITheme.Tag(UISlant.Coral) + "<size=70%>약점</size></color> " : "") + CostText(option.MpCost, option.TpCost);
+                    () => Targets(BattleCommand.Skill(captured.Id), RememberChoices(() => Skills(ultimate, returnToCommands)), name, description, actionInfo), null, UIArtwork.Element(option.Skill.Element) ?? UIArtwork.Command("skill"));
+                choice.Right = (option.KnownAffinity == SkillAffinityTag.Weak ? UITheme.Tag(UISlant.Coral) + "<size=70%>약점</size></color> " : "") + cost;
                 choice.ChipText = option.Skill.Element == Element.None ? "무속성" : ElementName((int)option.Skill.Element);
                 choice.ChipColor = UISlant.ElementColor(option.Skill.Element);
                 choice.Hint = (option.KnownAffinity == SkillAffinityTag.Weak ? UITheme.Tag(UISlant.Coral) + "약점</color> · "
@@ -115,7 +117,7 @@ namespace Abyss.UI.Battle
 
         // ---- targets --------------------------------------------------------------------------------
 
-        void Targets(BattleCommand command, Action back = null, string actionLabel = null, string actionDescription = null)
+        void Targets(BattleCommand command, Action back = null, string actionLabel = null, string actionDescription = null, string actionInfo = null)
         {
             var targets = _engine.ValidTargets(_actor, command);
             var rule = _engine.GetTargetRule(_actor, command);
@@ -156,6 +158,10 @@ namespace Abyss.UI.Battle
                 choice.Hint = RuleName(rule);
                 choice.Marks.AddRange(marks);
             }
+            // Focus displays only the first description line; keep cost/element ahead of target estimates.
+            if (!string.IsNullOrEmpty(actionInfo))
+                foreach (var choice in _choices)
+                    choice.Description = actionInfo + (string.IsNullOrEmpty(choice.Description) ? "" : " · " + choice.Description);
             Render();
         }
 

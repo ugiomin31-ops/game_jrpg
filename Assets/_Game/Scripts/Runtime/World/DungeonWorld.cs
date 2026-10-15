@@ -532,7 +532,8 @@ namespace Abyss.Runtime.World
         }
         void Update()
         {
-            if (!CanAct) return;
+            // HUD buttons consume input before calling the public actions, so only gate raw polling here.
+            if (!CanAct || UIInput.ConsumedThisFrame) return;
             var keyboard = Keyboard.current;
             var gamepad = Gamepad.current;
             bool forward = (keyboard?.wKey.isPressed ?? false) || (keyboard?.upArrowKey.isPressed ?? false) || (gamepad?.dpad.up.isPressed ?? false);

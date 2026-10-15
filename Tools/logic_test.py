@@ -22,7 +22,12 @@ OUT = os.path.join(ROOT, "Temp", "LogicTests")
 
 def newtonsoft():
     hits = glob.glob(os.path.join(ROOT, "Library", "PackageCache", "com.unity.nuget.newtonsoft-json@*", "Runtime", "Newtonsoft.Json.dll"))
-    return hits[0] if hits else None
+    if hits:
+        return hits[0]
+    # Fresh checkouts do not have a PackageCache until the editor has imported them.
+    # The installed editor ships the same dependency needed by the standalone compiler.
+    bundled = os.path.join(UNITY, "Managed", "Newtonsoft.Json.dll")
+    return bundled if os.path.isfile(bundled) else None
 
 
 def portable_main():

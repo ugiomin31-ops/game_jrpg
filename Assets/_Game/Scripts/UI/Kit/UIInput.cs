@@ -111,6 +111,9 @@ namespace Abyss.UI
         /// <summary>Marks all button/navigation input of this frame as handled so later readers see nothing.</summary>
         public static void Consume() => _consumedFrame = Time.frameCount;
 
+        /// <summary>Also gates raw world-input readers when a menu closes in the current frame.</summary>
+        public static bool ConsumedThisFrame => _consumedFrame == Time.frameCount;
+
         /// <summary>Pushes a modal input layer: only widgets under <paramref name="root"/> receive input until popped.</summary>
         public static void PushLayer(Transform root)
         {
@@ -148,7 +151,7 @@ namespace Abyss.UI
         static Gamepad Pad => Gamepad.current;
         static Mouse Ms => Mouse.current;
         static Touchscreen Ts => Touchscreen.current;
-        static bool Live { get { Refresh(); return _consumedFrame != Time.frameCount && Application.isFocused; } }
+        static bool Live { get { Refresh(); return !ConsumedThisFrame && Application.isFocused; } }
 
         static bool PadAnyPressed()
         {

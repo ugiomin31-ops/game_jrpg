@@ -47,6 +47,11 @@ namespace Abyss.LogicTests
                 .Where(m => m.GetCustomAttribute<LogicTestAttribute>() != null)
                 .Where(m => (m.DeclaringType.Name + "." + m.Name).IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
                 .OrderBy(m => m.DeclaringType.Name).ThenBy(m => m.Name).ToList();
+            if (tests.Count == 0)
+            {
+                Console.Error.WriteLine($"ERROR: No logic tests selected for filter \"{filter}\" (empty filter selects all discovered tests).");
+                return 2;
+            }
             int fail = 0;
             foreach (var m in tests)
             {

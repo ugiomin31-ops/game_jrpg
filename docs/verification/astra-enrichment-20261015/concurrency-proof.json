@@ -1,0 +1,1959 @@
+{
+  "schema_version": 1,
+  "snapshot_utc": "2026-10-15T13:32:35.276396+00:00",
+  "scope": "Evidence consolidation only; no agent launches, tests, builds, gameplay edits or configuration changes in this task.",
+  "requested": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "high",
+    "service_tier": "priority",
+    "audit_assignments": 50
+  },
+  "source_root_relative_to_repo": "../agent-runtime-50-20261015",
+  "runtime_sources": [
+    {
+      "path": "../agent-runtime-50-20261015/agents.json",
+      "bytes": 21435,
+      "sha256": "adc2ad2870323b5f92279ea5cf8a63b2a9a5271744c0657b2050305b653f0498"
+    },
+    {
+      "path": "../agent-runtime-50-20261015/events.jsonl",
+      "bytes": 1489978,
+      "sha256": "07d0c025cae05f8dce306fad8097a2a40a5cebbf22a84345d6e169c979fd2fca"
+    },
+    {
+      "path": "../agent-runtime-50-20261015/model-observations.json",
+      "bytes": 10700,
+      "sha256": "6a5e7a77304f9ef71b7cd41110688e6df8e99664b6281858af3c27ab2c39e16c"
+    },
+    {
+      "path": "../agent-runtime-50-20261015/status.json",
+      "bytes": 743,
+      "sha256": "4e2828f49a780de3056a9026ed22c82f8b3e1773734e6422f3a0d2fc2bf56be3"
+    }
+  ],
+  "checks": {
+    "fifty_agent_records": true,
+    "fifty_unique_agent_ids": true,
+    "task_ids_exactly_08_to_57": true,
+    "fifty_completed_spawns_with_one_receiver": true,
+    "spawn_ids_match_registry": true,
+    "no_close_call_before_fiftieth_spawn": true,
+    "registry_closed_false_for_all": true,
+    "fifty_unique_matching_model_observations": true,
+    "all_observed_astra_high": true,
+    "all_requested_priority": true,
+    "all_observed_service_tiers_null": true,
+    "fifty_matching_nonempty_reports": true
+  },
+  "summary": {
+    "unique_successful_spawns": 50,
+    "unique_tasks": 50,
+    "completed_spawn_event_lines": [
+      14,
+      18,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      55,
+      57,
+      59,
+      61,
+      63,
+      65,
+      67,
+      69,
+      88,
+      90,
+      92,
+      94,
+      96,
+      98,
+      100,
+      102,
+      121,
+      123,
+      125,
+      127,
+      129,
+      131,
+      133,
+      135,
+      148,
+      150,
+      152,
+      154,
+      156,
+      158,
+      160,
+      162,
+      181,
+      183,
+      185,
+      187,
+      189,
+      191,
+      193,
+      195
+    ],
+    "first_spawn_event_line": 14,
+    "fiftieth_spawn_event_line": 195,
+    "first_registered_spawn_utc": "2026-10-15T12:23:36.016Z",
+    "last_registered_spawn_utc": "2026-10-15T12:38:05.011Z",
+    "closed_before_fiftieth_spawn_observed": 0,
+    "close_tool_calls_in_recorded_stream": 0,
+    "spawn_failures_in_recorded_50_run": 0,
+    "matching_model_effort_observations": 50,
+    "reports_present": 50,
+    "reports_with_findings": 28,
+    "reports_without_findings": 22,
+    "reported_finding_entries": 32,
+    "unique_bounded_items_after_merging_50_and_57": 31,
+    "simultaneous_inference_count_verified": false,
+    "served_priority_verified": false,
+    "child_terminal_completion_count_verified": false
+  },
+  "evidence_interpretation": [
+    "The recorded runtime returned 50 distinct child IDs before any recorded close_agent call; all registry closed flags are false.",
+    "Spawn completion is tool-call success (pending_init child state), not a child audit completion event or proof of simultaneous inference.",
+    "model-observations.json has one matching Astra/high observation for each child. This consolidation checks that file and its joins; it does not reread original child turn_context logs or obtain provider receipts.",
+    "The 50 nonempty report files independently establish delivered audit artifacts. They do not prove all child threads reached a terminal state in the CLI event stream.",
+    "No served service-tier receipt exists: every observation service_tier is null. Priority requests and observed configuration are not serving evidence."
+  ],
+  "coordinator": {
+    "thread_id": "01a13f83-6c5f-7712-acdb-b67c8bb9418a",
+    "cli_interrupted": true,
+    "event_stream_error_records": [
+      {
+        "line": 197,
+        "message": "Reconnecting... waiting for network (Connection failed: error sending request)"
+      },
+      {
+        "line": 213,
+        "message": "Reconnecting... waiting for network (Connection failed: error sending request)"
+      },
+      {
+        "line": 214,
+        "message": "Reconnecting... waiting for network (Connection failed: error sending request)"
+      },
+      {
+        "line": 215,
+        "message": "Reconnecting... waiting for network (Connection failed: error sending request)"
+      },
+      {
+        "line": 216,
+        "message": "Reconnecting... waiting for network (Connection failed: error sending request)"
+      }
+    ],
+    "turn_completed_event_present": false,
+    "persisted_status_snapshot": {
+      "phase": "launching",
+      "requested": 50,
+      "created": 50,
+      "succeeded": 0,
+      "failed": 0,
+      "spawn_succeeded": 50,
+      "spawn_failed": 0,
+      "active_or_uncollected": 50,
+      "closed": 0,
+      "requested_model": "gpt-6-astra",
+      "requested_reasoning_effort": "high",
+      "requested_service_tier": "priority",
+      "config_observed": {
+        "max_concurrent_threads_per_session": 50,
+        "service_tier": "priority"
+      },
+      "runtime_service_tier_verified": false,
+      "any_child_closed_before_50th_spawn": false,
+      "started_at": "2026-10-15T12:23:17.073Z",
+      "updated_at": "2026-10-15T12:38:25.731Z",
+      "spawn_errors": [],
+      "persistence_recovery": "Windows command length exceeded at 28+ agents; switched to bounded file chunks; all returned IDs retained."
+    },
+    "status_interpretation": "Stale launching snapshot. succeeded=0 and failed=0 are uncollected audit outcomes, not zero successful spawns or zero delivered reports.",
+    "native_parent_recovery": {
+      "resumed_audits_reported": 30,
+      "basis": "Explicit user handoff in this evidence-consolidation task; the supplied CLI stream does not log the native-parent resumes.",
+      "resume_ids_independently_verified": false,
+      "effect": "Finished report artifacts are present for all 50 assignments; resumed turns are not counted as new spawns."
+    }
+  },
+  "earlier_cap1_rejection": {
+    "separate_run": true,
+    "documented_rejection": "agent thread limit reached",
+    "documented_context": "Earlier native attempt rejected a second simultaneous child; superseded plan described sequential queuing.",
+    "source": "Pre-consolidation plan/2026-10-15-astra-enrichment.md:27",
+    "source_sha256_before_update": "804a407a66c539ca7f51ab7b4abbda36ace6170363c75d46098a2199a3aa509a",
+    "raw_failure_event_in_supplied_50_run": false,
+    "historical_failed_attempts_documented": 1,
+    "historical_child_ids_available": false,
+    "interpretation": "Historical effective cap-1 observation, not proof of a current configured limit; do not combine with zero spawn failures in the later successful 50-child run."
+  },
+  "supporting_evidence": [
+    {
+      "path": "docs/verification/astra-enrichment-20261015/cleanup-manifest.json",
+      "bytes": 10756,
+      "sha256": "d2383ed661306145fa9a0ec478da160e9aaa7a223a13356524320e1c9d43ea3e"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/break-recovery-before.log",
+      "bytes": 891,
+      "sha256": "f3d326b670d4355addd18cd3c5cc000de0e0767a9110390a181b32e92a7550df"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/break-recovery-after.log",
+      "bytes": 136,
+      "sha256": "839182a034bf932f1c192b0e76b4d67595a7b4834d3237e22b8c9222cb21fc4f"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/repair-tests.log",
+      "bytes": 1698,
+      "sha256": "54af31f4a4d10e68d3cb53bde41d05eb2ebebfa9ad04bc566e91645d7a02c6e6"
+    },
+    {
+      "path": "ArtSource/Tripo/enrichment-20261015/guild_field_gear_station/provenance.json",
+      "bytes": 7111,
+      "sha256": "d35f9ddf02cfcff0c9b0051319733a2d9d9cd505f73b4a499958c39cf30ddf43"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/animation-eval.md",
+      "bytes": 3253,
+      "sha256": "87946ec30340b44728a70d4f1815899568dde1b11b3001d9945df199ef19479f"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/battle-animation.md",
+      "bytes": 5350,
+      "sha256": "9d030cb5c3d58d4b7bc4259094a3e1ce5750dd6f934cd4b00f1b799e3facac8a"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/battle-status-presentation.md",
+      "bytes": 5465,
+      "sha256": "69472c3f25862a04ab20e30e1495998ab3898217c9e29e5f1b80f28c7391594e"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/battle-ui-information.md",
+      "bytes": 3714,
+      "sha256": "cca05096a838e75538fd0750cb9c9e3fb104ba0254ab901010558c1655579faa"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/content-enrichment.md",
+      "bytes": 6327,
+      "sha256": "1152be5713182a5e6b8d6481eb585765b1442522cdec6ef41365a3994d0b38b2"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/equipment-progression.md",
+      "bytes": 4265,
+      "sha256": "b7384366cc7938f32936f5fb050e9b5a452e1c796e137c6fcaba6237197db061"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/package-consistency.md",
+      "bytes": 2982,
+      "sha256": "04d5ba403bc53d79ee8255a4af5184960fed01a802f65e9ef7ca46ee2d2061c4"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/save-migration.md",
+      "bytes": 3304,
+      "sha256": "78b2ba470b03644981ace74e166b59007e1467d0bb8c3fc9b2901ceaf10d4db4"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/test-filter.md",
+      "bytes": 1149,
+      "sha256": "e6b744ad6f1b562585bed412dc8917ff0f02da807405e6dda210b086682d14dc"
+    },
+    {
+      "path": "docs/verification/astra-enrichment-20261015/fixes/town-input-motion.md",
+      "bytes": 6464,
+      "sha256": "62d2033f2f68c66862aa7a415780b234887566375ebed01b78b0d3f94bfdd5e5"
+    }
+  ],
+  "agents": [
+    {
+      "task_id": "08-skill-mechanics",
+      "agent_id": "01a13f84-933e-7121-9dd2-5c4aad749bd7",
+      "nickname": "Halley",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:23:36.016Z",
+      "spawn_event": {
+        "item_id": "item_6",
+        "started_line": 13,
+        "completed_line": 14,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 1,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/08-skill-mechanics.md",
+        "bytes": 4507,
+        "sha256": "194ba0bc66b99aae28d6039925bebabc864d0490d728c602c22482578ab58fad",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "09-break-mechanics",
+      "agent_id": "01a13f84-abe1-7df1-813a-d45705dff2a7",
+      "nickname": "Hegel",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:23:42.11Z",
+      "spawn_event": {
+        "item_id": "item_8",
+        "started_line": 17,
+        "completed_line": 18,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 2,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/09-break-mechanics.md",
+        "bytes": 4307,
+        "sha256": "bce109d099eb8c285f6bc5fa74874c214f45465da2dd350419bd5036b74d18f1",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "10-battle-events",
+      "agent_id": "01a13f84-d559-7bd2-8f32-b20d13d24b43",
+      "nickname": "Raman",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:23:52.772Z",
+      "spawn_event": {
+        "item_id": "item_11",
+        "started_line": 22,
+        "completed_line": 23,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 3,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/10-battle-events.md",
+        "bytes": 4367,
+        "sha256": "88fb584bba1f2f1ed0127d211edd4cf2ea87cf3cc30d0c78ddd2c32af9b47432",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "11-save-codec",
+      "agent_id": "01a13f84-dac0-73a0-9e7c-fe52e595ece0",
+      "nickname": "Popper",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:23:54.161Z",
+      "spawn_event": {
+        "item_id": "item_12",
+        "started_line": 24,
+        "completed_line": 25,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 4,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/11-save-codec.md",
+        "bytes": 4130,
+        "sha256": "35aaf6ae744464c822e7d81d611df37a1c623ed16acb2a62882c068453b1ac97",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "12-save-repository",
+      "agent_id": "01a13f84-e1b6-73d0-96c0-6a2d28016f37",
+      "nickname": "Peirce",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:23:56.275Z",
+      "spawn_event": {
+        "item_id": "item_13",
+        "started_line": 26,
+        "completed_line": 27,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 5,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/12-save-repository.md",
+        "bytes": 3732,
+        "sha256": "52ec54c5a3aef87c25f435a48f6432ffd550d276f300ef2e44410af5ee9f9459",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "13-campaign-migration",
+      "agent_id": "01a13f84-ea8d-7e33-baa8-fb83f93e54ae",
+      "nickname": "Helmholtz",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:23:58.229Z",
+      "spawn_event": {
+        "item_id": "item_14",
+        "started_line": 28,
+        "completed_line": 29,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 6,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/13-campaign-migration.md",
+        "bytes": 3830,
+        "sha256": "1128a525d0565514c443f327dc4af358997259a4c607f2dcc694109af54316e1",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "14-game-flow",
+      "agent_id": "01a13f84-f0eb-7bb0-8af1-6c20e8932066",
+      "nickname": "Mill",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:00.782Z",
+      "spawn_event": {
+        "item_id": "item_15",
+        "started_line": 30,
+        "completed_line": 31,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 7,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/14-game-flow.md",
+        "bytes": 3761,
+        "sha256": "2b9408bc64a2ea3bc19c08bbe0d1172a3adfe71d2c94f531d41822394d608676",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "15-quest-log",
+      "agent_id": "01a13f84-fdc9-7a51-9f7f-5390f08fbc4e",
+      "nickname": "James",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:03.46Z",
+      "spawn_event": {
+        "item_id": "item_16",
+        "started_line": 32,
+        "completed_line": 33,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 8,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/15-quest-log.md",
+        "bytes": 2767,
+        "sha256": "21f1a3c7bfce82901f639285284a7112653b746e2ae9f276b90c90c4b5f6cd69",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "16-town-services",
+      "agent_id": "01a13f85-0698-7393-9576-ff3f8ef9fd30",
+      "nickname": "Epicurus",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:05.966Z",
+      "spawn_event": {
+        "item_id": "item_17",
+        "started_line": 34,
+        "completed_line": 35,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 9,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/16-town-services.md",
+        "bytes": 3515,
+        "sha256": "5776d659f6e3918dfed2dd3da5b45289fd61780fc3a6c9c052fb51cff79f6762",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "17-roster",
+      "agent_id": "01a13f85-2026-78c1-95e5-2e2a6fa2bf3a",
+      "nickname": "Copernicus",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:12.271Z",
+      "spawn_event": {
+        "item_id": "item_18",
+        "started_line": 36,
+        "completed_line": 37,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 10,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/17-roster.md",
+        "bytes": 3481,
+        "sha256": "052ff221b64085b5c91db183a9cc66477f4e8918dabd2e752efb941fe1b53d91",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "18-jobs",
+      "agent_id": "01a13f85-a08b-7cf1-886e-e1a88f53cb30",
+      "nickname": "Curie",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:45.138Z",
+      "spawn_event": {
+        "item_id": "item_27",
+        "started_line": 54,
+        "completed_line": 55,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 11,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/18-jobs.md",
+        "bytes": 4285,
+        "sha256": "16a28c9acbe9969a9541126edffafc0437996ccda1fec1476640748ff4892692",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "19-equipment",
+      "agent_id": "01a13f85-a99e-72a2-afd0-25cb0369b012",
+      "nickname": "Banach",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:47.377Z",
+      "spawn_event": {
+        "item_id": "item_28",
+        "started_line": 56,
+        "completed_line": 57,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 12,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/19-equipment.md",
+        "bytes": 5074,
+        "sha256": "f56d3e9c77f8afc986ecf919aba637ca1475a0b2dbbdc1e1cd31fb49e7057d52",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "20-enhancement",
+      "agent_id": "01a13f85-b308-7cb2-808d-7dc4ac2ff090",
+      "nickname": "Carver",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:49.655Z",
+      "spawn_event": {
+        "item_id": "item_29",
+        "started_line": 58,
+        "completed_line": 59,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 13,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/20-enhancement.md",
+        "bytes": 3638,
+        "sha256": "935b4d933bc6d9491198a4f97ee765d71850beb1286a52b9431a4832d3667556",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "21-dungeon-run",
+      "agent_id": "01a13f85-bb1b-7cf2-97c5-7838ff89df20",
+      "nickname": "Nietzsche",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:51.835Z",
+      "spawn_event": {
+        "item_id": "item_30",
+        "started_line": 60,
+        "completed_line": 61,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 14,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/21-dungeon-run.md",
+        "bytes": 4308,
+        "sha256": "a17541e15f1cbff3561f1a9670c9f4cdaade1e55e8e03fc735312a82e72c6d09",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "22-dungeon-grid",
+      "agent_id": "01a13f85-c234-73e3-ae8a-b02e1ba1ad30",
+      "nickname": "Sartre",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:53.564Z",
+      "spawn_event": {
+        "item_id": "item_31",
+        "started_line": 62,
+        "completed_line": 63,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 15,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/22-dungeon-grid.md",
+        "bytes": 3825,
+        "sha256": "01873c076cbf387e6b9079b8416d235f5967ba463a612c706b0a7688c7e4a233",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "23-exploration-resources",
+      "agent_id": "01a13f85-c91d-7d01-aad7-e4db475e81fd",
+      "nickname": "Hilbert",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:55.51Z",
+      "spawn_event": {
+        "item_id": "item_32",
+        "started_line": 64,
+        "completed_line": 65,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 16,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/23-exploration-resources.md",
+        "bytes": 5248,
+        "sha256": "6e94aa86c351e389fbbef0664e958f8c68dc10be3d0b064a3f29f234c2178e9a",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "24-campaign-content",
+      "agent_id": "01a13f85-d19f-7a12-8fbd-7cf7cffbf1f5",
+      "nickname": "Herschel",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:57.679Z",
+      "spawn_event": {
+        "item_id": "item_33",
+        "started_line": 66,
+        "completed_line": 67,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 17,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/24-campaign-content.md",
+        "bytes": 3627,
+        "sha256": "64a10347dfaf9521c15854f7f7ff70bcd5a7b2740e92136b023cc68cf40fde80",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "25-readiness",
+      "agent_id": "01a13f85-da6b-77a2-bb51-93674dcf0504",
+      "nickname": "Rawls",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:24:59.682Z",
+      "spawn_event": {
+        "item_id": "item_34",
+        "started_line": 68,
+        "completed_line": 69,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 18,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/25-readiness.md",
+        "bytes": 4223,
+        "sha256": "bb4da8954f37af831a874ffad9199afaa7107ad9eb4f5b0275fe81b0b03e91bd",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "26-battle-movement",
+      "agent_id": "01a13f86-96f8-7132-bc8a-6fca930b3c73",
+      "nickname": "Heisenberg",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:25:47.953Z",
+      "spawn_event": {
+        "item_id": "item_44",
+        "started_line": 87,
+        "completed_line": 88,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 19,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/26-battle-movement.md",
+        "bytes": 2994,
+        "sha256": "85ed928310a450457810dbcb7189f0f2139fbfee2640b3c7c5f57db80ea50510",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "27-battle-animation",
+      "agent_id": "01a13f86-9f2b-70a2-bc94-3a53126fd1c2",
+      "nickname": "Maxwell",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:25:50.314Z",
+      "spawn_event": {
+        "item_id": "item_45",
+        "started_line": 89,
+        "completed_line": 90,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 20,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/27-battle-animation.md",
+        "bytes": 4241,
+        "sha256": "0a9f675a9b17995d2dfe5490ffb69ef263cf23cd24e1f307e4cc5521220df034",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "28-clip-animator",
+      "agent_id": "01a13f86-a9c5-7182-86ab-51526959c8f5",
+      "nickname": "Galileo",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:25:52.94Z",
+      "spawn_event": {
+        "item_id": "item_46",
+        "started_line": 91,
+        "completed_line": 92,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 21,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/28-clip-animator.md",
+        "bytes": 3542,
+        "sha256": "b5dec421a8188257a11486b9d4db775dd2102109d92dc28011e92467392cb0f8",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "29-character-model",
+      "agent_id": "01a13f86-b217-7321-b084-ac5929f7a5e6",
+      "nickname": "Ramanujan",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:25:55.407Z",
+      "spawn_event": {
+        "item_id": "item_47",
+        "started_line": 93,
+        "completed_line": 94,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 22,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/29-character-model.md",
+        "bytes": 3001,
+        "sha256": "22cf01b7deb7f6e2d3b8c7f5c3b8684830f1229b89d1e82665a80e05cca046ad",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "30-rigless-motion",
+      "agent_id": "01a13f86-bc0a-7420-9d2c-d065ec33f5c3",
+      "nickname": "Darwin",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:25:57.604Z",
+      "spawn_event": {
+        "item_id": "item_48",
+        "started_line": 95,
+        "completed_line": 96,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 23,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/30-rigless-motion.md",
+        "bytes": 3448,
+        "sha256": "56de2f65bd579bce65dea4fe0340ba628f1252335b0b5df6b7262af7ef4da4da",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "32-gear-display",
+      "agent_id": "01a13f86-c4c1-78a2-a2a5-1475d09a1622",
+      "nickname": "Aristotle",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:25:59.701Z",
+      "spawn_event": {
+        "item_id": "item_49",
+        "started_line": 97,
+        "completed_line": 98,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 24,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/32-gear-display.md",
+        "bytes": 3180,
+        "sha256": "0fca901cfd1a00d8bfa5e5460ecf2add3c632031bc4297cefac0b6f0d2176ac7",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "31-art-library",
+      "agent_id": "01a13f86-ccd1-7cd0-b037-38ec117219b3",
+      "nickname": "Poincare",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:26:01.796Z",
+      "spawn_event": {
+        "item_id": "item_50",
+        "started_line": 99,
+        "completed_line": 100,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 25,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/31-art-library.md",
+        "bytes": 3071,
+        "sha256": "f2ea61293c1dfee30c95a7bf4a21438c1f9fad4375ca74bf29ca5516dabaad98",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "33-battle-camera",
+      "agent_id": "01a13f86-d49e-75a3-b298-f8d574ba8575",
+      "nickname": "Turing",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:26:03.923Z",
+      "spawn_event": {
+        "item_id": "item_51",
+        "started_line": 101,
+        "completed_line": 102,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 26,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/33-battle-camera.md",
+        "bytes": 2904,
+        "sha256": "0a834bb7c05b36f0b65857d9a2a8fd5daf567845753086582e165b892c90be38",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "34-town-movement",
+      "agent_id": "01a13f87-c9c9-7ce0-a311-8ad50d1d492f",
+      "nickname": "Lorentz",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:07.281Z",
+      "spawn_event": {
+        "item_id": "item_61",
+        "started_line": 120,
+        "completed_line": 121,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 27,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/34-town-movement.md",
+        "bytes": 2940,
+        "sha256": "6c07b2ab56ad8a95436415f735523a090b8274aa2e2416f8ee080b6d5cf12a3c",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "35-town-environment",
+      "agent_id": "01a13f87-d474-7c13-86a6-9ed4aacf7971",
+      "nickname": "Singer",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:09.577Z",
+      "spawn_event": {
+        "item_id": "item_62",
+        "started_line": 122,
+        "completed_line": 123,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 28,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/35-town-environment.md",
+        "bytes": 6357,
+        "sha256": "5b51654942e111904d41473cb4e9b339332d677e9d14c5808ad3cc6801a6eeee",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "36-dungeon-environment",
+      "agent_id": "01a13f87-e1c9-7113-8a8a-99f3c0f0f203",
+      "nickname": "Archimedes",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:12.992Z",
+      "spawn_event": {
+        "item_id": "item_63",
+        "started_line": 124,
+        "completed_line": 125,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 29,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/36-dungeon-environment.md",
+        "bytes": 5229,
+        "sha256": "d3a304500454fcd1dcb4a269b66a2b181a01f765c4a8e505890c6e75b90d0d0f",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "37-atmosphere",
+      "agent_id": "01a13f87-ee81-7293-a885-1564f32619f0",
+      "nickname": "Franklin",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:16.362Z",
+      "spawn_event": {
+        "item_id": "item_64",
+        "started_line": 126,
+        "completed_line": 127,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 30,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/37-atmosphere.md",
+        "bytes": 2469,
+        "sha256": "cb2c2351bd823c9ca72633fdcb325552eab93a41faeba2fbb700f8d042ec26f3",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "38-vfx",
+      "agent_id": "01a13f88-046f-70d3-912b-2d5244fc3016",
+      "nickname": "Pasteur",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:21.539Z",
+      "spawn_event": {
+        "item_id": "item_65",
+        "started_line": 128,
+        "completed_line": 129,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 31,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/38-vfx.md",
+        "bytes": 2764,
+        "sha256": "fc3632fb8f0718c103369940e20bf02482c4317a7ce1db3516cf49e54b0e9c3a",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "39-audio",
+      "agent_id": "01a13f88-167e-7d90-9042-d273172a2082",
+      "nickname": "Faraday",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:26.834Z",
+      "spawn_event": {
+        "item_id": "item_66",
+        "started_line": 130,
+        "completed_line": 131,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 32,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/39-audio.md",
+        "bytes": 3127,
+        "sha256": "c9ae3349f02ea5002edc42489932df748b5ada5367107b2d05391b1a77433e13",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "40-battle-target-ui",
+      "agent_id": "01a13f88-23ea-71a0-81cd-02f756f68ef2",
+      "nickname": "Socrates",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:29.892Z",
+      "spawn_event": {
+        "item_id": "item_67",
+        "started_line": 132,
+        "completed_line": 133,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 33,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/40-battle-target-ui.md",
+        "bytes": 4376,
+        "sha256": "e274945d6929c2b8ac590330396e48d0dabdab51dcb37b35b75e82081d612a03",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "41-town-ui",
+      "agent_id": "01a13f88-2db5-72d3-9a55-62f2d81eb953",
+      "nickname": "Dalton",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:27:32.197Z",
+      "spawn_event": {
+        "item_id": "item_68",
+        "started_line": 134,
+        "completed_line": 135,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 34,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/41-town-ui.md",
+        "bytes": 4361,
+        "sha256": "c50732593997956dff9e16d66265dcf5eb5fe91aa63fdcbcaa4b6a2957b3e258",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "42-input",
+      "agent_id": "01a13f8f-fb01-78f0-b6a0-a37928605224",
+      "nickname": "Ampere",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:03.942Z",
+      "spawn_event": {
+        "item_id": "item_75",
+        "started_line": 147,
+        "completed_line": 148,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 35,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/42-input.md",
+        "bytes": 3697,
+        "sha256": "0a157ed7634287e1a9d92d24e606bfd03e3f0a47fbe4c1121ae929a113102574",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "43-settings",
+      "agent_id": "01a13f90-04fc-7ec2-86aa-5466ffd36829",
+      "nickname": "Feynman",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:06.033Z",
+      "spawn_event": {
+        "item_id": "item_76",
+        "started_line": 149,
+        "completed_line": 150,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 36,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/43-settings.md",
+        "bytes": 3124,
+        "sha256": "d894918cca0a9836f02e6d49764006a491cbc9ff6370f9e44163d547191f8616",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "44-map-ui",
+      "agent_id": "01a13f90-0d9e-7333-a2d3-b99c2d299924",
+      "nickname": "Parfit",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:08.23Z",
+      "spawn_event": {
+        "item_id": "item_77",
+        "started_line": 151,
+        "completed_line": 152,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 37,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/44-map-ui.md",
+        "bytes": 3382,
+        "sha256": "a351049d36324ca7ee096e4355c64f9e3102ca78d5bd146df256821c4eef2c76",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "45-data-integrity",
+      "agent_id": "01a13f90-14dc-74e1-af12-891e3e6dffd7",
+      "nickname": "Carson",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:10.094Z",
+      "spawn_event": {
+        "item_id": "item_78",
+        "started_line": 153,
+        "completed_line": 154,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 38,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/45-data-integrity.md",
+        "bytes": 3367,
+        "sha256": "17bf917a684e9c512c66d69d642bca66831675d1d98a9d49a02d5978b01f463e",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "46-asset-guid",
+      "agent_id": "01a13f90-1d42-7963-9179-f13d36f8268a",
+      "nickname": "Hume",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:12.256Z",
+      "spawn_event": {
+        "item_id": "item_79",
+        "started_line": 155,
+        "completed_line": 156,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 39,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/46-asset-guid.md",
+        "bytes": 2873,
+        "sha256": "c96ad940eb9a89f96d0dcc97db3c0c15776b959e172e60e352a341b12004c0a0",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "47-tracked-cache-cleanup",
+      "agent_id": "01a13f90-25fe-7743-9cb1-50de1bb28bad",
+      "nickname": "Erdos",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:14.282Z",
+      "spawn_event": {
+        "item_id": "item_80",
+        "started_line": 157,
+        "completed_line": 158,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 40,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/47-tracked-cache-cleanup.md",
+        "bytes": 7787,
+        "sha256": "8374b2b8f1c7c84dcb6802b0c56bd86a0d0c9b35a11652bc9047c3763b0fcb6a",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "48-source-redundancy",
+      "agent_id": "01a13f90-38df-74d3-a77d-4fc9d9033feb",
+      "nickname": "McClintock",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:19.937Z",
+      "spawn_event": {
+        "item_id": "item_81",
+        "started_line": 159,
+        "completed_line": 160,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 41,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/48-source-redundancy.md",
+        "bytes": 3518,
+        "sha256": "cedd804625b26d5e37b32d2f83042906b681d05cca50760192db1edebe7e0017",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "49-rig-evidence",
+      "agent_id": "01a13f90-4360-73f2-a163-c8f7bf8c79b5",
+      "nickname": "Descartes",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:36:22.202Z",
+      "spawn_event": {
+        "item_id": "item_82",
+        "started_line": 161,
+        "completed_line": 162,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 42,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/49-rig-evidence.md",
+        "bytes": 6762,
+        "sha256": "b2c7504987619ab8b24db0c351a485e62b55eace35803c2ab7cd88e8f9a52d0c",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "50-validation-infrastructure",
+      "agent_id": "01a13f91-8ff3-7e60-a43f-72c42d9d58c0",
+      "nickname": "Boyle",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:37:47.034Z",
+      "spawn_event": {
+        "item_id": "item_92",
+        "started_line": 180,
+        "completed_line": 181,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 43,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/50-validation-infrastructure.md",
+        "bytes": 9672,
+        "sha256": "f020344555215baf1cb7a3c91fc4cfc38d76ab48d1e224cf2ef9cf9e431e0c79",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "51-break-fix-review",
+      "agent_id": "01a13f91-96fe-75c3-b304-a5ec881dcb2b",
+      "nickname": "Kepler",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:37:49.099Z",
+      "spawn_event": {
+        "item_id": "item_93",
+        "started_line": 182,
+        "completed_line": 183,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 44,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/51-break-fix-review.md",
+        "bytes": 3332,
+        "sha256": "d230d247e7c7ad6c20aedc77d1fbeaaa5ebfcf48193ae73587140f423fcbcb78",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "52-cleanse-provoke",
+      "agent_id": "01a13f91-a03e-7490-83d4-9d9bf615656d",
+      "nickname": "Russell",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:37:51.375Z",
+      "spawn_event": {
+        "item_id": "item_94",
+        "started_line": 184,
+        "completed_line": 185,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 45,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/52-cleanse-provoke.md",
+        "bytes": 7272,
+        "sha256": "c869ee204ce1f27efb29979729e6513316b257e3ac1ab787af255545d6176ede",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "53-enemy-telegraph",
+      "agent_id": "01a13f91-a8cf-7f43-833a-e60ba7bd74a3",
+      "nickname": "Zeno",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:37:53.458Z",
+      "spawn_event": {
+        "item_id": "item_95",
+        "started_line": 186,
+        "completed_line": 187,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 46,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/53-enemy-telegraph.md",
+        "bytes": 4673,
+        "sha256": "0643dc522b84d7c623dc1ca750aca5b0f8aaf4085006874e470ddd26be327f6a",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "54-exploration-variety",
+      "agent_id": "01a13f91-afe8-7603-b954-7dbe71b878db",
+      "nickname": "Jason",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:37:55.44Z",
+      "spawn_event": {
+        "item_id": "item_96",
+        "started_line": 188,
+        "completed_line": 189,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 47,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/54-exploration-variety.md",
+        "bytes": 5908,
+        "sha256": "1751216385d6c3ab456c8890a9eac0c61bcc4161dddf63aff5a5bb7d942c7fec",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "55-defeat-recovery",
+      "agent_id": "01a13f91-b905-7e71-b1db-e59a3a4b71ac",
+      "nickname": "Lagrange",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:37:57.622Z",
+      "spawn_event": {
+        "item_id": "item_97",
+        "started_line": 190,
+        "completed_line": 191,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 48,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/55-defeat-recovery.md",
+        "bytes": 4380,
+        "sha256": "423d8b54c1e66010e28b839149c760fb2c13f3ab5ec20c76f31f63c176e6cdd2",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "56-package-consistency",
+      "agent_id": "01a13f91-c453-7d43-83f8-ea9f3a9c88a0",
+      "nickname": "Leibniz",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:38:00.558Z",
+      "spawn_event": {
+        "item_id": "item_98",
+        "started_line": 192,
+        "completed_line": 193,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 49,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/56-package-consistency.md",
+        "bytes": 3478,
+        "sha256": "634354b87eea0b1a829ae35e11de79ff77029050618dd60b6fea454f79a1db49",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    },
+    {
+      "task_id": "57-fixture-validity",
+      "agent_id": "01a13f91-d33e-7571-be18-36698e3453ed",
+      "nickname": "Newton",
+      "requested_model": "gpt-6-astra",
+      "requested_effort": "high",
+      "requested_service_tier": "priority",
+      "registered_spawn_utc": "2026-10-15T12:38:05.011Z",
+      "spawn_event": {
+        "item_id": "item_99",
+        "started_line": 194,
+        "completed_line": 195,
+        "status": "completed",
+        "initial_child_state": {
+          "status": "pending_init",
+          "message": null
+        }
+      },
+      "closed_in_registry": false,
+      "observation_record_1_based": 50,
+      "observed": {
+        "model": "gpt-6-astra",
+        "effort": "high",
+        "service_tier": null
+      },
+      "report": {
+        "path": "docs/verification/astra-enrichment-20261015/agent-reports/57-fixture-validity.md",
+        "bytes": 4186,
+        "sha256": "bfe4b800af05a1aac15b52e52db21bc8ccf17bd2186035c7e18faeddbe2bf321",
+        "delivered": true,
+        "verification_scope": "bounded audit; findings are not runtime acceptance"
+      }
+    }
+  ],
+  "validation_snapshot": {
+    "break_regression": "Existing before log 1/2; after log 2/2. Not rerun by this task.",
+    "new_repairs": "Implementation handoffs deferred execution; subsequently observed parent repair-tests.log records 18/18 passed. No command/exit or complete source manifest is attached to that log alone.",
+    "full_suite": "In progress/incomplete at inspection; no final total used.",
+    "runtime_and_visual_acceptance": "Pending; not established by source audits or logic logs."
+  },
+  "asset_snapshot": {
+    "source": "ArtSource/Tripo/enrichment-20261015/guild_field_gear_station/provenance.json",
+    "image_site": "ChatGPT web",
+    "model_ui": "GPT-6",
+    "effort_ui": "Extra High, stop 4 of 5",
+    "parallel_requests": 4,
+    "candidate_files_present": 4,
+    "selected": "D",
+    "tripo_paid_steps": [
+      {
+        "operation": "image-to-3D",
+        "cost_displayed": 55,
+        "balance_before": 3350,
+        "balance_after": 3295,
+        "status": "complete",
+        "observed_faces": 1846451
+      },
+      {
+        "operation": "retopology Triangle Smart Mesh 6000",
+        "cost_displayed": 35,
+        "balance_before": 3295,
+        "balance_after": 3260,
+        "status": "complete",
+        "observed_triangles": 6387
+      }
+    ],
+    "acceptance": "Retopology output/export/import/runtime acceptance pending; sidecar processing state is not completion."
+  }
+}

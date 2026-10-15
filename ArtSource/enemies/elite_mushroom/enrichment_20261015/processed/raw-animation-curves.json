@@ -1,0 +1,5852 @@
+[
+  {
+    "id": 97192802831120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.19095520675182343,
+    "max": 0.19095520675182343,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192802830960,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 87.46160125732422,
+    "max": 93.59957885742188,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192802758448,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192796185008,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.3367340564727783,
+    "max": -1.3367339372634888,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192796184848,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -17.745765686035156,
+    "max": -7.329458713531494,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192802692176,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192802504528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 14.417290687561035,
+    "max": 17.708383560180664,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803507856,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -124.94292449951172,
+    "max": -89.3008041381836,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803512240,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803419472,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.346029752217873e-07,
+    "max": 2.2135563995107077e-06,
+    "last_change_frame": 10.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803565728,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -179.9155731201172,
+    "max": 179.87278747558594,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803573984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803607344,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.201153755187988,
+    "max": -4.201151371002197,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803611744,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.861760139465332,
+    "max": 18.989076614379883,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803616128,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803648432,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -12.221522331237793,
+    "max": -12.221521377563477,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803652832,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 20.875652313232422,
+    "max": 44.074562072753906,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803657216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000005960464478,
+    "max": 1.0000007152557373,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803693552,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.910076662170468e-06,
+    "max": 3.340750254210434e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803701824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.980493834707886e-06,
+    "max": 7.798905699019087e-07,
+    "last_change_frame": 29.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803710384,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803743744,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.1809492111206055,
+    "max": 7.1809539794921875,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803748144,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.9379216610104777e-05,
+    "max": -1.455842902942095e-05,
+    "last_change_frame": 37.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803752528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803781712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.308817329321755e-06,
+    "max": 6.950327588128857e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804184592,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.881933692668099e-06,
+    "max": 1.3198346096032765e-05,
+    "last_change_frame": 42.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804189024,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804225360,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.3819233179092407,
+    "max": -0.38192278146743774,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804233632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.0675792694091797,
+    "max": 0.3749553859233856,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804241936,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804275344,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.055377960205078,
+    "max": 3.055379629135132,
+    "last_change_frame": 31.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804279744,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.6266518831253052,
+    "max": 4.320877552032471,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804284128,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804316432,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.63071250023495e-08,
+    "max": 9.171681369934959e-08,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804320832,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.672609806060791,
+    "max": 3.598247766494751,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804325216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804361632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.005287572297675e-06,
+    "max": 3.51751367588804e-07,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804371952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.7893481254577637,
+    "max": 6.820405960083008,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804380256,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804413664,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 8.410974502563477,
+    "max": 8.410978317260742,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804418064,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.8410658836364746,
+    "max": 3.4457616806030273,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804422448,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804454752,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.1998175131775497e-07,
+    "max": 2.9552117553066637e-07,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804459152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -25.411623001098633,
+    "max": -16.7851619720459,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804463536,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804499872,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.2866372571807005e-06,
+    "max": 8.160839115589624e-07,
+    "last_change_frame": 31.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803709984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.410611629486084,
+    "max": 6.6089959144592285,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192803709712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804553312,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 8.79251766204834,
+    "max": 8.792521476745605,
+    "last_change_frame": 47.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804557712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.9123210906982422,
+    "max": 4.428400039672852,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804562096,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804594400,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.791492642652884e-07,
+    "max": 3.9533691165161144e-07,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804598800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.3633270263671875,
+    "max": 2.3620681762695312,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804603184,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804639520,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9912402033805847,
+    "max": 0.9912459850311279,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804647792,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -114.46549224853516,
+    "max": -97.0337142944336,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804656096,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804690032,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.7743096351623535,
+    "max": 5.774314880371094,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804694432,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -44.630096435546875,
+    "max": -16.6186466217041,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804698816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804731120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -13.715641975402832,
+    "max": -13.715638160705566,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804735520,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.393725395202637,
+    "max": -1.3956880569458008,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804739904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804776240,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.282774858031189e-06,
+    "max": 1.1828461765617249e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804784512,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -54.395355224609375,
+    "max": 18.92111587524414,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804792816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804826752,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 8.244576454162598,
+    "max": 8.24457836151123,
+    "last_change_frame": 42.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804831152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -28.78305435180664,
+    "max": 8.86594009399414,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804835536,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804867840,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.066453013569117e-06,
+    "max": -1.7729551018419443e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804872240,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -31.31644058227539,
+    "max": 9.587377548217773,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804876624,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804913488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.871580472354253e-07,
+    "max": 3.306197868369054e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804921760,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.1256821155548096,
+    "max": -0.39934951066970825,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804930064,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804963472,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.376153469085693,
+    "max": 7.376158714294434,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804967872,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.292802333831787,
+    "max": 3.7801384925842285,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804972256,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805004560,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.5609917858892004e-07,
+    "max": 5.1516103667381685e-06,
+    "last_change_frame": 47.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805008960,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -129.09661865234375,
+    "max": -7.356913089752197,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805013872,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805050208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.6146415115799755e-06,
+    "max": 5.6975513871293515e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805058480,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.7367777824401855,
+    "max": 66.46063995361328,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805066784,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000009536743164,
+    "max": 1.0000019073486328,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805100192,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 16.280344009399414,
+    "max": 16.280345916748047,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805104592,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 46.771488189697266,
+    "max": 66.9139175415039,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805108976,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000007152557373,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804353200,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.4067991287447512e-05,
+    "max": -1.8530364513935638e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805146368,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -11.335906982421875,
+    "max": 56.536624908447266,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805150752,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805187088,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0460902452468872,
+    "max": 1.046095609664917,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805195360,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -23.588531494140625,
+    "max": -23.588180541992188,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804508576,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0000005960464478,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192804508016,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.88555645942688,
+    "max": 3.885560989379883,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805242768,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -64.23262786865234,
+    "max": -64.23252868652344,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805247152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 0.9999999403953552,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805279456,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.7121949791908264,
+    "max": 0.7122036814689636,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805283856,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 13.77540397644043,
+    "max": 13.775761604309082,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805288240,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999996423721313,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805324576,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.659297575126402e-07,
+    "max": 5.434952527139103e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805332848,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.172177314758301,
+    "max": -5.17206335067749,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805341152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 0.9999999403953552,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805375088,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.311431646347046,
+    "max": 2.311434268951416,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805379488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.962846755981445,
+    "max": -6.962780952453613,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805383872,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805416176,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.4161574881654815e-06,
+    "max": 8.37431252875831e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805420576,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.1523849964141846,
+    "max": 2.1524710655212402,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805424960,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000001192092896,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805461824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.1607367014221381e-06,
+    "max": 1.3086262242723024e-06,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805470096,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 26.788084030151367,
+    "max": 55.523250579833984,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805478400,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805511808,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.690516471862793,
+    "max": 5.690518379211426,
+    "last_change_frame": 20.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805516208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -31.062044143676758,
+    "max": -11.097223281860352,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805520592,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999995827674866,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805553424,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.5016361178131774e-06,
+    "max": 1.1599765912251314e-06,
+    "last_change_frame": 39.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805557824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.744247436523438,
+    "max": 43.7735481262207,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805562208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805598544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.862586363036826e-07,
+    "max": 4.870914381172042e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805606816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.9061712009715848e-05,
+    "max": 7.744668982923031e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805615120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805648528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.4416844844818115,
+    "max": 1.4416871070861816,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805652928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.650303789181635e-05,
+    "max": 4.580018412525533e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805657312,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805690144,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.5149674936765223e-07,
+    "max": 6.7195046540291514e-06,
+    "last_change_frame": 47.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805694544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.827634489221964e-05,
+    "max": 7.562325481558219e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805698928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805735264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.143643769159098e-06,
+    "max": 2.164321358577581e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805743536,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0001399897737428546,
+    "max": 0.00014608161291107535,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805751840,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805785776,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.4036917686462402,
+    "max": 1.4036953449249268,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805790176,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.713635007647099e-06,
+    "max": 1.8667909671421512e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805794560,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805826864,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.0450206900713965e-05,
+    "max": -3.3014077871484915e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805831264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0001532858586870134,
+    "max": 0.00015792892372701317,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805835648,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805871984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.8611522912979126,
+    "max": 0.8611578941345215,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805880784,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -30.06853485107422,
+    "max": -30.068225860595703,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805889088,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805922496,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.10632848739624,
+    "max": 4.106332778930664,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805926896,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -67.8587646484375,
+    "max": -67.85867309570312,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805931280,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805963584,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.08344980329275131,
+    "max": -0.08344409614801407,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805967984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 16.85451889038086,
+    "max": 16.854808807373047,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805972368,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806009232,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.7050274386274396e-06,
+    "max": 8.057372724579182e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806017504,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.4678151607513428,
+    "max": -3.4677107334136963,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806025808,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806059216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.8080921173095703,
+    "max": 2.808093786239624,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806063616,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.401154518127441,
+    "max": -5.4010748863220215,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806068000,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 0.9999999403953552,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806100832,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.4758086258079857e-06,
+    "max": 4.826496024179505e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806105232,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.8859010934829712,
+    "max": 1.885992407798767,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806109616,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000001192092896,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806145952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.929881818796275e-06,
+    "max": 3.444936965024681e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806154224,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.3073483387415763e-05,
+    "max": 9.884928294923156e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806162528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806195936,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.7236872911453247,
+    "max": 1.7236907482147217,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806200336,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.1794130336493254e-05,
+    "max": 5.725933442590758e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806204720,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806237552,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.766301107243635e-06,
+    "max": -2.707012527025654e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806241952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.0003426475450396538,
+    "max": -0.0002588802599348128,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806246336,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806282672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.027823241718579e-06,
+    "max": -2.4905452846724074e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806290944,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0001387985103065148,
+    "max": 0.00014719244791194797,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806299248,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806333184,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.7253921031951904,
+    "max": 1.7253955602645874,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806337584,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.931991384182766e-07,
+    "max": 6.037621460563969e-06,
+    "last_change_frame": 47.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806341968,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806374272,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.546984306827653e-06,
+    "max": -5.219598051553476e-07,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806378672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0001266853214474395,
+    "max": 0.00013287749607115984,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806383056,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806419920,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.48041802644729614,
+    "max": 0.4804231822490692,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806428192,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -30.9280948638916,
+    "max": -30.927764892578125,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806436496,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806469904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.9763357639312744,
+    "max": 3.9763402938842773,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806474304,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -68.06529998779297,
+    "max": -68.065185546875,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806478688,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806510992,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.5591975450515747,
+    "max": -1.5591919422149658,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806515392,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 18.86622428894043,
+    "max": 18.86656379699707,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806519776,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806556640,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.265029696805868e-06,
+    "max": -1.9554454411263578e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806564912,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.084463357925415,
+    "max": -3.084368944168091,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806573216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806606624,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.4411349296569824,
+    "max": 2.4411399364471436,
+    "last_change_frame": 43.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806611024,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.473752498626709,
+    "max": -5.473665714263916,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806615408,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806648240,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.073515244977898e-06,
+    "max": 1.05130657175323e-05,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806652640,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.8728067874908447,
+    "max": 0.8729055523872375,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806657024,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000001192092896,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806693360,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.230563253164291e-06,
+    "max": -4.95939866596018e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806703328,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.5753703337395564e-05,
+    "max": 9.772858902579173e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806711488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806745424,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.269065260887146,
+    "max": 1.2690681219100952,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806749824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.7064239727915265e-05,
+    "max": 7.345856283791363e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806754208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806786512,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.240080440671591e-07,
+    "max": 5.3306885092752054e-06,
+    "last_change_frame": 46.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806790912,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.0003924662305507809,
+    "max": -0.00031747340108267963,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806795296,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806831632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0424401807540562e-05,
+    "max": 1.3790972843708005e-05,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806839904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.796492794412188e-05,
+    "max": -4.010153861599974e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806848208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806882144,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.2844719886779785,
+    "max": 1.28447425365448,
+    "last_change_frame": 21.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806886544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.57461748435162e-06,
+    "max": 1.1551395800779574e-05,
+    "last_change_frame": 46.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806890928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806923232,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.445687525527319e-06,
+    "max": 3.366369583091e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806927632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.000289231218630448,
+    "max": 0.0002941802085842937,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806932016,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806968880,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.036722884848132e-07,
+    "max": 4.254966370353941e-06,
+    "last_change_frame": 38.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806977152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -110.57009887695312,
+    "max": -78.33370971679688,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192806985456,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.000000238418579,
+    "max": 1.0000005960464478,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807018864,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 6.344971179962158,
+    "max": 6.344972610473633,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807023264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.450822353363037,
+    "max": 29.17389488220215,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807027648,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807059952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.5917526020057267e-06,
+    "max": -4.100720616406761e-07,
+    "last_change_frame": 39.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807064352,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -134.78125,
+    "max": -123.33309936523438,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807068736,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807105600,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.6408078074455261,
+    "max": 0.6408119201660156,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807113872,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -28.75942039489746,
+    "max": -28.75905990600586,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807122176,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000001192092896,
+    "max": 1.0000005960464478,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807155584,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.213406085968018,
+    "max": 4.213409900665283,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807159984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -66.95181274414062,
+    "max": -66.95169067382812,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807164368,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807197200,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.8268374800682068,
+    "max": -0.8268309831619263,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807201600,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 17.47171401977539,
+    "max": 17.472084045410156,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807205984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807242320,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -9.500903388470761e-07,
+    "max": 4.160163825872587e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807250592,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.9945693016052246,
+    "max": -3.9944849014282227,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807258896,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807296928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.52848744392395,
+    "max": 2.5284922122955322,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807301328,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.718842029571533,
+    "max": -5.718776226043701,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807305712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807338016,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -9.415914973942563e-06,
+    "max": -2.1852690679224906e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807342416,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.9173942804336548,
+    "max": 1.917511224746704,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807346800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0000001192092896,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807383136,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.992729479155969e-06,
+    "max": -2.9071943572489545e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807391408,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.00012181528290966526,
+    "max": 0.00020116004452574998,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807399712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807433648,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.3939698934555054,
+    "max": 1.3939735889434814,
+    "last_change_frame": 42.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807438048,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.859151133336127e-05,
+    "max": 4.241926581016742e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807442432,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807474736,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 8.744823958295456e-07,
+    "max": 7.423850547638722e-06,
+    "last_change_frame": 47.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807485296,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0005371483275666833,
+    "max": 0.0005864346167072654,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807489680,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807526544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.079368631617399e-06,
+    "max": -1.768309061844775e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807534816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.0002713361755013466,
+    "max": -0.0002650141541380435,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807543120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807576528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.249516248703003,
+    "max": 1.2495197057724,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807580928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.3202044328863849e-06,
+    "max": 1.6964452242973493e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807585312,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807618144,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.309248187288176e-06,
+    "max": -3.69272606803861e-06,
+    "last_change_frame": 38.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807622544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.00016612911713309586,
+    "max": -0.0001628258469281718,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807626928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807663264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.3388184905052185,
+    "max": -0.33881548047065735,
+    "last_change_frame": 29.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807671536,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 30.23748207092285,
+    "max": 30.237621307373047,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807679840,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807713248,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.08438107371330261,
+    "max": 0.0843847393989563,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807717648,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.809774398803711,
+    "max": 9.809871673583984,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807722032,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999992847442627,
+    "max": 0.9999997615814209,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807754864,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.38559937477111816,
+    "max": 0.3856043517589569,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807759264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -21.290523529052734,
+    "max": -21.290441513061523,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807763648,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807799984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.3027843692725583e-07,
+    "max": 3.411684929233161e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807808256,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -21.64215087890625,
+    "max": -21.64202880859375,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807816560,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.000000238418579,
+    "max": 1.0000008344650269,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807850496,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.5135724544525146,
+    "max": 2.5135762691497803,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807854896,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -32.994224548339844,
+    "max": -32.994136810302734,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807859280,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807891584,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.004809281672351e-06,
+    "max": 1.1952920431212988e-05,
+    "last_change_frame": 39.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807895984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 14.19881820678711,
+    "max": 14.198908805847168,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807900368,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999993443489075,
+    "max": 0.9999998211860657,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807936704,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.75771708402317e-06,
+    "max": 1.4382028439285932e-06,
+    "last_change_frame": 37.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807944976,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.00021403360005933791,
+    "max": 0.00026255458942614496,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807953808,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807987216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.747506022453308,
+    "max": 1.7475100755691528,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807991616,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.4793320588069037e-05,
+    "max": 9.031544323079288e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192807996000,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808028304,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.11541975356522e-06,
+    "max": 1.0441840458952356e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808032704,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.097566124983132e-05,
+    "max": 6.253396713873371e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808037088,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808073952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.9153362700308207e-06,
+    "max": 1.8446476133249234e-06,
+    "last_change_frame": 40.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808082224,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.0002899208338931203,
+    "max": -0.00028723260038532317,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808090528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808123936,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.319222092628479,
+    "max": 1.3192253112792969,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808128336,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.83723272534553e-06,
+    "max": -2.1547937194554834e-06,
+    "last_change_frame": 13.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808132720,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808165552,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.746102149510989e-06,
+    "max": 8.028535376070067e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808169952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.0119504167960258e-06,
+    "max": 9.85169549494458e-07,
+    "last_change_frame": 13.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808174336,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808210672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.06299077719449997,
+    "max": 0.06299498677253723,
+    "last_change_frame": 41.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808218944,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.1093482971191406,
+    "max": 2.9010331630706787,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808227248,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808260656,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.19770336151123,
+    "max": 9.197709083557129,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808265056,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -11.260796546936035,
+    "max": -6.884257793426514,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808269440,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808302272,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.005684512667357922,
+    "max": 0.0056859650649130344,
+    "last_change_frame": 45.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808306672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -20.460641860961914,
+    "max": -12.173673629760742,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808311056,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808347392,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.243548462705803e-06,
+    "max": 2.257059122712235e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808355664,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -21.476158142089844,
+    "max": -7.500067234039307,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808363968,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808397904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 6.916903018951416,
+    "max": 6.916909217834473,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808402304,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.8765130043029785,
+    "max": 21.17595100402832,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808406688,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808438992,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.0025621577369748e-06,
+    "max": 6.511788228635851e-07,
+    "last_change_frame": 21.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808443392,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -29.13079833984375,
+    "max": -8.317951202392578,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808447776,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808484640,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.629000032873591e-07,
+    "max": 9.55289215198718e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808492912,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 35.651676177978516,
+    "max": 47.71208572387695,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808501216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808534624,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 10.862998008728027,
+    "max": 10.862998962402344,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808539024,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 18.55686378479004,
+    "max": 24.59491729736328,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808543408,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808575712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.479239239823073e-06,
+    "max": 1.9425713162490865e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808580112,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.198206424713135,
+    "max": -0.741506814956665,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808584496,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808621360,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.14340569882188e-06,
+    "max": 6.324648893496487e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808629632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.5994220348147792e-07,
+    "max": 1.7948261756828288e-06,
+    "last_change_frame": 15.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808637936,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808671344,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 16.49045753479004,
+    "max": 16.490461349487305,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808675744,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 6.295155117186368e-07,
+    "max": 1.5977328757799114e-06,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808680128,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 0.9999999403953552,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808712960,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.4174668144260067e-06,
+    "max": 2.6179591259278823e-06,
+    "last_change_frame": 37.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808717360,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.659087153413566e-06,
+    "max": 4.873110810876824e-06,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808721744,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808758080,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.480760097503662,
+    "max": -1.4807522296905518,
+    "last_change_frame": 35.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808766352,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 97.16419982910156,
+    "max": 107.99078369140625,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808774656,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808808064,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.7743048667907715,
+    "max": 5.77431058883667,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808812992,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -30.14851188659668,
+    "max": -17.05571174621582,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808817376,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808849680,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 13.671449661254883,
+    "max": 13.671453475952148,
+    "last_change_frame": 46.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808854080,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.516719818115234,
+    "max": -2.8999147415161133,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808858464,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808894800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.031896423839498e-06,
+    "max": 1.4735120430486859e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808903072,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 50.918739318847656,
+    "max": 61.009361267089844,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808911376,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808945312,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 8.244582176208496,
+    "max": 8.244585990905762,
+    "last_change_frame": 38.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808949712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 13.176088333129883,
+    "max": 25.60354232788086,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808954096,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808986400,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.4372643818205688e-05,
+    "max": -9.56893291004235e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808990800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -37.38267135620117,
+    "max": -6.194324016571045,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192808995184,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809032048,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.0363982028138707e-06,
+    "max": 2.0839904664171627e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809040320,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 27.16719627380371,
+    "max": 29.139028549194336,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809048624,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000005960464478,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809082032,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.376147747039795,
+    "max": 7.376152992248535,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809086432,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 27.88239860534668,
+    "max": 31.831886291503906,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809090816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809123120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.049109171930468e-06,
+    "max": 1.0399620805401355e-05,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809127520,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -117.66474151611328,
+    "max": -109.1726303100586,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809131904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809168768,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.243506166152656e-06,
+    "max": 4.508390702540055e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809177040,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -174.18392944335938,
+    "max": -170.58447265625,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809185344,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809218752,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 14.04256820678711,
+    "max": 14.042571067810059,
+    "last_change_frame": 44.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809223152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.066855430603027,
+    "max": -3.023629665374756,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809227536,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0000005960464478,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809260368,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.678435976122273e-06,
+    "max": 1.1875149539264385e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809264768,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 144.65756225585938,
+    "max": 149.08541870117188,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809269152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809305488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0861334428191185,
+    "max": 0.08613711595535278,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809313760,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 169.96600341796875,
+    "max": 169.9661102294922,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809322064,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0000007152557373,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809356000,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.167232513427734,
+    "max": 4.167237758636475,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809360400,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 22.092451095581055,
+    "max": 22.092531204223633,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809364784,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809397088,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.05754535272717476,
+    "max": 0.05754886567592621,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809401488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 148.7472686767578,
+    "max": 148.74732971191406,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809405872,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809442208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.753556716721505e-06,
+    "max": 2.562672989370185e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809450480,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.164966583251953,
+    "max": 5.165031433105469,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809458784,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809492720,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.102665901184082,
+    "max": 2.102667808532715,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809497120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.169219493865967,
+    "max": 3.1692705154418945,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809501504,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809533808,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.368452656919544e-07,
+    "max": 1.6243653817582526e-06,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809538208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.7222684621810913,
+    "max": 1.722336769104004,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809542592,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809580736,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.9686215182446176e-06,
+    "max": 2.5050690055650193e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809589008,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.305102190002799e-05,
+    "max": -5.485238943947479e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192805203904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809633792,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.5075358152389526,
+    "max": 1.50753915309906,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809638192,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.5463652971448028e-06,
+    "max": 8.072070340858772e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809642576,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809675408,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.268648237688467e-06,
+    "max": 7.406722943414934e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809679808,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0004556743078865111,
+    "max": 0.0004961688537150621,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809684192,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809720528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.927479843288893e-06,
+    "max": 1.3407650385488523e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809728800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.234405193732528e-07,
+    "max": 4.0415566218143795e-06,
+    "last_change_frame": 23.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809737104,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809770512,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.4663821458816528,
+    "max": 1.4663840532302856,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809774912,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.599235580826644e-06,
+    "max": -3.231842583772959e-06,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809779296,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 0.9999999403953552,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809812128,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.959389010153245e-06,
+    "max": 4.3931351001447183e-07,
+    "last_change_frame": 32.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809816528,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.7910007222308195e-07,
+    "max": 1.2819011772080557e-06,
+    "last_change_frame": 23.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809820912,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809857248,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.196608304977417,
+    "max": 1.1966118812561035,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809865520,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 173.6762237548828,
+    "max": 173.6763153076172,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809873824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000007152557373,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809907760,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.861523151397705,
+    "max": 3.861527919769287,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809912160,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 26.39531707763672,
+    "max": 26.39539337158203,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809916544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809948848,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.3053017854690552,
+    "max": 0.3053050637245178,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809953248,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 148.99920654296875,
+    "max": 148.99928283691406,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809957632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0000003576278687,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192809993968,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.420101155730663e-07,
+    "max": 6.180685431900201e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810002240,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -9.841991186476662e-07,
+    "max": 7.307635883080366e-07,
+    "last_change_frame": 32.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810010544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810044480,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.18095064163208,
+    "max": 7.180952072143555,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810048880,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.7251537630945677e-06,
+    "max": 4.182693828624906e-06,
+    "last_change_frame": 6.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810053264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810085568,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.6055861351560452e-06,
+    "max": 6.388584665728558e-07,
+    "last_change_frame": 8.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810089968,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 9.2189966380829e-06,
+    "max": 1.3546589798352215e-05,
+    "last_change_frame": 46.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810094352,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810131216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -9.492972026237112e-07,
+    "max": 3.462393578956835e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810139488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.6598501205444336,
+    "max": 3.659961462020874,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810147792,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810181200,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.552753448486328,
+    "max": 2.5527563095092773,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810185600,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.3927805423736572,
+    "max": 2.392866373062134,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810189984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810222816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.868588338373229e-06,
+    "max": -5.764525212725857e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810227216,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.1541972160339355,
+    "max": 1.154255747795105,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810231600,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810267936,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.4334548268379876e-06,
+    "max": 2.326660705875838e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810276208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0001320214505540207,
+    "max": 0.00022298286785371602,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810284512,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810317920,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.7377761602401733,
+    "max": 1.7377784252166748,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810322320,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.6807114409166388e-05,
+    "max": 7.074976747389883e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810326704,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810359536,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.892359801393468e-06,
+    "max": -6.1139321587688755e-06,
+    "last_change_frame": 35.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810363936,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.00022259081015363336,
+    "max": 0.0002632116375025362,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810368320,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810404656,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.4034929992922116e-06,
+    "max": 2.9950438147352543e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810412928,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.368723239167593e-06,
+    "max": -1.5135649391595507e-06,
+    "last_change_frame": 23.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810421232,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810455168,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.7357845306396484,
+    "max": 1.7357879877090454,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810459568,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -3.1805547185895103e-15,
+    "max": 2.209070260050794e-07,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810463952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810496256,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.628117600688711e-06,
+    "max": -4.742327746498631e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810500656,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.95308131071215e-08,
+    "max": 6.361109437179021e-15,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810505040,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810541904,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.991746664047241,
+    "max": 2.9917502403259277,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810550176,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 172.46473693847656,
+    "max": 172.46482849121094,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810558480,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000007152557373,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810591888,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.9713261127471924,
+    "max": 2.9713311195373535,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810596288,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 25.709558486938477,
+    "max": 25.70962905883789,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810600672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810632976,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.7813566327095032,
+    "max": 0.7813599705696106,
+    "last_change_frame": 47.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810637376,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 148.30877685546875,
+    "max": 148.30885314941406,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810641760,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810678624,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.9276241093612043e-06,
+    "max": 2.2712908958055777e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810686896,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.1238744258880615,
+    "max": 3.123948812484741,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810695200,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810728608,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.4060847759246826,
+    "max": 2.4060893058776855,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810733008,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.0196114778518677,
+    "max": -1.0195460319519043,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810737392,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810770224,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.955288310768083e-06,
+    "max": -4.964927484252257e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810774624,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.036637045443058014,
+    "max": 0.03669296205043793,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810779008,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810815344,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -9.534381320008833e-07,
+    "max": 2.042349251496489e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810823616,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.00028817530255764723,
+    "max": -0.00021835636289324611,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810831920,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810865328,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.3760462999343872,
+    "max": 1.3760483264923096,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810869728,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.808996062725782e-05,
+    "max": 2.1543659386225045e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810874640,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810906944,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.6379757400718518e-06,
+    "max": -2.373156178236968e-07,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810911344,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.00015882546722423285,
+    "max": -0.00012395455269142985,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810915728,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810952064,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.8751258039628738e-06,
+    "max": 1.0017888598667923e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810960336,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 7.380890019703656e-05,
+    "max": 7.853325951145962e-05,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192810968640,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811002576,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.3864057064056396,
+    "max": 1.3864080905914307,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811006976,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.371197509404738e-06,
+    "max": -6.608709554711822e-06,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811011360,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811043664,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.5993094848454348e-06,
+    "max": 1.0213248060608748e-06,
+    "last_change_frame": 46.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811048064,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.7057365084838239e-06,
+    "max": 2.8007048058498185e-06,
+    "last_change_frame": 38.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811052448,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811089312,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.1513307094573975,
+    "max": 2.151334285736084,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811097584,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 171.5789794921875,
+    "max": 171.5791015625,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811105888,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0000007152557373,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811139296,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.546708106994629,
+    "max": 3.5467123985290527,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811143696,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 24.615478515625,
+    "max": 24.61556625366211,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811148080,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811180384,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.5597901344299316,
+    "max": 0.5597941875457764,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811184784,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 148.2476043701172,
+    "max": 148.24766540527344,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811189168,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999996423721313,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811226032,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.605380020919256e-06,
+    "max": 3.2746804663474904e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811234304,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.120882034301758,
+    "max": 4.120961666107178,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811242608,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811276016,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.5902464389801025,
+    "max": 2.590250253677368,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811280416,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.2527350187301636,
+    "max": -1.2526556253433228,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811284800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811317632,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.307935902645113e-06,
+    "max": -4.600732154358411e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811322032,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9608896374702454,
+    "max": 0.9609443545341492,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811326416,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811362752,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.752422460616799e-06,
+    "max": 4.891329012934875e-07,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811371024,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.0001174617136712186,
+    "max": -3.0146451535983942e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811379328,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811413264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.2332919836044312,
+    "max": 1.2332942485809326,
+    "last_change_frame": 44.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811417664,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.763171141850762e-05,
+    "max": 5.080053233541548e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811422048,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811454352,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -9.684349606686737e-07,
+    "max": 1.0743374332378153e-06,
+    "last_change_frame": 43.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811458752,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.00018878576520364732,
+    "max": 0.00022848461230751127,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811463136,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811499472,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -8.845661909617775e-07,
+    "max": 2.413184176930372e-07,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811507744,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 137.9130096435547,
+    "max": 161.8488006591797,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811516048,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811549984,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.2011494636535645,
+    "max": -4.201147079467773,
+    "last_change_frame": 41.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811554384,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -17.599700927734375,
+    "max": -4.601961612701416,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811558768,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811591072,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 12.221527099609375,
+    "max": 12.221528053283691,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811595472,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -24.9853458404541,
+    "max": -10.961180686950684,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811599856,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999995827674866,
+    "max": 0.9999998211860657,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811636720,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.294876367159304e-06,
+    "max": 1.963278464245377e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811644992,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.0004232428618706763,
+    "max": 0.00043098870082758367,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811653296,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811686704,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.1262130737304688,
+    "max": 1.1262171268463135,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811691104,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.756763130193576e-06,
+    "max": 8.559180059819482e-06,
+    "last_change_frame": 26.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811695488,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811727792,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -7.602885943924775e-06,
+    "max": -4.873359102930408e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811732720,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0644979653307018e-07,
+    "max": 6.499677965621231e-06,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811737104,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811773440,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.840417742729187,
+    "max": -0.8404152989387512,
+    "last_change_frame": 45.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811781712,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -171.7617645263672,
+    "max": -171.76168823242188,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811790016,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811823424,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.5753797888755798,
+    "max": 0.5753844380378723,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811827824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 12.747315406799316,
+    "max": 12.747408866882324,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811832208,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811865040,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.22156110405921936,
+    "max": -0.22155866026878357,
+    "last_change_frame": 42.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811869440,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -165.13572692871094,
+    "max": -165.13565063476562,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811873824,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000004768371582,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811910160,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.704781642634771e-07,
+    "max": 2.042959522441379e-06,
+    "last_change_frame": 23.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811918432,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.2877015173435211,
+    "max": 0.2877979874610901,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811926736,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811960672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 2.8642261028289795,
+    "max": 2.864229202270508,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811965072,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 6.109037399291992,
+    "max": 6.109111785888672,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192811969456,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812001760,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.626389452118019e-07,
+    "max": 1.6793728718766943e-06,
+    "last_change_frame": 44.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812006160,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 18.15409278869629,
+    "max": 18.154172897338867,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812010544,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812046880,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.581891739187995e-06,
+    "max": -4.487760179472389e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812055152,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -0.00016702983702998608,
+    "max": -8.10268975328654e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812063456,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812097392,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.847259759902954,
+    "max": 1.8472626209259033,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812101792,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.2693557184538804e-05,
+    "max": 6.667967682005838e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812106176,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812138480,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 4.212847215967486e-06,
+    "max": 6.2700678427063394e-06,
+    "last_change_frame": 51.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812142880,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.8040572942700237e-05,
+    "max": 5.374432657845318e-05,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812147264,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812184128,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 3.3662296061720554e-08,
+    "max": 2.067909008474089e-06,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812192400,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.0157567658097832e-06,
+    "max": 4.101712249848788e-07,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812200704,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812234112,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.3923399448394775,
+    "max": 1.392343282699585,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812238512,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.05068067771208e-06,
+    "max": -1.0187200416567066e-07,
+    "last_change_frame": 39.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812242896,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812275728,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -6.558764653163962e-06,
+    "max": -4.8417828111269046e-06,
+    "last_change_frame": 43.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812280128,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.975589945388492e-06,
+    "max": -1.108430069507449e-06,
+    "last_change_frame": 48.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812284512,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812320848,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -1.838641310314415e-06,
+    "max": 2.529086806646319e-08,
+    "last_change_frame": 28.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812329120,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 14.890266418457031,
+    "max": 34.12276077270508,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812337424,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812370832,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 5.690518856048584,
+    "max": 5.690520286560059,
+    "last_change_frame": 2.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812375232,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -35.94333267211914,
+    "max": -17.908544540405273,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812379616,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812412448,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.552706229787873e-07,
+    "max": 1.7011633417496341e-06,
+    "last_change_frame": 45.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812416848,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 24.380496978759766,
+    "max": 30.08230972290039,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812421232,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997615814209,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812457568,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -2.495828766768682e-06,
+    "max": 3.451646932717267e-07,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812465840,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -117.52400207519531,
+    "max": -77.94568634033203,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812474144,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999999403953552,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812508080,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 6.344977378845215,
+    "max": 6.344978332519531,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812512480,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 37.65880584716797,
+    "max": 58.90301513671875,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812516864,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812549168,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -4.213658939988818e-06,
+    "max": -5.698510108231858e-07,
+    "last_change_frame": 42.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812553568,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -179.92617797851562,
+    "max": 179.91998291015625,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812557952,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998807907104,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812594816,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -5.571541805693414e-06,
+    "max": -8.58841190165549e-07,
+    "last_change_frame": 50.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812603088,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 33.92819595336914,
+    "max": 43.95003128051758,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812611392,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 1.0,
+    "max": 1.000000238418579,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812644800,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 10.863000869750977,
+    "max": 10.86300277709961,
+    "last_change_frame": 45.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812649200,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9502383470535278,
+    "max": 6.622189998626709,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812653584,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999997019767761,
+    "max": 1.0,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812685888,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 6.780073391610131e-08,
+    "max": 6.832882263552165e-06,
+    "last_change_frame": 49.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812690288,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": -19.717098236083984,
+    "max": -15.96210765838623,
+    "last_change_frame": 52.0,
+    "changes_after_frame_60": 0
+  },
+  {
+    "id": 97192812694672,
+    "keys": 369,
+    "start": -1.0,
+    "end": 367.0,
+    "min": 0.9999998211860657,
+    "max": 1.0000001192092896,
+    "last_change_frame": null,
+    "changes_after_frame_60": 0
+  }
+]

@@ -16,6 +16,7 @@
 // - Party order (PlanParty / ApplyParty): heroes are planned in party order against the bag the earlier heroes leave.
 //   Greedy blocking rule: reserve one bag copy per later member who may wear it and would gain strictly more;
 //   the current hero may take any spare copy. Earlier heroes cannot consume those higher-gain members' copies.
+//   One bounded backfill pass then uses spare copies after reserving the pieces actually chosen by those plans.
 using System;
 using System.Collections.Generic;
 
@@ -102,6 +103,48 @@ namespace Abyss.Logic.Game
                 }
                 plans.Add(plan);
             }
+
+            // The first pass may reserve several alternatives for a later hero who only takes one.
+            // Revisit once with those choices fixed. Only spend copies available in commit order:
+            // a piece returned by a later hero must not be promised to an earlier hero.
+            var reserved = new Dictionary<string, int>();
+            var projected = new List<HeroState>();
+            for (int i = 0; i < plans.Count; i++)
+            {
+                var hero = state.Party[i];
+                var loadout = LoadoutOf(hero);
+                foreach (var slot in plans[i].Slots)
+                {
+                    loadout[slot.Slot] = slot.RecommendedId;
+                    if (slot.Changed) AddCount(reserved, slot.RecommendedId, 1);
+                }
+                projected.Add(new HeroState
+                {
+                    Id = hero.Id, Job = hero.Job, Level = hero.Level, Seeds = hero.Seeds, Equipment = loadout,
+                    EnhanceLevels = hero.EnhanceLevels ?? state.Enhancements,
+                });
+            }
+            bag = new Dictionary<string, int>(state.EquipmentBag);
+            for (int i = 0; i < plans.Count; i++)
+            {
+                var spare = new Dictionary<string, int>();
+                foreach (var kv in bag)
+                {
+                    int count = kv.Value - (reserved.TryGetValue(kv.Key, out int need) ? need : 0);
+                    if (count > 0) spare[kv.Key] = count;
+                }
+                var later = projected.GetRange(i + 1, projected.Count - i - 1);
+                var plan = PlanHero(db, state, state.Party[i], spare, later, projected[i].Equipment);
+                foreach (var slot in plans[i].Slots)
+                    if (slot.Changed) AddCount(reserved, slot.RecommendedId, -1);
+                foreach (var slot in plan.Slots)
+                {
+                    if (!slot.Changed) continue;
+                    AddCount(bag, slot.RecommendedId, -1);
+                    AddCount(bag, slot.CurrentId, 1);
+                }
+                plans[i] = plan;
+            }
             return plans;
         }
 
@@ -127,16 +170,19 @@ namespace Abyss.Logic.Game
             return hero == null ? 0 : new Scorer(db, state, hero).Value(LoadoutOf(hero));
         }
 
-        static AutoEquipPlan PlanHero(GameDB db, GameState state, HeroState hero, Dictionary<string, int> bag, List<HeroState> later)
+        static AutoEquipPlan PlanHero(GameDB db, GameState state, HeroState hero, Dictionary<string, int> bag, List<HeroState> later,
+            Dictionary<string, string> startingLoadout = null)
         {
             var scorer = new Scorer(db, state, hero);
             var original = LoadoutOf(hero);
             double originalScore = scorer.Value(original);
+            var starting = startingLoadout ?? original;
+            double startingScore = scorer.Value(starting);
             var pools = new Dictionary<string, List<string>>();
             foreach (string slot in GameState.EquipSlots)
-                pools[slot] = Candidates(db, state, scorer, hero, slot, original, originalScore, bag, later);
+                pools[slot] = Candidates(db, state, scorer, hero, slot, starting, startingScore, bag, later);
 
-            var loadout = new Dictionary<string, string>(original);
+            var loadout = new Dictionary<string, string>(starting);
             for (int pass = 0; pass < MaxPasses; pass++)
             {
                 bool moved = false;

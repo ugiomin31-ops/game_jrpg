@@ -80,9 +80,9 @@ namespace Abyss.UI
             switch (marker)
             {
                 case '#': return UITheme.Ink;
-                case 'W': return UITheme.Mp;
-                case 'H': case 'R': return UITheme.Positive;
-                case 'B': case 'E': case 'X': return UITheme.Danger;
+                // Keep bright semantic symbols distinct from their tile fill, as in the legend.
+                case 'W': case 'H': case 'R':
+                case 'B': case 'E': case 'X': return UITheme.SurfaceRaised;
                 case 'L': case 'K': case 'T': return UITheme.GoldDim;
                 case '<': case '>': return UITheme.Dawn;
                 case 'N': return new Color(0.55f, 0.43f, 0.85f);

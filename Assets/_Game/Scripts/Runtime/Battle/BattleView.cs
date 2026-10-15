@@ -1299,10 +1299,12 @@ namespace Abyss.Runtime.Battle
             bool standingDefeat = length >= ArtLibrary.DefeatTakeMinLength;
             bool fallingTake = length > StaticDieTake && !standingDefeat;
             bool held = standingDefeat;
-            unit.DeathRate = Mathf.Clamp(length / collapse, 1f, DeathRateMax);
+            // Zero also survives LateUpdate / hit-stop speed restoration; revive restores DeathRate to one.
+            unit.DeathRate = reduced ? 0f : Mathf.Clamp(length / collapse, 1f, DeathRateMax);
             unit.KnockTime = 0;
-            if (fallingTake && !reduced && model.Anim is ClipAnimator dieClips) dieClips.PlayFrom("Die", FallTakeStart, .075f, null);
-            else model.Play("Die", reduced ? .02f : .075f);
+            if (reduced) model.Anim.SetSpeed(0);   // hold the visible pose: even the first Die keys contain motion
+            else if (fallingTake && model.Anim is ClipAnimator dieClips) dieClips.PlayFrom("Die", FallTakeStart, .075f, null);
+            else model.Play("Die", .075f);
             Vector3 from = t.position, back = unit.Facing * Vector3.back;
             float push = reduced ? 0 : boss ? .12f : .4f;
             float tilt = reduced || !held ? 0 : boss ? 70f : 80f, roll = (unit.Slot % 2 == 0 ? 1f : -1f) * 12f;
@@ -1313,9 +1315,10 @@ namespace Abyss.Runtime.Battle
             }
             bool burst = false;
             float elapsed = 0, total = dissolveAt + dissolve;
-            while (elapsed < total || _app.Paused)
+            while (elapsed < total || _app.Paused || _hitstop)
             {
-                if (!_app.Paused)
+                // Match the skeletal clock when a later hit freezes every unit during this concurrent death.
+                if (!_app.Paused && !_hitstop)
                 {
                     elapsed += Dt;
                     float k = Mathf.Clamp01(elapsed / collapse), knock = Mathf.Clamp01(elapsed / (collapse * .5f));

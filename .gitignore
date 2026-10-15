@@ -122,3 +122,12 @@ __pycache__/
 !/ArtSource/hunters/_anim_library/tripo_spell_20261015/**
 !/ArtSource/hunter-bosses/crystal_cave_lord/concept.png
 !/ArtSource/hunter-bosses/crystal_cave_lord/candidates/*.png
+
+# New Studio asset: references, raw export, editable cleanup and visual evidence.
+!/ArtSource/Tripo/enrichment-20261015/**
+/ArtSource/Tripo/enrichment-20261015/**/processed/source_input/
+/ArtSource/Tripo/enrichment-20261015/**/processed/textures/
+/ArtSource/**/processed/*.blend1
+/ArtSource/**/processed/*.log
+# Reproducible analysis staging duplicates; unchanged exports remain under raw/.
+/ArtSource/**/processed/source-input/

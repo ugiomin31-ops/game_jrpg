@@ -281,7 +281,8 @@ namespace Abyss.UI
             var after = PartyStats.PreviewEquipment(app.DB, hero, slot, piece?.Id);
             var a = before.Stats; var z = after.Stats;
             var deltas = new[] { z.MaxHp-a.MaxHp, z.MaxMp-a.MaxMp, z.Attack-a.Attack, z.Magic-a.Magic,
-                z.Defense-a.Defense, z.Resistance-a.Resistance, z.Speed-a.Speed, after.Hit-before.Hit, after.Evade-before.Evade, after.Crit-before.Crit };
+                z.Defense-a.Defense, z.Resistance-a.Resistance, z.Speed-a.Speed, after.Hit-before.Hit, after.Evade-before.Evade, after.Crit-before.Crit,
+                after.ExpBonus-before.ExpBonus, after.GoldBonus-before.GoldBonus };
             bool up = false, down = false;
             foreach (var d in deltas) { up |= d > 0.0001f; down |= d < -0.0001f; }
             foreach (var e in after.ElementResists) up |= !before.ElementResists.Contains(e);
@@ -307,6 +308,8 @@ namespace Abyss.UI
             ComparisonLine(lines, T("stat_hit"), before.Hit * 100, after.Hit * 100, true);
             ComparisonLine(lines, T("stat_evade"), before.Evade * 100, after.Evade * 100, true);
             ComparisonLine(lines, T("stat_crit"), before.Crit * 100, after.Crit * 100, true);
+            ComparisonLine(lines, "획득 경험치 보너스", before.ExpBonus * 100, after.ExpBonus * 100, true);
+            ComparisonLine(lines, "획득 보상금 보너스 (파티 합산 최대 +100%)", before.GoldBonus * 100, after.GoldBonus * 100, true);
             lines.Add($"\n속성 저항 · {Elements(before.ElementResists)} → {Elements(after.ElementResists)}");
             lines.Add($"상태 면역 · {StatusNames(before.StatusImmunities)} → {StatusNames(after.StatusImmunities)}");
             return string.Join("\n", lines);

@@ -79,10 +79,19 @@ namespace Abyss.Logic.Dungeon
                 if (stair != GridPos.None)
                 {
                     for (int d = 0; d < 4; d++) if (Cell(stair.Step((Facing)d)) == '.') return stair.Step((Facing)d);
-                    for (int d = 0; d < 4; d++) if (FoePassable(stair.Step((Facing)d))) return stair.Step((Facing)d);
+                    for (int d = 0; d < 4; d++) if (ArrivalPassable(stair.Step((Facing)d))) return stair.Step((Facing)d);
                 }
             }
             return Start;
+        }
+        // Cleared fixed encounters are safe player landings, but remain excluded from FOE paths.
+        bool ArrivalPassable(GridPos p)
+        {
+            if (!IsWalkable(p)) return false;
+            char marker = Cell(p);
+            if (marker == 'B') return Progress.ClearedBattles.Contains(p);
+            if (marker == 'E') return IsEventSpent(p);
+            return "S<>W".IndexOf(marker) < 0;
         }
         public Facing ArrivalDirection(int delta = 1)
         {

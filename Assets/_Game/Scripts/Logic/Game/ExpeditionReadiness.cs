@@ -64,6 +64,23 @@ namespace Abyss.Logic.Game
                     // A zero maximum means MP is not a usable resource, so it cannot be low.
                     if (maxMp > 0 && (long)hero.Mp * 100 < (long)maxMp * LowMpPercent)
                         issues.Add($"{name}: 마나 낮음 (MP {hero.Mp}/{maxMp}, 20% 미만).");
+
+                    // Only living hunters carry positive-duration statuses into the next battle.
+                    if (hero.Hp > 0 && hero.Statuses != null)
+                    {
+                        var harmful = new List<string>();
+                        foreach (var carried in hero.Statuses)
+                        {
+                            if (carried.Value <= 0 || !db.Statuses.TryGetValue(carried.Key, out var status)
+                                || GameFlow.IsBeneficial(status.EffectType)) continue;
+                            harmful.Add(string.IsNullOrEmpty(status.DisplayName) ? carried.Key : status.DisplayName);
+                        }
+                        if (harmful.Count > 0)
+                        {
+                            harmful.Sort(StringComparer.Ordinal);
+                            issues.Add($"{name}: 상태 이상 ({string.Join(", ", harmful)}). 치료 후 출발을 권장합니다.");
+                        }
+                    }
                 }
             }
 

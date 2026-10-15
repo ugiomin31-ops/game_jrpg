@@ -1,0 +1,908 @@
+{
+  "status": "automated-checks-passed-visual-review-required",
+  "phase": "finished",
+  "build": {
+    "project": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015",
+    "scene": "Assets/_Game/Scenes/Main.unity",
+    "module": "76ddc39b-f684-4a2c-9cca-730ccb1ccc02",
+    "unity": "6000.3.25f1",
+    "mapSourceSha256": "3ab4dc8d542124539c7be2f529a2b7593b807bc756696a5797e05a321b58b476",
+    "mapScreenSha256": "7ad26fae3339c4cb9583334dc18edf1db6aac070894a0befa599f09cb5ca97f7",
+    "assemblySha256": "3577c0bb6b36aea76ddf6f0aa972d90dba5287b2cf98452c7a91a0b25922ac74",
+    "fixtureSha256": "09e67ce9946d50bbbb6f5ccc6016fe18eec5040de09659dfe387f62274e6ed24",
+    "captureIntent": "before-map-fix (parent must verify source/compiled-build identity; label alone is not proof)"
+  },
+  "isolated": true,
+  "qaSave": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\qa-save",
+  "checks": [
+    {
+      "phase": "game-view-focus",
+      "name": "actual focused GameView before QA app mutations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "review-isolation",
+      "name": "BeginReview followed by dedicated per-run QA persistence",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "authored map cells are revealed",
+      "passed": true,
+      "detail": {
+        "mapFloor": 2,
+        "Id": "subway_3",
+        "counts": {
+          "#": 206,
+          ".": 64,
+          "S": 1,
+          "<": 1,
+          "E": 2,
+          "N": 2,
+          "L": 1,
+          "T": 6,
+          "K": 1,
+          "X": 1,
+          "W": 1,
+          "H": 1,
+          "B": 1,
+          ">": 1
+        },
+        "liveFoes": 0
+      }
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "real map screen opened through HUD route",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "actual map mesh is populated",
+      "passed": true,
+      "detail": 1370
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "actual screenshot resolution map-before-fix-all-revealed-floor-2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "PNG dimensions map-before-fix-all-revealed-floor-2",
+      "passed": true,
+      "detail": {
+        "pw": 1280,
+        "ph": 720
+      }
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "real map screen opened through HUD route",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "actual map mesh is populated",
+      "passed": true,
+      "detail": 1370
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "actual screenshot resolution map-before-fix-all-revealed-floor-2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "map-baseline-first",
+      "name": "PNG dimensions map-before-fix-all-revealed-floor-2",
+      "passed": true,
+      "detail": {
+        "pw": 915,
+        "ph": 412
+      }
+    },
+    {
+      "phase": "town-entry",
+      "name": "actual town world exists",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial four rendered party models",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial controller ownership",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial follower record 1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial ignored party collision 1/0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial follower record 2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial ignored party collision 2/0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial ignored party collision 2/1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial follower record 3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial ignored party collision 3/0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial ignored party collision 3/1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "initial ignored party collision 3/2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "replaced roster objects immediately inactive",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "replaced roster objects destroyed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild four rendered party models",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild controller ownership",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild follower record 1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild ignored party collision 1/0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild follower record 2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild ignored party collision 2/0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild ignored party collision 2/1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild follower record 3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild ignored party collision 3/0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild ignored party collision 3/1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "roster rebuild ignored party collision 3/2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "actual follower controller sweeps against solid h_seoa",
+      "passed": true,
+      "detail": {
+        "hit": "Sides",
+        "x": 0.8046875
+      }
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "actual follower controller sweeps against solid h_jiho",
+      "passed": true,
+      "detail": {
+        "hit": "Sides",
+        "x": 0.8149414
+      }
+    },
+    {
+      "phase": "followers-lifecycle-and-collision",
+      "name": "actual follower controller sweeps against solid h_yuna",
+      "passed": true,
+      "detail": {
+        "hit": "Sides",
+        "x": 0.7988281
+      }
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "pause nonidle precondition for all members",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "pause all members return to their resolved idle",
+      "passed": true,
+      "detail": [
+        {
+          "ModelId": "h_dohyun",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_seoa",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_jiho",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_yuna",
+          "clip": "RelaxLoop"
+        }
+      ]
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "pause no party movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "facility UI nonidle precondition for all members",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "facility UI all members return to their resolved idle",
+      "passed": true,
+      "detail": [
+        {
+          "ModelId": "h_dohyun",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_seoa",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_jiho",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_yuna",
+          "clip": "RelaxLoop"
+        }
+      ]
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "facility UI no party movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "real NPC interaction schedules delayed facility",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "pending talk nonidle precondition for all members",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "pending talk all members return to their resolved idle",
+      "passed": true,
+      "detail": [
+        {
+          "ModelId": "h_dohyun",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_seoa",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_jiho",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_yuna",
+          "clip": "RelaxLoop"
+        }
+      ]
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "pending talk no party movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "delayed NPC request is still pending before explicit facility entry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "explicit gate cancels prior NPC request",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "explicit gate remains the active facility",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "closing explicit facility does not reopen stale NPC menu after original delay",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "positive control: actual W input moves unblocked town leader",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "actual back button consumed frame nonidle precondition for all members",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "real widget closes menu and consumes this frame",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "actual back button consumed frame all members return to their resolved idle",
+      "passed": true,
+      "detail": [
+        {
+          "ModelId": "h_dohyun",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_seoa",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_jiho",
+          "clip": "RelaxLoop"
+        },
+        {
+          "ModelId": "h_yuna",
+          "clip": "RelaxLoop"
+        }
+      ]
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "actual back button consumed frame no party movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-blocks-pending-talk-and-input-consumption",
+      "name": "consumption expires on later frame",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "authored item with per-item stack cap exists",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "actual shop row found",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "UI offers only remaining capacity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "real transaction confirmation opens",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "real transaction fills exact cap and charges once",
+      "passed": true,
+      "detail": {
+        "Id": "healing_potion",
+        "cap": 9,
+        "actual": 9,
+        "Gold": 90
+      }
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "full item row is disabled after actual transaction",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "disabled row cannot transact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "actual-shop-quantity-boundary",
+      "name": "transaction persistence route remains isolated",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-screenshots",
+      "name": "actual screenshot resolution town",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-screenshots",
+      "name": "PNG dimensions town",
+      "passed": true,
+      "detail": {
+        "pw": 1280,
+        "ph": 720
+      }
+    },
+    {
+      "phase": "town-screenshots",
+      "name": "actual screenshot resolution town",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "town-screenshots",
+      "name": "PNG dimensions town",
+      "passed": true,
+      "detail": {
+        "pw": 915,
+        "ph": 412
+      }
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "authored six-hit random skill",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "actual screenshot resolution battle",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "PNG dimensions battle",
+      "passed": true,
+      "detail": {
+        "pw": 1280,
+        "ph": 720
+      }
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "legal repeated-target seed found using production RNG",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "actual BattleView accepts random skill",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "presented event targets equal actual damage sequence",
+      "passed": true,
+      "detail": {
+        "seed": 67,
+        "start": [
+          "enemy_00_slime",
+          "enemy_01_slime",
+          "enemy_01_slime",
+          "enemy_01_slime",
+          "enemy_01_slime",
+          "enemy_01_slime"
+        ],
+        "hits": [
+          {
+            "TargetId": "enemy_00_slime",
+            "Amount": 1,
+            "Killed": true
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 12,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 12,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 12,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 11,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 11,
+            "Killed": false
+          }
+        ]
+      }
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "first kill followed by survivor hits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "actual BattleView target resolver retains retargeted survivor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "actual AreaCenter resolves revised targets",
+      "passed": true,
+      "detail": "(1.73, 0.90, 2.20)"
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "actual screenshot resolution battle-random-action-start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "PNG dimensions battle-random-action-start",
+      "passed": true,
+      "detail": {
+        "pw": 1280,
+        "ph": 720
+      }
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "snapshot stable through actual replay",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-1280",
+      "name": "battle remains ready after replay",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "authored six-hit random skill",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "actual screenshot resolution battle",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "PNG dimensions battle",
+      "passed": true,
+      "detail": {
+        "pw": 915,
+        "ph": 412
+      }
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "legal repeated-target seed found using production RNG",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "actual BattleView accepts random skill",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "presented event targets equal actual damage sequence",
+      "passed": true,
+      "detail": {
+        "seed": 67,
+        "start": [
+          "enemy_00_slime",
+          "enemy_01_slime",
+          "enemy_01_slime",
+          "enemy_01_slime",
+          "enemy_01_slime",
+          "enemy_01_slime"
+        ],
+        "hits": [
+          {
+            "TargetId": "enemy_00_slime",
+            "Amount": 1,
+            "Killed": true
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 12,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 12,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 12,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 11,
+            "Killed": false
+          },
+          {
+            "TargetId": "enemy_01_slime",
+            "Amount": 11,
+            "Killed": false
+          }
+        ]
+      }
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "first kill followed by survivor hits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "actual BattleView target resolver retains retargeted survivor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "actual AreaCenter resolves revised targets",
+      "passed": true,
+      "detail": "(1.73, 0.90, 2.20)"
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "actual screenshot resolution battle-random-action-start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "PNG dimensions battle-random-action-start",
+      "passed": true,
+      "detail": {
+        "pw": 915,
+        "ph": 412
+      }
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "snapshot stable through actual replay",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "phase": "battle-playback-915",
+      "name": "battle remains ready after replay",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "issues": [],
+  "images": [
+    {
+      "label": "map-before-fix-all-revealed-floor-2",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\map-before-fix-all-revealed-floor-2-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 64631,
+      "sha256": "19576f62ca91b384efa494df56dfade5e9e3fa789f0f92e7ae609eeb78530b8f",
+      "screen": "Dungeon",
+      "frame": 348
+    },
+    {
+      "label": "map-before-fix-all-revealed-floor-2",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\map-before-fix-all-revealed-floor-2-915x412.png",
+      "width": 915,
+      "height": 412,
+      "bytes": 31331,
+      "sha256": "a586aabf8e6e24e5359bda57b2ee825405f0dacfd4ca39f88b9ee2dd79d8f366",
+      "screen": "Dungeon",
+      "frame": 371
+    },
+    {
+      "label": "town",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\town-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 835102,
+      "sha256": "44c75ded072afb562fd4b7e5ab2cfbf440e5ffa1357837f5405e3e8cd4af93d8",
+      "screen": "Town",
+      "frame": 499
+    },
+    {
+      "label": "town",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\town-915x412.png",
+      "width": 915,
+      "height": 412,
+      "bytes": 426563,
+      "sha256": "adbfd11ff0d7bb703559225aff1e6631e2dd666a1338e74d06ce2935084d9bc7",
+      "screen": "Town",
+      "frame": 519
+    },
+    {
+      "label": "battle",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\battle-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 667745,
+      "sha256": "2b190a993be707c712e27dab04977c18fb8cfccc5124fd3b1a2ef8b646f613fb",
+      "screen": "Battle",
+      "frame": 573
+    },
+    {
+      "label": "battle-random-action-start",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\battle-random-action-start-1280x720.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 669852,
+      "sha256": "24de88f38a6f749fb23143f6ce9927a7292b369bb83057d1c08fc408f01e17dc",
+      "screen": "Battle",
+      "frame": 577
+    },
+    {
+      "label": "battle",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\battle-915x412.png",
+      "width": 915,
+      "height": 412,
+      "bytes": 357587,
+      "sha256": "13130a117c24bbf637846850c18176fd38484c6a286f097b67b2316db6b332d9",
+      "screen": "Battle",
+      "frame": 769
+    },
+    {
+      "label": "battle-random-action-start",
+      "path": "C:\\Users\\User\\Desktop\\GAME_JRPG\\handoff-verify-20261015\\docs/verification/astra-enrichment-20261015/runtime/world-20261015-134913-394\\battle-random-action-start-915x412.png",
+      "width": 915,
+      "height": 412,
+      "bytes": 351935,
+      "sha256": "16168a4fe33b418b573e812bc79f677ecf0e80d9df23dced3540661fcbc31e03",
+      "screen": "Battle",
+      "frame": 773
+    }
+  ],
+  "manualRemaining": [
+    "Inspect every PNG for clipping/overlap, readable Korean labels, world visibility, focus, and nonblank models/effects.",
+    "Synthetic keyboard / real widget calls do not certify physical keyboard, controller or touch raycasts.",
+    "Map is all-revealed QA content on the authored floor with most distinct feature markers; other floors/zones, hidden/spent transitions and a chasing FOE remain manual.",
+    "Follower controller ownership and solid sweeps are exercised; breadcrumb following around town corners and TownEnrichment asset/tree alignment still need runtime traversal and visual review.",
+    "Battle event consumption and AreaCenter/Targets are exercised; camera composition and moving VFX placement still need visual review.",
+    "No authored alternate model path for party slot 0; job controller replacement not exercised (roster rebuild is exercised).",
+    "No authored alternate model path for party slot 1; job controller replacement not exercised (roster rebuild is exercised)."
+  ],
+  "visualAccepted": false,
+  "requestedModel": "gpt-6-astra",
+  "requestedEffort": "high",
+  "requestedTier": "Fast/priority",
+  "verifiedTier": "not exposed"
+}

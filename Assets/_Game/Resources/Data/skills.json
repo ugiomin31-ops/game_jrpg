@@ -3347,8 +3347,8 @@
  },
  {
   "id": "sk_e_mirror_strike",
-  "display_name": "거울 반격",
-  "description": "상대의 기술을 비춰 되받아칩니다.",
+  "display_name": "거울 마탄",
+  "description": "거울에 모은 마력으로 적 하나에게 무속성 마법 피해를 1회 줍니다.",
   "kind": 0,
   "scaling_stat": 1,
   "target_type": 0,

@@ -421,7 +421,7 @@ namespace Abyss.Logic.Battle
         /// <summary>Adds or refreshes (same id) a status. Returns true when an existing one was refreshed.</summary>
         internal bool ApplyStatus(BattleStatus effect)
         {
-            effect.BindTo(MaxHp);
+            effect.BindTo(MaxHp, Id);
             foreach (var cur in _statuses)
             {
                 if (cur.Id == effect.Id)

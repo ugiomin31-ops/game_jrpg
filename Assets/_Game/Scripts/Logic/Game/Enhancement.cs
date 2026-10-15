@@ -63,13 +63,18 @@ namespace Abyss.Logic.Game
             Speed = piece.Spd + Bonus(piece.Spd, level),
         };
 
+        /// <summary>Rates and special effects do not scale; at least one positive integer stat must benefit.</summary>
+        static bool HasEnhanceableStats(EquipmentDef piece) => piece != null
+            && (piece.Hp > 0 || piece.Mp > 0 || piece.Atk > 0 || piece.Mag > 0
+                || piece.Def > 0 || piece.Res > 0 || piece.Spd > 0);
+
         /// <summary>Stone grade for a tier.</summary>
         public static string StoneFor(int tier) => tier >= 6 ? StoneAbyss : tier >= 4 ? StoneHigh : Stone;
 
-        /// <summary>Cost of enhancing a piece from <paramref name="currentLevel"/> to the next level; null at the maximum.</summary>
+        /// <summary>Cost of the next level; null at the maximum or when the piece has no enhanceable stats.</summary>
         public static EnhanceCost CostOf(EquipmentDef piece, int currentLevel)
         {
-            if (piece == null || currentLevel >= MaxLevel) return null;
+            if (!HasEnhanceableStats(piece) || currentLevel >= MaxLevel) return null;
             int next = Clamp(currentLevel) + 1;
             int tier = Math.Max(1, Math.Min(8, piece.Tier));
             return new EnhanceCost { StoneId = StoneFor(tier), Stones = 1 + (next - 1) / 3, Gold = TierGold[tier] * next };
@@ -84,7 +89,7 @@ namespace Abyss.Logic.Game
         /// <summary>Copies of an id the roster owns (bag + active and reserve worn pieces).</summary>
         public static int OwnedCount(GameState state, string equipmentId) => state.BagCount(equipmentId) + PartyStats.EquippedCount(state, equipmentId);
 
-        /// <summary>Owned pieces in tier, slot, id order with their next-step cost.</summary>
+        /// <summary>Owned pieces with enhanceable stats, in tier, slot, id order with their next-step cost.</summary>
         public static List<EnhanceEntry> Candidates(GameDB db, GameState state)
         {
             var ids = new HashSet<string>(StringComparer.Ordinal);
@@ -93,7 +98,7 @@ namespace Abyss.Logic.Game
             var output = new List<EnhanceEntry>();
             foreach (string id in ids)
             {
-                if (!db.Equipment.TryGetValue(id, out var piece)) continue;
+                if (!db.Equipment.TryGetValue(id, out var piece) || !HasEnhanceableStats(piece)) continue;
                 int level = LevelOf(state, id);
                 var cost = CostOf(piece, level);
                 var entry = new EnhanceEntry { Equipment = piece, Level = level, Cost = cost, Owned = OwnedCount(state, id) };
@@ -113,12 +118,13 @@ namespace Abyss.Logic.Game
 
         /// <summary>
         /// Raises an owned piece by one level (never fails once paid). Reasons: unknown_equipment, not_owned, max_enhance,
-        /// missing_stones, not_enough_gold. Worn copies keep their HP/MP within the new maxima.
+        /// no_enhanceable_stats, missing_stones, not_enough_gold. Worn copies keep their HP/MP within the new maxima.
         /// </summary>
         public static ServiceResult Enhance(GameDB db, GameState state, string equipmentId)
         {
             if (!db.Equipment.TryGetValue(equipmentId ?? "", out var piece)) return ServiceResult.Fail("unknown_equipment");
             if (OwnedCount(state, equipmentId) <= 0) return ServiceResult.Fail("not_owned");
+            if (!HasEnhanceableStats(piece)) return ServiceResult.Fail("no_enhanceable_stats");
             int level = LevelOf(state, equipmentId);
             var cost = CostOf(piece, level);
             if (cost == null) return ServiceResult.Fail("max_enhance");

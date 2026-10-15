@@ -117,7 +117,7 @@ namespace Abyss.UI
                 if (inventory[id] <= 0) continue;
                 int value = equipment ? TownServices.EquipmentSellValue(app.DB, id) : TownServices.ItemSellValue(app.DB, id);
                 int count = inventory[id];
-                m.Add(ItemName(id), () => ShowQuantity(T("sell") + " · " + ItemName(id), count, value,
+                m.Add(ItemName(id), () => ShowQuantity(T("sell") + " · " + ItemName(id), Math.Min(count, GameState.MaxStack), value,
                     n => equipment ? TownServices.SellEquipment(app.DB, app.State, id, n) : TownServices.SellItem(app.DB, app.State, id, n), m),
                     ContentDescription(id) + $"\n\n보유 {count}개\n장착 중인 장비는 해제한 뒤 판매할 수 있습니다.", $"{value:N0}만원", value > 0, T("reason_not_sellable"), equipment ? UIArtwork.Gear(id) : UIArtwork.Item(id));
             }

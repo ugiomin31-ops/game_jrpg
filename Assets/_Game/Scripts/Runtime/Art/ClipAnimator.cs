@@ -154,7 +154,17 @@ namespace Abyss.Runtime.Art
             if (!_ready) return;
             clip = Resolve(clip); then = then == null ? null : Resolve(then);
             RequireClip(clip);
-            if (start < 0f) start = _clipStarts.TryGetValue(clip, out var windowStart) ? windowStart : IsRestLoop(clip) ? _phase : 0f;
+            if (start < 0f)
+            {
+                start = _clipStarts.TryGetValue(clip, out var windowStart) ? windowStart : IsRestLoop(clip) ? _phase : 0f;
+                if (!_clipStarts.ContainsKey(clip) && IsRestLoop(clip) && _loopBlends.TryGetValue(clip, out float blend))
+                {
+                    // The incoming fade must finish before the seam fade starts. Keep unit phases distinct
+                    // inside that safe interval; explicit PlayFrom offsets and authored windows stay intact.
+                    float rate = _clipRates.TryGetValue(clip, out float r) ? r : 1f;
+                    start *= Mathf.Clamp01(1f - (Mathf.Max(0f, fade) + blend) * rate / _clips[clip].length);
+                }
+            }
             if (then != null) RequireClip(then);
             _pendingName = null;
             if (!restart && clip == _currentName) return;

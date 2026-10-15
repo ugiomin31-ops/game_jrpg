@@ -10,6 +10,8 @@ using UnityEngine;
 
 namespace Abyss.UI
 {
+    // Global pause/map requests must consume input before the default-order town/dungeon Updates poll held movement.
+    [DefaultExecutionOrder(-100)]
     public sealed partial class GameUI : MonoBehaviour
     {
         public RectTransform Content { get; private set; }

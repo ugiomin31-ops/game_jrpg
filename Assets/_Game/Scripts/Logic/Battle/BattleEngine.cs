@@ -509,7 +509,7 @@ namespace Abyss.Logic.Battle
             if (actor.IsAlive)
                 foreach (var id in actor.RemoveExpiredStatuses())
                     Emit(new StatusRemovedEvent { UnitId = actor.Id, StatusId = id, Reason = StatusRemoveReason.Expired });
-            if (recoverBreak && actor.Broken)
+            if (recoverBreak && actor.Broken && actor.IsAlive)
             {
                 actor.Broken = false;
                 actor.Shield = actor.MaxShield;
@@ -854,12 +854,12 @@ namespace Abyss.Logic.Battle
             _actionWeakHit = false;
             ApplyActionBleed(actor);
             if (!actor.IsAlive) return;
-            EmitActionStart(actor, action);
+            var actionStart = EmitActionStart(actor, action);
 
             switch (action.Kind)
             {
                 case ActionKind.Attack:
-                    ResolveDamage(actor, action, null);
+                    ResolveDamage(actor, action, null, actionStart);
                     break;
                 case ActionKind.Skill:
                 {
@@ -889,7 +889,7 @@ namespace Abyss.Logic.Battle
                                 actor.PendingCharge = null; actor.PendingChargeSkill = null;
                                 Emit(new ChargeReleasedEvent(actor.Id, action.PayloadId));
                             }
-                            ResolvePayload(actor, action);
+                            ResolvePayload(actor, action, actionStart);
                         }
                     }
                     break;
@@ -904,7 +904,7 @@ namespace Abyss.Logic.Battle
                         EndBattle(BattleResult.Fled);
                         return;
                     }
-                    ResolvePayload(actor, action);
+                    ResolvePayload(actor, action, actionStart);
                     break;
                 case ActionKind.Guard:
                     actor.Guarding = true;
@@ -979,7 +979,7 @@ namespace Abyss.Logic.Battle
         HitRoll RollDamage(BattleUnit actor, BattleUnit target, SkillDef skill, double powerScale = 1.0)
             => DamageFormula.Damage(actor, target, skill, _rng, ChainBonus(actor, target, DamageFormula.ElementOf(actor, skill)), powerScale);
 
-        void EmitActionStart(BattleUnit actor, BattleAction action)
+        ActionStartEvent EmitActionStart(BattleUnit actor, BattleAction action)
         {
             var ev = new ActionStartEvent
             {
@@ -1010,6 +1010,7 @@ namespace Abyss.Logic.Battle
                     break;
             }
             Emit(ev);
+            return ev;
         }
 
         /// <summary>
@@ -1034,7 +1035,7 @@ namespace Abyss.Logic.Battle
             }
         }
 
-        void ResolvePayload(BattleUnit actor, BattleAction action)
+        void ResolvePayload(BattleUnit actor, BattleAction action, ActionStartEvent actionStart)
         {
             switch (EffectOf(action))
             {
@@ -1049,7 +1050,7 @@ namespace Abyss.Logic.Battle
                 case ActionEffect.Revive: ResolveRevive(actor, action); break;
                 case ActionEffect.Cleanse: ResolveCleanse(actor, action); break;
                 case ActionEffect.DamageFixed: ResolveFixedDamage(actor, action); break;
-                default: ResolveDamage(actor, action, action.Skill); break;
+                default: ResolveDamage(actor, action, action.Skill, actionStart); break;
             }
         }
 
@@ -1064,10 +1065,11 @@ namespace Abyss.Logic.Battle
             return r;
         }
 
-        void ResolveDamage(BattleUnit actor, BattleAction action, SkillDef skill)
+        void ResolveDamage(BattleUnit actor, BattleAction action, SkillDef skill, ActionStartEvent actionStart)
         {
             int hitCount = Math.Max(1, skill != null ? skill.HitCount : 1);
             int hitsPerTarget = action.Scope == 2 ? 1 : hitCount;
+            var resolvedTargets = action.Scope == 2 ? new List<string>() : null;
             var statusTargets = new List<BattleUnit>();
             bool anyLanded = false;
             for (int pick = 0; pick < action.TargetIds.Count; pick++)
@@ -1083,6 +1085,7 @@ namespace Abyss.Logic.Battle
                     }
                 }
                 if (target == null || !target.IsAlive) continue;
+                resolvedTargets?.Add(target.Id);
                 bool landed = false;
                 for (int h = 0; h < hitsPerTarget; h++)
                 {
@@ -1101,6 +1104,9 @@ namespace Abyss.Logic.Battle
                 }
                 if (landed && target.IsAlive && !statusTargets.Contains(target)) statusTargets.Add(target);
             }
+            // Events are consumed after the batch returns. Keep its start position/Seq, but snapshot
+            // the targets actually attempted (including misses), independently of the mutable action.
+            if (resolvedTargets != null) actionStart.TargetIds = resolvedTargets;
             ApplyDrain(actor, skill);
             ApplyPayloadStatuses(actor, statusTargets, skill, false);
             if (anyLanded) ApplySelfStatus(actor, skill);

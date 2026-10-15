@@ -1,5 +1,6 @@
 using System;
 using Abyss.Runtime.Persistence;
+using Abyss.UI.Battle;
 using UnityEngine;
 
 namespace Abyss.UI
@@ -32,7 +33,14 @@ namespace Abyss.UI
             for (int i = 0; i < speeds.Length; i++) if (current < speeds[i] - 0.01f) return speeds[i];
             return speeds[0];
         }
-        void ApplySetting(GameMenuScreen menu) { root.ReducedMotion = app.Preferences.ReducedMotion; app.ApplyPreferences(); menu.Refresh(); }
+        void ApplySetting(GameMenuScreen menu)
+        {
+            root.ReducedMotion = app.Preferences.ReducedMotion;
+            app.ApplyPreferences();
+            if (app.Battle != null)
+                app.Battle.GetComponent<BattleHUD>()?.SetSpeedLabel($"속도 {app.Preferences.BattleSpeed:0.#}x");
+            menu.Refresh();
+        }
         void ShowVolume(string title, float current, Action<float> change, GameMenuScreen owner) => Menu(title, "0%는 무음, 100%는 최대 음량입니다.", m =>
         {
             for (int i = 0; i <= 20; i++)

@@ -7,7 +7,9 @@
 // Add only assets imported into Resources. Character/Monster/SkillMotion entries must name real Abyss.Runtime.Art.ArtLibrary takes.
 // Example (not evidence): ("Character", "hero_id", "Art/Characters/hero_id/hero_id", new[] { "Idle", "Skill" }, 10000, 20000)
 // Use statement/local-function eval syntax, matching TripoBattleAcceptance (no type or using declarations).
-var Manifest = new (string Kind, string Id, string ResourcePath, string[] Motions, int MinTriangles, int MaxTriangles)[] { };
+var Manifest = new (string Kind, string Id, string ResourcePath, string[] Motions, int MinTriangles, int MaxTriangles)[] {
+    ("Prop", "guild_field_gear_station", "Art/Props/GuildFieldStation/guild_field_gear_station", new string[0], 3000, 6000),
+};
 var EvidenceRoot = System.IO.Path.GetFullPath(".git/codex-runs/20261015-enrichment");
 var RunDir = System.IO.Path.Combine(EvidenceRoot, "acceptance-" + System.DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
 const int PreviewLayer = 31;
