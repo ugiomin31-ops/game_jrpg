@@ -1,38 +1,38 @@
 {
   "id": "slime",
   "is_boss": false,
-  "generator": "/home/user/game_jrpg/Blender/enemies_d/plants.py",
-  "blender_version": "5.2.2 LTS",
-  "produced_at_utc": "2026-10-07T08:32:39Z",
+  "generator": "C:\\Users\\User\\Desktop\\game\\Blender\\enemies_a\\slime.py",
+  "blender_version": "5.2.1 LTS",
+  "produced_at_utc": "2026-10-06T04:22:05Z",
   "files": {
     "fbx": {
-      "path": "/home/user/game_jrpg/Assets/_Game/Resources/Art/Enemies/slime/slime.fbx",
-      "bytes": 491932
+      "path": "C:\\Users\\User\\Desktop\\game\\Assets\\_Game\\Resources\\Art\\Enemies\\slime\\slime.fbx",
+      "bytes": 571356
     },
     "blend": {
-      "path": "/home/user/game_jrpg/Blender/blend/enemy_slime.blend",
-      "bytes": 329343
+      "path": "C:\\Users\\User\\Desktop\\game\\Blender\\blend\\enemy_slime.blend",
+      "bytes": 201731
     },
     "previews": [
       {
-        "path": "/home/user/game_jrpg/Blender/preview/enemy_slime.png",
-        "bytes": 171997
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_slime.png",
+        "bytes": 301922
       },
       {
-        "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_side.png",
-        "bytes": 164735
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_slime_side.png",
+        "bytes": 285695
       },
       {
-        "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_attack.png",
-        "bytes": 161605
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_slime_attack.png",
+        "bytes": 277481
       },
       {
-        "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_cast.png",
-        "bytes": 172410
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_slime_cast.png",
+        "bytes": 281981
       },
       {
-        "path": "/home/user/game_jrpg/Blender/preview/enemy_slime_die.png",
-        "bytes": 157189
+        "path": "C:\\Users\\User\\Desktop\\game\\Blender\\preview\\enemy_slime_die.png",
+        "bytes": 264833
       }
     ]
   },
@@ -41,12 +41,13 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7060,
-    "vertices": 3544,
-    "bones": 4,
+    "triangles": 5784,
+    "vertices": 3010,
+    "bones": 7,
     "materials": [
+      "M_Clear",
       "M_Toon",
-      "M_Clear"
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -59,11 +60,11 @@
       ],
       "Attack": [
         0.0,
-        25.0
+        26.0
       ],
       "Cast": [
         0.0,
-        35.0
+        36.0
       ],
       "Hit": [
         0.0,
@@ -71,7 +72,7 @@
       ],
       "Die": [
         0.0,
-        30.0
+        32.0
       ],
       "Victory": [
         0.0,
@@ -85,12 +86,13 @@
       "Body",
       "Rig"
     ],
-    "triangles": 7060,
-    "vertices": 3544,
-    "bones": 4,
+    "triangles": 5784,
+    "vertices": 3010,
+    "bones": 7,
     "materials": [
+      "M_Clear",
       "M_Toon",
-      "M_Clear"
+      "M_Emit"
     ],
     "clips": {
       "Idle": [
@@ -103,11 +105,11 @@
       ],
       "Attack": [
         1.0,
-        26.0
+        27.0
       ],
       "Cast": [
         1.0,
-        36.0
+        37.0
       ],
       "Hit": [
         1.0,
@@ -115,7 +117,7 @@
       ],
       "Die": [
         1.0,
-        31.0
+        33.0
       ],
       "Victory": [
         1.0,
@@ -124,4 +126,4 @@
     },
     "unweighted_vertices": 0
   }
-}
+}

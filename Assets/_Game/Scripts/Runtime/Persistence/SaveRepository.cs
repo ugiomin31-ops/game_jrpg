@@ -31,13 +31,8 @@ namespace Abyss.Runtime.Persistence
         }
         internal static void AtomicWrite(string path, string text)
         {
-            byte[] bytes = new UTF8Encoding(false).GetBytes(text);
-#if UNITY_WEBGL && !UNITY_EDITOR
-            // Browser builds keep files in an in-memory FS mirrored to IndexedDB; write in place and push it to storage.
-            File.WriteAllBytes(path, bytes);
-            WebStorage.Flush();
-#else
             string temporary = path + ".tmp";
+            byte[] bytes = new UTF8Encoding(false).GetBytes(text);
             using (var stream = new FileStream(temporary, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.WriteThrough))
             {
                 stream.Write(bytes, 0, bytes.Length);
@@ -45,7 +40,6 @@ namespace Abyss.Runtime.Persistence
             }
             if (File.Exists(path)) File.Replace(temporary, path, null);
             else File.Move(temporary, path);
-#endif
         }
     }
 }

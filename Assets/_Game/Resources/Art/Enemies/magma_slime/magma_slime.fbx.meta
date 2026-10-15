@@ -51,7 +51,7 @@ ModelImporter:
       takeName: Rig|Attack
       internalID: -3510217540682870009
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -80,7 +80,7 @@ ModelImporter:
       takeName: Rig|Cast
       internalID: -7776306489393022278
       firstFrame: 0
-      lastFrame: 35
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -225,7 +225,7 @@ ModelImporter:
       takeName: Rig|Victory
       internalID: 2165050724081255768
       firstFrame: 0
-      lastFrame: 44
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

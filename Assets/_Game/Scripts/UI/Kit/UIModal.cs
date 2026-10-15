@@ -15,7 +15,6 @@ namespace Abyss.UI
         string _title, _message;
         readonly List<string> _choices = new List<string>();
         int _cancelIndex, _defaultIndex;
-        float _acceptAfter;
         Action<int> _onResult;
         bool _answered;
         Image _dim;
@@ -29,7 +28,7 @@ namespace Abyss.UI
 
         /// <summary>Yes/No confirmation. <paramref name="onResult"/> receives true for yes; cancel = no.</summary>
         public static UIModal Confirm(UIScreenStack stack, string title, string message, Action<bool> onResult,
-            string yes = "실행", string no = "취소", bool defaultYes = false)
+            string yes = "예", string no = "아니오", bool defaultYes = true)
         {
             return Choice(stack, title, message, new[] { yes, no }, i => onResult?.Invoke(i == 0), cancelIndex: 1, defaultIndex: defaultYes ? 0 : 1);
         }
@@ -63,8 +62,6 @@ namespace Abyss.UI
         /// <inheritdoc/>
         protected override void Build()
         {
-            _acceptAfter = Time.unscaledTime + 0.35f;
-            UIInput.Consume();
             _dim = UIFactory.Fill(Rect, UITheme.Dim, "Dim", raycast: true);
             _panel = UIFactory.Panel(Rect, UIPanelStyle.Ornate, true, "Window");
             _panel.Rect.Place(UIAnchor.Center, Vector2.zero, new Vector2(820f, 0f));
@@ -93,20 +90,16 @@ namespace Abyss.UI
             Message.overflowMode = TextOverflowModes.Overflow;
             float messageHeight = Message.GetPreferredValues(_message, 674f, 0f).y + 18f;
             UIFactory.Layout(_messageScroll, -1f, Mathf.Clamp(messageHeight, 90f, 360f));
-            if (!UIRoot.TouchFirst)
-            {
-                var hint = UIFactory.Label(_panel.Rect, "↑↓ 본문 스크롤 · ←→ 선택", 20f, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
-                UIFactory.Layout(hint, -1f, 30f);
-            }
+            var hint = UIFactory.Label(_panel.Rect, "↑↓ 본문 스크롤 · ←→ 선택", 20f, color: UITheme.TextDim, align: TextAlignmentOptions.Center);
+            UIFactory.Layout(hint, -1f, 30f);
 
             Buttons = UIFactory.ButtonGroup(_panel.Rect, true, 26f);
-            float buttonHeight = UIRoot.TouchFirst ? UIRoot.TouchTargetHeight : 64f;
-            UIFactory.Layout(Buttons, -1f, buttonHeight + 8f);
+            UIFactory.Layout(Buttons, -1f, 72f);
             for (int i = 0; i < _choices.Count; i++)
             {
                 int idx = i;
                 float width = Mathf.Min(240f, (692f - 26f * (_choices.Count - 1)) / Mathf.Max(1, _choices.Count));
-                Buttons.AddButton(_choices[i], () => Answer(idx), width, buttonHeight);
+                Buttons.AddButton(_choices[i], () => Answer(idx), width, 64f);
             }
             Buttons.SetFocus(_defaultIndex, true);
         }
@@ -123,7 +116,7 @@ namespace Abyss.UI
 
         void Answer(int index)
         {
-            if (_answered || (index != _cancelIndex && Time.unscaledTime < _acceptAfter)) return;
+            if (_answered) return;
             _answered = true;
             Close();
             _onResult?.Invoke(index);

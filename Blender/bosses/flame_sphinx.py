@@ -2,9 +2,8 @@
 Reference: abyss_ref/art/enemies/flame_sphinx/parts/body.png. Generates complete rigged boss,
 phase gems, layered wing feathers, articulated paws/tail and eight baked animation takes.
 """
-import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(r"C:\Users\User\Desktop\game\Blender\bosses")
 from _common import *
 
 ID="flame_sphinx"

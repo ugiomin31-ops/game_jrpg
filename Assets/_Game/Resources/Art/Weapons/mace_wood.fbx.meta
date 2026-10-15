@@ -17,11 +17,6 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_MaceWood_Tripo
-    second: {fileID: 2100000, guid: 2797560f83975e041bd2e61ac08abf0e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: f8d70d7edaa5a254882ac6c2c3f77a5d, type: 2}
   materials:

@@ -10,12 +10,6 @@ namespace Abyss.Runtime.World
     /// </summary>
     public static class EnvironmentProcessor
     {
-        /// <summary>
-        /// Optional per-anchor override for a <c>LightAnchor*</c> object. Return false to skip its light; lower
-        /// <paramref name="intensity"/> or <paramref name="range"/> to dim it. Null (the default) keeps every anchor as authored.
-        /// </summary>
-        public delegate bool LightAnchorPolicy(string anchorName, ref float intensity, ref float range);
-
         public sealed class Result
         {
             public readonly Dictionary<string, Transform> Spots = new Dictionary<string, Transform>();
@@ -23,8 +17,7 @@ namespace Abyss.Runtime.World
             public readonly List<Collider> Colliders = new List<Collider>();
         }
 
-        public static Result Process(GameObject root, Color lightColor, float lightIntensity = 2.2f, float lightRange = 7f, bool lights = true,
-            LightAnchorPolicy anchorPolicy = null)
+        public static Result Process(GameObject root, Color lightColor, float lightIntensity = 2.2f, float lightRange = 7f, bool lights = true)
         {
             var res = new Result();
             var all = root.GetComponentsInChildren<Transform>(true);
@@ -44,13 +37,11 @@ namespace Abyss.Runtime.World
                 }
                 else if (lights && n.StartsWith("LightAnchor"))
                 {
-                    float intensity = lightIntensity, range = lightRange;
-                    if (anchorPolicy != null && !anchorPolicy(n, ref intensity, ref range)) continue;
                     var l = t.gameObject.AddComponent<Light>();
                     l.type = LightType.Point;
                     l.color = lightColor;
-                    l.intensity = intensity;
-                    l.range = range;
+                    l.intensity = lightIntensity;
+                    l.range = lightRange;
                     l.shadows = LightShadows.None;
                     res.Lights.Add(l);
                 }

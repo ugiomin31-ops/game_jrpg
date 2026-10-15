@@ -1,8 +1,0 @@
-Source: Tripo Studio web (studio.tripo3d.ai), account ugiomin93, subscription credits, 2026-10-11
-Task: https://studio.tripo3d.ai/workspace/generate/2f1edc75-8f2a-44c0-a5f1-fa28e4085cbc
-Input: slime_concept.png (ChatGPT web GPT-6 Extra High)
-Steps: Image→3D (H3.1 Best Quality, 55 cr; first run server error, free Retry succeeded) → Retopology Triangle 8000 target, Smart Mesh P1.0 (35 cr) → 7218 tris → Auto Rig "Other" (20 cr) → export FBX(Blender preset, 2k) and GLB(2k), skeleton on (free).
-Result: mesh + PBR textures fine. Rig: 4 bones but NO skin weights in either FBX or GLB (bones do not deform the mesh; verified in Blender 5.2).
-
-## Installed 2026-10-12
-Installed as a rigless blob (RiglessBlobAnimator, ArtLibrary.IsRiglessBlob "slime") at Assets/_Game/Resources/Art/Enemies/slime/slime.fbx (GUID kept in slime.fbx.meta): TRIPO marker first, then fbx + slime_tex/slime.png (Tripo basecolor JPEG -> PNG 2048, material name `slime`, same layout as bat). 0 credits. Headless Blender 5.2.1 (scratchpad f1/build_blob.py): the unusable 4-bone rig and skin discarded (no armature, no vertex groups, no actions), 7218 tris, one mesh `Body`, pivot at the feet (xy bbox centre, min z = 0), uniform scale 0.9 -> 0.88 x 0.86 x 0.494 m (old VRoid blob 0.75 x 0.76 x 0.77 m; the Tripo blob is flatter, 0.9 matches volume/footprint rather than height), faces -Y, axes -Z forward / Y up. Old model + meta: ArtSource/enemies/slime/backup_20261012/. Slime base colour: median luminance 0.86 over used texels (mean sRGB 0.67/0.80/0.47) = light green, OK for the multiply tints (sewer_slime tint 0.62/0.78/0.50 gives a darker olive). Unity import not run in this step (unverified).

@@ -8,7 +8,6 @@ import bpy
 from mathutils import Euler, Vector
 from humanoid import A, V
 from motion import create_actions
-import textured as TX
 
 
 def bounds(obj):
@@ -23,15 +22,13 @@ def bounds(obj):
                 size=[round(hi[i] - lo[i], 5) for i in range(3)])
 
 
-def motion_proof(H, actions, prefix, color_type="VERTEX"):
+def motion_proof(H, actions, prefix):
     """Render actual skinned takes at fixed scale/camera above a z=0 floor."""
     import numpy as np
     sc = bpy.context.scene
     size = 384
     frames_by_clip = dict(Guard=(0, 3, 6, 9, 12, 15, 18, 21, 24, 28, 32, 36),
-                          Revive=(0, 4, 10, 15, 19, 24, 29, 34, 39, 49, 55, 60),
-                          Skill=(0, 5, 9, 11, 13, 15, 16, 17, 18, 23, 29, 36),
-                          Ultimate=(0, 8, 18, 28, 32, 36, 40, 42, 44, 52, 58, 66))
+                          Revive=(0, 4, 10, 15, 19, 24, 29, 34, 39, 49, 55, 60))
     evidence = {}
     # Record the actual evaluated poses before adding any proof-only geometry.
     def snapshot(clip, frame):
@@ -75,7 +72,7 @@ def motion_proof(H, actions, prefix, color_type="VERTEX"):
     sc.render.engine = 'BLENDER_WORKBENCH'
     shading = sc.display.shading
     shading.light = 'STUDIO'
-    shading.color_type = color_type
+    shading.color_type = 'VERTEX'
     shading.show_shadows = True
     shading.show_cavity = True
     shading.show_object_outline = True
@@ -133,18 +130,10 @@ def motion_proof(H, actions, prefix, color_type="VERTEX"):
 
 
 def produce(name, builder, npc=False):
-    """Builds, animates and exports one hero/NPC. Works for the vertex-colour chibi builders (costumes.py) and the
-    textured anime builders (lib_anime/heroes_anime.py, which build their rig themselves): a body with image
-    textures also writes <id>_tex/<material>.png next to the FBX (see textured.py)."""
     A.reset_scene()
     H = builder()
-    if getattr(H, "rig", None) is None:
-        H.build_rig()
+    H.build_rig()
     H.skin()
-    textured = TX.is_textured(H.body)
-    if textured:
-        TX.remove_unused_slots(H.body)
-    color_type = "TEXTURE" if textured else "VERTEX"
     actions = create_actions(H, npc)
     sc = bpy.context.scene
     sc.frame_set(0)
@@ -152,23 +141,17 @@ def produce(name, builder, npc=False):
     report = dict(id=name, category='NPCs' if npc else 'Characters', triangles=H.tris(),
                   bounds=bounds(H.body), bones=[b.name for b in H.rig.data.bones],
                   clips={n: dict(frames=list(a.frame_range), fps=30) for n, a in actions.items()},
-                  contact=dict(Attack=.4, Cast=.6, Skill=.5, Ultimate=44 / 66), sockets={})
+                  contact=dict(Attack=.4, Cast=.6), sockets={})
     for s in ('R', 'L'):
         b = H.rig.data.bones['weapon.' + s]
         report['sockets']['weapon.' + s] = dict(head=list(b.head_local), tail=list(b.tail_local), parent=b.parent.name)
     prefix = ('npc_' if npc else 'hero_') + name
-    rel = f"{report['category']}/{name}/{name}.fbx"
-    if textured:
-        report['fbx'], report['texture_dir'], report['textures'] = TX.export_textured_fbx(rel, H.body, H.rig)
-    else:
-        report['fbx'] = A.export_fbx(rel, [H.body, H.rig], animated=True)
-    report['materials'] = [m.name for m in H.body.data.materials]
+    report['fbx'] = A.export_fbx(f"{report['category']}/{name}/{name}.fbx", [H.body, H.rig], animated=True)
     report['previews'] = []
     for suffix, action, frame, angle in (('', 'Idle', 0, (78, 0, 22)), ('_front', 'Idle', 0, (90, 0, 0)),
                                         ('_attack', 'Attack', 10, (75, 0, 22)), ('_cast', 'Cast', 21, (75, 0, 22)),
                                         ('_die', 'Die', 30, (55, 0, 22)), ('_victory', 'Victory', 21, (78, 0, 22))):
-        report['previews'].append(A.render_preview(prefix + suffix, [H.body], action=action, frame=frame, angle=angle,
-                                                   size=768, color_type=color_type))
+        report['previews'].append(A.render_preview(prefix + suffix, [H.body], action=action, frame=frame, angle=angle, size=768))
         H.rig.animation_data.action = actions[action]
         sc.frame_set(frame)
         bpy.context.view_layer.update()
@@ -178,19 +161,14 @@ def produce(name, builder, npc=False):
             clip = report['clips'][n]
             clip.update(take='Rig|' + n, seconds=(act.frame_range[1] - act.frame_range[0]) / 30,
                         loop=bool(act['loop']), authored_keyframes=list(act['authored_keyframes']))
-            for prop in ('hold_normalized', 'recovery_normalized', 'resume_normalized', 'start_pose', 'end_pose'):
+            for prop in ('hold_normalized', 'recovery_normalized', 'start_pose', 'end_pose'):
                 if prop in act:
                     value = act[prop]
                     clip[prop] = list(value) if prop == 'hold_normalized' else value
-        report['motion_proof'] = motion_proof(H, actions, prefix, color_type)
+        report['motion_proof'] = motion_proof(H, actions, prefix)
     H.rig.animation_data.action = actions['Idle']
     sc.frame_set(0)
     bpy.context.view_layer.update()
-    if textured:
-        # Recoloured textures (gradient_map/tint) live only in memory: repack them so the .blend shows the hero.
-        for img in {TX.image_of(m) for m in H.body.data.materials} - {None}:
-            if img.is_dirty:
-                img.pack()
     A.save_blend(prefix)
     report['blend'] = os.path.join(A.BLEND_DIR, prefix + '.blend')
     path = os.path.join(A.BLEND_DIR, prefix + '.json')

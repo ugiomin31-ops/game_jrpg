@@ -1,1 +1,0 @@
-Town combined FBX with Tripo pieces (B1 2026-10-11: guild_hq, gate_portal, guard_booth, fountain; B2 2026-10-12: guild_clinic, guild_market, guild_workshop, notice_board, banner; B3 2026-10-12: street_lamp) installed by Blender/town/guild.py from Blender/town/tripo_pieces.json; sources in ArtSource/town/<id>/staging and ArtSource/props/street_lamp/staging.

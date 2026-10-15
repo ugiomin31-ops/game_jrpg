@@ -2,9 +2,8 @@
 Original identity: abyss_ref/art/enemies/frost_kraken/parts/body.png.
 All appendages have deforming chains; icy crown, cheek fins and snow ridges remain distinct.
 """
-import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(r"C:\Users\User\Desktop\game\Blender\bosses")
 from _common import *
 
 ID = "frost_kraken"

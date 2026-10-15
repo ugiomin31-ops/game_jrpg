@@ -1,9 +1,0 @@
-{
-  "ExitCode": 0,
-  "Config": "blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol",
-  "Note": "CR-at-EOL is accepted for the preserved Windows line endings; other whitespace checks pass. No formatting change was made.",
-  "EnemyJsonCRLF": {
-    "before_balance_fix": 11645,
-    "current": 11645
-  }
-}

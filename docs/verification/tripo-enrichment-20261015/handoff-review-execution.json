@@ -1,9 +1,0 @@
-{
-  "task": "32-final-handoff-review",
-  "requested_model": "gpt-6-astra",
-  "reasoning_effort": "high",
-  "service_tier_requested": "priority",
-  "exit_code": 0,
-  "backend_model_and_priority_independently_verified": false,
-  "report": "agent-reports/32-final-handoff-review.report.md"
-}

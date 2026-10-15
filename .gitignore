@@ -107,27 +107,3 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
-
-# Python bytecode caches
-__pycache__/
-*.pyc
-
-# Historical raw art sources are excluded by default; handoff exceptions below preserve current work.
-/ArtSource/**
-!/ArtSource/**/
-!/ArtSource/**/*.md
-
-# Current cross-computer handoff: keep reference images, unchanged exports and inspection evidence.
-!/ArtSource/enemies/elite_mushroom/enrichment_20261015/**
-!/ArtSource/hunters/_anim_library/tripo_spell_20261015/**
-!/ArtSource/hunter-bosses/crystal_cave_lord/concept.png
-!/ArtSource/hunter-bosses/crystal_cave_lord/candidates/*.png
-
-# New Studio asset: references, raw export, editable cleanup and visual evidence.
-!/ArtSource/Tripo/enrichment-20261015/**
-/ArtSource/Tripo/enrichment-20261015/**/processed/source_input/
-/ArtSource/Tripo/enrichment-20261015/**/processed/textures/
-/ArtSource/**/processed/*.blend1
-/ArtSource/**/processed/*.log
-# Reproducible analysis staging duplicates; unchanged exports remain under raw/.
-/ArtSource/**/processed/source-input/

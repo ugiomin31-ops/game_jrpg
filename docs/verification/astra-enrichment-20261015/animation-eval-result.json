@@ -1,6 +1,0 @@
-{
-  "output": null,
-  "diagnostics": [],
-  "success": true,
-  "result": "{\r\n  \"status\": \"failed\",\r\n  \"error\": true,\r\n  \"completedCases\": 0,\r\n  \"checks\": [\r\n    {\r\n      \"test\": \"preconditions\",\r\n      \"name\": \"Play mode and bounded positive frame delta\",\r\n      \"passed\": false,\r\n      \"detail\": {\r\n        \"isPlaying\": true,\r\n        \"deltaTime\": 0.0639046952,\r\n        \"unscaledDeltaTime\": 0.0639046952\r\n      }\r\n    },\r\n    {\r\n      \"test\": \"cleanup\",\r\n      \"name\": \"production GameApp singleton unchanged\",\r\n      \"passed\": true,\r\n      \"detail\": null\r\n    },\r\n    {\r\n      \"test\": \"cleanup\",\r\n      \"name\": \"temporary objects destroyed\",\r\n      \"passed\": true,\r\n      \"detail\": null\r\n    }\r\n  ],\r\n  \"issues\": [],\r\n  \"limitation\": \"Manual graph/coroutine evaluation; rendered appearance and PlayerLoop scheduling remain parent runtime checks.\"\r\n}"
-}

@@ -1,7 +1,6 @@
 // Guild quest rules (port of game_state.gd quest_event/_refresh_quests/accept/claim). CONTENT_DESIGN §9.
 using System;
 using System.Collections.Generic;
-using Abyss.Logic.Dungeon;
 
 namespace Abyss.Logic.Game
 {
@@ -72,7 +71,7 @@ namespace Abyss.Logic.Game
         public static string RewardText(GameDB db, QuestDef quest)
         {
             var parts = new List<string>();
-            if (quest.RewardGold > 0) parts.Add(quest.RewardGold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + "만원");
+            if (quest.RewardGold > 0) parts.Add(quest.RewardGold.ToString("N0", System.Globalization.CultureInfo.InvariantCulture) + " G");
             foreach (var kv in quest.RewardItems)
             {
                 string name = db.Items.TryGetValue(kv.Key, out var item) ? item.DisplayName
@@ -104,7 +103,7 @@ namespace Abyss.Logic.Game
 
         /// <summary>
         /// Re-derives collect quests from the inventory (they can fall back to accepted when items are spent) and
-        /// completes explore and one-shot boss/special kill quests from persistent successful progress. Appends changes when given.
+        /// completes explore and one-shot boss quests from persistent successful progress. Appends changes when given.
         /// </summary>
         public static void Refresh(GameDB db, GameState state, List<QuestUpdate> updates = null)
         {
@@ -129,12 +128,6 @@ namespace Abyss.Logic.Game
                     if (row.Progress >= need) row.State = QuestState.Complete;
                     if (row.Progress != old) Record(updates, kv.Key, old, row.Progress, row.State == QuestState.Complete);
                 }
-                else if (quest.Kind == KindKill && row.State == QuestState.Accepted && SpecialEventCleared(db, state, quest.TargetId))
-                {
-                    row.Progress = Math.Min(need, Math.Max(old, 1));
-                    if (row.Progress >= need) row.State = QuestState.Complete;
-                    if (row.Progress != old) Record(updates, kv.Key, old, row.Progress, row.State == QuestState.Complete);
-                }
                 else if (quest.Kind == KindExplore && row.State == QuestState.Accepted && FloorReached(db, state, quest.TargetId))
                 {
                     row.Progress = need;
@@ -144,24 +137,11 @@ namespace Abyss.Logic.Game
             }
         }
 
-        // These two kill targets exist only in one-shot red gate events. Ordinary kills stay prospective.
-        static bool SpecialEventCleared(GameDB db, GameState state, string enemyId)
-        {
-            string floorId = enemyId == "forest_guardian_ex" ? "red_gate_1" : enemyId == "boss_ex" ? "red_gate_2" : null;
-            if (floorId == null || !state.Floors.TryGetValue(floorId, out var progress)) return false;
-            foreach (var floor in db.Floors)
-                if (floor.Id == floorId)
-                    foreach (var ev in floor.Events)
-                        if (ev.IsAmbush && ev.Group.Contains(enemyId) && progress.ClearedBattles.Contains(GridPos.FromArray(ev.Cell)))
-                            return true;
-            return false;
-        }
-
         static int BossVictories(GameDB db, GameState state, string enemyId)
         {
             int victories = 0;
             for (int i = 0; i < db.Floors.Count; i++)
-                if (db.Floors[i].BossGroup.Contains(enemyId) && state.Flags.Contains(GameFlow.BossFlag(GameFlow.ChapterOf(i))))
+                if (db.Floors[i].BossGroup.Contains(enemyId) && state.Flags.Contains(GameFlow.BossFlag(i / 3 + 1)))
                     victories++;
             return victories;
         }
