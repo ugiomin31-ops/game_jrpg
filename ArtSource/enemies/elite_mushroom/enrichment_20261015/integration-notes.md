@@ -87,3 +87,19 @@ Run only `C:\Users\User\Tools\Blender\blender.exe` headlessly. Successful later 
 ## Parent disposition — 2026-10-15
 
 The parent reviewed both standalone Cast contact sheets and **declined Unity integration**: the approximately 19.6 cm recovery contact drift does not meet the user's requested naturalness. Preserve the standalone raw source and `individual-motion-exports/cast/verification.md` as evidence; the worker's technical motion-validity result is not final asset acceptance. Do not replace or regress the existing game asset, import this Cast, or perform further cleanup in this bounded finish. Parent already added the `.gitignore` rule excluding reproducible `processed/source-input/` staging; original `raw/` exports remain retained. This dated parent decision leaves the historical measurements above unchanged.
+
+## Game install — 2026-10-15 (PR #11)
+
+Six single-preset Tripo Studio exports (Blender FBX preset, skeleton and in-place on, 0 credits) are kept unchanged under `individual-motion-exports/<preset>/elite_mushroom_<preset>.zip`. Studio lists no `defeat_03`; the `defeat_02` export's take is named `defeat_03` inside the FBX. `Tools/merge_tripo_enemy_takes.py` merged them into `Assets/_Game/Resources/Art/Enemies/elite_mushroom/elite_mushroom.fbx` (existing `.meta` and GUID kept) with a `TRIPO` marker and `elite_mushroom_tex/elite_mushroom.png` (basecolor, 2048). Report: `merge-report.json`.
+
+| Game clip | Source | Frames | Notes |
+|---|---|---|---|
+| Idle | idle | 369 | loops (first/last pose within 0.8 mm) |
+| Run | walk | 57 | loops; no run preset, the game scales Run's rate to travel speed |
+| Attack | box_01 | 54 | |
+| Cast | standalone cast_a_spell, Blender 0..88 | 89 | ends before the B89+ recovery whose ~19.6 cm foot drift was rejected; the game crossfades back to Idle |
+| Hit | hit_to_body_01 | 32 | |
+| Die | defeat_02 (take defeat_03) | 134 | collapse ends with parts up to ~0.18 below the frame-0 floor |
+| Victory | cheer | 291 | |
+
+Every take was compared against its source after the FBX round trip: evaluated skin matches within 0.000001 units at start, middle and end frames. The Cast source uses Tripo's Mixamo preset (armature scale 0.01), so its bone translations are rescaled to the Blender preset's unit armature by the merge script. `enemies.json` now gives `elite_mushroom` its own model (no `model` alias, neutral tint; `scale_mult` 1.35 unchanged). Unity import and in-game playback are not yet verified.

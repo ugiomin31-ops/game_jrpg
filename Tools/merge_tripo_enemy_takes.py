@@ -9,7 +9,7 @@ argument also supplies the mesh, skin and material. Every source must carry the 
 
 Writes, without touching the raw sources:
   <out_dir>/<id>.fbx              armature "Rig", mesh "Body", material "<id>", one take per argument
-  <out_dir>/<id>_tex/<id>.png     the first source's basecolor (Unity's TexturedMaterials contract)
+  <out_dir>/<id>_tex/<id>.png     the first source's basecolor as PNG, at most 2048 px (TexturedMaterials contract)
   <out_dir>/<id>_merge_report.json  source hashes, frame ranges, and the re-imported take list
 The importer turns "Rig|Idle" into clip "Idle" (AbyssArtImporter); Idle and Run loop there, the rest play once.
 Installing into Assets (keeping the existing .meta, adding the TRIPO marker) is a separate, reviewed step.
@@ -25,6 +25,7 @@ import sys
 
 import bpy
 
+MAX_TEXTURE = 2048  # AbyssArtImporter: Tripo textures import at most 2048
 TAKE = re.compile(r"^([A-Z][A-Za-z]*)=(.+?)(?:@(\d+):(\d+))?$")
 
 
@@ -78,6 +79,30 @@ def import_fbx(path):
     return objects, armatures[0], actions[0]
 
 
+def fcurves(action):
+    """Every F-curve of an action: Blender 5 keeps them in per-slot channel bags, older versions on the action."""
+    if hasattr(action, "layers"):
+        for layer in action.layers:
+            for strip in layer.strips:
+                for bag in strip.channelbags:
+                    yield from bag.fcurves
+    else:
+        yield from action.fcurves
+
+
+def rescale_locations(action, ratio):
+    """Tripo's Mixamo preset scales the armature object by 0.01 and its Blender preset by 1, with the same rest pose in
+    world space; bone translations are in armature units, so a take from the other preset is rescaled to the kept rig."""
+    if abs(ratio - 1.0) < 1e-6:
+        return
+    for fc in fcurves(action):
+        if fc.data_path.endswith(".location") or fc.data_path == "location":
+            for k in fc.keyframe_points:
+                k.co.y *= ratio
+                k.handle_left.y *= ratio
+                k.handle_right.y *= ratio
+
+
 def basecolor(material):
     if not material or not material.use_nodes:
         return None
@@ -114,6 +139,8 @@ def main():
             material.name = enemy_id
         elif names != bones:
             fail(1, f"{take['path']}: bone set differs from {takes[0]['path']}")
+        else:
+            rescale_locations(action, armature.scale.x / rig.scale.x)
         source_range, source_action = tuple(action.frame_range), action.name
         action.name = take["name"]
         action.use_fake_user = True
@@ -141,6 +168,26 @@ def main():
             bpy.data.actions.remove(a)
 
     os.makedirs(out_dir, exist_ok=True)
+    tex_dir = os.path.join(out_dir, enemy_id + "_tex")
+    os.makedirs(tex_dir, exist_ok=True)
+    tex = os.path.join(tex_dir, enemy_id + ".png")
+    source = bpy.path.abspath(image.filepath)
+    if not image.packed_file and os.path.isfile(source) and source.lower().endswith(".png") and \
+            max(image.size) <= MAX_TEXTURE:
+        shutil.copyfile(source, tex)
+    else:
+        # Tripo's Blender preset ships a 4k JPEG basecolor; the game contract is a PNG named after the material, and
+        # the importer caps Tripo textures at 2048 anyway, so a larger one is downscaled here instead of shipped.
+        if max(image.size) > MAX_TEXTURE:
+            w, h = image.size
+            k = MAX_TEXTURE / max(w, h)
+            image.scale(max(1, round(w * k)), max(1, round(h * k)))
+        image.filepath_raw, image.file_format = tex, "PNG"
+        image.save()
+    # Only the basecolor ships (Abyss/Toon); the FBX names it by its installed relative path, like the other enemies.
+    for node in [n for n in material.node_tree.nodes if n.type == "TEX_IMAGE" and n.image != image]:
+        material.node_tree.nodes.remove(node)
+
     fbx = os.path.join(out_dir, enemy_id + ".fbx")
     bpy.ops.object.select_all(action="DESELECT")
     rig.select_set(True)
@@ -152,16 +199,7 @@ def main():
         primary_bone_axis="Y", secondary_bone_axis="X", use_armature_deform_only=True,
         bake_space_transform=False, bake_anim=True, bake_anim_use_all_bones=True,
         bake_anim_use_nla_strips=False, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True,
-        bake_anim_simplify_factor=0.0, use_custom_props=False, path_mode="STRIP", embed_textures=False)
-    tex_dir = os.path.join(out_dir, enemy_id + "_tex")
-    os.makedirs(tex_dir, exist_ok=True)
-    tex = os.path.join(tex_dir, enemy_id + ".png")
-    source_png = bpy.path.abspath(image.filepath)
-    if image.packed_file or not os.path.isfile(source_png):
-        image.filepath_raw, image.file_format = tex, "PNG"
-        image.save()
-    else:
-        shutil.copyfile(source_png, tex)
+        bake_anim_simplify_factor=0.0, use_custom_props=False, path_mode="RELATIVE", embed_textures=False)
 
     # Re-import the result and check every take landed with its frame count.
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -180,6 +218,9 @@ def main():
             problems.append(f"take {t['name']} spans {got}, expected {want} frames")
     if sorted(found) != sorted(t["name"] for t in takes):
         problems.append(f"re-imported takes {sorted(found)} differ from requested")
+    images = [i for i in bpy.data.images if i.type == "IMAGE"]
+    if len(images) != 1 or images[0].size[0] == 0:
+        problems.append(f"re-imported texture does not resolve to {tex}: {[i.filepath for i in images]}")
     if "MESH:Body" not in report["reimport"]["objects"] or "ARMATURE:Rig" not in report["reimport"]["objects"]:
         problems.append("Rig/Body objects missing after re-import")
     report["problems"] = problems
