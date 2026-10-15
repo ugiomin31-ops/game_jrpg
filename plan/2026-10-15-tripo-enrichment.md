@@ -1,6 +1,6 @@
 # Tripo enrichment and cross-computer handoff — 2026-10-15
 
-Status: user narrowed scope to a useful checkpoint and a new GitHub branch. Finish the in-flight export and skin inspection, preserve current project work, then verify the remote branch independently. No additional paid assets in this checkpoint.
+Status: checkpoint pushed and independently downloaded from GitHub. Binary3443 hashes match; portable regression259/259 passes; rig12 probes pass. New model remains raw-source-only with one concatenated take. Broader enrichment is the next-computer backlog.
 
 Base: claude/motion-polish-pr9 at 7d20749ef1ef12b120330fd4cac79f3ce850f20c.
 Handoff branch: codex/tripo-enrichment-handoff-20261015.
@@ -37,9 +37,9 @@ Pilot is NOT installed. Preserve existing FBX/GUID. Future integration changes b
 - [x] Download unchanged FBX/texture/ZIP into ArtSource; close Studio after download.
 - [x] Inspect Blender skin deformation; record limitations, no unverified runtime import.
 - [x] Include source, Assets/metas, Packages, ProjectSettings, Blender/Tools, current ArtSource and evidence.
-- [ ] Independent Astra handoff review, staged scope inspection, commit/push.
-- [ ] Fresh remote checkout, commit/tree and binary-hash verification, portable regression.
-- [ ] Deliver branch link, checkout command and explicit remaining steps.
+- [x] Independent Astra handoff review, staged scope inspection, commit/push.
+- [x] Fresh remote checkout, commit/tree and binary-hash verification, portable regression.
+- [x] Deliver branch link, checkout command and explicit remaining steps.
 
 ## Next-computer backlog
 Astra plan: elite-mushroom pilot, Seoa-specific Cast, judgment-hammer VFX shape and keycard readability. Further paid work deferred by user. Keycard is already installed. Crystal-cave quadruped failed weights twice; recovered concepts included, no blind paid retry.
