@@ -93,9 +93,9 @@ def catalog():
         for row in data_rows(table):
             model, tint = variant(row, family)
             rows.append((family, row['id'], ART / source(row, model), tint))
-    heroes = data_ids('heroes')
-    # Promoted job outfits (jobs.json rows that are not a base hero) get portraits framed like the heroes.
-    rows += [('Heroes', i, hero_source(i), None) for i in heroes + [j for j in data_ids('jobs') if j not in heroes]]
+    # Hunters, then the base jobs as UIArtwork.Hero's last fallback. Promoted jobs have no outfit models since the
+    # hunters keep their own look through job changes (e972c8d), so they get no portraits.
+    rows += [('Heroes', i, hero_source(i), None) for i in hero_ids()]
     add('NPCs', NPCS, lambda i: f'NPCs/{i}/{i}.fbx')
     add_rows('Enemies', 'enemies', lambda row, m: f'Enemies/{m}/{m}.fbx')
     add_rows('Gear', 'equipment', lambda row, m: f'Weapons/{m}.fbx' if row.get('slot') == 'weapon' else f'Props/Equipment/{m}.fbx')
@@ -106,32 +106,57 @@ def catalog():
     return rows
 
 
+def hero_ids():
+    heroes = data_ids('heroes')
+    return heroes + [row['id'] for row in data_rows('jobs') if not row.get('parent') and row['id'] not in heroes]
+
+
 def expected_coverage():
     """Sprite count per family, computed from the data tables (no hard-coded totals)."""
-    return {'Heroes': len(set(data_ids('heroes')) | set(data_ids('jobs'))), 'NPCs': len(NPCS), 'Enemies': len(data_ids('enemies')),
+    return {'Heroes': len(set(hero_ids())), 'NPCs': len(NPCS), 'Enemies': len(data_ids('enemies')),
             'Gear': len(data_ids('equipment')), 'Items': len(data_ids('items')), 'Status': len(data_ids('statuses')),
             'Elements': len(ELEMENTS), 'UI': len(COMMANDS)}
 
 
+def has_image(mat):
+    return mat is not None and mat.use_nodes and any(n.type == 'TEX_IMAGE' and n.image for n in mat.node_tree.nodes)
+
+
+def texture_only(obj):
+    """Tripo installs without the Col conversion: every material shows its baked base-colour PNG."""
+    return 'Col' not in obj.data.color_attributes and bool(obj.material_slots) and all(has_image(s.material) for s in obj.material_slots)
+
+
 def apply_tint(meshes, tint):
-    """Multiply every mesh's Col (sRGB) by the variant tint; image-textured materials get the tint as their colour."""
+    """Multiply every mesh's Col (sRGB) by the variant tint, matching the runtime _BaseColor multiply. Texture-only
+    meshes get the multiply on their (in-memory) base-colour images instead."""
+    images = set()
     for obj in meshes:
+        if texture_only(obj):
+            images.update(n.image for s in obj.material_slots for n in s.material.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image)
+            continue
         col = obj.data.color_attributes['Col']
         for item in col.data:
             c = item.color_srgb
             item.color_srgb = (c[0] * tint[0], c[1] * tint[1], c[2] * tint[2], c[3] * tint[3])
+    for image in images:
+        # 8-bit PNG pixels read back sRGB-encoded, so the multiply matches the Col (color_srgb) path above.
+        data = np.empty(len(image.pixels), dtype=np.float32)
+        image.pixels.foreach_get(data)
+        data = (data.reshape(-1, 4) * np.array(tint, dtype=np.float32)).ravel()
+        image.pixels.foreach_set(data)
 
 
 def textured_shading(meshes):
     """Textured anime heroes (lib_humanoid/textured.py): image materials show their PNG; the procedural parts
     (M_Toon/M_Emit/M_Clear, coloured by Col) get their average Col as the flat material colour Workbench uses
     for materials without an image. Returns False for ordinary vertex-colour models."""
-    def has_image(mat):
-        return mat is not None and mat.use_nodes and any(n.type == 'TEX_IMAGE' and n.image for n in mat.node_tree.nodes)
     if not any(has_image(slot.material) for obj in meshes for slot in obj.material_slots):
         return False
     sums = {}
     for obj in meshes:
+        if texture_only(obj):
+            continue
         col = obj.data.color_attributes['Col']
         for poly in obj.data.polygons:
             mat = obj.material_slots[poly.material_index].material if poly.material_index < len(obj.material_slots) else None
@@ -207,8 +232,8 @@ def render(family, ident, source, tint=None):
             obj.data.pose_position = 'REST'
     bpy.context.view_layer.update()
     meshes = [obj for obj in scene.objects if obj.type == 'MESH' and not obj.hide_render]
-    if not meshes or any('Col' not in obj.data.color_attributes for obj in meshes):
-        raise ValueError(f'{source}: missing production mesh or Col colors')
+    if not meshes or any('Col' not in obj.data.color_attributes and not texture_only(obj) for obj in meshes):
+        raise ValueError(f'{source}: missing production mesh or Col colors (or a base-colour texture)')
     if tint is not None:
         apply_tint(meshes, tint)
     deps = bpy.context.evaluated_depsgraph_get()
@@ -297,7 +322,7 @@ def render(family, ident, source, tint=None):
     if cel:
         cel_portrait(scene, output)
     texture_meta(output, sprite=True)
-    record = dict(id=ident, family=family, source=repo_rel(source), **({'tint': tint} if tint is not None else {}), output=repo_rel(output), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
+    record = dict(id=ident, family=family, source=repo_rel(source), **({'tint': tint} if tint is not None else {}), output=repo_rel(output), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col' if all('Col' in obj.data.color_attributes for obj in meshes) else 'texture', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
     print('ARTWORK_RENDERED ' + family + '/' + ident, flush=True)
     return record
 
