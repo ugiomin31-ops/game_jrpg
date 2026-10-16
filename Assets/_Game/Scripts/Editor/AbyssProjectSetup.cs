@@ -107,6 +107,8 @@ namespace Abyss.EditorTools
             foreach (var id in db.RosterOrder) require(ArtLibrary.HeroModelPath(id, db.ClassOf(id)));
             foreach (string id in new[] { "innkeeper", "shopkeeper", "smith", "guild_clerk", "elder" }) require(ArtLibrary.NpcPath(id));
             foreach (var id in db.Enemies.Keys) require(ArtLibrary.EnemyPath(ArtVariants.EnemyModel(db, id)));
+            // Battle turn order shows each enemy's portrait (UIArtwork.Enemy): a model without one stalls the battle.
+            foreach (var id in db.Enemies.Keys) { string icon = "Icons/Enemies/" + ArtVariants.EnemyModel(db, id); if (Resources.Load<Sprite>(icon) == null) missing.Add(icon); }
             foreach (var gear in db.Equipment.Values) require(gear.Slot == "weapon" ? ArtLibrary.WeaponPath(ArtVariants.GearModel(gear)) : ArtLibrary.PropPath("Equipment", ArtVariants.GearModel(gear)));
             foreach (var id in db.Items.Keys) require(ArtLibrary.PropPath("Items", id));
             foreach (var id in db.Statuses.Keys) require(ArtLibrary.PropPath("Status", id));

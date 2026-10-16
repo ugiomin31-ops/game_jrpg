@@ -4,7 +4,7 @@
   "coverage": {
     "Heroes": 20,
     "NPCs": 8,
-    "Enemies": 123,
+    "Enemies": 124,
     "Gear": 115,
     "Items": 65,
     "Status": 22,
@@ -10591,6 +10591,33 @@
           0.3097030222415924
         ],
         "ortho_scale": 1.2075937986373901
+      }
+    },
+    {
+      "id": "crystal_cave_lord",
+      "family": "Enemies",
+      "source": "Assets/_Game/Resources/Art/Enemies/crystal_cave_lord/crystal_cave_lord.fbx",
+      "output": "Assets/_Game/Resources/Icons/Enemies/crystal_cave_lord.png",
+      "framing": "complete silhouette",
+      "vertex_colors": "Col",
+      "dimensions": [
+        512,
+        512
+      ],
+      "transparent": true,
+      "camera": {
+        "type": "ORTHO",
+        "position": [
+          2.050705671310425,
+          -6.414302825927734,
+          1.7609214782714844
+        ],
+        "rotation": [
+          1.3825666904449463,
+          7.089166587093132e-09,
+          0.3097030222415924
+        ],
+        "ortho_scale": 1.5321171283721924
       }
     }
   ]
