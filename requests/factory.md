@@ -22,7 +22,7 @@ About 1290 credits were left after verdant_ruins. Each piece costs about 80. **B
 
 ## Status
 
-- [ ] torch
+- [x] torch — tripo-glb-drop db64920, 4316 tris, 80 cr (1290→1210)
 - [ ] overlay_1
 - [ ] overlay_2
 - [ ] decor_2
