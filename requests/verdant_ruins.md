@@ -29,7 +29,7 @@ Cost about 90 credits per piece, about 1350 total (2490 left at 23:02). STOP if 
 - [x] chest — tripo-glb-drop 025fab0, 3717 tris, 80 cr (2010→1930)
 - [x] lore_stone — tripo-glb-drop c9e4883, 3554 tris, 80 cr (1930→1850)
 - [x] spring — tripo-glb-drop 9c2f206, 3212 tris, 80 cr (1850→1770)
-- [ ] torch
+- [x] torch — tripo-glb-drop aeba68e, 3394 tris, 80 cr (1770→1690)
 - [ ] trap
 - [ ] warp
 - [ ] foe_marker
