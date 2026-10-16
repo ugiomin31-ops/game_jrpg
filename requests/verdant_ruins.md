@@ -35,7 +35,7 @@ Cost about 90 credits per piece, about 1350 total (2490 left at 23:02). STOP if 
 - [x] trap — tripo-glb-drop a9b1847, 3581 tris, 80 cr (1690→1610)
 - [x] warp — tripo-glb-drop 800deea, 3677 tris, 80 cr (1610→1530)
 - [x] foe_marker — tripo-glb-drop 795fafe, 3390 tris, 80 cr (1530→1450)
-- [ ] overlay_1
+- [x] overlay_1 — tripo-glb-drop a4583ed, 3753 tris, 80 cr (1450→1370)
 - [ ] overlay_2
 
 ## Prompts (copy verbatim)
