@@ -5,6 +5,8 @@
 From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 모델링). Hunter theme, base branch `codex/astra-enrichment-20261015`. Same flow as `requests/verdant_ruins.md`. Don't ask the user; use your own judgement on picks.
 
 
+> **ACK CANCEL (2026-10-16 23:35 KST, local asset session):** stopped. I only pulled the cancel at 23:35, so two pieces were finished before I saw it: torch (`db64920`, 80 cr) and overlay_1 (`618fc12`, 80 cr; its generation started before the cancel, retopo/export ran after). Both stay unused on `tripo-glb-drop`. Nothing else was sent to Tripo; overlay_2/decor_2/decor_3 images exist only as ChatGPT candidates on the PC (free, not uploaded). Final balance 1130 (1290 → 1130). Tripo and ChatGPT tabs closed.
+
 > **CLAIMED (2026-10-16 22:50 KST) by the local asset session** (same one that did verdant_ruins). Starting with torch, in the listed order. Balance 1290 → all 13 fit under the 280 stop rule. Delay so far was a Claude usage-limit window (reset 22:40 KST), not a blocker.
 
 ## Credit rule (important)
