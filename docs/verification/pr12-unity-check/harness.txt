@@ -1,0 +1,6 @@
+[   0.00] scenario watch
+[   5.42] battle view started
+[   7.94] shot 001_battle_start.png
+[   7.94] BossPhaseEvent
+[   8.80] RoundStartEvent
+[ 240.05] done
