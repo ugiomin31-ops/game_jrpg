@@ -65,7 +65,7 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 | chest | (procedural) | A steel toolbox crate with yellow corner guards and a hazard-stripe band (lid separate). |
 | lore_stone | safety notice board | A safety notice board on a steel post with a yellow hazard header (no text). |
 | spring | coolant tap station | A blue coolant water tank on a steel stand with a pipe, a tap and a glowing gauge. |
-| torch | hanging cage lamp | An industrial dome cage lamp on a wall arm with a chain. |
+| torch | **DONE** (Tripo, `.tripo` marker) | An industrial dome cage lamp on a wall arm with a chain. |
 | trap | spiked hazard plate | A floor plate with a hazard-stripe border and rusted spikes. |
 | warp | gear pad | A large steel gear ring set in the floor with an orange glowing core. |
 | foe_marker | (procedural) | A hazard-stripe floor ring with violet rift cracks and a small floating gate crystal. |
@@ -151,21 +151,21 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 ## verdant_ruins (zone 2, E-rank gate forest) — NorthernKit(frozen=False)
 | piece | now | brief |
 |---|---|---|
-| decor_1 | plant / crystal garden | A clump of ferns, ginkgo saplings and a few small green crystals. |
-| decor_2 | broken fluted column | A broken mossy stone column with a fallen fluted drum beside it. |
-| decor_3 | shallow natural pool | A small shallow pool ringed with mossy stones and lily pads. |
-| decor_4 | shrine urn | A mossy stone urn on a plinth with a sprouting plant. |
-| decor_5 | fallen carved lintel + rubble | A fallen carved stone lintel with rubble and grass. |
-| decor_6 | wayfinder idol | A small mossy stone wayfinder idol with a glowing green gem. |
-| chest | hollow stone chest | A moss-covered stone chest with root bands (lid separate). |
-| lore_stone | (procedural stele) | A mossy stone stele with a glowing green rift line. |
-| spring | glowing ring pool | A clear spring pool with a cyan glowing ring. |
-| torch | flame brazier | A stone post brazier with a warm flame. |
-| trap | spiked plate | A mossy floor slab with thorny root spikes. |
-| warp | portal | A ring of mossy standing stones around a green-violet glow. |
-| foe_marker | orange bipyramid crystal | A floor ring of moss with a floating orange gate crystal. |
-| overlay_1 | hanging vines + flowers | Ivy and flowering vines hanging from the wall top. |
-| overlay_2 | (vines, sparse) | Thick roots creeping down the wall face. |
+| decor_1 | **DONE** (Tripo, `.tripo` marker) | A clump of ferns, ginkgo saplings and a few small green crystals. |
+| decor_2 | **DONE** (Tripo, `.tripo` marker) | A broken mossy stone column with a fallen fluted drum beside it. |
+| decor_3 | **DONE** (Tripo, `.tripo` marker) | A small shallow pool ringed with mossy stones and lily pads. |
+| decor_4 | **DONE** (Tripo, `.tripo` marker) | A mossy stone urn on a plinth with a sprouting plant. |
+| decor_5 | **DONE** (Tripo, `.tripo` marker) | A fallen carved stone lintel with rubble and grass. |
+| decor_6 | **DONE** (Tripo, `.tripo` marker) | A small mossy stone wayfinder idol with a glowing green gem. |
+| chest | **DONE** (Tripo, `.tripo` marker) | A moss-covered stone chest with root bands (lid separate). |
+| lore_stone | **DONE** (Tripo, `.tripo` marker) | A mossy stone stele with a glowing green rift line. |
+| spring | **DONE** (Tripo, `.tripo` marker) | A clear spring pool with a cyan glowing ring. |
+| torch | **DONE** (Tripo, `.tripo` marker) | A stone post brazier with a warm flame. |
+| trap | **DONE** (Tripo, `.tripo` marker) | A mossy floor slab with thorny root spikes. |
+| warp | **DONE** (Tripo, `.tripo` marker) | A ring of mossy standing stones around a green-violet glow. |
+| foe_marker | **DONE** (Tripo, `.tripo` marker) | A floor ring of moss with a floating orange gate crystal. |
+| overlay_1 | **DONE** (Tripo, `.tripo` marker) | Ivy and flowering vines hanging from the wall top. |
+| overlay_2 | **DONE** (Tripo, `.tripo` marker) | Thick roots creeping down the wall face. |
 
 ## frost_grotto (zone 4 ice gate; zone 10 sunken temple reuses it) — NorthernKit(frozen=True)
 Briefs should also read as a sunken sea temple (zone 10): ice plus shell and coral hints.
@@ -181,8 +181,8 @@ Briefs should also read as a sunken sea temple (zone 10): ice plus shell and cor
 | lore_stone | (stele) | A frosted stele with a glowing cyan rift line. |
 | spring | glowing ring pool | A thawed spring pool with a glowing cyan ring amid the ice. |
 | torch | crystal cluster lamp | A stone post topped by a glowing ice-crystal cluster. |
-| trap | spiked plate | A floor slab with icicle spikes. |
-| warp | portal | A ring of ice pillars around a blue glowing pool. |
+| trap | **DONE** (Tripo, `.tripo` marker) | A floor slab with icicle spikes. |
+| warp | **DONE** (Tripo, `.tripo` marker) | A ring of ice pillars around a blue glowing pool. |
 | foe_marker | orange bipyramid | A frosted floor ring with a floating ice-blue gate crystal. |
 | overlay_1 | icicle row | A row of icicles along the wall top. |
 | overlay_2 | (frost, sparse) | Frost and small ice crystals creeping down the wall face. |

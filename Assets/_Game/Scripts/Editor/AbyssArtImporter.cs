@@ -499,7 +499,9 @@ namespace Abyss.EditorTools
         public static string TextureDir(string modelPath) => Sibling(modelPath, TextureSuffix);
         public static string MaterialFolder(string modelPath) => Sibling(modelPath, MaterialSuffix);
         public static string MaterialPath(string modelPath, string name) => $"{MaterialFolder(modelPath)}/{name}.mat";
-        public static bool HasTextures(string modelPath) => Directory.Exists(TextureDir(modelPath));
+        /// <summary>A textured model: its own &lt;id&gt;_tex, or only &lt;id&gt;_mat when every texture it uses is shared with another
+        /// model (subway floor/wall b and c use the a variant's PNG; VRoid hunters share Characters/_SharedVRoid).</summary>
+        public static bool HasTextures(string modelPath) => Directory.Exists(TextureDir(modelPath)) || Directory.Exists(MaterialFolder(modelPath));
 
         static bool HasSuffix(string name, string suffix) => name.EndsWith(suffix, System.StringComparison.OrdinalIgnoreCase);
         public static bool IsDecal(string name) => HasSuffix(name, "_FACE") || HasSuffix(name, "_EYE");
@@ -530,15 +532,22 @@ namespace Abyss.EditorTools
             return files;
         }
 
-        /// <summary>Per-model materials that already exist, keyed by source material name (used by the import remap).</summary>
+        /// <summary>
+        /// Per-model materials that already exist, keyed by source material name (used by the import remap). Read from
+        /// &lt;id&gt;_mat, not &lt;id&gt;_tex: a material whose texture is shared with another model keeps its own .mat here
+        /// (pointing at the shared PNG) while the duplicate PNG is gone from &lt;id&gt;_tex.
+        /// </summary>
         public static Dictionary<string, Material> Existing(string modelPath)
         {
             var result = new Dictionary<string, Material>();
-            foreach (var tex in TextureFiles(modelPath))
+            string folder = MaterialFolder(modelPath);
+            if (!Directory.Exists(folder)) return result;
+            var files = Directory.GetFiles(folder, "*.mat");
+            System.Array.Sort(files, System.StringComparer.Ordinal);
+            foreach (var file in files)
             {
-                string name = Path.GetFileNameWithoutExtension(tex);
-                var mat = AssetDatabase.LoadAssetAtPath<Material>(MaterialPath(modelPath, name));
-                if (mat != null) result[name] = mat;
+                var mat = AssetDatabase.LoadAssetAtPath<Material>(Normalize(file));
+                if (mat != null) result[Path.GetFileNameWithoutExtension(file)] = mat;
             }
             return result;
         }

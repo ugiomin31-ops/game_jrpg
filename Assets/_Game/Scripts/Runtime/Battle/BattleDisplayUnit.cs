@@ -23,6 +23,8 @@ namespace Abyss.Runtime.Battle
         public float KnockTime, KnockAmount;
         /// <summary>Playback rate of the unit's take on top of the battle speed: a death compresses its Die take to fit the fall (1 otherwise).</summary>
         public float DeathRate = 1f;
+        /// <summary>Playback rate a status puts on the body (0 frozen, slowed while asleep / stunned / broken, 1 otherwise).</summary>
+        public float PostureRate = 1f;
         public readonly Dictionary<string, DisplayStatus> Statuses = new Dictionary<string, DisplayStatus>();
         public readonly List<int> Weaknesses = new List<int>();
         // These values deliberately do NOT come from UnitSnapshot / Engine. Apply() at TurnEnd must not

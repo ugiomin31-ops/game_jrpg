@@ -235,3 +235,7 @@ Monster contact values live in `ArtLibrary.ClassContact` keyed `<model id>/<take
 - `h_minjun` sig `구조대의 함성`: presentation `pr_w_rescue_shield` (copy of `pr_w_provoke`), effect `rescue_shield` = provoking roar + the `riot_shield` mesh set down 0.75 m ahead of him (`align` + `upright`: yaw toward his facing, `untinted`). No held shield on his arm (not attempted: needs a fitted attach point and re-QA of every warrior take).
 - New VFX layer fields (Tools/vfx/gen_effects.py allow-list + VfxLibrary.LayerRecipe): `untinted` (keeps the texture's own colours), `ahead` (metres along the effect facing). `upright` on an aligned mesh layer = yaw only. Self-cast effects now get the caster's forward as their facing (BattleView.FacingFrom); no existing recipe aligns a self-cast layer, so only the new `ahead` layer uses it.
 - effects.json regenerated with gen_effects.py only (byte-reproducible run to run).
+
+## Die replaced with Tripo `fall` (2026-10-16)
+`HumanoidAnimations/Die.fbx` is now the free Tripo `fall` preset (3.0 s, falls backwards and lies on the back/side), built by
+`tripo_fall_20261016/build_die.py`; details and checks in `tripo_fall_20261016/SOURCE.md`. The old `defeat_02` Die is in git history.

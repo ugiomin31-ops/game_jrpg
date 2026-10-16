@@ -24,3 +24,10 @@ Haiku 5.5 (low) picked D; main session agreed. Cute round pangolin-mole body, ye
 - FAILED RIG (Tripo Other, 1st try): 30 bones but only 7 vertex groups; 2794/5150 verts weighted; legs (bone_7-14, 17-20, 22-25) and tail (26-29) have NO weights. Not imported. Trying one Tripo rig Retry.
 - Rig Retry (Other): 20 cr; balance 3150 → 3130.
 - Rig Retry result: FAILED again — only 7 vertex groups (bone_11-15, 30, 31); legs/tail unweighted. Both Tripo 'Other' rigs unusable for this quadruped. Not imported; waiting for the user's decision. Exported zips kept for reference. Tripo spend on this asset: 55+35+20+20 = 130 cr.
+- 2026-10-15 fix path (no Tripo spend): keep the mesh, rig it in Blender with `Blender/bosses/tripo_crystal_cave_lord.py`
+  (own quadruped Rig, geometric weights that cannot leave a vertex unweighted, 7 clips, re-import verification).
+  Needs one of the exported zips restored to `tripo_export/` (the ZIPs are on the original PC, not in git).
+  `Tools/verify_tripo_rig.py --require-full-weights` now rejects a partial-weight export like the two above.
+- 2026-10-16 installed: mesh from the first export (crystal_cave_lord_tripo.zip, sha256 8628cfbc…, recovered from the PC copy, 0 credits)
+  rigged by Blender/bosses/tripo_crystal_cave_lord.py: 19 bones, 0/5150 unweighted, 7 clips, scaled to 1.14 x 1.60 x 1.15 m.
+  enemies.json now uses its own model (white tint); spec.OWN_MODEL_VARIANTS lists it.

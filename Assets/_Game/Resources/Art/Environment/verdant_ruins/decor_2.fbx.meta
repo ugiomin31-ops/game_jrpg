@@ -19,6 +19,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_Toon
     second: {fileID: 2100000, guid: 42b88e088e10be54fb8136bcd5eeaa12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_VerdantDecor2_Tripo
+    second: {fileID: 2100000, guid: c6adc63a8aee0cc4d8c5ad31a4570d6a, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

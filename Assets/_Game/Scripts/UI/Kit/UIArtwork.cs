@@ -24,7 +24,7 @@ namespace Abyss.UI
 
         static readonly HashSet<string> missing = new HashSet<string>(StringComparer.Ordinal);
 
-        /// <summary>Returns the sprite or null when it does not exist (job portraits only; everything else must exist).</summary>
+        /// <summary>Returns the sprite or null when it does not exist (job and enemy-variant portraits only; everything else must exist).</summary>
         static Sprite TryLoad(string family, string id)
         {
             string key = family + "/" + id;
@@ -60,8 +60,11 @@ namespace Abyss.UI
         /// <summary>Portrait of a job (falls back to the hero's portrait when the job has none).</summary>
         public static Sprite Job(string jobId, string heroId) => (string.IsNullOrEmpty(jobId) ? null : TryLoad("Heroes", jobId)) ?? Load("Heroes", heroId);
         public static Sprite NPC(string id) => Load("NPCs", id);
-        // Palette variants share the authored base model and its portrait.
-        public static Sprite Enemy(string id) => Load("Enemies", ArtVariants.EnemyModel(GameDB.Instance, id));
+        /// <summary>An enemy's own portrait; palette variants have one rendered from the base model with their tint
+        /// (Blender/ui/render_icons.py), and fall back to the base model's portrait when it is missing.</summary>
+        public static Sprite Enemy(string id) =>
+            (string.IsNullOrEmpty(id) || id.IndexOf('/') >= 0 || id.IndexOf('\\') >= 0 ? null : TryLoad("Enemies", id))
+            ?? Load("Enemies", ArtVariants.EnemyModel(GameDB.Instance, id));
         public static Sprite Gear(string id) => Load("Gear", id);
         public static Sprite Item(string id) => Load("Items", id);
         public static Sprite Status(string id) => Load("Status", id);

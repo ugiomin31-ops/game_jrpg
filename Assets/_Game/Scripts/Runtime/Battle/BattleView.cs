@@ -80,7 +80,11 @@ namespace Abyss.Runtime.Battle
         const float ReturnWaitCap = 1.5f;
         /// <summary>Battle intro: one eased sweep from the low enemy-side angle into the establishing shot.</summary>
         const float IntroSweep = 1.2f;
+        /// <summary>Battle intro run-on: total seconds, of which the last <see cref="IntroSettle"/> ease onto the mark.</summary>
+        const float IntroRun = .8f, IntroSettle = .24f;
         float _flashAlpha, _dimAlpha, _dimTarget, _actionElapsed, _actionLength, _actionEnd, _waveStop;
+        /// <summary>Battle time (speed-scaled, stopped by pause and hit-stop), the clock the takes themselves run on.</summary>
+        float _clock;
         // Recoil: out over KnockOut, settle home over the rest.
         const float KnockLength = .25f, KnockOut = .05f;
         /// <summary>Share of normal speed that effect playback keeps while a hit-stop freezes the units.</summary>
@@ -88,8 +92,11 @@ namespace Abyss.Runtime.Battle
         // Enemy death staging (seconds at 1x battle speed, from the UnitDown event). A death never queues the replay: the unit
         // collapses and dissolves beside it, so simultaneous deaths overlap, and the replay only waits for stragglers at action end
         // and at the outcome (WaitDeaths). A regular enemy reads in ~DeathDissolveAt + DeathDissolve; a boss gets a longer finish.
-        const float DeathCollapse = .5f, DeathDissolveAt = .3f, DeathDissolve = .36f;
-        const float BossDeathCollapse = .8f, BossDeathDissolveAt = .6f, BossDeathDissolve = .65f;
+        // The collapse follows the Die take's own length within [DeathCollapse, DeathCollapseMax] (sped up only past the cap), and
+        // the dissolve starts DeathLand after the body is down, never before DeathDissolveAt: starting it at a fixed .3 s hid most falls.
+        const float DeathCollapse = .5f, DeathCollapseMax = .9f, DeathDissolveAt = .6f, DeathDissolve = .4f;
+        const float BossDeathCollapse = .8f, BossDeathCollapseMax = 1.6f, BossDeathDissolveAt = .9f, BossDeathDissolve = .7f;
+        const float DeathLand = .1f;
         const float ReducedDeathDissolve = .25f;
         /// <summary>A Die take longer than this is a held pose (Tripo / Mixamo take): the fall is staged in code instead of waited out.</summary>
         const float StaticDieTake = 2f;
@@ -297,7 +304,7 @@ namespace Abyss.Runtime.Battle
                     break;
                 case TurnStartEvent e:
                     _active = e.UnitId;
-                    if (Find(e.UnitId, out var turn)) { turn.Guarding = false; Sync(turn); }
+                    if (Find(e.UnitId, out var turn)) { if (turn.Guarding) ReleaseGuard(turn); turn.Guarding = false; Sync(turn); }
                     RefreshOrder();
                     break;
                 case TurnEndEvent e:
@@ -419,9 +426,9 @@ namespace Abyss.Runtime.Battle
                             StartCoroutine(DeathRoutine(down)); RefreshOrder();
                             break;
                         }
-                        // A fallen hero lies down for the take, but a long held Die take must not stall the turn.
-                        down.Model.Play("Die", .075f);
-                        yield return Wait(Mathf.Clamp(down.Model.Anim.Length("Die"), .35f, 1.2f));
+                        // A fallen hero lies down (a code topple under the standing Tripo defeat take), but a long held Die take must not stall the turn.
+                        HeroDown(down);
+                        yield return Wait(StandingDefeat(down) ? HeroFallTime : Mathf.Clamp(down.Model.Anim.Length("Die"), .35f, 1.2f));
                         RefreshOrder();
                     }
                     break;
@@ -432,18 +439,21 @@ namespace Abyss.Runtime.Battle
                         yield return WaitDeaths();   // a fallen enemy is mid-collapse: let it land before it stands again
                         revived.Alive = true; revived.Hp = e.Hp; revived.MaxHp = e.MaxHp;
                         revived.DeathRate = 1;
-                        revived.Model.transform.SetPositionAndRotation(revived.Home, revived.Facing);
+                        // A hero toppled in code stands back up from where it lies; the shared Revive starts prone and matches no code fall.
+                        bool rise = RisesInCode(revived);
+                        if (!rise) revived.Model.transform.SetPositionAndRotation(revived.Home, revived.Facing);
                         revived.Model.SetDissolve(0);
-                        if (revived.Side == BattleSide.Party)
-                            // Authored frame zero matches the held Die endpoint, including its grounded root.
-                            revived.Model.Anim.PlayOnce("Revive", "Idle", 0f);
+                        if (rise) StartCoroutine(HeroRise(revived));
+                        else if (revived.Side == BattleSide.Party)
+                            // A Blender-rig hero's Revive starts from its own Die end pose (lying at frame 30).
+                            revived.Model.Anim.PlayOnce("Revive", "Idle", ReviveFade);
                         else revived.Model.Play("Idle", .25f);
                         Sync(revived);
                         // Revive skills already burst their own impact on the target; items and passives need this one.
                         bool skillBurst = _presentation != null && !string.IsNullOrEmpty(_presentation.ImpactVfx) && _presentation.ImpactVfx.Contains("revive");
                         if (!skillBurst) Effect("revive", revived.Model.CenterPoint, new Color(1, .9f, .55f), 1, 0, null, revived.Home.y);
                         Popup(e.UnitId, "부활", new Color(1, .95f, .6f)); PlaySound("sfx_revive");
-                        yield return Wait(revived.Side == BattleSide.Party ? revived.Model.Anim.Length("Revive") : .4f);
+                        yield return Wait(rise ? HeroRiseTime : revived.Side == BattleSide.Party ? Mathf.Min(revived.Model.Anim.Length("Revive"), ReviveWaitCap) : .4f);
                     }
                     break;
                 case WeaknessDiscoveredEvent e:
@@ -468,7 +478,7 @@ namespace Abyss.Runtime.Battle
                     {
                         _director.Action(boss, null, true);
                         boss.Model.PlayOnce("Cast");
-                        float phaseStarted = Time.time;
+                        float phaseStarted = _clock;
                         _hud.CutIn(boss.Name + " · PHASE " + (e.PhaseIndex + 1), e.Line);
                         PlaySound("sfx_debuff");
                         if (!string.IsNullOrEmpty(e.Line))
@@ -477,7 +487,8 @@ namespace Abyss.Runtime.Battle
                             _ui.Dialog.Close();
                         }
                         else yield return Wait(1.1f);
-                        yield return Wait(Mathf.Max(0, boss.Model.Anim.Length("Cast") - (Time.time - phaseStarted)));
+                        // Both sides in battle time: the take plays at battle speed, so real seconds would over- or under-wait.
+                        yield return Wait(Mathf.Max(0, boss.Model.Anim.Length("Cast") - (_clock - phaseStarted)));
                         _hud.HideCutIn(); Establishing(false);
                     }
                     break;
@@ -500,11 +511,15 @@ namespace Abyss.Runtime.Battle
                             if (fleeing.Side != BattleSide.Party || !fleeing.Alive) continue;
                             // A teammate still jogging home must not turn back to the foe over the retreat.
                             CancelReturn(fleeing);
-                            fleeing.Model.transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0); fleeing.Model.Play("Run");
+                            fleeing.Model.transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0);
+                            SetRunRate(fleeing, FleeSpeed); fleeing.Model.Play("Run");
                         }
                     }
                     else if (_action != null && Find(_action.ActorId, out var stayer) && stayer.Alive)
+                    {
                         stayer.Model.Play("Idle", ClipAnimator.ReturnFade);   // the flee attempt's looping Run settles back to the stance
+                        StartCoroutine(Face(stayer, stayer.Facing));          // and the hero turns back to the foe
+                    }
                     yield return Wait(.5f); break;
                 case EnemyIntentPlannedEvent e:
                     if (Find(e.EnemyUnitId, out var planner)) { planner.Plan(e.Intent); _hud.Sync(planner); }
@@ -594,7 +609,8 @@ namespace Abyss.Runtime.Battle
                     GearDisplay.AttachWeapon(_app.DB, unit.Model, socket, spec.WeaponId);
                 }
             }
-            if (!unit.Alive) unit.Model.Play("Die");
+            PrepareGuard(unit);
+            if (!unit.Alive) { if (snapshot.Side == BattleSide.Party) LayFallen(unit); else unit.Model.Play("Die"); }
             RememberScale(unit);
             _units.Add(unit.Id, unit); _hud.AddUnit(unit); Sync(unit);
             return unit;
@@ -689,16 +705,17 @@ namespace Abyss.Runtime.Battle
             if (e.Kind == ActionKind.Guard)
             {
                 actor.Guarding = true; Sync(actor);
-                if (actor.Side == BattleSide.Party)
-                {
-                    string guard = GuardTake(actor);
-                    actor.Model.Anim.PlayOnce(guard, "Idle", .18f);
-                    _actionLength = actor.Model.Anim.Length(guard);
-                }
+                if (actor.Side == BattleSide.Party) HoldGuard(actor);
                 Popup(actor.Id, "방어", new Color(.55f, .8f, 1)); PlaySound("sfx_guard");
                 yield return Wait(.3f); yield break;
             }
-            if (e.Kind == ActionKind.Flee) { actor.Model.Play("Run"); yield return Wait(.2f); yield break; }
+            if (e.Kind == ActionKind.Flee)
+            {
+                // Turn away from the foe into the run (never a backwards jog facing it).
+                SetRunRate(actor, FleeSpeed); actor.Model.Play("Run");
+                yield return Face(actor, actor.Facing * Quaternion.Euler(0, 180, 0));
+                yield return Wait(.08f); yield break;
+            }
             bool cast = e.Kind == ActionKind.Item || e.Kind == ActionKind.Summon ||
                 (_presentation != null && _presentation.ActorAction == "cast");
             // Physical skills use the hero's signature technique (leap smash, power shot, staff slam) instead of the basic swing.
@@ -736,6 +753,10 @@ namespace Abyss.Runtime.Battle
                 var move = run && actor.Side == BattleSide.Enemy ? EnemyMoveFor(e, actor) : EnemyMove.Dash;
                 var flourish = run && actor.Side == BattleSide.Party && !ultimateTake && _plan != null ? _plan.Flourish : HeroFlourish.None;
                 bool styled = move != EnemyMove.Dash || flourish == HeroFlourish.Leap || flourish == HeroFlourish.Dash;
+                // The run eases to a stop over its last `settle` seconds while the strike winds up, so the blow lands just after the
+                // feet plant: no constant-speed slide in the strike pose and no standing pause before the blade arrives.
+                float runTime = ApproachTime(actor, travel);
+                float settle = StrikeSettle(actor, ultimateTake ? null : clip, runTime);
                 if (styled)
                 {
                     if (direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
@@ -745,17 +766,16 @@ namespace Abyss.Runtime.Battle
                     swung = true; run = false;
                 }
                 // The run starts blending in while the body turns toward the foe (no standing pivot, no pop into the sprint).
-                if (run) { SetRunRate(actor, travel / ApproachTime(actor, travel)); actor.Model.Anim.Play("Run", RunFade, false); }
+                if (run) { SetRunRate(actor, travel / (runTime - settle * .5f)); actor.Model.Anim.Play("Run", RunFade, false); }
                 if (!styled && direction.sqrMagnitude > .01f) yield return Face(actor, Quaternion.LookRotation(direction));
                 if (run)
                 {
-                    float time = ApproachTime(actor, travel), lead = Mathf.Min(.2f, time * .3f);
-                    StartCoroutine(Move(actor, destination, time, PounceArc(actor, travel), true));
-                    yield return Wait(time - lead);
-                    // The wind-up overlaps the last strides so the blade lands as the feet plant.
+                    StartCoroutine(ApproachRun(actor, destination, runTime, settle, PounceArc(actor, travel)));
+                    yield return Wait(runTime - settle);
+                    // The wind-up plays over the deceleration so the blade lands as the feet plant.
                     if (ultimateTake) Resume(actor, "Ultimate", UltimateResume); else Swing(actor, clip, cast);
                     swung = true;
-                    yield return Wait(lead);
+                    yield return Wait(settle);
                 }
             }
             if (!swung && target != null && actor.Id != target.Id)
@@ -917,16 +937,30 @@ namespace Abyss.Runtime.Battle
         /// <summary>Strike point of a take: the per-class value when the model ships its own take, else the shared default.</summary>
         static float Contact(CharacterModel model, string clip) => model.ContactFraction(clip, DefaultContact(clip));
 
-        // Locomotion: the hero Run take covers about RunStrideSpeed m/s of ground at 1x (measured in Unity on the 1.3 m hero scale: stance-foot speed 2.9-3.3 m/s); the
+        // Locomotion: the hero Run take covers about ArtLibrary.StrideSpeed m/s of ground at 1x (measured in Unity on the 1.3 m hero scale: stance-foot speed 2.9-3.3 m/s); the
         // approach and the return trip move at ApproachSpeed and play Run at the matching rate, so the feet do not skate.
         const float HeroHitRate = 1.6f;
-        const float RunStrideSpeed = 3.1f, ApproachSpeed = 5.5f, RunFade = .15f;
+        // (ArtLibrary.StrideSpeed: the Blender-rig hunters' own Run strides further.)
+        const float ApproachSpeed = 5.5f, RunFade = .15f;
+        /// <summary>Hero strike lands this long after the feet plant; the wind-up may overlap at most this much of the run.</summary>
+        const float StrikeAfterPlant = .05f, MaxStrikeSettle = .35f, FleeSpeed = 4f;
+        /// <summary>
+        /// Seconds of deceleration at the end of an approach run, during which the strike winds up. A hero's lead follows its take's
+        /// contact (bounded so the slide stays short); enemies keep the short overlap their pounce arc was tuned for.
+        /// </summary>
+        float StrikeSettle(BattleDisplayUnit unit, string clip, float runTime)
+        {
+            float lead = Mathf.Min(.2f, runTime * .3f);
+            if (unit.Side != BattleSide.Party) return lead;
+            float contact = clip != null ? ContactSeconds(unit, clip) : unit.Model.Anim.Length("Ultimate") * (DefaultContact("Ultimate") - UltimateResume);
+            return Mathf.Clamp(contact - StrikeAfterPlant, lead, Mathf.Max(lead, Mathf.Min(MaxStrikeSettle, runTime * .6f)));
+        }
         static float ApproachTime(BattleDisplayUnit unit, float distance) =>
             unit.Side == BattleSide.Party ? Mathf.Max(.25f, distance / ApproachSpeed) : MovementTime(distance);
         static void SetRunRate(BattleDisplayUnit unit, float groundSpeed)
         {
             if (!(unit.Model.Anim is ClipAnimator clips)) return;
-            if (unit.Side == BattleSide.Party) clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / RunStrideSpeed, .6f, 3f));
+            if (unit.Side == BattleSide.Party) clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / ArtLibrary.StrideSpeed(unit.Model, "Run"), .6f, 3f));
             else clips.SetClipRate("Run", Mathf.Clamp(groundSpeed / EnemyStrideSpeed, 1f, EnemyRunRateMax));
         }
         // Enemies cross the arena in MovementTime (0.22-0.36 s, 10-16 m/s), several times faster than any stride their Run take
@@ -1211,7 +1245,8 @@ namespace Abyss.Runtime.Battle
                 _hitCounts.TryGetValue(e.TargetId, out int count); _hitCounts[e.TargetId] = count + 1;
                 _hitTotals.TryGetValue(e.TargetId, out int total); _hitTotals[e.TargetId] = total + e.Amount;
             }
-            if (target.Alive && e.Amount > 0) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
+            // A frozen body cannot flinch: a take started under Freeze would sit queued and play turns later when it thaws.
+            if (target.Alive && e.Amount > 0 && target.PostureRate > 0f && !GuardedHit(target)) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
             // A family blow keeps its own palette (venom green, spirit purple); everything else is tinted by the element.
             bool familyBlow = strike && _strikeImpact != null;
             Color tint = familyBlow ? Color.white : PresentationColor(e.Element);
@@ -1221,7 +1256,8 @@ namespace Abyss.Runtime.Battle
             // Recoil away from the attacker side; only from the home mark so it never fights a Move.
             if (!Reduced && e.Amount > 0 && target.Alive && (target.KnockTime > 0 || (target.Model.transform.position - target.Home).sqrMagnitude < .01f))
             {
-                float push = Mathf.Clamp((_presentation != null ? _presentation.Shake : .25f) * .32f, .05f, .26f) * (e.Critical ? 1.5f : 1);
+                float push = Mathf.Clamp((_presentation != null ? _presentation.Shake : .25f) * .32f, .05f, .26f) * (e.Critical ? 1.5f : 1)
+                    * (target.Guarding && target.Side == BattleSide.Party ? GuardKnockScale : 1f);   // a braced hero gives less ground
                 bool knocked = target.KnockTime > 0;
                 float k = knocked ? KnockCurve(KnockLength - target.KnockTime) : 0;
                 target.KnockAmount = Mathf.Max(knocked ? target.KnockAmount : 0, push * (target.Boss ? .35f : 1));
@@ -1289,8 +1325,6 @@ namespace Abyss.Runtime.Battle
             _dying++;
             var model = unit.Model; var t = model.transform;
             bool boss = unit.Boss, reduced = Reduced;
-            float collapse = boss ? BossDeathCollapse : DeathCollapse;
-            float dissolveAt = reduced ? 0 : boss ? BossDeathDissolveAt : DeathDissolveAt;
             float dissolve = reduced ? ReducedDeathDissolve : boss ? BossDeathDissolve : DeathDissolve;
             float length = model.Anim.Length("Die");
             // Take kinds: short authored deaths (<= 2 s) play as they are; Tripo `defeat_02` (>= 6 s) never falls, so its
@@ -1299,8 +1333,11 @@ namespace Abyss.Runtime.Battle
             bool standingDefeat = length >= ArtLibrary.DefeatTakeMinLength;
             bool fallingTake = length > StaticDieTake && !standingDefeat;
             bool held = standingDefeat;
+            float span = fallingTake ? length * (1f - FallTakeStart) : length;   // what is left of the take to play
+            float collapse = boss ? Mathf.Clamp(span, BossDeathCollapse, BossDeathCollapseMax) : Mathf.Clamp(span, DeathCollapse, DeathCollapseMax);
+            float dissolveAt = reduced ? 0 : Mathf.Max(boss ? BossDeathDissolveAt : DeathDissolveAt, collapse + DeathLand);
             // Zero also survives LateUpdate / hit-stop speed restoration; revive restores DeathRate to one.
-            unit.DeathRate = reduced ? 0f : Mathf.Clamp(length / collapse, 1f, DeathRateMax);
+            unit.DeathRate = reduced ? 0f : Mathf.Clamp(span / collapse, 1f, DeathRateMax);
             unit.KnockTime = 0;
             if (reduced) model.Anim.SetSpeed(0);   // hold the visible pose: even the first Die keys contain motion
             else if (fallingTake && model.Anim is ClipAnimator dieClips) dieClips.PlayFrom("Die", FallTakeStart, .075f, null);
@@ -1357,7 +1394,8 @@ namespace Abyss.Runtime.Battle
                 if (!unit.Alive) continue;
                 Vector3 from = unit.Home + unit.Facing * Vector3.back * (unit.Side == BattleSide.Party ? 3.4f : 4.6f);
                 unit.Model.transform.position = from;
-                SetRunRate(unit, (unit.Side == BattleSide.Party ? 3.4f : 4.6f) / .8f); unit.Model.Play("Run");
+                // Steady stride, then a short settle onto the mark (the Run rate matches the steady stretch).
+                SetRunRate(unit, (unit.Side == BattleSide.Party ? 3.4f : 4.6f) / (IntroRun - IntroSettle * .5f)); unit.Model.Play("Run");
                 movers.Add((unit, from));
             }
             // Low enemy-side angle, then one eased sweep into the establishing shot while both sides run onto their marks.
@@ -1371,14 +1409,18 @@ namespace Abyss.Runtime.Battle
             _hud.Announce(foe ? "F.O.E" : "ENCOUNTER", string.Join(" · ", names) + (foe ? " 출현!" : " 이(가) 나타났다!"),
                 foe ? UITheme.Danger : UITheme.Dawn, .8f);
             AudioManager.Instance.PlaySfx("sfx_encounter"); AudioManager.Instance.PlaySfx("sfx_wind", .55f, 1.2f);
-            float elapsed = 0f, length = .8f;
-            while (elapsed < length)
+            float elapsed = 0f;
+            bool settling = false;
+            while (elapsed < IntroRun)
             {
                 if (!_app.Paused)
                 {
                     elapsed += Dt;
-                    float k = 1f - Mathf.Pow(1f - Mathf.Clamp01(elapsed / length), 3f);
+                    float k = SettleCurve(elapsed, IntroRun, IntroSettle);
                     foreach (var (unit, from) in movers) unit.Model.transform.position = Vector3.Lerp(from, unit.Home, k);
+                    // The legs blend out of the run while the body slows, instead of running on the spot after it stopped.
+                    if (!settling && elapsed >= IntroRun - IntroSettle)
+                    { settling = true; foreach (var (unit, _) in movers) unit.Model.Play("Idle", IntroSettle); }
                 }
                 yield return null;
             }
@@ -1441,6 +1483,7 @@ namespace Abyss.Runtime.Battle
             foreach (var unit in _units.Values)
             {
                 unit.KnockTime = 0;
+                if (!unit.Alive && unit.Side == BattleSide.Party) { LayFallen(unit); continue; }   // a fallen hero stays down
                 unit.Model.transform.SetPositionAndRotation(unit.Home, unit.Facing);
                 if (unit.Alive && unit.Model.Anim.HasClip("Idle")) unit.Model.Anim.Play("Idle", .1f, false);
             }
@@ -1477,7 +1520,10 @@ namespace Abyss.Runtime.Battle
             if (!Reduced && !fast) StageOutcome(outcome.Result); else Establishing(false);
             foreach (var unit in _units.Values)
                 if (unit.Side == BattleSide.Party && unit.Alive)
+                {
+                    unit.PostureRate = 1f;   // the battle is over: nobody stays frozen or dazed through the victory pose
                     unit.Model.Play(outcome.Result == BattleResult.Victory ? "Victory" : outcome.Result == BattleResult.Fled ? "Run" : "Idle");
+                }
             if (outcome.Result != BattleResult.Fled)
                 AudioManager.Instance.PlayJingle(outcome.Result == BattleResult.Victory ? "jingle_victory" : "jingle_defeat");
             if (outcome.Result == BattleResult.Fled)
@@ -1490,7 +1536,7 @@ namespace Abyss.Runtime.Battle
                         elapsed += Dt;
                         foreach (var unit in _units.Values)
                             if (unit.Side == BattleSide.Party && unit.Alive)
-                                unit.Model.transform.position += transform.TransformDirection(Vector3.back) * (Dt * 4);
+                                unit.Model.transform.position += transform.TransformDirection(Vector3.back) * (Dt * FleeSpeed);
                     }
                     yield return null;
                 }
@@ -1535,7 +1581,7 @@ namespace Abyss.Runtime.Battle
             }
         }
 
-        void Sync(BattleDisplayUnit unit) { _hud.Sync(unit); UpdateAuras(unit); }
+        void Sync(BattleDisplayUnit unit) { _hud.Sync(unit); UpdateAuras(unit); unit.PostureRate = Posture(unit); }
         void UpdateAuras(BattleDisplayUnit unit)
         {
             if (!_auras.TryGetValue(unit.Id, out var handles))
@@ -1652,10 +1698,11 @@ namespace Abyss.Runtime.Battle
         void LateUpdate()
         {
             if (!_initialized || _restored || _camera == null) return;
-            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed * unit.DeathRate);
+            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused || _hitstop ? 0 : Speed * unit.DeathRate * BodyRate(unit));
             // Hit-stop freezes the units and drags effect playback to a crawl (never in reduced mode, where HitStop is skipped).
             if (_vfx != null) _vfx.TimeScale = _app.Paused ? 0 : _hitstop && !Reduced ? Speed * HitStopVfxRate : Speed;
             if (_app.Paused) return;
+            if (!_hitstop) _clock += Dt;
             if (!_hitstop && _actionLength > 0) _actionElapsed += Dt;
             if (Reduced)
             {
@@ -1698,7 +1745,7 @@ namespace Abyss.Runtime.Battle
             foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(0);
             yield return Wait(seconds);
             _hitstop = false;
-            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused ? 0 : Speed * unit.DeathRate);
+            foreach (var unit in _units.Values) unit.Model.Anim.SetSpeed(_app.Paused ? 0 : Speed * unit.DeathRate * BodyRate(unit));
         }
         IEnumerator Face(BattleDisplayUnit unit, Quaternion facing)
         {

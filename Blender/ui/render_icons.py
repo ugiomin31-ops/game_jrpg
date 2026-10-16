@@ -11,6 +11,7 @@ multiplies that model's vertex colours (sRGB), matching the runtime _BaseColor m
 """
 import json
 import math
+import re
 from pathlib import Path
 import sys
 
@@ -28,6 +29,15 @@ import spec  # noqa: E402 (hunter roster: Tools/content/spec.py HUNTERS)
 HUNTER_IDS = {h['id'] for h in spec.HUNTERS}
 
 STAGE = None   # --output-root (see the module docstring)
+# Base job models (warrior, mage, cleric, archer) no game code loads: kept outside Resources as job-portrait sources only.
+CLASS_MODELS = ROOT / 'ArtSource/hunters/_class_models'
+
+
+def hero_source(ident):
+    """A hero's or job's portrait source: its Resources model, else a kept base job model."""
+    own = ART / f'Characters/{ident}/{ident}.fbx'
+    kept = CLASS_MODELS / ident / f'{ident}.fbx'
+    return kept if not own.is_file() and kept.is_file() else own
 
 
 def art_file(rel):
@@ -50,7 +60,7 @@ def repo_rel(path):
 ELEMENTS = ('slash', 'blunt', 'pierce', 'fire', 'ice', 'thunder', 'dark', 'holy')
 PORTRAIT_EXPOSURE = .55
 COMMANDS = ('attack', 'skill', 'ultimate', 'item', 'guard', 'flee', 'auto', 'gold', 'key', 'map', 'party', 'camp')
-NPCS = ('innkeeper', 'shopkeeper', 'smith', 'guild_clerk', 'elder', 'villager_a', 'villager_b', 'villager_c')
+NPCS = ('innkeeper', 'shopkeeper', 'smith', 'guild_clerk', 'elder')
 
 
 def data_rows(name):
@@ -84,9 +94,9 @@ def catalog():
         for row in data_rows(table):
             model, tint = variant(row, family)
             rows.append((family, row['id'], ART / source(row, model), tint))
-    heroes = data_ids('heroes')
-    # Promoted job outfits (jobs.json rows that are not a base hero) get portraits framed like the heroes.
-    add('Heroes', heroes + [j for j in data_ids('jobs') if j not in heroes], lambda i: f'Characters/{i}/{i}.fbx')
+    # Hunters, then the base jobs as UIArtwork.Hero's last fallback. Promoted jobs have no outfit models since the
+    # hunters keep their own look through job changes (e972c8d), so they get no portraits.
+    rows += [('Heroes', i, hero_source(i), None) for i in hero_ids()]
     add('NPCs', NPCS, lambda i: f'NPCs/{i}/{i}.fbx')
     add_rows('Enemies', 'enemies', lambda row, m: f'Enemies/{m}/{m}.fbx')
     add_rows('Gear', 'equipment', lambda row, m: f'Weapons/{m}.fbx' if row.get('slot') == 'weapon' else f'Props/Equipment/{m}.fbx')
@@ -97,32 +107,90 @@ def catalog():
     return rows
 
 
+def hero_ids():
+    heroes = data_ids('heroes')
+    return heroes + [row['id'] for row in data_rows('jobs') if not row.get('parent') and row['id'] not in heroes]
+
+
 def expected_coverage():
     """Sprite count per family, computed from the data tables (no hard-coded totals)."""
-    return {'Heroes': len(set(data_ids('heroes')) | set(data_ids('jobs'))), 'NPCs': len(NPCS), 'Enemies': len(data_ids('enemies')),
+    return {'Heroes': len(set(hero_ids())), 'NPCs': len(NPCS), 'Enemies': len(data_ids('enemies')),
             'Gear': len(data_ids('equipment')), 'Items': len(data_ids('items')), 'Status': len(data_ids('statuses')),
             'Elements': len(ELEMENTS), 'UI': len(COMMANDS)}
 
 
+_TEXTURE_BY_GUID = {}
+
+
+def shared_texture(source, name):
+    """A texture the FBX names but its <id>_tex no longer holds (one copy shared by several models, see
+    Tools/content/dedupe_textures.py): follow the model's own <id>_mat/<name>.mat to the PNG its _BaseMap points at."""
+    mat = source.parent / f'{source.stem}_mat' / f'{name}.mat'
+    if not mat.is_file():
+        return None
+    text = mat.read_text(encoding='utf-8')
+    block = text.partition('_BaseMap:')[2]
+    found = re.search(r'guid: ([0-9a-f]{32})', block)
+    if found is None:
+        return None
+    if not _TEXTURE_BY_GUID:
+        for meta in ART.rglob('*.png.meta'):
+            hit = re.search(r'^guid: ([0-9a-f]{32})', meta.read_text(encoding='utf-8'), re.M)
+            if hit:
+                _TEXTURE_BY_GUID[hit.group(1)] = meta.with_suffix('')
+    return _TEXTURE_BY_GUID.get(found.group(1))
+
+
+def relink_shared_textures(source):
+    for image in bpy.data.images:
+        if image.source != 'FILE' or Path(bpy.path.abspath(image.filepath)).is_file():
+            continue
+        path = shared_texture(source, Path(bpy.path.abspath(image.filepath)).stem)
+        if path is not None:
+            image.filepath = str(path)
+            image.reload()
+
+
+def has_image(mat):
+    return mat is not None and mat.use_nodes and any(n.type == 'TEX_IMAGE' and n.image for n in mat.node_tree.nodes)
+
+
+def texture_only(obj):
+    """Tripo installs without the Col conversion: every material shows its baked base-colour PNG."""
+    return 'Col' not in obj.data.color_attributes and bool(obj.material_slots) and all(has_image(s.material) for s in obj.material_slots)
+
+
 def apply_tint(meshes, tint):
-    """Multiply every mesh's Col (sRGB) by the variant tint; image-textured materials get the tint as their colour."""
+    """Multiply every mesh's Col (sRGB) by the variant tint, matching the runtime _BaseColor multiply. Image-textured
+    materials (Tripo installs) render their texture, so the multiply also goes on their (in-memory) images."""
+    images = set()
     for obj in meshes:
+        images.update(n.image for s in obj.material_slots if has_image(s.material)
+                      for n in s.material.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image)
+        if texture_only(obj):
+            continue
         col = obj.data.color_attributes['Col']
         for item in col.data:
             c = item.color_srgb
             item.color_srgb = (c[0] * tint[0], c[1] * tint[1], c[2] * tint[2], c[3] * tint[3])
+    for image in images:
+        # 8-bit PNG pixels read back sRGB-encoded, so the multiply matches the Col (color_srgb) path above.
+        data = np.empty(len(image.pixels), dtype=np.float32)
+        image.pixels.foreach_get(data)
+        data = (data.reshape(-1, 4) * np.array(tint, dtype=np.float32)).ravel()
+        image.pixels.foreach_set(data)
 
 
 def textured_shading(meshes):
     """Textured anime heroes (lib_humanoid/textured.py): image materials show their PNG; the procedural parts
     (M_Toon/M_Emit/M_Clear, coloured by Col) get their average Col as the flat material colour Workbench uses
     for materials without an image. Returns False for ordinary vertex-colour models."""
-    def has_image(mat):
-        return mat is not None and mat.use_nodes and any(n.type == 'TEX_IMAGE' and n.image for n in mat.node_tree.nodes)
     if not any(has_image(slot.material) for obj in meshes for slot in obj.material_slots):
         return False
     sums = {}
     for obj in meshes:
+        if texture_only(obj):
+            continue
         col = obj.data.color_attributes['Col']
         for poly in obj.data.polygons:
             mat = obj.material_slots[poly.material_index].material if poly.material_index < len(obj.material_slots) else None
@@ -191,6 +259,7 @@ def render(family, ident, source, tint=None):
     # Reset all scene and data blocks per asset; animation takes are not loaded.
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.fbx(filepath=str(source), use_anim=False, use_custom_normals=True)
+    relink_shared_textures(source)
     scene = bpy.context.scene
     scene.frame_set(0)
     for obj in scene.objects:
@@ -198,8 +267,8 @@ def render(family, ident, source, tint=None):
             obj.data.pose_position = 'REST'
     bpy.context.view_layer.update()
     meshes = [obj for obj in scene.objects if obj.type == 'MESH' and not obj.hide_render]
-    if not meshes or any('Col' not in obj.data.color_attributes for obj in meshes):
-        raise ValueError(f'{source}: missing production mesh or Col colors')
+    if not meshes or any('Col' not in obj.data.color_attributes and not texture_only(obj) for obj in meshes):
+        raise ValueError(f'{source}: missing production mesh or Col colors (or a base-colour texture)')
     if tint is not None:
         apply_tint(meshes, tint)
     deps = bpy.context.evaluated_depsgraph_get()
@@ -288,7 +357,7 @@ def render(family, ident, source, tint=None):
     if cel:
         cel_portrait(scene, output)
     texture_meta(output, sprite=True)
-    record = dict(id=ident, family=family, source=repo_rel(source), **({'tint': tint} if tint is not None else {}), output=repo_rel(output), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
+    record = dict(id=ident, family=family, source=repo_rel(source), **({'tint': tint} if tint is not None else {}), output=repo_rel(output), framing='front head and shoulders' if portrait else 'complete silhouette', vertex_colors='Col' if all('Col' in obj.data.color_attributes for obj in meshes) else 'texture', dimensions=[512, 512], transparent=True, camera=dict(type='ORTHO', position=list(camera.location), rotation=list(camera.rotation_euler), ortho_scale=camera_data.ortho_scale))
     print('ARTWORK_RENDERED ' + family + '/' + ident, flush=True)
     return record
 

@@ -111,6 +111,8 @@ After the switch: new animations need a rigged humanoid on the new account (uplo
 User switched the Tripo login after the first account reached 20 credits. Starting balance on the new account: 3700.
 - shopkeeper | bc94a7b1-e6ab-4ac7-9ec6-376808870742 | H3.1 Best Quality, Geometry & Texture, 55 credits (3700 -> 3645) | 2026-10-12
 - smith | 0e837bd1-d9f8-467a-aa89-39cf6ef3df5c | H3.1 Best Quality, Geometry & Texture, 55 credits (3645 -> 3590) | 2026-10-12
+- shopkeeper / smith / guild_clerk: see the three rows above and in each candidates/prompts.md (guild_clerk task 2dd8ce6f-b837-4928-bd19-b8e6021fa016, H3.1 Best Quality, Geometry & Texture, 55 credits, 3590 -> 3535, picked v2_C per user choice) (moved here from the repo-root `_tripo_ledger.md`, 2026-10-15)
+- innkeeper | NO TASK | skipped, candidate_C.png shows a nurse, not an innkeeper; 0 credits spent (moved here from the repo-root `_tripo_ledger.md`, 2026-10-15)
 - B2-NPC-TRIPO summary (2026-10-12, second account): shopkeeper bc94a7b1 | smith 0e837bd1 | guild_clerk 2dd8ce6f. Each: generate 55 + retopo 35 + auto rig 20 = 110 credits. Total spent 330 (3700 -> 3370). innkeeper: no task, 0 credits.
 - innkeeper | ec06041d-7846-43c7-a10d-ecd11321aeb3 | H3.1 Best Quality, Geometry & Texture 55 + retopo Triangle 15000 35 + Humanoid Mixamo auto rig 20 = 110 credits (3370 -> 3260) | 2026-10-12 | 13811 faces after retopo | export ArtSource/npcs/innkeeper/tripo/tripo_convert_02a1af5a-253a-4994-b849-c1b40f18d679.fbx | Blender posing check OPEN
 
@@ -447,7 +449,7 @@ Deviations from the spec, for review:
 ### INSTALL-MOTIONS-OBJECTS-20261014 (Claude Opus, headless Blender + Unity, no credits)
 - Monster motion exports moved (bytes unchanged) from `ArtSource/enemies/<task-id>/tripo_motion_20261014/` to `ArtSource/enemies/<id>/tripo_motion_20261014/`; paths above updated.
 - Motions: per-clip verdicts, trims, contact values and install paths in `ArtSource/hunters/_anim_library/INSTALL.md` (section "MOTIONS-20261014 install"). Rejected paid clips (not re-paid): #6 Healing Gesture, #7 Magic Spell Cast, #8 Arm Snap Motion, #13 Head Hammer Motion, #18 Sword Fighter Stance; free greet_01 / wave_goodbye_01 not used as victories.
-- Backups of replaced installs: `ArtSource/_backup_20261014_motions/` (sprout, mushroom, pixie, forest_guardian FBX + meta, guardian 10-take build), `ArtSource/_backup_20261014_props/` (old procedural key_item FBX + meta).
+- Backups of replaced installs: the sprout, mushroom, pixie and forest_guardian FBX + meta and the old procedural key_item FBX + meta were removed from `ArtSource/_backup_20261014_*` on 2026-10-15 because the same bytes are in git history (`git show 7fede68:Assets/_Game/Resources/Art/Enemies/<id>/<id>.fbx`, `git show 7fede68^:Assets/_Game/Resources/Art/Props/Common/key_item.fbx`). The guardian 10-take build is not in history and stays at `ArtSource/_backup_20261014_motions/forest_guardian_10take/`.
 - Props (geometry/UV/basecolor unchanged; one rotation about Z, one uniform scale, pivot only):
   - gate_keycard -> `Art/Props/Common/key_item.fbx` (+ `key_item.tripo`, `key_item_tex/M_GateKeycard_Tripo.png` 2048), scale 0.760371, 0.56 x 0.31 x 0.76 m, pivot bottom centre, front Unity +Z. 3046 tris.
   - aid_kit -> `Vfx/Meshes/aid_kit.fbx` + `Vfx/Textures/mesh_aid_kit.png` (2048), turned 180 deg (VFX meshes show -Z to the camera), scale 0.800391, 0.80 m wide, white Col; layer of the new `first_aid` effect (h_yuna sig_yuna via presentation `pr_c_first_aid`). 6018 tris (VFX budget warning ~1000 accepted: no decimation rule).

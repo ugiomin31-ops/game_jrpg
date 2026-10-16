@@ -95,7 +95,8 @@ ZONE_VARIANTS = [
 # ZONE_VARIANTS rows that have their own imported model (Tripo Studio export cleaned by Blender/bosses/tripo_<id>.py
 # into Art/Enemies/<id>/<id>.fbx, textured): their "model" is their own id instead of the base model and their tint is
 # white (the texture carries the colours). The base model still supplies the archetype; the model is sized to replace it.
-OWN_MODEL_VARIANTS = ['subway_bat_lord', 'scrap_colossus', 'plague_lich', 'abyss_herald', 'festival_pumpkin_king']
+OWN_MODEL_VARIANTS = ['subway_bat_lord', 'scrap_colossus', 'plague_lich', 'abyss_herald', 'festival_pumpkin_king',
+                      'crystal_cave_lord']
 
 # Monster pools per zone (existing ids + ZONE_VARIANTS). The world builder re-levels every monster into its zone's
 # level range (normal = rank 0 random encounters, elite = FOE / mid-boss). A monster appears in one zone only,
