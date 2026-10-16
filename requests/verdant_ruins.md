@@ -23,7 +23,7 @@ Cost about 90 credits per piece, about 1350 total (2490 left at 23:02). STOP if 
 - [x] decor_1 — tripo-glb-drop 333df2e, 3073 tris, 80 cr (2490→2410)
 - [x] decor_2 — tripo-glb-drop b11af39, 3497 tris, 80 cr (2410→2330)
 - [x] decor_3 — tripo-glb-drop 2506d44, 3470 tris, 80 cr (2330→2250)
-- [ ] decor_4
+- [x] decor_4 — tripo-glb-drop 54422db, 3127 tris, 80 cr (2250→2170)
 - [ ] decor_5
 - [ ] decor_6
 - [ ] chest
