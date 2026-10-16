@@ -1,6 +1,6 @@
 # 요청: PR #9 숲 유적 Unity 생성 파일(.meta·재질) 올리기
 
-상태: **open**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
+상태: **in progress (unity session)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "Tripo 자산 모델링", PR #9 (https://github.com/ugiomin31-ops/game_jrpg/pull/9)
 이전 검사: `requests/unity_check_pr9.md` (임포트·빌드·4층 화면 통과)
 
