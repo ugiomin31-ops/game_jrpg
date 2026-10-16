@@ -4,6 +4,9 @@ From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 �
 
 > **RESUME (2026-10-16 03:50 UTC):** 10 of 15 are done and received, thank you. Please continue with the remaining 5: trap, warp, foe_marker, overlay_1, overlay_2, same steps and settings as below. The cloud thread is already installing the first 10.
 
+> **DONE (2026-10-16 17:55 KST, local PC):** all 15 pieces are on `tripo-glb-drop` under `ArtSource/terrain/verdant_ruins/<piece>/` (15 ZIPs verified with `git ls-tree -l origin/tripo-glb-drop`). Credits 2490 → 1290 (15 × 80 = 1200). Every FBX checked in Blender: 1 mesh, 3073–3753 tris, basecolor 2048 + metallic/normal/roughness 1024.
+> Notes: overlay_1 and overlay_2 — ChatGPT returned 2×2 contact sheets despite the prompt, so the pick was a cropped variant (overlay_1, 627 px) or a separate 1024 px image (overlay_2 G). Both results are a wall slab with vines/roots, not vines/roots alone; trim the back in Blender if a vine-only decal is needed. chest's lid is not a separate mesh.
+
 ## Per piece
 
 1. ChatGPT web (GPT-6, Extra High): send that piece's prompt below once, verbatim, to get 4 images.
