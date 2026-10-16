@@ -1,6 +1,6 @@
 # 요청: PR #12 수정 동굴 보스 전투 재확인 (아이콘 추가 후)
 
-상태: **open**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
+상태: **in progress (unity session)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "수정 동굴 4족 몬스터 웨이트 실패 원인 조사", PR #12
 이전 검사: `requests/unity_check_pr12.md` (임포트 통과, 전투에서 `Missing production UI sprite: Icons/Enemies/crystal_cave_lord`)
 
