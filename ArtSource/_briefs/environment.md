@@ -65,7 +65,7 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 | chest | (procedural) | A steel toolbox crate with yellow corner guards and a hazard-stripe band (lid separate). |
 | lore_stone | safety notice board | A safety notice board on a steel post with a yellow hazard header (no text). |
 | spring | coolant tap station | A blue coolant water tank on a steel stand with a pipe, a tap and a glowing gauge. |
-| torch | **DONE** (Tripo, `.tripo` marker) | An industrial dome cage lamp on a wall arm with a chain. |
+| torch | hanging cage lamp | An industrial dome cage lamp on a wall arm with a chain. |
 | trap | spiked hazard plate | A floor plate with a hazard-stripe border and rusted spikes. |
 | warp | gear pad | A large steel gear ring set in the floor with an orange glowing core. |
 | foe_marker | (procedural) | A hazard-stripe floor ring with violet rift cracks and a small floating gate crystal. |
