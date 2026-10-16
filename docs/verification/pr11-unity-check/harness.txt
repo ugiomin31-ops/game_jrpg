@@ -1,0 +1,451 @@
+[   0.00] scenario watch
+[   2.22] battle view started
+[   4.91] shot 001_battle_start.png
+[   4.92] ActionStart h_jiho(party_02_h_jiho) Skill sk_poison_arrow
+[   6.26] MpChangeEvent
+[   6.36] MissEvent
+[   6.58] ActionEndEvent
+[   6.89] TurnEndEvent
+[   6.95] TurnStartEvent
+[   7.04] CommandRequestedEvent
+[   7.54] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[  10.11] MpChangeEvent
+[  10.17] Damage h_seoa(party_01_h_seoa) -> elite_mushroom(enemy_00_elite_mushroom)
+[  10.39] shot 002_hit_0.05s.png
+[  10.63] shot 003_hit_0.30s.png
+[  10.70] TpChangeEvent
+[  10.79] ActionEndEvent
+[  11.01] TurnEndEvent
+[  11.11] TurnStartEvent
+[  11.26] IntentClearedEvent
+[  11.33] ActionStart elite_mushroom(enemy_00_elite_mushroom) Skill sk_toxic_cloud
+[  11.73] shot 004_act_0.25s.png
+[  12.10] shot 005_act_0.60s.png
+[  12.50] shot 006_act_1.00s.png
+[  12.98] shot 007_act_1.50s.png
+[  14.51] MpChangeEvent
+[  14.58] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[  14.84] shot 008_hit_0.05s.png
+[  14.85] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  15.04] shot 009_hit_0.30s.png
+[  15.15] shot 010_hit_0.05s.png
+[  15.29] shot 011_hit_0.30s.png
+[  15.30] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  15.42] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[  15.80] StatusAppliedEvent
+[  16.01] StatusAppliedEvent
+[  16.26] TpChangeEvent
+[  16.33] TpChangeEvent
+[  16.42] TpChangeEvent
+[  16.48] TpChangeEvent
+[  16.58] ActionEndEvent
+[  16.76] TurnEndEvent
+[  16.83] TurnStartEvent
+[  16.92] CommandRequestedEvent
+[  17.42] ActionStart h_yuna(party_03_h_yuna) Skill holy_light
+[  18.89] MpChangeEvent
+[  18.98] Damage h_yuna(party_03_h_yuna) -> elite_mushroom(enemy_00_elite_mushroom)
+[  19.36] TpChangeEvent
+[  19.45] ActionEndEvent
+[  19.76] TurnEndEvent
+[  19.83] TurnStartEvent
+[  19.92] CommandRequestedEvent
+[  20.42] ActionStart h_dohyun(party_00_h_dohyun) Skill strong_attack
+[  22.01] MpChangeEvent
+[  22.11] Damage h_dohyun(party_00_h_dohyun) -> elite_mushroom(enemy_00_elite_mushroom)
+[  22.45] TpChangeEvent
+[  22.51] ActionEndEvent
+[  22.98] TurnEndEvent
+[  23.05] RoundStartEvent
+[  23.23] EnemyIntentPlannedEvent
+[  23.33] TurnStartEvent
+[  23.39] CommandRequestedEvent
+[  23.92] ActionStart h_jiho(party_02_h_jiho) Skill sk_poison_arrow
+[  25.45] MpChangeEvent
+[  25.54] MissEvent
+[  25.70] ActionEndEvent
+[  25.93] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  26.30] TurnEndEvent
+[  26.39] TurnStartEvent
+[  26.45] CommandRequestedEvent
+[  26.95] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[  29.45] MpChangeEvent
+[  29.55] Damage h_seoa(party_01_h_seoa) -> elite_mushroom(enemy_00_elite_mushroom)
+[  29.89] TpChangeEvent
+[  29.95] ActionEndEvent
+[  30.14] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  30.51] TurnEndEvent
+[  30.58] TurnStartEvent
+[  30.70] IntentClearedEvent
+[  30.76] ActionStart elite_mushroom(enemy_00_elite_mushroom) Attack 
+[  31.14] shot 012_act_0.25s.png
+[  31.49] shot 013_act_0.60s.png
+[  31.91] shot 014_act_1.00s.png
+[  32.42] shot 015_act_1.50s.png
+[  32.55] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  32.86] TpChangeEvent
+[  32.92] ActionEndEvent
+[  33.42] TurnEndEvent
+[  33.51] TurnStartEvent
+[  33.58] CommandRequestedEvent
+[  34.11] ActionStart h_yuna(party_03_h_yuna) Skill sig_yuna
+[  35.79] MpChangeEvent
+[  35.90] HealEvent
+[  36.20] ActionEndEvent
+[  36.42] TurnEndEvent
+[  36.48] TurnStartEvent
+[  36.54] CommandRequestedEvent
+[  37.05] ActionStart h_dohyun(party_00_h_dohyun) Skill strong_attack
+[  38.73] MpChangeEvent
+[  38.83] Damage h_dohyun(party_00_h_dohyun) -> elite_mushroom(enemy_00_elite_mushroom)
+[  39.17] TpChangeEvent
+[  39.26] ActionEndEvent
+[  39.58] TurnEndEvent
+[  39.67] RoundStartEvent
+[  39.89] EnemyIntentPlannedEvent
+[  39.95] TurnStartEvent
+[  40.04] CommandRequestedEvent
+[  40.54] ActionStart h_jiho(party_02_h_jiho) Skill sk_poison_arrow
+[  42.04] MpChangeEvent
+[  42.14] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  42.48] StatusAppliedEvent
+[  42.70] TpChangeEvent
+[  42.76] ActionEndEvent
+[  43.08] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  43.51] TurnEndEvent
+[  43.61] TurnStartEvent
+[  43.67] CommandRequestedEvent
+[  44.20] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[  46.70] MpChangeEvent
+[  46.80] Damage h_seoa(party_01_h_seoa) -> elite_mushroom(enemy_00_elite_mushroom)
+[  47.17] TpChangeEvent
+[  47.26] ActionEndEvent
+[  47.45] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  47.83] TurnEndEvent
+[  47.89] TurnStartEvent
+[  47.98] IntentClearedEvent
+[  48.08] ActionStart elite_mushroom(enemy_00_elite_mushroom) Skill poison_spore
+[  48.49] shot 016_act_0.25s.png
+[  48.83] shot 017_act_0.60s.png
+[  49.24] shot 018_act_1.00s.png
+[  49.76] shot 019_act_1.50s.png
+[  51.20] MpChangeEvent
+[  51.26] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[  51.39] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  51.51] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  51.61] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[  51.89] StatusAppliedEvent
+[  52.14] StatusAppliedEvent
+[  52.36] TpChangeEvent
+[  52.42] TpChangeEvent
+[  52.51] TpChangeEvent
+[  52.58] TpChangeEvent
+[  52.67] ActionEndEvent
+[  52.86] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  53.23] TurnEndEvent
+[  53.30] TurnStartEvent
+[  53.39] CommandRequestedEvent
+[  53.92] ActionStart h_yuna(party_03_h_yuna) Skill holy_light
+[  55.33] MpChangeEvent
+[  55.42] Damage h_yuna(party_03_h_yuna) -> elite_mushroom(enemy_00_elite_mushroom)
+[  55.79] TpChangeEvent
+[  55.89] ActionEndEvent
+[  56.20] TurnEndEvent
+[  56.26] TurnStartEvent
+[  56.36] CommandRequestedEvent
+[  56.89] ActionStart h_dohyun(party_00_h_dohyun) Skill sig_dohyun
+[  59.86] MpChangeEvent
+[  59.95] Damage h_dohyun(party_00_h_dohyun) -> elite_mushroom(enemy_00_elite_mushroom)
+[  60.36] MissEvent
+[  60.64] TpChangeEvent
+[  60.70] ActionEndEvent
+[  61.21] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[  62.80] TurnEndEvent
+[  62.86] RoundStartEvent
+[  63.04] EnemyIntentPlannedEvent
+[  63.11] TurnStartEvent
+[  63.20] CommandRequestedEvent
+[  63.70] ActionStart h_jiho(party_02_h_jiho) Skill sig_jiho
+[  65.45] MpChangeEvent
+[  65.51] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  66.11] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  66.80] TpChangeEvent
+[  66.89] ActionEndEvent
+[  67.11] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  67.48] TurnEndEvent
+[  67.58] TurnStartEvent
+[  67.64] CommandRequestedEvent
+[  68.17] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[  70.67] MpChangeEvent
+[  70.76] Damage h_seoa(party_01_h_seoa) -> elite_mushroom(enemy_00_elite_mushroom)
+[  71.11] TpChangeEvent
+[  71.20] ActionEndEvent
+[  71.39] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  71.80] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  72.20] TurnEndEvent
+[  72.26] TurnStartEvent
+[  72.39] IntentClearedEvent
+[  72.45] ActionStart elite_mushroom(enemy_00_elite_mushroom) Summon mushroom
+[  72.77] shot 020_act_0.25s.png
+[  73.14] shot 021_act_0.60s.png
+[  73.53] shot 022_act_1.00s.png
+[  74.07] shot 023_act_1.50s.png
+[  75.02] MessageEvent
+[  75.11] SummonEvent
+[  75.86] ActionEndEvent
+[  76.01] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  76.42] TurnEndEvent
+[  76.52] TurnStartEvent
+[  76.58] CommandRequestedEvent
+[  77.08] ActionStart h_yuna(party_03_h_yuna) Skill sig_yuna
+[  78.73] MpChangeEvent
+[  78.83] HealEvent
+[  79.11] ActionEndEvent
+[  79.30] TurnEndEvent
+[  79.39] TurnStartEvent
+[  79.45] CommandRequestedEvent
+[  79.95] ActionStart h_dohyun(party_00_h_dohyun) Skill sig_dohyun
+[  82.92] MpChangeEvent
+[  82.98] Damage h_dohyun(party_00_h_dohyun) -> elite_mushroom(enemy_00_elite_mushroom)
+[  83.36] MissEvent
+[  83.58] TpChangeEvent
+[  83.64] ActionEndEvent
+[  84.14] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[  85.73] TurnEndEvent
+[  85.81] RoundStartEvent
+[  85.98] EnemyIntentPlannedEvent
+[  86.08] EnemyIntentPlannedEvent
+[  86.14] TurnStartEvent
+[  86.20] CommandRequestedEvent
+[  86.73] ActionStart h_jiho(party_02_h_jiho) Skill sig_jiho
+[  88.42] MpChangeEvent
+[  88.51] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  89.08] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[  89.76] TpChangeEvent
+[  89.86] ActionEndEvent
+[  90.05] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  90.48] StatusRemovedEvent
+[  90.58] TurnEndEvent
+[  90.64] TurnStartEvent
+[  90.70] CommandRequestedEvent
+[  91.23] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[  93.76] MpChangeEvent
+[  93.83] Damage h_seoa(party_01_h_seoa) -> elite_mushroom(enemy_00_elite_mushroom)
+[  94.17] TpChangeEvent
+[  94.26] ActionEndEvent
+[  94.45] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  94.83] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  95.26] StatusRemovedEvent
+[  95.36] TurnEndEvent
+[  95.42] TurnStartEvent
+[  95.51] IntentClearedEvent
+[  95.58] ActionStart elite_mushroom(enemy_00_elite_mushroom) Skill sk_toxic_cloud
+[  95.98] shot 024_act_0.25s.png
+[  96.34] shot 025_act_0.60s.png
+[  96.73] shot 026_act_1.00s.png
+[  97.25] shot 027_act_1.50s.png
+[  98.67] MpChangeEvent
+[  98.73] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[  98.86] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[  98.98] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[  99.08] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[  99.36] StatusAppliedEvent
+[  99.61] StatusAppliedEvent
+[  99.79] TpChangeEvent
+[  99.89] TpChangeEvent
+[  99.95] TpChangeEvent
+[ 100.04] TpChangeEvent
+[ 100.11] ActionEndEvent
+[ 100.30] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[ 100.67] StatusRemovedEvent
+[ 100.76] TurnEndEvent
+[ 100.83] TurnStartEvent
+[ 100.92] CommandRequestedEvent
+[ 101.45] ActionStart h_yuna(party_03_h_yuna) Skill sig_yuna
+[ 103.14] MpChangeEvent
+[ 103.20] HealEvent
+[ 103.51] ActionEndEvent
+[ 103.73] TurnEndEvent
+[ 103.80] TurnStartEvent
+[ 103.89] IntentClearedEvent
+[ 103.95] ActionStart mushroom(enemy_01_mushroom) Attack 
+[ 106.01] Damage mushroom(enemy_01_mushroom) -> h_seoa(party_01_h_seoa)
+[ 106.36] TpChangeEvent
+[ 106.45] ActionEndEvent
+[ 106.95] TurnEndEvent
+[ 107.05] TurnStartEvent
+[ 107.11] CommandRequestedEvent
+[ 107.67] ActionStart h_dohyun(party_00_h_dohyun) Skill strong_attack
+[ 109.26] MpChangeEvent
+[ 109.36] Damage h_dohyun(party_00_h_dohyun) -> elite_mushroom(enemy_00_elite_mushroom)
+[ 109.70] TpChangeEvent
+[ 109.80] ActionEndEvent
+[ 110.23] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 111.86] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 112.23] StatusRemovedEvent
+[ 112.33] TurnEndEvent
+[ 112.39] RoundStartEvent
+[ 112.58] EnemyIntentPlannedEvent
+[ 112.67] EnemyIntentPlannedEvent
+[ 112.73] TurnStartEvent
+[ 112.80] CommandRequestedEvent
+[ 113.33] ActionStart h_jiho(party_02_h_jiho) Skill sig_jiho
+[ 115.04] MpChangeEvent
+[ 115.11] Damage h_jiho(party_02_h_jiho) -> mushroom(enemy_01_mushroom)
+[ 115.76] Damage h_jiho(party_02_h_jiho) -> mushroom(enemy_01_mushroom)
+[ 116.48] TpChangeEvent
+[ 116.58] ActionEndEvent
+[ 116.77] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[ 117.14] TurnEndEvent
+[ 117.20] TurnStartEvent
+[ 117.30] CommandRequestedEvent
+[ 117.83] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[ 120.29] MpChangeEvent
+[ 120.36] Damage h_seoa(party_01_h_seoa) -> mushroom(enemy_01_mushroom)
+[ 120.67] ActionEndEvent
+[ 120.89] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[ 121.26] StatusRemovedEvent
+[ 121.36] TurnEndEvent
+[ 121.42] TurnStartEvent
+[ 121.51] IntentClearedEvent
+[ 121.58] ActionStart elite_mushroom(enemy_00_elite_mushroom) Skill poison_spore
+[ 121.98] shot 028_act_0.25s.png
+[ 122.34] shot 029_act_0.60s.png
+[ 122.75] shot 030_act_1.00s.png
+[ 123.22] shot 031_act_1.50s.png
+[ 124.64] MpChangeEvent
+[ 124.70] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 124.83] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[ 124.95] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[ 125.08] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[ 125.42] StatusAppliedEvent
+[ 125.64] StatusAppliedEvent
+[ 125.89] TpChangeEvent
+[ 125.95] TpChangeEvent
+[ 126.01] TpChangeEvent
+[ 126.11] ActionEndEvent
+[ 126.30] TurnEndEvent
+[ 126.36] TurnStartEvent
+[ 126.45] CommandRequestedEvent
+[ 126.98] ActionStart h_yuna(party_03_h_yuna) Skill sig_yuna
+[ 128.64] MpChangeEvent
+[ 128.70] HealEvent
+[ 129.01] ActionEndEvent
+[ 129.23] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[ 129.61] TurnEndEvent
+[ 129.67] TurnStartEvent
+[ 129.83] IntentClearedEvent
+[ 129.89] ActionStart mushroom(enemy_01_mushroom) Skill sk_e_spore_burst
+[ 130.83] Damage mushroom(enemy_01_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 130.92] Damage mushroom(enemy_01_mushroom) -> h_seoa(party_01_h_seoa)
+[ 131.04] Damage mushroom(enemy_01_mushroom) -> h_jiho(party_02_h_jiho)
+[ 131.14] Damage mushroom(enemy_01_mushroom) -> h_yuna(party_03_h_yuna)
+[ 131.42] TpChangeEvent
+[ 131.51] TpChangeEvent
+[ 131.58] TpChangeEvent
+[ 131.64] ActionEndEvent
+[ 131.80] TurnEndEvent
+[ 131.86] TurnStartEvent
+[ 131.92] CommandRequestedEvent
+[ 132.45] ActionStart h_dohyun(party_00_h_dohyun) Skill strong_attack
+[ 134.14] MpChangeEvent
+[ 134.20] Damage h_dohyun(party_00_h_dohyun) -> mushroom(enemy_01_mushroom)
+[ 134.55] ActionEndEvent
+[ 134.95] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 136.51] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 136.89] TurnEndEvent
+[ 136.98] RoundStartEvent
+[ 137.17] EnemyIntentPlannedEvent
+[ 137.23] EnemyIntentPlannedEvent
+[ 137.33] TurnStartEvent
+[ 137.39] CommandRequestedEvent
+[ 137.92] ActionStart h_jiho(party_02_h_jiho) Skill sig_jiho
+[ 139.64] MpChangeEvent
+[ 139.70] Damage h_jiho(party_02_h_jiho) -> mushroom(enemy_01_mushroom)
+[ 140.39] MissEvent
+[ 140.89] TpChangeEvent
+[ 140.98] ActionEndEvent
+[ 141.17] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[ 141.58] TurnEndEvent
+[ 141.67] TurnStartEvent
+[ 141.73] CommandRequestedEvent
+[ 142.26] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[ 144.80] MpChangeEvent
+[ 144.86] Damage h_seoa(party_01_h_seoa) -> mushroom(enemy_01_mushroom)
+[ 145.17] ActionEndEvent
+[ 145.36] TurnEndEvent
+[ 145.42] TurnStartEvent
+[ 145.51] IntentClearedEvent
+[ 145.58] ActionStart elite_mushroom(enemy_00_elite_mushroom) Skill poison_spore
+[ 145.98] shot 032_act_0.25s.png
+[ 146.35] shot 033_act_0.60s.png
+[ 146.75] shot 034_act_1.00s.png
+[ 147.23] shot 035_act_1.50s.png
+[ 148.61] MpChangeEvent
+[ 148.67] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 148.79] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_seoa(party_01_h_seoa)
+[ 148.92] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[ 149.05] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[ 149.39] StatusAppliedEvent
+[ 149.61] TpChangeEvent
+[ 149.70] ActionEndEvent
+[ 149.89] TurnEndEvent
+[ 149.98] TurnStartEvent
+[ 150.04] CommandRequestedEvent
+[ 150.58] ActionStart h_yuna(party_03_h_yuna) Skill sig_yuna
+[ 152.23] MpChangeEvent
+[ 152.33] HealEvent
+[ 152.61] ActionEndEvent
+[ 152.80] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_yuna(party_03_h_yuna)
+[ 153.17] TurnEndEvent
+[ 153.23] TurnStartEvent
+[ 153.33] IntentClearedEvent
+[ 153.39] ActionStart mushroom(enemy_01_mushroom) Skill poison_spore
+[ 154.51] MpChangeEvent
+[ 154.58] Damage mushroom(enemy_01_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 154.70] Damage mushroom(enemy_01_mushroom) -> h_seoa(party_01_h_seoa)
+[ 154.80] Damage mushroom(enemy_01_mushroom) -> h_jiho(party_02_h_jiho)
+[ 154.92] Damage mushroom(enemy_01_mushroom) -> h_yuna(party_03_h_yuna)
+[ 155.27] StatusAppliedEvent
+[ 155.48] StatusAppliedEvent
+[ 155.70] TpChangeEvent
+[ 155.76] ActionEndEvent
+[ 155.92] TurnEndEvent
+[ 155.98] TurnStartEvent
+[ 156.08] CommandRequestedEvent
+[ 156.61] ActionStart h_dohyun(party_00_h_dohyun) Skill strong_attack
+[ 158.20] MpChangeEvent
+[ 158.26] Damage h_dohyun(party_00_h_dohyun) -> mushroom(enemy_01_mushroom)
+[ 158.61] ActionEndEvent
+[ 159.14] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 160.67] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_dohyun(party_00_h_dohyun)
+[ 161.08] TurnEndEvent
+[ 161.17] RoundStartEvent
+[ 161.36] EnemyIntentPlannedEvent
+[ 161.42] EnemyIntentPlannedEvent
+[ 161.51] TurnStartEvent
+[ 161.58] CommandRequestedEvent
+[ 162.11] ActionStart h_jiho(party_02_h_jiho) Attack 
+[ 163.64] Damage h_jiho(party_02_h_jiho) -> elite_mushroom(enemy_00_elite_mushroom)
+[ 163.86] IntentClearedEvent
+[ 163.96] UnitDown elite_mushroom(enemy_00_elite_mushroom)
+[ 164.01] ActionEndEvent
+[ 164.29] shot 036_down_0.20s.png
+[ 164.70] shot 037_down_0.60s.png
+[ 164.80] Damage elite_mushroom(enemy_00_elite_mushroom) -> h_jiho(party_02_h_jiho)
+[ 165.10] shot 038_down_1.00s.png
+[ 165.23] Damage mushroom(enemy_01_mushroom) -> h_jiho(party_02_h_jiho)
+[ 165.71] shot 039_down_1.60s.png
+[ 165.76] TurnEndEvent
+[ 165.86] TurnStartEvent
+[ 165.92] CommandRequestedEvent
+[ 166.51] shot 040_down_2.40s.png
+[ 166.58] ActionStart h_seoa(party_01_h_seoa) Skill sig_seoa
+[ 167.28] shot 041_down_3.20s.png
+[ 169.11] MpChangeEvent
+[ 169.17] Damage h_seoa(party_01_h_seoa) -> mushroom(enemy_01_mushroom)
+[ 169.45] ActionEndEvent
+[ 169.67] TurnEndEvent
+[ 169.73] TurnStartEvent
+[ 169.80] CommandRequestedEvent
+[ 170.05] done
