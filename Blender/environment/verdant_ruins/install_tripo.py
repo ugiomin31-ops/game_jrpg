@@ -39,7 +39,8 @@ PIECES = {
     # spawned 1.7 m from the cell centre toward a wall (0.3 m from its face), +Y toward the wall
     "torch": dict(fit=("h", 1.8), back_y=0.28, empties={"LightAnchor": "flame"}),
     "trap": dict(fit=("xy", 2.4), spikes=True, slab_top=0.14),
-    "warp": dict(fit=("xy", 3.0), empties={"Spot_warp": (0, 0, 0), "LightAnchor_warp": (0, 0, 0.8)}),
+    # walked through at eye height 1.35 m: stones kept under 1 m so the camera passes over them
+    "warp": dict(fit=("xy", 3.0), max_h=1.0, empties={"Spot_warp": (0, 0, 0), "LightAnchor_warp": (0, 0, 0.8)}),
     "foe_marker": dict(fit=("xy", 2.0), empties={"Spot_foe": (0, 0, 0)}),
     # wall decals: flat back on y = -2.0, hugging the -Y face of a wall block, up to 4.4 m tall
     "overlay_1": dict(overlay=True),
@@ -170,6 +171,11 @@ def install(piece, src, out_dir, log):
     else:
         s = fit_scale(bm, cfg["fit"])
     lo, hi = bounds(bm.verts)
+    if "max_h" in cfg and hi.z > cfg["max_h"]:
+        k = cfg["max_h"] / hi.z
+        bmesh.ops.scale(bm, vec=(1, 1, k), verts=bm.verts)
+        note.append(f"height squashed x{k:.2f} to {cfg['max_h']} m")
+        lo, hi = bounds(bm.verts)
     if "back_y" in cfg:
         bmesh.ops.translate(bm, vec=(0, cfg["back_y"] - hi.y, 0), verts=bm.verts)
         lo, hi = bounds(bm.verts)
