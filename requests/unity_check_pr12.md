@@ -1,6 +1,6 @@
 # 요청: PR #12 수정 동굴 보스(crystal_cave_lord) 새 모델을 Unity에서 확인
 
-상태: **open**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
+상태: **in progress (unity session)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "수정 동굴 4족 몬스터 웨이트 실패 원인 조사", PR #12 (https://github.com/ugiomin31-ops/game_jrpg/pull/12)
 
 수정 동굴 보스가 `crystal_horror` 색 변형 대신 자체 모델(`Assets/_Game/Resources/Art/Enemies/crystal_cave_lord/`)을 씁니다. Blender에서는 검증을 끝냈지만, 클라우드에서는 Unity를 실행할 수 없어서 실제 에디터 임포트 확인을 부탁드립니다. **파일을 고치거나 PR 브랜치에 커밋하지 말고 확인만** 해 주세요.

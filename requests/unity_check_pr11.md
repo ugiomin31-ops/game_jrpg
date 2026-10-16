@@ -1,6 +1,6 @@
 # 요청: PR #11 독왕 버섯(elite_mushroom) 모델·모션 7종을 Unity 전투에서 확인
 
-상태: **open**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
+상태: **in progress (unity session)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "독왕 버섯 설치", PR #11 (https://github.com/ugiomin31-ops/game_jrpg/pull/11)
 
 Tripo 독왕 버섯 모델과 모션 7종(Idle·Run·Attack·Cast·Hit·Die·Victory)을 한 FBX로 합쳐 게임에 넣었습니다. 클라우드에서는 Unity를 못 돌려서 실제 에디터·전투에서 확인을 부탁드립니다. 파일을 고치거나 PR 브랜치에 커밋하지는 말고 확인만 해 주세요.
