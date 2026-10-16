@@ -58,7 +58,8 @@ FACTORY = {
     "lore_stone": dict(fit=("h", 1.8)),
     "spring": dict(fit=("h", 1.6)),
     # wall lamp, like the old one: hung with its top at 3.3 m, back plate 0.3 m behind the spawn point (the wall face)
-    "torch": dict(fit=("h", 1.0), back_y=0.3, top_z=3.3, empties={"LightAnchor": "lamp"}),
+    # (Tripo put the wall plate on -X: turned -90 degrees so it faces +Y)
+    "torch": dict(rot_z=-90, fit=("h", 1.0), back_y=0.3, top_z=3.3, empties={"LightAnchor": "lamp"}),
     "trap": dict(fit=("xy", 2.4), spikes=True, slab_top=None),
     "warp": dict(fit=("xy", 3.0), max_h=0.5, empties={"LightAnchor_warp": (0, 0, 0.8)}),
     "foe_marker": dict(fit=("xy", 2.0), empties={"Spot_foe": (0, 0, 0)}),
@@ -186,6 +187,8 @@ def install(tileset, piece, src, out_dir, log):
     path = find_export(src, piece)
     bm = import_mesh(path)
     raw_tris = len(bm.faces)
+    if cfg.get("rot_z"):
+        bmesh.ops.rotate(bm, matrix=Matrix.Rotation(math.radians(cfg["rot_z"]), 3, "Z"), verts=bm.verts)
     mat = material(prefix, piece, out_dir, base_color(path))
     objs, note = [], []
     if cfg.get("overlay"):
