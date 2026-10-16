@@ -83,7 +83,9 @@
    "kept_frames": [
     1.0,
     134.0
-   ]
+   ],
+   "ground_lift": 0.18740912526845932,
+   "ground_frames": 122
   },
   {
    "name": "Victory",
@@ -100,6 +102,7 @@
    ]
   }
  ],
+ "floor": -0.027093790471553802,
  "reimport": {
   "objects": [
    "ARMATURE:Rig",
@@ -138,7 +141,7 @@
     291.0
    ]
   },
-  "fbx_sha256": "6bb71abff52043f13493133aaac1b17c4931824f97ecec77248a9e48d6658e25",
+  "fbx_sha256": "0af7898ad1788def9bd7f34a49068733b55f0a7e1841538b6ba3f8dc7bb737f2",
   "texture_sha256": "a4e1c8c0c0b9a45cc4f4695486d4b7096c23d0bd8368663bb575a831536b7c38"
  },
  "problems": []

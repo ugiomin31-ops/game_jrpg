@@ -1,11 +1,13 @@
 """Merge single-preset Tripo enemy exports into one game FBX with "Rig|<Take>" takes; no new animation authoring.
 
 Usage: blender --background --factory-startup --python-exit-code 1 --python Tools/merge_tripo_enemy_takes.py --
-           <enemy_id> <out_dir> Idle=idle.fbx Attack=box.fbx@0:53 Cast=cast.fbx ...
+           <enemy_id> <out_dir> Idle=idle.fbx Attack=box.fbx@0:53 Cast=cast.fbx Die=defeat.fbx+ground ...
 
 Each Name=path argument is one Tripo Studio export holding exactly one preset (FBX, skeleton on). An optional
-@first:last keeps only those Blender-imported frames (inclusive); without it the whole take is kept. The first
-argument also supplies the mesh, skin and material. Every source must carry the same bone set as the first one.
+@first:last keeps only those Blender-imported frames (inclusive); without it the whole take is kept. A trailing
++ground raises the root bone on any frame where the mesh would dip below the first take's first-frame floor (Tripo's
+fall presets sink the body into the ground while it lies down). The first argument also supplies the mesh, skin and
+material. Every source must carry the same bone set as the first one.
 
 Writes, without touching the raw sources:
   <out_dir>/<id>.fbx              armature "Rig", mesh "Body", material "<id>", one take per argument
@@ -24,9 +26,11 @@ import shutil
 import sys
 
 import bpy
+from mathutils import Vector
 
 MAX_TEXTURE = 2048  # AbyssArtImporter: Tripo textures import at most 2048
-TAKE = re.compile(r"^([A-Z][A-Za-z]*)=(.+?)(?:@(\d+):(\d+))?$")
+TAKE = re.compile(r"^([A-Z][A-Za-z]*)=(.+?)(?:@(\d+):(\d+))?(\+ground)?$")
+GROUND_TOLERANCE = 0.005  # metres of dip left alone (skin settling at the feet)
 
 
 def fail(code, message):
@@ -51,7 +55,7 @@ def parse(argv):
             fail(2, "missing file: " + path)
         if any(t["name"] == name for t in takes):
             fail(2, "duplicate take: " + name)
-        takes.append({"name": name, "path": os.path.abspath(path), "frames": frames})
+        takes.append({"name": name, "path": os.path.abspath(path), "frames": frames, "ground": bool(m.group(5))})
     if not any(t["name"] == "Idle" for t in takes):
         print("merge_tripo_enemy_takes: warning: no Idle take; the game refuses a model without one", file=sys.stderr)
     return enemy_id, os.path.abspath(out_dir), takes
@@ -101,6 +105,40 @@ def rescale_locations(action, ratio):
                 k.co.y *= ratio
                 k.handle_left.y *= ratio
                 k.handle_right.y *= ratio
+
+
+def lowest_z(body, frame):
+    bpy.context.scene.frame_set(frame)
+    evaluated = body.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    m = evaluated.matrix_world
+    return min((m @ v.co).z for v in evaluated.data.vertices)
+
+
+def use_action(rig, action):
+    rig.animation_data.action = action
+    if hasattr(rig.animation_data, "action_suitable_slots") and rig.animation_data.action_suitable_slots:
+        rig.animation_data.action_slot = rig.animation_data.action_suitable_slots[0]
+
+
+def ground_take(rig, body, action, floor):
+    """Lift the root bone by however far the mesh dips below floor on each frame; the root carries every deforming
+    bone, so this moves the whole body straight up and leaves the pose itself untouched. Returns the largest lift."""
+    roots = [b for b in rig.pose.bones if b.parent is None]
+    if len(roots) != 1:
+        fail(1, f"+ground needs one root bone, found {[b.name for b in roots]}")
+    root = roots[0]
+    use_action(rig, action)
+    to_local = (rig.matrix_world.to_3x3() @ root.bone.matrix_local.to_3x3()).inverted()
+    first, last = (round(f) for f in action.frame_range)
+    lifted = {}
+    for f in range(first, last + 1):
+        dip = floor - lowest_z(body, f)
+        if dip > GROUND_TOLERANCE:
+            lifted[f] = (root.location + to_local @ Vector((0.0, 0.0, dip)), dip)
+    for f, (location, _) in lifted.items():
+        root.location = location
+        root.keyframe_insert("location", frame=f)
+    return max((d for _, d in lifted.values()), default=0.0), len(lifted)
 
 
 def basecolor(material):
@@ -158,14 +196,18 @@ def main():
                 bpy.data.objects.remove(o, do_unlink=True)
     # All takes drive the one kept rig; the exporter writes each as "Rig|<action>".
     rig.animation_data_create()
-    first_action = bpy.data.actions[takes[0]["name"]]
-    rig.animation_data.action = first_action
-    if hasattr(rig.animation_data, "action_suitable_slots") and rig.animation_data.action_suitable_slots:
-        rig.animation_data.action_slot = rig.animation_data.action_suitable_slots[0]
     bpy.context.scene.render.fps = 24
     for a in list(bpy.data.actions):
         if a.name not in {t["name"] for t in takes}:
             bpy.data.actions.remove(a)
+    first_action = bpy.data.actions[takes[0]["name"]]
+    use_action(rig, first_action)
+    floor = lowest_z(body, round(first_action.frame_range[0]))
+    report["floor"] = floor
+    for t, entry in zip(takes, report["takes"]):
+        if t["ground"]:
+            entry["ground_lift"], entry["ground_frames"] = ground_take(rig, body, bpy.data.actions[t["name"]], floor)
+    use_action(rig, first_action)
 
     os.makedirs(out_dir, exist_ok=True)
     tex_dir = os.path.join(out_dir, enemy_id + "_tex")

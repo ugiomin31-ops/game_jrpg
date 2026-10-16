@@ -99,7 +99,7 @@ Six single-preset Tripo Studio exports (Blender FBX preset, skeleton and in-plac
 | Attack | box_01 | 54 | |
 | Cast | standalone cast_a_spell, Blender 0..88 | 89 | ends before the B89+ recovery whose ~19.6 cm foot drift was rejected; the game crossfades back to Idle |
 | Hit | hit_to_body_01 | 32 | |
-| Die | defeat_02 (take defeat_03) | 134 | collapse ends with parts up to ~0.18 below the frame-0 floor |
+| Die | defeat_02 (take defeat_03) | 134 | collapse sank parts up to ~0.18 below the frame-0 floor; merged with `+ground`, the root is lifted on 122 frames (max 0.187) so the lowest point stays at the Idle floor (-0.027); pose unchanged |
 | Victory | cheer | 291 | |
 
 Every take was compared against its source after the FBX round trip: evaluated skin matches within 0.000001 units at start, middle and end frames. The Cast source uses Tripo's Mixamo preset (armature scale 0.01), so its bone translations are rescaled to the Blender preset's unit armature by the merge script. `enemies.json` now gives `elite_mushroom` its own model (no `model` alias, neutral tint; `scale_mult` 1.35 unchanged). Unity import and in-game playback are not yet verified.
