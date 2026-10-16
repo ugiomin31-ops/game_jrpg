@@ -4,6 +4,8 @@ From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 �
 
 > **OPEN, not claimed yet (re-posted 2026-10-16 13:45 UTC).** Please claim this request and start with torch. Nothing for factory is on `tripo-glb-drop` yet.
 
+> **CLAIMED (2026-10-16 22:50 KST) by the local asset session** (same one that did verdant_ruins). Starting with torch, in the listed order. Balance 1290 → all 13 fit under the 280 stop rule. Delay so far was a Claude usage-limit window (reset 22:40 KST), not a blocker.
+
 ## Credit rule (important)
 
 About 1290 credits were left after verdant_ruins. Each piece costs about 80. **Before starting each piece, check the balance: if it is under 280, stop there** (so it never drops below 200) and note where you stopped. Work in the order listed below (most visible first). foe_marker and decor_1 are not needed.
