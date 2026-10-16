@@ -1,0 +1,105 @@
+[   0.00] scenario watch
+[   2.01] battle view started
+[   4.66] shot 001_battle_start.png
+[   4.67] CommandRequestedEvent
+[   4.68] ActionStart h_jiho(party_02_h_jiho) Skill sk_weak_point
+[   6.26] MpChangeEvent
+[   6.33] Damage h_jiho(party_02_h_jiho) -> slime(enemy_00_slime)
+[   6.79] TpChangeEvent
+[   6.89] ActionEndEvent
+[   7.20] TurnEndEvent
+[   7.29] TurnStartEvent
+[   7.36] CommandRequestedEvent
+[   7.89] ActionStart h_seoa(party_01_h_seoa) Skill sk_flame_wave
+[   9.79] MpChangeEvent
+[   9.89] Damage h_seoa(party_01_h_seoa) -> slime(enemy_00_slime)
+[  10.27] WeaknessDiscoveredEvent
+[  10.39] IntentClearedEvent
+[  10.45] UnitDown slime(enemy_00_slime)
+[  10.54] Damage h_seoa(party_01_h_seoa) -> mushroom(enemy_01_mushroom)
+[  10.81] shot 002_down_0.20s.png
+[  10.81] WeaknessDiscoveredEvent
+[  10.86] ShieldChangeEvent
+[  10.95] Damage h_seoa(party_01_h_seoa) -> bat(enemy_02_bat)
+[  11.20] shot 003_down_0.60s.png
+[  11.42] TpChangeEvent
+[  11.65] shot 004_down_1.00s.png
+[  11.65] ChainChangedEvent
+[  11.70] ActionEndEvent
+[  12.01] TurnEndEvent
+[  12.19] shot 005_down_1.60s.png
+[  12.19] TurnStartEvent
+[  12.29] CommandRequestedEvent
+[  12.83] ActionStart h_yuna(party_03_h_yuna) Skill sk_c_holy_lance
+[  13.06] shot 006_down_2.40s.png
+[  13.79] shot 007_down_3.20s.png
+[  14.32] MpChangeEvent
+[  14.39] Damage h_yuna(party_03_h_yuna) -> bat(enemy_02_bat)
+[  14.70] IntentClearedEvent
+[  14.76] UnitDown bat(enemy_02_bat)
+[  14.86] TpChangeEvent
+[  14.92] ChainChangedEvent
+[  15.14] shot 008_down_0.20s.png
+[  15.14] ActionEndEvent
+[  15.51] shot 009_down_0.60s.png
+[  15.92] shot 010_down_1.00s.png
+[  16.14] TurnEndEvent
+[  16.20] TurnStartEvent
+[  16.29] CommandRequestedEvent
+[  16.53] shot 011_down_1.60s.png
+[  16.79] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_flame_blade
+[  17.31] shot 012_down_2.40s.png
+[  18.12] shot 013_down_3.20s.png
+[  18.32] MpChangeEvent
+[  18.42] Damage h_dohyun(party_00_h_dohyun) -> mushroom(enemy_01_mushroom)
+[  18.76] ShieldChangeEvent
+[  18.87] BreakEvent
+[  19.29] TpChangeEvent
+[  19.39] TpChangeEvent
+[  19.45] TpChangeEvent
+[  19.54] TpChangeEvent
+[  19.61] MessageEvent
+[  19.70] TpChangeEvent
+[  19.79] ChainChangedEvent
+[  19.86] ActionEndEvent
+[  20.20] TurnEndEvent
+[  20.27] TurnStartEvent
+[  20.42] TurnSkippedEvent
+[  20.82] MessageEvent
+[  20.95] IntentClearedEvent
+[  21.04] RecoverEvent
+[  21.10] ShieldChangeEvent
+[  21.20] MessageEvent
+[  21.29] TurnEndEvent
+[  21.39] RoundStartEvent
+[  21.57] EnemyIntentPlannedEvent
+[  21.64] TurnStartEvent
+[  21.73] CommandRequestedEvent
+[  22.26] ActionStart h_jiho(party_02_h_jiho) Skill sk_weak_point
+[  23.76] MpChangeEvent
+[  23.86] Damage h_jiho(party_02_h_jiho) -> mushroom(enemy_01_mushroom)
+[  24.20] TpChangeEvent
+[  24.29] ChainChangedEvent
+[  24.39] ActionEndEvent
+[  24.73] TurnEndEvent
+[  24.82] TurnStartEvent
+[  24.89] CommandRequestedEvent
+[  25.42] ActionStart h_seoa(party_01_h_seoa) Skill fireball
+[  26.92] MpChangeEvent
+[  26.98] Damage h_seoa(party_01_h_seoa) -> mushroom(enemy_01_mushroom)
+[  27.32] IntentClearedEvent
+[  27.39] UnitDown mushroom(enemy_01_mushroom)
+[  27.48] TpChangeEvent
+[  27.54] ChainChangedEvent
+[  27.73] shot 014_down_0.20s.png
+[  27.74] ActionEndEvent
+[  28.14] shot 015_down_0.60s.png
+[  28.55] shot 016_down_1.00s.png
+[  28.82] ChainChangedEvent
+[  28.92] BattleEnd Victory
+[  29.20] shot 017_down_1.60s.png
+[  29.58] shot 018_end_0.50s.png
+[  29.91] shot 019_down_2.40s.png
+[  30.73] shot 020_down_3.20s.png
+[  31.07] shot 021_end_2.00s.png
+[ 200.01] done

@@ -1,0 +1,57 @@
+[   0.00] scenario ko
+[   5.18] before manual: playing=True state=AwaitingCommand paused=False
+[   5.22] waiting: playing=True state=AwaitingCommand paused=False timeScale=1 event=ActionStart ice_wolf(enemy_01_ice_wolf) Skill sk_twin_bite initialized=True restored=False clock=3.125176 dying=0
+[  10.32] shot 001_before.png
+[  10.33] inject UnitDown h_dohyun
+[  10.54] shot 002_ko_h_dohyun_0.10s.png
+[  10.76] shot 003_ko_h_dohyun_0.30s.png
+[  10.97] shot 004_ko_h_dohyun_0.50s.png
+[  11.26] shot 005_ko_h_dohyun_0.80s.png
+[  11.67] shot 006_ko_h_dohyun_1.20s.png
+[  12.28] shot 007_ko_h_dohyun_1.80s.png
+[  13.05] shot 008_ko_h_dohyun_2.60s.png
+[  13.98] shot 009_ko_h_dohyun_3.50s.png
+[  15.40] inject Revive h_dohyun
+[  15.63] shot 010_rise_h_dohyun_0.05s.png
+[  15.74] shot 011_rise_h_dohyun_0.20s.png
+[  15.93] shot 012_rise_h_dohyun_0.35s.png
+[  16.04] shot 013_rise_h_dohyun_0.50s.png
+[  16.23] shot 014_rise_h_dohyun_0.70s.png
+[  16.56] shot 015_rise_h_dohyun_1.00s.png
+[  17.16] shot 016_rise_h_dohyun_1.60s.png
+[  18.74] inject UnitDown h_bora
+[  19.02] shot 017_ko_h_bora_0.10s.png
+[  19.20] shot 018_ko_h_bora_0.30s.png
+[  19.38] shot 019_ko_h_bora_0.50s.png
+[  19.67] shot 020_ko_h_bora_0.80s.png
+[  20.07] shot 021_ko_h_bora_1.20s.png
+[  20.70] shot 022_ko_h_bora_1.80s.png
+[  21.52] shot 023_ko_h_bora_2.60s.png
+[  22.42] shot 024_ko_h_bora_3.50s.png
+[  23.77] inject Revive h_bora
+[  23.96] shot 025_rise_h_bora_0.05s.png
+[  24.15] shot 026_rise_h_bora_0.20s.png
+[  24.26] shot 027_rise_h_bora_0.35s.png
+[  24.45] shot 028_rise_h_bora_0.50s.png
+[  24.64] shot 029_rise_h_bora_0.70s.png
+[  24.94] shot 030_rise_h_bora_1.00s.png
+[  25.54] shot 031_rise_h_bora_1.60s.png
+[  27.83] setup hero h_dohyun hp=0
+[  27.84] setup hero h_seoa hp=122
+[  27.84] setup hero h_bora hp=213
+[  27.84] setup hero h_yuna hp=140
+[  27.84] begin Random battle with fallen h_dohyun
+[  28.49] shot 032_fallen_start_Random_0.50s.png
+[  29.49] shot 033_fallen_start_Random_1.50s.png
+[  30.98] shot 034_fallen_start_Random_3.00s.png
+[  32.99] shot 035_fallen_start_Random_5.00s.png
+[  33.87] setup hero h_dohyun hp=0
+[  33.87] setup hero h_seoa hp=122
+[  33.87] setup hero h_bora hp=213
+[  33.87] setup hero h_yuna hp=140
+[  33.87] begin Boss battle with fallen h_dohyun
+[  34.53] shot 036_fallen_start_Boss_0.50s.png
+[  35.52] shot 037_fallen_start_Boss_1.50s.png
+[  37.04] shot 038_fallen_start_Boss_3.00s.png
+[  39.02] shot 039_fallen_start_Boss_5.00s.png
+[  39.93] done
