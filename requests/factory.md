@@ -1,8 +1,9 @@
 # Request: factory (zone 3, abandoned factory gate) 13 dungeon pieces
 
+상태: **취소됨 (cancelled 2026-10-16 14:10 UTC) — 만들지 마세요. Do not generate anything more; do not spend credits.** The user stopped new asset work. torch was already made and stays unused on tripo-glb-drop.
+
 From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 모델링). Hunter theme, base branch `codex/astra-enrichment-20261015`. Same flow as `requests/verdant_ruins.md`. Don't ask the user; use your own judgement on picks.
 
-> **OPEN, not claimed yet (re-posted 2026-10-16 13:45 UTC).** Please claim this request and start with torch. Nothing for factory is on `tripo-glb-drop` yet.
 
 > **CLAIMED (2026-10-16 22:50 KST) by the local asset session** (same one that did verdant_ruins). Starting with torch, in the listed order. Balance 1290 → all 13 fit under the 280 stop rule. Delay so far was a Claude usage-limit window (reset 22:40 KST), not a blocker.
 
