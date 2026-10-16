@@ -161,7 +161,7 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 | lore_stone | **DONE** (Tripo, `.tripo` marker) | A mossy stone stele with a glowing green rift line. |
 | spring | **DONE** (Tripo, `.tripo` marker) | A clear spring pool with a cyan glowing ring. |
 | torch | **DONE** (Tripo, `.tripo` marker) | A stone post brazier with a warm flame. |
-| trap | spiked plate | A mossy floor slab with thorny root spikes. |
+| trap | **DONE** (Tripo, `.tripo` marker) | A mossy floor slab with thorny root spikes. |
 | warp | portal | A ring of mossy standing stones around a green-violet glow. |
 | foe_marker | orange bipyramid crystal | A floor ring of moss with a floating orange gate crystal. |
 | overlay_1 | hanging vines + flowers | Ivy and flowering vines hanging from the wall top. |
@@ -181,7 +181,7 @@ Briefs should also read as a sunken sea temple (zone 10): ice plus shell and cor
 | lore_stone | (stele) | A frosted stele with a glowing cyan rift line. |
 | spring | glowing ring pool | A thawed spring pool with a glowing cyan ring amid the ice. |
 | torch | crystal cluster lamp | A stone post topped by a glowing ice-crystal cluster. |
-| trap | spiked plate | A floor slab with icicle spikes. |
+| trap | **DONE** (Tripo, `.tripo` marker) | A floor slab with icicle spikes. |
 | warp | portal | A ring of ice pillars around a blue glowing pool. |
 | foe_marker | orange bipyramid | A frosted floor ring with a floating ice-blue gate crystal. |
 | overlay_1 | icicle row | A row of icicles along the wall top. |

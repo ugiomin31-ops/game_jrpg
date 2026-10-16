@@ -38,7 +38,7 @@ PIECES = {
     "spring": dict(fit=("xy", 2.2), empties={"LightAnchor_spring": (0, 0, 1.2)}),
     # spawned 1.7 m from the cell centre toward a wall (0.3 m from its face), +Y toward the wall
     "torch": dict(fit=("h", 1.8), back_y=0.28, empties={"LightAnchor": "flame"}),
-    "trap": dict(fit=("xy", 2.4), spikes=True),
+    "trap": dict(fit=("xy", 2.4), spikes=True, slab_top=0.14),
     "warp": dict(fit=("xy", 3.0), empties={"Spot_warp": (0, 0, 0), "LightAnchor_warp": (0, 0, 0.8)}),
     "foe_marker": dict(fit=("xy", 2.0), empties={"Spot_foe": (0, 0, 0)}),
     # wall decals: flat back on y = -2.0, hugging the -Y face of a wall block, up to 4.4 m tall
@@ -182,7 +182,7 @@ def install(piece, src, out_dir, log):
         objs.append(to_object("Lid", lid, mat, origin=hinge))
         note.append(f"Lid split at z {seam:.3f}, hinge {tuple(round(v, 3) for v in hinge)}")
     elif cfg.get("spikes"):
-        objs += trap(bm, mat, piece, note)
+        objs += trap(bm, mat, piece, note, s, cfg)
     else:
         objs.append(to_object(piece, bm, mat))
     for name, loc in cfg.get("empties", {}).items():
@@ -212,14 +212,18 @@ def flame_anchor(obj):
     return (round(c.x, 3), round(c.y, 3), round(top - 0.2, 3))
 
 
-def trap(bm, mat, piece, note):
-    """Plate = faces below 0.12 m; everything above is the spike cluster, lowered 0.5 m (raised by the runtime)."""
-    plate, spikes = split(bm, lambda c: c.z > 0.12)
+def trap(bm, mat, piece, note, scale, cfg):
+    """Floor slab sunk so its top sits at +0.04 m (old plate height); the thorn cluster above it becomes Spikes,
+    squashed to 60 % height and retracted 0.5 m below its rest position like the old moving spike part."""
+    seam = cfg["slab_top"] * scale
+    bmesh.ops.translate(bm, vec=(0, 0, 0.04 - seam), verts=bm.verts)
+    plate, spikes = split(bm, lambda c: c.z > 0.04)
+    bmesh.ops.scale(spikes, vec=(1, 1, 0.6), space=Matrix.Translation((0, 0, -0.04)), verts=spikes.verts)
     objs = [to_object(piece, plate, mat)]
     sp = to_object("Spikes", spikes, mat)
     sp.location.z -= 0.5
     objs.append(sp)
-    note.append("Spikes = faces above 0.12 m, retracted 0.5 m")
+    note.append(f"slab top at +0.04 m (sunk {seam - 0.04:.2f} m); Spikes = faces above it, height x0.6, retracted 0.5 m")
     return objs
 
 
