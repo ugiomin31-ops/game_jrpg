@@ -73,6 +73,14 @@ namespace Abyss.Runtime.World
         }
         const float FollowSpacing = 0.95f, FollowArrival = 0.015f, MotionStep = 0.1f, MaxMotionDelta = 0.1f;
         const int MaxFollowSteps = 32;
+        /// <summary>
+        /// Locomotion: a member moving faster than <see cref="JogFrom"/> m/s runs (the 3.5 m/s default pace is a jog, Shift a sprint),
+        /// slower movement (a half-deflected stick) walks; either take plays at the rate its stride needs for the ground speed
+        /// (<see cref="ArtLibrary.StrideSpeed"/>), so the feet stay planted. The ground speed is smoothed so collisions and trail
+        /// catch-up do not make the stride flicker.
+        /// </summary>
+        const float JogFrom = 2.2f, JogHysteresis = .3f, StrideRateMin = .5f, StrideRateMax = 2.5f, StrideSmoothing = 10f;
+        readonly Dictionary<CharacterModel, float> groundSpeeds = new Dictionary<CharacterModel, float>();
         readonly List<ServiceSpot> services = new List<ServiceSpot>();
         readonly List<CharacterModel> party = new List<CharacterModel>();
         readonly List<FollowerMotion> followers = new List<FollowerMotion>();
@@ -209,6 +217,7 @@ namespace Abyss.Runtime.World
             foreach (var member in party) poses.Add(new Pose(member.transform.position, member.transform.rotation));
             foreach (var m in party) { m.gameObject.SetActive(false); Destroy(m.gameObject); }
             party.Clear();
+            groundSpeeds.Clear();
             partyPaths.Clear();
             // Paths belong to spatial slots, so a replacement hunter keeps that slot's position and unvisited corners.
             SpawnParty(position, rotation, poses);
@@ -385,10 +394,10 @@ namespace Abyss.Runtime.World
             {
                 heading = moved.normalized;
                 player.rotation = Quaternion.Slerp(player.rotation, Quaternion.LookRotation(heading), Time.deltaTime * 12f);
-                party[0].Play(running ? "Run" : "Walk");
+                Locomote(party[0], moved.magnitude, Time.deltaTime);
             }
-            else party[0].Play("Idle");
-            UpdateFollowers(speed, running, Time.deltaTime);
+            else Rest(party[0]);
+            UpdateFollowers(speed, Time.deltaTime);
             runTimer = moved.sqrMagnitude > 0.000001f ? runTimer + Time.unscaledDeltaTime : 0f;
             UpdateNearest();
             bool confirm = (Keyboard.current?.eKey.wasPressedThisFrame ?? false) || (Keyboard.current?.spaceKey.wasPressedThisFrame ?? false) || (Gamepad.current?.buttonSouth.wasPressedThisFrame ?? false);
@@ -432,7 +441,7 @@ namespace Abyss.Runtime.World
             return moved;
         }
 
-        void UpdateFollowers(float speed, bool running, float dt)
+        void UpdateFollowers(float speed, float dt)
         {
             dt = Mathf.Clamp(dt, 0f, MaxMotionDelta);
             for (int i = 1; i < party.Count; i++)
@@ -472,9 +481,9 @@ namespace Abyss.Runtime.World
                 if (moved.sqrMagnitude > 0.000001f)
                 {
                     follower.transform.rotation = Quaternion.Slerp(follower.transform.rotation, Quaternion.LookRotation(moved), dt * 9f);
-                    follower.Play(running ? "Run" : "Walk");
+                    Locomote(follower, moved.magnitude, dt);
                 }
-                else follower.Play("Idle");
+                else Rest(follower);
             }
         }
 
@@ -500,7 +509,28 @@ namespace Abyss.Runtime.World
 
         void IdleParty()
         {
-            foreach (var member in party) member.Play("Idle");
+            foreach (var member in party) Rest(member);
+        }
+
+        /// <summary>Walk or run at the playback rate that matches <paramref name="distance"/> covered this frame (see <see cref="JogFrom"/>).</summary>
+        void Locomote(CharacterModel member, float distance, float dt)
+        {
+            dt = Mathf.Clamp(dt, 1e-4f, MaxMotionDelta);   // the same clamp the movers apply
+            float target = distance / dt;
+            float ground = groundSpeeds.TryGetValue(member, out float last) && last > 0f
+                ? Mathf.Lerp(last, target, 1f - Mathf.Exp(-StrideSmoothing * dt)) : target;
+            groundSpeeds[member] = ground;
+            bool running = member.Anim.CurrentClip == "Run" ? ground > JogFrom - JogHysteresis : ground > JogFrom;
+            string take = running || !member.Anim.HasClip("Walk") ? "Run" : "Walk";
+            if (member.Anim is ClipAnimator clips)
+                clips.SetClipRate(take, Mathf.Clamp(ground / ArtLibrary.StrideSpeed(member, take), StrideRateMin, StrideRateMax));
+            member.Play(take);
+        }
+
+        void Rest(CharacterModel member)
+        {
+            groundSpeeds.Remove(member);
+            member.Play("Idle");
         }
 
         /// <summary>Talks to a facility: a person in reach gets the two-shot first (the screen opens once it has settled).</summary>

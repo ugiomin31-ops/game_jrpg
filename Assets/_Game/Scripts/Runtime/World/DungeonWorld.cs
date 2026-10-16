@@ -14,6 +14,8 @@ namespace Abyss.Runtime.World
     public sealed class DungeonWorld : MonoBehaviour
     {
         const float CellSize = 4f;
+        /// <summary>Run playback rate of a roaming FOE (a cell in 0.24 s is far beyond any Run stride; same cap as battle's enemy run).</summary>
+        const float FoeRunRate = 3f;
         // Biome dressing density (percent per wall face beside a walkable cell); see Dress().
         const int OverlayChance = 18, DecorChance = 26;
         static readonly int TintId = Shader.PropertyToID("_Tint");
@@ -146,6 +148,8 @@ namespace Abyss.Runtime.World
                 if (!foe.Alive || foe.Group.Count == 0) continue;
                 var model = ArtLibrary.SpawnEnemy(app.DB, foe.Group[0], transform);
                 model.transform.position = Position(foe.Position);
+                // A roaming FOE crosses a whole cell during the 0.24 s step: churn its Run at the fastest rate battle uses.
+                if (model.Anim is ClipAnimator clips && clips.HasClip("Run")) clips.SetClipRate("Run", FoeRunRate);
                 model.Play("Idle");
                 foes[foe.Id] = model;
                 if (markerQuad == null) CreateMarkerAssets();
