@@ -92,8 +92,11 @@ namespace Abyss.Runtime.Battle
         // Enemy death staging (seconds at 1x battle speed, from the UnitDown event). A death never queues the replay: the unit
         // collapses and dissolves beside it, so simultaneous deaths overlap, and the replay only waits for stragglers at action end
         // and at the outcome (WaitDeaths). A regular enemy reads in ~DeathDissolveAt + DeathDissolve; a boss gets a longer finish.
-        const float DeathCollapse = .5f, DeathDissolveAt = .3f, DeathDissolve = .36f;
-        const float BossDeathCollapse = .8f, BossDeathDissolveAt = .6f, BossDeathDissolve = .65f;
+        // The collapse follows the Die take's own length within [DeathCollapse, DeathCollapseMax] (sped up only past the cap), and
+        // the dissolve starts DeathLand after the body is down, never before DeathDissolveAt: starting it at a fixed .3 s hid most falls.
+        const float DeathCollapse = .5f, DeathCollapseMax = .9f, DeathDissolveAt = .6f, DeathDissolve = .4f;
+        const float BossDeathCollapse = .8f, BossDeathCollapseMax = 1.6f, BossDeathDissolveAt = .9f, BossDeathDissolve = .7f;
+        const float DeathLand = .1f;
         const float ReducedDeathDissolve = .25f;
         /// <summary>A Die take longer than this is a held pose (Tripo / Mixamo take): the fall is staged in code instead of waited out.</summary>
         const float StaticDieTake = 2f;
@@ -1321,8 +1324,6 @@ namespace Abyss.Runtime.Battle
             _dying++;
             var model = unit.Model; var t = model.transform;
             bool boss = unit.Boss, reduced = Reduced;
-            float collapse = boss ? BossDeathCollapse : DeathCollapse;
-            float dissolveAt = reduced ? 0 : boss ? BossDeathDissolveAt : DeathDissolveAt;
             float dissolve = reduced ? ReducedDeathDissolve : boss ? BossDeathDissolve : DeathDissolve;
             float length = model.Anim.Length("Die");
             // Take kinds: short authored deaths (<= 2 s) play as they are; Tripo `defeat_02` (>= 6 s) never falls, so its
@@ -1331,8 +1332,11 @@ namespace Abyss.Runtime.Battle
             bool standingDefeat = length >= ArtLibrary.DefeatTakeMinLength;
             bool fallingTake = length > StaticDieTake && !standingDefeat;
             bool held = standingDefeat;
+            float span = fallingTake ? length * (1f - FallTakeStart) : length;   // what is left of the take to play
+            float collapse = boss ? Mathf.Clamp(span, BossDeathCollapse, BossDeathCollapseMax) : Mathf.Clamp(span, DeathCollapse, DeathCollapseMax);
+            float dissolveAt = reduced ? 0 : Mathf.Max(boss ? BossDeathDissolveAt : DeathDissolveAt, collapse + DeathLand);
             // Zero also survives LateUpdate / hit-stop speed restoration; revive restores DeathRate to one.
-            unit.DeathRate = reduced ? 0f : Mathf.Clamp(length / collapse, 1f, DeathRateMax);
+            unit.DeathRate = reduced ? 0f : Mathf.Clamp(span / collapse, 1f, DeathRateMax);
             unit.KnockTime = 0;
             if (reduced) model.Anim.SetSpeed(0);   // hold the visible pose: even the first Die keys contain motion
             else if (fallingTake && model.Anim is ClipAnimator dieClips) dieClips.PlayFrom("Die", FallTakeStart, .075f, null);
