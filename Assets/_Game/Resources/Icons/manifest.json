@@ -987,16 +987,10 @@
     {
       "id": "elite_mushroom",
       "family": "Enemies",
-      "source": "Assets/_Game/Resources/Art/Enemies/mushroom/mushroom.fbx",
-      "tint": [
-        0.72,
-        0.45,
-        1.0,
-        1.0
-      ],
+      "source": "Assets/_Game/Resources/Art/Enemies/elite_mushroom/elite_mushroom.fbx",
       "output": "Assets/_Game/Resources/Icons/Enemies/elite_mushroom.png",
       "framing": "complete silhouette",
-      "vertex_colors": "Col",
+      "vertex_colors": "texture",
       "dimensions": [
         512,
         512
@@ -1005,16 +999,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.2737574577331543,
-          -3.982926607131958,
-          1.2551677227020264
+          1.2509264945983887,
+          -3.9467005729675293,
+          1.2636386156082153
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.1380044221878052
+        "ortho_scale": 1.1491209268569946
       }
     },
     {

@@ -1,0 +1,148 @@
+{
+ "id": "elite_mushroom",
+ "takes": [
+  {
+   "name": "Idle",
+   "source": "<zip>/tripo_convert_6e6525e4-f0b9-4e00-960a-b01b7005a3a5.fbx",
+   "sha256": "b5bd5cc33bc3fb57b402c59d26e3dd12622b40011a665780b4a788d8d1082c3e",
+   "source_action": "Armature|idle",
+   "source_frames": [
+    1.0,
+    369.0
+   ],
+   "kept_frames": [
+    1.0,
+    369.0
+   ]
+  },
+  {
+   "name": "Run",
+   "source": "<zip>/tripo_convert_ec991b7d-f282-4ded-bfcf-69cf3c973c30.fbx",
+   "sha256": "8bc240519b38c70980b03a4b32d490f1a19603d79404a050c270471ad0be4de5",
+   "source_action": "Armature|walk",
+   "source_frames": [
+    1.0,
+    57.0
+   ],
+   "kept_frames": [
+    1.0,
+    57.0
+   ]
+  },
+  {
+   "name": "Attack",
+   "source": "<zip>/tripo_convert_f4477ee8-8d3a-478f-ab1d-420c154ffe41.fbx",
+   "sha256": "1eadbdb4f813abaa7d6aabd418d9f7f2577e861457f00a05c6e1e8b609a2ffe5",
+   "source_action": "Armature|box_01",
+   "source_frames": [
+    1.0,
+    54.0
+   ],
+   "kept_frames": [
+    1.0,
+    54.0
+   ]
+  },
+  {
+   "name": "Cast",
+   "source": "ArtSource/enemies/elite_mushroom/enrichment_20261015/individual-motion-exports/cast/raw/tripo_convert_5a303303-ca4a-4913-b018-a1250767306b.fbx",
+   "sha256": "628fcf6d8c54dc59c8835ca1be1e206c0c67d90a29ff0f3a91e70f3009a0063b",
+   "source_action": "Armature|cast_a_spell|Base Layer",
+   "source_frames": [
+    1.1102230246251565e-16,
+    129.0
+   ],
+   "kept_frames": [
+    0.0,
+    88.0
+   ]
+  },
+  {
+   "name": "Hit",
+   "source": "<zip>/tripo_convert_f8710c1d-7a8f-49b3-88ba-900888fdc673.fbx",
+   "sha256": "3a555037f93cd8adb8a644ca33d2c13c9417aadd9d0d4f99cb21a38eee56220a",
+   "source_action": "Armature|hit_to_body_01",
+   "source_frames": [
+    1.0,
+    32.0
+   ],
+   "kept_frames": [
+    1.0,
+    32.0
+   ]
+  },
+  {
+   "name": "Die",
+   "source": "<zip>/tripo_convert_48f37cba-df17-4f11-a973-8fa08e8b0bb4.fbx",
+   "sha256": "7224490f1cbaef3408a60d8559442121a19f2c3f3d263309369bccc0eb6ab199",
+   "source_action": "Armature|defeat_03",
+   "source_frames": [
+    1.0,
+    134.0
+   ],
+   "kept_frames": [
+    1.0,
+    134.0
+   ],
+   "ground_lift": 0.18740912526845932,
+   "ground_frames": 122
+  },
+  {
+   "name": "Victory",
+   "source": "<zip>/tripo_convert_fb8b9a00-0885-446f-beaf-5109acda04e5.fbx",
+   "sha256": "5e132e0167874a8c00e85d8be4c4e319e96193be76964d03cb6df2386ef91192",
+   "source_action": "Armature|cheer",
+   "source_frames": [
+    1.0,
+    291.0
+   ],
+   "kept_frames": [
+    1.0,
+    291.0
+   ]
+  }
+ ],
+ "floor": -0.027093790471553802,
+ "reimport": {
+  "objects": [
+   "ARMATURE:Rig",
+   "MESH:Body"
+  ],
+  "materials": [
+   "elite_mushroom"
+  ],
+  "takes": {
+   "Attack": [
+    1.0,
+    54.0
+   ],
+   "Cast": [
+    1.0,
+    89.0
+   ],
+   "Die": [
+    1.0,
+    134.0
+   ],
+   "Hit": [
+    1.0,
+    32.0
+   ],
+   "Idle": [
+    1.0,
+    369.0
+   ],
+   "Run": [
+    1.0,
+    57.0
+   ],
+   "Victory": [
+    1.0,
+    291.0
+   ]
+  },
+  "fbx_sha256": "0af7898ad1788def9bd7f34a49068733b55f0a7e1841538b6ba3f8dc7bb737f2",
+  "texture_sha256": "a4e1c8c0c0b9a45cc4f4695486d4b7096c23d0bd8368663bb575a831536b7c38"
+ },
+ "problems": []
+}
