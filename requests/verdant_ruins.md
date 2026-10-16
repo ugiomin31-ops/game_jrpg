@@ -25,7 +25,7 @@ Cost about 90 credits per piece, about 1350 total (2490 left at 23:02). STOP if 
 - [x] decor_3 — tripo-glb-drop 2506d44, 3470 tris, 80 cr (2330→2250)
 - [x] decor_4 — tripo-glb-drop 54422db, 3127 tris, 80 cr (2250→2170)
 - [x] decor_5 — tripo-glb-drop d93df6f, 3542 tris, 80 cr (2170→2090)
-- [ ] decor_6
+- [x] decor_6 — tripo-glb-drop bd285e2, 3521 tris, 80 cr (2090→2010)
 - [ ] chest
 - [ ] lore_stone
 - [ ] spring
