@@ -151,16 +151,16 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 ## verdant_ruins (zone 2, E-rank gate forest) — NorthernKit(frozen=False)
 | piece | now | brief |
 |---|---|---|
-| decor_1 | plant / crystal garden | A clump of ferns, ginkgo saplings and a few small green crystals. |
-| decor_2 | broken fluted column | A broken mossy stone column with a fallen fluted drum beside it. |
-| decor_3 | shallow natural pool | A small shallow pool ringed with mossy stones and lily pads. |
-| decor_4 | shrine urn | A mossy stone urn on a plinth with a sprouting plant. |
-| decor_5 | fallen carved lintel + rubble | A fallen carved stone lintel with rubble and grass. |
-| decor_6 | wayfinder idol | A small mossy stone wayfinder idol with a glowing green gem. |
-| chest | hollow stone chest | A moss-covered stone chest with root bands (lid separate). |
-| lore_stone | (procedural stele) | A mossy stone stele with a glowing green rift line. |
-| spring | glowing ring pool | A clear spring pool with a cyan glowing ring. |
-| torch | flame brazier | A stone post brazier with a warm flame. |
+| decor_1 | **DONE** (Tripo, `.tripo` marker) | A clump of ferns, ginkgo saplings and a few small green crystals. |
+| decor_2 | **DONE** (Tripo, `.tripo` marker) | A broken mossy stone column with a fallen fluted drum beside it. |
+| decor_3 | **DONE** (Tripo, `.tripo` marker) | A small shallow pool ringed with mossy stones and lily pads. |
+| decor_4 | **DONE** (Tripo, `.tripo` marker) | A mossy stone urn on a plinth with a sprouting plant. |
+| decor_5 | **DONE** (Tripo, `.tripo` marker) | A fallen carved stone lintel with rubble and grass. |
+| decor_6 | **DONE** (Tripo, `.tripo` marker) | A small mossy stone wayfinder idol with a glowing green gem. |
+| chest | **DONE** (Tripo, `.tripo` marker) | A moss-covered stone chest with root bands (lid separate). |
+| lore_stone | **DONE** (Tripo, `.tripo` marker) | A mossy stone stele with a glowing green rift line. |
+| spring | **DONE** (Tripo, `.tripo` marker) | A clear spring pool with a cyan glowing ring. |
+| torch | **DONE** (Tripo, `.tripo` marker) | A stone post brazier with a warm flame. |
 | trap | spiked plate | A mossy floor slab with thorny root spikes. |
 | warp | portal | A ring of mossy standing stones around a green-violet glow. |
 | foe_marker | orange bipyramid crystal | A floor ring of moss with a floating orange gate crystal. |
