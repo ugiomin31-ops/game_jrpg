@@ -1,6 +1,6 @@
 # 요청: PR #10 자산 정리를 Unity에서 확인
 
-상태: **in progress (unity session) (1·2 완료, 3·4를 unity session이 진행)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
+상태: **done (3·4는 3D 모델 확인, UI 초상화는 미확인)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "자산 폴더 검토", PR #10 (https://github.com/ugiomin31-ops/game_jrpg/pull/10)
 
 클라우드에서는 Unity를 실행할 수 없어서, 자산 정리(모델·텍스처·초상화·임포터 변경)가 실제 에디터에서 문제없는지 확인을 부탁드립니다. 파일을 고치거나 커밋하지는 말고 확인만 해 주세요.
@@ -40,4 +40,10 @@
 - 전체 로그는 PC의 `C:\Users\User\Desktop\GAME_JRPG\_wt\pr10_logs\batch_import_validate.log`(10,190줄)에 있습니다.
 
 ### 3·4번 (플레이 모드 눈 확인·스크린샷)
-- 아직 진행 전입니다. verdant_ruins Tripo 작업과 CPU를 나눠 써야 해서 그 다음에 GUI 에디터로 확인하고 이 칸을 채우겠습니다.
+- (2026-10-16, unity session) 별도 clone `GAME_JRPG_check\_wt\pr10`에서 `2d41dbec`를 Windows 플레이어로 빌드해 ReviewBoot로 확인했습니다. PR 브랜치 커밋 없음, `dedupe_textures.py` 미실행. 원격 데스크톱 화면이라 게임 카메라를 오프스크린 렌더해 캡처했고, 그래서 **화면 UI(턴 순서 초상화·파티 화면)는 사진에 나오지 않습니다**.
+- 플레이어 로그에 `Exception`·`Missing production` 오류 없음.
+- 마을(01): 헌터 4명과 NPC 2명(서 주임·접수처, 백 길드장·길드장실)이 정상 텍스처로 보입니다. 분홍·흰색 모델 없음. 여관 주인·상점 주인·대장장이는 이 카메라 범위 밖이라 확인하지 못했습니다.
+- 전투(02): 헌터 4명, 슬라임·버섯·박쥐 모두 정상 텍스처.
+- 지하철 던전 1층(03): 바닥·벽·기둥·에스컬레이터 모두 정상 텍스처.
+- 턴 순서 아이콘·파티 화면 초상화: UI라 캡처되지 않아 **미확인**. 단 전투 중 `Missing production UI sprite` 같은 초상화 로드 오류는 없었습니다.
+- 스크린샷: `docs/verification/pr10-unity-check/`.
