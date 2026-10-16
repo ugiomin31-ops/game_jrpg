@@ -4590,13 +4590,7 @@
     {
       "id": "crystal_cave_lord",
       "family": "Enemies",
-      "source": "Assets/_Game/Resources/Art/Enemies/crystal_horror/crystal_horror.fbx",
-      "tint": [
-        0.6,
-        0.85,
-        1.0,
-        1.0
-      ],
+      "source": "Assets/_Game/Resources/Art/Enemies/crystal_cave_lord/crystal_cave_lord.fbx",
       "output": "Assets/_Game/Resources/Icons/Enemies/crystal_cave_lord.png",
       "framing": "complete silhouette",
       "vertex_colors": "Col",
@@ -4608,16 +4602,16 @@
       "camera": {
         "type": "ORTHO",
         "position": [
-          1.810245156288147,
-          -5.687404155731201,
-          1.6686276197433472
+          2.050705671310425,
+          -6.414302825927734,
+          1.7609214782714844
         ],
         "rotation": [
           1.3825666904449463,
           7.089166587093132e-09,
           0.3097030222415924
         ],
-        "ortho_scale": 1.4070518016815186
+        "ortho_scale": 1.5321171283721924
       }
     },
     {

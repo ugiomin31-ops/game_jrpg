@@ -172,12 +172,13 @@ def fbx_materials(body, textures):
             src.name = original
 
 
-def export_textured_fbx(rel_path, body, rig, max_size=MAX_SIZE):
-    """FBX (rig + all clips, same settings as the vertex-colour heroes) plus <id>_tex/*.png next to it."""
+def export_textured_fbx(rel_path, body, rig, max_size=MAX_SIZE, force=False):
+    """FBX (rig + all clips, same settings as the vertex-colour heroes) plus <id>_tex/*.png next to it.
+    force=True writes past a Tripo marker (an install script rebuilding its own Tripo asset; see tripo_guard.py)."""
     path = os.path.join(A.ASSETS, rel_path)
     stem = os.path.splitext(os.path.basename(path))[0]
     tex_dir = os.path.join(os.path.dirname(path), stem + "_tex")
     textures = export_textures(body, tex_dir, max_size)
     with fbx_materials(body, textures):
-        A.export_fbx(rel_path, [body, rig], animated=True, path_mode="RELATIVE")
+        A.export_fbx(rel_path, [body, rig], animated=True, path_mode="RELATIVE", force=force)
     return path, tex_dir, list(textures.values())
