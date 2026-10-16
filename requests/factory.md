@@ -2,6 +2,8 @@
 
 From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 모델링). Hunter theme, base branch `codex/astra-enrichment-20261015`. Same flow as `requests/verdant_ruins.md`. Don't ask the user; use your own judgement on picks.
 
+> **OPEN, not claimed yet (re-posted 2026-10-16 13:45 UTC).** Please claim this request and start with torch. Nothing for factory is on `tripo-glb-drop` yet.
+
 ## Credit rule (important)
 
 About 1290 credits were left after verdant_ruins. Each piece costs about 80. **Before starting each piece, check the balance: if it is under 280, stop there** (so it never drops below 200) and note where you stopped. Work in the order listed below (most visible first). foe_marker and decor_1 are not needed.
