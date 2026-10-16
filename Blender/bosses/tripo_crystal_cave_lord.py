@@ -732,7 +732,7 @@ def build():
         pb.scale = (1, 1, 1)
     bpy.context.scene.frame_set(0)
     import textured as T
-    path, tex_dir, textures = T.export_textured_fbx(REL_FBX, body, rig, max_size=TEX_SIZE)
+    path, tex_dir, textures = T.export_textured_fbx(REL_FBX, body, rig, max_size=TEX_SIZE, force=True)
     print(f"[{ID}] exported {path} ({os.path.getsize(path)} bytes); textures {json.dumps(textures)}")
     A.BLEND_DIR = os.path.join(SRC_DIR, "staging") if "--assets" not in ARGV else A.BLEND_DIR
     A.save_blend(f"boss_{ID}")
