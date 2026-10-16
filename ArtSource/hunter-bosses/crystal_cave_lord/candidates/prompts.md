@@ -28,3 +28,6 @@ Haiku 5.5 (low) picked D; main session agreed. Cute round pangolin-mole body, ye
   (own quadruped Rig, geometric weights that cannot leave a vertex unweighted, 7 clips, re-import verification).
   Needs one of the exported zips restored to `tripo_export/` (the ZIPs are on the original PC, not in git).
   `Tools/verify_tripo_rig.py --require-full-weights` now rejects a partial-weight export like the two above.
+- 2026-10-16 installed: mesh from the first export (crystal_cave_lord_tripo.zip, sha256 8628cfbc…, recovered from the PC copy, 0 credits)
+  rigged by Blender/bosses/tripo_crystal_cave_lord.py: 19 bones, 0/5150 unweighted, 7 clips, scaled to 1.14 x 1.60 x 1.15 m.
+  enemies.json now uses its own model (white tint); spec.OWN_MODEL_VARIANTS lists it.

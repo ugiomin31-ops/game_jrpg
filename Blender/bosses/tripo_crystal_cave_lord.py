@@ -64,8 +64,10 @@ def arg(name, default=None):
     return ARGV[ARGV.index(name) + 1] if name in ARGV else default
 
 
-# crystal_horror (the model the boss borrows today) is 0.65 x 1.51 x 1.18 m; the boss stands a little taller.
-TARGET_H = 1.35
+# crystal_horror (the model this replaces in battle) is 0.65 x 1.51 x 1.18 m. At the same height this wide, low
+# pangolin would be 1.34 x 1.88 m, so it stands a little lower (about 1.14 x 1.60 x 1.15 m) to keep the boss slot's
+# footprint close to the old one.
+TARGET_H = 1.15
 HIP_H = 0.42               # hip / shoulder joints at this fraction of the height
 FOOT_H = 0.12              # vertices below this fraction of the height are paw-contact candidates
 HEAD_K = 0.30              # front fraction of the length that follows the head
@@ -624,8 +626,9 @@ def dominant(body, prefixes):
 
 
 def fit_attack_to_floor(rig, body):
-    """Head pitch at impact such that the lowest vertex just meets the floor (+1 cm), searched over -20..45 deg."""
-    lo, hi = -20.0, 45.0
+    """Head pitch at impact such that the lowest head vertex just meets the floor (+1 cm), searched over -20..30 deg
+    (a head that cannot reach the floor stops at a 30 degree nod rather than folding under the chest)."""
+    lo, hi = -20.0, 30.0
     z = 0.0
     head = dominant(body, ("head",))
     for _ in range(12):
@@ -746,7 +749,7 @@ def region_masks(pts):
         sx = 1.0 if leg[1] == "L" else -1.0
         sy = -1.0 if leg[0] == "F" else 1.0
         m[f"shin.{leg}"] = (pts[:, 2] < 0.15 * H) & (pts[:, 0] * sx > 0.1 * W) & (pts[:, 1] * sy > 0.1 * L)
-    m["head"] = pts[:, 1] < lo[1] + 0.15 * L
+    m["head"] = (pts[:, 1] < lo[1] + 0.15 * L) & (pts[:, 2] > 0.3 * H)     # above the front claws
     m["tail3"] = pts[:, 1] > hi[1] - 0.05 * L
     return m
 
@@ -791,6 +794,11 @@ def verify():
         problems.append("Body not skinned to Rig")
 
     paws = {leg: dominant(body, (f"paw.{leg}",)) for leg in LEGS}
+    rig.animation_data_create()
+    rig.animation_data.action = None
+    bpy.context.scene.frame_set(0)
+    rest0 = mesh_points(body)
+    paw_rest = {leg: float(rest0[paws[leg], 2].min()) for leg in LEGS}
     takes = {a.name.split("|")[-1]: a for a in bpy.data.actions}
     rep["takes"] = sorted(a.name for a in bpy.data.actions)
     if sorted(takes) != sorted(RANGES):
@@ -813,11 +821,11 @@ def verify():
             if f == f0:
                 first = p
         if name in PLANTED:
-            paw_lows = {leg: [] for leg in PLANTED[name]}
+            paw_lows = {leg: [] for leg in PLANTED[name]}      # lift above each paw's own rest height
             for f in range(f0, f1 + 1):
                 p = pose_points(rig, body, a, f)
                 for leg in PLANTED[name]:
-                    paw_lows[leg].append(float(p[paws[leg], 2].min()))
+                    paw_lows[leg].append(float(p[paws[leg], 2].min()) - paw_rest[leg])
             lift = max(max(v) for v in paw_lows.values())
             info["planted_paw_max_lift"] = round(lift, 3)
             if lift > 0.03:

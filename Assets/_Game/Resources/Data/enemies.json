@@ -10329,12 +10329,12 @@
   "archetype": "body_only",
   "battle_row": 1,
   "tint": [
-   0.6,
-   0.85,
+   1.0,
+   1.0,
    1.0,
    1.0
   ],
-  "model": "crystal_horror",
+  "model": "crystal_cave_lord",
   "phases": [
    {
     "hp_below": 1.0,
