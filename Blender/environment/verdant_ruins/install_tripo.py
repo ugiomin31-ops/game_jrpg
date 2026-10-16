@@ -43,8 +43,9 @@ PIECES = {
     "warp": dict(fit=("xy", 3.0), max_h=1.0, empties={"Spot_warp": (0, 0, 0), "LightAnchor_warp": (0, 0, 0.8)}),
     "foe_marker": dict(fit=("xy", 2.0), empties={"Spot_foe": (0, 0, 0)}),
     # wall decals: flat back on y = -2.0, hugging the -Y face of a wall block, up to 4.4 m tall
-    "overlay_1": dict(overlay=True),
-    "overlay_2": dict(overlay=True),
+    # Tripo modelled a whole mossy wall panel (pillars + ivy), so it stands on the floor as a facade
+    "overlay_1": dict(overlay=True, width=3.9, anchor="floor"),
+    "overlay_2": dict(overlay=True, width=3.6, anchor="top"),
 }
 
 
@@ -167,7 +168,7 @@ def install(piece, src, out_dir, log):
     mat = material(piece, out_dir, base_color(path))
     objs, note = [], []
     if cfg.get("overlay"):
-        s = overlay(bm, note)
+        s = overlay(bm, note, cfg)
     else:
         s = fit_scale(bm, cfg["fit"])
     lo, hi = bounds(bm.verts)
@@ -233,12 +234,13 @@ def trap(bm, mat, piece, note, scale, cfg):
     return objs
 
 
-def overlay(bm, note):
-    """Flat-backed wall decal: fit to <= 3.6 m wide and <= 4.3 m tall, back plane on y = -2.0, relief <= 0.3 m."""
+def overlay(bm, note, cfg):
+    """Flat-backed wall decal: fit to cfg width (<= 4.3 m tall), back plane on y = -2.0, relief <= 0.3 m.
+    anchor "floor" stands it on z = 0, "top" hangs it from the wall top at z = 4.4."""
     lo, hi = bounds(bm.verts)
     size = hi - lo
     # Tripo stands the panel upright facing -Y; its thinnest horizontal side is the relief depth.
-    s = min(3.6 / size.x, 4.3 / size.z)
+    s = min(cfg["width"] / size.x, 4.3 / size.z)
     bmesh.ops.scale(bm, vec=(s, s, s), verts=bm.verts)
     lo, hi = bounds(bm.verts)
     depth = hi.y - lo.y
@@ -247,7 +249,9 @@ def overlay(bm, note):
         bmesh.ops.scale(bm, vec=(1, k, 1), verts=bm.verts)
         note.append(f"relief squashed x{k:.2f}")
         lo, hi = bounds(bm.verts)
-    bmesh.ops.translate(bm, vec=(-(lo.x + hi.x) / 2, -2.0 - hi.y, 4.4 - hi.z), verts=bm.verts)
+    dz = -lo.z if cfg["anchor"] == "floor" else 4.4 - hi.z
+    bmesh.ops.translate(bm, vec=(-(lo.x + hi.x) / 2, -2.0 - hi.y, dz), verts=bm.verts)
+    note.append(f"wall decal, back on y -2.0, anchored at the {cfg['anchor']}")
     return s
 
 
