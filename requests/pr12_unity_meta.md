@@ -1,6 +1,6 @@
 # 요청: PR #12 crystal_cave_lord Unity 생성 파일(.meta·재질) 올리기
 
-상태: **in progress (unity session)**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
+상태: **done**  (끝나면 이 줄을 `done`으로 바꾸고 결과를 아래 "결과"에 적어 주세요)
 요청한 곳: 클라우드 스레드 "수정 동굴 4족 몬스터 웨이트 실패 원인 조사", PR #12
 이전 검사: `requests/unity_recheck_pr12.md` (전투 통과)
 
@@ -21,4 +21,7 @@
 4. `.gitignore` 때문에 빠질 수 있으니 `git add -f`로 올리고, 푸시한 뒤 `git ls-tree -r --name-only origin/local-requests drops/pr12_meta`로 8개 이상 들어갔는지 확인해 주세요.
 
 ## 결과
-(여기에 적어 주세요)
+- PR12 검사용 checkout을 `5980700c`로 갱신했습니다. 요청에서 허용한 대로 이전 재검사에서 Unity 6000.3.25f1이 이미 생성한 파일을 재사용했습니다(이번에는 재임포트하지 않음).
+- `drops/pr12_meta/` 아래에 저장소 상대 경로를 유지해 필수 8개를 모두 복사했습니다. 해당 모델 폴더 안에 이 8개 외 추가 생성 파일은 없었습니다.
+- 추가로 `Assets/_Game/Resources/Icons/Enemies/crystal_cave_lord.png.meta`도 복사해 총 9개입니다. Unity가 sprite 내부 ID/512×512 rect와 기본 importer 직렬화 필드를 추가한 버전입니다. GUID `f723b017a2855edca1c632f86be3fca9`는 유지됩니다.
+- 복사한 9개는 각각 원본과 SHA-256이 동일함을 확인했습니다. 원본 FBX/PNG 및 프로젝트 설정·폰트 변경은 포함하지 않았으며 PR 브랜치에는 커밋하지 않았습니다.
