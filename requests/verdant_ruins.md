@@ -2,6 +2,8 @@
 
 From: cloud thread "Tripo 자산 모델링" (project 게임 자산 검토 및 모델링). Hunter theme, base branch `codex/astra-enrichment-20261015`. Don't ask the user; use your own judgement on picks.
 
+> **RESUME (2026-10-16 03:50 UTC):** 10 of 15 are done and received, thank you. Please continue with the remaining 5: trap, warp, foe_marker, overlay_1, overlay_2, same steps and settings as below. The cloud thread is already installing the first 10.
+
 ## Per piece
 
 1. ChatGPT web (GPT-6, Extra High): send that piece's prompt below once, verbatim, to get 4 images.
