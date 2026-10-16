@@ -36,5 +36,5 @@ D: ring of chunky standing stones with no vine swags strung between them, a soli
 ### Installed 2026-10-16
 - warp.fbx: uniform x3.060, 3.00 x 2.81 x 1.00 m, 3677 tris (Tripo 3677), material M_VerdantWarp_Tripo; height squashed x0.57 to 1.0 m; Spot_warp at (0, 0, 0); LightAnchor_warp at (0, 0, 0.8)
 - The warp sits in the middle of a walkable cell and the dungeon camera is at 1.35 m, so the standing stones were squashed to 1 m to let the camera pass over them.
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

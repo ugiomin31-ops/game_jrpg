@@ -35,5 +35,5 @@ D: the cyan ring is a clear solid glowing band in a flat water surface inside a 
 
 ### Installed 2026-10-16
 - spring.fbx: uniform x2.241, 2.20 x 2.15 x 0.67 m, 3212 tris (Tripo 3212), material M_VerdantSpring_Tripo; LightAnchor_spring at (0, 0, 1.2)
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

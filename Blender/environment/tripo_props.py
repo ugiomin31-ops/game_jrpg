@@ -1,13 +1,13 @@
-"""Install Tripo Studio exports of the verdant_ruins briefed pieces (see ArtSource/_briefs/environment.md).
+"""Install Tripo Studio exports of a tileset's briefed dungeon pieces (see ArtSource/_briefs/environment.md).
 
-    blender -b --factory-startup -P Blender/environment/verdant_ruins/install_tripo.py -- --src DIR --out DIR [--only a,b]
+    blender -b --factory-startup -P Blender/environment/tripo_props.py -- --tileset NAME --src DIR --out DIR [--only a,b]
 
 --src holds one Tripo FBX export per piece at <src>/<piece>/tripo/**/*.fbx (with its .fbm textures), as dropped on the
 tripo-glb-drop branch. Each piece is uniformly scaled to its target size, re-based (base centre at the origin, front
--Y), given one material M_Verdant<Piece>_Tripo with <piece>_tex/<material>.png (base colour, 1024), and written to
+-Y), given one material M_<Tileset><Piece>_Tripo with <piece>_tex/<material>.png (base colour, 1024), and written to
 <out>/<piece>.fbx plus a <piece>.tripo marker. Special parts follow the old procedural pieces: chest Lid on its back
 hinge, trap Spikes retracted below the plate, and the LightAnchor*/Spot_* empties. --out may be the installed
-Art/Environment/verdant_ruins folder: existing .fbx.meta files are left alone.
+Art/Environment/<tileset> folder: existing .fbx.meta files are left alone.
 """
 import argparse
 import glob
@@ -20,13 +20,13 @@ import bpy
 from mathutils import Matrix, Vector
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "..", "lib"))
+sys.path.insert(0, os.path.join(HERE, "..", "lib"))
 import abyss_bpy as A  # noqa: E402
 
 TEX_SIZE = 1024
 
 # fit: ("xy", m) largest horizontal side, ("x", m) width, ("h", m) height.
-PIECES = {
+VERDANT = {
     "decor_1": dict(fit=("xy", 1.4)),
     "decor_2": dict(fit=("xy", 1.6)),
     "decor_3": dict(fit=("xy", 1.6)),
@@ -47,6 +47,26 @@ PIECES = {
     "overlay_1": dict(overlay=True, width=3.9, anchor="floor"),
     "overlay_2": dict(overlay=True, width=3.9, anchor="floor"),
 }
+
+FACTORY = {
+    "decor_2": dict(fit=("h", 2.0)),
+    "decor_3": dict(fit=("xy", 1.5)),
+    "decor_4": dict(fit=("xy", 1.5)),
+    "decor_5": dict(fit=("xy", 1.5)),
+    "decor_6": dict(fit=("xy", 1.6)),
+    "chest": dict(fit=("x", 1.3), lid_seam=None),
+    "lore_stone": dict(fit=("h", 1.8)),
+    "spring": dict(fit=("h", 1.6)),
+    # wall lamp, like the old one: hung with its top at 3.3 m, back plate 0.3 m behind the spawn point (the wall face)
+    "torch": dict(fit=("h", 1.0), back_y=0.3, top_z=3.3, empties={"LightAnchor": "lamp"}),
+    "trap": dict(fit=("xy", 2.4), spikes=True, slab_top=None),
+    "warp": dict(fit=("xy", 3.0), max_h=0.5, empties={"LightAnchor_warp": (0, 0, 0.8)}),
+    "foe_marker": dict(fit=("xy", 2.0), empties={"Spot_foe": (0, 0, 0)}),
+    "overlay_1": dict(overlay=True, height=3.5, anchor="floor"),
+    "overlay_2": dict(overlay=True, height=1.6, anchor=0.8),
+}
+
+TILESETS = {"verdant_ruins": ("Verdant", VERDANT), "factory": ("Factory", FACTORY)}
 
 
 def camel(piece):
@@ -107,8 +127,8 @@ def fit_scale(bm, fit):
     return s
 
 
-def material(piece, out_dir, src_png):
-    name = f"M_Verdant{camel(piece)}_Tripo"
+def material(prefix, piece, out_dir, src_png):
+    name = f"M_{prefix}{camel(piece)}_Tripo"
     tdir = os.path.join(out_dir, piece + "_tex")
     os.makedirs(tdir, exist_ok=True)
     png = os.path.join(tdir, name + ".png")
@@ -160,12 +180,13 @@ def empty(name, loc):
     return e
 
 
-def install(piece, src, out_dir, log):
-    cfg = PIECES[piece]
+def install(tileset, piece, src, out_dir, log):
+    prefix, pieces = TILESETS[tileset]
+    cfg = pieces[piece]
     path = find_export(src, piece)
     bm = import_mesh(path)
     raw_tris = len(bm.faces)
-    mat = material(piece, out_dir, base_color(path))
+    mat = material(prefix, piece, out_dir, base_color(path))
     objs, note = [], []
     if cfg.get("overlay"):
         s = overlay(bm, note, cfg)
@@ -178,9 +199,11 @@ def install(piece, src, out_dir, log):
         note.append(f"height squashed x{k:.2f} to {cfg['max_h']} m")
         lo, hi = bounds(bm.verts)
     if "back_y" in cfg:
-        bmesh.ops.translate(bm, vec=(0, cfg["back_y"] - hi.y, 0), verts=bm.verts)
+        bmesh.ops.translate(bm, vec=(0, cfg["back_y"] - hi.y, cfg.get("top_z", hi.z) - hi.z), verts=bm.verts)
         lo, hi = bounds(bm.verts)
     if "lid_seam" in cfg:
+        if cfg["lid_seam"] is None:
+            raise SystemExit(f"{piece}: set lid_seam (raw height of the lid seam) after looking at the export")
         seam = cfg["lid_seam"] * s
         body, lid = split(bm, lambda c: c.z > seam)
         blo, bhi = bounds(body.verts)
@@ -195,6 +218,8 @@ def install(piece, src, out_dir, log):
     for name, loc in cfg.get("empties", {}).items():
         if loc == "flame":
             loc = flame_anchor(objs[0])
+        elif loc == "lamp":
+            loc = lamp_anchor(objs[0])
         objs.append(empty(name, loc))
         note.append(f"{name} at {tuple(round(v, 2) for v in loc)}")
     bpy.context.view_layer.update()
@@ -202,8 +227,8 @@ def install(piece, src, out_dir, log):
     fbx = os.path.join(out_dir, piece + ".fbx")
     A.export_fbx(fbx, objects=objs, path_mode="RELATIVE", force=True)
     with open(os.path.join(out_dir, piece + ".tripo"), "w", encoding="utf-8") as fh:
-        fh.write("Tripo Studio export, cleaned in Blender by Blender/environment/verdant_ruins/install_tripo.py on "
-                 f"2026-10-16. Source: ArtSource/terrain/verdant_ruins/{piece}/candidates/prompts.md\n")
+        fh.write("Tripo Studio export, cleaned in Blender by Blender/environment/tripo_props.py. "
+                 f"Source: ArtSource/terrain/{tileset}/{piece}/candidates/prompts.md\n")
     size = hi - lo
     line = (f"{piece}.fbx: uniform x{s:.3f}, {size.x:.2f} x {size.y:.2f} x {size.z:.2f} m, {tris} tris (Tripo {raw_tris}), "
             f"material {mat.name}" + ("; " + "; ".join(note) if note else ""))
@@ -219,9 +244,20 @@ def flame_anchor(obj):
     return (round(c.x, 3), round(c.y, 3), round(top - 0.2, 3))
 
 
+def lamp_anchor(obj):
+    """Hanging lamp: just under the shade, in front of the wall arm (the lowest 30 % of the mesh)."""
+    vs = [obj.matrix_world @ v.co for v in obj.data.vertices]
+    bottom = min(v.z for v in vs)
+    low = [v for v in vs if v.z < bottom + 0.3]
+    c = sum(low, Vector()) / len(low)
+    return (round(c.x, 3), round(c.y, 3), round(bottom + 0.1, 3))
+
+
 def trap(bm, mat, piece, note, scale, cfg):
     """Floor slab sunk so its top sits at +0.04 m (old plate height); the thorn cluster above it becomes Spikes,
     squashed to 60 % height and retracted 0.5 m below its rest position like the old moving spike part."""
+    if cfg["slab_top"] is None:
+        raise SystemExit(f"{piece}: set slab_top (raw height of the slab top) after looking at the export")
     seam = cfg["slab_top"] * scale
     bmesh.ops.translate(bm, vec=(0, 0, 0.04 - seam), verts=bm.verts)
     plate, spikes = split(bm, lambda c: c.z > 0.04)
@@ -235,12 +271,13 @@ def trap(bm, mat, piece, note, scale, cfg):
 
 
 def overlay(bm, note, cfg):
-    """Flat-backed wall decal: fit to cfg width (<= 4.3 m tall), back plane on y = -2.0, relief <= 0.3 m.
-    anchor "floor" stands it on z = 0, "top" hangs it from the wall top at z = 4.4."""
+    """Flat-backed wall decal on the -Y face of a wall block: back plane on y = -2.0, relief <= 0.3 m.
+    Fitted to cfg width or height (always <= 3.9 m wide, <= 4.3 m tall). anchor "floor" stands it on z = 0,
+    "top" hangs it from the wall top at z = 4.4, a number puts its bottom at that height."""
     lo, hi = bounds(bm.verts)
     size = hi - lo
-    # Tripo stands the panel upright facing -Y; its thinnest horizontal side is the relief depth.
-    s = min(cfg["width"] / size.x, 4.3 / size.z)
+    s = cfg["width"] / size.x if "width" in cfg else cfg["height"] / size.z
+    s = min(s, 3.9 / size.x, 4.3 / size.z)
     bmesh.ops.scale(bm, vec=(s, s, s), verts=bm.verts)
     lo, hi = bounds(bm.verts)
     depth = hi.y - lo.y
@@ -249,24 +286,27 @@ def overlay(bm, note, cfg):
         bmesh.ops.scale(bm, vec=(1, k, 1), verts=bm.verts)
         note.append(f"relief squashed x{k:.2f}")
         lo, hi = bounds(bm.verts)
-    dz = -lo.z if cfg["anchor"] == "floor" else 4.4 - hi.z
+    anchor = cfg["anchor"]
+    dz = -lo.z if anchor == "floor" else 4.4 - hi.z if anchor == "top" else float(anchor) - lo.z
     bmesh.ops.translate(bm, vec=(-(lo.x + hi.x) / 2, -2.0 - hi.y, dz), verts=bm.verts)
-    note.append(f"wall decal, back on y -2.0, anchored at the {cfg['anchor']}")
+    note.append(f"wall decal, back on y -2.0, anchored at the {anchor}")
     return s
 
 
 def main():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     ap = argparse.ArgumentParser()
+    ap.add_argument("--tileset", required=True, choices=sorted(TILESETS))
     ap.add_argument("--src", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--only")
     opt = ap.parse_args(argv)
     os.makedirs(opt.out, exist_ok=True)
-    pieces = opt.only.split(",") if opt.only else [p for p in PIECES if os.path.isdir(os.path.join(opt.src, p))]
+    known = TILESETS[opt.tileset][1]
+    pieces = opt.only.split(",") if opt.only else [p for p in known if os.path.isdir(os.path.join(opt.src, p))]
     log = []
     for p in pieces:
-        install(p, os.path.abspath(opt.src), os.path.abspath(opt.out), log)
+        install(opt.tileset, p, os.path.abspath(opt.src), os.path.abspath(opt.out), log)
     with open(os.path.join(opt.out, "install_log.txt"), "a", encoding="utf-8") as fh:
         fh.write("\n".join(log) + "\n")
 

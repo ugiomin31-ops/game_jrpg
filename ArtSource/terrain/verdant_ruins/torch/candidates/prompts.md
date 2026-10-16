@@ -35,5 +35,5 @@ A: sturdy square post on a wide stepped base with a chunky solid flame filling t
 
 ### Installed 2026-10-16
 - torch.fbx: uniform x1.842, 0.83 x 0.92 x 1.80 m, 3394 tris (Tripo 3394), material M_VerdantTorch_Tripo; LightAnchor at (-0.01, -0.18, 1.6)
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

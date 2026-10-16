@@ -35,5 +35,5 @@ D: the lid is clearly a separate flat slab with visible hinge knuckles at the ba
 
 ### Installed 2026-10-16
 - chest.fbx: uniform x1.326, 1.30 x 0.84 x 0.81 m, 3717 tris (Tripo 3717), material M_VerdantChest_Tripo; Lid split at z 0.530, hinge (0.0, 0.421, 0.53)
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

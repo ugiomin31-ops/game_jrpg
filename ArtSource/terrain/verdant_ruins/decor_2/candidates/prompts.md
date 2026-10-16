@@ -35,5 +35,5 @@ A: chunky fluted column on a stepped block base with the fallen drum leaning aga
 
 ### Installed 2026-10-16
 - decor_2.fbx: uniform x1.639, 1.60 x 1.44 x 1.56 m, 3497 tris (Tripo 3497), material M_VerdantDecor2_Tripo
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

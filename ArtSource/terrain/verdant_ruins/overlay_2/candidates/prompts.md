@@ -36,5 +36,5 @@ G: flat wall face with thick roots creeping down from the top, no hole or arch, 
 ### Installed 2026-10-16
 - overlay_2.fbx: uniform x3.990, 3.90 x 0.30 x 2.91 m, 3590 tris (Tripo 3590), material M_VerdantOverlay2_Tripo; relief squashed x0.34; wall decal, back on y -2.0, anchored at the floor
 - Like overlay_1, Tripo modelled a whole wall panel (columns, stone face, roots), so it is installed as a floor-standing facade 3.9 m wide on the wall block's -Y face (y -2.0 … -2.3).
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

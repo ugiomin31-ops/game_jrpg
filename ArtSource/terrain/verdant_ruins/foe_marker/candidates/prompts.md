@@ -35,5 +35,5 @@ B: low ring of mossy stone with the orange crystal held in a stone cradle on a s
 
 ### Installed 2026-10-16
 - foe_marker.fbx: uniform x2.044, 2.00 x 1.95 x 1.55 m, 3390 tris (Tripo 3390), material M_VerdantFoeMarker_Tripo; Spot_foe at (0, 0, 0)
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.

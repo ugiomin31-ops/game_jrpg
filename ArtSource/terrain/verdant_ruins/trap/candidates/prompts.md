@@ -36,5 +36,5 @@ D: flat square slab with the thickest, fewest root spikes rising as one cluster;
 ### Installed 2026-10-16
 - trap.fbx: uniform x2.457, 2.40 x 2.31 x 2.15 m, 3581 tris (Tripo 3581), material M_VerdantTrap_Tripo; slab top at +0.04 m (sunk 0.30 m); Spikes = faces above it, height x0.6, retracted 0.5 m
 - tripo_tiles validate --kind prop: face_overlap FAIL is the retracted Spikes passing through the slab, as intended (the runtime does not animate them; the thorn tips show above the slab).
-- Installed by `Blender/environment/verdant_ruins/install_tripo.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
+- Installed by `Blender/environment/tripo_props.py` into Assets/_Game/Resources/Art/Environment/verdant_ruins/ ; .fbx.meta (GUID) untouched ; <piece>.tripo marker + <piece>_tex/<material>.png (base colour, 1024) written; Unity creates <piece>_mat. Raw Tripo zip and candidate images stay on branch tripo-glb-drop.
 - Unity not run here: import/material creation and in-game facing still to be verified.
