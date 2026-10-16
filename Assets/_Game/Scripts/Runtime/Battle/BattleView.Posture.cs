@@ -17,8 +17,10 @@ namespace Abyss.Runtime.Battle
         /// <see cref="ArtLibrary.DefeatTakeMinLength"/>): the slump window plays faster while the body tips over backwards.
         /// </summary>
         const float HeroFallTime = .55f, HeroFallTilt = 80f, HeroFallRoll = 10f, HeroFallPush = .25f, HeroDieRate = 2.5f;
-        /// <summary>Standing back up from a code fall (the shared Revive starts prone, which no code fall matches).</summary>
+        /// <summary>Standing back up in code: the shared Revive starts prone, which neither fall ends in.</summary>
         const float HeroRiseTime = .5f;
+        /// <summary>The shared Humanoid Die (Tripo <c>fall</c>) takes 2 s to reach the floor at 1x; battle plays it faster.</summary>
+        const float SharedFallRate = 1.4f;
         /// <summary>Longest the replay waits on an authored Revive take; the rest plays out beside the next beats.</summary>
         const float ReviveWaitCap = 1.5f, ReviveFade = .12f;
         /// <summary>Where a guard take holds (fraction): Brace holds frames 6-32 of 40, the Blender-rig Guard 1/3-2/3 of its length.</summary>
@@ -30,6 +32,14 @@ namespace Abyss.Runtime.Battle
         static bool StandingDefeat(BattleDisplayUnit unit) =>
             unit.Model.Anim is ClipAnimator && unit.Model.Anim.Length("Die") >= ArtLibrary.DefeatTakeMinLength;
 
+        /// <summary>
+        /// True when a revived hero stands up in code instead of playing its Revive take: the shared Humanoid Revive starts prone
+        /// (face down, head forward) while the shared fall ends on the back and side, and a code topple ends wherever it tips.
+        /// Blender-rig hunters own a Revive that starts from their own Die.
+        /// </summary>
+        static bool RisesInCode(BattleDisplayUnit unit) =>
+            unit.Side == BattleSide.Party && (StandingDefeat(unit) || unit.Model.SharedHumanoidTakes);
+
         static Quaternion FallenRotation(BattleDisplayUnit unit) =>
             unit.Facing * Quaternion.Euler(-HeroFallTilt, 0f, ((unit.Slot & 1) == 0 ? 1f : -1f) * HeroFallRoll);
 
@@ -38,7 +48,12 @@ namespace Abyss.Runtime.Battle
         /// <summary>A fallen hero goes down: its own falling Die take, or the standing defeat take under a code topple.</summary>
         void HeroDown(BattleDisplayUnit unit)
         {
-            if (!StandingDefeat(unit)) { unit.Model.Play("Die", .075f); return; }
+            if (!StandingDefeat(unit))
+            {
+                if (unit.Model.SharedHumanoidTakes) unit.DeathRate = SharedFallRate;   // ReviveEvent restores 1
+                unit.Model.Play("Die", .075f);
+                return;
+            }
             if (Reduced) { LayFallen(unit); return; }
             unit.DeathRate = HeroDieRate;   // the 2.7 s slump window reads inside the fall; ReviveEvent restores 1
             unit.Model.Play("Die", .075f);
@@ -85,7 +100,7 @@ namespace Abyss.Runtime.Battle
             if (!Reduced) Dust(unit, to, .35f);
         }
 
-        /// <summary>A revived hero whose fall was staged in code pushes itself back up onto its mark into the stance.</summary>
+        /// <summary>A revived hero with no Revive take that starts from its fall pushes itself back up onto its mark into the stance.</summary>
         IEnumerator HeroRise(BattleDisplayUnit unit)
         {
             var t = unit.Model.transform;

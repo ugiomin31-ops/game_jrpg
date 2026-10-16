@@ -437,7 +437,7 @@ namespace Abyss.Runtime.Battle
                         revived.Alive = true; revived.Hp = e.Hp; revived.MaxHp = e.MaxHp;
                         revived.DeathRate = 1;
                         // A hero toppled in code stands back up from where it lies; the shared Revive starts prone and matches no code fall.
-                        bool rise = revived.Side == BattleSide.Party && StandingDefeat(revived);
+                        bool rise = RisesInCode(revived);
                         if (!rise) revived.Model.transform.SetPositionAndRotation(revived.Home, revived.Facing);
                         revived.Model.SetDissolve(0);
                         if (rise) StartCoroutine(HeroRise(revived));

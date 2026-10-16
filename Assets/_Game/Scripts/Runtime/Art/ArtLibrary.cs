@@ -244,7 +244,7 @@ namespace Abyss.Runtime.Art
             layer != null && ClassLoopBlend.TryGetValue(layer + "/" + clip, out var f) ? f : 0f;
 
         /// <summary>
-        /// Tripo's free <c>defeat_02</c> preset (the Die take of most Tripo humanoids and of the shared hunter library) never falls:
+        /// Tripo's free <c>defeat_02</c> preset (the Die take of most Tripo humanoids; the shared hunter library now uses <c>fall</c>) never falls:
         /// it stands still for its first 15 %, slumps from 20 % to 50 % (spine bend up to 32 deg, head lean 26 deg) and then stands
         /// back up. Any Die take this long plays only that window and holds the slump.
         /// </summary>
