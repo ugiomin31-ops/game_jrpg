@@ -1245,7 +1245,8 @@ namespace Abyss.Runtime.Battle
                 _hitCounts.TryGetValue(e.TargetId, out int count); _hitCounts[e.TargetId] = count + 1;
                 _hitTotals.TryGetValue(e.TargetId, out int total); _hitTotals[e.TargetId] = total + e.Amount;
             }
-            if (target.Alive && e.Amount > 0 && !GuardedHit(target)) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
+            // A frozen body cannot flinch: a take started under Freeze would sit queued and play turns later when it thaws.
+            if (target.Alive && e.Amount > 0 && target.PostureRate > 0f && !GuardedHit(target)) target.Model.Anim.PlayOnce(HitTake(target), "Idle", .15f);
             // A family blow keeps its own palette (venom green, spirit purple); everything else is tinted by the element.
             bool familyBlow = strike && _strikeImpact != null;
             Color tint = familyBlow ? Color.white : PresentationColor(e.Element);

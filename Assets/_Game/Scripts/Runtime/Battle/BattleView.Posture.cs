@@ -48,13 +48,13 @@ namespace Abyss.Runtime.Battle
         /// <summary>A fallen hero goes down: its own falling Die take, or the standing defeat take under a code topple.</summary>
         void HeroDown(BattleDisplayUnit unit)
         {
+            if (Reduced) { LayFallen(unit); return; }
             if (!StandingDefeat(unit))
             {
                 if (unit.Model.SharedHumanoidTakes) unit.DeathRate = SharedFallRate;   // ReviveEvent restores 1
                 unit.Model.Play("Die", .075f);
                 return;
             }
-            if (Reduced) { LayFallen(unit); return; }
             unit.DeathRate = HeroDieRate;   // the 2.7 s slump window reads inside the fall; ReviveEvent restores 1
             unit.Model.Play("Die", .075f);
             StartCoroutine(HeroFall(unit));
