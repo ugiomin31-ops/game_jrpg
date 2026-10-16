@@ -163,7 +163,7 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 | torch | **DONE** (Tripo, `.tripo` marker) | A stone post brazier with a warm flame. |
 | trap | **DONE** (Tripo, `.tripo` marker) | A mossy floor slab with thorny root spikes. |
 | warp | **DONE** (Tripo, `.tripo` marker) | A ring of mossy standing stones around a green-violet glow. |
-| foe_marker | orange bipyramid crystal | A floor ring of moss with a floating orange gate crystal. |
+| foe_marker | **DONE** (Tripo, `.tripo` marker) | A floor ring of moss with a floating orange gate crystal. |
 | overlay_1 | hanging vines + flowers | Ivy and flowering vines hanging from the wall top. |
 | overlay_2 | (vines, sparse) | Thick roots creeping down the wall face. |
 
