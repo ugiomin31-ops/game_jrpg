@@ -63,7 +63,7 @@ Evidence class: directly inspected project code, production outputs and local ex
 
 ### PR UI, assets and emulated touch — verified (real Unity Editor and Windows build) — 2026-10-07
 
-- PR #3 uses `claude/project-thread-65bpbq` / `50ecaf1` as its baseline. Pages deployment `e4f72c5` differs only in this fact file, so the game/assets baseline matches. PR changes have not been deployed to Pages. The obsolete `Assets/Temp/battle-framing-preview.png` is not current evidence.
+- PR #3 uses `claude/project-thread-65bpbq` / `50ecaf1` as its baseline. Pages deployment `e4f72c5` differs only in this fact file, so the game/assets baseline matches. PR changes have not been deployed to Pages. The obsolete `docs/verification/legacy-screens/battle-framing-preview.png` (formerly `Assets/Temp/`) is not current evidence.
 - Actual Unity 6000.3.25f1 compilation passed. The real URP and Input System packages were used in an isolated Windows checkout and separate review save folder.
 - All 298 FBX models passed material/shader checks; actors passed Animator and seven-clip checks. Hero 4 / enemy 51 / equipment 48 galleries were rendered with Unity. All 221 VFX recipes were instantiated, started and stopped with zero missing textures or failures.
 - Touchscreen events through the real Input System UI module passed 21 checks at 915x412 and 21 at 1024x768: town stick move/release, service UI, confirmation cancel/duplicate guard, dungeon turn/map, four biomes, AUTO toggle/result/next encounter. Tablet battle framing was adjusted after inspecting the captures. Review encounters and unlocked floors use fixtures; this is not a natural campaign playthrough.

@@ -103,7 +103,8 @@ namespace Abyss.EditorTools
             {
                 if (Resources.Load<GameObject>(resource) == null) missing.Add(resource);
             };
-            // Every hunter resolves to a model: its own (Blender/heroes/generate_hunters.py) or its class's fallback.
+            // Every hunter resolves to its own model (Blender/heroes/generate_hunters.py, Tripo installs). The base job models
+            // moved to ArtSource/hunters/_class_models (portrait sources only), so a hunter without one now fails here.
             foreach (var id in db.RosterOrder) require(ArtLibrary.HeroModelPath(id, db.ClassOf(id)));
             foreach (string id in new[] { "innkeeper", "shopkeeper", "smith", "guild_clerk", "elder" }) require(ArtLibrary.NpcPath(id));
             foreach (var id in db.Enemies.Keys) require(ArtLibrary.EnemyPath(ArtVariants.EnemyModel(db, id)));
@@ -113,7 +114,7 @@ namespace Abyss.EditorTools
             foreach (var id in new[] { "slash", "blunt", "pierce", "fire", "ice", "thunder", "dark", "holy" }) require(ArtLibrary.PropPath("Elements", id));
             foreach (var id in new[] { "attack", "skill", "ultimate", "item", "guard", "flee", "auto", "gold", "key", "map", "party", "camp" }) require(ArtLibrary.PropPath("UI", id));
             foreach (var id in new[] { "chest_common", "chest_rare", "gold_pile", "key_item", "campfire", "banner_party" }) require(ArtLibrary.PropPath("Common", id));
-            var pieces = new List<string> { "floor_a", "floor_b", "floor_c", "wall_a", "wall_b", "wall_c", "door", "door_locked", "stairs_down", "stairs_up", "chest", "lore_stone", "trap", "spring", "warp", "torch", "overlay_1", "overlay_2", "boss_gate", "foe_marker", "arena" };
+            var pieces = new List<string> { "floor_a", "floor_b", "floor_c", "wall_a", "wall_b", "wall_c", "door_locked", "stairs_down", "stairs_up", "chest", "lore_stone", "trap", "spring", "warp", "torch", "overlay_1", "overlay_2", "boss_gate", "arena" };
             for (int i = 1; i <= 6; i++) pieces.Add("decor_" + i);
             foreach (string tileset in db.Floors.Select(f => f.Tileset).Distinct()) foreach (string piece in pieces) require(ArtLibrary.EnvPath(tileset, piece));
             require(ArtLibrary.TownPath);
