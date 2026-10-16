@@ -1,0 +1,430 @@
+[   0.00] scenario watch
+[   2.32] battle view started
+[   4.97] shot 001_battle_start.png
+[   4.97] CommandRequestedEvent
+[   5.07] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[   6.24] MpChangeEvent
+[   6.30] MissEvent
+[   6.46] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[   6.77] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[   7.14] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[   7.36] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[   7.64] TpChangeEvent
+[   7.71] ActionEndEvent
+[   8.02] TurnEndEvent
+[   8.11] TurnStartEvent
+[   8.18] CommandRequestedEvent
+[   8.52] ActionStart h_seoa(party_01_h_seoa) Skill sk_m_blaze
+[   9.58] MpChangeEvent
+[   9.64] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[   9.90] TpChangeEvent
+[   9.96] ActionEndEvent
+[  10.21] TurnEndEvent
+[  10.27] TurnStartEvent
+[  10.36] CommandRequestedEvent
+[  10.71] ActionStart h_yuna(party_03_h_yuna) Skill sk_c_exorcism
+[  11.67] MpChangeEvent
+[  11.77] Damage h_yuna(party_03_h_yuna) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  12.03] StatusAppliedEvent
+[  12.18] TpChangeEvent
+[  12.27] ActionEndEvent
+[  12.52] TurnEndEvent
+[  12.59] TurnStartEvent
+[  12.68] CommandRequestedEvent
+[  12.99] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_crimson_fury
+[  14.15] MpChangeEvent
+[  14.21] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  14.49] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  14.80] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  15.12] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  15.46] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  15.74] TpChangeEvent
+[  15.80] ActionEndEvent
+[  16.05] TurnEndEvent
+[  16.12] TurnStartEvent
+[  16.28] IntentClearedEvent
+[  16.34] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_spike
+[  16.52] ChargeStartedEvent
+[  16.74] ActionEndEvent
+[  16.89] IntentClearedEvent
+[  16.96] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_shell
+[  17.66] StatusAppliedEvent
+[  17.78] StatusAppliedEvent
+[  17.93] ActionEndEvent
+[  18.11] TurnEndEvent
+[  18.17] RoundStartEvent
+[  18.33] EnemyIntentPlannedEvent
+[  18.39] EnemyIntentPlannedEvent
+[  18.49] TurnStartEvent
+[  18.55] CommandRequestedEvent
+[  18.90] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[  19.96] MpChangeEvent
+[  20.02] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  20.27] MissEvent
+[  20.49] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  20.71] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  20.99] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  21.24] ActionEndEvent
+[  21.55] TurnEndEvent
+[  21.62] TurnStartEvent
+[  21.71] CommandRequestedEvent
+[  22.05] ActionStart h_seoa(party_01_h_seoa) Skill sk_m_blaze
+[  23.05] MpChangeEvent
+[  23.11] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  23.33] StatusAppliedEvent
+[  23.46] ActionEndEvent
+[  23.74] TurnEndEvent
+[  23.80] TurnStartEvent
+[  23.89] CommandRequestedEvent
+[  24.24] ActionStart h_yuna(party_03_h_yuna) Skill sk_c_judgment_cross
+[  25.21] MpChangeEvent
+[  25.30] Damage h_yuna(party_03_h_yuna) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  25.52] StatusAppliedEvent
+[  25.64] ActionEndEvent
+[  25.89] TurnEndEvent
+[  25.99] TurnStartEvent
+[  26.05] CommandRequestedEvent
+[  26.39] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_crimson_fury
+[  27.42] MpChangeEvent
+[  27.49] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  27.74] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  28.05] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  28.36] StatusRemovedEvent
+[  28.46] MissEvent
+[  28.67] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  28.96] StatusAppliedEvent
+[  29.08] TpChangeEvent
+[  29.17] ActionEndEvent
+[  29.39] TurnEndEvent
+[  29.46] TurnStartEvent
+[  29.58] IntentClearedEvent
+[  29.65] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  29.92] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_spike
+[  30.58] ChargeReleasedEvent
+[  30.65] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_yuna(party_03_h_yuna)
+[  31.21] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_yuna(party_03_h_yuna)
+[  31.43] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_dohyun(party_00_h_dohyun)
+[  31.80] TpChangeEvent
+[  31.89] TpChangeEvent
+[  31.96] ActionEndEvent
+[  32.11] IntentClearedEvent
+[  32.18] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  32.46] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Attack 
+[  33.21] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_jiho(party_02_h_jiho)
+[  33.55] TpChangeEvent
+[  33.64] ActionEndEvent
+[  33.80] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  34.24] StatusRemovedEvent
+[  34.33] TurnEndEvent
+[  34.39] RoundStartEvent
+[  34.52] EnemyIntentPlannedEvent
+[  34.61] EnemyIntentPlannedEvent
+[  34.67] TurnStartEvent
+[  34.74] CommandRequestedEvent
+[  35.05] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[  36.11] MpChangeEvent
+[  36.20] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  36.49] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  36.80] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  37.14] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  37.46] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  37.74] TpChangeEvent
+[  37.80] ActionEndEvent
+[  38.12] TurnEndEvent
+[  38.18] TurnStartEvent
+[  38.27] CommandRequestedEvent
+[  38.61] ActionStart h_seoa(party_01_h_seoa) Skill sk_ice_lance
+[  39.58] MpChangeEvent
+[  39.68] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  39.99] TpChangeEvent
+[  40.09] ActionEndEvent
+[  40.30] TurnEndEvent
+[  40.36] TurnStartEvent
+[  40.46] CommandRequestedEvent
+[  40.77] ActionStart h_yuna(party_03_h_yuna) Skill sk_greater_heal
+[  41.55] MpChangeEvent
+[  41.65] HealEvent
+[  41.86] ActionEndEvent
+[  42.11] TurnEndEvent
+[  42.18] TurnStartEvent
+[  42.27] CommandRequestedEvent
+[  42.58] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_crimson_fury
+[  43.71] MpChangeEvent
+[  43.80] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  44.08] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  44.43] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  44.77] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  45.08] MissEvent
+[  45.27] StatusAppliedEvent
+[  45.43] TpChangeEvent
+[  45.49] ActionEndEvent
+[  45.74] TurnEndEvent
+[  45.83] TurnStartEvent
+[  45.89] IntentClearedEvent
+[  46.09] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  46.36] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_shell
+[  46.93] StatusAppliedEvent
+[  47.09] StatusAppliedEvent
+[  47.21] ActionEndEvent
+[  47.36] IntentClearedEvent
+[  47.43] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  47.65] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_spike
+[  47.71] ChargeStartedEvent
+[  47.96] ActionEndEvent
+[  48.15] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  48.33] TurnEndEvent
+[  48.43] RoundStartEvent
+[  48.52] EnemyIntentPlannedEvent
+[  48.61] EnemyIntentPlannedEvent
+[  48.67] TurnStartEvent
+[  48.77] CommandRequestedEvent
+[  49.11] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[  50.11] MpChangeEvent
+[  50.21] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  50.49] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  50.84] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  51.11] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  51.37] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  51.61] ActionEndEvent
+[  51.92] TurnEndEvent
+[  52.02] TurnStartEvent
+[  52.08] CommandRequestedEvent
+[  52.46] ActionStart h_seoa(party_01_h_seoa) Skill sk_m_blaze
+[  53.42] MpChangeEvent
+[  53.52] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  53.77] StatusAppliedEvent
+[  53.90] ActionEndEvent
+[  54.18] TurnEndEvent
+[  54.27] TurnStartEvent
+[  54.36] CommandRequestedEvent
+[  54.71] ActionStart h_yuna(party_03_h_yuna) Skill sk_c_exorcism
+[  55.64] MpChangeEvent
+[  55.71] Damage h_yuna(party_03_h_yuna) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  55.96] StatusAppliedEvent
+[  56.09] ActionEndEvent
+[  56.36] TurnEndEvent
+[  56.46] TurnStartEvent
+[  56.52] CommandRequestedEvent
+[  56.83] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_crimson_fury
+[  57.93] MpChangeEvent
+[  58.02] MissEvent
+[  58.18] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  58.46] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  58.80] StatusRemovedEvent
+[  58.90] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  59.21] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  59.49] TpChangeEvent
+[  59.58] ActionEndEvent
+[  59.80] TurnEndEvent
+[  59.90] TurnStartEvent
+[  59.99] IntentClearedEvent
+[  60.05] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  60.33] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_spike
+[  60.96] ChargeReleasedEvent
+[  61.05] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_yuna(party_03_h_yuna)
+[  61.30] MissEvent
+[  61.52] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_seoa(party_01_h_seoa)
+[  62.05] TpChangeEvent
+[  62.12] TpChangeEvent
+[  62.18] ActionEndEvent
+[  62.33] IntentClearedEvent
+[  62.40] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  62.65] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Attack 
+[  63.30] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_seoa(party_01_h_seoa)
+[  63.55] TpChangeEvent
+[  63.61] ActionEndEvent
+[  63.78] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  64.33] StatusRemovedEvent
+[  64.39] TurnEndEvent
+[  64.46] RoundStartEvent
+[  64.58] EnemyIntentPlannedEvent
+[  64.67] EnemyIntentPlannedEvent
+[  64.74] TurnStartEvent
+[  64.83] CommandRequestedEvent
+[  65.18] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[  66.27] MpChangeEvent
+[  66.36] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  66.64] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  67.02] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  67.36] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  67.65] BossPhaseEvent
+[  68.74] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  69.02] TpChangeEvent
+[  69.11] ActionEndEvent
+[  69.46] TurnEndEvent
+[  69.52] TurnStartEvent
+[  69.61] CommandRequestedEvent
+[  69.96] ActionStart h_seoa(party_01_h_seoa) Skill sk_void_lance
+[  70.74] MpChangeEvent
+[  70.83] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  71.09] TpChangeEvent
+[  71.18] ActionEndEvent
+[  71.43] TurnEndEvent
+[  71.52] TurnStartEvent
+[  71.58] CommandRequestedEvent
+[  71.90] ActionStart h_yuna(party_03_h_yuna) Skill sk_greater_heal
+[  72.67] MpChangeEvent
+[  72.77] HealEvent
+[  72.96] ActionEndEvent
+[  73.14] TurnEndEvent
+[  73.21] TurnStartEvent
+[  73.27] CommandRequestedEvent
+[  73.58] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_crimson_fury
+[  74.71] MpChangeEvent
+[  74.80] MissEvent
+[  74.96] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  75.33] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  75.69] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  76.05] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  76.36] StatusAppliedEvent
+[  76.53] TpChangeEvent
+[  76.62] ActionEndEvent
+[  76.93] TurnEndEvent
+[  77.02] TurnStartEvent
+[  77.08] IntentClearedEvent
+[  77.18] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  77.46] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Attack 
+[  78.05] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_dohyun(party_00_h_dohyun)
+[  78.27] TpChangeEvent
+[  78.36] ActionEndEvent
+[  78.49] IntentClearedEvent
+[  78.59] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  78.99] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_spike
+[  79.05] ChargeStartedEvent
+[  79.31] ActionEndEvent
+[  79.46] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  79.68] StatusRemovedEvent
+[  79.77] StatusRemovedEvent
+[  79.83] TurnEndEvent
+[  79.92] RoundStartEvent
+[  80.08] EnemyIntentPlannedEvent
+[  80.14] EnemyIntentPlannedEvent
+[  80.24] TurnStartEvent
+[  80.30] CommandRequestedEvent
+[  80.64] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[  81.65] MpChangeEvent
+[  81.74] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  82.02] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  82.39] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  82.61] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  82.92] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  83.21] TpChangeEvent
+[  83.30] ActionEndEvent
+[  83.61] TurnEndEvent
+[  83.67] TurnStartEvent
+[  83.77] CommandRequestedEvent
+[  84.11] ActionStart h_seoa(party_01_h_seoa) Skill sk_void_lance
+[  84.87] MpChangeEvent
+[  84.93] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  85.21] TpChangeEvent
+[  85.27] ActionEndEvent
+[  85.52] TurnEndEvent
+[  85.58] TurnStartEvent
+[  85.67] CommandRequestedEvent
+[  85.99] ActionStart h_yuna(party_03_h_yuna) Skill sk_heal_all
+[  86.83] MpChangeEvent
+[  86.92] HealEvent
+[  87.11] HealEvent
+[  87.30] HealEvent
+[  87.49] ActionEndEvent
+[  87.74] TurnEndEvent
+[  87.83] TurnStartEvent
+[  87.89] CommandRequestedEvent
+[  88.30] ActionStart h_dohyun(party_00_h_dohyun) Skill sk_w_crimson_fury
+[  89.33] MpChangeEvent
+[  89.43] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  89.64] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  89.99] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  90.36] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  90.74] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  91.05] StatusAppliedEvent
+[  91.14] TpChangeEvent
+[  91.24] ActionEndEvent
+[  91.49] TurnEndEvent
+[  91.58] TurnStartEvent
+[  91.64] IntentClearedEvent
+[  91.74] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  92.00] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_e_crystal_spike
+[  92.74] ChargeReleasedEvent
+[  92.83] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_jiho(party_02_h_jiho)
+[  93.05] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_dohyun(party_00_h_dohyun)
+[  93.30] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_seoa(party_01_h_seoa)
+[  93.83] TpChangeEvent
+[  93.90] TpChangeEvent
+[  93.99] TpChangeEvent
+[  94.08] ActionEndEvent
+[  94.24] IntentClearedEvent
+[  94.30] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  94.52] ActionStart crystal_cave_lord(enemy_00_crystal_cave_lord) Skill sk_titan_crash
+[  95.43] MpChangeEvent
+[  95.49] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_dohyun(party_00_h_dohyun)
+[  95.61] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_seoa(party_01_h_seoa)
+[  95.74] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_jiho(party_02_h_jiho)
+[  95.86] Damage crystal_cave_lord(enemy_00_crystal_cave_lord) -> h_yuna(party_03_h_yuna)
+[  96.24] TpChangeEvent
+[  96.30] TpChangeEvent
+[  96.39] TpChangeEvent
+[  96.49] TpChangeEvent
+[  96.55] ActionEndEvent
+[  96.70] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  97.17] StatusRemovedEvent
+[  97.24] TurnEndEvent
+[  97.34] RoundStartEvent
+[  97.52] EnemyIntentPlannedEvent
+[  97.59] EnemyIntentPlannedEvent
+[  97.65] TurnStartEvent
+[  97.71] CommandRequestedEvent
+[  98.02] ActionStart h_jiho(party_02_h_jiho) Skill sk_a_phantom_raid
+[  99.34] MpChangeEvent
+[  99.52] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[  99.77] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 100.09] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 100.39] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 100.71] Damage h_jiho(party_02_h_jiho) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 100.99] TpChangeEvent
+[ 101.08] ActionEndEvent
+[ 101.40] TurnEndEvent
+[ 101.49] TurnStartEvent
+[ 101.59] CommandRequestedEvent
+[ 101.93] ActionStart h_seoa(party_01_h_seoa) Skill sk_m_blaze
+[ 102.96] MpChangeEvent
+[ 103.05] Damage h_seoa(party_01_h_seoa) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 103.30] TpChangeEvent
+[ 103.40] ActionEndEvent
+[ 103.67] TurnEndEvent
+[ 103.77] TurnStartEvent
+[ 103.87] CommandRequestedEvent
+[ 104.21] ActionStart h_yuna(party_03_h_yuna) Skill sk_c_benediction
+[ 105.08] MpChangeEvent
+[ 105.18] HealEvent
+[ 105.36] HealEvent
+[ 105.55] HealEvent
+[ 105.71] HealEvent
+[ 105.90] StatusAppliedEvent
+[ 106.05] StatusAppliedEvent
+[ 106.17] StatusAppliedEvent
+[ 106.33] StatusAppliedEvent
+[ 106.49] ActionEndEvent
+[ 106.71] HealEvent
+[ 106.92] TurnEndEvent
+[ 107.02] TurnStartEvent
+[ 107.11] CommandRequestedEvent
+[ 107.42] ActionStart h_dohyun(party_00_h_dohyun) Skill strong_attack
+[ 108.30] MpChangeEvent
+[ 108.36] Damage h_dohyun(party_00_h_dohyun) -> crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 108.58] IntentClearedEvent
+[ 108.64] IntentClearedEvent
+[ 108.74] UnitDown crystal_cave_lord(enemy_00_crystal_cave_lord)
+[ 108.80] StatusRemovedEvent
+[ 108.89] TpChangeEvent
+[ 109.11] shot 002_down_0.20s.png
+[ 109.11] ActionEndEvent
+[ 109.50] shot 003_down_0.60s.png
+[ 109.51] BattleEnd Victory
+[ 109.93] shot 004_down_1.00s.png
+[ 110.26] shot 005_end_0.50s.png
+[ 110.49] shot 006_down_1.60s.png
+[ 111.96] shot 007_down_2.40s.png
+[ 112.08] shot 008_down_3.20s.png
+[ 112.19] shot 009_end_2.00s.png
+[ 420.02] done
