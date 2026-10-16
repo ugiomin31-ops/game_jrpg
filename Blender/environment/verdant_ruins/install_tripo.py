@@ -43,9 +43,9 @@ PIECES = {
     "warp": dict(fit=("xy", 3.0), max_h=1.0, empties={"Spot_warp": (0, 0, 0), "LightAnchor_warp": (0, 0, 0.8)}),
     "foe_marker": dict(fit=("xy", 2.0), empties={"Spot_foe": (0, 0, 0)}),
     # wall decals: flat back on y = -2.0, hugging the -Y face of a wall block, up to 4.4 m tall
-    # Tripo modelled a whole mossy wall panel (pillars + ivy), so it stands on the floor as a facade
+    # Tripo modelled whole mossy wall panels (stone face + ivy or roots), so both stand on the floor as facades
     "overlay_1": dict(overlay=True, width=3.9, anchor="floor"),
-    "overlay_2": dict(overlay=True, width=3.6, anchor="top"),
+    "overlay_2": dict(overlay=True, width=3.9, anchor="floor"),
 }
 
 

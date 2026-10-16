@@ -165,7 +165,7 @@ Note: the script's decor_1 is a conveyor, but the installed Tripo decor_1 is a s
 | warp | **DONE** (Tripo, `.tripo` marker) | A ring of mossy standing stones around a green-violet glow. |
 | foe_marker | **DONE** (Tripo, `.tripo` marker) | A floor ring of moss with a floating orange gate crystal. |
 | overlay_1 | **DONE** (Tripo, `.tripo` marker) | Ivy and flowering vines hanging from the wall top. |
-| overlay_2 | (vines, sparse) | Thick roots creeping down the wall face. |
+| overlay_2 | **DONE** (Tripo, `.tripo` marker) | Thick roots creeping down the wall face. |
 
 ## frost_grotto (zone 4 ice gate; zone 10 sunken temple reuses it) — NorthernKit(frozen=True)
 Briefs should also read as a sunken sea temple (zone 10): ice plus shell and coral hints.
